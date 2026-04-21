@@ -10,7 +10,11 @@
   header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 16px 20px; border-bottom: 1px solid #2a2a3e; display: flex; align-items: center; justify-content: space-between; }
   header h1 { font-size: 18px; font-weight: 700; color: #fff; }
   header h1 span { color: #e8001c; }
+  .header-right { display: flex; align-items: center; gap: 10px; }
   .update-time { font-size: 11px; color: #666; }
+  .refresh-btn { background: #1e3a5f; color: #4fc3f7; border: 1px solid #2a5a8f; border-radius: 16px; padding: 5px 12px; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: all 0.2s; }
+  .refresh-btn:active { background: #2a5a8f; }
+  .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
   .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 16px; }
   .stat-card { background: #1a1a2e; border-radius: 10px; padding: 12px; text-align: center; border: 1px solid #2a2a3e; }
   .stat-card .num { font-size: 24px; font-weight: 700; color: #e8001c; }
@@ -33,16 +37,26 @@
   .badge-soon { background: rgba(76,175,80,0.2); color: #4caf50; }
   .badge-prospect { background: rgba(33,150,243,0.2); color: #2196f3; }
   .card-note { font-size: 12px; color: #888; margin-top: 6px; background: #111; padding: 6px 8px; border-radius: 6px; }
-  .card-poi { font-size: 11px; color: #555; margin-top: 4px; }
+  .grade-badge { display:inline-block; width:18px; height:18px; border-radius:50%; text-align:center; line-height:18px; font-size:11px; font-weight:700; margin-left:6px; }
+  .grade-A { background:#e8001c; color:#fff; }
+  .grade-B { background:#ff9800; color:#fff; }
+  .grade-C { background:#607d8b; color:#fff; }
+  .loading-overlay { text-align:center; padding:40px; color:#555; }
   .empty { text-align: center; padding: 40px 20px; color: #555; font-size: 14px; }
-  .no-date { color: #555; font-size: 12px; }
   @media(max-width: 400px) { .stats { grid-template-columns: repeat(2,1fr); } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spin { display:inline-block; animation: spin 0.8s linear infinite; }
 </style>
 </head>
 <body>
 <header>
   <h1>猫粮 <span>CRM</span></h1>
-  <div class="update-time">更新: 2026/4/21 20:01:48</div>
+  <div class="header-right">
+    <div class="update-time" id="updateTime">加载中...</div>
+    <button class="refresh-btn" id="refreshBtn" onclick="loadData()">
+      <span id="refreshIcon">↻</span> 刷新
+    </button>
+  </div>
 </header>
 <div class="stats" id="stats"></div>
 <div class="tabs">
@@ -51,18 +65,44 @@
   <div class="tab" onclick="showTab('signed')">已签约</div>
   <div class="tab" onclick="showTab('all')">全部</div>
 </div>
-<div class="content" id="content"></div>
+<div class="content" id="content"><div class="loading-overlay">数据加载中...</div></div>
 <script>
-const customers = [{"name":"煦杭·炭火齐齐哈尔烤肉","poiId":"","contact":"夏冶","phone":"","note":"4/18签约，订单含欠收¥0，另有4/3已收¥3800｜生日:07/27","visitTs":1779292800000,"type":"signed"},{"name":"鱼虾有约江湖大排档","poiId":"","contact":"李雪","phone":"","note":"4/14签约已收¥5700，4/18新订单¥0待收｜生日:04/03","visitTs":1779292800000,"type":"signed"},{"name":"鸟匠烧鸟","poiId":"","contact":"花涛","phone":"","note":"多笔：3/20已收¥3000，3/27¥600，4/16新增¥0待收｜生日:04/10","visitTs":1779292800000,"type":"signed"},{"name":"宋记东北味","poiId":"","contact":"刘艳春","phone":"","note":"4/16签约已收¥1300｜生日:06/16","visitTs":1780156800000,"type":"signed"},{"name":"千丰味景德粉馆","poiId":"","contact":"徐国辉","phone":"","note":"4/16签约已收¥2040，KA项目主管：陈国庆｜生日:12/12","visitTs":1779292800000,"type":"signed"},{"name":"漫姐地摊鲜货烧烤","poiId":"","contact":"冯漫漫","phone":"","note":"多笔累计¥15600，老客户高价值｜生日:08/08","visitTs":1779292800000,"type":"signed"},{"name":"酌流年","poiId":"","contact":"酌流年公司","phone":"","note":"4/7签约已收¥5000","visitTs":1779292800000,"type":"signed"},{"name":"谢蟹浓","poiId":"","contact":"刘俊华","phone":"","note":"3/21签约已收¥5000｜生日:07/13","visitTs":1779292800000,"type":"signed"},{"name":"美蛙鱼火锅","poiId":"","contact":"王鑫","phone":"","note":"3/12签约已收¥500，退款驳回｜生日:11/13","visitTs":1780156800000,"type":"signed"},{"name":"阿旺面馆（晨悦湾店）","poiId":"","contact":"钟肖晓","phone":"","note":"2/26签约已收¥3000｜生日:12/14","visitTs":1780156800000,"type":"signed"},{"name":"新月湾烤串小龙虾·火锅（盈新广场店）","poiId":"","contact":"胡庆路","phone":"","note":"1/20签约已收¥3240，1/30追加¥200｜生日:12/27","visitTs":1779292800000,"type":"signed"},{"name":"大谷咖啡DAGU CAFE","poiId":"","contact":"祝雪莲","phone":"","note":"1/24签约已收¥1740｜生日:10/26","visitTs":1779292800000,"type":"signed"},{"name":"贵州六盘水土黄牛肉馆","poiId":"","contact":"陈五英","phone":"","note":"1/17签约已收¥3650｜生日:03/25","visitTs":1780156800000,"type":"signed"},{"name":"膜咖咖啡馆","poiId":"","contact":"谢泽炜","phone":"","note":"1/16签约已收¥500，退款完成｜生日:04/29","visitTs":1781884800000,"type":"signed"},{"name":"戴庄饭店","poiId":"","contact":"戴国良","phone":"","note":"12/29签约两笔共¥4800（¥4200+¥600）｜生日:09/23","visitTs":1779292800000,"type":"signed"},{"name":"周记胡辣汤","poiId":"1027495472960525","contact":"","phone":"","note":"已拜访3次+，客户考虑中。保护期4/21到期，今晚或明早上门打单。","visitTs":1776700800000,"type":"prospect"}];
+let customers = [];
+window._tab = 'remind';
+
+const DATA_URL = 'data.json?t=' + Date.now();
+
+async function loadData() {
+  const btn = document.getElementById('refreshBtn');
+  const icon = document.getElementById('refreshIcon');
+  btn.classList.add('loading');
+  icon.classList.add('spin');
+  try {
+    const res = await fetch('data.json?t=' + Date.now());
+    if (!res.ok) throw new Error('fetch failed');
+    const json = await res.json();
+    customers = json.customers || [];
+    document.getElementById('updateTime').textContent = '更新: ' + (json.updateTime || '');
+    updateStats();
+    renderContent();
+  } catch(e) {
+    document.getElementById('content').innerHTML = '<div class="empty">数据加载失败，请稍后重试</div>';
+  } finally {
+    btn.classList.remove('loading');
+    icon.classList.remove('spin');
+  }
+}
+
 const today = new Date(); today.setHours(0,0,0,0);
 function daysDiff(ts) { if(!ts) return 9999; const d=new Date(Number(ts)); d.setHours(0,0,0,0); return Math.ceil((d-today)/86400000); }
 function fmtDate(ts) { if(!ts) return ''; const d=new Date(Number(ts)); return (d.getMonth()+1)+'/'+(d.getDate()); }
 function getBadge(c) { const diff=daysDiff(c.visitTs); if(!c.visitTs) return ''; if(diff<0) return '<span class="badge badge-overdue">逾期'+Math.abs(diff)+'天</span>'; if(diff===0) return '<span class="badge badge-today">今日跟进</span>'; if(diff<=7) return '<span class="badge badge-soon">'+diff+'天后</span>'; return ''; }
+function getGradeBadge(c) { if(!c.grade||c.type!=='signed') return ''; return '<span class="grade-badge grade-'+c.grade+'">'+c.grade+'</span>'; }
 function cardClass(c) { const diff=daysDiff(c.visitTs); if(!c.visitTs) return c.type==='prospect'?'prospect':''; if(diff<0) return 'overdue'; if(diff===0) return 'today'; if(diff<=7) return 'soon'; return c.type==='prospect'?'prospect':''; }
 function renderCard(c) {
   const diff=daysDiff(c.visitTs);
-  const dateStr=c.visitTs?'<span>📅 '+(diff===0?'今天':fmtDate(c.visitTs))+'</span>':'<span class="no-date">未设日期</span>';
-  return '<div class="card '+cardClass(c)+'"><div class="card-name">'+c.name+getBadge(c)+'</div><div class="card-meta">'+(c.contact?'<span>👤 '+c.contact+'</span>':'')+(c.phone?'<span>📞 '+c.phone+'</span>':'')+dateStr+'<span>'+(c.type==='signed'?'✅ 已签约':'🎯 跟进中')+'</span></div>'+(c.note?'<div class="card-note">'+c.note+'</div>':'')+(c.poiId?'<div class="card-poi">POI: '+c.poiId+'</div>':'')+'</div>';
+  const dateStr=c.visitTs?'<span>📅 '+(diff===0?'今天':fmtDate(c.visitTs))+'</span>':'';
+  return '<div class="card '+cardClass(c)+'"><div class="card-name">'+c.name+getGradeBadge(c)+getBadge(c)+'</div><div class="card-meta">'+(c.contact?'<span>👤 '+c.contact+'</span>':'')+(c.phone?'<span>📞 '+c.phone+'</span>':'')+dateStr+'<span>'+(c.type==='signed'?'✅ 已签约':'🎯 跟进中')+'</span></div>'+(c.note?'<div class="card-note">'+c.note+'</div>':'')+'</div>';
 }
 function updateStats() {
   const expired=customers.filter(c=>c.visitTs&&daysDiff(c.visitTs)<0).length;
@@ -71,16 +111,17 @@ function updateStats() {
   document.getElementById('stats').innerHTML='<div class="stat-card"><div class="num" style="color:#e8001c">'+expired+'</div><div class="label">已逾期</div></div><div class="stat-card"><div class="num" style="color:#ff9800">'+todayCnt+'</div><div class="label">今日跟进</div></div><div class="stat-card"><div class="num" style="color:#4caf50">'+soon+'</div><div class="label">7天内</div></div><div class="stat-card"><div class="num" style="color:#aaa">'+customers.length+'</div><div class="label">总客户</div></div>';
 }
 function renderContent() {
-  const tab=window._tab||'remind'; let html='';
-  if(tab==='remind') { const exp=customers.filter(c=>c.visitTs&&daysDiff(c.visitTs)<0).sort((a,b)=>a.visitTs-b.visitTs); const td=customers.filter(c=>c.visitTs&&daysDiff(c.visitTs)===0); const sn=customers.filter(c=>c.visitTs&&daysDiff(c.visitTs)>0&&daysDiff(c.visitTs)<=7).sort((a,b)=>a.visitTs-b.visitTs); if(exp.length) html+='<div class="section-title">⚠️ 已逾期</div>'+exp.map(renderCard).join(''); if(td.length) html+='<div class="section-title">🔥 今日跟进</div>'+td.map(renderCard).join(''); if(sn.length) html+='<div class="section-title">📆 7天内</div>'+sn.map(renderCard).join(''); if(!html) html='<div class="empty">🎉 近期没有待跟进客户</div>'; }
+  const tab=window._tab; let html='';
+  if(tab==='remind') { const exp=customers.filter(c=>c.visitTs&&daysDiff(c.visitTs)<0).sort((a,b)=>a.visitTs-b.visitTs); const td=customers.filter(c=>c.visitTs&&daysDiff(c.visitTs)===0); const sn=customers.filter(c=>c.visitTs&&daysDiff(c.visitTs)>0&&daysDiff(c.visitTs)<=7).sort((a,b)=>a.visitTs-b.visitTs); if(exp.length) html+='<div class="section-title">⚠️ 已逾期</div>'+exp.map(renderCard).join(''); if(td.length) html+='<div class="section-title">🔥 今日跟进</div>'+td.map(renderCard).join(''); if(sn.length) html+='<div class="section-title">📆 7天内</div>'+sn.map(renderCard).join(''); if(!html) html='<div class="empty">🎉 近期没有待跟进客户，今天状态保持好继续冲！</div>'; }
   else if(tab==='prospect') { const l=customers.filter(c=>c.type==='prospect'); html=l.length?l.map(renderCard).join(''):'<div class="empty">暂无意向客</div>'; }
-  else if(tab==='signed') { const l=customers.filter(c=>c.type==='signed'); html=l.length?l.map(renderCard).join(''):'<div class="empty">暂无已签约客户</div>'; }
+  else if(tab==='signed') { const l=customers.filter(c=>c.type==='signed').sort((a,b)=>{ const ga='ABCD'.indexOf(a.grade); const gb='ABCD'.indexOf(b.grade); return ga-gb; }); html=l.length?l.map(renderCard).join(''):'<div class="empty">暂无已签约客户</div>'; }
   else { html=customers.map(renderCard).join(''); }
   document.getElementById('content').innerHTML=html;
 }
-window._tab='remind';
 function showTab(t) { window._tab=t; document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['remind','prospect','signed','all'][i]===t)); renderContent(); }
-updateStats(); renderContent();
+
+// 首次加载
+loadData();
 </script>
 </body>
 </html>
