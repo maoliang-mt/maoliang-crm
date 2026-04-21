@@ -27,7 +27,6 @@
   .card.prospect { border-left-color: #2196f3; }
   .card-name { font-size: 15px; font-weight: 600; color: #fff; }
   .card-meta { font-size: 12px; color: #666; margin-top: 4px; display: flex; gap: 12px; flex-wrap: wrap; }
-  .card-meta span { display: flex; align-items: center; gap: 3px; }
   .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; margin-left: 8px; }
   .badge-overdue { background: rgba(232,0,28,0.2); color: #e8001c; }
   .badge-today { background: rgba(255,152,0,0.2); color: #ff9800; }
@@ -36,123 +35,52 @@
   .card-note { font-size: 12px; color: #888; margin-top: 6px; background: #111; padding: 6px 8px; border-radius: 6px; }
   .card-poi { font-size: 11px; color: #555; margin-top: 4px; }
   .empty { text-align: center; padding: 40px 20px; color: #555; font-size: 14px; }
-  .no-date { color: #555; font-size: 12px; margin-top: 4px; }
+  .no-date { color: #555; font-size: 12px; }
   @media(max-width: 400px) { .stats { grid-template-columns: repeat(2,1fr); } }
 </style>
 </head>
 <body>
 <header>
   <h1>猫粮 <span>CRM</span></h1>
-  <div class="update-time">更新: 2026/4/21 19:29:19</div>
+  <div class="update-time">更新: 2026/4/21 19:37:37</div>
 </header>
-
 <div class="stats" id="stats"></div>
-
 <div class="tabs">
   <div class="tab active" onclick="showTab('remind')">跟进提醒</div>
   <div class="tab" onclick="showTab('prospect')">意向客</div>
   <div class="tab" onclick="showTab('signed')">已签约</div>
   <div class="tab" onclick="showTab('all')">全部</div>
 </div>
-
 <div class="content" id="content"></div>
-
 <script>
 const customers = [{"name":"煦杭·炭火齐齐哈尔烤肉","poiId":"","contact":"夏冶","phone":"","note":"","visitTs":null,"type":"signed"},{"name":"鱼虾有约江湖大排档","poiId":"","contact":"李雪","phone":"","note":"","visitTs":null,"type":"signed"},{"name":"鸟匠烧鸟","poiId":"","contact":"花涛","phone":"","note":"","visitTs":null,"type":"signed"},{"name":"宋记东北味","poiId":"","contact":"刘艳春","phone":"","note":"","visitTs":null,"type":"signed"},{"name":"千丰味景德粉馆","poiId":"","contact":"徐国辉","phone":"","note":"","visitTs":null,"type":"signed"},{"name":"漫姐地摊鲜货烧烤","poiId":"","contact":"冯漫漫","phone":"","note":"","visitTs":null,"type":"signed"},{"name":"酌流年","poiId":"","contact":"酌流年公司","phone":"","note":"","visitTs":null,"type":"signed"},{"name":"谢蟹浓","poiId":"","contact":"刘俊华","phone":"","note":"","visitTs":null,"type":"signed"},{"name":"美蛙鱼火锅","poiId":"","contact":"王鑫","phone":"","note":"","visitTs":null,"type":"signed"},{"name":"阿旺面馆（晨悦湾店）","poiId":"","contact":"钟肖晓","phone":"","note":"","visitTs":null,"type":"signed"},{"name":"新月湾烤串小龙虾·火锅（盈新广场店）","poiId":"","contact":"胡庆路","phone":"","note":"","visitTs":null,"type":"signed"},{"name":"大谷咖啡DAGU CAFE","poiId":"","contact":"祝雪莲","phone":"","note":"","visitTs":null,"type":"signed"},{"name":"贵州六盘水土黄牛肉馆","poiId":"","contact":"陈五英","phone":"","note":"","visitTs":null,"type":"signed"},{"name":"膜咖咖啡馆","poiId":"","contact":"谢泽炜","phone":"","note":"","visitTs":null,"type":"signed"},{"name":"戴庄饭店","poiId":"","contact":"戴国良","phone":"","note":"","visitTs":null,"type":"signed"},{"name":"周记胡辣汤","poiId":"1027495472960525","contact":"","phone":"","note":"","visitTs":null,"type":"prospect"}];
 const today = new Date(); today.setHours(0,0,0,0);
-
-function daysDiff(ts) {
-  if (!ts) return 9999;
-  const d = new Date(Number(ts)); d.setHours(0,0,0,0);
-  return Math.ceil((d - today) / 86400000);
-}
-
-function fmtDate(ts) {
-  if (!ts) return '';
-  const d = new Date(Number(ts));
-  return d.toLocaleDateString('zh-CN', {month:'2-digit',day:'2-digit'}).replace('/','/');
-}
-
-function getBadge(c) {
-  const diff = daysDiff(c.visitTs);
-  if (!c.visitTs) return '';
-  if (diff < 0) return '<span class="badge badge-overdue">逾期'+(Math.abs(diff))+'天</span>';
-  if (diff === 0) return '<span class="badge badge-today">今日跟进</span>';
-  if (diff <= 7) return '<span class="badge badge-soon">'+diff+'天后</span>';
-  return '';
-}
-
-function cardClass(c) {
-  const diff = daysDiff(c.visitTs);
-  if (!c.visitTs) return c.type === 'prospect' ? 'prospect' : '';
-  if (diff < 0) return 'overdue';
-  if (diff === 0) return 'today';
-  if (diff <= 7) return 'soon';
-  return c.type === 'prospect' ? 'prospect' : '';
-}
-
+function daysDiff(ts) { if(!ts) return 9999; const d=new Date(Number(ts)); d.setHours(0,0,0,0); return Math.ceil((d-today)/86400000); }
+function fmtDate(ts) { if(!ts) return ''; const d=new Date(Number(ts)); return (d.getMonth()+1)+'/'+(d.getDate()); }
+function getBadge(c) { const diff=daysDiff(c.visitTs); if(!c.visitTs) return ''; if(diff<0) return '<span class="badge badge-overdue">逾期'+Math.abs(diff)+'天</span>'; if(diff===0) return '<span class="badge badge-today">今日跟进</span>'; if(diff<=7) return '<span class="badge badge-soon">'+diff+'天后</span>'; return ''; }
+function cardClass(c) { const diff=daysDiff(c.visitTs); if(!c.visitTs) return c.type==='prospect'?'prospect':''; if(diff<0) return 'overdue'; if(diff===0) return 'today'; if(diff<=7) return 'soon'; return c.type==='prospect'?'prospect':''; }
 function renderCard(c) {
-  const diff = daysDiff(c.visitTs);
-  const dateStr = c.visitTs ? '<span>📅 '+(diff===0?'今天':diff<0?fmtDate(c.visitTs)+'(逾期)':fmtDate(c.visitTs))+'</span>' : '<span class="no-date">未设跟进日期</span>';
-  const typeLabel = c.type === 'signed' ? '✅ 已签约' : '🎯 跟进中';
-  return `<div class="card ${cardClass(c)}">
-    <div class="card-name">${c.name}${getBadge(c)}</div>
-    <div class="card-meta">
-      ${c.contact ? '<span>👤 '+c.contact+'</span>' : ''}
-      ${c.phone ? '<span>📞 '+c.phone+'</span>' : ''}
-      ${dateStr}
-      <span>${typeLabel}</span>
-    </div>
-    ${c.note ? '<div class="card-note">'+c.note+'</div>' : ''}
-    ${c.poiId ? '<div class="card-poi">POI: '+c.poiId+'</div>' : ''}
-  </div>`;
+  const diff=daysDiff(c.visitTs);
+  const dateStr=c.visitTs?'<span>📅 '+(diff===0?'今天':fmtDate(c.visitTs))+'</span>':'<span class="no-date">未设日期</span>';
+  return '<div class="card '+cardClass(c)+'"><div class="card-name">'+c.name+getBadge(c)+'</div><div class="card-meta">'+(c.contact?'<span>👤 '+c.contact+'</span>':'')+(c.phone?'<span>📞 '+c.phone+'</span>':'')+dateStr+'<span>'+(c.type==='signed'?'✅ 已签约':'🎯 跟进中')+'</span></div>'+(c.note?'<div class="card-note">'+c.note+'</div>':'')+(c.poiId?'<div class="card-poi">POI: '+c.poiId+'</div>':'')+'</div>';
 }
-
 function updateStats() {
-  const expired = customers.filter(c => c.visitTs && daysDiff(c.visitTs) < 0).length;
-  const todayCnt = customers.filter(c => c.visitTs && daysDiff(c.visitTs) === 0).length;
-  const soon = customers.filter(c => c.visitTs && daysDiff(c.visitTs) > 0 && daysDiff(c.visitTs) <= 7).length;
-  document.getElementById('stats').innerHTML = `
-    <div class="stat-card"><div class="num" style="color:#e8001c">${expired}</div><div class="label">已逾期</div></div>
-    <div class="stat-card"><div class="num" style="color:#ff9800">${todayCnt}</div><div class="label">今日跟进</div></div>
-    <div class="stat-card"><div class="num" style="color:#4caf50">${soon}</div><div class="label">7天内</div></div>
-    <div class="stat-card"><div class="num" style="color:#aaa">${customers.length}</div><div class="label">总客户</div></div>
-  `;
+  const expired=customers.filter(c=>c.visitTs&&daysDiff(c.visitTs)<0).length;
+  const todayCnt=customers.filter(c=>c.visitTs&&daysDiff(c.visitTs)===0).length;
+  const soon=customers.filter(c=>c.visitTs&&daysDiff(c.visitTs)>0&&daysDiff(c.visitTs)<=7).length;
+  document.getElementById('stats').innerHTML='<div class="stat-card"><div class="num" style="color:#e8001c">'+expired+'</div><div class="label">已逾期</div></div><div class="stat-card"><div class="num" style="color:#ff9800">'+todayCnt+'</div><div class="label">今日跟进</div></div><div class="stat-card"><div class="num" style="color:#4caf50">'+soon+'</div><div class="label">7天内</div></div><div class="stat-card"><div class="num" style="color:#aaa">'+customers.length+'</div><div class="label">总客户</div></div>';
 }
-
-let currentTab = 'remind';
-function showTab(tab) {
-  currentTab = tab;
-  document.querySelectorAll('.tab').forEach((t,i) => {
-    t.classList.toggle('active', ['remind','prospect','signed','all'][i] === tab);
-  });
-  renderContent();
-}
-
 function renderContent() {
-  let html = '';
-  if (currentTab === 'remind') {
-    const expired = customers.filter(c => c.visitTs && daysDiff(c.visitTs) < 0).sort((a,b)=>a.visitTs-b.visitTs);
-    const todayList = customers.filter(c => c.visitTs && daysDiff(c.visitTs) === 0);
-    const soon = customers.filter(c => c.visitTs && daysDiff(c.visitTs) > 0 && daysDiff(c.visitTs) <= 7).sort((a,b)=>a.visitTs-b.visitTs);
-    if (expired.length) html += '<div class="section-title">⚠️ 已逾期</div>' + expired.map(renderCard).join('');
-    if (todayList.length) html += '<div class="section-title">🔥 今日跟进</div>' + todayList.map(renderCard).join('');
-    if (soon.length) html += '<div class="section-title">📆 7天内</div>' + soon.map(renderCard).join('');
-    if (!html) html = '<div class="empty">🎉 近期没有待跟进客户</div>';
-  } else if (currentTab === 'prospect') {
-    const list = customers.filter(c => c.type === 'prospect');
-    html = list.length ? list.map(renderCard).join('') : '<div class="empty">暂无意向客</div>';
-  } else if (currentTab === 'signed') {
-    const list = customers.filter(c => c.type === 'signed');
-    html = list.length ? list.map(renderCard).join('') : '<div class="empty">暂无已签约客户</div>';
-  } else {
-    html = customers.map(renderCard).join('');
-  }
-  document.getElementById('content').innerHTML = html;
+  const tab=window._tab||'remind'; let html='';
+  if(tab==='remind') { const exp=customers.filter(c=>c.visitTs&&daysDiff(c.visitTs)<0).sort((a,b)=>a.visitTs-b.visitTs); const td=customers.filter(c=>c.visitTs&&daysDiff(c.visitTs)===0); const sn=customers.filter(c=>c.visitTs&&daysDiff(c.visitTs)>0&&daysDiff(c.visitTs)<=7).sort((a,b)=>a.visitTs-b.visitTs); if(exp.length) html+='<div class="section-title">⚠️ 已逾期</div>'+exp.map(renderCard).join(''); if(td.length) html+='<div class="section-title">🔥 今日跟进</div>'+td.map(renderCard).join(''); if(sn.length) html+='<div class="section-title">📆 7天内</div>'+sn.map(renderCard).join(''); if(!html) html='<div class="empty">🎉 近期没有待跟进客户</div>'; }
+  else if(tab==='prospect') { const l=customers.filter(c=>c.type==='prospect'); html=l.length?l.map(renderCard).join(''):'<div class="empty">暂无意向客</div>'; }
+  else if(tab==='signed') { const l=customers.filter(c=>c.type==='signed'); html=l.length?l.map(renderCard).join(''):'<div class="empty">暂无已签约客户</div>'; }
+  else { html=customers.map(renderCard).join(''); }
+  document.getElementById('content').innerHTML=html;
 }
-
-updateStats();
-renderContent();
+window._tab='remind';
+function showTab(t) { window._tab=t; document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['remind','prospect','signed','all'][i]===t)); renderContent(); }
+updateStats(); renderContent();
 </script>
 </body>
 </html>
