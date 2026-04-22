@@ -34,7 +34,7 @@ header h1 .brand{color:var(--red);font-weight:800}
 .rbtn.ld{opacity:.5;pointer-events:none}
 
 /* ── Stats ── */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:16px 20px}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;padding:16px 20px}
 .sc{background:var(--card);border-radius:14px;padding:14px 12px;text-align:center;border:1px solid var(--border);position:relative;overflow:hidden;transition:transform .2s}
 .sc:active{transform:scale(.97)}
 .sc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:14px 14px 0 0}
@@ -151,6 +151,60 @@ header h1 .brand{color:var(--red);font-weight:800}
 .qf-date{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;padding:10px 14px;outline:none;margin-bottom:10px;-webkit-appearance:none;transition:border-color .3s;color-scheme:dark}
 .qf-date:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(79,195,247,.1)}
 
+/* ── Expanded Card Detail ── */
+.card.expanded{border-color:var(--blue);box-shadow:0 0 0 1px var(--blue),0 4px 24px rgba(79,195,247,.12)}
+.card-detail{max-height:0;overflow:hidden;transition:max-height .35s ease,opacity .25s ease;opacity:0}
+.card.expanded .card-detail{max-height:600px;opacity:1;margin-top:10px}
+.card-detail-inner{border-top:1px solid var(--border);padding-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:6px 16px}
+.cd-row{font-size:12px;color:var(--text2);line-height:1.6}
+.cd-row .cd-label{color:var(--text3);font-size:10px;letter-spacing:.5px}
+.cd-row .cd-val{color:var(--text)}
+.cd-full{grid-column:1/-1}
+.cd-history{grid-column:1/-1;margin-top:6px;padding-top:8px;border-top:1px dashed var(--border)}
+.cd-history-title{font-size:10px;color:var(--text3);letter-spacing:1px;font-weight:600;margin-bottom:4px}
+
+/* ── Stats Tab ── */
+.stats-tab{padding:0 0 20px}
+.stats-section{margin-bottom:20px}
+.stats-section-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.stats-overview{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
+.so-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center}
+.so-card .so-num{font-size:28px;font-weight:800;line-height:1.1}
+.so-card .so-lbl{font-size:11px;color:var(--text3);margin-top:4px}
+.so-card:nth-child(1) .so-num{color:var(--blue)}
+.so-card:nth-child(2) .so-num{color:var(--orange)}
+.so-card:nth-child(3) .so-num{color:var(--green)}
+.so-card:nth-child(4) .so-num{color:var(--red)}
+
+/* CSS Pie Chart */
+.pie-wrap{display:flex;align-items:center;gap:20px;flex-wrap:wrap;justify-content:center}
+.pie{width:120px;height:120px;border-radius:50%;position:relative;flex-shrink:0}
+.pie-legend{display:flex;flex-direction:column;gap:6px}
+.pie-legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)}
+.pie-legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+
+/* Bar Charts */
+.bar-chart{display:flex;flex-direction:column;gap:8px}
+.bar-row{display:flex;align-items:center;gap:8px}
+.bar-label{font-size:11px;color:var(--text2);width:56px;text-align:right;flex-shrink:0}
+.bar-track{flex:1;height:22px;background:rgba(255,255,255,.04);border-radius:6px;overflow:hidden;position:relative}
+.bar-fill{height:100%;border-radius:6px;display:flex;align-items:center;padding-left:8px;font-size:10px;font-weight:700;color:#fff;min-width:18px;transition:width .5s ease}
+.bar-count{font-size:11px;color:var(--text3);width:32px;text-align:right;flex-shrink:0}
+
+/* Grade Distribution */
+.grade-row{display:flex;gap:10px;flex-wrap:wrap}
+.grade-card{flex:1;min-width:60px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 8px;text-align:center}
+.grade-card .gc-grade{font-size:20px;font-weight:800;line-height:1}
+.grade-card .gc-count{font-size:18px;font-weight:700;margin-top:4px}
+.grade-card .gc-pct{font-size:10px;color:var(--text3);margin-top:2px}
+.grade-card.gc-A{border-color:rgba(232,0,28,.3)}.grade-card.gc-A .gc-grade{color:var(--red)}.grade-card.gc-A .gc-count{color:var(--red)}
+.grade-card.gc-B{border-color:rgba(255,152,0,.3)}.grade-card.gc-B .gc-grade{color:var(--orange)}.grade-card.gc-B .gc-count{color:var(--orange)}
+.grade-card.gc-C{border-color:rgba(136,136,160,.3)}.grade-card.gc-C .gc-grade{color:var(--text2)}.grade-card.gc-C .gc-count{color:var(--text2)}
+.grade-card.gc-D{border-color:rgba(85,85,104,.3)}.grade-card.gc-D .gc-grade{color:var(--text3)}.grade-card.gc-D .gc-count{color:var(--text3)}
+
+.sc:nth-child(5)::before{background:var(--blue)}
+.sc:nth-child(5) .n{color:var(--blue)}
+
 @media(max-width:400px){.stats{grid-template-columns:repeat(2,1fr)}}
 @keyframes spin{to{transform:rotate(360deg)}}
 .spin{display:inline-block;animation:spin .8s linear infinite}
@@ -182,6 +236,7 @@ header h1 .brand{color:var(--red);font-weight:800}
   <div class="tab" onclick="showTab('signed')">✅ 已签约</div>
   <div class="tab" onclick="showTab('all')">📋 全部</div>
   <div class="tab" onclick="showTab('funnel')">🔄 漏斗</div>
+  <div class="tab" onclick="showTab('stats')">📊 统计</div>
 </div>
 <div class="content" id="content"><div class="empty">数据加载中...</div></div>
 
@@ -219,7 +274,7 @@ header h1 .brand{color:var(--red);font-weight:800}
 let customers=[],filtered=[];
 let _tab='remind',_search='',_area='',_cat='';
 let _editCustomer=null;
-const _tabs=['remind','week','prospect','signed','all','funnel'];
+const _tabs=['remind','week','prospect','signed','all','funnel','stats'];
 
 async function loadData(){
   const b=document.getElementById('rb'),i=document.getElementById('ri');
@@ -359,6 +414,11 @@ function submitQF(){
 }
 
 /* ── Render Card ── */
+function toggleExpand(el,ev){
+  // Don't expand if clicking action buttons or links
+  if(ev.target.closest('.card-actions')||ev.target.closest('a'))return;
+  el.classList.toggle('expanded');
+}
 function rc(c,idx){
   const d=dd(c.visitTs);
   const ds=c.visitTs?'<span>📅 '+(d===0?'今天':fd(c.visitTs))+'</span>':'';
@@ -374,7 +434,35 @@ function rc(c,idx){
   }
   const signD=c.signedTs?'<span>📝 '+(new Date(Number(c.signedTs)).getMonth()+1)+'/'+(new Date(Number(c.signedTs)).getDate())+'签约</span>':'';
   const actions='<div class="card-actions"><button class="act-btn" onclick="genPlan('+idx+')" title="生成方案">📋</button><button class="act-btn" onclick="openEdit('+idx+')" title="编辑备注">✏️</button></div>';
-  return '<div class="card '+cc(c)+'">'+actions+'<div class="cname">'+c.name+gb(c)+badge(c)+annivBadge(c)+renewalBadge(c)+'</div><div class="cmeta">'+(c.contact?'<span>👤 '+c.contact+'</span>':'')+ph+am+signD+ds+'<span>'+(c.type==='signed'?'已签约':'跟进中')+'</span></div>'+tags+(c.note?'<div class="cnote">'+c.note+'</div>':'')+'</div>';
+  // Build expanded detail panel
+  let detail='<div class="card-detail"><div class="card-detail-inner">';
+  if(c.poiId) detail+='<div class="cd-row"><div class="cd-label">POI ID</div><div class="cd-val">'+c.poiId+'</div></div>';
+  if(c.contact) detail+='<div class="cd-row"><div class="cd-label">联系人</div><div class="cd-val">'+c.contact+'</div></div>';
+  if(c.phone) detail+='<div class="cd-row"><div class="cd-label">电话</div><div class="cd-val"><a href="tel:'+c.phone+'" style="color:var(--blue);text-decoration:none">'+c.phone+'</a></div></div>';
+  if(c.area) detail+='<div class="cd-row"><div class="cd-label">区域</div><div class="cd-val">'+c.area+'</div></div>';
+  if(c.category) detail+='<div class="cd-row"><div class="cd-label">品类</div><div class="cd-val">'+c.category+'</div></div>';
+  if(c.grade) detail+='<div class="cd-row"><div class="cd-label">评级</div><div class="cd-val">'+c.grade+'级</div></div>';
+  if(c.product) detail+='<div class="cd-row"><div class="cd-label">签约产品</div><div class="cd-val">'+c.product+'</div></div>';
+  if(c.amount) detail+='<div class="cd-row"><div class="cd-label">金额</div><div class="cd-val">¥'+c.amount.toLocaleString()+'</div></div>';
+  if(c.signedTs) detail+='<div class="cd-row"><div class="cd-label">签约时间</div><div class="cd-val">'+(new Date(Number(c.signedTs)).toLocaleDateString('zh-CN'))+'</div></div>';
+  if(c.visitTs) detail+='<div class="cd-row"><div class="cd-label">跟进时间</div><div class="cd-val">'+(new Date(Number(c.visitTs)).toLocaleDateString('zh-CN'))+'</div></div>';
+  // Full note
+  if(c.note) detail+='<div class="cd-row cd-full"><div class="cd-label">完整备注</div><div class="cd-val">'+c.note+'</div></div>';
+  // All tags
+  let allTags=[];
+  if(c.area)allTags.push(c.area);if(c.category)allTags.push(c.category);if(c.product)allTags.push(c.product);if(c.grade)allTags.push(c.grade+'级');
+  if(c.type==='signed')allTags.push('已签约');else allTags.push('跟进中');
+  detail+='<div class="cd-row cd-full"><div class="cd-label">标签</div><div class="cd-val"><div class="ctags" style="margin-top:2px">'+allTags.map(t=>'<span class="ctag">'+t+'</span>').join('')+'</div></div></div>';
+  // Follow-up history placeholder
+  detail+='<div class="cd-history"><div class="cd-history-title">📋 跟进历史</div>';
+  const histItems=[];
+  if(c.signedTs)histItems.push('<span style="color:var(--green)">'+new Date(Number(c.signedTs)).toLocaleDateString('zh-CN')+'</span> 签约'+(c.product?' · '+c.product:'')+(c.amount?' · ¥'+c.amount.toLocaleString():''));
+  if(c.visitTs)histItems.push('<span style="color:var(--blue)">'+new Date(Number(c.visitTs)).toLocaleDateString('zh-CN')+'</span> 计划跟进');
+  if(c.note)histItems.push('<span style="color:var(--text3)">备注</span> '+c.note.slice(0,80));
+  if(histItems.length)detail+=histItems.map(h=>'<div style="font-size:11px;color:var(--text2);line-height:1.8;padding-left:8px;border-left:2px solid var(--border);margin-bottom:4px">'+h+'</div>').join('');
+  else detail+='<div style="font-size:11px;color:var(--text3)">暂无跟进记录</div>';
+  detail+='</div></div></div>';
+  return '<div class="card '+cc(c)+'" onclick="toggleExpand(this,event)" style="cursor:pointer">'+actions+'<div class="cname">'+c.name+gb(c)+badge(c)+annivBadge(c)+renewalBadge(c)+'</div><div class="cmeta">'+(c.contact?'<span>👤 '+c.contact+'</span>':'')+ph+am+signD+ds+'<span>'+(c.type==='signed'?'已签约':'跟进中')+'</span></div>'+tags+(c.note?'<div class="cnote">'+c.note.slice(0,40)+(c.note.length>40?'…':'')+'</div>':'')+ detail+'</div>';
 }
 
 function updateStats(){
@@ -383,11 +471,15 @@ function updateStats(){
   const sn=filtered.filter(c=>c.visitTs&&dd(c.visitTs)>0&&dd(c.visitTs)<=7).length;
   const ta=filtered.reduce((s,c)=>s+(c.amount||0),0);
   const as=ta>=10000?(ta/10000).toFixed(1)+'万':'¥'+ta.toLocaleString();
+  const signedN=filtered.filter(c=>c.type==='signed').length;
+  const prospectN=filtered.filter(c=>c.type==='prospect').length;
+  const cvr=(signedN+prospectN)>0?Math.round(signedN/(signedN+prospectN)*100):0;
   document.getElementById('stats').innerHTML=
     '<div class="sc"><div class="n">'+exp+'</div><div class="l">已逾期</div></div>'+
     '<div class="sc"><div class="n">'+td+'</div><div class="l">今日跟进</div></div>'+
     '<div class="sc"><div class="n">'+sn+'</div><div class="l">7天内</div></div>'+
-    '<div class="sc"><div class="n">'+as+'</div><div class="l">签约额</div></div>';
+    '<div class="sc"><div class="n">'+as+'</div><div class="l">签约额</div></div>'+
+    '<div class="sc"><div class="n">'+cvr+'%</div><div class="l">转化率</div></div>';
 }
 
 /* ── Week View ── */
@@ -461,6 +553,115 @@ function renderFunnel(){
   return h||'<div class="empty">暂无数据</div>';
 }
 
+/* ── Stats Tab ── */
+function renderStats(){
+  const total=filtered.length;
+  const signedArr=filtered.filter(c=>c.type==='signed');
+  const prospectArr=filtered.filter(c=>c.type==='prospect');
+  const signedN=signedArr.length;
+  const prospectN=prospectArr.length;
+  const cvr=(signedN+prospectN)>0?(signedN/(signedN+prospectN)*100).toFixed(1):0;
+  let h='<div class="stats-tab">';
+
+  // Overview cards
+  h+='<div class="stats-section"><div class="stats-section-title">📊 总览</div>';
+  h+='<div class="stats-overview">';
+  h+='<div class="so-card"><div class="so-num">'+total+'</div><div class="so-lbl">总客户数</div></div>';
+  h+='<div class="so-card"><div class="so-num">'+prospectN+'</div><div class="so-lbl">意向客户</div></div>';
+  h+='<div class="so-card"><div class="so-num">'+signedN+'</div><div class="so-lbl">已签约</div></div>';
+  h+='<div class="so-card"><div class="so-num">'+cvr+'%</div><div class="so-lbl">转化率</div></div>';
+  h+='</div></div>';
+
+  // Category pie chart (CSS conic-gradient)
+  h+='<div class="stats-section"><div class="stats-section-title">🍕 品类分布</div>';
+  const catMap={};
+  filtered.forEach(c=>{const k=c.category||'未知';catMap[k]=(catMap[k]||0)+1;});
+  const catEntries=Object.entries(catMap).sort((a,b)=>b[1]-a[1]);
+  const pieColors=['#e8001c','#ff9800','#4caf50','#4fc3f7','#ffd700','#9c27b0','#00bcd4','#ff5722','#8bc34a','#e91e63'];
+  if(catEntries.length){
+    let gradParts=[];let pctAcc=0;
+    catEntries.forEach(([k,v],i)=>{
+      const pct=v/total*100;
+      const clr=pieColors[i%pieColors.length];
+      gradParts.push(clr+' '+pctAcc.toFixed(1)+'% '+(pctAcc+pct).toFixed(1)+'%');
+      pctAcc+=pct;
+    });
+    h+='<div class="pie-wrap">';
+    h+='<div class="pie" style="background:conic-gradient('+gradParts.join(',')+');box-shadow:0 0 0 3px var(--border)"></div>';
+    h+='<div class="pie-legend">';
+    catEntries.forEach(([k,v],i)=>{
+      h+='<div class="pie-legend-item"><span class="pie-legend-dot" style="background:'+pieColors[i%pieColors.length]+'"></span>'+k+' <span style="color:var(--text3)">'+v+'个 '+(v/total*100).toFixed(0)+'%</span></div>';
+    });
+    h+='</div></div>';
+  } else {
+    h+='<div class="empty">暂无品类数据</div>';
+  }
+  h+='</div>';
+
+  // Grade distribution
+  h+='<div class="stats-section"><div class="stats-section-title">🏅 评级分布</div>';
+  const grades=['A','B','C','D'];
+  const gradeCounts={};
+  grades.forEach(g=>gradeCounts[g]=0);
+  filtered.forEach(c=>{if(c.grade&&gradeCounts.hasOwnProperty(c.grade))gradeCounts[c.grade]++;});
+  h+='<div class="grade-row">';
+  grades.forEach(g=>{
+    const cnt=gradeCounts[g];
+    const pct=total>0?(cnt/total*100).toFixed(0):0;
+    h+='<div class="grade-card gc-'+g+'"><div class="gc-grade">'+g+'</div><div class="gc-count">'+cnt+'</div><div class="gc-pct">'+pct+'%</div></div>';
+  });
+  h+='</div></div>';
+
+  // Monthly signing trend
+  h+='<div class="stats-section"><div class="stats-section-title">📈 月度签约趋势</div>';
+  const monthMap={};
+  signedArr.forEach(c=>{
+    if(!c.signedTs)return;
+    const d=new Date(Number(c.signedTs));
+    const key=d.getFullYear()+'/'+(d.getMonth()+1);
+    monthMap[key]=(monthMap[key]||0)+1;
+  });
+  const monthEntries=Object.entries(monthMap).sort((a,b)=>a[0].localeCompare(b[0]));
+  if(monthEntries.length){
+    const maxMonth=Math.max(...monthEntries.map(e=>e[1]));
+    h+='<div class="bar-chart">';
+    monthEntries.forEach(([m,cnt])=>{
+      const pct=Math.max(Math.round(cnt/maxMonth*100),5);
+      h+='<div class="bar-row"><div class="bar-label">'+m+'</div><div class="bar-track"><div class="bar-fill" style="width:'+pct+'%;background:linear-gradient(90deg,var(--green),rgba(76,175,80,.6))">'+cnt+'</div></div></div>';
+    });
+    h+='</div>';
+  } else {
+    h+='<div class="empty">暂无签约数据</div>';
+  }
+  h+='</div>';
+
+  // Amount distribution
+  h+='<div class="stats-section"><div class="stats-section-title">💰 签约金额分布</div>';
+  const ranges=[
+    {label:'<5千',min:0,max:5000},
+    {label:'5千-1万',min:5000,max:10000},
+    {label:'1万-3万',min:10000,max:30000},
+    {label:'3万-5万',min:30000,max:50000},
+    {label:'5万+',min:50000,max:Infinity}
+  ];
+  const rangeCounts=ranges.map(r=>({...r,count:0}));
+  signedArr.forEach(c=>{
+    const amt=c.amount||0;
+    for(const rc of rangeCounts){if(amt>=rc.min&&amt<rc.max){rc.count++;break;}}
+  });
+  const maxRange=Math.max(...rangeCounts.map(r=>r.count),1);
+  h+='<div class="bar-chart">';
+  const rangeColors=['var(--blue)','var(--green)','var(--orange)','var(--red)','var(--gold)'];
+  rangeCounts.forEach((r,i)=>{
+    const pct=Math.max(Math.round(r.count/maxRange*100),3);
+    h+='<div class="bar-row"><div class="bar-label">'+r.label+'</div><div class="bar-track"><div class="bar-fill" style="width:'+pct+'%;background:'+rangeColors[i]+'">'+r.count+'</div></div></div>';
+  });
+  h+='</div></div>';
+
+  h+='</div>';
+  return h;
+}
+
 /* ── Render Content ── */
 function renderContent(){
   const tab=_tab;let h='';
@@ -482,6 +683,8 @@ function renderContent(){
     h=l.length?l.map(o=>rc(o.c,o.i)).join(''):'<div class="empty">暂无</div>';
   } else if(tab==='funnel'){
     h=renderFunnel();
+  } else if(tab==='stats'){
+    h=renderStats();
   } else {
     h=filtered.map((c,i)=>rc(c,i)).join('');
   }
