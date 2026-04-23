@@ -329,6 +329,23 @@ header h1 .brand{color:var(--red);font-weight:800}
 let customers=[],filtered=[];
 let _tab='remind',_search='',_area='',_cat='';
 let _editCustomer=null;
+
+// ── 收藏功能（localStorage持久化）──
+function getFavs(){try{return JSON.parse(localStorage.getItem('crm_favs')||'[]')}catch(e){return[]}}
+function setFavs(arr){localStorage.setItem('crm_favs',JSON.stringify(arr))}
+function isFav(c){const id=c.poiId||c.id;return getFavs().includes(id)}
+function toggleFav(idx,ev){
+  if(ev)ev.stopPropagation();
+  const c=filtered[idx];if(!c)return;
+  const id=c.poiId||c.id;
+  let favs=getFavs();
+  if(favs.includes(id)){favs=favs.filter(f=>f!==id)}else{favs.push(id)}
+  setFavs(favs);
+  // Mark customer as prospect so it stays in 跟进中
+  if(favs.includes(id)&&c.type!=='signed'){c.type='prospect';c._favored=true}
+  showToast(favs.includes(id)?'⭐ 已收藏，进入跟进':'☆ 已取消收藏');
+  renderContent();updateStats();
+}
 const _tabs=['remind','week','prospect','signed','sea','all','funnel','stats','cases'];
 
 // ── 案例库数据 ──
@@ -428,6 +445,12 @@ async function loadData(){
       c.product=(c.products&&c.products.length)?c.products.join(', '):'';
       // category: use catType if available
       c.category=c.catType||c.category||'';
+    });
+    // Apply favorites: favorited sea stores become prospect (跟进中)
+    const favs=getFavs();
+    raw.forEach(c=>{
+      const id=c.poiId||c.id;
+      if(favs.includes(id)){c._favored=true;if(c.type!=='signed')c.type='prospect'}
     });
     customers=raw;
     document.getElementById('ut').textContent=j.updateTime||(Array.isArray(j)?'':'');
@@ -617,7 +640,8 @@ function rc(c,idx){
     seaTags='<div class="ctags" style="margin-top:4px">'+c.tags.map(t=>'<span class="sea-tag">'+t+'</span>').join('')+'</div>';
   }
   const signD=c.signedTs?'<span>📝 '+(new Date(Number(c.signedTs)).getMonth()+1)+'/'+(new Date(Number(c.signedTs)).getDate())+'签约</span>':'';
-  const actions='<div class="card-actions"><button class="act-btn" onclick="genPlan('+idx+')" title="生成方案">📋</button><button class="act-btn" onclick="openEdit('+idx+')" title="编辑备注">✏️</button></div>';
+  const favBtn=c.fromSeagull?'<button class="act-btn" onclick="toggleFav('+idx+',event)" title="'+(isFav(c)?'取消收藏':'收藏跟进')+'" style="'+(isFav(c)?'background:rgba(255,215,0,.25);color:#FFD700':'')+'">⭐</button>':'';
+  const actions='<div class="card-actions">'+favBtn+'<button class="act-btn" onclick="genPlan('+idx+')" title="生成方案">📋</button><button class="act-btn" onclick="openEdit('+idx+')" title="编辑备注">✏️</button></div>';
   // Build expanded detail panel
   let detail='<div class="card-detail"><div class="card-detail-inner">';
   if(c.poiId) detail+='<div class="cd-row"><div class="cd-label">POI ID</div><div class="cd-val">'+c.poiId+'</div></div>';
@@ -664,7 +688,8 @@ function rc(c,idx){
   else detail+='<div style="font-size:11px;color:var(--text3)">暂无跟进记录</div>';
   detail+='</div></div></div>';
   const seaClass=c.fromSeagull?' sea-card':'';
-  return '<div class="card '+cc(c)+seaClass+'" onclick="toggleExpand(this,event)" style="cursor:pointer">'+actions+'<div class="cname">'+c.name+gb(c)+badge(c)+seaRemBadge(c)+seaKpBadge(c)+seaNfBadge(c)+annivBadge(c)+renewalBadge(c)+'</div><div class="cmeta">'+(c.contact?'<span>👤 '+c.contact+'</span>':'')+ph+am+signD+ds+'<span>'+(c.type==='signed'?'已签约':'跟进中')+'</span>'+(c.fromSeagull&&c.closeStatus?'<span>'+c.closeStatus+'</span>':'')+'</div>'+tags+seaTags+(c.note?'<div class="cnote">'+c.note.slice(0,40)+(c.note.length>40?'…':'')+'</div>':'')+(c.prospectNote&&!c.note?'<div class="cnote">'+c.prospectNote.slice(0,40)+(c.prospectNote.length>40?'…':'')+'</div>':'')+ detail+'</div>';
+  const favMark=isFav(c)?'<span style="color:#FFD700;margin-left:4px;font-size:12px">⭐</span>':'';
+  return '<div class="card '+cc(c)+seaClass+'" onclick="toggleExpand(this,event)" style="cursor:pointer">'+actions+'<div class="cname">'+c.name+favMark+gb(c)+badge(c)+seaRemBadge(c)+seaKpBadge(c)+seaNfBadge(c)+annivBadge(c)+renewalBadge(c)+'</div><div class="cmeta">'+(c.contact?'<span>👤 '+c.contact+'</span>':'')+ph+am+signD+ds+'<span>'+(c.type==='signed'?'已签约':'跟进中')+'</span>'+(c.fromSeagull&&c.closeStatus?'<span>'+c.closeStatus+'</span>':'')+'</div>'+tags+seaTags+(c.note?'<div class="cnote">'+c.note.slice(0,40)+(c.note.length>40?'…':'')+'</div>':'')+(c.prospectNote&&!c.note?'<div class="cnote">'+c.prospectNote.slice(0,40)+(c.prospectNote.length>40?'…':'')+'</div>':'')+ detail+'</div>';
 }
 
 function updateStats(){
@@ -876,10 +901,14 @@ function renderSea(){
     const db=b.c.remainingDays!=null?b.c.remainingDays:999;
     return da-db;
   });
-  const urgent=seaItems.filter(o=>o.c.remainingDays!=null&&o.c.remainingDays<=0);
-  const warn=seaItems.filter(o=>o.c.remainingDays!=null&&o.c.remainingDays>=1&&o.c.remainingDays<=3);
-  const safe=seaItems.filter(o=>o.c.remainingDays==null||o.c.remainingDays>=4);
+  // Favorited stores section
+  const favItems=seaItems.filter(o=>isFav(o.c));
+  const nonFavItems=seaItems.filter(o=>!isFav(o.c));
+  const urgent=nonFavItems.filter(o=>o.c.remainingDays!=null&&o.c.remainingDays<=0);
+  const warn=nonFavItems.filter(o=>o.c.remainingDays!=null&&o.c.remainingDays>=1&&o.c.remainingDays<=3);
+  const safe=nonFavItems.filter(o=>o.c.remainingDays==null||o.c.remainingDays>=4);
   let h='';
+  if(favItems.length)h+='<div class="stitle">⭐ 已收藏·跟进中 ('+favItems.length+')</div>'+favItems.map(o=>rc(o.c,o.i)).join('');
   if(urgent.length)h+='<div class="stitle">🔴 即将到期 ('+urgent.length+')</div>'+urgent.map(o=>rc(o.c,o.i)).join('');
   if(warn.length)h+='<div class="stitle">🟡 3天内到期 ('+warn.length+')</div>'+warn.map(o=>rc(o.c,o.i)).join('');
   if(safe.length)h+='<div class="stitle">🟢 安全 ('+safe.length+')</div>'+safe.map(o=>rc(o.c,o.i)).join('');
