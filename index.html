@@ -288,6 +288,7 @@ header h1 .brand{color:var(--red);font-weight:800}
   <div class="tab" onclick="showTab('prospect')">🎯 意向客</div>
   <div class="tab" onclick="showTab('signed')">✅ 已签约</div>
   <div class="tab" onclick="showTab('sea')">🏪 私海</div>
+  <div class="tab" onclick="showTab('reno')">🔨 装修中</div>
   <div class="tab" onclick="showTab('all')">📋 全部</div>
   <div class="tab" onclick="showTab('funnel')">🔄 漏斗</div>
   <div class="tab" onclick="showTab('stats')">📊 统计</div>
@@ -320,6 +321,19 @@ header h1 .brand{color:var(--red);font-weight:800}
     <div class="modal-btns">
       <button class="btn-cancel" onclick="closeQF()">取消</button>
       <button class="btn-send" onclick="submitQF()">📋 复制指令</button>
+    </div>
+  </div>
+</div>
+<div class="modal-mask" id="renoMask" onclick="if(event.target===this)closeReno()">
+  <div class="modal">
+    <h3>🔨 添加装修中门店</h3>
+    <div class="sub">添加后每3天自动提醒跟进</div>
+    <input id="renoName" placeholder="门店名称（必填）" style="width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;padding:12px 14px;outline:none;font-family:inherit;margin-bottom:8px;box-sizing:border-box">
+    <input id="renoAddr" placeholder="门店地址/位置" style="width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;padding:12px 14px;outline:none;font-family:inherit;margin-bottom:8px;box-sizing:border-box">
+    <textarea id="renoNote" placeholder="备注（品类、面积、预计开业等）" style="width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;padding:12px 14px;min-height:60px;resize:vertical;outline:none;font-family:inherit;line-height:1.5;margin-bottom:0;box-sizing:border-box"></textarea>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeReno()">取消</button>
+      <button class="btn-send" onclick="submitReno()">🔨 添加</button>
     </div>
   </div>
 </div>
@@ -362,7 +376,7 @@ function toggleFav(idx,ev){
   }
   renderContent();updateStats();
 }
-const _tabs=['remind','week','prospect','signed','sea','all','funnel','stats','cases'];
+const _tabs=['remind','week','prospect','signed','sea','reno','all','funnel','stats','cases'];
 
 // ── 案例库数据 ──
 const _cases=[
@@ -940,6 +954,80 @@ function renderSea(){
   return h;
 }
 
+/* ── 装修中门店专区 ── */
+function getRenoStores(){try{return JSON.parse(localStorage.getItem('crm_reno')||'[]')}catch(e){return[]}}
+function setRenoStores(arr){localStorage.setItem('crm_reno',JSON.stringify(arr))}
+function renoNextVisit(addedStr){
+  // Every 3 days from addedDate, find the next future occurrence
+  const added=new Date(addedStr);added.setHours(0,0,0,0);
+  const now=new Date();now.setHours(0,0,0,0);
+  const diff=Math.floor((now-added)/(864e5));
+  const cycles=Math.floor(diff/3);
+  const next=new Date(added.getTime()+(cycles+1)*3*864e5);
+  return next;
+}
+function renoDD(addedStr){
+  const nv=renoNextVisit(addedStr);
+  const now=new Date();now.setHours(0,0,0,0);
+  return Math.round((nv-now)/(864e5));
+}
+function openRenoAdd(){
+  const m=document.getElementById('renoMask');if(m)m.classList.add('show');
+}
+function closeReno(){
+  const m=document.getElementById('renoMask');if(m)m.classList.remove('show');
+}
+function submitReno(){
+  const name=document.getElementById('renoName').value.trim();
+  const addr=document.getElementById('renoAddr').value.trim();
+  const note=document.getElementById('renoNote').value.trim();
+  if(!name){showToast('请输入门店名称');return;}
+  const stores=getRenoStores();
+  stores.push({name,addr,note,addedDate:new Date().toISOString().slice(0,10),id:'reno_'+Date.now()});
+  setRenoStores(stores);
+  closeReno();
+  document.getElementById('renoName').value='';
+  document.getElementById('renoAddr').value='';
+  document.getElementById('renoNote').value='';
+  showToast('🔨 已添加，3天后首次提醒');
+  renderContent();
+}
+function deleteReno(id,ev){
+  if(ev)ev.stopPropagation();
+  if(!confirm('删除这个装修中门店？'))return;
+  const stores=getRenoStores().filter(s=>s.id!==id);
+  setRenoStores(stores);
+  showToast('已删除');
+  renderContent();
+}
+function renderReno(){
+  const stores=getRenoStores();
+  let h='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div class="stitle" style="margin:0">🔨 装修中门店 · '+stores.length+'家</div><button style="background:var(--card);border:1px solid var(--border);color:var(--text);padding:6px 14px;border-radius:8px;font-size:13px;cursor:pointer" onclick="openRenoAdd()">+ 添加门店</button></div>';
+  if(!stores.length){h+='<div class="empty">暂无装修中门店<br><span style="font-size:12px;color:var(--text3)">点右上角「+ 添加门店」开始追踪</span></div>';return h;}
+  // Split into overdue / today / upcoming
+  const overdue=[],today=[],upcoming=[];
+  stores.forEach(s=>{
+    const d=renoDD(s.addedDate);
+    if(d<0)overdue.push(s);
+    else if(d===0)today.push(s);
+    else upcoming.push(s);
+  });
+  function renoCard(s){
+    const d=renoDD(s.addedDate);const nv=renoNextVisit(s.addedDate);
+    const nvStr=(nv.getMonth()+1)+'/'+nv.getDate();
+    const daysSince=Math.floor((Date.now()-new Date(s.addedDate).getTime())/(864e5));
+    let badge='';
+    if(d<0)badge='<span class="badge badge-overdue">逾期'+Math.abs(d)+'天</span>';
+    else if(d===0)badge='<span class="badge badge-today">今日跟进</span>';
+    else badge='<span class="badge badge-soon">'+d+'天后</span>';
+    return '<div class="card" style="border-left-color:#FF9800;cursor:pointer" onclick="toggleExpand(this,event)"><div class="card-actions"><button class="act-btn" onclick="deleteReno(\''+s.id+'\',event)" title="删除">🗑</button></div><div class="cname">'+s.name+' '+badge+'</div><div class="cmeta"><span>📍 '+(s.addr||'未填地址')+'</span><span>🔨 已装修'+daysSince+'天</span><span>📅 下次:'+nvStr+'</span></div>'+(s.note?'<div class="cnote">💬 '+s.note+'</div>':'')+'<div class="card-detail"><div class="card-detail-inner"><div class="cd-row"><div class="cd-label">添加日期</div><div class="cd-val">'+s.addedDate+'</div></div><div class="cd-row"><div class="cd-label">跟进周期</div><div class="cd-val">每3天自动提醒</div></div><div class="cd-row"><div class="cd-label">下次跟进</div><div class="cd-val">'+nv.toLocaleDateString('zh-CN')+'</div></div></div></div></div>';
+  }
+  if(overdue.length)h+='<div class="stitle">🔴 需要跟进 ('+overdue.length+')</div>'+overdue.map(renoCard).join('');
+  if(today.length)h+='<div class="stitle">🔥 今日跟进 ('+today.length+')</div>'+today.map(renoCard).join('');
+  if(upcoming.length)h+='<div class="stitle">🟢 等待中 ('+upcoming.length+')</div>'+upcoming.map(renoCard).join('');
+  return h;
+}
+
 /* ── Render Content ── */
 function renderCases(){
   let h='<div class="stitle">📁 方案案例库 · '+_cases.length+'个案例</div>';
@@ -989,9 +1077,20 @@ function renderContent(){
     const exp=filtered.map((c,i)=>({c,i})).filter(o=>o.c.visitTs&&dd(o.c.visitTs)<0).sort((a,b)=>a.c.visitTs-b.c.visitTs);
     const td=filtered.map((c,i)=>({c,i})).filter(o=>o.c.visitTs&&dd(o.c.visitTs)===0);
     const sn=filtered.map((c,i)=>({c,i})).filter(o=>o.c.visitTs&&dd(o.c.visitTs)>0&&dd(o.c.visitTs)<=7).sort((a,b)=>a.c.visitTs-b.c.visitTs);
-    if(exp.length) h+='<div class="stitle">⚠️ 已逾期</div>'+exp.map(o=>rc(o.c,o.i)).join('');
-    if(td.length) h+='<div class="stitle">🔥 今日跟进</div>'+td.map(o=>rc(o.c,o.i)).join('');
-    if(sn.length) h+='<div class="stitle">📆 7天内</div>'+sn.map(o=>rc(o.c,o.i)).join('');
+    // Include reno stores in remind tab
+    const renoStores=getRenoStores();
+    const renoExp=renoStores.filter(s=>renoDD(s.addedDate)<0);
+    const renoTd=renoStores.filter(s=>renoDD(s.addedDate)===0);
+    const renoSn=renoStores.filter(s=>{const d=renoDD(s.addedDate);return d>0&&d<=7;});
+    function miniRenoCard(s){
+      const d=renoDD(s.addedDate);const nv=renoNextVisit(s.addedDate);
+      const daysSince=Math.floor((Date.now()-new Date(s.addedDate).getTime())/(864e5));
+      let bdg=d<0?'<span class="badge badge-overdue">逾期'+Math.abs(d)+'天</span>':d===0?'<span class="badge badge-today">今日</span>':'<span class="badge badge-soon">'+d+'天后</span>';
+      return '<div class="card" style="border-left-color:#FF9800"><div class="cname">🔨 '+s.name+' '+bdg+'</div><div class="cmeta"><span>📍 '+(s.addr||'未填')+'</span><span>装修'+daysSince+'天</span></div>'+(s.note?'<div class="cnote">'+s.note+'</div>':'')+'</div>';
+    }
+    if(exp.length||renoExp.length) h+='<div class="stitle">⚠️ 已逾期</div>'+exp.map(o=>rc(o.c,o.i)).join('')+renoExp.map(miniRenoCard).join('');
+    if(td.length||renoTd.length) h+='<div class="stitle">🔥 今日跟进</div>'+td.map(o=>rc(o.c,o.i)).join('')+renoTd.map(miniRenoCard).join('');
+    if(sn.length||renoSn.length) h+='<div class="stitle">📆 7天内</div>'+sn.map(o=>rc(o.c,o.i)).join('')+renoSn.map(miniRenoCard).join('');
     if(!h) h='<div class="empty">🎉 近期无待跟进，继续冲！</div>';
   } else if(tab==='week'){
     h=renderWeek();
@@ -1003,6 +1102,8 @@ function renderContent(){
     h=l.length?l.map(o=>rc(o.c,o.i)).join(''):'<div class="empty">暂无</div>';
   } else if(tab==='sea'){
     h=renderSea();
+  } else if(tab==='reno'){
+    h=renderReno();
   } else if(tab==='funnel'){
     h=renderFunnel();
   } else if(tab==='stats'){
