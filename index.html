@@ -34,7 +34,7 @@ header h1 .brand{color:var(--red);font-weight:800}
 .rbtn.ld{opacity:.5;pointer-events:none}
 
 /* ── Stats ── */
-.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;padding:16px 20px}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;padding:16px 20px}
 .sc{background:var(--card);border-radius:14px;padding:14px 12px;text-align:center;border:1px solid var(--border);position:relative;overflow:hidden;transition:transform .2s}
 .sc:active{transform:scale(.97)}
 .sc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:14px 14px 0 0}
@@ -240,10 +240,26 @@ header h1 .brand{color:var(--red);font-weight:800}
 .grade-card.gc-C{border-color:rgba(136,136,160,.3)}.grade-card.gc-C .gc-grade{color:var(--text2)}.grade-card.gc-C .gc-count{color:var(--text2)}
 .grade-card.gc-D{border-color:rgba(85,85,104,.3)}.grade-card.gc-D .gc-grade{color:var(--text3)}.grade-card.gc-D .gc-count{color:var(--text3)}
 
+/* ── Seagull badges ── */
+.sea-badge{display:inline-flex;align-items:center;gap:2px;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:700;letter-spacing:.2px;margin-left:4px}
+.sea-urgent{background:rgba(232,0,28,.15);color:var(--red)}
+.sea-warn{background:rgba(255,152,0,.15);color:var(--orange)}
+.sea-safe{background:rgba(76,175,80,.15);color:var(--green)}
+.sea-kp{background:rgba(79,195,247,.12);color:var(--blue);font-size:9px;padding:1px 6px}
+.sea-nf{background:rgba(255,152,0,.08);color:var(--orange);font-size:9px;padding:1px 6px}
+.sea-info{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;font-size:11px;color:var(--text2)}
+.sea-info span{display:inline-flex;align-items:center;gap:3px}
+.sea-tag{font-size:9px;padding:2px 6px;border-radius:5px;background:rgba(79,195,247,.08);color:var(--blue);font-weight:500}
+.card.sea-card{border-left-color:#9c27b0}
+.card.sea-card::after{background:#9c27b0}
+
 .sc:nth-child(5)::before{background:var(--blue)}
 .sc:nth-child(5) .n{color:var(--blue)}
+.sc:nth-child(6)::before{background:#9c27b0}
+.sc:nth-child(6) .n{color:#9c27b0}
 
-@media(max-width:400px){.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.stats{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:360px){.stats{grid-template-columns:repeat(2,1fr)}}
 @keyframes spin{to{transform:rotate(360deg)}}
 .spin{display:inline-block;animation:spin .8s linear infinite}
 
@@ -272,6 +288,7 @@ header h1 .brand{color:var(--red);font-weight:800}
   <div class="tab" onclick="showTab('week')">📅 本周</div>
   <div class="tab" onclick="showTab('prospect')">🎯 意向客</div>
   <div class="tab" onclick="showTab('signed')">✅ 已签约</div>
+  <div class="tab" onclick="showTab('sea')">🏪 私海</div>
   <div class="tab" onclick="showTab('all')">📋 全部</div>
   <div class="tab" onclick="showTab('funnel')">🔄 漏斗</div>
   <div class="tab" onclick="showTab('stats')">📊 统计</div>
@@ -313,7 +330,7 @@ header h1 .brand{color:var(--red);font-weight:800}
 let customers=[],filtered=[];
 let _tab='remind',_search='',_area='',_cat='';
 let _editCustomer=null;
-const _tabs=['remind','week','prospect','signed','all','funnel','stats','cases'];
+const _tabs=['remind','week','prospect','signed','sea','all','funnel','stats','cases'];
 
 // ── 案例库数据 ──
 const _cases=[
@@ -373,8 +390,24 @@ async function loadData(){
   try{
     const r=await fetch('data.json?t='+Date.now());
     const j=await r.json();
-    customers=j.customers||[];
-    document.getElementById('ut').textContent=j.updateTime||'';
+    // Support both formats: plain array or {customers:[]}
+    const raw=Array.isArray(j)?j:(j.customers||[]);
+    // Post-process: derive visitTs, signedTs, note, product, category
+    raw.forEach(c=>{
+      // visitTs: from nextVisit2 (prospect) or nextVisit (signed)
+      const vd=c.nextVisit2||c.nextVisit||'';
+      c.visitTs=vd?new Date(vd).getTime():null;
+      // signedTs
+      c.signedTs=c.signDate?new Date(c.signDate).getTime():null;
+      // note: merge prospectNote and visitNote
+      c.note=c.prospectNote||c.visitNote||'';
+      // product: join products array
+      c.product=(c.products&&c.products.length)?c.products.join(', '):'';
+      // category: use catType if available
+      c.category=c.catType||c.category||'';
+    });
+    customers=raw;
+    document.getElementById('ut').textContent=j.updateTime||(Array.isArray(j)?'':'');
     buildFilters();applyFilter();
   }catch(e){document.getElementById('content').innerHTML='<div class="empty">⚠️ 数据加载失败，请稍后刷新</div>';}
   finally{b.classList.remove('ld');i.classList.remove('spin');}
@@ -382,7 +415,12 @@ async function loadData(){
 
 function buildFilters(){
   const areas=new Set(),cats=new Set();
-  customers.forEach(c=>{if(c.area)areas.add(c.area);if(c.category)cats.add(c.category);});
+  customers.forEach(c=>{
+    // Use district for seagull, area for others
+    if(c.district)areas.add(c.district);
+    else if(c.area)areas.add(c.area);
+    if(c.category)cats.add(c.category);
+  });
   const asel=document.getElementById('filterArea');
   asel.innerHTML='<option value="">全部区域</option>'+[...areas].sort().map(a=>'<option value="'+a+'">'+a+'</option>').join('');
   const csel=document.getElementById('filterCat');
@@ -394,10 +432,10 @@ function applyFilter(){
   _area=document.getElementById('filterArea').value;
   _cat=document.getElementById('filterCat').value;
   filtered=customers.filter(c=>{
-    if(_area&&c.area!==_area) return false;
+    if(_area&&(c.district||c.area)!==_area) return false;
     if(_cat&&c.category!==_cat) return false;
     if(_search){
-      const hay=(c.name+c.contact+c.note+c.product+c.area+c.category).toLowerCase();
+      const hay=(c.name+c.contact+c.note+c.product+c.area+c.category+(c.brand||'')+(c.district||'')+(c.barea||'')+(c.poiId||'')).toLowerCase();
       if(!hay.includes(_search)) return false;
     }
     return true;
@@ -510,18 +548,44 @@ function toggleExpand(el,ev){
   if(ev.target.closest('.card-actions')||ev.target.closest('a'))return;
   el.classList.toggle('expanded');
 }
+/* ── Seagull helper functions ── */
+function seaRemBadge(c){
+  if(!c.fromSeagull||c.remainingDays==null)return'';
+  const d=c.remainingDays;
+  if(d<=0)return'<span class="sea-badge sea-urgent">🔴 剩余'+d+'天</span>';
+  if(d<=3)return'<span class="sea-badge sea-warn">🟡 剩余'+d+'天</span>';
+  return'<span class="sea-badge sea-safe">🟢 剩余'+d+'天</span>';
+}
+function seaKpBadge(c){
+  if(!c.fromSeagull||!c.hasKp)return'';
+  return'<span class="sea-kp">🔑KP</span>';
+}
+function seaNfBadge(c){
+  if(!c.fromSeagull||!c.notFollowDays)return'';
+  return'<span class="sea-nf">⏳未跟'+c.notFollowDays+'天</span>';
+}
+
 function rc(c,idx){
   const d=dd(c.visitTs);
   const ds=c.visitTs?'<span>📅 '+(d===0?'今天':fd(c.visitTs))+'</span>':'';
   const am=c.amount?'<span>💰 ¥'+c.amount.toLocaleString()+'</span>':'';
   const ph=c.phone?'<span><a href="tel:'+c.phone+'" style="color:var(--blue);text-decoration:none">📞 '+c.phone+'</a></span>':'';
   let tags='';
-  if(c.area||c.category||c.product){
+  if(c.area||c.category||c.product||c.catType){
     tags='<div class="ctags">';
-    if(c.area) tags+='<span class="ctag">'+c.area+'</span>';
-    if(c.category) tags+='<span class="ctag">'+c.category+'</span>';
+    if(c.district) tags+='<span class="ctag">'+c.district+'</span>';
+    if(c.barea&&c.barea!=='未知商圈') tags+='<span class="ctag">'+c.barea+'</span>';
+    if(!c.district&&c.area) tags+='<span class="ctag">'+(c.area.length>16?c.area.slice(0,16)+'…':c.area)+'</span>';
+    if(c.catType) tags+='<span class="ctag">'+c.catType+'</span>';
+    else if(c.category) tags+='<span class="ctag">'+c.category+'</span>';
     if(c.product) tags+='<span class="ctag">'+c.product+'</span>';
+    if(c.brand) tags+='<span class="ctag" style="background:rgba(255,215,0,.1);color:var(--gold)">🏷'+c.brand+'</span>';
     tags+='</div>';
+  }
+  // Seagull tags row
+  let seaTags='';
+  if(c.fromSeagull&&c.tags&&c.tags.length){
+    seaTags='<div class="ctags" style="margin-top:4px">'+c.tags.map(t=>'<span class="sea-tag">'+t+'</span>').join('')+'</div>';
   }
   const signD=c.signedTs?'<span>📝 '+(new Date(Number(c.signedTs)).getMonth()+1)+'/'+(new Date(Number(c.signedTs)).getDate())+'签约</span>':'';
   const actions='<div class="card-actions"><button class="act-btn" onclick="genPlan('+idx+')" title="生成方案">📋</button><button class="act-btn" onclick="openEdit('+idx+')" title="编辑备注">✏️</button></div>';
@@ -530,19 +594,35 @@ function rc(c,idx){
   if(c.poiId) detail+='<div class="cd-row"><div class="cd-label">POI ID</div><div class="cd-val">'+c.poiId+'</div></div>';
   if(c.contact) detail+='<div class="cd-row"><div class="cd-label">联系人</div><div class="cd-val">'+c.contact+'</div></div>';
   if(c.phone) detail+='<div class="cd-row"><div class="cd-label">电话</div><div class="cd-val"><a href="tel:'+c.phone+'" style="color:var(--blue);text-decoration:none">'+c.phone+'</a></div></div>';
-  if(c.area) detail+='<div class="cd-row"><div class="cd-label">区域</div><div class="cd-val">'+c.area+'</div></div>';
-  if(c.category) detail+='<div class="cd-row"><div class="cd-label">品类</div><div class="cd-val">'+c.category+'</div></div>';
+  if(c.area) detail+='<div class="cd-row"><div class="cd-label">地址</div><div class="cd-val">'+c.area+'</div></div>';
+  if(c.district) detail+='<div class="cd-row"><div class="cd-label">区域</div><div class="cd-val">'+c.district+(c.barea?' · '+c.barea:'')+'</div></div>';
+  if(c.catType) detail+='<div class="cd-row"><div class="cd-label">品类</div><div class="cd-val">'+c.catType+(c.seagullCategory?' <span style="color:var(--text3);font-size:10px">('+c.seagullCategory+')</span>':'')+'</div></div>';
+  else if(c.category) detail+='<div class="cd-row"><div class="cd-label">品类</div><div class="cd-val">'+c.category+'</div></div>';
   if(c.grade) detail+='<div class="cd-row"><div class="cd-label">评级</div><div class="cd-val">'+c.grade+'级</div></div>';
   if(c.product) detail+='<div class="cd-row"><div class="cd-label">签约产品</div><div class="cd-val">'+c.product+'</div></div>';
   if(c.amount) detail+='<div class="cd-row"><div class="cd-label">金额</div><div class="cd-val">¥'+c.amount.toLocaleString()+'</div></div>';
   if(c.signedTs) detail+='<div class="cd-row"><div class="cd-label">签约时间</div><div class="cd-val">'+(new Date(Number(c.signedTs)).toLocaleDateString('zh-CN'))+'</div></div>';
   if(c.visitTs) detail+='<div class="cd-row"><div class="cd-label">跟进时间</div><div class="cd-val">'+(new Date(Number(c.visitTs)).toLocaleDateString('zh-CN'))+'</div></div>';
+  // ── Seagull detail fields ──
+  if(c.fromSeagull){
+    if(c.star) detail+='<div class="cd-row"><div class="cd-label">⭐ 评分</div><div class="cd-val">'+c.star+'</div></div>';
+    if(c.reviews) detail+='<div class="cd-row"><div class="cd-label">💬 评价数</div><div class="cd-val">'+c.reviews+'</div></div>';
+    if(c.price) detail+='<div class="cd-row"><div class="cd-label">💰 人均</div><div class="cd-val">¥'+c.price+'</div></div>';
+    if(c.closeStatus) detail+='<div class="cd-row"><div class="cd-label">🏪 营业状态</div><div class="cd-val">'+(c.closeStatus==='营业中'?'<span style="color:var(--green)">'+c.closeStatus+'</span>':'<span style="color:var(--orange)">'+c.closeStatus+'</span>')+'</div></div>';
+    if(c.coopStatus) detail+='<div class="cd-row"><div class="cd-label">📋 签约状态</div><div class="cd-val">'+c.coopStatus+'</div></div>';
+    if(c.remaining) detail+='<div class="cd-row"><div class="cd-label">⏰ 保护期</div><div class="cd-val">'+c.remaining+'</div></div>';
+    if(c.brand) detail+='<div class="cd-row"><div class="cd-label">🏷 品牌</div><div class="cd-val">'+c.brand+'</div></div>';
+    if(c.intoTime) detail+='<div class="cd-row"><div class="cd-label">📅 进入时间</div><div class="cd-val">'+(new Date(c.intoTime).toLocaleDateString('zh-CN'))+'</div></div>';
+    if(c.contacts&&c.contacts.length) detail+='<div class="cd-row cd-full"><div class="cd-label">📞 联系方式</div><div class="cd-val">'+c.contacts.map(ct=>ct.name+' '+ct.phone).join(', ')+'</div></div>';
+    if(c.tags&&c.tags.length) detail+='<div class="cd-row cd-full"><div class="cd-label">🏷 标签</div><div class="cd-val"><div class="ctags" style="margin-top:2px">'+c.tags.map(t=>'<span class="sea-tag">'+t+'</span>').join('')+'</div></div></div>';
+  }
   // Full note
   if(c.note) detail+='<div class="cd-row cd-full"><div class="cd-label">完整备注</div><div class="cd-val">'+c.note+'</div></div>';
   // All tags
   let allTags=[];
-  if(c.area)allTags.push(c.area);if(c.category)allTags.push(c.category);if(c.product)allTags.push(c.product);if(c.grade)allTags.push(c.grade+'级');
+  if(c.district)allTags.push(c.district);if(c.catType)allTags.push(c.catType);else if(c.category)allTags.push(c.category);if(c.product)allTags.push(c.product);if(c.grade)allTags.push(c.grade+'级');
   if(c.type==='signed')allTags.push('已签约');else allTags.push('跟进中');
+  if(c.fromSeagull)allTags.push('私海');
   detail+='<div class="cd-row cd-full"><div class="cd-label">标签</div><div class="cd-val"><div class="ctags" style="margin-top:2px">'+allTags.map(t=>'<span class="ctag">'+t+'</span>').join('')+'</div></div></div>';
   // Follow-up history placeholder
   detail+='<div class="cd-history"><div class="cd-history-title">📋 跟进历史</div>';
@@ -550,10 +630,12 @@ function rc(c,idx){
   if(c.signedTs)histItems.push('<span style="color:var(--green)">'+new Date(Number(c.signedTs)).toLocaleDateString('zh-CN')+'</span> 签约'+(c.product?' · '+c.product:'')+(c.amount?' · ¥'+c.amount.toLocaleString():''));
   if(c.visitTs)histItems.push('<span style="color:var(--blue)">'+new Date(Number(c.visitTs)).toLocaleDateString('zh-CN')+'</span> 计划跟进');
   if(c.note)histItems.push('<span style="color:var(--text3)">备注</span> '+c.note.slice(0,80));
+  if(c.fromSeagull&&c.intoTime)histItems.push('<span style="color:#9c27b0">'+new Date(c.intoTime).toLocaleDateString('zh-CN')+'</span> 进入私海');
   if(histItems.length)detail+=histItems.map(h=>'<div style="font-size:11px;color:var(--text2);line-height:1.8;padding-left:8px;border-left:2px solid var(--border);margin-bottom:4px">'+h+'</div>').join('');
   else detail+='<div style="font-size:11px;color:var(--text3)">暂无跟进记录</div>';
   detail+='</div></div></div>';
-  return '<div class="card '+cc(c)+'" onclick="toggleExpand(this,event)" style="cursor:pointer">'+actions+'<div class="cname">'+c.name+gb(c)+badge(c)+annivBadge(c)+renewalBadge(c)+'</div><div class="cmeta">'+(c.contact?'<span>👤 '+c.contact+'</span>':'')+ph+am+signD+ds+'<span>'+(c.type==='signed'?'已签约':'跟进中')+'</span></div>'+tags+(c.note?'<div class="cnote">'+c.note.slice(0,40)+(c.note.length>40?'…':'')+'</div>':'')+ detail+'</div>';
+  const seaClass=c.fromSeagull?' sea-card':'';
+  return '<div class="card '+cc(c)+seaClass+'" onclick="toggleExpand(this,event)" style="cursor:pointer">'+actions+'<div class="cname">'+c.name+gb(c)+badge(c)+seaRemBadge(c)+seaKpBadge(c)+seaNfBadge(c)+annivBadge(c)+renewalBadge(c)+'</div><div class="cmeta">'+(c.contact?'<span>👤 '+c.contact+'</span>':'')+ph+am+signD+ds+'<span>'+(c.type==='signed'?'已签约':'跟进中')+'</span>'+(c.fromSeagull&&c.closeStatus?'<span>'+c.closeStatus+'</span>':'')+'</div>'+tags+seaTags+(c.note?'<div class="cnote">'+c.note.slice(0,40)+(c.note.length>40?'…':'')+'</div>':'')+(c.prospectNote&&!c.note?'<div class="cnote">'+c.prospectNote.slice(0,40)+(c.prospectNote.length>40?'…':'')+'</div>':'')+ detail+'</div>';
 }
 
 function updateStats(){
@@ -565,12 +647,14 @@ function updateStats(){
   const signedN=filtered.filter(c=>c.type==='signed').length;
   const prospectN=filtered.filter(c=>c.type==='prospect').length;
   const cvr=(signedN+prospectN)>0?Math.round(signedN/(signedN+prospectN)*100):0;
+  const seaN=filtered.filter(c=>c.fromSeagull).length;
   document.getElementById('stats').innerHTML=
     '<div class="sc"><div class="n">'+exp+'</div><div class="l">已逾期</div></div>'+
     '<div class="sc"><div class="n">'+td+'</div><div class="l">今日跟进</div></div>'+
     '<div class="sc"><div class="n">'+sn+'</div><div class="l">7天内</div></div>'+
     '<div class="sc"><div class="n">'+as+'</div><div class="l">签约额</div></div>'+
-    '<div class="sc"><div class="n">'+cvr+'%</div><div class="l">转化率</div></div>';
+    '<div class="sc"><div class="n">'+cvr+'%</div><div class="l">转化率</div></div>'+
+    '<div class="sc"><div class="n">'+seaN+'</div><div class="l">私海门店</div></div>';
 }
 
 /* ── Week View ── */
@@ -753,6 +837,26 @@ function renderStats(){
   return h;
 }
 
+/* ── Private Sea Tab ── */
+function renderSea(){
+  const seaItems=filtered.map((c,i)=>({c,i})).filter(o=>o.c.fromSeagull);
+  if(!seaItems.length)return'<div class="empty">暂无私海门店数据</div>';
+  // Sort by remaining days ascending (most urgent first)
+  seaItems.sort((a,b)=>{
+    const da=a.c.remainingDays!=null?a.c.remainingDays:999;
+    const db=b.c.remainingDays!=null?b.c.remainingDays:999;
+    return da-db;
+  });
+  const urgent=seaItems.filter(o=>o.c.remainingDays!=null&&o.c.remainingDays<=0);
+  const warn=seaItems.filter(o=>o.c.remainingDays!=null&&o.c.remainingDays>=1&&o.c.remainingDays<=3);
+  const safe=seaItems.filter(o=>o.c.remainingDays==null||o.c.remainingDays>=4);
+  let h='';
+  if(urgent.length)h+='<div class="stitle">🔴 即将到期 ('+urgent.length+')</div>'+urgent.map(o=>rc(o.c,o.i)).join('');
+  if(warn.length)h+='<div class="stitle">🟡 3天内到期 ('+warn.length+')</div>'+warn.map(o=>rc(o.c,o.i)).join('');
+  if(safe.length)h+='<div class="stitle">🟢 安全 ('+safe.length+')</div>'+safe.map(o=>rc(o.c,o.i)).join('');
+  return h;
+}
+
 /* ── Render Content ── */
 function renderCases(){
   let h='<div class="stitle">📁 方案案例库 · '+_cases.length+'个案例</div>';
@@ -814,6 +918,8 @@ function renderContent(){
   } else if(tab==='signed'){
     const l=filtered.map((c,i)=>({c,i})).filter(o=>o.c.type==='signed').sort((a,b)=>'ABCD'.indexOf(a.c.grade)-'ABCD'.indexOf(b.c.grade));
     h=l.length?l.map(o=>rc(o.c,o.i)).join(''):'<div class="empty">暂无</div>';
+  } else if(tab==='sea'){
+    h=renderSea();
   } else if(tab==='funnel'){
     h=renderFunnel();
   } else if(tab==='stats'){
