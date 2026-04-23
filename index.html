@@ -334,16 +334,32 @@ let _editCustomer=null;
 function getFavs(){try{return JSON.parse(localStorage.getItem('crm_favs')||'[]')}catch(e){return[]}}
 function setFavs(arr){localStorage.setItem('crm_favs',JSON.stringify(arr))}
 function isFav(c){const id=c.poiId||c.id;return getFavs().includes(id)}
+function getFavVisits(){try{return JSON.parse(localStorage.getItem('crm_fav_visits')||'{}')}catch(e){return{}}}
+function setFavVisits(obj){localStorage.setItem('crm_fav_visits',JSON.stringify(obj))}
 function toggleFav(idx,ev){
   if(ev)ev.stopPropagation();
   const c=filtered[idx];if(!c)return;
   const id=c.poiId||c.id;
   let favs=getFavs();
-  if(favs.includes(id)){favs=favs.filter(f=>f!==id)}else{favs.push(id)}
+  const adding=!favs.includes(id);
+  if(adding){favs.push(id)}else{favs=favs.filter(f=>f!==id)}
   setFavs(favs);
-  // Mark customer as prospect so it stays in 跟进中
-  if(favs.includes(id)&&c.type!=='signed'){c.type='prospect';c._favored=true}
-  showToast(favs.includes(id)?'⭐ 已收藏，进入跟进':'☆ 已取消收藏');
+  if(adding){
+    // Set as prospect + auto-set follow-up 3 days from now
+    if(c.type!=='signed')c.type='prospect';
+    c._favored=true;
+    const d3=new Date();d3.setDate(d3.getDate()+3);
+    const ds=d3.getFullYear()+'-'+String(d3.getMonth()+1).padStart(2,'0')+'-'+String(d3.getDate()).padStart(2,'0');
+    c.nextVisit2=ds;c.visitTs=d3.getTime();
+    // Persist visit date in localStorage
+    const fv=getFavVisits();fv[id]=ds;setFavVisits(fv);
+    showToast('⭐ 已收藏，'+Math.ceil(3)+'天后跟进提醒');
+  }else{
+    // Remove visit date
+    const fv=getFavVisits();delete fv[id];setFavVisits(fv);
+    if(!c.nextVisit&&!c.nextVisit2){c.visitTs=null}
+    showToast('☆ 已取消收藏');
+  }
   renderContent();updateStats();
 }
 const _tabs=['remind','week','prospect','signed','sea','all','funnel','stats','cases'];
@@ -446,11 +462,20 @@ async function loadData(){
       // category: use catType if available
       c.category=c.catType||c.category||'';
     });
-    // Apply favorites: favorited sea stores become prospect (跟进中)
+    // Apply favorites: favorited sea stores become prospect (跟进中) + restore visit dates
     const favs=getFavs();
+    const favVisits=getFavVisits();
     raw.forEach(c=>{
       const id=c.poiId||c.id;
-      if(favs.includes(id)){c._favored=true;if(c.type!=='signed')c.type='prospect'}
+      if(favs.includes(id)){
+        c._favored=true;
+        if(c.type!=='signed')c.type='prospect';
+        // Restore saved follow-up date if not already set
+        if(favVisits[id]&&!c.nextVisit2){
+          c.nextVisit2=favVisits[id];
+          c.visitTs=new Date(favVisits[id]).getTime();
+        }
+      }
     });
     customers=raw;
     document.getElementById('ut').textContent=j.updateTime||(Array.isArray(j)?'':'');
