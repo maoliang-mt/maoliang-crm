@@ -724,7 +724,7 @@ function updateStats(){
   const ta=filtered.reduce((s,c)=>s+(c.amount||0),0);
   const as=ta>=10000?(ta/10000).toFixed(1)+'万':'¥'+ta.toLocaleString();
   const signedN=filtered.filter(c=>c.type==='signed').length;
-  const prospectN=filtered.filter(c=>c.type==='prospect').length;
+  const prospectN=filtered.filter(c=>c.type==='prospect'&&!c.fromSeagull).length;
   const cvr=(signedN+prospectN)>0?Math.round(signedN/(signedN+prospectN)*100):0;
   const seaN=filtered.filter(c=>c.fromSeagull).length;
   document.getElementById('stats').innerHTML=
