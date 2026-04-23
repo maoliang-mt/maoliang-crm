@@ -120,6 +120,44 @@ header h1 .brand{color:var(--red);font-weight:800}
 .toast.show{display:block;animation:toastIn .3s ease}
 @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(-30px)}to{opacity:1;transform:translateX(-50%) translateY(-20px)}}
 
+/* ── Cases Tab ── */
+.cases-grid{display:grid;grid-template-columns:1fr;gap:12px}
+.case-card{background:var(--card);border-radius:14px;padding:16px;border:1px solid var(--border);transition:all .25s;cursor:pointer;position:relative;overflow:hidden}
+.case-card:active{transform:scale(.985);background:var(--card-hover)}
+.case-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.case-card.fmt-pptx::before{background:linear-gradient(90deg,var(--red),#ff4444)}
+.case-card.fmt-docx::before{background:linear-gradient(90deg,var(--blue),#64b5f6)}
+.case-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.case-name{font-size:15px;font-weight:700;color:#fff}
+.case-fmt{font-size:10px;padding:3px 8px;border-radius:8px;font-weight:700;letter-spacing:.3px}
+.case-fmt.pptx{background:var(--red-bg);color:var(--red)}
+.case-fmt.docx{background:var(--blue-bg);color:var(--blue)}
+.case-meta{display:flex;gap:10px;flex-wrap:wrap;font-size:11px;color:var(--text3);margin-bottom:8px;line-height:1.6}
+.case-meta span{display:inline-flex;align-items:center;gap:3px}
+.case-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+.case-tag{font-size:10px;padding:2px 8px;border-radius:6px;background:rgba(255,255,255,.04);color:var(--text2);font-weight:500}
+.case-stars{color:var(--gold);font-size:12px;letter-spacing:1px}
+.case-desc{font-size:11px;color:var(--text2);line-height:1.5;margin-top:6px;background:rgba(255,255,255,.03);padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,.04)}
+.case-actions{display:flex;gap:8px;margin-top:10px}
+.case-btn{flex:1;padding:8px;border-radius:10px;font-size:12px;font-weight:600;cursor:pointer;border:none;text-align:center;transition:all .2s}
+.case-btn:active{transform:scale(.97)}
+.case-btn-view{background:rgba(79,195,247,.1);color:var(--blue);border:1px solid rgba(79,195,247,.2)}
+.case-btn-view:hover{background:rgba(79,195,247,.18)}
+.case-btn-copy{background:rgba(255,255,255,.04);color:var(--text2);border:1px solid var(--border)}
+.case-btn-copy:hover{background:rgba(255,255,255,.08)}
+.case-detail{max-height:0;overflow:hidden;transition:max-height .35s ease,opacity .25s ease;opacity:0}
+.case-card.expanded .case-detail{max-height:800px;opacity:1;margin-top:10px}
+.case-card.expanded{border-color:var(--blue);box-shadow:0 0 0 1px var(--blue),0 4px 24px rgba(79,195,247,.12)}
+.case-detail-inner{border-top:1px solid var(--border);padding-top:10px}
+.case-kv{display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;font-size:12px;margin-bottom:8px}
+.case-kv-item{color:var(--text2);line-height:1.6}
+.case-kv-item .ck-l{color:var(--text3);font-size:10px;letter-spacing:.5px}
+.case-kv-item .ck-v{color:var(--text)}
+.case-highlights{list-style:none;padding:0;margin:0}
+.case-highlights li{font-size:11px;color:var(--text2);padding:4px 0;border-bottom:1px dashed rgba(255,255,255,.04);line-height:1.5}
+.case-highlights li:last-child{border-bottom:none}
+.case-highlights li::before{content:'✦';color:var(--gold);margin-right:6px}
+
 /* ── Week View ── */
 .week-day{margin-bottom:16px}
 .week-day-hdr{font-size:12px;font-weight:700;color:var(--text2);padding:8px 12px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid var(--border);margin-bottom:6px;display:flex;align-items:center;gap:8px}
@@ -237,6 +275,7 @@ header h1 .brand{color:var(--red);font-weight:800}
   <div class="tab" onclick="showTab('all')">📋 全部</div>
   <div class="tab" onclick="showTab('funnel')">🔄 漏斗</div>
   <div class="tab" onclick="showTab('stats')">📊 统计</div>
+  <div class="tab" onclick="showTab('cases')">📁 案例库</div>
 </div>
 <div class="content" id="content"><div class="empty">数据加载中...</div></div>
 
@@ -274,7 +313,59 @@ header h1 .brand{color:var(--red);font-weight:800}
 let customers=[],filtered=[];
 let _tab='remind',_search='',_area='',_cat='';
 let _editCustomer=null;
-const _tabs=['remind','week','prospect','signed','all','funnel','stats'];
+const _tabs=['remind','week','prospect','signed','all','funnel','stats','cases'];
+
+// ── 案例库数据 ──
+const _cases=[
+  {
+    name:'老友鱼汤面',
+    category:'面食快餐（社区）',
+    format:'docx',
+    type:'全周期三阶段营销方案',
+    date:'2026-04-21',
+    stars:5,
+    file:'老友鱼汤面_全周期营销方案.docx',
+    note:'国庆认可，作为发发2号Word质量基准',
+    highlights:['社区面馆三阶段营销','储值充100送12锁客','会员价引导复购','点评评分提升路径'],
+    metrics:{客单价:'20-35元',品类:'鱼汤面/社区快餐'}
+  },
+  {
+    name:'贪天小食·温州小馆',
+    category:'温州小吃（连锁2店）',
+    format:'pptx',
+    type:'数字化经营解决方案（12页PPT）',
+    date:'2026-04-21',
+    stars:5,
+    file:'贪天小食_解决方案.pptx',
+    note:'国庆指定为PPT方案风格基准，五步说服链模板来源',
+    highlights:['双店画像对比','收银系统四宫格','会员价+储值双体系','开业4周营销节奏','ROI测算'],
+    metrics:{客单价:'20-35元',品类:'温州小吃/连锁',门店数:'2店'}
+  },
+  {
+    name:'日至初Sunrise咖啡',
+    category:'咖啡+服饰+培训（三业态复合）',
+    format:'pptx',
+    type:'生活方式体验空间数字化全案（14页PPT）',
+    date:'2026-04-22',
+    stars:4,
+    file:'日至初Sunrise咖啡_解决方案.pptx',
+    note:'首个复合业态案例，内容好视觉待提升',
+    highlights:['三业态拆解（流量+利润+粘性）','跨业态会员互通','差异化积分倍率','跨业态组合套餐'],
+    metrics:{品类:'咖啡+服饰+果礼培训',业态:'三业态复合'}
+  },
+  {
+    name:'鱼虾有约江湖大排档',
+    category:'川菜/烤鱼/烧烤/小龙虾/炒菜',
+    format:'pptx',
+    type:'数字化经营解决方案（20页PPT）',
+    date:'2026-04-23',
+    stars:4,
+    file:'鱼虾有约江湖大排档_解决方案.pptx',
+    note:'首个大正餐方案+峰终定律首次实战，经v1→v3三轮修正，催生fafa2 v4升级',
+    highlights:['智能储值三档（系统自动推荐）','四品类当季轮番主推','跨品类组合套餐壁垒','峰终定律实战（峰值+终值触点）','会员自动触达三级召回','ROI 94%-158%'],
+    metrics:{日均流水:'1.2-1.6万',客单价:'100-150元',复购率:'10.09%→目标25%',品类:'四品类大排档',月净增利润:'8,000-13,300元'}
+  }
+];
 
 async function loadData(){
   const b=document.getElementById('rb'),i=document.getElementById('ri');
@@ -663,6 +754,48 @@ function renderStats(){
 }
 
 /* ── Render Content ── */
+function renderCases(){
+  let h='<div class="stitle">📁 方案案例库 · '+_cases.length+'个案例</div>';
+  h+='<div class="cases-grid">';
+  _cases.slice().reverse().forEach((c,i)=>{
+    const idx=_cases.length-1-i;
+    const starStr='⭐'.repeat(c.stars);
+    h+='<div class="case-card fmt-'+c.format+'" onclick="toggleCase(this)">';
+    h+='<div class="case-hdr"><span class="case-name">'+c.name+'</span><span class="case-fmt '+c.format+'">'+c.format.toUpperCase()+'</span></div>';
+    h+='<div class="case-meta"><span>📂 '+c.category+'</span><span>📄 '+c.type+'</span><span>📅 '+c.date+'</span></div>';
+    h+='<div class="case-stars">'+starStr+'</div>';
+    h+='<div class="case-tags">';
+    c.highlights.slice(0,3).forEach(t=>{h+='<span class="case-tag">'+t+'</span>'});
+    h+='</div>';
+    // detail (hidden by default)
+    h+='<div class="case-detail"><div class="case-detail-inner">';
+    h+='<div class="case-kv">';
+    Object.entries(c.metrics).forEach(([k,v])=>{
+      h+='<div class="case-kv-item"><div class="ck-l">'+k+'</div><div class="ck-v">'+v+'</div></div>';
+    });
+    h+='</div>';
+    h+='<div style="font-size:10px;color:var(--text3);letter-spacing:1px;font-weight:600;margin:8px 0 4px">方案亮点</div>';
+    h+='<ul class="case-highlights">';
+    c.highlights.forEach(t=>{h+='<li>'+t+'</li>'});
+    h+='</ul>';
+    if(c.note){h+='<div class="case-desc">💬 '+c.note+'</div>'}
+    h+='<div class="case-actions">';
+    h+='<button class="case-btn case-btn-view" onclick="event.stopPropagation();copyCmd(\'调取 '+c.name+' 的方案\')">📋 复制调取指令</button>';
+    h+='<button class="case-btn case-btn-copy" onclick="event.stopPropagation();copyCmd(\'参考 '+c.name+' 案例出方案\')">📎 复制参考指令</button>';
+    h+='</div>';
+    h+='</div></div>';
+    h+='</div>';
+  });
+  h+='</div>';
+  return h;
+}
+function toggleCase(el){el.classList.toggle('expanded')}
+function copyCmd(txt){
+  navigator.clipboard.writeText(txt).then(()=>showToast('✅ 已复制')).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);showToast('✅ 已复制');
+  });
+}
+
 function renderContent(){
   const tab=_tab;let h='';
   if(tab==='remind'){
@@ -685,6 +818,8 @@ function renderContent(){
     h=renderFunnel();
   } else if(tab==='stats'){
     h=renderStats();
+  } else if(tab==='cases'){
+    h=renderCases();
   } else {
     h=filtered.map((c,i)=>rc(c,i)).join('');
   }
