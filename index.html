@@ -433,7 +433,13 @@ async function loadData(){
     document.getElementById('ut').textContent=j.updateTime||(Array.isArray(j)?'':'');
     buildFilters();applyFilter();
   }catch(e){document.getElementById('content').innerHTML='<div class="empty">⚠️ 数据加载失败，请稍后刷新</div>';}
-  finally{b.classList.remove('ld');i.classList.remove('spin');}
+  finally{
+    b.classList.remove('ld');i.classList.remove('spin');
+    // Visual feedback: flash button green briefly
+    b.style.background='rgba(76,175,80,.2)';b.style.borderColor='rgba(76,175,80,.4)';
+    const origText=b.innerHTML;b.innerHTML='<span>✓</span> 已刷新';
+    setTimeout(()=>{b.style.background='';b.style.borderColor='';b.innerHTML=origText;},1200);
+  }
 }
 
 function buildFilters(){
