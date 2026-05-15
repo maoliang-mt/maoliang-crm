@@ -34,7 +34,7 @@ header h1 .brand{color:var(--red);font-weight:800}
 .rbtn.ld{opacity:.5;pointer-events:none}
 
 /* ── Stats ── */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:16px 20px}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;padding:16px 20px}
 .sc{background:var(--card);border-radius:14px;padding:14px 12px;text-align:center;border:1px solid var(--border);position:relative;overflow:hidden;transition:transform .2s}
 .sc:active{transform:scale(.97)}
 .sc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:14px 14px 0 0}
@@ -240,25 +240,10 @@ header h1 .brand{color:var(--red);font-weight:800}
 .grade-card.gc-C{border-color:rgba(136,136,160,.3)}.grade-card.gc-C .gc-grade{color:var(--text2)}.grade-card.gc-C .gc-count{color:var(--text2)}
 .grade-card.gc-D{border-color:rgba(85,85,104,.3)}.grade-card.gc-D .gc-grade{color:var(--text3)}.grade-card.gc-D .gc-count{color:var(--text3)}
 
-/* ── Seagull badges ── */
-.sea-badge{display:inline-flex;align-items:center;gap:2px;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:700;letter-spacing:.2px;margin-left:4px}
-.sea-urgent{background:rgba(232,0,28,.15);color:var(--red)}
-.sea-warn{background:rgba(255,152,0,.15);color:var(--orange)}
-.sea-safe{background:rgba(76,175,80,.15);color:var(--green)}
-.sea-kp{background:rgba(79,195,247,.12);color:var(--blue);font-size:9px;padding:1px 6px}
-.sea-nf{background:rgba(255,152,0,.08);color:var(--orange);font-size:9px;padding:1px 6px}
-.sea-info{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;font-size:11px;color:var(--text2)}
-.sea-info span{display:inline-flex;align-items:center;gap:3px}
-.sea-tag{font-size:9px;padding:2px 6px;border-radius:5px;background:rgba(79,195,247,.08);color:var(--blue);font-weight:500}
-.card.sea-card{border-left-color:#9c27b0}
-.card.sea-card::after{background:#9c27b0}
-
 .sc:nth-child(5)::before{background:var(--blue)}
 .sc:nth-child(5) .n{color:var(--blue)}
-.sc:nth-child(6)::before{background:#9c27b0}
-.sc:nth-child(6) .n{color:#9c27b0}
 
-@media(max-width:360px){.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:400px){.stats{grid-template-columns:repeat(2,1fr)}}
 @keyframes spin{to{transform:rotate(360deg)}}
 .spin{display:inline-block;animation:spin .8s linear infinite}
 
@@ -287,8 +272,6 @@ header h1 .brand{color:var(--red);font-weight:800}
   <div class="tab" onclick="showTab('week')">📅 本周</div>
   <div class="tab" onclick="showTab('prospect')">🎯 意向客</div>
   <div class="tab" onclick="showTab('signed')">✅ 已签约</div>
-  <div class="tab" onclick="showTab('sea')">🏪 私海</div>
-  <div class="tab" onclick="showTab('reno')">🔨 装修中</div>
   <div class="tab" onclick="showTab('all')">📋 全部</div>
   <div class="tab" onclick="showTab('funnel')">🔄 漏斗</div>
   <div class="tab" onclick="showTab('stats')">📊 统计</div>
@@ -324,61 +307,13 @@ header h1 .brand{color:var(--red);font-weight:800}
     </div>
   </div>
 </div>
-<div class="modal-mask" id="renoMask" onclick="if(event.target===this)closeReno()">
-  <div class="modal">
-    <h3>🔨 添加装修中门店</h3>
-    <div class="sub">添加后每3天自动提醒跟进</div>
-    <input id="renoName" placeholder="门店名称（必填）" style="width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;padding:12px 14px;outline:none;font-family:inherit;margin-bottom:8px;box-sizing:border-box">
-    <input id="renoAddr" placeholder="门店地址/位置" style="width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;padding:12px 14px;outline:none;font-family:inherit;margin-bottom:8px;box-sizing:border-box">
-    <textarea id="renoNote" placeholder="备注（品类、面积、预计开业等）" style="width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;padding:12px 14px;min-height:60px;resize:vertical;outline:none;font-family:inherit;line-height:1.5;margin-bottom:0;box-sizing:border-box"></textarea>
-    <div class="modal-btns">
-      <button class="btn-cancel" onclick="closeReno()">取消</button>
-      <button class="btn-send" onclick="submitReno()">🔨 添加</button>
-    </div>
-  </div>
-</div>
 <div class="toast" id="toast"></div>
 
 <script>
 let customers=[],filtered=[];
 let _tab='remind',_search='',_area='',_cat='';
 let _editCustomer=null;
-
-// ── 收藏功能（localStorage持久化）──
-function getFavs(){try{return JSON.parse(localStorage.getItem('crm_favs')||'[]')}catch(e){return[]}}
-function setFavs(arr){localStorage.setItem('crm_favs',JSON.stringify(arr))}
-function isFav(c){const id=c.poiId||c.id;return getFavs().includes(id)}
-function getFavVisits(){try{return JSON.parse(localStorage.getItem('crm_fav_visits')||'{}')}catch(e){return{}}}
-function setFavVisits(obj){localStorage.setItem('crm_fav_visits',JSON.stringify(obj))}
-function toggleFav(idx,ev){
-  if(ev)ev.stopPropagation();
-  const c=filtered[idx];if(!c)return;
-  const id=c.poiId||c.id;
-  let favs=getFavs();
-  const adding=!favs.includes(id);
-  if(adding){favs.push(id)}else{favs=favs.filter(f=>f!==id)}
-  setFavs(favs);
-  if(adding){
-    // Set as prospect + auto-set follow-up 3 days from now (skip weekends/holidays)
-    if(c.type!=='signed')c.type='prospect';
-    c._favored=true;
-    const d3=new Date();d3.setDate(d3.getDate()+3);
-    const d3w=skipToWorkday(d3);
-    const ds=d3w.getFullYear()+'-'+String(d3w.getMonth()+1).padStart(2,'0')+'-'+String(d3w.getDate()).padStart(2,'0');
-    c.nextVisit2=ds;c.visitTs=d3w.getTime();
-    const dayDiff=Math.round((d3w-new Date(new Date().setHours(0,0,0,0)))/(864e5));
-    // Persist visit date in localStorage
-    const fv=getFavVisits();fv[id]=ds;setFavVisits(fv);
-    showToast('⭐ 已收藏，'+dayDiff+'天后跟进提醒');
-  }else{
-    // Remove visit date
-    const fv=getFavVisits();delete fv[id];setFavVisits(fv);
-    if(!c.nextVisit&&!c.nextVisit2){c.visitTs=null}
-    showToast('☆ 已取消收藏');
-  }
-  renderContent();updateStats();
-}
-const _tabs=['remind','week','prospect','signed','sea','reno','all','funnel','stats','cases'];
+const _tabs=['remind','week','prospect','signed','all','funnel','stats','cases'];
 
 // ── 案例库数据 ──
 const _cases=[
@@ -419,18 +354,6 @@ const _cases=[
     metrics:{品类:'咖啡+服饰+果礼培训',业态:'三业态复合'}
   },
   {
-    name:'李记火锅',
-    category:'火锅（商场店·9桌）',
-    format:'pptx',
-    type:'全案策划（开店+运营21页PPT）',
-    date:'2026-04-23',
-    stars:5,
-    file:'李记火锅_全案策划.pptx',
-    note:'首个火锅开店全案，覆盖投资测算→选址→筹备→运营→数据监控全链路，验收通过✅。火锅品类思路参考基准。',
-    highlights:['投资48万全明细+月度14.95万成本','选址评估56.5/90分（含风险诊断）','6周筹备SOP甘特图','三级会员+4档储值方案','12月营销日历','峰终体验设计','日/周/月KPI看板+7大风险红线'],
-    metrics:{总投资:'48万',月成本:'14.95万',客单价:'120-150元',品类:'火锅',选址:'下沙龙湖天街',保本翻台:'≥2.2次/天'}
-  },
-  {
     name:'鱼虾有约江湖大排档',
     category:'川菜/烤鱼/烧烤/小龙虾/炒菜',
     format:'pptx',
@@ -441,18 +364,6 @@ const _cases=[
     note:'首个大正餐方案+峰终定律首次实战，经v1→v3三轮修正，催生fafa2 v4升级',
     highlights:['智能储值三档（系统自动推荐）','四品类当季轮番主推','跨品类组合套餐壁垒','峰终定律实战（峰值+终值触点）','会员自动触达三级召回','ROI 94%-158%'],
     metrics:{日均流水:'1.2-1.6万',客单价:'100-150元',复购率:'10.09%→目标25%',品类:'四品类大排档',月净增利润:'8,000-13,300元'}
-  },
-  {
-    name:'全引牛排',
-    category:'复合快餐（牛排+牛杂+清补凉）',
-    format:'pptx',
-    type:'数字化经营解决方案（12页PPT）',
-    date:'2026-04-23',
-    stars:5,
-    file:'全引牛排_解决方案.pptx',
-    note:'新店开业方案，外卖起量+会员复购双驱动，峰终定律（铁板滋滋+清补凉试饮），约8天回本',
-    highlights:['复合快餐三线组合（牛排+牛杂+清补凉）','外卖菜品做减法（4类结构）','三级等级会员+自动触达','开业4阶段营销节奏','峰终定律零成本落地','KPI追踪表6指标×4阶段','ROI约8天回本'],
-    metrics:{客单价:'25-30元',品类:'复合快餐',面积:'80-100平',推荐套餐:'高级营销版¥6,288/年',月增利润:'¥22,500'}
   }
 ];
 
@@ -462,58 +373,16 @@ async function loadData(){
   try{
     const r=await fetch('data.json?t='+Date.now());
     const j=await r.json();
-    // Support both formats: plain array or {customers:[]}
-    const raw=Array.isArray(j)?j:(j.customers||[]);
-    // Post-process: derive visitTs, signedTs, note, product, category
-    raw.forEach(c=>{
-      // visitTs: from nextVisit2 (prospect) or nextVisit (signed)
-      const vd=c.nextVisit2||c.nextVisit||'';
-      c.visitTs=vd?new Date(vd).getTime():null;
-      // signedTs
-      c.signedTs=c.signDate?new Date(c.signDate).getTime():null;
-      // note: merge prospectNote and visitNote
-      c.note=c.prospectNote||c.visitNote||'';
-      // product: join products array
-      c.product=(c.products&&c.products.length)?c.products.join(', '):'';
-      // category: use catType if available
-      c.category=c.catType||c.category||'';
-    });
-    // Apply favorites: favorited sea stores become prospect (跟进中) + restore visit dates
-    const favs=getFavs();
-    const favVisits=getFavVisits();
-    raw.forEach(c=>{
-      const id=c.poiId||c.id;
-      if(favs.includes(id)){
-        c._favored=true;
-        if(c.type!=='signed')c.type='prospect';
-        // Restore saved follow-up date if not already set
-        if(favVisits[id]&&!c.nextVisit2){
-          c.nextVisit2=favVisits[id];
-          c.visitTs=new Date(favVisits[id]).getTime();
-        }
-      }
-    });
-    customers=raw;
-    document.getElementById('ut').textContent=j.updateTime||(Array.isArray(j)?'':'');
+    customers=j.customers||[];
+    document.getElementById('ut').textContent=j.updateTime||'';
     buildFilters();applyFilter();
   }catch(e){document.getElementById('content').innerHTML='<div class="empty">⚠️ 数据加载失败，请稍后刷新</div>';}
-  finally{
-    b.classList.remove('ld');i.classList.remove('spin');
-    // Visual feedback: flash button green briefly
-    b.style.background='rgba(76,175,80,.2)';b.style.borderColor='rgba(76,175,80,.4)';
-    const origText=b.innerHTML;b.innerHTML='<span>✓</span> 已刷新';
-    setTimeout(()=>{b.style.background='';b.style.borderColor='';b.innerHTML=origText;},1200);
-  }
+  finally{b.classList.remove('ld');i.classList.remove('spin');}
 }
 
 function buildFilters(){
   const areas=new Set(),cats=new Set();
-  customers.forEach(c=>{
-    // Use district for seagull, area for others
-    if(c.district)areas.add(c.district);
-    else if(c.area)areas.add(c.area);
-    if(c.category)cats.add(c.category);
-  });
+  customers.forEach(c=>{if(c.area)areas.add(c.area);if(c.category)cats.add(c.category);});
   const asel=document.getElementById('filterArea');
   asel.innerHTML='<option value="">全部区域</option>'+[...areas].sort().map(a=>'<option value="'+a+'">'+a+'</option>').join('');
   const csel=document.getElementById('filterCat');
@@ -525,10 +394,10 @@ function applyFilter(){
   _area=document.getElementById('filterArea').value;
   _cat=document.getElementById('filterCat').value;
   filtered=customers.filter(c=>{
-    if(_area&&(c.district||c.area)!==_area) return false;
+    if(_area&&c.area!==_area) return false;
     if(_cat&&c.category!==_cat) return false;
     if(_search){
-      const hay=(c.name+c.contact+c.note+c.product+c.area+c.category+(c.brand||'')+(c.district||'')+(c.barea||'')+(c.poiId||'')).toLowerCase();
+      const hay=(c.name+c.contact+c.note+c.product+c.area+c.category).toLowerCase();
       if(!hay.includes(_search)) return false;
     }
     return true;
@@ -641,82 +510,39 @@ function toggleExpand(el,ev){
   if(ev.target.closest('.card-actions')||ev.target.closest('a'))return;
   el.classList.toggle('expanded');
 }
-/* ── Seagull helper functions ── */
-function seaRemBadge(c){
-  if(!c.fromSeagull||c.remainingDays==null)return'';
-  const d=c.remainingDays;
-  if(d<=0)return'<span class="sea-badge sea-urgent">🔴 剩余'+d+'天</span>';
-  if(d<=3)return'<span class="sea-badge sea-warn">🟡 剩余'+d+'天</span>';
-  return'<span class="sea-badge sea-safe">🟢 剩余'+d+'天</span>';
-}
-function seaKpBadge(c){
-  if(!c.fromSeagull||!c.hasKp)return'';
-  return'<span class="sea-kp">🔑KP</span>';
-}
-function seaNfBadge(c){
-  if(!c.fromSeagull||!c.notFollowDays)return'';
-  return'<span class="sea-nf">⏳未跟'+c.notFollowDays+'天</span>';
-}
-
 function rc(c,idx){
   const d=dd(c.visitTs);
   const ds=c.visitTs?'<span>📅 '+(d===0?'今天':fd(c.visitTs))+'</span>':'';
   const am=c.amount?'<span>💰 ¥'+c.amount.toLocaleString()+'</span>':'';
   const ph=c.phone?'<span><a href="tel:'+c.phone+'" style="color:var(--blue);text-decoration:none">📞 '+c.phone+'</a></span>':'';
   let tags='';
-  if(c.area||c.category||c.product||c.catType){
+  if(c.area||c.category||c.product){
     tags='<div class="ctags">';
-    if(c.district) tags+='<span class="ctag">'+c.district+'</span>';
-    if(c.barea&&c.barea!=='未知商圈') tags+='<span class="ctag">'+c.barea+'</span>';
-    if(!c.district&&c.area) tags+='<span class="ctag">'+(c.area.length>16?c.area.slice(0,16)+'…':c.area)+'</span>';
-    if(c.catType) tags+='<span class="ctag">'+c.catType+'</span>';
-    else if(c.category) tags+='<span class="ctag">'+c.category+'</span>';
+    if(c.area) tags+='<span class="ctag">'+c.area+'</span>';
+    if(c.category) tags+='<span class="ctag">'+c.category+'</span>';
     if(c.product) tags+='<span class="ctag">'+c.product+'</span>';
-    if(c.brand) tags+='<span class="ctag" style="background:rgba(255,215,0,.1);color:var(--gold)">🏷'+c.brand+'</span>';
     tags+='</div>';
   }
-  // Seagull tags row
-  let seaTags='';
-  if(c.fromSeagull&&c.tags&&c.tags.length){
-    seaTags='<div class="ctags" style="margin-top:4px">'+c.tags.map(t=>'<span class="sea-tag">'+t+'</span>').join('')+'</div>';
-  }
   const signD=c.signedTs?'<span>📝 '+(new Date(Number(c.signedTs)).getMonth()+1)+'/'+(new Date(Number(c.signedTs)).getDate())+'签约</span>':'';
-  const favBtn=c.fromSeagull?'<button class="act-btn" onclick="toggleFav('+idx+',event)" title="'+(isFav(c)?'取消收藏':'收藏跟进')+'" style="'+(isFav(c)?'background:rgba(255,215,0,.25);color:#FFD700':'')+'">⭐</button>':'';
-  const actions='<div class="card-actions">'+favBtn+'<button class="act-btn" onclick="genPlan('+idx+')" title="生成方案">📋</button><button class="act-btn" onclick="openEdit('+idx+')" title="编辑备注">✏️</button></div>';
+  const actions='<div class="card-actions"><button class="act-btn" onclick="genPlan('+idx+')" title="生成方案">📋</button><button class="act-btn" onclick="openEdit('+idx+')" title="编辑备注">✏️</button></div>';
   // Build expanded detail panel
   let detail='<div class="card-detail"><div class="card-detail-inner">';
   if(c.poiId) detail+='<div class="cd-row"><div class="cd-label">POI ID</div><div class="cd-val">'+c.poiId+'</div></div>';
   if(c.contact) detail+='<div class="cd-row"><div class="cd-label">联系人</div><div class="cd-val">'+c.contact+'</div></div>';
   if(c.phone) detail+='<div class="cd-row"><div class="cd-label">电话</div><div class="cd-val"><a href="tel:'+c.phone+'" style="color:var(--blue);text-decoration:none">'+c.phone+'</a></div></div>';
-  if(c.area) detail+='<div class="cd-row"><div class="cd-label">地址</div><div class="cd-val"><a href="'+mapLink(c.area)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="color:var(--blue);text-decoration:none">'+c.area+' 🗺</a></div></div>';
-  if(c.district) detail+='<div class="cd-row"><div class="cd-label">区域</div><div class="cd-val">'+c.district+(c.barea?' · '+c.barea:'')+'</div></div>';
-  if(c.catType) detail+='<div class="cd-row"><div class="cd-label">品类</div><div class="cd-val">'+c.catType+(c.seagullCategory?' <span style="color:var(--text3);font-size:10px">('+c.seagullCategory+')</span>':'')+'</div></div>';
-  else if(c.category) detail+='<div class="cd-row"><div class="cd-label">品类</div><div class="cd-val">'+c.category+'</div></div>';
+  if(c.area) detail+='<div class="cd-row"><div class="cd-label">区域</div><div class="cd-val">'+c.area+'</div></div>';
+  if(c.category) detail+='<div class="cd-row"><div class="cd-label">品类</div><div class="cd-val">'+c.category+'</div></div>';
   if(c.grade) detail+='<div class="cd-row"><div class="cd-label">评级</div><div class="cd-val">'+c.grade+'级</div></div>';
   if(c.product) detail+='<div class="cd-row"><div class="cd-label">签约产品</div><div class="cd-val">'+c.product+'</div></div>';
   if(c.amount) detail+='<div class="cd-row"><div class="cd-label">金额</div><div class="cd-val">¥'+c.amount.toLocaleString()+'</div></div>';
   if(c.signedTs) detail+='<div class="cd-row"><div class="cd-label">签约时间</div><div class="cd-val">'+(new Date(Number(c.signedTs)).toLocaleDateString('zh-CN'))+'</div></div>';
   if(c.visitTs) detail+='<div class="cd-row"><div class="cd-label">跟进时间</div><div class="cd-val">'+(new Date(Number(c.visitTs)).toLocaleDateString('zh-CN'))+'</div></div>';
-  // ── Seagull detail fields ──
-  if(c.fromSeagull){
-    if(c.star) detail+='<div class="cd-row"><div class="cd-label">⭐ 评分</div><div class="cd-val">'+c.star+'</div></div>';
-    if(c.reviews) detail+='<div class="cd-row"><div class="cd-label">💬 评价数</div><div class="cd-val">'+c.reviews+'</div></div>';
-    if(c.price) detail+='<div class="cd-row"><div class="cd-label">💰 人均</div><div class="cd-val">¥'+c.price+'</div></div>';
-    if(c.closeStatus) detail+='<div class="cd-row"><div class="cd-label">🏪 营业状态</div><div class="cd-val">'+(c.closeStatus==='营业中'?'<span style="color:var(--green)">'+c.closeStatus+'</span>':'<span style="color:var(--orange)">'+c.closeStatus+'</span>')+'</div></div>';
-    if(c.coopStatus) detail+='<div class="cd-row"><div class="cd-label">📋 签约状态</div><div class="cd-val">'+c.coopStatus+'</div></div>';
-    if(c.remaining) detail+='<div class="cd-row"><div class="cd-label">⏰ 保护期</div><div class="cd-val">'+c.remaining+'</div></div>';
-    if(c.brand) detail+='<div class="cd-row"><div class="cd-label">🏷 品牌</div><div class="cd-val">'+c.brand+'</div></div>';
-    if(c.intoTime) detail+='<div class="cd-row"><div class="cd-label">📅 进入时间</div><div class="cd-val">'+(new Date(c.intoTime).toLocaleDateString('zh-CN'))+'</div></div>';
-    if(c.contacts&&c.contacts.length) detail+='<div class="cd-row cd-full"><div class="cd-label">📞 联系方式</div><div class="cd-val">'+c.contacts.map(ct=>ct.name+' '+ct.phone).join(', ')+'</div></div>';
-    if(c.tags&&c.tags.length) detail+='<div class="cd-row cd-full"><div class="cd-label">🏷 标签</div><div class="cd-val"><div class="ctags" style="margin-top:2px">'+c.tags.map(t=>'<span class="sea-tag">'+t+'</span>').join('')+'</div></div></div>';
-  }
   // Full note
   if(c.note) detail+='<div class="cd-row cd-full"><div class="cd-label">完整备注</div><div class="cd-val">'+c.note+'</div></div>';
   // All tags
   let allTags=[];
-  if(c.district)allTags.push(c.district);if(c.catType)allTags.push(c.catType);else if(c.category)allTags.push(c.category);if(c.product)allTags.push(c.product);if(c.grade)allTags.push(c.grade+'级');
+  if(c.area)allTags.push(c.area);if(c.category)allTags.push(c.category);if(c.product)allTags.push(c.product);if(c.grade)allTags.push(c.grade+'级');
   if(c.type==='signed')allTags.push('已签约');else allTags.push('跟进中');
-  if(c.fromSeagull)allTags.push('私海');
   detail+='<div class="cd-row cd-full"><div class="cd-label">标签</div><div class="cd-val"><div class="ctags" style="margin-top:2px">'+allTags.map(t=>'<span class="ctag">'+t+'</span>').join('')+'</div></div></div>';
   // Follow-up history placeholder
   detail+='<div class="cd-history"><div class="cd-history-title">📋 跟进历史</div>';
@@ -724,13 +550,10 @@ function rc(c,idx){
   if(c.signedTs)histItems.push('<span style="color:var(--green)">'+new Date(Number(c.signedTs)).toLocaleDateString('zh-CN')+'</span> 签约'+(c.product?' · '+c.product:'')+(c.amount?' · ¥'+c.amount.toLocaleString():''));
   if(c.visitTs)histItems.push('<span style="color:var(--blue)">'+new Date(Number(c.visitTs)).toLocaleDateString('zh-CN')+'</span> 计划跟进');
   if(c.note)histItems.push('<span style="color:var(--text3)">备注</span> '+c.note.slice(0,80));
-  if(c.fromSeagull&&c.intoTime)histItems.push('<span style="color:#9c27b0">'+new Date(c.intoTime).toLocaleDateString('zh-CN')+'</span> 进入私海');
   if(histItems.length)detail+=histItems.map(h=>'<div style="font-size:11px;color:var(--text2);line-height:1.8;padding-left:8px;border-left:2px solid var(--border);margin-bottom:4px">'+h+'</div>').join('');
   else detail+='<div style="font-size:11px;color:var(--text3)">暂无跟进记录</div>';
   detail+='</div></div></div>';
-  const seaClass=c.fromSeagull?' sea-card':'';
-  const favMark=isFav(c)?'<span style="color:#FFD700;margin-left:4px;font-size:12px">⭐</span>':'';
-  return '<div class="card '+cc(c)+seaClass+'" onclick="toggleExpand(this,event)" style="cursor:pointer">'+actions+'<div class="cname">'+c.name+favMark+gb(c)+badge(c)+seaRemBadge(c)+seaKpBadge(c)+seaNfBadge(c)+annivBadge(c)+renewalBadge(c)+'</div><div class="cmeta">'+(c.contact?'<span>👤 '+c.contact+'</span>':'')+ph+am+signD+ds+'<span>'+(c.type==='signed'?'已签约':'跟进中')+'</span>'+(c.fromSeagull&&c.closeStatus?'<span>'+c.closeStatus+'</span>':'')+'</div>'+tags+seaTags+(c.note?'<div class="cnote">'+c.note.slice(0,40)+(c.note.length>40?'…':'')+'</div>':'')+(c.prospectNote&&!c.note?'<div class="cnote">'+c.prospectNote.slice(0,40)+(c.prospectNote.length>40?'…':'')+'</div>':'')+ detail+'</div>';
+  return '<div class="card '+cc(c)+'" onclick="toggleExpand(this,event)" style="cursor:pointer">'+actions+'<div class="cname">'+c.name+gb(c)+badge(c)+annivBadge(c)+renewalBadge(c)+'</div><div class="cmeta">'+(c.contact?'<span>👤 '+c.contact+'</span>':'')+ph+am+signD+ds+'<span>'+(c.type==='signed'?'已签约':'跟进中')+'</span></div>'+tags+(c.note?'<div class="cnote">'+c.note.slice(0,40)+(c.note.length>40?'…':'')+'</div>':'')+ detail+'</div>';
 }
 
 function updateStats(){
@@ -740,16 +563,14 @@ function updateStats(){
   const ta=filtered.reduce((s,c)=>s+(c.amount||0),0);
   const as=ta>=10000?(ta/10000).toFixed(1)+'万':'¥'+ta.toLocaleString();
   const signedN=filtered.filter(c=>c.type==='signed').length;
-  const prospectN=filtered.filter(c=>c.type==='prospect'&&!c.fromSeagull).length;
+  const prospectN=filtered.filter(c=>c.type==='prospect').length;
   const cvr=(signedN+prospectN)>0?Math.round(signedN/(signedN+prospectN)*100):0;
-  const seaN=filtered.filter(c=>c.fromSeagull).length;
   document.getElementById('stats').innerHTML=
     '<div class="sc"><div class="n">'+exp+'</div><div class="l">已逾期</div></div>'+
     '<div class="sc"><div class="n">'+td+'</div><div class="l">今日跟进</div></div>'+
     '<div class="sc"><div class="n">'+sn+'</div><div class="l">7天内</div></div>'+
     '<div class="sc"><div class="n">'+as+'</div><div class="l">签约额</div></div>'+
-    '<div class="sc"><div class="n">'+cvr+'%</div><div class="l">转化率</div></div>'+
-    '<div class="sc"><div class="n">'+seaN+'</div><div class="l">私海门店</div></div>';
+    '<div class="sc"><div class="n">'+cvr+'%</div><div class="l">转化率</div></div>';
 }
 
 /* ── Week View ── */
@@ -932,135 +753,6 @@ function renderStats(){
   return h;
 }
 
-/* ── Private Sea Tab ── */
-function renderSea(){
-  const seaItems=filtered.map((c,i)=>({c,i})).filter(o=>o.c.fromSeagull);
-  if(!seaItems.length)return'<div class="empty">暂无私海门店数据</div>';
-  // Sort by remaining days ascending (most urgent first)
-  seaItems.sort((a,b)=>{
-    const da=a.c.remainingDays!=null?a.c.remainingDays:999;
-    const db=b.c.remainingDays!=null?b.c.remainingDays:999;
-    return da-db;
-  });
-  // Favorited stores section
-  const favItems=seaItems.filter(o=>isFav(o.c));
-  const nonFavItems=seaItems.filter(o=>!isFav(o.c));
-  const urgent=nonFavItems.filter(o=>o.c.remainingDays!=null&&o.c.remainingDays<=0);
-  const warn=nonFavItems.filter(o=>o.c.remainingDays!=null&&o.c.remainingDays>=1&&o.c.remainingDays<=3);
-  const safe=nonFavItems.filter(o=>o.c.remainingDays==null||o.c.remainingDays>=4);
-  let h='';
-  if(favItems.length)h+='<div class="stitle">⭐ 已收藏·跟进中 ('+favItems.length+')</div>'+favItems.map(o=>rc(o.c,o.i)).join('');
-  if(urgent.length)h+='<div class="stitle">🔴 即将到期 ('+urgent.length+')</div>'+urgent.map(o=>rc(o.c,o.i)).join('');
-  if(warn.length)h+='<div class="stitle">🟡 3天内到期 ('+warn.length+')</div>'+warn.map(o=>rc(o.c,o.i)).join('');
-  if(safe.length)h+='<div class="stitle">🟢 安全 ('+safe.length+')</div>'+safe.map(o=>rc(o.c,o.i)).join('');
-  return h;
-}
-
-/* ── 节假日/周末跳过 ── */
-// 2026年中国法定节假日（可每年更新）
-const _holidays=['2026-01-01','2026-01-02','2026-01-03','2026-01-26','2026-01-27','2026-01-28','2026-01-29','2026-01-30','2026-01-31','2026-02-01','2026-04-05','2026-04-06','2026-04-07','2026-05-01','2026-05-02','2026-05-03','2026-05-04','2026-05-05','2026-05-31','2026-06-01','2026-06-02','2026-10-01','2026-10-02','2026-10-03','2026-10-04','2026-10-05','2026-10-06','2026-10-07'];
-// 2026年调休上班日（周末但要上班）
-const _workdays=['2026-01-24','2026-02-14','2026-04-04','2026-04-26','2026-05-09','2026-05-30','2026-10-10'];
-function isRestDay(d){
-  const ds=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
-  if(_workdays.includes(ds))return false; // 调休上班
-  if(_holidays.includes(ds))return true;  // 法定假日
-  const day=d.getDay();
-  return day===0||day===6; // 周末
-}
-function skipToWorkday(d){
-  const r=new Date(d);r.setHours(0,0,0,0);
-  while(isRestDay(r))r.setDate(r.getDate()+1);
-  return r;
-}
-
-/* ── 装修中门店专区 ── */
-/* ── 地图导航 ── */
-function mapLink(addr){
-  if(!addr)return'';
-  return 'https://uri.amap.com/search?keyword='+encodeURIComponent(addr);
-}
-function addrTag(addr,fallback){
-  const a=addr||fallback||'';
-  if(!a)return'<span>📍 未填地址</span>';
-  return '<span><a href="'+mapLink(a)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="color:var(--blue);text-decoration:none">📍 '+a+'</a></span>';
-}
-
-function getRenoStores(){try{return JSON.parse(localStorage.getItem('crm_reno')||'[]')}catch(e){return[]}}
-function setRenoStores(arr){localStorage.setItem('crm_reno',JSON.stringify(arr))}
-function renoNextVisit(addedStr){
-  // Every 3 days from addedDate, find the next future occurrence, skip weekends/holidays
-  const added=new Date(addedStr);added.setHours(0,0,0,0);
-  const now=new Date();now.setHours(0,0,0,0);
-  const diff=Math.floor((now-added)/(864e5));
-  const cycles=Math.max(0,Math.floor(diff/3));
-  let next=new Date(added.getTime()+(cycles+1)*3*864e5);
-  // If next is in the past (already passed today), advance one more cycle
-  while(next<now)next=new Date(next.getTime()+3*864e5);
-  return skipToWorkday(next);
-}
-function renoDD(addedStr){
-  const nv=renoNextVisit(addedStr);
-  const now=new Date();now.setHours(0,0,0,0);
-  return Math.round((nv-now)/(864e5));
-}
-function openRenoAdd(){
-  const m=document.getElementById('renoMask');if(m)m.classList.add('show');
-}
-function closeReno(){
-  const m=document.getElementById('renoMask');if(m)m.classList.remove('show');
-}
-function submitReno(){
-  const name=document.getElementById('renoName').value.trim();
-  const addr=document.getElementById('renoAddr').value.trim();
-  const note=document.getElementById('renoNote').value.trim();
-  if(!name){showToast('请输入门店名称');return;}
-  const stores=getRenoStores();
-  stores.push({name,addr,note,addedDate:new Date().toISOString().slice(0,10),id:'reno_'+Date.now()});
-  setRenoStores(stores);
-  closeReno();
-  document.getElementById('renoName').value='';
-  document.getElementById('renoAddr').value='';
-  document.getElementById('renoNote').value='';
-  showToast('🔨 已添加，3天后首次提醒');
-  renderContent();
-}
-function deleteReno(id,ev){
-  if(ev)ev.stopPropagation();
-  if(!confirm('删除这个装修中门店？'))return;
-  const stores=getRenoStores().filter(s=>s.id!==id);
-  setRenoStores(stores);
-  showToast('已删除');
-  renderContent();
-}
-function renderReno(){
-  const stores=getRenoStores();
-  let h='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div class="stitle" style="margin:0">🔨 装修中门店 · '+stores.length+'家</div><button style="background:var(--card);border:1px solid var(--border);color:var(--text);padding:6px 14px;border-radius:8px;font-size:13px;cursor:pointer" onclick="openRenoAdd()">+ 添加门店</button></div>';
-  if(!stores.length){h+='<div class="empty">暂无装修中门店<br><span style="font-size:12px;color:var(--text3)">点右上角「+ 添加门店」开始追踪</span></div>';return h;}
-  // Split into overdue / today / upcoming
-  const overdue=[],today=[],upcoming=[];
-  stores.forEach(s=>{
-    const d=renoDD(s.addedDate);
-    if(d<0)overdue.push(s);
-    else if(d===0)today.push(s);
-    else upcoming.push(s);
-  });
-  function renoCard(s){
-    const d=renoDD(s.addedDate);const nv=renoNextVisit(s.addedDate);
-    const nvStr=(nv.getMonth()+1)+'/'+nv.getDate();
-    const daysSince=Math.floor((Date.now()-new Date(s.addedDate).getTime())/(864e5));
-    let badge='';
-    if(d<0)badge='<span class="badge badge-overdue">逾期'+Math.abs(d)+'天</span>';
-    else if(d===0)badge='<span class="badge badge-today">今日跟进</span>';
-    else badge='<span class="badge badge-soon">'+d+'天后</span>';
-    return '<div class="card" style="border-left-color:#FF9800;cursor:pointer" onclick="toggleExpand(this,event)"><div class="card-actions"><button class="act-btn" onclick="deleteReno(\''+s.id+'\',event)" title="删除">🗑</button></div><div class="cname">'+s.name+' '+badge+'</div><div class="cmeta">'+addrTag(s.addr)+'<span>🔨 已装修'+daysSince+'天</span><span>📅 下次:'+nvStr+'</span></div>'+(s.note?'<div class="cnote">💬 '+s.note+'</div>':'')+'<div class="card-detail"><div class="card-detail-inner"><div class="cd-row"><div class="cd-label">添加日期</div><div class="cd-val">'+s.addedDate+'</div></div><div class="cd-row"><div class="cd-label">跟进周期</div><div class="cd-val">每3天自动提醒</div></div><div class="cd-row"><div class="cd-label">下次跟进</div><div class="cd-val">'+nv.toLocaleDateString('zh-CN')+'</div></div></div></div></div>';
-  }
-  if(overdue.length)h+='<div class="stitle">🔴 需要跟进 ('+overdue.length+')</div>'+overdue.map(renoCard).join('');
-  if(today.length)h+='<div class="stitle">🔥 今日跟进 ('+today.length+')</div>'+today.map(renoCard).join('');
-  if(upcoming.length)h+='<div class="stitle">🟢 等待中 ('+upcoming.length+')</div>'+upcoming.map(renoCard).join('');
-  return h;
-}
-
 /* ── Render Content ── */
 function renderCases(){
   let h='<div class="stitle">📁 方案案例库 · '+_cases.length+'个案例</div>';
@@ -1110,20 +802,9 @@ function renderContent(){
     const exp=filtered.map((c,i)=>({c,i})).filter(o=>o.c.visitTs&&dd(o.c.visitTs)<0).sort((a,b)=>a.c.visitTs-b.c.visitTs);
     const td=filtered.map((c,i)=>({c,i})).filter(o=>o.c.visitTs&&dd(o.c.visitTs)===0);
     const sn=filtered.map((c,i)=>({c,i})).filter(o=>o.c.visitTs&&dd(o.c.visitTs)>0&&dd(o.c.visitTs)<=7).sort((a,b)=>a.c.visitTs-b.c.visitTs);
-    // Include reno stores in remind tab
-    const renoStores=getRenoStores();
-    const renoExp=renoStores.filter(s=>renoDD(s.addedDate)<0);
-    const renoTd=renoStores.filter(s=>renoDD(s.addedDate)===0);
-    const renoSn=renoStores.filter(s=>{const d=renoDD(s.addedDate);return d>0&&d<=7;});
-    function miniRenoCard(s){
-      const d=renoDD(s.addedDate);const nv=renoNextVisit(s.addedDate);
-      const daysSince=Math.floor((Date.now()-new Date(s.addedDate).getTime())/(864e5));
-      let bdg=d<0?'<span class="badge badge-overdue">逾期'+Math.abs(d)+'天</span>':d===0?'<span class="badge badge-today">今日</span>':'<span class="badge badge-soon">'+d+'天后</span>';
-      return '<div class="card" style="border-left-color:#FF9800"><div class="cname">🔨 '+s.name+' '+bdg+'</div><div class="cmeta">'+addrTag(s.addr)+'<span>装修'+daysSince+'天</span></div>'+(s.note?'<div class="cnote">'+s.note+'</div>':'')+'</div>';
-    }
-    if(exp.length||renoExp.length) h+='<div class="stitle">⚠️ 已逾期</div>'+exp.map(o=>rc(o.c,o.i)).join('')+renoExp.map(miniRenoCard).join('');
-    if(td.length||renoTd.length) h+='<div class="stitle">🔥 今日跟进</div>'+td.map(o=>rc(o.c,o.i)).join('')+renoTd.map(miniRenoCard).join('');
-    if(sn.length||renoSn.length) h+='<div class="stitle">📆 7天内</div>'+sn.map(o=>rc(o.c,o.i)).join('')+renoSn.map(miniRenoCard).join('');
+    if(exp.length) h+='<div class="stitle">⚠️ 已逾期</div>'+exp.map(o=>rc(o.c,o.i)).join('');
+    if(td.length) h+='<div class="stitle">🔥 今日跟进</div>'+td.map(o=>rc(o.c,o.i)).join('');
+    if(sn.length) h+='<div class="stitle">📆 7天内</div>'+sn.map(o=>rc(o.c,o.i)).join('');
     if(!h) h='<div class="empty">🎉 近期无待跟进，继续冲！</div>';
   } else if(tab==='week'){
     h=renderWeek();
@@ -1133,10 +814,6 @@ function renderContent(){
   } else if(tab==='signed'){
     const l=filtered.map((c,i)=>({c,i})).filter(o=>o.c.type==='signed').sort((a,b)=>'ABCD'.indexOf(a.c.grade)-'ABCD'.indexOf(b.c.grade));
     h=l.length?l.map(o=>rc(o.c,o.i)).join(''):'<div class="empty">暂无</div>';
-  } else if(tab==='sea'){
-    h=renderSea();
-  } else if(tab==='reno'){
-    h=renderReno();
   } else if(tab==='funnel'){
     h=renderFunnel();
   } else if(tab==='stats'){
