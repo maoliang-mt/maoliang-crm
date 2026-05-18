@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🏭 方案工厂 - 猫粮CRM</title>
+<style>
+/* ===== CSS Variables - 与index.html一致 ===== */
+:root {
+  --bg: #0a0a0f;
+  --card: #12121a;
+  --card-hover: #1a1a2e;
+  --red: #e8001c;
+  --red-dark: #b80016;
+  --blue: #4fc3f7;
+  --gold: #ffd700;
+  --green: #4caf50;
+  --orange: #ff9800;
+  --text: #ffffff;
+  --text-secondary: #a0a0b0;
+  --border: #2a2a3a;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding-bottom: 80px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== Header ===== */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: linear-gradient(135deg, var(--card) 0%, #1a1a2e 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  backdrop-filter: blur(20px);
+}
+
+.header-title {
+  font-size: 20px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--text) 0%, var(--blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header-btn {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.header-btn:hover {
+  background: rgba(255,255,255,0.12);
+  color: var(--text);
+}
+
+/* ===== 统计栏 ===== */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 16px 20px;
+}
+
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 12px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--red), var(--blue));
+  opacity: 0.6;
+}
+
+.stat-card:nth-child(2)::before {
+  background: linear-gradient(90deg, var(--orange), var(--gold));
+}
+
+.stat-card:nth-child(3)::before {
+  background: linear-gradient(90deg, var(--green), var(--blue));
+}
+
+.stat-number {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* ===== Tab 切换 ===== */
+.tabs {
+  display: flex;
+  padding: 0 20px;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.tab {
+  flex: 1;
+  padding: 12px 8px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.tab.active {
+  background: linear-gradient(135deg, var(--red), var(--red-dark));
+  border-color: var(--red);
+  color: var(--text);
+  box-shadow: 0 4px 16px rgba(232, 0, 28, 0.3);
+}
+
+.tab:not(.active):hover {
+  background: var(--card-hover);
+  color: var(--text);
+}
+
+/* ===== Tab Content ===== */
+.tab-content {
+  display: none;
+  padding: 0 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+.tab-content.active { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== 表单样式 ===== */
+.form-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.form-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--blue);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-group { margin-bottom: 16px; }
+.form-group:last-child { margin-bottom: 0; }
+
+.form-label {
+  display: block;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.form-label .required {
+  color: var(--red);
+  margin-left: 2px;
+}
+
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 14px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(79, 195, 247, 0.1);
+}
+
+.form-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23a0a0b0' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 80px;
+  font-family: inherit;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.conditional-field { display: none; }
+.conditional-field.visible { display: block; }
+
+/* ===== 提交按钮 ===== */
+.submit-btn {
+  width: 100%;
+  padding: 16px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, var(--red), var(--red-dark));
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 16px rgba(232, 0, 28, 0.3);
+  margin-top: 20px;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(232, 0, 28, 0.4);
+}
+
+.submit-btn:active { transform: translateY(0); }
+
+/* ===== 方案库卡片 ===== */
+.plan-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+  transition: all 0.2s;
+}
+
+.plan-card:hover {
+  border-color: rgba(79, 195, 247, 0.3);
+  box-shadow: var(--shadow);
+}
+
+.plan-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.plan-card-name { font-size: 16px; font-weight: 600; }
+
+.badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.badge-category {
+  background: rgba(79, 195, 247, 0.15);
+  color: var(--blue);
+  border: 1px solid rgba(79, 195, 247, 0.3);
+}
+
+.badge-type {
+  background: rgba(255, 215, 0, 0.12);
+  color: var(--gold);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.badge-generating {
+  background: rgba(255, 152, 0, 0.15);
+  color: var(--orange);
+  border: 1px solid rgba(255, 152, 0, 0.3);
+  animation: pulse 2s infinite;
+}
+
+.badge-pending {
+  background: rgba(79, 195, 247, 0.15);
+  color: var(--blue);
+  border: 1px solid rgba(79, 195, 247, 0.3);
+}
+
+.badge-published {
+  background: rgba(76, 175, 80, 0.15);
+  color: var(--green);
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.badge-rejected {
+  background: rgba(232, 0, 28, 0.15);
+  color: var(--red);
+  border: 1px solid rgba(232, 0, 28, 0.3);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.plan-card-meta {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.plan-card-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.04);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.action-btn:hover {
+  background: rgba(255,255,255,0.08);
+  color: var(--text);
+}
+
+.action-btn.approve {
+  border-color: rgba(76, 175, 80, 0.4);
+  color: var(--green);
+}
+
+.action-btn.approve:hover { background: rgba(76, 175, 80, 0.15); }
+
+.action-btn.reject {
+  border-color: rgba(232, 0, 28, 0.4);
+  color: var(--red);
+}
+
+.action-btn.reject:hover { background: rgba(232, 0, 28, 0.15); }
+
+.action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ===== 空状态 ===== */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-secondary);
+}
+
+.empty-state-icon { font-size: 48px; margin-bottom: 16px; }
+.empty-state-text { font-size: 14px; }
+
+/* ===== 统计图表 ===== */
+.chart-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.chart-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+
+.pie-chart {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.pie-visual {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.pie-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pie-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.pie-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 150px;
+  padding-top: 20px;
+}
+
+.bar-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.bar {
+  width: 100%;
+  max-width: 40px;
+  background: linear-gradient(180deg, var(--blue), rgba(79, 195, 247, 0.3));
+  border-radius: 4px 4px 0 0;
+  transition: height 0.5s ease;
+  min-height: 4px;
+}
+
+.bar-label {
+  font-size: 10px;
+  color: var(--text-secondary);
+  margin-top: 6px;
+  text-align: center;
+}
+
+.bar-value {
+  font-size: 11px;
+  color: var(--blue);
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.trend-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 80px;
+}
+
+.trend-bar {
+  flex: 1;
+  background: linear-gradient(180deg, var(--gold), rgba(255, 215, 0, 0.2));
+  border-radius: 3px 3px 0 0;
+  min-height: 4px;
+  transition: height 0.5s ease;
+}
+
+.trend-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.trend-label {
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+/* ===== Toast ===== */
+.toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 24px;
+  font-size: 14px;
+  color: var(--text);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  z-index: 1000;
+  opacity: 0;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ===== 弹窗 ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 20px;
+}
+
+.modal-overlay.show { display: flex; }
+
+.modal {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.modal-text {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.modal-btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.04);
+  color: var(--text-secondary);
+  transition: all 0.2s;
+}
+
+.modal-btn:hover { background: rgba(255,255,255,0.08); }
+
+.modal-btn.confirm {
+  background: linear-gradient(135deg, var(--green), #388e3c);
+  border-color: var(--green);
+  color: #fff;
+}
+
+.modal-btn.danger {
+  background: linear-gradient(135deg, var(--red), var(--red-dark));
+  border-color: var(--red);
+  color: #fff;
+}
+
+/* ===== Footer ===== */
+.footer {
+  text-align: center;
+  padding: 24px 20px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+/* ===== 响应式 ===== */
+@media (min-width: 768px) {
+  body { max-width: 680px; margin: 0 auto; }
+  .form-row { grid-template-columns: 1fr 1fr 1fr; }
+}
+
+@media (min-width: 1024px) {
+  body { max-width: 800px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Header ===== -->
+<header class="header">
+  <div class="header-title">🏭 方案工厂</div>
+  <a href="index.html" class="header-btn">← 返回CRM</a>
+</header>
+
+<!-- ===== 统计栏 ===== -->
+<div class="stats-bar">
+  <div class="stat-card">
+    <div class="stat-number" id="stat-total">0</div>
+    <div class="stat-label">总方案数</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number" id="stat-pending">0</div>
+    <div class="stat-label">待审核</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number" id="stat-published">0</div>
+    <div class="stat-label">已发布</div>
+  </div>
+</div>
+
+<!-- ===== Tab 切换 ===== -->
+<div class="tabs">
+  <div class="tab active" data-tab="generate">📝 生成方案</div>
+  <div class="tab" data-tab="library">📚 方案库</div>
+  <div class="tab" data-tab="stats">📊 统计</div>
+</div>
+
+<!-- ===== Tab 1: 生成方案 ===== -->
+<div class="tab-content active" id="tab-generate">
+  <form id="plan-form">
+    <div class="form-section">
+      <div class="form-section-title">📋 基本信息</div>
+      <div class="form-group">
+        <label class="form-label">方案类型 <span class="required">*</span></label>
+        <select class="form-select" id="plan-type" required>
+          <option value="">请选择方案类型</option>
+          <option value="new_store">新店运营方案</option>
+          <option value="old_store">老店运营方案</option>
+          <option value="ops_only">纯运营方案（不含收银系统）</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">店名 <span class="required">*</span></label>
+        <input type="text" class="form-input" id="shop-name" placeholder="请输入店名" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">位置 <span class="required">*</span></label>
+        <input type="text" class="form-input" id="shop-location" placeholder="详细地址" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">业态 <span class="required">*</span></label>
+        <select class="form-select" id="shop-category" required>
+          <option value="">请选择业态</option>
+          <option value="中餐">中餐</option>
+          <option value="火锅">火锅</option>
+          <option value="烧烤">烧烤</option>
+          <option value="茶饮">茶饮</option>
+          <option value="烘焙">烘焙</option>
+          <option value="酒馆">酒馆</option>
+          <option value="快餐">快餐</option>
+          <option value="小吃">小吃</option>
+          <option value="咖啡">咖啡</option>
+          <option value="其他">其他</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="form-section-title">📊 经营数据</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">面积（㎡）</label>
+          <input type="number" class="form-input" id="shop-area" placeholder="如 200">
+        </div>
+        <div class="form-group">
+          <label class="form-label">人均（元）</label>
+          <input type="number" class="form-input" id="shop-avg-price" placeholder="如 80">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">当前评分</label>
+          <input type="number" class="form-input" id="shop-rating" placeholder="0-5" min="0" max="5" step="0.1">
+        </div>
+        <div class="form-group">
+          <label class="form-label">评价数</label>
+          <input type="number" class="form-input" id="shop-review-count" placeholder="如 500">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" id="revenue-label">月营收（万）</label>
+        <input type="number" class="form-input" id="shop-revenue" placeholder="如 30">
+      </div>
+      <!-- 新店额外字段 -->
+      <div class="conditional-field" id="new-store-fields">
+        <div class="form-row" style="margin-top:12px">
+          <div class="form-group">
+            <label class="form-label">房租（万/年）</label>
+            <input type="number" class="form-input" id="shop-rent" placeholder="如 50">
+          </div>
+          <div class="form-group">
+            <label class="form-label">开店投入（万）</label>
+            <input type="number" class="form-input" id="shop-investment" placeholder="如 100">
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:12px">
+          <label class="form-label">座位数</label>
+          <input type="number" class="form-input" id="shop-seats" placeholder="如 80">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="form-section-title">🍽️ 产品与竞对</div>
+      <div class="form-group">
+        <label class="form-label">产品/招牌菜</label>
+        <textarea class="form-textarea" id="shop-products" placeholder="请列出主要产品或招牌菜品，每行一个"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">竞对信息（选填）</label>
+        <textarea class="form-textarea" id="shop-competitors" placeholder="附近竞争对手信息"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">备注/特殊要求（选填）</label>
+        <textarea class="form-textarea" id="shop-notes" placeholder="其他需要注意的事项"></textarea>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="form-section-title">⚙️ 输出设置</div>
+      <div class="form-group">
+        <label class="form-label">输出格式</label>
+        <select class="form-select" id="output-format">
+          <option value="both">Word + 网页版</option>
+          <option value="word_only">仅Word</option>
+          <option value="html_only">仅网页版</option>
+        </select>
+      </div>
+    </div>
+
+    <button type="submit" class="submit-btn">🚀 一键生成方案</button>
+  </form>
+</div>
+
+<!-- ===== Tab 2: 方案库 ===== -->
+<div class="tab-content" id="tab-library">
+  <div id="plans-list"></div>
+</div>
+
+<!-- ===== Tab 3: 统计 ===== -->
+<div class="tab-content" id="tab-stats">
+  <div class="chart-section">
+    <div class="chart-title">📊 业态分布</div>
+    <div class="pie-chart">
+      <div class="pie-visual" id="pie-visual"></div>
+      <div class="pie-legend" id="pie-legend"></div>
+    </div>
+  </div>
+  <div class="chart-section">
+    <div class="chart-title">📈 按月生成数量</div>
+    <div class="bar-chart" id="bar-chart"></div>
+  </div>
+  <div class="chart-section">
+    <div class="chart-title">📉 最近7天生成趋势</div>
+    <div class="trend-chart" id="trend-chart"></div>
+    <div class="trend-labels" id="trend-labels"></div>
+  </div>
+</div>
+
+<!-- ===== Footer ===== -->
+<div class="footer">
+  v1.0 | 方案工厂 · 由大橘🍊驱动
+</div>
+
+<!-- ===== Toast ===== -->
+<div class="toast" id="toast"></div>
+
+<!-- ===== Modal ===== -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-title" id="modal-title"></div>
+    <div class="modal-text" id="modal-text"></div>
+    <div id="modal-extra"></div>
+    <div class="modal-actions" id="modal-actions"></div>
+  </div>
+</div>
+
+<script>
+// ===== 全局数据 =====
+let plansData = { plans: [], stats: { total: 0, pending: 0, published: 0 } };
+
+// ===== 初始化 =====
+document.addEventListener('DOMContentLoaded', () => {
+  initTabs();
+  initForm();
+  loadPlansData();
+});
+
+// ===== Tab 切换逻辑 =====
+function initTabs() {
+  const tabs = document.querySelectorAll('.tab');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      // 切换active状态
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      // 切换内容
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      const target = tab.getAttribute('data-tab');
+      document.getElementById('tab-' + target).classList.add('active');
+      // 切到方案库时刷新列表
+      if (target === 'library') renderPlansList();
+      if (target === 'stats') renderStats();
+    });
+  });
+}
+
+// ===== 表单逻辑 =====
+function initForm() {
+  const typeSelect = document.getElementById('plan-type');
+  typeSelect.addEventListener('change', handleTypeChange);
+
+  const form = document.getElementById('plan-form');
+  form.addEventListener('submit', handleSubmit);
+}
+
+// 方案类型切换 → 条件显示
+function handleTypeChange() {
+  const type = document.getElementById('plan-type').value;
+  const newFields = document.getElementById('new-store-fields');
+  const revenueLabel = document.getElementById('revenue-label');
+
+  // 新店：显示额外字段
+  if (type === 'new_store') {
+    newFields.classList.add('visible');
+  } else {
+    newFields.classList.remove('visible');
+  }
+
+  // 老店：月营收标为必填
+  if (type === 'old_store') {
+    revenueLabel.innerHTML = '月营收（万）<span class="required">*</span>';
+    document.getElementById('shop-revenue').setAttribute('required', 'required');
+  } else {
+    revenueLabel.innerHTML = '月营收（万）';
+    document.getElementById('shop-revenue').removeAttribute('required');
+  }
+}
+
+// 表单提交
+function handleSubmit(e) {
+  e.preventDefault();
+
+  // 校验必填项
+  const type = document.getElementById('plan-type').value;
+  const shopName = document.getElementById('shop-name').value.trim();
+  const location = document.getElementById('shop-location').value.trim();
+  const category = document.getElementById('shop-category').value;
+
+  if (!type || !shopName || !location || !category) {
+    showToast('❌ 请填写所有必填项');
+    return;
+  }
+
+  if (type === 'old_store' && !document.getElementById('shop-revenue').value) {
+    showToast('❌ 老店方案需要填写月营收');
+    return;
+  }
+
+  // 组装数据
+  const data = {
+    id: Date.now().toString(),
+    type: type,
+    shopName: shopName,
+    location: location,
+    category: category,
+    area: parseFloat(document.getElementById('shop-area').value) || null,
+    avgPrice: parseFloat(document.getElementById('shop-avg-price').value) || null,
+    rating: parseFloat(document.getElementById('shop-rating').value) || null,
+    reviewCount: parseInt(document.getElementById('shop-review-count').value) || null,
+    monthlyRevenue: parseFloat(document.getElementById('shop-revenue').value) || null,
+    products: document.getElementById('shop-products').value.trim(),
+    competitors: document.getElementById('shop-competitors').value.trim(),
+    notes: document.getElementById('shop-notes').value.trim(),
+    outputFormat: document.getElementById('output-format').value,
+    status: 'generating',
+    createdAt: new Date().toISOString()
+  };
+
+  // 新店额外字段
+  if (type === 'new_store') {
+    data.rent = parseFloat(document.getElementById('shop-rent').value) || null;
+    data.investment = parseFloat(document.getElementById('shop-investment').value) || null;
+    data.seats = parseInt(document.getElementById('shop-seats').value) || null;
+  }
+
+  // 保存到 localStorage
+  const queue = JSON.parse(localStorage.getItem('plan_factory_queue') || '[]');
+  queue.push(data);
+  localStorage.setItem('plan_factory_queue', JSON.stringify(queue));
+
+  // 同时加入本地plans展示
+  plansData.plans.unshift(data);
+  plansData.stats.total++;
+  updateStatsDisplay();
+
+  showToast('✅ 方案请求已提交，正在生成中...');
+
+  // 预留 webhook 对接
+  submitPlanRequest(data);
+
+  // 重置表单
+  document.getElementById('plan-form').reset();
+  handleTypeChange();
+}
+
+// 占位函数 - 预留后续 webhook 对接
+function submitPlanRequest(data) {
+  console.log('[方案工厂] 提交方案请求:', data);
+  // TODO: 对接 webhook
+  // fetch('/api/plan/generate', { method: 'POST', body: JSON.stringify(data) })
+}
+
+// ===== 数据加载 =====
+async function loadPlansData() {
+  try {
+    const response = await fetch('plans.json');
+    if (response.ok) {
+      plansData = await response.json();
+    }
+  } catch (e) {
+    console.log('[方案工厂] plans.json 加载失败，使用空数据');
+  }
+
+  // 合并 localStorage 中生成中的方案
+  const queue = JSON.parse(localStorage.getItem('plan_factory_queue') || '[]');
+  queue.forEach(item => {
+    if (!plansData.plans.find(p => p.id === item.id)) {
+      plansData.plans.unshift(item);
+    }
+  });
+
+  // 重新计算统计
+  recalcStats();
+  updateStatsDisplay();
+}
+
+function recalcStats() {
+  plansData.stats.total = plansData.plans.length;
+  plansData.stats.pending = plansData.plans.filter(p => p.status === 'pending').length;
+  plansData.stats.published = plansData.plans.filter(p => p.status === 'published').length;
+}
+
+function updateStatsDisplay() {
+  document.getElementById('stat-total').textContent = plansData.stats.total;
+  document.getElementById('stat-pending').textContent = plansData.stats.pending;
+  document.getElementById('stat-published').textContent = plansData.stats.published;
+}
+
+// ===== 方案库渲染 =====
+function renderPlansList() {
+  const container = document.getElementById('plans-list');
+
+  if (plansData.plans.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">📭</div>
+        <div class="empty-state-text">暂无方案，去「生成方案」创建第一个吧</div>
+      </div>
+    `;
+    return;
+  }
+
+  const typeLabels = {
+    'new_store': '新店方案',
+    'old_store': '老店方案',
+    'ops_only': '纯运营方案'
+  };
+
+  const statusLabels = {
+    'generating': '⏳ 生成中',
+    'pending': '📋 待审核',
+    'published': '✅ 已发布',
+    'rejected': '❌ 已驳回'
+  };
+
+  container.innerHTML = plansData.plans.map(plan => {
+    const statusClass = 'badge-' + plan.status;
+    const timeStr = new Date(plan.createdAt).toLocaleString('zh-CN');
+
+    let actionsHtml = '';
+    if (plan.status === 'generating') {
+      actionsHtml = '<button class="action-btn" disabled>⏳ 生成中...</button>';
+    } else if (plan.status === 'pending') {
+      actionsHtml = `
+        <button class="action-btn" onclick="previewPlan('${plan.id}')">👀 预览</button>
+        <button class="action-btn approve" onclick="approvePlan('${plan.id}')">✅ 通过</button>
+        <button class="action-btn reject" onclick="rejectPlan('${plan.id}')">❌ 驳回</button>
+      `;
+    } else if (plan.status === 'published') {
+      actionsHtml = `
+        <button class="action-btn" onclick="previewPlan('${plan.id}')">👀 预览</button>
+        ${plan.wordUrl ? `<button class="action-btn" onclick="window.open('${plan.wordUrl}')">📥 下载Word</button>` : ''}
+        ${plan.htmlUrl ? `<button class="action-btn" onclick="window.open('${plan.htmlUrl}')">🌐 查看网页版</button>` : ''}
+      `;
+    } else if (plan.status === 'rejected') {
+      actionsHtml = `<button class="action-btn" onclick="previewPlan('${plan.id}')">👀 预览</button>`;
+    }
+
+    return `
+      <div class="plan-card">
+        <div class="plan-card-header">
+          <span class="plan-card-name">${plan.shopName}</span>
+          <span class="badge badge-category">${plan.category || '未知'}</span>
+          <span class="badge badge-type">${typeLabels[plan.type] || plan.type}</span>
+          <span class="badge ${statusClass}">${statusLabels[plan.status] || plan.status}</span>
+        </div>
+        <div class="plan-card-meta">
+          📍 ${plan.location || '-'} · 🕐 ${timeStr}
+        </div>
+        <div class="plan-card-actions">${actionsHtml}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ===== 审核操作 =====
+function previewPlan(id) {
+  const plan = plansData.plans.find(p => p.id === id);
+  if (!plan) return;
+
+  const typeLabels = { 'new_store': '新店运营方案', 'old_store': '老店运营方案', 'ops_only': '纯运营方案' };
+  showModal(
+    '📋 方案详情',
+    `<strong>${plan.shopName}</strong><br>
+    类型：${typeLabels[plan.type] || plan.type}<br>
+    业态：${plan.category}<br>
+    位置：${plan.location}<br>
+    人均：${plan.avgPrice || '-'}元<br>
+    评分：${plan.rating || '-'} · 评价数：${plan.reviewCount || '-'}<br>
+    月营收：${plan.monthlyRevenue ? plan.monthlyRevenue + '万' : '-'}`,
+    [{ text: '关闭', action: closeModal }]
+  );
+}
+
+function approvePlan(id) {
+  showModal(
+    '✅ 确认通过',
+    `确定要通过该方案吗？通过后状态将变为「已发布」。`,
+    [
+      { text: '取消', action: closeModal },
+      { text: '确认通过', className: 'confirm', action: () => {
+        const plan = plansData.plans.find(p => p.id === id);
+        if (plan) {
+          plan.status = 'published';
+          plan.reviewedAt = new Date().toISOString();
+          recalcStats();
+          updateStatsDisplay();
+          renderPlansList();
+          showToast('✅ 方案已发布');
+        }
+        closeModal();
+      }}
+    ]
+  );
+}
+
+function rejectPlan(id) {
+  showModal(
+    '❌ 驳回方案',
+    '请填写驳回原因：',
+    [
+      { text: '取消', action: closeModal },
+      { text: '确认驳回', className: 'danger', action: () => {
+        const reason = document.getElementById('reject-reason')?.value || '';
+        const plan = plansData.plans.find(p => p.id === id);
+        if (plan) {
+          plan.status = 'rejected';
+          plan.rejectReason = reason;
+          plan.reviewedAt = new Date().toISOString();
+          recalcStats();
+          updateStatsDisplay();
+          renderPlansList();
+          showToast('❌ 方案已驳回');
+        }
+        closeModal();
+      }}
+    ],
+    '<textarea class="form-textarea" id="reject-reason" placeholder="请输入驳回原因..." style="margin-bottom:16px;width:100%;background:rgba(255,255,255,0.04);border:1px solid #2a2a3a;border-radius:8px;padding:12px;color:#fff;font-size:14px;min-height:60px;resize:vertical;"></textarea>'
+  );
+}
+
+// ===== 统计渲染 =====
+function renderStats() {
+  renderPieChart();
+  renderBarChart();
+  renderTrendChart();
+}
+
+function renderPieChart() {
+  const categories = {};
+  plansData.plans.forEach(p => {
+    const cat = p.category || '未知';
+    categories[cat] = (categories[cat] || 0) + 1;
+  });
+
+  const colors = ['#e8001c', '#4fc3f7', '#ffd700', '#4caf50', '#ff9800', '#9c27b0', '#00bcd4', '#ff5722', '#8bc34a', '#e91e63'];
+  const entries = Object.entries(categories).sort((a, b) => b[1] - a[1]);
+  const total = plansData.plans.length || 1;
+
+  // 生成饼图 conic-gradient
+  let gradient = '';
+  let cumPercent = 0;
+  entries.forEach(([cat, count], i) => {
+    const percent = (count / total) * 100;
+    const color = colors[i % colors.length];
+    gradient += `${color} ${cumPercent}% ${cumPercent + percent}%`;
+    if (i < entries.length - 1) gradient += ', ';
+    cumPercent += percent;
+  });
+
+  const pieVisual = document.getElementById('pie-visual');
+  if (entries.length > 0) {
+    pieVisual.style.background = `conic-gradient(${gradient})`;
+  } else {
+    pieVisual.style.background = 'var(--border)';
+  }
+
+  // 图例
+  const legend = document.getElementById('pie-legend');
+  legend.innerHTML = entries.map(([cat, count], i) => `
+    <div class="pie-legend-item">
+      <div class="pie-legend-dot" style="background:${colors[i % colors.length]}"></div>
+      <span>${cat} (${count})</span>
+    </div>
+  `).join('') || '<div class="pie-legend-item" style="opacity:0.5">暂无数据</div>';
+}
+
+function renderBarChart() {
+  const months = {};
+  plansData.plans.forEach(p => {
+    const date = new Date(p.createdAt);
+    const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+    months[key] = (months[key] || 0) + 1;
+  });
+
+  // 最近6个月
+  const now = new Date();
+  const monthKeys = [];
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    monthKeys.push(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`);
+  }
+
+  const maxCount = Math.max(...monthKeys.map(k => months[k] || 0), 1);
+  const container = document.getElementById('bar-chart');
+  container.innerHTML = monthKeys.map(key => {
+    const count = months[key] || 0;
+    const height = (count / maxCount) * 100;
+    const label = key.split('-')[1] + '月';
+    return `
+      <div class="bar-item">
+        <div class="bar-value">${count}</div>
+        <div class="bar" style="height:${Math.max(height, 3)}%"></div>
+        <div class="bar-label">${label}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderTrendChart() {
+  const days = {};
+  const now = new Date();
+
+  // 最近7天
+  const dayKeys = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(now);
+    d.setDate(d.getDate() - i);
+    const key = d.toISOString().split('T')[0];
+    dayKeys.push(key);
+    days[key] = 0;
+  }
+
+  plansData.plans.forEach(p => {
+    const key = new Date(p.createdAt).toISOString().split('T')[0];
+    if (days.hasOwnProperty(key)) {
+      days[key]++;
+    }
+  });
+
+  const maxCount = Math.max(...Object.values(days), 1);
+  const trendContainer = document.getElementById('trend-chart');
+  trendContainer.innerHTML = dayKeys.map(key => {
+    const count = days[key];
+    const height = (count / maxCount) * 100;
+    return `<div class="trend-bar" style="height:${Math.max(height, 5)}%" title="${key}: ${count}"></div>`;
+  }).join('');
+
+  const labelsContainer = document.getElementById('trend-labels');
+  labelsContainer.innerHTML = `
+    <span class="trend-label">${dayKeys[0].slice(5)}</span>
+    <span class="trend-label">${dayKeys[3].slice(5)}</span>
+    <span class="trend-label">${dayKeys[6].slice(5)}</span>
+  `;
+}
+
+// ===== Toast =====
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+// ===== Modal =====
+function showModal(title, text, buttons, extraHtml) {
+  document.getElementById('modal-title').textContent = title;
+  document.getElementById('modal-text').innerHTML = text;
+  document.getElementById('modal-extra').innerHTML = extraHtml || '';
+  
+  const actionsContainer = document.getElementById('modal-actions');
+  actionsContainer.innerHTML = '';
+  buttons.forEach(btn => {
+    const el = document.createElement('button');
+    el.className = 'modal-btn' + (btn.className ? ' ' + btn.className : '');
+    el.textContent = btn.text;
+    el.addEventListener('click', btn.action);
+    actionsContainer.appendChild(el);
+  });
+
+  document.getElementById('modal-overlay').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('show');
+}
+
+// 点击遮罩关闭弹窗
+document.getElementById('modal-overlay').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) closeModal();
+});
+</script>
+
+<!--
+  CRM入口：在index.html的tabs区域新增一个tab:
+  <div class="tab" onclick="location.href='plan_factory.html'">🏭 方案工厂</div>
+-->
+</body>
+</html>
