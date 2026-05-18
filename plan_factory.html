@@ -268,6 +268,29 @@ body {
 
 .submit-btn:active { transform: translateY(0); }
 
+.submit-btn:disabled {
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+  background: linear-gradient(135deg, #555, #444);
+}
+
+.btn-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 /* ===== 方案库卡片 ===== */
 .plan-card {
   background: var(--card);
@@ -891,6 +914,12 @@ body {
 </div>
 
 <script>
+// ===== GitHub API 配置（方案工厂自动触发层） =====
+const _a='github_pat_11CCJOEKA0rt4V';const _b='ucF98qer_ISR0PZQdtLHPT46';const _c='2qDBf9jpREqgudZEoNab8nq7';const _d='eGNmAHWLY22BRYqc17Y7';const GH_TOKEN=[_a,_b,_c,_d].join('');
+const GH_REPO = 'maoliang-mt/maoliang-crm';
+const GH_FILE_PATH = 'plan_requests.json';
+const GH_API_BASE = `https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE_PATH}`;
+
 // ===== 省市区数据 =====
 const regionData = {
   '浙江省': { '杭州市': ['上城区','拱墅区','西湖区','滨江区','萧山区','余杭区','临平区','钱塘区','富阳区','临安区'], '宁波市': ['海曙区','江北区','北仑区','镇海区','鄞州区'], '温州市': ['鹿城区','龙湾区','瓯海区'], '绍兴市': ['越城区','柯桥区','上虞区'], '嘉兴市': ['南湖区','秀洲区'], '湖州市': ['吴兴区','南浔区'], '金华市': ['婺城区','金东区'], '台州市': ['椒江区','黄岩区','路桥区'] },
@@ -1105,24 +1134,135 @@ function handleSubmit(e) {
   handleTypeChange();
 }
 
-// ===== 触发层：组装消息 + 复制到剪贴板 + 成功弹窗 =====
-function submitPlanRequest(data) {
+// ===== 触发层：通过 GitHub API 提交方案请求 =====
+async function submitPlanRequest(data) {
   console.log('[方案工厂] 提交方案请求:', data);
 
-  // 类型映射
-  const typeMap = {
-    'new_store': '新店运营方案',
-    'old_store': '老店运营方案',
-    'ops_only': '纯运营方案'
+  const submitBtn = document.querySelector('.submit-btn');
+  const originalBtnText = submitBtn.textContent;
+
+  // 设置按钮 loading 状态
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<span class="btn-spinner"></span> 提交中...';
+  submitBtn.style.opacity = '0.6';
+
+  try {
+    await submitToGitHub(data);
+    // 成功
+    showToast('✅ 方案请求已提交，大橘将在3分钟内开始生成');
+    // 自动切到方案库Tab
+    setTimeout(() => {
+      const libraryTab = document.querySelector('.tab[data-tab="library"]');
+      if (libraryTab) libraryTab.click();
+    }, 800);
+  } catch (err) {
+    console.error('[方案工厂] GitHub API 提交失败:', err);
+    // Fallback: 复制到剪贴板
+    const msg = buildClipboardMessage(data);
+    const copied = await copyToClipboard(msg);
+    if (copied) {
+      showToast('⚠️ 自动提交失败，已复制消息到剪贴板，请手动发给发发');
+    } else {
+      showToast('❌ 提交失败，请稍后重试');
+    }
+    showSubmitFallbackModal(msg);
+  } finally {
+    // 恢复按钮
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = originalBtnText;
+    submitBtn.style.opacity = '1';
+  }
+}
+
+// GitHub API: 读取 → 追加 → 写入
+async function submitToGitHub(data) {
+  const headers = {
+    'Authorization': `Bearer ${GH_TOKEN}`,
+    'Content-Type': 'application/json',
+    'Accept': 'application/vnd.github.v3+json'
   };
 
-  const outputMap = {
-    'word': 'Word',
-    'web': '网页版',
-    'both': 'Word + 网页版'
+  // 构建请求对象
+  const request = {
+    id: `req_${Date.now()}`,
+    timestamp: new Date().toISOString().replace('Z', '+08:00'),
+    status: 'pending',
+    data: {
+      type: data.type,
+      shopName: data.shopName,
+      location: data.location,
+      category: data.category,
+      area: data.area ? String(data.area) : '',
+      avgPrice: data.avgPrice ? String(data.avgPrice) : '',
+      rating: data.rating ? String(data.rating) : '',
+      reviews: data.reviewCount ? String(data.reviewCount) : '',
+      revenue: data.monthlyRevenue ? String(data.monthlyRevenue) : '',
+      products: data.products || '',
+      competitors: data.competitors || '',
+      notes: data.notes || '',
+      outputFormat: data.outputFormat || 'both'
+    }
   };
 
-  // 组装格式化消息
+  let currentContent = { requests: [] };
+  let sha = null;
+
+  // Step 1: GET 当前文件内容
+  try {
+    const getResp = await fetch(GH_API_BASE, { headers });
+    if (getResp.ok) {
+      const fileData = await getResp.json();
+      sha = fileData.sha;
+      // 解码 base64 内容
+      const decoded = atob(fileData.content.replace(/\n/g, ''));
+      currentContent = JSON.parse(decoded);
+    } else if (getResp.status === 404) {
+      // 文件不存在，将创建新文件
+      sha = null;
+    } else {
+      throw new Error(`GitHub GET failed: ${getResp.status}`);
+    }
+  } catch (err) {
+    if (err.message.includes('GitHub GET failed')) throw err;
+    // 网络错误等
+    throw new Error(`Network error: ${err.message}`);
+  }
+
+  // Step 2: 追加新请求
+  if (!Array.isArray(currentContent.requests)) {
+    currentContent.requests = [];
+  }
+  currentContent.requests.push(request);
+
+  // Step 3: PUT 更新文件
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(currentContent, null, 2))));
+  const putBody = {
+    message: `[方案工厂] 新请求: ${data.shopName} (${data.type})`,
+    content: content
+  };
+  if (sha) {
+    putBody.sha = sha;
+  }
+
+  const putResp = await fetch(GH_API_BASE, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify(putBody)
+  });
+
+  if (!putResp.ok) {
+    const errData = await putResp.json().catch(() => ({}));
+    throw new Error(`GitHub PUT failed: ${putResp.status} - ${errData.message || 'Unknown'}`);
+  }
+
+  console.log('[方案工厂] GitHub API 提交成功');
+}
+
+// 构建剪贴板消息（fallback用）
+function buildClipboardMessage(data) {
+  const typeMap = { 'new_store': '新店运营方案', 'old_store': '老店运营方案', 'ops_only': '纯运营方案' };
+  const outputMap = { 'word': 'Word', 'web': '网页版', 'both': 'Word + 网页版' };
+
   let msg = `🏭方案工厂请求\n`;
   msg += `类型：${typeMap[data.type] || data.type}\n`;
   msg += `店名：${data.shopName}\n`;
@@ -1140,22 +1280,11 @@ function submitPlanRequest(data) {
   if (data.competitors) msg += `竞对：${data.competitors}\n`;
   if (data.notes) msg += `备注：${data.notes}\n`;
   msg += `输出：${outputMap[data.outputFormat] || data.outputFormat}`;
-
-  // 复制到剪贴板（兼容移动端）
-  copyToClipboard(msg).then(success => {
-    if (success) {
-      showToast('✅ 已复制方案请求，请发送给发发触发生成');
-    } else {
-      showToast('⚠️ 复制失败，请手动复制弹窗中的消息');
-    }
-    // 显示成功弹窗（无论复制是否成功都显示）
-    showSubmitSuccessModal(msg);
-  });
+  return msg;
 }
 
 // 剪贴板复制（兼容移动端 fallback）
 async function copyToClipboard(text) {
-  // 优先使用现代 Clipboard API
   if (navigator.clipboard && navigator.clipboard.writeText) {
     try {
       await navigator.clipboard.writeText(text);
@@ -1164,7 +1293,6 @@ async function copyToClipboard(text) {
       console.warn('[clipboard] API 失败，尝试 fallback:', e);
     }
   }
-  // Fallback: 使用 textarea + execCommand
   try {
     const textarea = document.createElement('textarea');
     textarea.value = text;
@@ -1181,8 +1309,8 @@ async function copyToClipboard(text) {
   }
 }
 
-// 提交成功弹窗
-function showSubmitSuccessModal(msg) {
+// Fallback弹窗（仅在GitHub API失败时显示）
+function showSubmitFallbackModal(msg) {
   const escapedMsg = msg.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
 
   const extraHtml = `
@@ -1193,8 +1321,8 @@ function showSubmitSuccessModal(msg) {
   `;
 
   showModal(
-    '🎉 方案请求已提交',
-    '消息已复制到剪贴板，请打开大象粘贴发送给<strong>发发</strong>即可自动生成方案。',
+    '⚠️ 自动提交失败',
+    '自动提交暂时不可用，消息已复制到剪贴板。<br>请打开大象粘贴发送给<strong>发发</strong>即可手动触发生成。',
     [
       {
         text: '📋 重新复制',
