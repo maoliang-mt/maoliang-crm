@@ -609,6 +609,37 @@ body {
   color: #fff;
 }
 
+/* ===== 消息预览框 ===== */
+.msg-preview-box {
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.msg-preview-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  padding: 8px 12px;
+  background: rgba(255,255,255,0.03);
+  border-bottom: 1px solid var(--border);
+}
+
+.msg-preview-content {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text);
+  padding: 12px;
+  background: rgba(0,0,0,0.3);
+  max-height: 240px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+  -webkit-overflow-scrolling: touch;
+  user-select: all;
+  -webkit-user-select: all;
+}
+
 /* ===== Footer ===== */
 .footer {
   text-align: center;
@@ -1066,9 +1097,7 @@ function handleSubmit(e) {
   plansData.stats.total++;
   updateStatsDisplay();
 
-  showToast('✅ 方案请求已提交，正在生成中...');
-
-  // 预留 webhook 对接
+  // 触发层：复制消息 + 弹窗
   submitPlanRequest(data);
 
   // 重置表单
@@ -1076,11 +1105,113 @@ function handleSubmit(e) {
   handleTypeChange();
 }
 
-// 占位函数 - 预留后续 webhook 对接
+// ===== 触发层：组装消息 + 复制到剪贴板 + 成功弹窗 =====
 function submitPlanRequest(data) {
   console.log('[方案工厂] 提交方案请求:', data);
-  // TODO: 对接 webhook
-  // fetch('/api/plan/generate', { method: 'POST', body: JSON.stringify(data) })
+
+  // 类型映射
+  const typeMap = {
+    'new_store': '新店运营方案',
+    'old_store': '老店运营方案',
+    'ops_only': '纯运营方案'
+  };
+
+  const outputMap = {
+    'word': 'Word',
+    'web': '网页版',
+    'both': 'Word + 网页版'
+  };
+
+  // 组装格式化消息
+  let msg = `🏭方案工厂请求\n`;
+  msg += `类型：${typeMap[data.type] || data.type}\n`;
+  msg += `店名：${data.shopName}\n`;
+  msg += `位置：${data.location}\n`;
+  msg += `业态：${data.category}\n`;
+  if (data.avgPrice) msg += `人均：${data.avgPrice}元\n`;
+  if (data.area) msg += `面积：${data.area}㎡\n`;
+  if (data.rating) msg += `评分：${data.rating}\n`;
+  if (data.reviewCount) msg += `评价数：${data.reviewCount}\n`;
+  if (data.monthlyRevenue) msg += `月营收：${data.monthlyRevenue}万\n`;
+  if (data.rent) msg += `月租金：${data.rent}万\n`;
+  if (data.investment) msg += `投资额：${data.investment}万\n`;
+  if (data.seats) msg += `座位数：${data.seats}\n`;
+  if (data.products) msg += `产品：${data.products}\n`;
+  if (data.competitors) msg += `竞对：${data.competitors}\n`;
+  if (data.notes) msg += `备注：${data.notes}\n`;
+  msg += `输出：${outputMap[data.outputFormat] || data.outputFormat}`;
+
+  // 复制到剪贴板（兼容移动端）
+  copyToClipboard(msg).then(success => {
+    if (success) {
+      showToast('✅ 已复制方案请求，请发送给发发触发生成');
+    } else {
+      showToast('⚠️ 复制失败，请手动复制弹窗中的消息');
+    }
+    // 显示成功弹窗（无论复制是否成功都显示）
+    showSubmitSuccessModal(msg);
+  });
+}
+
+// 剪贴板复制（兼容移动端 fallback）
+async function copyToClipboard(text) {
+  // 优先使用现代 Clipboard API
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (e) {
+      console.warn('[clipboard] API 失败，尝试 fallback:', e);
+    }
+  }
+  // Fallback: 使用 textarea + execCommand
+  try {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.cssText = 'position:fixed;left:-9999px;top:-9999px;opacity:0';
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+    const ok = document.execCommand('copy');
+    document.body.removeChild(textarea);
+    return ok;
+  } catch (e) {
+    console.error('[clipboard] fallback 也失败:', e);
+    return false;
+  }
+}
+
+// 提交成功弹窗
+function showSubmitSuccessModal(msg) {
+  const escapedMsg = msg.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
+
+  const extraHtml = `
+    <div class="msg-preview-box">
+      <div class="msg-preview-label">📋 消息内容（发送给发发即可触发生成）</div>
+      <div class="msg-preview-content" id="submit-msg-preview">${escapedMsg}</div>
+    </div>
+  `;
+
+  showModal(
+    '🎉 方案请求已提交',
+    '消息已复制到剪贴板，请打开大象粘贴发送给<strong>发发</strong>即可自动生成方案。',
+    [
+      {
+        text: '📋 重新复制',
+        className: 'confirm',
+        action: () => {
+          copyToClipboard(msg).then(ok => {
+            showToast(ok ? '✅ 已重新复制' : '❌ 复制失败，请手动选择复制');
+          });
+        }
+      },
+      {
+        text: '关闭',
+        action: closeModal
+      }
+    ],
+    extraHtml
+  );
 }
 
 // ===== 数据加载 =====
