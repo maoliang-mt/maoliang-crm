@@ -9,19 +9,19 @@
 :root {
   --bg: #f5f6fa;
   --card: #ffffff;
-  --card-hover: #1a1a2e;
+  --card-hover: #f0f2f8;
   --red: #e8001c;
   --red-dark: #b80016;
-  --blue: #4fc3f7;
-  --gold: #ffd700;
-  --green: #4caf50;
-  --orange: #ff9800;
-  --text: #ffffff;
-  --text-secondary: #a0a0b0;
+  --blue: #1976d2;
+  --gold: #f9a825;
+  --green: #2e7d32;
+  --orange: #f57c00;
+  --text: #1a1a2e;
+  --text-secondary: #5a5a7a;
   --border: #e4e7ed;
   --radius: 16px;
   --radius-sm: 10px;
-  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -40,26 +40,24 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: linear-gradient(135deg, var(--card) 0%, #1a1a2e 100%);
+  background: #ffffff;
   border-bottom: 1px solid var(--border);
   padding: 16px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   backdrop-filter: blur(20px);
+  box-shadow: 0 1px 4px rgba(0,0,0,.04);
 }
 
 .header-title {
   font-size: 20px;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--text) 0%, var(--blue) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--text);
 }
 
 .header-btn {
-  background: rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.03);
   border: 1px solid var(--border);
   color: var(--text-secondary);
   padding: 8px 14px;
@@ -71,7 +69,7 @@ body {
 }
 
 .header-btn:hover {
-  background: rgba(255,255,255,0.12);
+  background: rgba(0,0,0,0.06);
   color: var(--text);
 }
 
@@ -224,10 +222,15 @@ body {
 
 .form-select {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23a0a0b0' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%235a5a7a' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;
   padding-right: 36px;
+}
+
+.form-select option {
+  color: #1a1a2e;
+  background: #ffffff;
 }
 
 .form-textarea {
@@ -567,7 +570,7 @@ body {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.4);
   display: none;
   align-items: center;
   justify-content: center;
@@ -584,7 +587,7 @@ body {
   padding: 24px;
   max-width: 400px;
   width: 100%;
-  box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
 }
 
 .modal-title {
@@ -618,7 +621,7 @@ body {
   transition: all 0.2s;
 }
 
-.modal-btn:hover { background: rgba(255,255,255,0.08); }
+.modal-btn:hover { background: rgba(0,0,0,0.06); }
 
 .modal-btn.confirm {
   background: linear-gradient(135deg, var(--green), #388e3c);
