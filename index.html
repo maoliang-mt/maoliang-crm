@@ -11,31 +11,32 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0a0a0f;--card:#12121a;--card-hover:#181825;--border:#1e1e2e;
-  --red:#e8001c;--red-bg:rgba(232,0,28,.12);
-  --orange:#ff9800;--orange-bg:rgba(255,152,0,.12);
-  --green:#4caf50;--green-bg:rgba(76,175,80,.12);
-  --blue:#4fc3f7;--blue-bg:rgba(79,195,247,.12);
-  --gold:#ffd700;--gold-bg:rgba(255,215,0,.12);
-  --text:#e8e8f0;--text2:#8888a0;--text3:#555568;
+  --bg:#f5f6fa;--card:#ffffff;--card-hover:#f0f2f8;--border:#e4e7ed;
+  --red:#e8001c;--red-bg:rgba(232,0,28,.08);
+  --orange:#f57c00;--orange-bg:rgba(245,124,0,.08);
+  --green:#2e7d32;--green-bg:rgba(46,125,50,.08);
+  --blue:#1976d2;--blue-bg:rgba(25,118,210,.08);
+  --gold:#f9a825;--gold-bg:rgba(249,168,37,.1);
+  --text:#1a1a2e;--text2:#5a5a7a;--text3:#8c8ca0;
 }
 body{background:var(--bg);color:var(--text);font-family:-apple-system,'PingFang SC','SF Pro Display',system-ui,sans-serif;min-height:100vh;-webkit-tap-highlight-color:transparent;padding-bottom:env(safe-area-inset-bottom)}
 
+
 /* ── Header ── */
-header{background:linear-gradient(135deg,#13132a 0%,#0d1b2a 100%);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.04)}
-header h1{font-size:18px;font-weight:800;color:#fff;letter-spacing:.5px;display:flex;align-items:center;gap:8px}
+header{background:linear-gradient(135deg,#ffffff 0%,#f8f9fc 100%);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,.04)}
+header h1{font-size:18px;font-weight:800;color:var(--text);letter-spacing:.5px;display:flex;align-items:center;gap:8px}
 header h1 .logo{width:28px;height:28px;background:linear-gradient(135deg,var(--red),#ff4444);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
 header h1 .brand{color:var(--red);font-weight:800}
 .hdr-r{display:flex;align-items:center;gap:10px}
-.utime{font-size:10px;color:var(--text3);background:rgba(255,255,255,.04);padding:3px 8px;border-radius:12px}
-.rbtn{background:linear-gradient(135deg,rgba(79,195,247,.12),rgba(79,195,247,.06));color:var(--blue);border:1px solid rgba(79,195,247,.2);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px;transition:all .3s ease}
-.rbtn:hover{background:rgba(79,195,247,.2);border-color:rgba(79,195,247,.4)}
+.utime{font-size:10px;color:var(--text3);background:rgba(0,0,0,.03);padding:3px 8px;border-radius:12px}
+.rbtn{background:linear-gradient(135deg,rgba(25,118,210,.08),rgba(25,118,210,.04));color:var(--blue);border:1px solid rgba(25,118,210,.2);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px;transition:all .3s ease}
+.rbtn:hover{background:rgba(25,118,210,.15);border-color:rgba(25,118,210,.4)}
 .rbtn:active{transform:scale(.95)}
 .rbtn.ld{opacity:.5;pointer-events:none}
 
 /* ── Stats ── */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:16px 20px}
-.sc{background:var(--card);border-radius:14px;padding:14px 12px;text-align:center;border:1px solid var(--border);position:relative;overflow:hidden;transition:transform .2s}
+.sc{background:var(--card);border-radius:14px;padding:14px 12px;text-align:center;border:1px solid var(--border);position:relative;overflow:hidden;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.04)}
 .sc:active{transform:scale(.97)}
 .sc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:14px 14px 0 0}
 .sc:nth-child(1)::before{background:var(--red)}.sc:nth-child(2)::before{background:var(--orange)}.sc:nth-child(3)::before{background:var(--green)}.sc:nth-child(4)::before{background:var(--gold)}
@@ -56,22 +57,22 @@ header h1 .brand{color:var(--red);font-weight:800}
 .tabs::-webkit-scrollbar{display:none}
 .tab{padding:7px 16px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;border:1px solid var(--border);background:transparent;color:var(--text3);transition:all .3s ease;user-select:none;-webkit-user-select:none}
 .tab:active{transform:scale(.95)}
-.tab.active{background:linear-gradient(135deg,var(--red),#ff2244);color:#fff;border-color:transparent;box-shadow:0 2px 12px rgba(232,0,28,.3)}
+.tab.active{background:linear-gradient(135deg,var(--red),#ff2244);color:#fff;border-color:transparent;box-shadow:0 2px 8px rgba(232,0,28,.2)}
 
 /* ── Cards ── */
 .content{padding:6px 20px 20px}
 .stitle{font-size:11px;color:var(--text3);margin:14px 0 8px;letter-spacing:1.5px;font-weight:600;text-transform:uppercase;display:flex;align-items:center;gap:6px}
 .stitle::after{content:'';flex:1;height:1px;background:var(--border)}
 
-.card{background:var(--card);border-radius:14px;padding:14px 16px;margin-bottom:10px;border-left:3px solid var(--border);position:relative;transition:all .25s ease;overflow:hidden}
+.card{background:var(--card);border-radius:14px;padding:14px 16px;margin-bottom:10px;border-left:3px solid var(--border);position:relative;transition:all .25s ease;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05)}
 .card:active{transform:scale(.985);background:var(--card-hover)}
-.card::after{content:'';position:absolute;top:0;right:0;width:60px;height:60px;border-radius:0 14px 0 60px;opacity:.03;pointer-events:none}
+.card::after{content:'';position:absolute;top:0;right:0;width:60px;height:60px;border-radius:0 14px 0 60px;opacity:.05;pointer-events:none}
 .card.overdue{border-left-color:var(--red)}.card.overdue::after{background:var(--red)}
 .card.today{border-left-color:var(--orange)}.card.today::after{background:var(--orange)}
 .card.soon{border-left-color:var(--green)}.card.soon::after{background:var(--green)}
 .card.prospect{border-left-color:var(--blue)}.card.prospect::after{background:var(--blue)}
 
-.cname{font-size:15px;font-weight:700;color:#fff;padding-right:80px;line-height:1.4}
+.cname{font-size:15px;font-weight:700;color:var(--text);padding-right:80px;line-height:1.4}
 .cmeta{font-size:11px;color:var(--text3);margin-top:6px;display:flex;gap:10px;flex-wrap:wrap;line-height:1.6}
 .cmeta span{display:inline-flex;align-items:center;gap:2px}
 
@@ -83,9 +84,9 @@ header h1 .brand{color:var(--red);font-weight:800}
 
 .anniv{display:inline-block;padding:2px 8px;border-radius:12px;font-size:10px;font-weight:700;margin-left:6px;background:var(--gold-bg);color:var(--gold)}
 
-.cnote{font-size:11px;color:var(--text2);margin-top:8px;background:rgba(255,255,255,.03);padding:8px 10px;border-radius:8px;line-height:1.5;border:1px solid rgba(255,255,255,.04)}
+.cnote{font-size:11px;color:var(--text2);margin-top:8px;background:rgba(0,0,0,.02);padding:8px 10px;border-radius:8px;line-height:1.5;border:1px solid var(--border)}
 .ctags{margin-top:6px;display:flex;gap:5px;flex-wrap:wrap}
-.ctag{font-size:10px;padding:2px 8px;border-radius:6px;background:rgba(255,255,255,.04);color:var(--text2);font-weight:500;letter-spacing:.3px}
+.ctag{font-size:10px;padding:2px 8px;border-radius:6px;background:rgba(0,0,0,.04);color:var(--text2);font-weight:500;letter-spacing:.3px}
 
 .gb{display:inline-flex;width:18px;height:18px;border-radius:6px;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-left:6px;letter-spacing:0}
 .gb-A{background:linear-gradient(135deg,var(--red),#ff4444);color:#fff}
@@ -94,25 +95,25 @@ header h1 .brand{color:var(--red);font-weight:800}
 
 /* ── Action Buttons ── */
 .card-actions{position:absolute;top:10px;right:12px;display:flex;gap:6px}
-.act-btn{width:30px;height:30px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;font-size:13px;cursor:pointer;transition:all .2s;color:var(--text3)}
-.act-btn:hover{background:rgba(255,255,255,.08);color:var(--text)}
-.act-btn:active{transform:scale(.9);background:rgba(255,255,255,.12)}
+.act-btn{width:30px;height:30px;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.03);border:1px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;transition:all .2s;color:var(--text3)}
+.act-btn:hover{background:rgba(0,0,0,.06);color:var(--text)}
+.act-btn:active{transform:scale(.9);background:rgba(0,0,0,.08)}
 
 .empty{text-align:center;padding:40px 20px;color:var(--text3);font-size:14px;line-height:1.6}
 
 /* ── Modal ── */
-.modal-mask{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:100;justify-content:center;align-items:flex-end}
+.modal-mask{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.4);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:100;justify-content:center;align-items:flex-end}
 .modal-mask.show{display:flex}
-.modal{background:#16162a;border-radius:20px 20px 0 0;width:100%;max-width:500px;padding:24px 20px calc(30px + env(safe-area-inset-bottom));animation:slideUp .3s cubic-bezier(.22,1,.36,1)}
+.modal{background:#ffffff;border-radius:20px 20px 0 0;width:100%;max-width:500px;padding:24px 20px calc(30px + env(safe-area-inset-bottom));animation:slideUp .3s cubic-bezier(.22,1,.36,1);box-shadow:0 -4px 20px rgba(0,0,0,.1)}
 @keyframes slideUp{from{transform:translateY(100%);opacity:.5}to{transform:translateY(0);opacity:1}}
-.modal h3{font-size:16px;font-weight:700;color:#fff;margin-bottom:4px}
+.modal h3{font-size:16px;font-weight:700;color:var(--text);margin-bottom:4px}
 .modal .sub{font-size:11px;color:var(--text3);margin-bottom:14px}
-.modal textarea{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;padding:12px 14px;min-height:90px;resize:vertical;outline:none;font-family:inherit;transition:border-color .3s;line-height:1.5}
+.modal textarea{width:100%;background:rgba(0,0,0,.03);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;padding:12px 14px;min-height:90px;resize:vertical;outline:none;font-family:inherit;transition:border-color .3s;line-height:1.5}
 .modal textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(79,195,247,.1)}
 .modal-btns{display:flex;gap:10px;margin-top:14px}
 .modal-btns button{flex:1;padding:12px;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;border:none;transition:all .2s}
 .modal-btns button:active{transform:scale(.97)}
-.btn-cancel{background:rgba(255,255,255,.06);color:var(--text2)}
+.btn-cancel{background:rgba(0,0,0,.04);color:var(--text2)}
 .btn-send{background:linear-gradient(135deg,var(--red),#ff2244);color:#fff;box-shadow:0 4px 16px rgba(232,0,28,.3)}
 
 /* ── Toast ── */
@@ -135,16 +136,16 @@ header h1 .brand{color:var(--red);font-weight:800}
 .case-meta{display:flex;gap:10px;flex-wrap:wrap;font-size:11px;color:var(--text3);margin-bottom:8px;line-height:1.6}
 .case-meta span{display:inline-flex;align-items:center;gap:3px}
 .case-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
-.case-tag{font-size:10px;padding:2px 8px;border-radius:6px;background:rgba(255,255,255,.04);color:var(--text2);font-weight:500}
+.case-tag{font-size:10px;padding:2px 8px;border-radius:6px;background:rgba(0,0,0,.03);color:var(--text2);font-weight:500}
 .case-stars{color:var(--gold);font-size:12px;letter-spacing:1px}
-.case-desc{font-size:11px;color:var(--text2);line-height:1.5;margin-top:6px;background:rgba(255,255,255,.03);padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,.04)}
+.case-desc{font-size:11px;color:var(--text2);line-height:1.5;margin-top:6px;background:rgba(0,0,0,.02);padding:8px 10px;border-radius:8px;border:1px solid rgba(0,0,0,.03)}
 .case-actions{display:flex;gap:8px;margin-top:10px}
 .case-btn{flex:1;padding:8px;border-radius:10px;font-size:12px;font-weight:600;cursor:pointer;border:none;text-align:center;transition:all .2s}
 .case-btn:active{transform:scale(.97)}
 .case-btn-view{background:rgba(79,195,247,.1);color:var(--blue);border:1px solid rgba(79,195,247,.2)}
 .case-btn-view:hover{background:rgba(79,195,247,.18)}
-.case-btn-copy{background:rgba(255,255,255,.04);color:var(--text2);border:1px solid var(--border)}
-.case-btn-copy:hover{background:rgba(255,255,255,.08)}
+.case-btn-copy{background:rgba(0,0,0,.03);color:var(--text2);border:1px solid var(--border)}
+.case-btn-copy:hover{background:rgba(0,0,0,.06)}
 .case-detail{max-height:0;overflow:hidden;transition:max-height .35s ease,opacity .25s ease;opacity:0}
 .case-card.expanded .case-detail{max-height:800px;opacity:1;margin-top:10px}
 .case-card.expanded{border-color:var(--blue);box-shadow:0 0 0 1px var(--blue),0 4px 24px rgba(79,195,247,.12)}
@@ -154,13 +155,13 @@ header h1 .brand{color:var(--red);font-weight:800}
 .case-kv-item .ck-l{color:var(--text3);font-size:10px;letter-spacing:.5px}
 .case-kv-item .ck-v{color:var(--text)}
 .case-highlights{list-style:none;padding:0;margin:0}
-.case-highlights li{font-size:11px;color:var(--text2);padding:4px 0;border-bottom:1px dashed rgba(255,255,255,.04);line-height:1.5}
+.case-highlights li{font-size:11px;color:var(--text2);padding:4px 0;border-bottom:1px dashed rgba(0,0,0,.03);line-height:1.5}
 .case-highlights li:last-child{border-bottom:none}
 .case-highlights li::before{content:'✦';color:var(--gold);margin-right:6px}
 
 /* ── Week View ── */
 .week-day{margin-bottom:16px}
-.week-day-hdr{font-size:12px;font-weight:700;color:var(--text2);padding:8px 12px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid var(--border);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.week-day-hdr{font-size:12px;font-weight:700;color:var(--text2);padding:8px 12px;border-radius:10px;background:rgba(0,0,0,.02);border:1px solid var(--border);margin-bottom:6px;display:flex;align-items:center;gap:8px}
 .week-day-hdr .wd-date{color:var(--text)}
 .week-day.wd-today .week-day-hdr{background:rgba(232,0,28,.08);border-color:rgba(232,0,28,.2);color:var(--red)}
 .week-day.wd-today .week-day-hdr .wd-date{color:var(--red)}
@@ -172,7 +173,7 @@ header h1 .brand{color:var(--red);font-weight:800}
 .funnel-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:12px;font-weight:600}
 .funnel-label .fl-name{color:var(--text)}
 .funnel-label .fl-stats{color:var(--text3);font-weight:500}
-.funnel-bar{height:28px;border-radius:8px;background:rgba(255,255,255,.04);overflow:hidden;position:relative}
+.funnel-bar{height:28px;border-radius:8px;background:rgba(0,0,0,.03);overflow:hidden;position:relative}
 .funnel-bar-fill{height:100%;border-radius:8px;transition:width .6s ease;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-size:10px;font-weight:700;color:#fff;min-width:24px}
 .funnel-bar-fill.fb-prospect{background:linear-gradient(90deg,var(--blue),rgba(79,195,247,.7))}
 .funnel-bar-fill.fb-negotiate{background:linear-gradient(90deg,var(--orange),rgba(255,152,0,.7))}
@@ -184,9 +185,9 @@ header h1 .brand{color:var(--red);font-weight:800}
 .fab:active{transform:scale(.9)}
 
 /* ── Quick Follow Modal ── */
-.qf-select{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;padding:10px 14px;outline:none;margin-bottom:10px;-webkit-appearance:none;appearance:none;transition:border-color .3s}
+.qf-select{width:100%;background:rgba(0,0,0,.03);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;padding:10px 14px;outline:none;margin-bottom:10px;-webkit-appearance:none;appearance:none;transition:border-color .3s}
 .qf-select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(79,195,247,.1)}
-.qf-date{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;padding:10px 14px;outline:none;margin-bottom:10px;-webkit-appearance:none;transition:border-color .3s;color-scheme:dark}
+.qf-date{width:100%;background:rgba(0,0,0,.03);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;padding:10px 14px;outline:none;margin-bottom:10px;-webkit-appearance:none;transition:border-color .3s;color-scheme:light}
 .qf-date:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(79,195,247,.1)}
 
 /* ── Expanded Card Detail ── */
@@ -225,7 +226,7 @@ header h1 .brand{color:var(--red);font-weight:800}
 .bar-chart{display:flex;flex-direction:column;gap:8px}
 .bar-row{display:flex;align-items:center;gap:8px}
 .bar-label{font-size:11px;color:var(--text2);width:56px;text-align:right;flex-shrink:0}
-.bar-track{flex:1;height:22px;background:rgba(255,255,255,.04);border-radius:6px;overflow:hidden;position:relative}
+.bar-track{flex:1;height:22px;background:rgba(0,0,0,.03);border-radius:6px;overflow:hidden;position:relative}
 .bar-fill{height:100%;border-radius:6px;display:flex;align-items:center;padding-left:8px;font-size:10px;font-weight:700;color:#fff;min-width:18px;transition:width .5s ease}
 .bar-count{font-size:11px;color:var(--text3);width:32px;text-align:right;flex-shrink:0}
 
@@ -318,7 +319,7 @@ header h1 .brand{color:var(--red);font-weight:800}
     <div class="sub">选择客户并设置跟进计划</div>
     <select class="qf-select" id="qfCustomer"><option value="">选择客户...</option></select>
     <input type="date" class="qf-date" id="qfDate">
-    <textarea id="qfNote" placeholder="跟进备注..." style="width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;padding:12px 14px;min-height:70px;resize:vertical;outline:none;font-family:inherit;transition:border-color .3s;line-height:1.5;margin-bottom:0"></textarea>
+    <textarea id="qfNote" placeholder="跟进备注..." style="width:100%;background:rgba(0,0,0,.03);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;padding:12px 14px;min-height:70px;resize:vertical;outline:none;font-family:inherit;transition:border-color .3s;line-height:1.5;margin-bottom:0"></textarea>
     <div class="modal-btns">
       <button class="btn-cancel" onclick="closeQF()">取消</button>
       <button class="btn-send" onclick="submitQF()">📋 复制指令</button>
@@ -329,9 +330,9 @@ header h1 .brand{color:var(--red);font-weight:800}
   <div class="modal">
     <h3>🔨 添加装修中门店</h3>
     <div class="sub">添加后每3天自动提醒跟进</div>
-    <input id="renoName" placeholder="门店名称（必填）" style="width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;padding:12px 14px;outline:none;font-family:inherit;margin-bottom:8px;box-sizing:border-box">
-    <input id="renoAddr" placeholder="门店地址/位置" style="width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;padding:12px 14px;outline:none;font-family:inherit;margin-bottom:8px;box-sizing:border-box">
-    <textarea id="renoNote" placeholder="备注（品类、面积、预计开业等）" style="width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;padding:12px 14px;min-height:60px;resize:vertical;outline:none;font-family:inherit;line-height:1.5;margin-bottom:0;box-sizing:border-box"></textarea>
+    <input id="renoName" placeholder="门店名称（必填）" style="width:100%;background:rgba(0,0,0,.03);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;padding:12px 14px;outline:none;font-family:inherit;margin-bottom:8px;box-sizing:border-box">
+    <input id="renoAddr" placeholder="门店地址/位置" style="width:100%;background:rgba(0,0,0,.03);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;padding:12px 14px;outline:none;font-family:inherit;margin-bottom:8px;box-sizing:border-box">
+    <textarea id="renoNote" placeholder="备注（品类、面积、预计开业等）" style="width:100%;background:rgba(0,0,0,.03);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;padding:12px 14px;min-height:60px;resize:vertical;outline:none;font-family:inherit;line-height:1.5;margin-bottom:0;box-sizing:border-box"></textarea>
     <div class="modal-btns">
       <button class="btn-cancel" onclick="closeReno()">取消</button>
       <button class="btn-send" onclick="submitReno()">🔨 添加</button>

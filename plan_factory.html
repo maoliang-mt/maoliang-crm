@@ -7,8 +7,8 @@
 <style>
 /* ===== CSS Variables - 与index.html一致 ===== */
 :root {
-  --bg: #0a0a0f;
-  --card: #12121a;
+  --bg: #f5f6fa;
+  --card: #ffffff;
   --card-hover: #1a1a2e;
   --red: #e8001c;
   --red-dark: #b80016;
@@ -18,7 +18,7 @@
   --orange: #ff9800;
   --text: #ffffff;
   --text-secondary: #a0a0b0;
-  --border: #2a2a3a;
+  --border: #e4e7ed;
   --radius: 16px;
   --radius-sm: 10px;
   --shadow: 0 4px 24px rgba(0,0,0,0.4);
@@ -207,7 +207,7 @@ body {
 
 .form-input, .form-select, .form-textarea {
   width: 100%;
-  background: rgba(255,255,255,0.04);
+  background: rgba(0,0,0,0.03);
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 12px 14px;
@@ -384,7 +384,7 @@ body {
   font-size: 12px;
   font-weight: 500;
   border: 1px solid var(--border);
-  background: rgba(255,255,255,0.04);
+  background: rgba(0,0,0,0.03);
   color: var(--text-secondary);
   cursor: pointer;
   transition: all 0.2s;
@@ -613,7 +613,7 @@ body {
   font-weight: 500;
   cursor: pointer;
   border: 1px solid var(--border);
-  background: rgba(255,255,255,0.04);
+  background: rgba(0,0,0,0.03);
   color: var(--text-secondary);
   transition: all 0.2s;
 }
@@ -1507,7 +1507,7 @@ function rejectPlan(id) {
         closeModal();
       }}
     ],
-    '<textarea class="form-textarea" id="reject-reason" placeholder="请输入驳回原因..." style="margin-bottom:16px;width:100%;background:rgba(255,255,255,0.04);border:1px solid #2a2a3a;border-radius:8px;padding:12px;color:#fff;font-size:14px;min-height:60px;resize:vertical;"></textarea>'
+    '<textarea class="form-textarea" id="reject-reason" placeholder="请输入驳回原因..." style="margin-bottom:16px;width:100%;background:rgba(0,0,0,0.03);border:1px solid #e4e7ed;border-radius:8px;padding:12px;color:#1a1a2e;font-size:14px;min-height:60px;resize:vertical;"></textarea>'
   );
 }
 
