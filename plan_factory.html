@@ -1348,7 +1348,7 @@ function showSubmitFallbackModal(msg) {
 // ===== 数据加载 =====
 async function loadPlansData() {
   try {
-    const response = await fetch('plans.json');
+    const response = await fetch('plans.json?t=' + Date.now());
     if (response.ok) {
       plansData = await response.json();
     }
