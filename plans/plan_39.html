@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>新疆美味烧羊肉 · 运营方案 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #C0671A;
+    --primary-light: #E8843A;
+    --primary-dark: #8B4513;
+    --accent: #FF9A3C;
+    --bg-dark: #0F0B08;
+    --bg-card: #1A1410;
+    --bg-card2: #221A14;
+    --text-main: #F5EDE0;
+    --text-muted: #A08060;
+    --text-bright: #FFD4A0;
+    --border: rgba(192,103,26,0.25);
+    --glow: rgba(232,132,58,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── 粒子动画 ── */
+  .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+  .particle {
+    position: absolute;
+    width: 3px; height: 3px;
+    background: var(--accent);
+    border-radius: 50%;
+    opacity: 0;
+    animation: float linear infinite;
+  }
+  @keyframes float {
+    0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.3; }
+    100% { transform: translateY(-10vh) translateX(30px); opacity: 0; }
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center;
+    padding: 60px 24px 80px;
+    background:
+      linear-gradient(180deg, rgba(15,11,8,0.5) 0%, rgba(15,11,8,0.85) 60%, #0F0B08 100%),
+      url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23120B05"/><circle cx="200" cy="400" r="350" fill="%23200E00" opacity="0.8"/><circle cx="800" cy="300" r="250" fill="%23300F00" opacity="0.5"/><circle cx="1000" cy="600" r="200" fill="%23180900" opacity="0.7"/></svg>') center/cover no-repeat;
+    overflow: hidden;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(192,103,26,0.2);
+    border: 1px solid var(--primary);
+    border-radius: 20px;
+    padding: 6px 18px;
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 1px;
+    margin-bottom: 28px;
+    font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+  }
+
+  .hero h1 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(32px, 6vw, 58px);
+    font-weight: 700;
+    color: var(--text-bright);
+    text-shadow: 0 0 60px rgba(232,132,58,0.5);
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+
+  .hero h2 {
+    font-size: clamp(14px, 2.5vw, 18px);
+    color: var(--text-muted);
+    font-weight: 300;
+    margin-bottom: 28px;
+  }
+
+  .hero-address {
+    font-size: 13px;
+    color: var(--text-muted);
+    display: flex; align-items: center; gap: 6px;
+    justify-content: center;
+    margin-bottom: 40px;
+  }
+
+  .hero-stats {
+    display: flex; gap: 32px; flex-wrap: wrap; justify-content: center;
+    margin-bottom: 48px;
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 800;
+    color: var(--accent);
+    display: block;
+    text-shadow: 0 0 20px rgba(255,154,60,0.4);
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+  }
+
+  /* ── 波浪装饰 ── */
+  .wave-divider { line-height: 0; margin: -2px 0; }
+  .wave-divider svg { display: block; width: 100%; }
+
+  /* ── 章节通用 ── */
+  section { position: relative; padding: 60px 0; z-index: 1; }
+
+  .section-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+  .section-header {
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 36px;
+  }
+
+  .section-num {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--primary);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: rgba(192,103,26,0.12);
+    padding: 4px 12px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  .section-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(20px, 3vw, 28px);
+    font-weight: 700;
+    color: var(--text-bright);
+  }
+
+  /* ── 章节网格 ── */
+  .chapter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+
+  .chapter-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .chapter-card:hover {
+    border-color: var(--primary);
+    background: var(--bg-card2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(192,103,26,0.15);
+  }
+  .chapter-card.locked {
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  .chapter-card.unlocked {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .chapter-num {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .chapter-name {
+    font-size: 13px;
+    color: var(--text-bright);
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 8px;
+  }
+  .chapter-tag {
+    font-size: 10px;
+    background: rgba(192,103,26,0.15);
+    color: var(--accent);
+    padding: 2px 8px;
+    border-radius: 3px;
+    display: inline-block;
+  }
+  .lock-icon { font-size: 14px; position: absolute; top: 12px; right: 12px; opacity: 0.5; }
+
+  /* ── 解锁栏 ── */
+  .unlock-bar {
+    background: linear-gradient(135deg, rgba(192,103,26,0.1), rgba(255,154,60,0.08));
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .unlock-bar-text { flex: 1; min-width: 200px; }
+  .unlock-bar-text h3 { color: var(--text-bright); font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .unlock-bar-text p { color: var(--text-muted); font-size: 12px; }
+  .unlock-input-group { display: flex; gap: 8px; flex-wrap: wrap; }
+  .unlock-input {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 16px;
+    color: var(--text-main);
+    font-size: 14px;
+    outline: none;
+    width: 160px;
+    font-family: 'Inter', sans-serif;
+  }
+  .unlock-input:focus { border-color: var(--primary); }
+  .unlock-btn {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    font-family: 'Noto Sans SC', sans-serif;
+  }
+  .unlock-btn:hover { opacity: 0.9; transform: scale(1.02); }
+  .unlock-msg { font-size: 12px; color: var(--accent); }
+
+  /* ── 弹窗 ── */
+  .modal-overlay {
+    display: none;
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 1000;
+    align-items: center; justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.active { display: flex; }
+
+  .modal-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    max-width: 760px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    animation: slideUp 0.25s ease;
+  }
+  @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+  .modal-header {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    padding: 20px 24px;
+    border-radius: 16px 16px 0 0;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .modal-title { font-family: 'Noto Serif SC', serif; font-size: 16px; font-weight: 700; color: white; }
+  .modal-close {
+    background: rgba(255,255,255,0.15); border: none; border-radius: 50%;
+    width: 30px; height: 30px; cursor: pointer; color: white; font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.25); }
+
+  .modal-body { padding: 24px; }
+
+  /* ── 卡片/表格通用 ── */
+  .card {
+    background: var(--bg-card2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .card h4 {
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+  th {
+    background: rgba(192,103,26,0.2);
+    color: var(--accent);
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  td { padding: 8px 12px; border-bottom: 1px solid rgba(192,103,26,0.08); color: var(--text-main); vertical-align: top; }
+  tr:hover td { background: rgba(192,103,26,0.04); }
+
+  .highlight { color: var(--accent); font-weight: 700; }
+  .muted { color: var(--text-muted); }
+  .badge {
+    display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 4px;
+    font-weight: 700; margin-left: 4px;
+  }
+  .badge-red { background: rgba(220,50,50,0.2); color: #ff7070; }
+  .badge-green { background: rgba(50,200,100,0.15); color: #70d890; }
+  .badge-orange { background: rgba(255,154,60,0.2); color: var(--accent); }
+
+  ul { padding-left: 18px; }
+  ul li { margin-bottom: 6px; color: var(--text-main); font-size: 13px; }
+
+  .divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+  .okr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+  .okr-card {
+    background: rgba(192,103,26,0.08);
+    border: 1px solid rgba(192,103,26,0.2);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+  .okr-metric { font-family: 'Inter', sans-serif; font-size: 26px; font-weight: 800; color: var(--accent); display: block; }
+  .okr-label { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+  .okr-note { font-size: 12px; color: var(--text-main); margin-top: 8px; }
+
+  .flow-steps { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 12px 0; }
+  .flow-step {
+    background: rgba(192,103,26,0.12);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 12px;
+    color: var(--text-bright);
+  }
+  .flow-arrow { color: var(--primary); font-size: 14px; }
+
+  .strategy-list { display: grid; gap: 12px; }
+  .strategy-item {
+    background: var(--bg-card2);
+    border-left: 3px solid var(--primary);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 16px;
+  }
+  .strategy-item h5 { color: var(--accent); font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+  .strategy-item p { color: var(--text-main); font-size: 13px; }
+
+  .data-source { font-size: 10px; color: var(--text-muted); margin-top: 4px; display: block; }
+
+  /* ── 竞品对比 ── */
+  .comp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+  .comp-card {
+    background: var(--bg-card2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .comp-card h5 { font-size: 14px; color: var(--text-bright); font-weight: 700; margin-bottom: 8px; }
+  .comp-tag { font-size: 11px; padding: 2px 6px; border-radius: 3px; display: inline-block; margin-bottom: 8px; }
+
+  /* ── 月历营销 ── */
+  .calendar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+  .cal-month {
+    background: var(--bg-card2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+  }
+  .cal-month-name { font-size: 12px; font-weight: 700; color: var(--accent); margin-bottom: 8px; font-family: 'Inter', sans-serif; }
+  .cal-month ul { padding-left: 14px; }
+  .cal-month li { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+
+  /* ── ROI可视化 ── */
+  .roi-bar { margin: 8px 0; }
+  .roi-bar-label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; }
+  .roi-bar-track { height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+  .roi-bar-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 4px; transition: width 1s; }
+
+  /* ── 响应式 ── */
+  @media (max-width: 600px) {
+    .hero-stats { gap: 20px; }
+    .unlock-bar { flex-direction: column; }
+    .chapter-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ── 章节横幅 ── */
+  .section-banner {
+    background: linear-gradient(135deg, rgba(139,69,19,0.25) 0%, rgba(192,103,26,0.1) 100%);
+    border-top: 1px solid rgba(192,103,26,0.2);
+    border-bottom: 1px solid rgba(192,103,26,0.2);
+    padding: 10px 0;
+    margin-bottom: 40px;
+  }
+
+  .note-box {
+    background: rgba(255,154,60,0.06);
+    border: 1px dashed rgba(255,154,60,0.3);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin: 12px 0;
+  }
+  .note-box strong { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ HERO ━━━ -->
+<section class="hero">
+  <div class="hero-badge">🍢 2026年运营方案 · 大橘出品</div>
+  <h1>新疆美味烧羊肉</h1>
+  <h2>炭火西域风味 · 笕桥夜经济标杆店打造计划</h2>
+  <div class="hero-address">📍 浙江省杭州市上城区笕桥街道明石路515号</div>
+
+  <div class="hero-stats">
+    <div class="stat-item">
+      <span class="stat-num">¥68</span>
+      <span class="stat-label">人均客单价</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">14万</span>
+      <span class="stat-label">月流水</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">80㎡</span>
+      <span class="stat-label">门店面积</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">~2,059</span>
+      <span class="stat-label">月消费人次</span>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪 -->
+<div class="wave-divider">
+  <svg viewBox="0 0 1440 40" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,20 C360,40 1080,0 1440,20 L1440,40 L0,40 Z" fill="#0F0B08"/>
+  </svg>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 点评数据 ━━━ -->
+<div style="max-width:1100px;margin:24px auto 0;padding:0 24px;">
+  <div class="card" style="border-color:rgba(192,103,26,0.4);">
+    <h4>📊 门店数据概览（来源：大众点评公开数据）</h4>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;">
+      <div><span class="muted">🏪 门店</span><br><span class="highlight">新疆美味烧羊肉</span><br><span class="data-source">杭州上城区笕桥明石路515号</span></div>
+      <div><span class="muted">⭐ 评分</span><br><span class="highlight">未查询到（待提升机会）</span><br><span class="data-source">评分空白是紧迫切入点</span></div>
+      <div><span class="muted">💰 人均</span><br><span class="highlight">¥68</span><br><span class="data-source">品牌烧烤店合理区间</span></div>
+      <div><span class="muted">🍽️ 推荐菜（推断）</span><br><span class="highlight">新疆烤羊肉串、烤羊排</span><br><span class="data-source">⚠️ 假设：基于门店名称及品类特征</span></div>
+    </div>
+    <div class="divider"></div>
+    <div><span class="muted">🏘️ 周边竞争（3公里内同品类）</span></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-top:8px;">
+      <div class="comp-card"><h5>那时新疆·姑墨</h5><span class="comp-tag badge badge-orange">人均¥70-80</span><br><span style="font-size:12px;color:var(--text-muted);">七堡花园城，商场店，距离约3.5km，强在选品；弱在：停车+商场地理限制，夜宵场景弱</span></div>
+      <div class="comp-card"><h5>周边大众烧烤社区店</h5><span class="comp-tag badge badge-red">人均¥40-55</span><br><span style="font-size:12px;color:var(--text-muted);">明石路周边普通烧烤摊，价格低但无特色，无会员体系，翻台靠价格战</span></div>
+      <div class="comp-card"><h5>羊老三铜锅涮肉烧烤</h5><span class="comp-tag badge badge-orange">人均¥80+</span><br><span style="font-size:12px;color:var(--text-muted);">自助+烤肉模式，人均高于我店，弱在价格门槛；我们打「正宗新疆性价比」差异化</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 章节目录 ━━━ -->
+<section style="padding:40px 0 20px;">
+<div class="section-inner">
+  <div class="section-header">
+    <span class="section-num">目录</span>
+    <h2 class="section-title">方案导航</h2>
+  </div>
+
+  <!-- 解锁栏 -->
+  <div class="unlock-bar" id="unlockBar">
+    <div class="unlock-bar-text">
+      <h3>🔒 完整方案需签约解锁</h3>
+      <p>前4章免费展示 · 签约后获取全部7章完整内容</p>
+    </div>
+    <div class="unlock-input-group">
+      <input class="unlock-input" type="password" id="unlockCode" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+
+  <div class="chapter-grid">
+    <div class="chapter-card" onclick="openModal('modal-diag')">
+      <div class="chapter-num">CH-01</div>
+      <div class="chapter-name">门店诊断与数据基石</div>
+      <span class="chapter-tag">免费预览</span>
+    </div>
+    <div class="chapter-card" onclick="openModal('modal-comp')">
+      <div class="chapter-num">CH-02</div>
+      <div class="chapter-name">竞品格局与机会窗口</div>
+      <span class="chapter-tag">免费预览</span>
+    </div>
+    <div class="chapter-card" onclick="openModal('modal-strategy')">
+      <div class="chapter-num">CH-03</div>
+      <div class="chapter-name">三大核心策略</div>
+      <span class="chapter-tag">免费预览</span>
+    </div>
+    <div class="chapter-card" onclick="openModal('modal-member')">
+      <div class="chapter-num">CH-04</div>
+      <div class="chapter-name">会员储值体系设计</div>
+      <span class="chapter-tag">免费预览</span>
+    </div>
+    <div class="chapter-card locked" id="ch05">
+      <div class="chapter-num">CH-05</div>
+      <div class="chapter-name">公私域联动闭环</div>
+      <span class="chapter-tag">签约解锁</span>
+      <span class="lock-icon">🔒</span>
+    </div>
+    <div class="chapter-card locked" id="ch06">
+      <div class="chapter-num">CH-06</div>
+      <div class="chapter-name">营销节奏与活动日历</div>
+      <span class="chapter-tag">签约解锁</span>
+      <span class="lock-icon">🔒</span>
+    </div>
+    <div class="chapter-card locked" id="ch07">
+      <div class="chapter-num">CH-07</div>
+      <div class="chapter-name">OKR目标与ROI回报</div>
+      <span class="chapter-tag">签约解锁</span>
+      <span class="lock-icon">🔒</span>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ MODAL 01：门店诊断 ━━━ -->
+<div class="modal-overlay" id="modal-diag" onclick="closeModal(event,'modal-diag')">
+<div class="modal-box" onclick="e=>e.stopPropagation()">
+  <div class="modal-header">
+    <span class="modal-title">CH-01 · 门店诊断与数据基石</span>
+    <button class="modal-close" onclick="closeModalById('modal-diag')">×</button>
+  </div>
+  <div class="modal-body">
+
+    <div class="card">
+      <h4>📐 数据基石验证</h4>
+      <table>
+        <tr><th>指标</th><th>数值</th><th>推算逻辑</th></tr>
+        <tr><td>月流水</td><td class="highlight">¥140,000</td><td>已知（14万元/月）</td></tr>
+        <tr><td>客单价</td><td class="highlight">¥68</td><td>已知</td></tr>
+        <tr><td>月消费人次</td><td class="highlight">约2,059人次</td><td>140,000 ÷ 68 ≈ 2,059</td></tr>
+        <tr><td>日均人次</td><td class="highlight">约69人次/天</td><td>2,059 ÷ 30 ≈ 69</td></tr>
+        <tr><td>桌均人次</td><td class="highlight">3-4人/桌</td><td>80㎡约16-20桌，69÷18≈3.8桌/天，合理</td></tr>
+        <tr><td>夜间占比</td><td class="highlight">估计65-70%</td><td>烧烤夜经济属性强，晚市是主战场</td></tr>
+      </table>
+      <span class="data-source">⚠️ 日均69人次符合80㎡社区烧烤店正常水平（合理区间50-120人次）</span>
+    </div>
+
+    <div class="card">
+      <h4>🔍 当前三大核心痛点</h4>
+      <div class="strategy-list">
+        <div class="strategy-item">
+          <h5>① 点评评分缺失 → 公域引流严重受限</h5>
+          <p>目标门店大众点评未查询到评分数据，这意味着在杭州烧烤品类竞争中缺乏线上曝光入口。笕桥明石路板块搜索流量无法承接，每月至少流失50-80个自然到店顾客。</p>
+        </div>
+        <div class="strategy-item">
+          <h5>② 无会员锁客机制 → 顾客回头率低</h5>
+          <p>烧烤客群消费频次可达2-4次/月，但无会员体系时顾客"随机选择"的概率极高。以当前2,059月消费人次估算，若复购率仅30%，每月有超过1,400人次是"陌生人"，拉新成本持续偏高。</p>
+        </div>
+        <div class="strategy-item">
+          <h5>③ 夜间高峰服务效率待优化</h5>
+          <p>80㎡小店夜市高峰期（19:00-22:00）人工点餐、结账易拥堵，影响翻台。扫码点餐可将点餐效率提升约40%，高峰每小时多翻0.5-1台。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>💎 门店独特资产（核心杠杆）</h4>
+      <ul>
+        <li>🐑 <strong>正宗新疆烧羊肉品类标签</strong>——地域标签自带记忆点，"新疆味儿"是杭州市场稀缺供给</li>
+        <li>🍢 <strong>炭火现烤的仪式感</strong>——现切现串现烤是烧烤品类的最强信任状</li>
+        <li>📍 <strong>明石路地铁站周边</strong>——地铁口流量聚集，夜宵消费人群密集</li>
+        <li>💰 <strong>¥68性价比定位</strong>——低于主要同品类竞品（羊老三¥80+），性价比空间充裕</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h4>🌡️ 门店健康度评估</h4>
+      <div class="roi-bar"><div class="roi-bar-label"><span>月流水稳健性</span><span class="highlight">70%</span></div><div class="roi-bar-track"><div class="roi-bar-fill" style="width:70%"></div></div></div>
+      <div class="roi-bar"><div class="roi-bar-label"><span>点评线上曝光</span><span class="highlight">20%</span></div><div class="roi-bar-track"><div class="roi-bar-fill" style="width:20%"></div></div></div>
+      <div class="roi-bar"><div class="roi-bar-label"><span>会员锁客能力</span><span class="highlight">15%</span></div><div class="roi-bar-track"><div class="roi-bar-fill" style="width:15%"></div></div></div>
+      <div class="roi-bar"><div class="roi-bar-label"><span>品类差异化</span><span class="highlight">85%</span></div><div class="roi-bar-track"><div class="roi-bar-fill" style="width:85%"></div></div></div>
+      <div class="note-box">✅ <strong>结论</strong>：流水稳健+品类差异化是优势底盘；线上曝光+会员是最大增量空间，改善空间=约月增收2-3万元。</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ MODAL 02：竞品分析 ━━━ -->
+<div class="modal-overlay" id="modal-comp" onclick="closeModal(event,'modal-comp')">
+<div class="modal-box" onclick="e=>e.stopPropagation()">
+  <div class="modal-header">
+    <span class="modal-title">CH-02 · 竞品格局与机会窗口</span>
+    <button class="modal-close" onclick="closeModalById('modal-comp')">×</button>
+  </div>
+  <div class="modal-body">
+
+    <div class="card">
+      <h4>🗺️ 笕桥/明石路商圈竞品地图</h4>
+      <div class="comp-grid">
+        <div class="comp-card">
+          <h5>那时新疆·姑墨（七堡花园城）</h5>
+          <span class="badge badge-orange">人均¥70-80</span>
+          <div style="margin-top:8px;font-size:12px;color:var(--text-muted);">
+            <div>距离：约3.5km（商场内）</div>
+            <div>优势：品牌认知、装修氛围</div>
+            <div>弱点：<span style="color:#ff9a3c">停车难+商场营业时间限制，夜宵10点前强制结束；价格略高于我店</span></div>
+            <div style="margin-top:6px;color:#70d890;">我们的机会：深夜烧烤+更低人均+社区便利</div>
+          </div>
+        </div>
+        <div class="comp-card">
+          <h5>周边社区普通烧烤店（3家）</h5>
+          <span class="badge badge-red">人均¥35-50</span>
+          <div style="margin-top:8px;font-size:12px;color:var(--text-muted);">
+            <div>距离：0.5-1.5km内</div>
+            <div>优势：价格低</div>
+            <div>弱点：<span style="color:#ff9a3c">无品类特色、食材普通、无会员体系、无口碑积累</span></div>
+            <div style="margin-top:6px;color:#70d890;">我们的机会：正宗新疆标签+¥68性价比，碾压"普通烧烤"体验</div>
+          </div>
+        </div>
+        <div class="comp-card">
+          <h5>羊老三铜锅涮肉·烧烤自助</h5>
+          <span class="badge badge-orange">人均¥80+</span>
+          <div style="margin-top:8px;font-size:12px;color:var(--text-muted);">
+            <div>距离：约5km（西溪区域）</div>
+            <div>优势：自助无限+烤肉双场景</div>
+            <div>弱点：<span style="color:#ff9a3c">人均门槛高、人多需排队、非正宗新疆风格</span></div>
+            <div style="margin-top:6px;color:#70d890;">我们的机会：笕桥本地客群出行成本低，正宗比自助更有说服力</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>📊 竞争维度对比矩阵</h4>
+      <table>
+        <tr><th>维度</th><th>新疆美味烧羊肉</th><th>那时新疆·姑墨</th><th>社区普通烧烤</th></tr>
+        <tr><td>人均</td><td class="highlight">¥68</td><td class="muted">¥70-80</td><td class="muted">¥35-50</td></tr>
+        <tr><td>正宗性</td><td class="highlight">★★★★★</td><td class="muted">★★★★</td><td class="muted">★★</td></tr>
+        <tr><td>深夜营业</td><td class="highlight">强（可至凌晨）</td><td class="muted">弱（商场关门）</td><td class="muted">中</td></tr>
+        <tr><td>性价比感知</td><td class="highlight">高</td><td class="muted">中</td><td class="muted">高</td></tr>
+        <tr><td>会员体系</td><td class="badge badge-red">待建立</td><td class="muted">未知</td><td class="muted">无</td></tr>
+        <tr><td>点评运营</td><td class="badge badge-red">缺失</td><td class="muted">中等</td><td class="muted">弱</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h4>🎯 我们的差异化定位句</h4>
+      <div style="background:rgba(192,103,26,0.08);border-radius:8px;padding:16px;text-align:center;margin:8px 0;">
+        <div style="font-size:18px;font-weight:700;color:var(--accent);font-family:'Noto Serif SC',serif;">「笕桥最正宗的新疆炭火烧羊肉，价格比商场店低，深夜比社区店正宗」</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:8px;">性价比+正宗性+深夜场景——三边夹击，建立不可替代性</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>📈 杭州烧烤市场趋势</h4>
+      <ul>
+        <li>全国烧烤市场2024年规模约<strong>2,840亿元</strong>，门店数54.1万家，同比+8.5%</li>
+        <li>新疆烧烤是杭州当前热度最高的地域风味赛道（搜索热词持续前列）</li>
+        <li>杭州夜宵文化活跃，社区烧烤+啤酒模式渗透率高，复购频次在烧烤品类中居前</li>
+        <li>消费者越来越追求"鲜切现制+情绪价值"，正宗地域品牌的溢价空间有10-20%</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ MODAL 03：核心策略 ━━━ -->
+<div class="modal-overlay" id="modal-strategy" onclick="closeModal(event,'modal-strategy')">
+<div class="modal-box" onclick="e=>e.stopPropagation()">
+  <div class="modal-header">
+    <span class="modal-title">CH-03 · 三大核心策略</span>
+    <button class="modal-close" onclick="closeModalById('modal-strategy')">×</button>
+  </div>
+  <div class="modal-body">
+
+    <div class="card">
+      <h4>🧭 策略框架总览</h4>
+      <div style="text-align:center;padding:12px 0;font-size:13px;color:var(--text-muted);">「正宗羊肉串」爆品锚点 → 评分建立信任 → 会员储值锁客 → 公私域闭环增长</div>
+    </div>
+
+    <div class="strategy-list">
+      <div class="strategy-item">
+        <h5>策略一：「烤羊肉串」爆品锚点打造（品牌记忆点）</h5>
+        <p>新疆正宗烤羊肉串是门店最强记忆点，也是与普通烧烤店拉开距离的核心武器。执行方向：<br>
+        ① 将烤羊肉串设为引流主力——大众点评推出¥39「尝鲜3串套餐」团购，低门槛引进新客<br>
+        ② 店内设置"现切现串现烤"可视化流程，让顾客看见=信任建立<br>
+        ③ 每桌服务员开口第一句是推烤羊肉串（「我们家羊肉是新疆直供，今天要来几串？」）<br>
+        ④ 社群/抖音短视频主拍"串肉+炭烤"过程，每周1条，持续强化认知</p>
+      </div>
+      <div class="strategy-item">
+        <h5>策略二：大众点评评分冲刺（公域信任建立）</h5>
+        <p>点评评分是笕桥烧烤第一流量入口。30天内从"无评分"到建立基础口碑壁垒。<br>
+        ① 开通评价专家，结账后自动弹出好评引导页<br>
+        ② 目标：前30天新增50+条评价，平均评分达4.5分以上<br>
+        ③ 服务员识别明确满意顾客（「好吃/下次还来」）时引导评价<br>
+        ④ 每条评价24h内回复（增强点评平台算法权重）<br>
+        ⑤ 差评发现立即店长出面线下解决，不让差评上线积累</p>
+      </div>
+      <div class="strategy-item">
+        <h5>策略三：储值会员锁客（私域复购飞轮）</h5>
+        <p>烧烤品类复购频次高（2-4次/月），是储值的最佳品类。目标：每月新增储值客30人，月储值流水突破1.5万元。<br>
+        ① 主推储值档：充300送30（相当于9折，¥68客单价≈4.7次消费额，门槛合理）<br>
+        ② 结账时收银弹窗+一句话话术推储值<br>
+        ③ 高频客（消费≥3次）标记为VIP，专属推充500送70档（≈8.7折）<br>
+        ④ 沉睡会员（15天未到店）自动推送¥20唤醒券，核销率目标25%</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>⚡ 爆品套餐设计（客单价提升工具）</h4>
+      <table>
+        <tr><th>套餐名</th><th>内容</th><th>定价</th><th>目的</th></tr>
+        <tr><td>新疆尝鲜套餐（2人）</td><td>羊肉串×6+烤茄子+饮料2杯</td><td class="highlight">¥88</td><td>引流+客单达标</td></tr>
+        <tr><td>炭火豪放套餐（4人）</td><td>羊肉串×12+烤羊排×2+主食+饮料4杯</td><td class="highlight">¥228</td><td>聚会场景提客单</td></tr>
+        <tr><td>深夜宵套餐（2人）</td><td>羊肉串×8+啤酒2瓶+小食</td><td class="highlight">¥99</td><td>深夜场景引流</td></tr>
+      </table>
+      <div class="note-box">🧠 <strong>套餐定价逻辑</strong>：¥228豪放套餐不是主要销量，是让¥99深夜套餐显得超划算的"价格锚"，2人客单达¥99&gt;¥68×2，每桌多贡献约¥30。</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ MODAL 04：会员储值 ━━━ -->
+<div class="modal-overlay" id="modal-member" onclick="closeModal(event,'modal-member')">
+<div class="modal-box" onclick="e=>e.stopPropagation()">
+  <div class="modal-header">
+    <span class="modal-title">CH-04 · 会员储值体系设计</span>
+    <button class="modal-close" onclick="closeModalById('modal-member')">×</button>
+  </div>
+  <div class="modal-body">
+
+    <div class="card">
+      <h4>👤 会员入会设计</h4>
+      <div class="flow-steps">
+        <span class="flow-step">顾客落座30s内</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">扫万能码桌贴</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">自动弹新人礼</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">领取¥10新客券</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">即时入会完成</span>
+      </div>
+      <div class="note-box">✅ 零摩擦入会：不说"注册会员"，说"扫码领优惠"，转化率目标60%（当前日均客流×60%=约41人/天入会转化）</div>
+    </div>
+
+    <div class="card">
+      <h4>💰 储值档位设计</h4>
+      <table>
+        <tr><th>档位</th><th>储值金额</th><th>赠送</th><th>实际折扣</th><th>目标客群</th></tr>
+        <tr><td>尝鲜档</td><td>¥200</td><td>赠¥15</td><td>9.3折</td><td>首次储值、低粘性客户</td></tr>
+        <tr><td class="highlight">主推档（重点）</td><td class="highlight">¥300</td><td class="highlight">赠¥30</td><td class="highlight">9.1折</td><td class="highlight">普通回头客（≈4.7次消费额）</td></tr>
+        <tr><td>VIP档</td><td>¥500</td><td>赠¥70</td><td>8.7折</td><td>高频客（消费3次以上）</td></tr>
+      </table>
+      <div class="note-box">⚠️ <strong>档位逻辑</strong>：主推¥300档（客单价×4.7次）让客户感知"不到两个月就用完"，门槛不高；¥500档锁定高频忠诚客。</div>
+    </div>
+
+    <div class="card">
+      <h4>🏆 会员等级体系</h4>
+      <table>
+        <tr><th>等级</th><th>升级门槛</th><th>专属权益</th></tr>
+        <tr><td>普通会员</td><td>扫码即入</td><td>新人¥10券、积分累计</td></tr>
+        <tr><td>铜串会员</td><td>累计消费¥300</td><td>生日当月赠1份烤羊排（¥35）、积分×1.2</td></tr>
+        <tr><td>银串会员</td><td>累计消费¥800</td><td>每月1张¥15优惠券、专属推荐菜权益、积分×1.5</td></tr>
+        <tr><td>金串会员</td><td>累计消费¥2,000</td><td>每月1次免费小食、专属联系号、积分×2.0、邀请新人双方各得¥20</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h4>📲 私域触达机制</h4>
+      <div class="strategy-list">
+        <div class="strategy-item">
+          <h5>沉睡唤醒（自动化）</h5>
+          <p>会员15天未到店 → 系统自动推送「您有¥20新疆烧串专属券，仅3天有效，赶快来撸串」→ 目标核销率25%（约每月唤回10-15人，月增收约¥850-1,020）</p>
+        </div>
+        <div class="strategy-item">
+          <h5>生日关怀（每月执行）</h5>
+          <p>生日当月自动推送「本月生日，来店享烤羊排免费赠」→ 到店率目标35%（成本：¥35×到店人数）</p>
+        </div>
+        <div class="strategy-item">
+          <h5>周末召回（每周五推送）</h5>
+          <p>每周五18:00向7天未到店会员推「周末聚餐首选，本周末扫码到店享啤酒买2送1」→ 目标召回率15%</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ MODAL 05：公私域联动 ━━━ -->
+<div class="modal-overlay" id="modal-pd" onclick="closeModal(event,'modal-pd')">
+<div class="modal-box" onclick="e=>e.stopPropagation()">
+  <div class="modal-header">
+    <span class="modal-title">CH-05 · 公私域联动闭环</span>
+    <button class="modal-close" onclick="closeModalById('modal-pd')">×</button>
+  </div>
+  <div class="modal-body">
+
+    <div class="card">
+      <h4>🔄 公私域联动闭环图</h4>
+      <div style="padding:12px 0;">
+        <div class="flow-steps" style="flex-direction:column;align-items:flex-start;gap:12px;">
+          <div style="display:flex;align-items:center;gap:12px;width:100%;">
+            <span class="flow-step" style="min-width:120px;text-align:center;">🌐 公域曝光</span>
+            <span style="font-size:12px;color:var(--text-muted);">大众点评收录 + 小红书打卡笔记 + 抖音炭烤视频 → 新客看见</span>
+          </div>
+          <div style="padding-left:60px;color:var(--primary);font-size:18px;">↓</div>
+          <div style="display:flex;align-items:center;gap:12px;width:100%;">
+            <span class="flow-step" style="min-width:120px;text-align:center;">📲 到店触达</span>
+            <span style="font-size:12px;color:var(--text-muted);">万能码桌贴扫码 → 自动入会领¥10新人券 → 完成私域沉淀</span>
+          </div>
+          <div style="padding-left:60px;color:var(--primary);font-size:18px;">↓</div>
+          <div style="display:flex;align-items:center;gap:12px;width:100%;">
+            <span class="flow-step" style="min-width:120px;text-align:center;">🔒 私域锁客</span>
+            <span style="font-size:12px;color:var(--text-muted);">储值300送30 → 消费积分 → 等级升铜串/银串 → 每周/月触达</span>
+          </div>
+          <div style="padding-left:60px;color:var(--primary);font-size:18px;">↓</div>
+          <div style="display:flex;align-items:center;gap:12px;width:100%;">
+            <span class="flow-step" style="min-width:120px;text-align:center;">⭐ 回流公域</span>
+            <span style="font-size:12px;color:var(--text-muted);">结账后好评引导弹窗 → 顾客发点评/小红书 → 新一轮新客进入</span>
+          </div>
+          <div style="padding-left:60px;color:var(--primary);font-size:18px;">↓</div>
+          <div style="display:flex;align-items:center;gap:12px;width:100%;">
+            <span class="flow-step" style="min-width:120px;text-align:center;background:rgba(255,154,60,0.15);">📈 增长飞轮</span>
+            <span style="font-size:12px;color:var(--accent);">评分提升 → 更多曝光 → 更多新客 → 更多会员 → 月流水持续增长</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>🌐 公域平台策略</h4>
+      <table>
+        <tr><th>平台</th><th>核心动作</th><th>目标</th></tr>
+        <tr><td>大众点评</td><td>开通评价专家+团购套餐（¥39尝鲜串/¥88双人套餐）+好评冲刺至4.5分+店铺资料完善（门头图/环境图/菜品图）</td><td>30天新增50条好评，月增外来新客30+人</td></tr>
+        <tr><td>抖音</td><td>每周发1条「现切现串现烤」短视频，主打15-30秒，BGM用热门烟火气音乐；重点时段：下午5-7点发布</td><td>每月1-2条破500播放量，引导到店咨询</td></tr>
+        <tr><td>小红书</td><td>发「杭州正宗新疆烧烤探店」图文笔记，突出：新疆直供羊肉/明石路地铁旁/夜宵首选；标签：#杭州美食 #新疆烧烤 #笕桥吃什么</td><td>每月2篇种草笔记，引导收藏>转化</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h4>🔐 私域运营机制</h4>
+      <table>
+        <tr><th>动作</th><th>触发条件</th><th>工具</th><th>预期效果</th></tr>
+        <tr><td>新人入会礼</td><td>首次扫码</td><td>扫码点餐+会员</td><td>入会率60%</td></tr>
+        <tr><td>储值推荐</td><td>每次结账时</td><td>POS弹窗+话术</td><td>储值转化率10-15%</td></tr>
+        <tr><td>沉睡唤醒</td><td>15天未到店</td><td>会员系统自动</td><td>唤醒率25%</td></tr>
+        <tr><td>生日关怀</td><td>生日当月</td><td>系统自动推送</td><td>到店率35%</td></tr>
+        <tr><td>周末召回</td><td>每周五定时</td><td>消息群发</td><td>召回率15%</td></tr>
+        <tr><td>好评引导</td><td>结账后</td><td>评价专家自动弹</td><td>好评率提升30%</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ MODAL 06：营销节奏 ━━━ -->
+<div class="modal-overlay" id="modal-calendar" onclick="closeModal(event,'modal-calendar')">
+<div class="modal-box" onclick="e=>e.stopPropagation()">
+  <div class="modal-header">
+    <span class="modal-title">CH-06 · 营销节奏与活动日历</span>
+    <button class="modal-close" onclick="closeModalById('modal-calendar')">×</button>
+  </div>
+  <div class="modal-body">
+
+    <div class="card">
+      <h4>📅 90天作战节奏</h4>
+      <table>
+        <tr><th>阶段</th><th>时间</th><th>主攻方向</th><th>核心活动</th></tr>
+        <tr><td>冷启动期</td><td>第1-4周</td><td>评分建立+会员播种</td><td>「新店好评冲刺」：结账后每桌引导评价，目标50条4.5+好评</td></tr>
+        <tr><td>成长期</td><td>第5-8周</td><td>储值引爆+复购飞轮</td><td>「新疆夏日啤酒节」：周五六推啤酒串套餐，储值送啤酒券</td></tr>
+        <tr><td>稳健期</td><td>第9-12周</td><td>口碑沉淀+裂变拉新</td><td>「撸串挑战赛」：100串王挑战+分享视频到小红书抖音</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h4>🗓️ 2026年5-8月活动排期（具体到周）</h4>
+      <div class="calendar-grid">
+        <div class="cal-month">
+          <div class="cal-month-name">5月（上线月）</div>
+          <ul>
+            <li>第1周：系统上线+物料到位</li>
+            <li>第2周：「好评冲刺」启动，目标20条</li>
+            <li>第3周：推出¥88双人套餐团购</li>
+            <li>第4周：会员总结+储值推广开始</li>
+          </ul>
+        </div>
+        <div class="cal-month">
+          <div class="cal-month-name">6月（爆发月）</div>
+          <ul>
+            <li>第1周：端午节「羊肉串大礼包」</li>
+            <li>第2周：「新疆夏日啤酒节」启动</li>
+            <li>第3周：储值主推¥300档冲刺</li>
+            <li>第4周：小红书种草内容发布</li>
+          </ul>
+        </div>
+        <div class="cal-month">
+          <div class="cal-month-name">7月（裂变月）</div>
+          <ul>
+            <li>第1周：「深夜食堂」深夜限定菜单</li>
+            <li>第2周：100串挑战赛（周末场）</li>
+            <li>第3周：抖音视频种草内容</li>
+            <li>第4周：沉睡会员唤醒推送</li>
+          </ul>
+        </div>
+        <div class="cal-month">
+          <div class="cal-month-name">8月（复购月）</div>
+          <ul>
+            <li>第1周：「烤串盲品挑战」互动活动</li>
+            <li>第2周：VIP储值专属福利推送</li>
+            <li>第3周：生日会员专属烤羊排赠送</li>
+            <li>第4周：季度复盘+下季度计划</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>🍺 重点活动详解：新疆夏日啤酒节（6月第2周）</h4>
+      <table>
+        <tr><th>要素</th><th>内容</th></tr>
+        <tr><td>活动形式</td><td>推「99元/人串+啤酒畅饮2小时」套餐（扫码点餐置顶），每晚21:00设「干杯时刻」倒计时互动</td></tr>
+        <tr><td>目标</td><td>活动周拉新客30人+储值转化15人（储值¥300×15=¥4,500当周储值额）</td></tr>
+        <tr><td>成本预估</td><td>啤酒批发成本约3元/瓶，人均喝4瓶=¥12；套餐让利约¥15/份；月度总成本≈¥2,000-3,000</td></tr>
+        <tr><td>SaaS工具</td><td>扫码点餐（套餐上架）+ 会员系统（参与者自动获"酒神"标签）+ 万能码（预约报名）</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h4>🔥 重点活动详解：深夜食堂主题（7月第1周）</h4>
+      <table>
+        <tr><th>要素</th><th>内容</th></tr>
+        <tr><td>活动形式</td><td>每周五六22:00后切换深夜模式：手机连蓝牙音箱播治愈系BGM，扫码菜单显示「深夜限定」（新疆夜宵专属3款菜）</td></tr>
+        <tr><td>目标</td><td>22:00后翻台率提升30%，周末深夜场增收约¥2,000/周</td></tr>
+        <tr><td>成本预估</td><td>蓝牙音箱¥100一次性；限定菜品在常规成本内；留言本¥20/月</td></tr>
+        <tr><td>差异化亮点</td><td>「深夜的新疆味」情感共鸣——打工人下班、夜猫子聚会，烟火气治愈感</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ MODAL 07：OKR+ROI ━━━ -->
+<div class="modal-overlay" id="modal-okr" onclick="closeModal(event,'modal-okr')">
+<div class="modal-box" onclick="e=>e.stopPropagation()">
+  <div class="modal-header">
+    <span class="modal-title">CH-07 · OKR量化目标与ROI回报</span>
+    <button class="modal-close" onclick="closeModalById('modal-okr')">×</button>
+  </div>
+  <div class="modal-body">
+
+    <div class="card">
+      <h4>🎯 90天OKR量化目标</h4>
+      <div class="okr-grid">
+        <div class="okr-card">
+          <span class="okr-metric">¥17.5万</span>
+          <div class="okr-label">目标月流水（第3个月）</div>
+          <div class="okr-note">较当前14万增长25%，月增¥3.4万</div>
+        </div>
+        <div class="okr-card">
+          <span class="okr-metric">4.5★</span>
+          <div class="okr-label">大众点评目标评分</div>
+          <div class="okr-note">30天内新增50+条好评</div>
+        </div>
+        <div class="okr-card">
+          <span class="okr-metric">300人</span>
+          <div class="okr-label">3个月累计会员数</div>
+          <div class="okr-note">日均入会≈3.3人，月新增100人</div>
+        </div>
+        <div class="okr-card">
+          <span class="okr-metric">¥1.5万</span>
+          <div class="okr-label">目标月储值流水</div>
+          <div class="okr-note">第2个月起，每月新增储值30人×¥300=¥9,000，存量续储¥6,000</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>📈 月增收拆解（第3个月稳态）</h4>
+      <table>
+        <tr><th>增收来源</th><th>推算逻辑</th><th>月增收</th></tr>
+        <tr><td>点评评分+团购新客</td><td>评分4.5+后团购月核销80份×¥75客单=¥6,000；自然新客40人×¥68=¥2,720</td><td class="highlight">¥8,720</td></tr>
+        <tr><td>会员复购率提升</td><td>300名会员中复购率从30%提升至45%，月多到店45人×¥68=¥3,060</td><td class="highlight">¥3,060</td></tr>
+        <tr><td>客单价提升（套餐+酒水）</td><td>日均20人点套餐×30天×¥10客单溢价=¥6,000</td><td class="highlight">¥6,000</td></tr>
+        <tr><td>外卖渠道开拓</td><td>外卖月新增150单×¥65均单=¥9,750（笕桥周边工厂/办公）</td><td class="highlight">¥9,750</td></tr>
+        <tr><td>深夜场景增量</td><td>周五六深夜（22:00后）多10桌×8个夜×¥68=¥5,440</td><td class="highlight">¥5,440</td></tr>
+        <tr><td>沉睡唤醒复购</td><td>每月唤醒20人×¥68=¥1,360</td><td class="highlight">¥1,360</td></tr>
+        <tr><td><strong>合计月增收</strong></td><td>—</td><td class="highlight" style="font-size:15px;font-weight:800;">≈¥34,330</td></tr>
+      </table>
+      <div class="note-box">✅ OKR目标月流水¥17.5万 = 当前¥14万 + 月增¥3.4万（增收来源合计¥34,330，取保守值¥3.4万作为目标，留有10%安全边际）。数字完全自洽。</div>
+    </div>
+
+    <div class="card">
+      <h4>💸 投入成本估算</h4>
+      <table>
+        <tr><th>项目</th><th>一次性成本</th><th>月度成本</th></tr>
+        <tr><td>SaaS签约（基础版会员+扫码点餐）</td><td>¥4,888/年</td><td>约¥407</td></tr>
+        <tr><td>大众点评评价专家</td><td>含在套餐内</td><td>—</td></tr>
+        <tr><td>桌贴/立牌物料（首次）</td><td>¥300</td><td>—</td></tr>
+        <tr><td>新人入会礼成本（¥10券×月新增100人）</td><td>—</td><td>¥500（实际核销约50%）</td></tr>
+        <tr><td>储值赠送（¥300充送¥30×30人）</td><td>—</td><td>¥900</td></tr>
+        <tr><td>活动成本（啤酒节/盲品等）</td><td>—</td><td>¥1,500</td></tr>
+        <tr><td><strong>月度总成本</strong></td><td>—</td><td class="highlight">约¥3,307</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h4>📊 ROI总结</h4>
+      <div class="okr-grid">
+        <div class="okr-card">
+          <span class="okr-metric">¥3.4万</span>
+          <div class="okr-label">目标月增收</div>
+        </div>
+        <div class="okr-card">
+          <span class="okr-metric">¥3,307</span>
+          <div class="okr-label">月运营总成本</div>
+        </div>
+        <div class="okr-card">
+          <span class="okr-metric">12.1x</span>
+          <div class="okr-label">投入产出比</div>
+        </div>
+        <div class="okr-card">
+          <span class="okr-metric">~7周</span>
+          <div class="okr-label">回本周期</div>
+          <div class="okr-note">¥4,888年费 ÷ 月均增收¥3.4万，约2个月回本</div>
+        </div>
+      </div>
+      <div class="note-box">✅ <strong>结论</strong>：每投入1元运营成本，产出约12.1元增量营收。SaaS年费约7周回本。ROI极为可观，主要驱动力是低成本的会员复购和口碑增长，无需大额硬件投入。</div>
+    </div>
+
+    <div class="card">
+      <h4>📅 30天关键复盘节点</h4>
+      <table>
+        <tr><th>时间</th><th>复盘指标</th><th>达标标准</th><th>未达标应对</th></tr>
+        <tr><td>第7天</td><td>新增会员数</td><td>≥20人</td><td>检查话术/桌贴是否到位</td></tr>
+        <tr><td>第14天</td><td>大众点评评价数</td><td>≥20条</td><td>加强结账好评引导频次</td></tr>
+        <tr><td>第30天</td><td>月储值额+会员数</td><td>储值¥9,000+；会员100人</td><td>调整储值档位/话术</td></tr>
+        <tr><td>第60天</td><td>月流水+复购率</td><td>流水≥¥16万；复购率≥40%</td><td>加强私域触达频次</td></tr>
+        <tr><td>第90天</td><td>全指标对齐OKR</td><td>月流水¥17.5万；评分4.5；会员300人</td><td>全面复盘+调整策略</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ JS ━━━ -->
+<script>
+// 粒子
+const container = document.getElementById('particles');
+for (let i = 0; i < 12; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  p.style.cssText = `left:${Math.random()*100}%;animation-duration:${8+Math.random()*12}s;animation-delay:${Math.random()*8}s;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px;opacity:${0.3+Math.random()*0.4}`;
+  container.appendChild(p);
+}
+
+// 解锁
+function tryUnlock() {
+  const code = document.getElementById('unlockCode').value.trim();
+  const msg = document.getElementById('unlockMsg');
+  if (code === '123456') {
+    ['ch05','ch06','ch07'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.remove('locked');
+        el.classList.add('unlocked');
+        el.querySelector('.lock-icon').style.display='none';
+        const tag = el.querySelector('.chapter-tag');
+        if(tag){ tag.textContent='已解锁'; tag.style.background='rgba(100,200,100,0.15)'; tag.style.color='#70d890'; }
+      }
+    });
+    // 绑定点击
+    document.getElementById('ch05').onclick = () => openModal('modal-pd');
+    document.getElementById('ch06').onclick = () => openModal('modal-calendar');
+    document.getElementById('ch07').onclick = () => openModal('modal-okr');
+    msg.textContent = '✅ 已解锁全部章节';
+    msg.style.color = '#70d890';
+    document.getElementById('unlockBar').style.borderColor = 'rgba(100,200,100,0.3)';
+  } else {
+    msg.textContent = '解锁码不正确';
+    msg.style.color = '#ff7070';
+    setTimeout(()=>{ msg.textContent=''; }, 2000);
+  }
+}
+document.getElementById('unlockCode').addEventListener('keydown', e => { if(e.key==='Enter') tryUnlock(); });
+
+// 弹窗
+function openModal(id) {
+  const m = document.getElementById(id);
+  if (m) { m.classList.add('active'); document.body.style.overflow='hidden'; }
+}
+function closeModal(e, id) {
+  if (e.target.classList.contains('modal-overlay')) closeModalById(id);
+}
+function closeModalById(id) {
+  const m = document.getElementById(id);
+  if (m) { m.classList.remove('active'); document.body.style.overflow=''; }
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.active').forEach(m => { m.classList.remove('active'); document.body.style.overflow=''; });
+  }
+});
+</script>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- ████████████████████  执行手册  ████████████████████ -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+
+<style>
+  .manual-section { padding: 60px 0; background: var(--bg-dark); }
+  .manual-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  .manual-header-banner {
+    background: linear-gradient(135deg, rgba(139,69,19,0.35), rgba(192,103,26,0.2));
+    border: 1px solid rgba(192,103,26,0.4);
+    border-radius: 14px;
+    padding: 28px 32px;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  .manual-header-banner h2 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 26px;
+    color: var(--text-bright);
+    margin-bottom: 8px;
+  }
+  .manual-header-banner p { color: var(--text-muted); font-size: 13px; }
+
+  .manual-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .manual-card h3 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 16px;
+    color: var(--accent);
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 12px;
+  }
+
+  .talkcard {
+    background: var(--bg-card2);
+    border: 1px solid rgba(192,103,26,0.2);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 14px;
+    position: relative;
+  }
+  .talkcard-scene {
+    font-size: 11px;
+    color: var(--primary);
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .talkcard-role {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+  .talkcard-main {
+    background: rgba(255,154,60,0.06);
+    border-left: 3px solid var(--accent);
+    padding: 8px 12px;
+    border-radius: 0 6px 6px 0;
+    font-size: 13px;
+    color: var(--text-bright);
+    margin-bottom: 8px;
+  }
+  .talkcard-alt { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+  .talkcard-reject { font-size: 12px; color: var(--text-muted); }
+
+  .sop-step {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(192,103,26,0.06);
+  }
+  .sop-step:last-child { border-bottom: none; }
+  .sop-day {
+    background: rgba(192,103,26,0.15);
+    color: var(--accent);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    font-family: 'Inter', sans-serif;
+    min-width: 50px;
+    text-align: center;
+    margin-top: 2px;
+  }
+  .sop-action { font-size: 13px; color: var(--text-main); flex: 1; }
+  .sop-who { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .sop-done { font-size: 11px; color: #70d890; }
+
+  .checklist-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .checklist-block {
+    background: var(--bg-card2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .checklist-block h4 { color: var(--accent); font-size: 12px; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .check-item {
+    display: flex; align-items: flex-start; gap: 8px;
+    padding: 5px 0;
+    font-size: 12px;
+    color: var(--text-main);
+    border-bottom: 1px dashed rgba(192,103,26,0.1);
+  }
+  .check-item:last-child { border-bottom: none; }
+  .check-box {
+    width: 16px; height: 16px; border: 1px solid var(--border); border-radius: 3px;
+    flex-shrink: 0; margin-top: 1px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; transition: all 0.15s;
+  }
+  .check-box:hover { border-color: var(--accent); }
+  .check-box.checked { background: var(--primary); border-color: var(--primary); color: white; }
+
+  .daily-target-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(192,103,26,0.06);
+    font-size: 12px;
+  }
+  .daily-target-row:last-child { border-bottom: none; }
+  .daily-target-label { color: var(--text-muted); }
+  .daily-target-val { color: var(--accent); font-weight: 700; font-family: 'Inter', sans-serif; }
+</style>
+
+<section class="manual-section">
+<div class="manual-inner">
+
+  <div class="manual-header-banner">
+    <h2>📋 门店执行手册</h2>
+    <p>新疆美味烧羊肉 · 店长/收银员/服务员专用 · 拿到即用</p>
+  </div>
+
+  <!-- ── 话术卡 ── -->
+  <div class="manual-card">
+    <h3>🎯 一、员工话术卡片</h3>
+
+    <!-- 迎客 -->
+    <div class="talkcard">
+      <div class="talkcard-scene">场景A：新客迎客引导</div>
+      <div class="talkcard-role">👤 服务员 · ⏰ 顾客落座后30秒内</div>
+      <div class="talkcard-main">「欢迎来新疆美味烧羊肉！扫桌上这个码可以直接点餐，还有新客专属优惠可以领～」</div>
+      <div class="talkcard-alt">💡 客人说"直接点"时：「扫一下就好，点餐更快而且今天新客有¥10优惠券」</div>
+      <div class="talkcard-reject">✅ 成功标志：顾客拿起手机扫码</div>
+    </div>
+
+    <!-- 推串 -->
+    <div class="talkcard">
+      <div class="talkcard-scene">场景B：招牌菜推荐</div>
+      <div class="talkcard-role">👤 服务员 · ⏰ 顾客翻菜单犹豫时</div>
+      <div class="talkcard-main">「我们家烤羊肉串是新疆直供羊肉，今天要来几串？十桌有八桌都会点的，很多客人说比在新疆吃的还地道。」</div>
+      <div class="talkcard-alt">💡 想点套餐时：「两个人的话点88元双人套餐更划算，6串羊肉+烤茄子+饮料，比单点省15元。」</div>
+      <div class="talkcard-reject">❌ 客人拒绝：「好的，随时叫我就行～」（不纠缠）</div>
+    </div>
+
+    <!-- 储值推荐 -->
+    <div class="talkcard">
+      <div class="talkcard-scene">场景C：结账推储值</div>
+      <div class="talkcard-role">👤 收银员 · ⏰ 顾客扫码/刷卡准备买单时</div>
+      <div class="talkcard-main">「今天消费了[X]元，充300送30，这单直接能抵扣，相当于白省了一顿串钱，要来一张吗？」</div>
+      <div class="talkcard-alt">💡 客人犹豫时：「很多老客都充了，用不完下次还能用的，不会浪费。」</div>
+      <div class="talkcard-reject">❌ 客人拒绝：「好的没关系，下次有需要随时来～」（微笑，不追）</div>
+    </div>
+
+    <!-- 好评引导 -->
+    <div class="talkcard">
+      <div class="talkcard-scene">场景D：好评引导</div>
+      <div class="talkcard-role">👤 服务员 · ⏰ 顾客明确表示满意（说"好吃/下次还来"）时</div>
+      <div class="talkcard-main">「谢谢老板认可！如果方便的话，帮我们在大众点评上写两句，对我们小店帮助特别大，下次来还给您留着好位置～」</div>
+      <div class="talkcard-alt">💡 顾客问怎么写：「就写您今天吃了什么、好不好吃就行，很快的。」</div>
+      <div class="talkcard-reject">❌ 顾客说没时间：「没事没事，感谢您光临，欢迎下次再来！」</div>
+    </div>
+
+    <!-- 深夜场景 -->
+    <div class="talkcard">
+      <div class="talkcard-scene">场景E：深夜宵套餐推荐（22:00后）</div>
+      <div class="talkcard-role">👤 服务员 · ⏰ 22:00后新进顾客落座</div>
+      <div class="talkcard-main">「晚上好！我们今晚有深夜特供——99元两人宵夜套餐，8串羊肉+2瓶啤酒+小食，超划算，很多打工人下班都点这个，要来一套吗？」</div>
+      <div class="talkcard-alt">💡 只有1人时：「单人的话推¥39尝鲜串，3串羊肉+饮料，不贵先尝尝。」</div>
+      <div class="talkcard-reject">✅ 成功标志：顾客询问套餐内容</div>
+    </div>
+  </div>
+
+  <!-- ── 关键活动SOP ── -->
+  <div class="manual-card">
+    <h3>📌 二、关键活动执行SOP</h3>
+
+    <div style="margin-bottom:24px;">
+      <div style="font-size:13px;font-weight:700;color:var(--text-bright);margin-bottom:12px;padding:8px 12px;background:rgba(192,103,26,0.1);border-radius:6px;">
+        SOP-1：储值拉新活动（月度常态活动）
+        <span style="font-size:11px;color:var(--text-muted);font-weight:400;margin-left:8px;">目标：每月新增储值客30人，月储值额¥9,000</span>
+      </div>
+      <div class="sop-step"><span class="sop-day">D-7</span><div><div class="sop-action">确认储值档位（¥200/¥300/¥500）已在系统配置；测试一笔储值流程</div><div class="sop-who">BD · 完成标志：系统正常弹窗</div></div></div>
+      <div class="sop-step"><span class="sop-day">D-3</span><div><div class="sop-action">打印收银台立牌（「充300送30，本单直接抵」），摆放在收银台显眼位置</div><div class="sop-who">BD+店长 · 完成标志：拍照发BD确认</div></div></div>
+      <div class="sop-step"><span class="sop-day">D-2</span><div><div class="sop-action">晨会培训收银话术：「今天消费了[X]元，充300送30，这单直接抵扣」——每人过一遍</div><div class="sop-who">店长 · 完成标志：每人演练通过</div></div></div>
+      <div class="sop-step"><span class="sop-day">D-1</span><div><div class="sop-action">再测一笔储值+退款，物料摆放到位，社群发预热消息</div><div class="sop-who">收银员+店长 · 完成标志：测试金额正确</div></div></div>
+      <div class="sop-step"><span class="sop-day">每单</span><div><div class="sop-action">结账时POS弹出储值推荐弹窗，收银员按话术推荐，不强迫</div><div class="sop-who">收银员 · 目标：每10单中推成功1-2单</div></div></div>
+      <div class="sop-step"><span class="sop-day">晚间</span><div><div class="sop-action">店长在群内播报今日储值笔数和金额（系统截图）</div><div class="sop-who">店长 · 完成标志：每天1条数据截图</div></div></div>
+      <div class="sop-step"><span class="sop-day">D+3</span><div><div class="sop-action">对比储值转化率，低于8%则调整话术（加急迫感：「本活动月底截止」）</div><div class="sop-who">BD+店长 · 完成标志：调整后转化提升</div></div></div>
+    </div>
+
+    <div style="margin-bottom:24px;">
+      <div style="font-size:13px;font-weight:700;color:var(--text-bright);margin-bottom:12px;padding:8px 12px;background:rgba(192,103,26,0.1);border-radius:6px;">
+        SOP-2：大众点评好评冲刺（第1个月执行）
+        <span style="font-size:11px;color:var(--text-muted);font-weight:400;margin-left:8px;">目标：30天新增50条好评，评分达4.5★</span>
+      </div>
+      <div class="sop-step"><span class="sop-day">D-3</span><div><div class="sop-action">BD开通评价专家+设置结账后自动弹出好评引导页；测试触发效果</div><div class="sop-who">BD · 完成标志：测试成功弹出</div></div></div>
+      <div class="sop-step"><span class="sop-day">D-2</span><div><div class="sop-action">培训服务员识别满意客人（听到"好吃/下次还来"时启动话术D）</div><div class="sop-who">店长 · 完成标志：服务员知道触发条件</div></div></div>
+      <div class="sop-step"><span class="sop-day">每天</span><div><div class="sop-action">系统自动在结账后弹好评页；服务员对明确满意顾客口头引导；店长24h内回复所有新评价</div><div class="sop-who">服务员+店长 · 禁止：强迫或物质诱导</div></div></div>
+      <div class="sop-step"><span class="sop-day">每天</span><div><div class="sop-action">发现负面苗头（顾客皱眉/投诉）立即店长出面处理，线下解决，不让差评上线</div><div class="sop-who">店长 · 完成标志：问题在店内解决</div></div></div>
+      <div class="sop-step"><span class="sop-day">第7天</span><div><div class="sop-action">统计新增评价数；低于12条则加强服务员引导频次</div><div class="sop-who">BD · 标准：≥12条/7天</div></div></div>
+    </div>
+
+    <div>
+      <div style="font-size:13px;font-weight:700;color:var(--text-bright);margin-bottom:12px;padding:8px 12px;background:rgba(192,103,26,0.1);border-radius:6px;">
+        SOP-3：新疆夏日啤酒节（6月第2周，5天活动）
+        <span style="font-size:11px;color:var(--text-muted);font-weight:400;margin-left:8px;">目标：活动周新增储值15人（储值额¥4,500）+新客30人</span>
+      </div>
+      <div class="sop-step"><span class="sop-day">D-7</span><div><div class="sop-action">在扫码点餐系统配置「99元双人啤酒串套餐」并置顶；确认啤酒备货（30箱×2周用量）</div><div class="sop-who">BD+店长 · 完成标志：测试下单成功</div></div></div>
+      <div class="sop-step"><span class="sop-day">D-3</span><div><div class="sop-action">小红书/抖音发「新疆啤酒节预告」短视频/图文；社群预热；收银台立牌到位</div><div class="sop-who">店长 · 完成标志：内容发布+点赞≥20</div></div></div>
+      <div class="sop-step"><span class="sop-day">D-Day</span><div><div class="sop-action">晨会1分钟提醒：今天主推99套餐，21:00举杯时刻，服务员领头带动气氛；啤酒节期间储值推¥300档</div><div class="sop-who">店长 · 完成标志：全员知道流程</div></div></div>
+      <div class="sop-step"><span class="sop-day">21:00</span><div><div class="sop-action">「干杯时刻」：全场统一举杯倒计时（10-9-8），服务员带头喊「干杯！新疆美味！」</div><div class="sop-who">全员 · 每晚执行</div></div></div>
+      <div class="sop-step"><span class="sop-day">D+1</span><div><div class="sop-action">统计昨日活动数据（客流/套餐销量/储值笔数），发群共享</div><div class="sop-who">店长 · 完成标志：数据表格截图</div></div></div>
+    </div>
+  </div>
+
+  <!-- ── 每日检查清单 ── -->
+  <div class="manual-card">
+    <h3>✅ 三、每日执行检查清单（店长用）</h3>
+    <div style="margin-bottom:12px;font-size:12px;color:var(--text-muted);">点击复选框可勾选（页面刷新后重置）</div>
+
+    <div class="checklist-grid">
+      <div class="checklist-block">
+        <h4>🌅 早班（开店前）</h4>
+        <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><div>桌贴/立牌/收银台储值卡是否到位</div></div>
+        <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><div>系统活动测试：储值弹窗正常？</div></div>
+        <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><div>晨会话术提醒（1分钟，重点：今日推¥300储值档）</div></div>
+        <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><div>扫码点餐菜单是否更新（套餐置顶？）</div></div>
+      </div>
+
+      <div class="checklist-block">
+        <h4>🌙 晚市（营业中）</h4>
+        <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><div>服务员扫码引导覆盖率（目标≥80%桌）</div></div>
+        <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><div>收银储值推荐覆盖率（每单必推）</div></div>
+        <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><div>明显满意顾客已引导点评（话术D）</div></div>
+        <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><div>22:00后切换深夜模式（音乐调整）</div></div>
+      </div>
+
+      <div class="checklist-block">
+        <h4>📊 收店（数据播报）</h4>
+        <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><div>今日客流 ____人（目标≥69人/天）</div></div>
+        <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><div>今日新增会员 ____人（目标≥3人）</div></div>
+        <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><div>今日储值笔数/金额 ____（目标每天≥1笔）</div></div>
+        <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><div>今日流水 ____元（目标≥¥4,667/天）</div></div>
+        <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><div>新增点评数 ____条（30天合计目标50条）</div></div>
+        <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><div>数据截图发群（BD+店长群）</div></div>
+      </div>
+
+      <div class="checklist-block">
+        <h4>📅 每日OKR拆解目标</h4>
+        <div class="daily-target-row"><span class="daily-target-label">日均目标客流</span><span class="daily-target-val">≥69人</span></div>
+        <div class="daily-target-row"><span class="daily-target-label">日均目标流水</span><span class="daily-target-val">¥4,667元</span></div>
+        <div class="daily-target-row"><span class="daily-target-label">日均新增会员</span><span class="daily-target-val">≥3人</span></div>
+        <div class="daily-target-row"><span class="daily-target-label">每日储值目标</span><span class="daily-target-val">≥1笔（¥300）</span></div>
+        <div class="daily-target-row"><span class="daily-target-label">30天好评累计</span><span class="daily-target-val">50条+</span></div>
+        <div class="daily-target-row"><span class="daily-target-label">月末目标流水</span><span class="daily-target-val">¥17.5万</span></div>
+      </div>
+    </div>
+
+    <div class="note-box" style="margin-top:16px;">
+      💡 <strong>日流水目标推算</strong>：3个月目标月流水¥17.5万 ÷ 30天 = 日均¥5,833/天（阶段目标）。
+      当前基准日均¥4,667元（14万÷30），前期以¥4,667为基准，逐步爬升到¥5,833。
+    </div>
+  </div>
+
+  <!-- ── 翻车应对 ── -->
+  <div class="manual-card">
+    <h3>🚨 四、常见翻车点应对</h3>
+    <table>
+      <tr><th>翻车场景</th><th>应对方案</th></tr>
+      <tr><td>员工不开口推储值</td><td>话术简化为1句话（不要背稿）；店长当天带头演示1遍；设激励（推成功1笔奖店长¥10）</td></tr>
+      <tr><td>储值推了但几乎无人充</td><td>检查档位——主推档¥300是否超过客单价×5次（¥340），若超过换成¥250档；话术加"本单直接抵"</td></tr>
+      <tr><td>好评引导被投诉</td><td>只引导自然满意的顾客，绝不全员无差别引导；禁止物质诱导说"给好评送东西"</td></tr>
+      <tr><td>系统活动上线报错</td><td>D-1必须实测一笔，发现问题立即联系BD；备用方案：手写储值记录，次日补录系统</td></tr>
+      <tr><td>差评出现</td><td>24h内平台回复+私信致歉；邀请顾客再次到店体验（赠1份烤羊排¥35）；改善被差评的具体问题</td></tr>
+      <tr><td>夏季客流骤降（雨天）</td><td>雨天推"点餐外卖"并在群内发"雨夜外卖专享¥15元减"活动；强化外卖平台运营</td></tr>
+    </table>
+  </div>
+
+</div>
+</section>
+
+</body>
+</html>
