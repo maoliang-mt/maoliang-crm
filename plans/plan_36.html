@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>川渝小厨 · 运营增长方案</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@400;600;700;900&display=swap');
+:root{--primary:#E53935;--primary-light:#FF6F61;--primary-dark:#B71C1C;--accent:#FF8A65;--accent2:#FFD54F;--bg-dark:#0D1117;--bg-card:#161B22;--bg-card-hover:#1C2128;--text-primary:#F0F6FC;--text-secondary:#8B949E;--text-muted:#6E7681;--border:#30363D;--gradient-1:linear-gradient(135deg,#E53935 0%,#FF6F61 100%);--shadow:0 8px 32px rgba(229,57,53,0.15)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans SC',-apple-system,sans-serif;background:var(--bg-dark);color:var(--text-primary);min-height:100vh;overflow-x:hidden}
+.particles{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:0}
+.particle{position:absolute;width:4px;height:4px;background:var(--primary);border-radius:50%;opacity:.3;animation:float 15s infinite ease-in-out}
+@keyframes float{0%,100%{transform:translateY(0) translateX(0);opacity:.3}25%{transform:translateY(-100px) translateX(50px);opacity:.6}50%{transform:translateY(-50px) translateX(-30px);opacity:.2}75%{transform:translateY(-150px) translateX(80px);opacity:.5}}
+.particle:nth-child(1){top:10%;left:10%;animation-delay:0s}.particle:nth-child(2){top:20%;left:80%;animation-delay:2s}.particle:nth-child(3){top:60%;left:20%;animation-delay:4s}.particle:nth-child(4){top:80%;left:70%;animation-delay:6s}.particle:nth-child(5){top:40%;left:50%;animation-delay:8s}.particle:nth-child(6){top:90%;left:30%;animation-delay:1s}.particle:nth-child(7){top:30%;left:90%;animation-delay:3s}.particle:nth-child(8){top:70%;left:40%;animation-delay:5s}.particle:nth-child(9){top:50%;left:60%;animation-delay:7s}.particle:nth-child(10){top:15%;left:45%;animation-delay:9s}
+.wave-container{position:fixed;bottom:0;left:0;right:0;height:100px;pointer-events:none;z-index:0;overflow:hidden}
+.wave{position:absolute;bottom:0;left:-50%;width:200%;height:100%;animation:waveAnim 12s linear infinite}
+@keyframes waveAnim{0%{transform:translateX(0)}100%{transform:translateX(50%)}}
+.wave svg{width:100%;height:100%}
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:60px 20px;background:radial-gradient(ellipse at center,rgba(229,57,53,.08) 0%,transparent 70%)}
+.hero::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(229,57,53,.12) 0%,transparent 70%);border-radius:50%;animation:pulseGlow 4s ease-in-out infinite}
+@keyframes pulseGlow{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.6}50%{transform:translate(-50%,-50%) scale(1.1);opacity:1}}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(229,57,53,.15);border:1px solid rgba(229,57,53,.3);border-radius:100px;padding:8px 20px;font-size:13px;color:var(--primary-light);margin-bottom:24px;position:relative;z-index:1}
+.hero h1{font-family:'Noto Serif SC',serif;font-size:clamp(2.5rem,6vw,4.5rem);font-weight:900;background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:16px;position:relative;z-index:1;line-height:1.2}
+.hero .subtitle{font-size:clamp(1rem,2.5vw,1.4rem);color:var(--text-secondary);margin-bottom:12px;position:relative;z-index:1}
+.hero .address{font-size:14px;color:var(--text-muted);margin-bottom:32px;position:relative;z-index:1}
+.stats-row{display:flex;gap:40px;flex-wrap:wrap;justify-content:center;position:relative;z-index:1}
+.stat-item{text-align:center}
+.stat-item .value{font-family:'Inter',sans-serif;font-size:2rem;font-weight:900;color:var(--primary-light)}
+.stat-item .label{font-size:12px;color:var(--text-muted);margin-top:4px}
+.main-content{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 20px 100px}
+.section-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:16px;margin-top:40px}
+.section-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:24px 16px;text-align:center;cursor:pointer;transition:all .3s ease;position:relative;overflow:hidden}
+.section-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gradient-1);opacity:0;transition:opacity .3s}
+.section-card:hover{background:var(--bg-card-hover);border-color:var(--primary);transform:translateY(-4px);box-shadow:var(--shadow)}
+.section-card:hover::before{opacity:1}
+.section-card.locked{opacity:.5;cursor:not-allowed}
+.section-card.locked:hover{transform:none;box-shadow:none;border-color:var(--border)}
+.section-num{font-family:'Inter',sans-serif;font-size:2rem;font-weight:900;color:var(--primary);margin-bottom:8px}
+.section-title{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:8px}
+.section-tag{display:inline-block;font-size:11px;padding:3px 10px;border-radius:100px;background:rgba(229,57,53,.12);color:var(--primary-light)}
+.lock-icon{position:absolute;top:12px;right:12px;font-size:16px;opacity:.6}
+.unlock-bar{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:24px 32px;margin-top:40px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:center}
+.unlock-bar input{background:var(--bg-dark);border:1px solid var(--border);border-radius:8px;padding:12px 20px;color:var(--text-primary);font-size:14px;outline:none;width:200px}
+.unlock-bar input:focus{border-color:var(--primary)}
+.unlock-btn{background:var(--gradient-1);border:none;border-radius:8px;padding:12px 24px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.unlock-btn:hover{transform:scale(1.05);box-shadow:0 4px 16px rgba(229,57,53,.4)}
+.unlock-msg{font-size:13px;color:var(--text-muted)}
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);z-index:1000;justify-content:center;align-items:flex-start;padding:40px 20px;overflow-y:auto}
+.modal-overlay.active{display:flex}
+.modal{background:var(--bg-card);border:1px solid var(--border);border-radius:20px;width:100%;max-width:800px;padding:40px;position:relative;animation:modalIn .3s ease;margin:auto 0}
+@keyframes modalIn{from{opacity:0;transform:translateY(20px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+.modal-close{position:absolute;top:16px;right:16px;width:36px;height:36px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-secondary);font-size:18px;transition:all .2s}
+.modal-close:hover{background:rgba(229,57,53,.2);color:var(--primary-light)}
+.modal-num{font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:var(--primary);margin-bottom:8px}
+.modal h2{font-family:'Noto Serif SC',serif;font-size:1.8rem;font-weight:700;margin-bottom:24px;background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.modal-content{color:var(--text-secondary);line-height:1.8;font-size:15px}
+.modal-content h3{color:var(--text-primary);font-size:1.1rem;margin:24px 0 12px;font-weight:700}
+.modal-content h4{color:var(--primary-light);font-size:1rem;margin:20px 0 10px;font-weight:600}
+.modal-content p{margin-bottom:12px}
+.modal-content ul,.modal-content ol{margin:12px 0;padding-left:20px}
+.modal-content li{margin-bottom:8px}
+.modal-content strong{color:var(--text-primary)}
+.modal-content table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+.modal-content th{background:rgba(229,57,53,.12);color:var(--primary-light);padding:10px 12px;text-align:left;font-weight:700;border-bottom:1px solid var(--border)}
+.modal-content td{padding:10px 12px;border-bottom:1px solid var(--border);color:var(--text-secondary)}
+.modal-content tr:hover td{background:rgba(255,255,255,.02)}
+.highlight-card{background:rgba(229,57,53,.06);border:1px solid rgba(229,57,53,.2);border-radius:12px;padding:16px 20px;margin:16px 0}
+.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:16px 0}
+.metric-box{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center}
+.metric-box .m-value{font-family:'Inter',sans-serif;font-size:1.5rem;font-weight:900;color:var(--primary-light)}
+.metric-box .m-label{font-size:12px;color:var(--text-muted);margin-top:4px}
+.footer{text-align:center;padding:40px 20px;color:var(--text-muted);font-size:12px;position:relative;z-index:1}
+@media(max-width:768px){.section-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}.modal{padding:24px}.stats-row{gap:20px}.unlock-bar{flex-direction:column}.unlock-bar input{width:100%}}
+</style>
+</head>
+<body>
+<div class="particles"><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div></div>
+<div class="wave-container"><div class="wave"><svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,60 C360,100 720,20 1080,60 C1260,80 1380,40 1440,60 L1440,120 L0,120 Z" fill="rgba(229,57,53,0.05)"/></svg></div></div>
+
+<section class="hero">
+  <div class="badge">🔥 美团餐饮数智化 · 定制运营方案</div>
+  <h1>川渝小厨</h1>
+  <p class="subtitle">午市王者 · 复购增长 · 公私域联动作战方案</p>
+  <p class="address">📍 浙江省杭州市上城区凤起路168号</p>
+  <div class="stats-row">
+    <div class="stat-item"><div class="value">¥28</div><div class="label">人均客单</div></div>
+    <div class="stat-item"><div class="value">15万</div><div class="label">月流水</div></div>
+    <div class="stat-item"><div class="value">80㎡</div><div class="label">门店面积</div></div>
+    <div class="stat-item"><div class="value">~179</div><div class="label">日均客次</div></div>
+  </div>
+</section>
+
+<div class="main-content">
+  <div class="section-grid" id="sectionGrid"></div>
+  <div class="unlock-bar" id="unlockBar">
+    <span class="unlock-msg">🔐 签约后查看完整方案（第5章起）</span>
+    <input type="password" id="unlockInput" placeholder="请输入解锁码" onkeydown="if(event.key==='Enter')tryUnlock()"/>
+    <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    <span class="unlock-msg" id="unlockFeedback"></span>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-close" onclick="closeModal()">✕</div>
+    <div class="modal-num" id="modalNum"></div>
+    <h2 id="modalTitle"></h2>
+    <div class="modal-content" id="modalContent"></div>
+  </div>
+</div>
+
+<div class="footer">
+  <p>本方案由美团餐饮SaaS · 大橘运营专家生成 | 仅供川渝小厨参考使用</p>
+  <p style="margin-top:8px">© 2026 美团餐饮数智化解决方案</p>
+</div>
+
+<script>
+const UNLOCK_CODE='123456';
+let unlocked=false;
+
+const sections=[
+{num:'01',title:'数据基石',tag:'现状诊断',locked:false,content:`
+<h3>📊 经营数据概览</h3>
+<div class="metric-grid">
+<div class="metric-box"><div class="m-value">¥15万</div><div class="m-label">月营收</div></div>
+<div class="metric-box"><div class="m-value">¥28</div><div class="m-label">客单价</div></div>
+<div class="metric-box"><div class="m-value">~179人</div><div class="m-label">日均客次</div></div>
+<div class="metric-box"><div class="m-value">~5,357人</div><div class="m-label">月消费人次</div></div>
+</div>
+<div class="highlight-card"><strong>数据交叉验证：</strong>月流水¥150,000 ÷ 客单¥28 ≈ 5,357人/月 ÷ 30天 ≈ 179人/天。80㎡快餐店日均179客次（约12张桌×午市3轮+晚市2轮），数据自洽 ✅</div>
+<h3>⚠️ 核心问题诊断</h3>
+<table><tr><th>维度</th><th>现状</th><th>问题</th></tr>
+<tr><td>时段结构</td><td>午市占比约70%</td><td>晚市+外卖贡献不足，坪效未充分释放</td></tr>
+<tr><td>复购率</td><td>⚠️ 预估30%-35%</td><td>快餐品类标杆应达50%+，存在20pct提升空间</td></tr>
+<tr><td>外卖占比</td><td>⚠️ 预估20%-25%</td><td>凤起路商务区外卖潜力巨大，应提至40%+</td></tr>
+<tr><td>会员渗透</td><td>已签旗舰版但未激活</td><td>需立即启动会员体系，锁住午间回头客</td></tr>
+<tr><td>线上评分</td><td>未知</td><td>点评/外卖评分是公域流量基础，需重点建设</td></tr></table>
+<h3>💡 机会判断</h3>
+<p>凤起路是杭州上城区核心商务动脉，地铁1号线凤起路站辐射大量写字楼上班族。<strong>人均¥28的川渝快餐精准命中午间刚需</strong>，但当前门店过度依赖午市堂食，晚市和外卖两大增量空间未打开。</p>
+<p>核心策略方向：<strong>「午市锁客 + 外卖破量 + 晚市拉新」</strong>三管齐下，3个月目标月流水从15万提升至19-20万。</p>`},
+
+{num:'02',title:'商圈竞品分析',tag:'知己知彼',locked:false,content:`
+<h3>🗺️ 商圈画像</h3>
+<p><strong>位置特征：</strong>凤起路168号，上城区核心地段，距地铁1号线凤起路站步行约5分钟。周边500米内有多栋写字楼（恒祺商务中心、浙江国际大酒店写字区、凤起时代大厦），辐射上班族约8,000-12,000人。</p>
+<p><strong>客群画像：</strong>70%为25-40岁写字楼白领，午餐决策时间短（<3分钟），重视出餐速度和性价比，对川渝辣味有天然偏好。周末客流下降约50%，以周边居民为主。</p>
+<h3>⚔️ 周边3公里核心竞品逐一分析</h3>
+<table><tr><th>竞品名称</th><th>品类/人均</th><th>核心弱点</th><th>我的切入机会</th></tr>
+<tr><td><strong>川味观（凤起店）</strong></td><td>川菜正餐/¥57</td><td>人均偏高上班族日常吃不起；出餐慢15-20min</td><td>人均28元快速出餐，精准切午间刚需</td></tr>
+<tr><td><strong>川在川·炸卤研究所</strong></td><td>川味炸卤/¥30-35</td><td>品类偏小吃不能解决正餐需求；菜品单一</td><td>完整川渝快餐（饭+菜+汤）满足"吃饱吃好"</td></tr>
+<tr><td><strong>丁妈麻辣香锅</strong></td><td>麻辣香锅/¥72</td><td>评分仅5.7差评率60%；价格贵等待久</td><td>性价比碾压+评分做到4.0+截流其不满客群</td></tr>
+<tr><td><strong>新白鹿餐厅（龙游路）</strong></td><td>杭帮菜/¥56</td><td>排队久体验差；不做辣味</td><td>爱辣上班族是独占客群，新白鹿切不走</td></tr>
+<tr><td><strong>周边江西小炒/湘菜馆</strong></td><td>小炒快餐/¥22-30</td><td>同质化严重无品牌记忆；卫生形象参差</td><td>强化"正宗川渝"定位+干净环境做品类头部</td></tr></table>
+<div class="highlight-card"><strong>🎯 竞争策略：</strong>真正竞争来自同价位江西小炒和湘菜馆。差异化打法：①强化"地道川渝味"品牌认知 ②出餐速度+干净环境做体验壁垒 ③外卖评分冲4.5+抢线上流量</div>`},
+
+{num:'03',title:'核心策略',tag:'三板斧',locked:false,content:`
+<h3>🎯 增长三板斧：午市锁客 × 外卖破量 × 晚市拉新</h3>
+<h4>第一板斧：午市锁客 —— 储值+集章双引擎</h4>
+<div class="highlight-card"><strong>核心逻辑：</strong>上班族每天都要吃午饭，每周5天是固定消费。用储值锁住一周消费习惯，一个办公室锁一个就能带一串。</div>
+<ul>
+<li><strong>储值方案：</strong>充300送30（到账330元），锁定约12顿午餐，回本周期2.5周</li>
+<li><strong>集章卡：</strong>消费满5次送1份小菜（成本约3元），刺激从"偶尔来"变"固定来"</li>
+<li><strong>执行路径：</strong>🔧 美团会员营销旗舰版→储值活动→设置充300送30档位，POS结账自动弹窗推荐</li>
+</ul>
+<h4>第二板斧：外卖破量 —— 评分+爆款+满减三连击</h4>
+<div class="highlight-card"><strong>核心逻辑：</strong>凤起路写字楼外卖潜力巨大，目标外卖月单量从估计500单提升至1,200单，外卖月流水从约3万提升至7万。</div>
+<ul>
+<li><strong>评分优先：</strong>好评自动返2元红包（🔧 美团外卖商家后台→评价管理），目标4.8分+</li>
+<li><strong>爆款引流：</strong>设计「川渝招牌双拼饭」定价19.9元（成本7元，含利润），做引流钩子</li>
+<li><strong>满减设计：</strong>满25减3 / 满40减6 / 满60减10，引导客单从28提升至35+</li>
+</ul>
+<h4>第三板斧：晚市拉新 —— 小份川菜+夜宵档</h4>
+<div class="highlight-card"><strong>核心逻辑：</strong>晚市上班族少但周边居民有需求，推小份川菜2-3人套餐（¥68-88/份），性价比打周边川味观（¥57/人）。</div>
+<ul>
+<li><strong>产品：</strong>推出"小份川菜"系列（水煮鱼小份¥28/回锅肉小份¥18/麻婆豆腐小份¥12）</li>
+<li><strong>套餐：</strong>「川渝双人餐」¥58（2荤1素+米饭+饮品），感知价值>80元</li>
+<li><strong>夜宵试水：</strong>晚8点后推"麻辣拌+冰粉"组合¥15，外卖专供</li>
+</ul>`},
+
+{num:'04',title:'公域引流策略',tag:'大众点评+外卖',locked:false,content:`
+<h3>🌐 公域平台运营策略</h3>
+<h4>① 大众点评：评分冲刺 + 团购引流</h4>
+<table><tr><th>动作</th><th>具体执行</th><th>目标</th></tr>
+<tr><td>评分建设</td><td>每周邀请3-5位真实顾客写100字+3图好评（结账时店员引导"帮我们写个好评送酸梅汤一杯"）</td><td>3个月内评分达4.0+，评价数50+</td></tr>
+<tr><td>团购套餐</td><td>上架「川渝招牌单人餐」¥25.8（原价¥32）：招牌回锅肉+米饭+小菜+饮品</td><td>月核销100+单，带来新客</td></tr>
+<tr><td>门店装修</td><td>更新点评头图（菜品特写+门店环境），完善营业信息/推荐菜</td><td>点击率提升30%</td></tr>
+<tr><td>差评管理</td><td>差评24小时内回复+私信补偿（送5元券下次用），化差评为回头客</td><td>差评率<5%</td></tr></table>
+<h4>② 美团外卖：流量+转化+复购</h4>
+<table><tr><th>动作</th><th>具体执行</th><th>目标</th></tr>
+<tr><td>爆款打造</td><td>「川渝招牌双拼饭」19.9元限量每日50份，首页置顶</td><td>日曝光3000+，转化率8%+</td></tr>
+<tr><td>满减优化</td><td>满25减3/满40减6/满60减10，引导凑单提客单</td><td>外卖客单从28提至35</td></tr>
+<tr><td>推广通</td><td>午市11:00-13:00投竞价推广，日预算30元</td><td>午市外卖曝光量翻倍</td></tr>
+<tr><td>复购券</td><td>订单完成自动发"3天内下单减3元"券</td><td>外卖复购率提至35%+</td></tr></table>
+<h4>③ 抖音/小红书（辅助渠道）</h4>
+<p>川渝快餐有天然视觉冲击力（红油辣椒/冒烟锅气），适合短视频。</p>
+<ul>
+<li><strong>抖音：</strong>每周拍2条"锅气视频"（15秒炒菜过程），定位门店+挂团购链接，零成本</li>
+<li><strong>小红书：</strong>邀请3位本地素人博主（500-3000粉）免费试吃，产出"凤起路打工人午餐"笔记</li>
+</ul>
+<div class="highlight-card"><strong>公域核心KPI：</strong>3个月内点评评分4.0+ | 外卖评分4.8+ | 月团购核销100单+ | 外卖日均40单+</div>`},
+
+{num:'05',title:'私域会员体系',tag:'储值+复购',locked:true,content:`
+<h3>🔐 会员体系设计（旗舰版全功能）</h3>
+<h4>入会方式：扫码即会员，零门槛</h4>
+<p>顾客扫码点餐时自动注册为会员，首次注册弹窗领取「新人礼包」：满20减3元券×2张。</p>
+<h4>储值体系设计</h4>
+<table><tr><th>档位</th><th>充值金额</th><th>赠送</th><th>锁定消费</th><th>适合场景</th></tr>
+<tr><td>🥉 轻享档</td><td>¥100</td><td>送¥8</td><td>约4顿午餐</td><td>新客首次尝试</td></tr>
+<tr><td>🥈 常客档</td><td>¥300</td><td>送¥30</td><td>约12顿午餐</td><td>周边上班族（主推）</td></tr>
+<tr><td>🥇 铁粉档</td><td>¥500</td><td>送¥60</td><td>约20顿午餐</td><td>高频常客/办公室团长</td></tr></table>
+<div class="highlight-card"><strong>储值推荐话术（店员结账时）：</strong><br>"姐/哥，您今天消费28元——我们现在充300送30，相当于每顿省2块多，下次来直接刷卡不用掏手机，方便又省钱！"<br>🔧 路径：美团收银POS→结账时自动弹储值推荐页</div>
+<h4>集章复购体系</h4>
+<ul>
+<li>每消费1次盖1章（🔧 会员营销旗舰版→集章活动）</li>
+<li>集满5章：送指定小菜1份（成本约3元）</li>
+<li>集满10章：送「川渝招牌双拼饭」1份（成本约7元）</li>
+<li>集满20章：升级为「金牌会员」享全单9.5折</li>
+</ul>
+<h4>沉睡客唤醒</h4>
+<p>🔧 会员营销旗舰版→潜客营销：7天未消费推送"想念你的川渝味，回来送酸梅汤一杯"；14天未消费推送"老朋友专属5元无门槛券"。</p>
+<h4>生日营销</h4>
+<p>生日当天自动推送"生日快乐！今天到店免费加菜一份"（🔧 旗舰版独有→生日关怀），成本约5元/人，但转化一桌3-4人消费80-100元。</p>`},
+
+{num:'06',title:'公私域联动闭环',tag:'流量漏斗',locked:true,content:`
+<h3>🔄 公私域联动全链路</h3>
+<div class="highlight-card"><strong>一句话逻辑：</strong>公域获客（点评/外卖/抖音）→ 到店转私域（扫码点餐自动入会）→ 私域养客（储值/集章/触达）→ 私域裂变回公域（好评/分享）→ 形成增长飞轮</div>
+<h4>完整链路拆解</h4>
+<table><tr><th>环节</th><th>公域动作</th><th>私域承接</th><th>联动逻辑</th></tr>
+<tr><td>① 获客</td><td>点评团购¥25.8 / 外卖爆款¥19.9 / 抖音锅气视频</td><td>到店扫码点餐自动注册会员</td><td>团购核销后弹窗领新人券</td></tr>
+<tr><td>② 首转</td><td>外卖订单完成推复购券</td><td>堂食结账推储值300送30</td><td>线上线下同步转化私域</td></tr>
+<tr><td>③ 复购</td><td>外卖"3天内下单减3元"</td><td>集章满5送小菜 / 储值余额提醒</td><td>双线锁定不同场景复购</td></tr>
+<tr><td>④ 裂变</td><td>好评返2元红包 / 小红书打卡</td><td>"推荐好友各得5元券"（旗舰版裂变功能）</td><td>满意客户带来新客形成飞轮</td></tr>
+<tr><td>⑤ 唤醒</td><td>外卖平台"收藏店铺提醒"</td><td>7天/14天未消费自动推送召回券</td><td>流失客双渠道召回</td></tr></table>
+<h4>每月关键运营节奏</h4>
+<table><tr><th>时间</th><th>公域动作</th><th>私域动作</th></tr>
+<tr><td>每周一</td><td>更新外卖菜品排序+推广通预算调整</td><td>推送"周一开工套餐"给7天内消费过的会员</td></tr>
+<tr><td>每周三</td><td>发布1条抖音锅气视频</td><td>集章进度提醒"还差2章就能免费吃！"</td></tr>
+<tr><td>每周五</td><td>上架周末限定团购套餐</td><td>推送"周末双人川渝套餐¥58"给家庭标签会员</td></tr>
+<tr><td>月初</td><td>复盘上月外卖数据/点评新评价</td><td>发放本月生日券+沉睡客唤醒批量触达</td></tr>
+<tr><td>月中</td><td>邀请1位素人博主探店</td><td>储值满300客户推"升级充500多送30"</td></tr></table>`},
+
+{num:'07',title:'爆品策略',tag:'菜品设计',locked:true,content:`
+<h3>🍛 爆品锚点策略</h3>
+<h4>锚定爆品：川渝招牌双拼饭</h4>
+<div class="highlight-card">
+<strong>为什么选双拼饭？</strong><br>
+①「双拼」是川渝快餐独有记忆点（其他品类做不了）<br>
+②2种荤菜组合有选择感，感知价值高于单品<br>
+③出餐标准化：提前备好浇头，点单后30秒出餐<br>
+④可做引流爆款（外卖19.9元）又不亏本（成本约7元）
+</div>
+<h4>产品矩阵设计</h4>
+<table><tr><th>层级</th><th>产品</th><th>定价</th><th>角色</th></tr>
+<tr><td>🎯 引流款</td><td>川渝招牌双拼饭（回锅肉+宫保鸡丁）</td><td>¥19.9（外卖）/ ¥22（堂食）</td><td>拉新客进店/外卖冲单量</td></tr>
+<tr><td>💰 利润款</td><td>麻辣水煮鱼套餐 / 酸菜肥牛套餐</td><td>¥32-38</td><td>主力利润来源</td></tr>
+<tr><td>🏆 形象款</td><td>川渝双人套餐（2荤1素+饮品）</td><td>¥58-68</td><td>拉高客单+晚市/周末场景</td></tr>
+<tr><td>🧲 锁客款</td><td>集章免费兑换的"隐藏菜"</td><td>¥0（会员专享）</td><td>制造稀缺感+刺激集章</td></tr></table>
+<h4>套餐定价心理学</h4>
+<p>三档套餐定价：¥22 / ¥32 / ¥58 —— 最贵的¥58不是为了卖，是让¥32的"利润款"显得划算。点餐时店员默认推荐："今天双拼还是升级版套餐？" 引导从22提客单至32。</p>`},
+
+{num:'08',title:'营销节奏',tag:'月度排期',locked:true,content:`
+<h3>📅 首月营销排期（30天作战地图）</h3>
+<table><tr><th>时间</th><th>主题</th><th>具体动作</th><th>预算</th><th>预期效果</th></tr>
+<tr><td>Day 1-3</td><td>体系搭建</td><td>①配置会员储值档位 ②上架点评团购 ③设置外卖满减+爆款 ④店员话术培训</td><td>¥0</td><td>基础设施就绪</td></tr>
+<tr><td>Day 4-7</td><td>储值冲刺周</td><td>全员推储值300送30，首周目标储值20人/¥6,000</td><td>赠送成本¥600</td><td>锁定20个回头客</td></tr>
+<tr><td>Day 8-14</td><td>外卖起量</td><td>开启推广通日投¥30 + 爆款19.9限量50份 + 好评返红包</td><td>推广通¥210+红包¥100</td><td>外卖日单量从15提至30</td></tr>
+<tr><td>Day 15-21</td><td>点评冲分</td><td>每天邀请2位堂食好评（送酸梅汤）+ 回复所有历史评价</td><td>酸梅汤¥28</td><td>新增评价14条，评分冲4.0</td></tr>
+<tr><td>Day 22-28</td><td>裂变试水</td><td>"推荐好友各得5元券"上线 + 发第一条抖音视频</td><td>裂变券¥150</td><td>裂变带来新客15人</td></tr>
+<tr><td>Day 29-30</td><td>月度复盘</td><td>盘点储值总额/会员数/外卖单量/评分变化，调整下月策略</td><td>¥0</td><td>数据驱动迭代</td></tr></table>
+<div class="highlight-card"><strong>首月总预算：约¥1,088</strong>（储值赠送¥600 + 推广通¥210 + 好评成本¥128 + 裂变券¥150）<br>
+<strong>预期首月增收：¥12,000-18,000</strong>（储值回笼¥6,000 + 外卖增量¥4,500 + 团购到店¥3,000 + 裂变¥1,500）<br>
+<strong>ROI ≈ 1:11 ~ 1:16</strong></div>`},
+
+{num:'09',title:'峰终体验设计',tag:'顾客记忆点',locked:true,content:`
+<h3>🎭 峰终定律：让顾客记住你</h3>
+<p>顾客只记"最爽的瞬间"和"离开时的感觉"。把有限资源集中在这两个点，比全面平庸更有效。</p>
+<h4>峰值设计（最爽瞬间）</h4>
+<table><tr><th>触点</th><th>执行方法</th><th>成本</th><th>工具</th></tr>
+<tr><td>🔥 出餐仪式感</td><td>招牌双拼饭上桌时浇热油发出"滋啦"声，视觉+听觉双冲击</td><td>¥0</td><td>—</td></tr>
+<tr><td>🎲 随机惊喜</td><td>每10单随机1单送冰粉（POS自动触发），顾客拍照发圈概率极高</td><td>约¥2/次</td><td>🔧 会员营销→随机赠送活动</td></tr></table>
+<h4>终值设计（离店感受）</h4>
+<table><tr><th>触点</th><th>执行方法</th><th>成本</th><th>工具</th></tr>
+<tr><td>💬 好评引导</td><td>结账后POS屏幕自动显示"给个好评送酸梅汤"引导页</td><td>约¥1/杯</td><td>🔧 评价管理→好评引导</td></tr>
+<tr><td>🍬 离店小物</td><td>收银台放薄荷糖自取，包装纸印"明天见！"</td><td><¥0.3/个</td><td>—</td></tr>
+<tr><td>📱 离店触达</td><td>消费后2小时推送"今天吃得开心吗？明天回来集章+1"</td><td>¥0</td><td>🔧 会员触达→离店关怀</td></tr></table>`},
+
+{num:'10',title:'外卖专项策略',tag:'线上增量',locked:true,content:`
+<h3>📱 外卖月流水目标：从¥3万 → ¥7万</h3>
+<h4>现状分析</h4>
+<p>按当前外卖占比20%估算：月外卖流水约¥30,000，日均约15-20单，客单¥28-32。凤起路写字楼密集+杭州外卖渗透率极高，外卖增长空间巨大。</p>
+<h4>外卖增长四步法</h4>
+<ol>
+<li><strong>评分先行：</strong>前2周集中做评分（好评返2元红包+小纸条"求好评"），目标4.8分。评分每提0.1分，曝光量增约5%</li>
+<li><strong>爆款引流：</strong>"川渝招牌双拼饭"19.9元每日限50份，做进店钩子。转化率目标8%（行业均值5-6%）</li>
+<li><strong>满减拉客单：</strong>满25减3/满40减6/满60减10 → 引导从单人28元凑到双人或加饮品至40元</li>
+<li><strong>推广通精投：</strong>只投午市11:00-13:00 + 晚市17:30-19:30，日预算¥30，预计额外曝光2000次/天</li>
+</ol>
+<h4>外卖专属产品设计</h4>
+<table><tr><th>产品</th><th>定价</th><th>角色</th><th>毛利</th></tr>
+<tr><td>川渝招牌双拼饭</td><td>¥19.9</td><td>引流款</td><td>约55%</td></tr>
+<tr><td>麻辣水煮鱼饭</td><td>¥29.9</td><td>利润款</td><td>约62%</td></tr>
+<tr><td>川渝双人套餐（2饭+2菜+饮品）</td><td>¥49.9</td><td>拉客单</td><td>约60%</td></tr>
+<tr><td>夜宵档·麻辣拌+冰粉</td><td>¥15.9</td><td>时段补充</td><td>约65%</td></tr></table>
+<div class="highlight-card"><strong>外卖月度目标：</strong>第1个月日均30单/月流水¥25,000 → 第2个月日均40单/月流水¥40,000 → 第3个月日均55单+/月流水¥55,000-70,000</div>`},
+
+{num:'11',title:'投资回报测算',tag:'ROI',locked:true,content:`
+<h3>💰 投资回报与增收测算</h3>
+<h4>月度投入明细</h4>
+<table><tr><th>投入项</th><th>月费用</th><th>说明</th></tr>
+<tr><td>推广通（外卖竞价）</td><td>¥900/月</td><td>日均¥30，仅投午晚高峰</td></tr>
+<tr><td>储值赠送成本</td><td>¥1,500/月</td><td>按月新增储值50人×300元，赠送率10%</td></tr>
+<tr><td>好评激励（酸梅汤/红包）</td><td>¥400/月</td><td>堂食好评+外卖好评返现</td></tr>
+<tr><td>集章/裂变券核销</td><td>¥500/月</td><td>集章兑换+裂变券</td></tr>
+<tr><td>探店博主邀请</td><td>¥200/月</td><td>2位素人博主免费餐成本</td></tr>
+<tr><td><strong>月总投入</strong></td><td><strong>¥3,500/月</strong></td><td></td></tr></table>
+<h4>月增收来源</h4>
+<table><tr><th>增收来源</th><th>月增收</th><th>计算逻辑</th></tr>
+<tr><td>外卖增量</td><td>+¥25,000</td><td>外卖从¥30,000提至¥55,000（日均+25单×¥33）</td></tr>
+<tr><td>储值锁客复购</td><td>+¥8,000</td><td>50位储值客月均消费¥160（vs原¥0流失）</td></tr>
+<tr><td>团购到店转化</td><td>+¥5,000</td><td>月核销100单×50%加购，加购客单¥10</td></tr>
+<tr><td>晚市/周末增量</td><td>+¥7,000</td><td>双人套餐+夜宵档每日增10单×¥45</td></tr>
+<tr><td><strong>月总增收</strong></td><td><strong>+¥45,000</strong></td><td>月流水从15万提至约19.5万</td></tr></table>
+<div class="highlight-card"><strong>ROI = 月增收¥45,000 ÷ 月投入¥3,500 ≈ 12.8倍</strong><br>
+<strong>回本周期：</strong>首月即正向回报（投入¥3,500 vs 增收¥12,000-18,000起步，第3个月达到稳态+¥45,000）</div>`},
+
+{num:'12',title:'OKR量化目标',tag:'月度/季度KPI',locked:true,content:`
+<h3>🎯 OKR量化目标体系</h3>
+<h4>季度大目标（O）</h4>
+<div class="highlight-card"><strong>O：3个月内月流水从15万突破19.5万，实现30%增长</strong></div>
+<h4>月度关键结果（KR）</h4>
+<table><tr><th>KR指标</th><th>当前值</th><th>第1个月</th><th>第2个月</th><th>第3个月</th></tr>
+<tr><td>月流水</td><td>¥150,000</td><td>¥162,000</td><td>¥178,000</td><td>¥195,000</td></tr>
+<tr><td>外卖日均单量</td><td>~15单</td><td>30单</td><td>40单</td><td>55单</td></tr>
+<tr><td>会员数</td><td>0</td><td>200人</td><td>500人</td><td>800人+</td></tr>
+<tr><td>储值会员数</td><td>0</td><td>20人</td><td>50人</td><td>80人+</td></tr>
+<tr><td>月储值流水</td><td>¥0</td><td>¥6,000</td><td>¥15,000</td><td>¥24,000</td></tr>
+<tr><td>大众点评评分</td><td>未评</td><td>3.8+</td><td>4.0+</td><td>4.2+</td></tr>
+<tr><td>外卖评分</td><td>未知</td><td>4.6+</td><td>4.7+</td><td>4.8+</td></tr>
+<tr><td>月复购率</td><td>~30%</td><td>35%</td><td>42%</td><td>50%+</td></tr>
+<tr><td>团购月核销</td><td>0</td><td>50单</td><td>80单</td><td>100单+</td></tr></table>
+<h4>每日检查指标</h4>
+<ul>
+<li>📊 日流水（目标：工作日¥6,500+ / 周末¥4,000+）</li>
+<li>📱 外卖单量（目标：午市25单+晚市10单）</li>
+<li>💳 日储值人数（目标：至少1人/天）</li>
+<li>⭐ 当日好评数（目标：至少1条/天）</li>
+<li>👥 新增会员数（目标：至少8人/天）</li>
+</ul>
+<div class="highlight-card"><strong>🔴 红线预警：</strong><br>
+• 连续3天外卖日单<10单 → 立即检查排名/评分/满减设置<br>
+• 周储值为0 → 检查店员是否在推/话术是否到位<br>
+• 出现1条差评 → 24小时内回复+补偿</div>`},
+
+{num:'附录',title:'已签约SaaS概览',tag:'系统能力',locked:false,content:`
+<h3>✅ 已签约产品及激活建议</h3>
+<table><tr><th>产品</th><th>状态</th><th>核心用途</th><th>优先级</th></tr>
+<tr><td>智能收银</td><td>✅ 已签</td><td>日常收银+数据看板+结账弹储值推荐</td><td>🔴 立即用</td></tr>
+<tr><td>会员营销旗舰版</td><td>✅ 已签</td><td>储值/集章/潜客营销/裂变/生日关怀/团购会员卡</td><td>🔴 立即配置</td></tr>
+<tr><td>扫码点餐</td><td>✅ 已签</td><td>扫码即入会+新客弹窗+推荐菜引导加购</td><td>🔴 立即用</td></tr></table>
+<h4>旗舰版6大独有能力（已签可直接用）</h4>
+<ol>
+<li><strong>团购会员卡：</strong>团购核销自动转会员，公域流量无缝转私域</li>
+<li><strong>潜客营销：</strong>7天/14天沉睡客自动触达召回</li>
+<li><strong>推荐有礼（裂变）：</strong>老带新双方各得券</li>
+<li><strong>智能储值推荐：</strong>POS结账自动弹窗推荐最优储值档</li>
+<li><strong>RFM分层运营：</strong>按消费频次/金额/最近消费自动分群精准触达</li>
+<li><strong>生日关怀：</strong>自动发送生日权益，零人工成本拉回头消费</li>
+</ol>
+<div class="highlight-card"><strong>⚠️ 关键提醒：</strong>产品已签但未激活 = 白花钱。建议签约后3天内完成基础配置（储值档位+集章规则+新人礼包），第一周让数据跑起来。</div>`}
+];
+
+function renderGrid(){
+  const grid=document.getElementById('sectionGrid');
+  grid.innerHTML='';
+  sections.forEach((s,i)=>{
+    const isLocked=s.locked&&!unlocked;
+    const card=document.createElement('div');
+    card.className='section-card'+(isLocked?' locked':'');
+    card.innerHTML=`
+      ${isLocked?'<span class="lock-icon">🔒</span>':''}
+      <div class="section-num">${s.num}</div>
+      <div class="section-title">${s.title}</div>
+      <div class="section-tag">${s.tag}</div>
+    `;
+    if(!isLocked){card.onclick=()=>openModal(i)}
+    grid.appendChild(card);
+  });
+  document.getElementById('unlockBar').style.display=unlocked?'none':'flex';
+}
+
+function openModal(i){
+  const s=sections[i];
+  document.getElementById('modalNum').textContent=`Chapter ${s.num}`;
+  document.getElementById('modalTitle').textContent=s.title;
+  document.getElementById('modalContent').innerHTML=s.content;
+  document.getElementById('modalOverlay').classList.add('active');
+  document.body.style.overflow='hidden';
+}
+
+function closeModal(e){
+  if(e&&e.target!==document.getElementById('modalOverlay')&&!e.target.classList.contains('modal-close'))return;
+  document.getElementById('modalOverlay').classList.remove('active');
+  document.body.style.overflow='';
+}
+
+function tryUnlock(){
+  const input=document.getElementById('unlockInput');
+  const feedback=document.getElementById('unlockFeedback');
+  if(input.value===UNLOCK_CODE){
+    unlocked=true;
+    renderGrid();
+    feedback.textContent='✅ 已解锁全部章节';
+    feedback.style.color='#4CAF50';
+  }else{
+    feedback.textContent='解锁码不正确';
+    feedback.style.color='#E53935';
+    input.value='';
+  }
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal(e)});
+renderGrid();
+</script>
+</body>
+</html>
