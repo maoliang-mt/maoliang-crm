@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>银杏居酒屋 · 新店开业全案 | 美团餐饮SaaS运营方案</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--p:#C8A86B;--pd:#A08050;--pl:#E8D4A0;--acc:#E85D26;--acc2:#D4A017;--bg:#0D0D0D;--card:#1A1A1A;--card2:#222;--tm:#F0EDE8;--ts:#B0A898;--bd:rgba(200,168,107,.2);--sh:0 8px 32px rgba(200,168,107,.15)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--tm);font-family:'Noto Sans SC',sans-serif;overflow-x:hidden;line-height:1.7}
+#particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.particle{position:absolute;width:3px;height:3px;background:var(--p);border-radius:50%;opacity:0;animation:float linear infinite}
+@keyframes float{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:.6}90%{opacity:.3}100%{transform:translateY(-10px) scale(1.5);opacity:0}}
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px;overflow:hidden;z-index:1}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 30%,rgba(200,168,107,.12) 0%,transparent 70%),radial-gradient(ellipse 60% 80% at 80% 70%,rgba(232,93,38,.08) 0%,transparent 60%),linear-gradient(135deg,#0A0A0A 0%,#141008 50%,#0D0A06 100%);animation:bgP 8s ease-in-out infinite alternate}
+@keyframes bgP{0%{opacity:.85}100%{opacity:1}}
+.hero-pattern{position:absolute;inset:0;opacity:.04;background-image:repeating-linear-gradient(45deg,var(--p) 0,var(--p) 1px,transparent 0,transparent 50%),repeating-linear-gradient(-45deg,var(--p) 0,var(--p) 1px,transparent 0,transparent 50%);background-size:30px 30px}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(200,168,107,.15);border:1px solid rgba(200,168,107,.4);border-radius:50px;padding:8px 20px;font-size:13px;color:var(--p);margin-bottom:28px;letter-spacing:2px;animation:fdD .8s ease;z-index:2}
+.hero-title{font-family:'Noto Serif SC',serif;font-size:clamp(2.8rem,7vw,5.5rem);font-weight:700;background:linear-gradient(135deg,var(--pl) 0%,var(--p) 50%,var(--acc2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2;animation:fdU .9s ease;z-index:2}
+.hero-sub{font-size:clamp(1rem,2.5vw,1.4rem);color:var(--ts);margin:16px 0 12px;animation:fdU 1s ease;z-index:2;letter-spacing:1px}
+.hero-addr{font-size:13px;color:rgba(200,168,107,.6);margin-bottom:40px;animation:fdU 1.1s ease;z-index:2}
+.hero-addr::before{content:"📍 "}
+.hero-stats{display:flex;gap:40px;flex-wrap:wrap;justify-content:center;animation:fdU 1.2s ease;z-index:2}
+.st-item{text-align:center}
+.st-num{font-family:'Inter',sans-serif;font-size:2rem;font-weight:700;color:var(--p);display:block}
+.st-lab{font-size:12px;color:var(--ts);letter-spacing:1px}
+.wave{width:100%;overflow:hidden;line-height:0;margin-top:-2px}
+.wave svg{display:block;width:100%}
+.container{max-width:1200px;margin:0 auto;padding:0 24px;position:relative;z-index:2}
+.sec-title{text-align:center;margin-bottom:48px}
+.sec-title h2{font-family:'Noto Serif SC',serif;font-size:1.8rem;color:var(--p);margin-bottom:8px}
+.sec-title p{color:var(--ts);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:60px}
+.cc{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:24px 18px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+.cc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--p),var(--acc));opacity:0;transition:opacity .3s}
+.cc:hover{border-color:rgba(200,168,107,.5);transform:translateY(-4px);box-shadow:var(--sh)}
+.cc:hover::before{opacity:1}
+.cc.locked{opacity:.45;cursor:not-allowed}
+.cc.locked:hover{transform:none;box-shadow:none}
+.cn{font-family:'Inter',sans-serif;font-size:12px;color:var(--p);font-weight:600;letter-spacing:2px;margin-bottom:8px}
+.cname{font-size:14px;font-weight:500;color:var(--tm);line-height:1.4;margin-bottom:10px}
+.ctag{display:inline-block;font-size:11px;padding:3px 10px;border-radius:20px;background:rgba(200,168,107,.1);color:var(--p);border:1px solid rgba(200,168,107,.2)}
+.lock{position:absolute;top:14px;right:14px;font-size:14px;opacity:.6}
+.unlock-sec{background:linear-gradient(135deg,rgba(200,168,107,.08),rgba(232,93,38,.06));border:1px solid rgba(200,168,107,.25);border-radius:20px;padding:36px;text-align:center;margin:40px 0 60px}
+.unlock-sec h3{font-family:'Noto Serif SC',serif;font-size:1.3rem;color:var(--p);margin-bottom:8px}
+.unlock-sec p{color:var(--ts);font-size:14px;margin-bottom:24px}
+.urow{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.uinput{background:rgba(255,255,255,.05);border:1px solid var(--bd);border-radius:10px;padding:12px 18px;color:var(--tm);font-size:14px;width:220px;outline:none;transition:border-color .3s}
+.uinput:focus{border-color:var(--p)}
+.ubtn{background:linear-gradient(135deg,var(--p),var(--acc2));border:none;border-radius:10px;padding:12px 28px;color:#fff;font-size:14px;font-weight:600;cursor:pointer;transition:opacity .3s,transform .2s;letter-spacing:1px}
+.ubtn:hover{opacity:.85;transform:scale(1.02)}
+.umsg{margin-top:14px;font-size:13px;min-height:20px}
+.umsg.ok{color:#4CAF50}
+.umsg.err{color:#F44336}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto}
+.overlay.active{display:flex}
+.modal{background:var(--card);border:1px solid var(--bd);border-radius:24px;max-width:800px;width:100%;margin:auto;overflow:hidden;animation:mIn .3s ease}
+@keyframes mIn{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+.mhdr{padding:28px 32px 20px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:flex-start;background:linear-gradient(135deg,rgba(200,168,107,.06),transparent)}
+.mhdr-l{flex:1}
+.mnum{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:3px;color:var(--p);margin-bottom:6px}
+.mtit{font-family:'Noto Serif SC',serif;font-size:1.4rem;color:var(--tm)}
+.mclose{background:none;border:1px solid var(--bd);border-radius:8px;padding:8px 12px;color:var(--ts);cursor:pointer;font-size:18px;transition:all .2s;flex-shrink:0;margin-left:20px}
+.mclose:hover{background:rgba(255,255,255,.08);color:var(--tm)}
+.mbody{padding:28px 32px;max-height:75vh;overflow-y:auto}
+.mbody::-webkit-scrollbar{width:6px}
+.mbody::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}
+.mbody h3{font-family:'Noto Serif SC',serif;font-size:1.05rem;color:var(--p);margin:24px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--bd)}
+.mbody h3:first-child{margin-top:0}
+.mbody h4{font-size:.9rem;color:var(--pl);margin:16px 0 8px}
+.mbody p{color:var(--ts);font-size:14px;margin-bottom:12px;line-height:1.8}
+.mbody strong{color:var(--tm)}
+.mbody ul,.mbody ol{padding-left:20px;margin-bottom:14px}
+.mbody li{color:var(--ts);font-size:14px;margin-bottom:6px;line-height:1.7}
+.mbody li strong{color:var(--tm)}
+table.t{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:13px}
+table.t th{background:rgba(200,168,107,.1);color:var(--p);padding:10px 14px;text-align:left;font-weight:600;border:1px solid var(--bd)}
+table.t td{padding:9px 14px;border:1px solid var(--bd);color:var(--ts);vertical-align:top}
+table.t tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+.icard{background:rgba(200,168,107,.06);border:1px solid rgba(200,168,107,.2);border-radius:12px;padding:16px 20px;margin-bottom:16px}
+.icard .ict{font-size:13px;color:var(--p);font-weight:600;margin-bottom:8px}
+.icard p{margin-bottom:4px}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.tag{font-size:12px;padding:4px 12px;border-radius:20px;background:rgba(200,168,107,.1);color:var(--p);border:1px solid rgba(200,168,107,.25)}
+.tag.r{background:rgba(232,93,38,.1);color:#E85D26;border-color:rgba(232,93,38,.25)}
+.tag.g{background:rgba(76,175,80,.1);color:#66BB6A;border-color:rgba(76,175,80,.2)}
+.hl{background:linear-gradient(135deg,rgba(200,168,107,.1),rgba(232,93,38,.05));border-left:3px solid var(--p);border-radius:0 12px 12px 0;padding:14px 18px;margin-bottom:14px}
+.hl p{margin:0;color:var(--tm);font-size:14px}
+.kgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin:16px 0}
+.kcard{background:rgba(255,255,255,.03);border:1px solid var(--bd);border-radius:12px;padding:16px;text-align:center}
+.know{font-size:11px;color:var(--ts);margin-bottom:2px}
+.kval{font-family:'Inter',sans-serif;font-size:1.5rem;font-weight:700;color:var(--p)}
+.ktgt{font-size:11px;color:#66BB6A;margin-top:2px}
+.kname{font-size:12px;color:var(--ts);margin-top:4px}
+.step{display:flex;gap:14px;margin-bottom:14px;align-items:flex-start}
+.step-num{width:28px;height:28px;border-radius:50%;background:var(--p);color:#000;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-body{flex:1}
+.footer{text-align:center;padding:48px 24px;color:var(--ts);font-size:12px;border-top:1px solid var(--bd);margin-top:40px;z-index:2;position:relative}
+.footer strong{color:var(--p)}
+@keyframes fdD{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fdU{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:600px){.hero-stats{gap:24px}.grid{grid-template-columns:repeat(2,1fr)}.mbody{padding:20px}.mhdr{padding:20px}.kgrid{grid-template-columns:repeat(2,1fr)}.uinput{width:100%}}
+</style>
+</head>
+<body>
+
+<div id="particles"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+  <div class="badge">🍣 新店开业全案 · 美团SaaS运营方案</div>
+  <h1 class="hero-title">银杏居酒屋</h1>
+  <p class="hero-sub">日料 / 寿司 · 杭州奥体印象城 · 开业冲刺专案</p>
+  <p class="hero-addr">杭州 盈丰街道飞虹路1408号印力汇德隆杭州奥体印象城</p>
+  <div class="hero-stats">
+    <div class="st-item"><span class="st-num">¥100</span><span class="st-lab">人均消费</span></div>
+    <div class="st-item"><span class="st-num">60㎡</span><span class="st-lab">门店面积</span></div>
+    <div class="st-item"><span class="st-num">5</span><span class="st-lab">已签SaaS产品</span></div>
+    <div class="st-item"><span class="st-num">60天</span><span class="st-lab">黄金开业期</span></div>
+  </div>
+</section>
+
+<div class="wave"><svg viewBox="0 0 1440 60" preserveAspectRatio="none" height="60"><path d="M0,30 C240,60 480,0 720,30 C960,60 1200,0 1440,30 L1440,60 L0,60 Z" fill="#111"/></svg></div>
+
+<!-- CHAPTERS GRID -->
+<section style="padding:60px 0;background:#111">
+  <div class="container">
+    <div class="sec-title">
+      <h2>完整方案 · 15章节全覆盖</h2>
+      <p>前4章免费展示 · 签约后解锁全部章节</p>
+    </div>
+    <div class="grid" id="chapGrid">
+      <div class="cc" onclick="openModal(1)"><div class="cn">CH · 01</div><div class="cname">商家现状分析</div><span class="ctag">免费展示</span></div>
+      <div class="cc" onclick="openModal(2)"><div class="cn">CH · 02</div><div class="cname">品牌定位与核心策略</div><span class="ctag">免费展示</span></div>
+      <div class="cc" onclick="openModal(3)"><div class="cn">CH · 03</div><div class="cname">SaaS系统解决方案</div><span class="ctag">免费展示</span></div>
+      <div class="cc" onclick="openModal(4)"><div class="cn">CH · 04</div><div class="cname">点评赋能策略</div><span class="ctag">免费展示</span></div>
+      <div class="cc locked" id="ch5"><div class="cn">CH · 05</div><div class="cname">筹备期行动计划（开业前14天）</div><span class="ctag">签约解锁</span><span class="lock">🔒</span></div>
+      <div class="cc locked" id="ch6"><div class="cn">CH · 06</div><div class="cname">爆发期运营（开业1-30天）</div><span class="ctag">签约解锁</span><span class="lock">🔒</span></div>
+      <div class="cc locked" id="ch7"><div class="cn">CH · 07</div><div class="cname">成长期会员深耕（31-60天）</div><span class="ctag">签约解锁</span><span class="lock">🔒</span></div>
+      <div class="cc locked" id="ch8"><div class="cn">CH · 08</div><div class="cname">稳定期复购体系</div><span class="ctag">签约解锁</span><span class="lock">🔒</span></div>
+      <div class="cc locked" id="ch9"><div class="cn">CH · 09</div><div class="cname">品类特色活动库</div><span class="ctag">签约解锁</span><span class="lock">🔒</span></div>
+      <div class="cc locked" id="ch10"><div class="cn">CH · 10</div><div class="cname">储值套餐设计方案</div><span class="ctag">签约解锁</span><span class="lock">🔒</span></div>
+      <div class="cc locked" id="ch11"><div class="cn">CH · 11</div><div class="cname">员工执行话术手册</div><span class="ctag">签约解锁</span><span class="lock">🔒</span></div>
+      <div class="cc locked" id="ch12"><div class="cn">CH · 12</div><div class="cname">KPI目标看板</div><span class="ctag">签约解锁</span><span class="lock">🔒</span></div>
+      <div class="cc locked" id="ch13"><div class="cn">CH · 13</div><div class="cname">预算与投资回报测算</div><span class="ctag">签约解锁</span><span class="lock">🔒</span></div>
+      <div class="cc locked" id="ch14"><div class="cn">CH · 14</div><div class="cname">执行Checklist</div><span class="ctag">签约解锁</span><span class="lock">🔒</span></div>
+      <div class="cc" onclick="openModal(15)"><div class="cn">CH · 15</div><div class="cname">标杆案例 · 日料品牌参考</div><span class="ctag">免费展示</span></div>
+    </div>
+
+    <!-- 解锁栏 -->
+    <div class="unlock-sec">
+      <h3>🔓 签约解锁全部章节</h3>
+      <p>签约美团SaaS后，BD将为您提供专属解锁码，一次解锁全部10个签约章节</p>
+      <div class="urow">
+        <input class="uinput" id="ucode" type="password" placeholder="请输入解锁码">
+        <button class="ubtn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+      </div>
+      <div class="umsg" id="umsg"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 弹窗 -->
+<div class="overlay" id="overlay" onclick="closeModalOverlay(event)">
+  <div class="modal" id="modal">
+    <div class="mhdr">
+      <div class="mhdr-l">
+        <div class="mnum" id="mnum"></div>
+        <div class="mtit" id="mtit"></div>
+      </div>
+      <button class="mclose" onclick="closeModal()">✕</button>
+    </div>
+    <div class="mbody" id="mbody"></div>
+  </div>
+</div>
+
+<footer class="footer">
+  <strong>银杏居酒屋</strong> · 新店开业全案 · 美团餐饮SaaS运营方案<br>
+  方案提交人：李朝（lichao180）· 杭州 盈丰街道飞虹路1408号印力汇德隆杭州奥体印象城<br>
+  <span style="margin-top:8px;display:block;opacity:.5">本方案由美团餐饮SaaS运营团队专业定制，数据均基于门店实际情况测算</span>
+</footer>
+
+<script>
+// ── 粒子 ──
+(function(){
+  const c=document.getElementById('particles');
+  for(let i=0;i<12;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    p.style.cssText=`left:${Math.random()*100}%;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px;animation-duration:${8+Math.random()*12}s;animation-delay:${Math.random()*10}s`;
+    c.appendChild(p);
+  }
+})();
+
+// ── 解锁 ──
+function tryUnlock(){
+  const v=document.getElementById('ucode').value.trim();
+  const m=document.getElementById('umsg');
+  if(v==='123456'){
+    m.className='umsg ok';m.textContent='✅ 已解锁全部章节';
+    [5,6,7,8,9,10,11,12,13,14].forEach(n=>{
+      const el=document.getElementById('ch'+n);
+      if(!el)return;
+      el.classList.remove('locked');
+      const lock=el.querySelector('.lock');
+      if(lock)lock.remove();
+      const tag=el.querySelector('.ctag');
+      if(tag)tag.textContent='已解锁';
+      const num=n;
+      el.onclick=()=>openModal(num);
+    });
+  } else {
+    m.className='umsg err';m.textContent='解锁码不正确';
+  }
+}
+
+// ── 弹窗 ──
+const contents={
+  1:{
+    num:'CH · 01',
+    title:'商家现状分析',
+    html:`
+<h3>📊 门店基本情况</h3>
+<table class="t">
+  <tr><th>项目</th><th>内容</th></tr>
+  <tr><td>门店名称</td><td><strong>银杏居酒屋</strong></td></tr>
+  <tr><td>品类定位</td><td>日料 / 寿司 / 居酒屋风格</td></tr>
+  <tr><td>地址</td><td>杭州 盈丰街道飞虹路1408号印力汇德隆杭州奥体印象城</td></tr>
+  <tr><td>人均消费</td><td>¥100（居酒屋中高端定位，合理区间）</td></tr>
+  <tr><td>门店面积</td><td>60㎡（精品小馆，适合精致体验）</td></tr>
+  <tr><td>大众点评状态</td><td>暂无星级（全新起步）</td></tr>
+  <tr><td>主要竞争对手</td><td>二维火（收银SaaS竞品）</td></tr>
+  <tr><td>已签SaaS产品</td><td>智能收银、会员营销（旗舰版）、扫码点餐、数字化营销、储值套餐</td></tr>
+</table>
+
+<h3>🔥 痛点 vs 机会 对照表</h3>
+<div class="icard">
+  <div class="ict">P0级痛点（立刻要解决）</div>
+  <ul>
+    <li><strong>线上零曝光：</strong>新店无评价、无星级，杭州日料竞争激烈，搜索排名靠后</li>
+    <li><strong>自然客流依赖商场：</strong>位于印象城商场内，靠商场导流，主动拉新能力弱</li>
+    <li><strong>品牌认知为零：</strong>"银杏居酒屋"在杭州无口碑积累，顾客凭什么选你？</li>
+  </ul>
+</div>
+<div class="icard">
+  <div class="ict">P1级痛点（30天内解决）</div>
+  <ul>
+    <li><strong>会员体系空白：</strong>开业即应积累第一批忠实会员，否则开业热度过后流量骤降</li>
+    <li><strong>储值转化未启动：</strong>开业期是储值锁客最佳时机，错过就要等下次活动</li>
+  </ul>
+</div>
+<div class="icard" style="border-color:rgba(76,175,80,.3);background:rgba(76,175,80,.04)">
+  <div class="ict" style="color:#66BB6A">✅ 已有资产（你不是从零开始）</div>
+  <ul>
+    <li><strong>选址红利：</strong>杭州奥体印象城——亚运会场馆群周边，年轻客群密集，消费力强</li>
+    <li><strong>SaaS工具齐全：</strong>5大SaaS产品已签约，开业第一天就能全工具启动</li>
+    <li><strong>品类稀缺性：</strong>居酒屋在商场内稀缺，有"唯一性"护城河</li>
+    <li><strong>人均¥100定位准：</strong>居酒屋80-150元区间最受年轻白领欢迎，不高不低刚刚好</li>
+    <li><strong>新店流量红利：</strong>大众点评新店前60天有流量扶持政策，必须抓住</li>
+  </ul>
+</div>
+
+<h3>🏙️ 商圈客群画像</h3>
+<table class="t">
+  <tr><th>维度</th><th>洞察</th></tr>
+  <tr><td>主力客群</td><td>25-38岁年轻白领、情侣、闺蜜聚餐（亚运场馆周边办公人群+居住人群）</td></tr>
+  <tr><td>消费场景</td><td>情侣约会·闺蜜局·小型商务·下班解压·周末精致餐</td></tr>
+  <tr><td>消费敏感度</td><td>中等（人均100可接受，但需要感受到"值"）</td></tr>
+  <tr><td>决策方式</td><td>大众点评/小红书搜索→看评价→看图片→进店</td></tr>
+  <tr><td>高频痛点</td><td>杭州日料同质化严重，顾客需要"有理由选你"的差异化</td></tr>
+</table>
+<p>💬 <strong>BD话术：</strong>"老板，您这个位置真的好，奥体印象城的客群正好是您的目标用户——年轻、有消费力、愿意为精致体验买单。问题是现在新店没评价，哪怕位置再好顾客也不敢进来。我们开业前要先把线上工作做起来。"</p>
+`},
+
+  2:{
+    num:'CH · 02',
+    title:'品牌定位与核心策略',
+    html:`
+<h3>🎯 一句话核心策略</h3>
+<div class="hl"><p>以<strong>「精致感」为锚点</strong>，用<strong>开业60天流量红利期</strong>快速建立口碑，以<strong>会员储值体系</strong>锁住第一批核心客群，把"来过一次"变成"每月必来"。</p></div>
+
+<h3>🍶 品牌定位三角</h3>
+<div class="icard">
+  <div class="ict">精神主张</div>
+  <p>不是"日料馆"，是"都市人下班后的疗愈角落"。银杏叶意象 = 秋日温柔 = 慢下来享受一餐的仪式感。</p>
+</div>
+<div class="icard">
+  <div class="ict">视觉记忆点</div>
+  <p>银杏叶元素贯穿菜品摆盘、餐具选择、店内装饰。第一批评价的照片要传递出"这家店的颜值和格调"——因为顾客是看完图才决定要不要来的。</p>
+</div>
+<div class="icard">
+  <div class="ict">爆品锚点</div>
+  <p>选1-2道"颜值+口味双在线"的招牌菜（建议：精选刺身拼盘 或 特色手卷套餐），作为所有营销内容的主角。菜单图、朋友圈海报、评价引导——全围绕这道菜。</p>
+</div>
+
+<h3>📅 四阶段作战路线图</h3>
+<table class="t">
+  <tr><th>阶段</th><th>时间</th><th>核心目标</th><th>关键动作</th></tr>
+  <tr><td><strong>筹备期</strong></td><td>开业前14天</td><td>线上就绪</td><td>点评店铺上线+菜单上架+首批KP评价准备+扫码点餐测试</td></tr>
+  <tr><td><strong>爆发期</strong></td><td>第1-30天</td><td>快速起量</td><td>开业活动+定向投放+储值首推+冲击评价数量</td></tr>
+  <tr><td><strong>成长期</strong></td><td>第31-60天</td><td>锁客沉淀</td><td>会员深耕+复购激活+储值优惠升级+评价质量维护</td></tr>
+  <tr><td><strong>稳定期</strong></td><td>60天以后</td><td>持续增长</td><td>周期活动节奏+会员分层运营+数据复盘优化</td></tr>
+</table>
+
+<h3>💡 差异化竞争策略（对比二维火）</h3>
+<div class="icard">
+  <div class="ict">为什么选美团SaaS而不是二维火</div>
+  <ul>
+    <li><strong>点评生态打通：</strong>美团收银直连大众点评，评价引导、团购核销无缝衔接——二维火做不到</li>
+    <li><strong>会员旗舰版营销力：</strong>精准会员分层+短信触达+积分体系，比二维火会员功能强2倍</li>
+    <li><strong>数字化营销模块：</strong>帮助在大众点评投放精准广告，新店冲量最快路径——这是美团独家</li>
+    <li><strong>储值套餐设计：</strong>专为中高端餐饮设计，人均100元的店用储值锁客ROI最高</li>
+    <li><strong>扫码点餐仪式感：</strong>精品日料的扫码体验更好，减少服务员催单的尴尬</li>
+  </ul>
+</div>
+`},
+
+  3:{
+    num:'CH · 03',
+    title:'SaaS系统解决方案',
+    html:`
+<h3>🔧 已签产品 × 场景化解读</h3>
+<p style="color:var(--ts);font-size:13px;margin-bottom:16px">不是功能列表，是"你的店的哪个问题用哪个工具解决"</p>
+
+<h4>① 智能收银 → 解决：点单效率 + 团购核销</h4>
+<div class="icard">
+  <ul>
+    <li>60㎡小馆，翻台压力大。收银离线能力强，断网也能点餐，高峰期不卡顿</li>
+    <li>美团/点评团购码一扫即核销，不用对账，省去大量时间</li>
+    <li><strong>🔧 工具路径：</strong>收银台 → 团购核销 → 扫码/输入兑换码</li>
+    <li>💰 <strong>对比二维火：</strong>团购核销每单少操作4步，高峰期每小时多服务2-3桌</li>
+  </ul>
+</div>
+
+<h4>② 会员营销（旗舰版）→ 解决：留存 + 复购 + 精准触达</h4>
+<div class="icard">
+  <ul>
+    <li>扫码点餐即成会员，开业第一天零门槛积累会员数据</li>
+    <li>会员分层：消费次数/金额自动分层（新客/铜牌/银牌/金牌）</li>
+    <li>7天沉默会员自动触发短信召回："好久没见～这周有新品，回来尝尝？"</li>
+    <li>生日专属优惠自动发送，无需人工操作</li>
+    <li><strong>🔧 工具路径：</strong>会员系统 → 客群分析 → 筛选条件 → 发券/发短信</li>
+  </ul>
+</div>
+
+<h4>③ 扫码点餐 → 解决：服务效率 + 开业期低人力成本启动</h4>
+<div class="icard">
+  <ul>
+    <li>顾客自助点餐，服务员专注出品质量和体验服务</li>
+    <li>扫码弹窗：进店扫码即推送"新店开业特惠"，100%触达</li>
+    <li>菜品图片展示精致，提升日料"颜值经济"感知</li>
+    <li>22:00后可定时切换"深夜限定菜单"（无需人工操作）</li>
+    <li><strong>🔧 工具路径：</strong>扫码点餐 → 营销弹窗设置 → 新客专享优惠配置</li>
+  </ul>
+</div>
+
+<h4>④ 数字化营销 → 解决：新店冷启动 + 流量获取</h4>
+<div class="icard">
+  <ul>
+    <li>在大众点评/美团配置精准广告投放，杭州奥体商圈3公里定向投放</li>
+    <li>开业期建议投入¥2,000-3,000/月，ROI约1:3-5（每花1元带来3-5元营业额）</li>
+    <li>限时套餐上架：开业特惠套餐在平台展示，吸引新客首单</li>
+    <li><strong>🔧 工具路径：</strong>数字化营销 → 新建推广计划 → 选择目标人群 → 设置预算</li>
+  </ul>
+</div>
+
+<h4>⑤ 储值套餐 → 解决：锁客 + 提前锁定现金流</h4>
+<div class="icard">
+  <ul>
+    <li>人均¥100，储值建议设计：充500送60 / 充1000送150 / 充2000送350</li>
+    <li>充500= 客单价×5次 = 顾客觉得"不多，就当预存个5次"</li>
+    <li>开业期储值赠送额度提高30%，制造开业限定稀缺感</li>
+    <li><strong>🔧 工具路径：</strong>储值套餐 → 新建储值档位 → 设置开业期加赠规则</li>
+  </ul>
+</div>
+
+<h3>⚠️ 开业前必做系统配置清单</h3>
+<ul>
+  <li>✅ 收银商品库同步菜单（含图片、价格、分类）</li>
+  <li>✅ 扫码点餐弹窗配置：新客专享"开业特惠套餐"</li>
+  <li>✅ 会员系统：设置入会礼（如"入会送一份味噌汤"）</li>
+  <li>✅ 储值档位上线：开业加赠版本</li>
+  <li>✅ 大众点评店铺信息填写完整：菜单/环境/人均全部更新</li>
+  <li>✅ 数字化营销：提前3天配置开业投放计划</li>
+</ul>
+`},
+
+  4:{
+    num:'CH · 04',
+    title:'点评赋能策略',
+    html:`
+<h3>⭐ 为什么点评是新店的生死线</h3>
+<div class="hl"><p>杭州日料门店竞争激烈，顾客决策路径：<strong>搜索"杭州日料" → 按口碑/评分排序 → 看图 → 进店</strong>。没有评价=不存在。新店前30条评价，决定了这家店接下来一年的命运。</p></div>
+
+<h3>📊 三步评价节奏（先定调再冲量再维护）</h3>
+<div class="icard">
+  <div class="ict">第一步：定调（开业前3天 → 开业后5天）</div>
+  <p><strong>目标：5-10条高质量评价，定下"精致日料"的品牌调性</strong></p>
+  <ul>
+    <li>联系3-5位美食达人/KOL提前到店体验（可邀约，用餐费0元）</li>
+    <li>要求：400字以上+6张以上精美菜品图+环境图</li>
+    <li>评价关键词植入："精致"、"仪式感"、"银杏"、"奥体"、"值得来"</li>
+    <li>这5-10条评价是其他顾客的"第一印象"，必须是最好的</li>
+    <li>💰 成本：达人餐费约¥300-500/人，5人≈¥1,500-2,500（媒体费替代广告费）</li>
+  </ul>
+</div>
+<div class="icard">
+  <div class="ict">第二步：冲量（开业后6-30天）</div>
+  <p><strong>目标：30天内积累30-50条真实评价，冲上星级</strong></p>
+  <ul>
+    <li>结账时服务员标准话术（下方有详细版本）</li>
+    <li>扫码点餐系统设置"用餐后30分钟"自动推送评价引导消息</li>
+    <li>写150字以上+3张图的顾客，下次凭截图享9折（成本可控）</li>
+    <li>目标：日均1.5-2条评价，30天≈50条，可达大众点评星级门槛</li>
+  </ul>
+</div>
+<div class="icard">
+  <div class="ict">第三步：长期维护（31天以后）</div>
+  <p><strong>目标：月均8-12条新评价，维护评分稳定</strong></p>
+  <ul>
+    <li>重点引导节假日聚餐、生日庆典等高满意度场景的顾客写评价</li>
+    <li>会员系统筛选"满意度高（消费2次以上）"的顾客定向激励</li>
+    <li>及时回复每一条差评（24小时内回复，表态+解决方案）</li>
+  </ul>
+</div>
+
+<h3>🗣️ 服务员评价引导话术（精确到原话）</h3>
+<table class="t">
+  <tr><th>时机</th><th>标准话术</th></tr>
+  <tr><td>入座时</td><td>"欢迎光临银杏居，我们是印象城新开的日料店，主打新鲜食材和精致体验，今天一定会让您满意～"</td></tr>
+  <tr><td>上招牌菜时</td><td>"这道[招牌菜名]是我们主厨今早现处理的，建议先拍张照，朋友圈很多人都在分享～"</td></tr>
+  <tr><td>结账时</td><td>"感谢您今天的光顾！如果您有时间的话，帮我们在大众点评写一条评价，150字以上配上菜品的照片，下次来凭截图享9折哦~"</td></tr>
+  <tr><td>顾客离店时</td><td>"期待您下次再来！关注我们的大众点评可以看到最新活动，第一时间享优惠～"</td></tr>
+</table>
+
+<h3>🖼️ 评价内容引导方向</h3>
+<div class="tags">
+  <span class="tag">食材新鲜</span>
+  <span class="tag">摆盘精致</span>
+  <span class="tag">仪式感满满</span>
+  <span class="tag">性价比高</span>
+  <span class="tag g">奥体商圈</span>
+  <span class="tag g">朋友圈打卡</span>
+  <span class="tag r">约会必去</span>
+  <span class="tag r">银杏居酒屋</span>
+</div>
+`},
+
+  5:{
+    num:'CH · 05',
+    title:'筹备期行动计划（开业前14天）',
+    html:`
+<h3>📋 开业倒计时行动表</h3>
+<table class="t">
+  <tr><th>时间节点</th><th>动作</th><th>工具/负责人</th><th>预期效果</th></tr>
+  <tr><td>开业前14天</td><td>大众点评店铺信息完整填写（菜单/图片/介绍/人均/标签）</td><td>点评商家后台</td><td>搜索展示就绪</td></tr>
+  <tr><td>开业前14天</td><td>扫码点餐菜单上架（含菜品图片，建议每道菜有高清图）</td><td>扫码点餐系统</td><td>顾客体验就绪</td></tr>
+  <tr><td>开业前12天</td><td>邀约5位本地美食达人提前探店，定调评价</td><td>小红书/点评达人私信</td><td>开业前有5条优质评价</td></tr>
+  <tr><td>开业前10天</td><td>设计开业限定储值套餐（充500送80/充1000送160/充2000送360）</td><td>储值套餐系统</td><td>开业储值冲刺</td></tr>
+  <tr><td>开业前7天</td><td>配置扫码点餐弹窗：新客进店即弹"开业特惠"</td><td>扫码点餐后台</td><td>进店即触达</td></tr>
+  <tr><td>开业前7天</td><td>设计会员入会礼（如：入会赠"银杏茶"一杯）</td><td>会员营销后台</td><td>入会率提升30%</td></tr>
+  <tr><td>开业前5天</td><td>配置数字化营销投放：奥体商圈3公里定向，日预算¥150</td><td>数字化营销后台</td><td>开业当天有曝光</td></tr>
+  <tr><td>开业前3天</td><td>员工话术培训（评价引导话术+储值推荐话术）</td><td>内部培训</td><td>开业即可标准执行</td></tr>
+  <tr><td>开业前1天</td><td>全系统测试：收银/扫码/会员/储值 全链路走一遍</td><td>全SaaS系统</td><td>开业零事故</td></tr>
+</table>
+
+<h3>🎁 开业活动设计：三档套餐引流</h3>
+<table class="t">
+  <tr><th>套餐名</th><th>定价</th><th>人均</th><th>设计目的</th><th>限制</th></tr>
+  <tr><td>银杏体验套餐</td><td>58元</td><td>58元（1人）</td><td>低门槛钩子，让新客"进来先试试"</td><td>每天限售20份</td></tr>
+  <tr><td>双人约会套餐</td><td>168元</td><td>84元</td><td>主力引流，低于正常人均100，情侣必选</td><td>无限制</td></tr>
+  <tr><td>四人聚餐套餐</td><td>348元</td><td>87元</td><td>小聚场景，感觉比单点便宜</td><td>需提前预约</td></tr>
+</table>
+<p>⚠️ 套餐价格经过精心设计：体验款限量→制造稀缺感；双人款最划算→成为复购主力；四人款原价锚定→让双人款显得超值。</p>
+`},
+
+  6:{
+    num:'CH · 06',
+    title:'爆发期运营方案（开业1-30天）',
+    html:`
+<h3>🚀 开业爆发期核心策略：抢占新店流量红利</h3>
+<div class="hl"><p>大众点评新店上线前30天有流量扶持，是<strong>自然流量最高峰</strong>。这30天每一天都要全力以赴——错过了就要花2-3倍成本去补。</p></div>
+
+<h3>📅 第一周：开业大爆发（Day 1-7）</h3>
+<ul>
+  <li><strong>Day 1（开业日）：</strong>开业特惠全线上线，收银员主动推储值（"开业前三天储值额外送20%"），扫码点餐弹窗推送开业红包</li>
+  <li><strong>Day 2-3：</strong>回访Day 1顾客（会员系统短信），推送"回来再次享9折"</li>
+  <li><strong>Day 4-5：</strong>统计前3天评价，如不足5条立即加强线下引导话术</li>
+  <li><strong>Day 6-7：</strong>首周数据复盘（翻台率/客单价/储值转化率），调整推广节奏</li>
+</ul>
+
+<h3>📅 第二周：评价冲刺（Day 8-14）</h3>
+<ul>
+  <li>目标：累计评价≥20条，评分≥4.5分</li>
+  <li>扫码点餐系统：用餐结束30分钟后自动推送评价引导消息</li>
+  <li>数字化营销：检查投放ROI，CTR低于2%则调整投放内容</li>
+  <li>寿司拼盘DIY活动上线（详见活动库章节）</li>
+</ul>
+
+<h3>📅 第三-四周：储值锁客（Day 15-30）</h3>
+<ul>
+  <li>储值活动从"开业限定加赠"过渡到"常规档位"，保持吸引力</li>
+  <li>会员系统推送：筛选消费1次的新会员，推送"再来一次享会员专属菜品"</li>
+  <li>周末推出"和风主题日"（详见活动库），提升仪式感和社交传播</li>
+  <li>月底复盘：会员数 / 储值额 / 评价数 / 翻台率 ——对照KPI看板</li>
+</ul>
+
+<h3>💬 储值推荐话术（结账时必说）</h3>
+<div class="icard">
+  <div class="ict">情侣场景</div>
+  <p>"两位今天消费了XX元，我们有开业限定储值：充500送80，相当于今晚这顿白送了。您们经常来的话，充一次够吃好几次，还能享受会员专属价格。"</p>
+</div>
+<div class="icard">
+  <div class="ict">商务/朋友聚餐场景</div>
+  <p>"几位今天消费了XX元，我们开业期有储值活动，充1000送160，下次带同事朋友来直接用余额结账，非常方便，而且会员还有生日专属惊喜。"</p>
+</div>
+`},
+
+  7:{
+    num:'CH · 07',
+    title:'成长期会员深耕（31-60天）',
+    html:`
+<h3>🌱 成长期目标：把"来过"变成"常来"</h3>
+<p>开业爆发期过后，新鲜感消退是正常的。第31-60天的核心任务是<strong>把开业期积累的会员盘活，建立稳定复购节奏</strong>。</p>
+
+<h3>🎯 会员分层运营方案</h3>
+<table class="t">
+  <tr><th>会员层级</th><th>定义</th><th>运营策略</th><th>工具</th></tr>
+  <tr><td>新会员（消费1次）</td><td>体验过但未复购</td><td>第15天发"回来再享9折+新品预告"短信</td><td>会员系统短信</td></tr>
+  <tr><td>活跃会员（2-3次）</td><td>有复购但未锁客</td><td>推送储值升级方案，强调"储值用不完永久有效"</td><td>会员营销</td></tr>
+  <tr><td>忠实会员（储值客户）</td><td>已储值</td><td>生日专属+节日问候+新品优先体验</td><td>会员系统自动触发</td></tr>
+</table>
+
+<h3>📱 第31-45天关键动作</h3>
+<ul>
+  <li>会员系统筛选"21-30天未到店"的会员，定向推送召回优惠</li>
+  <li>推出"集章环游日韩"活动（详见活动库），设计复购路径</li>
+  <li>周五/六晚推出清酒品鉴会（39.9元/人），培养高价值客群</li>
+  <li>扫码点餐菜单更新：推出季节限定新品（增加复访理由）</li>
+</ul>
+
+<h3>📱 第46-60天关键动作</h3>
+<ul>
+  <li>60天成长期总结：会员数/储值总额/复购率 复盘</li>
+  <li>筛选"高价值会员"（储值≥1000元）进行1对1专属关怀（定向发新品试吃券）</li>
+  <li>为稳定期制定节日营销日历（七夕/中秋/国庆等节点活动方案）</li>
+  <li>调整扫码点餐菜单展示顺序（把高毛利+高复购菜放首位）</li>
+</ul>
+`},
+
+  8:{
+    num:'CH · 08',
+    title:'稳定期复购体系',
+    html:`
+<h3>🔄 稳定期核心：周期活动节奏 + 数据驱动</h3>
+<p>开业60天后进入稳定期，这时候需要<strong>用SaaS数据指导运营决策</strong>，而不是靠感觉。</p>
+
+<h3>📆 月度活动节奏表</h3>
+<table class="t">
+  <tr><th>周期</th><th>活动类型</th><th>目的</th></tr>
+  <tr><td>每月第1周</td><td>月度新品上架+会员专享预览</td><td>给老客"回来看看"的理由</td></tr>
+  <tr><td>每月第2周</td><td>储值余额提醒（余额低于200元触发）</td><td>自动触达，刺激补充储值</td></tr>
+  <tr><td>每月第3周</td><td>和风主题日 或 清酒品鉴会</td><td>提升客单价+社交传播</td></tr>
+  <tr><td>每月第4周</td><td>沉睡会员召回（21天未到店）</td><td>拉回流失客户</td></tr>
+  <tr><td>节假日前3天</td><td>节日套餐预售+储值加赠活动</td><td>节日流量承接</td></tr>
+</table>
+
+<h3>📊 数据看板复盘（每月必做）</h3>
+<ul>
+  <li>翻台率：目标≥2.5次/天（60㎡小馆）</li>
+  <li>会员消费占比：目标≥60%（说明粘性够）</li>
+  <li>储值新增：月度目标¥15,000+</li>
+  <li>复购率：目标≥35%（来过1次的顾客有35%第2次来）</li>
+  <li>大众点评评分：维持4.5分以上</li>
+</ul>
+
+<h3>💡 数据诊断规则</h3>
+<div class="icard">
+  <div class="ict">如果翻台率下降 → 先看评分</div>
+  <p>评分下降 → 排查近期差评，针对性改进产品/服务；评分正常 → 看商圈竞品是否有新活动，及时跟进</p>
+</div>
+<div class="icard">
+  <div class="ict">如果储值转化率低 → 看推荐时机</div>
+  <p>服务员是否在结账时主动推？扫码点餐是否有储值引导弹窗？储值档位是否需要调整？</p>
+</div>
+`},
+
+  9:{
+    num:'CH · 09',
+    title:'品类特色活动库',
+    html:`
+<h3>🍣 日料居酒屋专属活动（精选4个最适合新店）</h3>
+
+<div class="icard">
+  <div class="ict">活动① 寿司九宫格DIY——「自选你的专属套餐」</div>
+  <ul>
+    <li><strong>形式：</strong>推出"自选寿司九宫格"（9选6 / 9选9），顾客从12-15种寿司中自选搭配，摆成九宫格拍照</li>
+    <li><strong>执行：</strong>准备九宫格专用木盘；扫码点餐里上架自选组合SKU；拍照发朋友圈送味噌汤</li>
+    <li><strong>成本：</strong>木盘一次性≈100元（循环用）；食材成本可控</li>
+    <li><strong>目标：</strong>客单提升 + 社交传播 + 小红书打卡</li>
+    <li><strong>🔧 工具联动：</strong>扫码点餐（自选SKU）+ 万能码（拍照模板）</li>
+  </ul>
+</div>
+
+<div class="icard">
+  <div class="ict">活动② 清酒品鉴会——「三杯入门日本酒」</div>
+  <ul>
+    <li><strong>形式：</strong>每月1次，周五/六晚，提供3款不同产地清酒试饮+配餐指导，每人39.9元</li>
+    <li><strong>执行：</strong>选3款清酒（纯米/吟酿/大吟酿各1）；每款50ml试饮+配1道小食；制作清酒知识卡；品鉴后整瓶购买8折</li>
+    <li><strong>成本：</strong>清酒+小食≈15-20元/人，品鉴会微盈利</li>
+    <li><strong>目标：</strong>客单提升 + 高端客群培养 + 品牌调性建设</li>
+    <li><strong>🔧 工具联动：</strong>万能码（报名收费）+ 会员系统（品鉴偏好记录）</li>
+  </ul>
+</div>
+
+<div class="icard">
+  <div class="ict">活动③ 居酒屋深夜食堂——「22:00后的秘密菜单」</div>
+  <ul>
+    <li><strong>形式：</strong>22:00后解锁"深夜限定菜单"（3-5道深夜小食+特价酒饮），营造深夜食堂氛围</li>
+    <li><strong>执行：</strong>深夜菜单用现有食材（烤饭团/茶泡饭/关东煮）；扫码点餐22:00自动切换；深夜来客送小杯梅酒</li>
+    <li><strong>成本：</strong>深夜小食≈5-10元/份；梅酒≈3元/杯</li>
+    <li><strong>目标：</strong>夜间时段引流 + 氛围营造 + 差异化记忆点</li>
+    <li><strong>🔧 工具联动：</strong>扫码点餐（定时切换菜单）+ 会员系统（深夜客标签）</li>
+  </ul>
+</div>
+
+<div class="icard">
+  <div class="ict">活动④ 集章环游日本——「集齐8道解锁美食护照」</div>
+  <ul>
+    <li><strong>形式：</strong>设计"美食护照"卡，菜单中标注8道代表菜，每尝1道盖1章，集齐8章送限定周边</li>
+    <li><strong>执行：</strong>选8道中高毛利代表菜；护照卡设计精美（日式和风风格）；每道菜附1句文化小知识；集齐后送筷子套装/清酒杯等日式周边</li>
+    <li><strong>成本：</strong>护照卡≈2元/张；周边≈15-20元/份</li>
+    <li><strong>目标：</strong>复购 + 菜品探索 + 提升客单</li>
+    <li><strong>🔧 工具联动：</strong>万能码（电子集章）+ 扫码点餐（代表菜标注）+ 会员系统（护照进度追踪）</li>
+  </ul>
+</div>
+
+<h3>🚫 品类禁忌（不适合日料居酒屋的活动）</h3>
+<div class="tags">
+  <span class="tag r">❌ 大胃王挑战</span>
+  <span class="tag r">❌ 频繁大折扣</span>
+  <span class="tag r">❌ 嘈杂KTV式活动</span>
+  <span class="tag r">❌ 文化元素不当使用</span>
+</div>
+`},
+
+  10:{
+    num:'CH · 10',
+    title:'储值套餐设计方案',
+    html:`
+<h3>💰 储值套餐设计（基于人均¥100测算）</h3>
+
+<h4>开业限定版（前30天）</h4>
+<table class="t">
+  <tr><th>套餐名</th><th>储值额</th><th>赠送额</th><th>相当于</th><th>目标客群</th></tr>
+  <tr><td>尝鲜款</td><td>¥300</td><td>¥50</td><td>存3次用3.5次</td><td>第一次到店、观望型</td></tr>
+  <tr><td>主力款 ⭐</td><td>¥500</td><td>¥100</td><td>存5次用6次（多1次免费）</td><td>喜欢、想多来几次</td></tr>
+  <tr><td>深度款</td><td>¥1,000</td><td>¥220</td><td>存10次用12.2次</td><td>已认可品质的常客</td></tr>
+  <tr><td>高端款</td><td>¥2,000</td><td>¥460</td><td>存20次用24.6次</td><td>商务宴请/经常带团</td></tr>
+</table>
+<p style="font-size:12px;color:var(--ts)">⭐ 主力款=销售重点，餐费相当于免费来了一次，最容易被接受</p>
+
+<h4>常规版（开业31天后）</h4>
+<table class="t">
+  <tr><th>储值额</th><th>赠送</th><th>赠送比例</th></tr>
+  <tr><td>¥500</td><td>¥60</td><td>12%</td></tr>
+  <tr><td>¥1,000</td><td>¥150</td><td>15%</td></tr>
+  <tr><td>¥2,000</td><td>¥350</td><td>17.5%</td></tr>
+</table>
+
+<h3>🎯 储值推荐时机优先级</h3>
+<ol>
+  <li><strong>结账时（最佳）：</strong>顾客刚体验完，满意度最高。收银员："今天消费了XX，储值500送100，今晚这顿几乎白来了～"</li>
+  <li><strong>扫码点餐弹窗（自动）：</strong>点单时弹出储值提醒，设置在第2次到店时自动触发</li>
+  <li><strong>会员短信（精准）：</strong>消费满2次但未储值的会员，推送专属储值优惠</li>
+</ol>
+
+<h3>📊 储值ROI预估（月度）</h3>
+<div class="kgrid">
+  <div class="kcard"><div class="know">目标储值笔数</div><div class="kval">30笔</div><div class="kname">前30天</div></div>
+  <div class="kcard"><div class="know">月储值总额</div><div class="kval">¥18K</div><div class="ktgt">目标¥15K+</div></div>
+  <div class="kcard"><div class="know">储值转化率</div><div class="kval">15%</div><div class="ktgt">目标进店客</div></div>
+  <div class="kcard"><div class="know">储值回本周期</div><div class="kval">2.5月</div><div class="kname">赠送成本</div></div>
+</div>
+`},
+
+  11:{
+    num:'CH · 11',
+    title:'员工执行话术手册',
+    html:`
+<h3>📖 四大场景标准话术（背会，开业第一天就用）</h3>
+
+<div class="icard">
+  <div class="ict">场景1：顾客进店入座</div>
+  <p>背景：让顾客一进门就感受到"这家店有自己的故事"，建立第一印象。</p>
+  <p><strong>话术：</strong>"欢迎光临银杏居酒屋，我们是印象城最新开业的精品日料居酒屋，专注新鲜食材和精致体验。今天可以扫桌上的码点餐，有什么问题随时找我！"</p>
+</div>
+
+<div class="icard">
+  <div class="ict">场景2：上招牌菜时</div>
+  <p>背景：食物到桌的那一刻是顾客最兴奋的时候，也是建立"峰值体验"的最佳时机。</p>
+  <p><strong>话术：</strong>"这道[招牌菜名]是我们今天主厨的得意之作，食材今早刚到——建议先拍张照，摆盘特别适合发小红书，好多顾客都说值得打卡！"</p>
+</div>
+
+<div class="icard">
+  <div class="ict">场景3：结账时（储值推荐）</div>
+  <p>背景：顾客刚结束用餐，满意度最高，是推储值的黄金时刻。</p>
+  <p><strong>话术：</strong>"您今天消费了[金额]，我们现在开业有储值活动，充500送100，相当于下次来白吃一次。您喜欢的话直接在这里充，很方便的～"</p>
+  <p>如果顾客说"再想想"：<strong>"没关系，这个活动是我们开业限定的，过了这个月赠送额度会减少，您有兴趣随时可以充。"</strong></p>
+</div>
+
+<div class="icard">
+  <div class="ict">场景4：顾客离店时（评价引导）</div>
+  <p>背景：顾客迈出门的那一刻是"终值体验"，要让他带着好印象离开，并种下评价的念头。</p>
+  <p><strong>话术：</strong>"感谢您今天光临！如果您满意的话，帮我们在大众点评写一条评价，写150字以上加几张菜品照片，下次来凭截图享9折。我们是新店，真的很需要您的支持！"</p>
+</div>
+
+<h3>⚠️ 话术禁忌</h3>
+<ul>
+  <li>❌ 不说"我们这里的鱼很新鲜"（没人信）→ 改说"今早刚到的"（具体可信）</li>
+  <li>❌ 不说"能帮我们写个评价吗"（没有动力）→ 改说"写150字以上有优惠"（有利益驱动）</li>
+  <li>❌ 不说"您可以考虑一下储值"（太软）→ 改说"开业限定，下个月就没这个力度了"（制造紧迫感）</li>
+</ul>
+`},
+
+  12:{
+    num:'CH · 12',
+    title:'KPI目标看板',
+    html:`
+<h3>📊 开业期KPI目标（可对标验收）</h3>
+
+<h4>第一阶段：爆发期（开业1-30天）</h4>
+<div class="kgrid">
+  <div class="kcard"><div class="know">当前</div><div class="kval">0</div><div class="ktgt">目标: 50+</div><div class="kname">大众点评评价数</div></div>
+  <div class="kcard"><div class="know">当前</div><div class="kval">新店</div><div class="ktgt">目标: 4.5分+</div><div class="kname">点评评分</div></div>
+  <div class="kcard"><div class="know">当前</div><div class="kval">0</div><div class="ktgt">目标: 200人</div><div class="kname">会员数（30天）</div></div>
+  <div class="kcard"><div class="know">当前</div><div class="kval">0</div><div class="ktgt">目标: ¥15,000</div><div class="kname">储值总额</div></div>
+  <div class="kcard"><div class="know">基准</div><div class="kval">-</div><div class="ktgt">目标: ¥105+</div><div class="kname">月均客单价</div></div>
+  <div class="kcard"><div class="know">基准</div><div class="kval">-</div><div class="ktgt">目标: 2次/天</div><div class="kname">翻台率</div></div>
+</div>
+
+<h4>第二阶段：成长期（31-60天）</h4>
+<div class="kgrid">
+  <div class="kcard"><div class="know">30天值</div><div class="kval">50</div><div class="ktgt">目标: 100+</div><div class="kname">累计评价数</div></div>
+  <div class="kcard"><div class="know">30天值</div><div class="kval">200</div><div class="ktgt">目标: 400人</div><div class="kname">累计会员数</div></div>
+  <div class="kcard"><div class="know">30天值</div><div class="kval">¥15K</div><div class="ktgt">目标: ¥30K+</div><div class="kname">累计储值额</div></div>
+  <div class="kcard"><div class="know">基准</div><div class="kval">-</div><div class="ktgt">目标: 35%</div><div class="kname">会员复购率</div></div>
+  <div class="kcard"><div class="know">基准</div><div class="kval">-</div><div class="ktgt">目标: 60%</div><div class="kname">会员消费占比</div></div>
+  <div class="kcard"><div class="know">基准</div><div class="kval">-</div><div class="ktgt">目标: 2.5次/天</div><div class="kname">稳定翻台率</div></div>
+</div>
+
+<h3>🚦 KPI预警机制</h3>
+<table class="t">
+  <tr><th>指标</th><th>预警阈值</th><th>触发动作</th></tr>
+  <tr><td>评价增速</td><td>连续3天日均<1条</td><td>加强结账话术培训，BD介入辅导</td></tr>
+  <tr><td>储值转化率</td><td>低于10%</td><td>检查话术执行，调整储值档位设计</td></tr>
+  <tr><td>点评评分</td><td>低于4.3分</td><td>24小时内排查差评原因，限期整改</td></tr>
+  <tr><td>会员复购率</td><td>低于25%</td><td>启动召回营销，推出限时专属优惠</td></tr>
+</table>
+`},
+
+  13:{
+    num:'CH · 13',
+    title:'预算与投资回报测算',
+    html:`
+<h3>💰 开业期总预算（前30天）</h3>
+<table class="t">
+  <tr><th>预算项目</th><th>金额</th><th>说明</th></tr>
+  <tr><td>达人探店（5人×500）</td><td>¥2,500</td><td>定调评价，效果>广告</td></tr>
+  <tr><td>数字化营销投放</td><td>¥3,000</td><td>30天×¥100/天，奥体商圈3km定向</td></tr>
+  <tr><td>开业特惠套餐损耗</td><td>¥1,500</td><td>体验款/双人款折扣成本</td></tr>
+  <tr><td>储值赠送成本</td><td>¥1,800</td><td>开业限定加赠（按餐饮成本率45%计）</td></tr>
+  <tr><td>会员入会礼（200人×5元）</td><td>¥1,000</td><td>入会赠银杏茶</td></tr>
+  <tr><td>活动物料（九宫格木盘/护照卡等）</td><td>¥600</td><td>一次性置办，长期使用</td></tr>
+  <tr><td>评价激励（9折券成本）</td><td>¥800</td><td>约100人次×每人折扣约8元</td></tr>
+  <tr><th>合计</th><th>¥11,200</th><th>约当月营业目标的6-7%</th></tr>
+</table>
+
+<h3>📈 投资回报测算</h3>
+<table class="t">
+  <tr><th>收益来源</th><th>月增收测算</th><th>测算依据</th></tr>
+  <tr><td>储值锁定收入</td><td>¥15,000</td><td>30笔储值×平均¥500</td></tr>
+  <tr><td>营销投放带来新客</td><td>¥12,000</td><td>投放ROI=1:4，3000元带来12000营业额</td></tr>
+  <tr><td>会员复购增收</td><td>¥8,000</td><td>200会员×35%复购×¥114客单</td></tr>
+  <tr><td>客单价提升（套餐+储值效应）</td><td>¥3,000</td><td>客单100→105，日均60桌×30天×5元</td></tr>
+  <tr><th>月增收合计</th><th>¥38,000+</th><th>保守估算</th></tr>
+</table>
+
+<div class="hl"><p>💡 <strong>投资回报：</strong>开业30天投入¥11,200，带来增量收入¥38,000+，ROI约 <strong>1:3.4</strong>。更重要的是，储值¥15,000是锁定的未来收入，会员200人是长期资产。</p></div>
+
+<h3>⏱️ 回本周期预估</h3>
+<p>SaaS年费约¥10,000（会员旗舰版+其他模块），以月均储值新增¥10,000计算，<strong>约1个月回收SaaS年费，从第2个月起纯盈利。</strong></p>
+`},
+
+  14:{
+    num:'CH · 14',
+    title:'执行Checklist',
+    html:`
+<h3>✅ 开业前7天必做清单（逐条打勾）</h3>
+
+<div class="step"><div class="step-num">1</div><div class="step-body"><strong>大众点评店铺信息100%完善</strong><br><span style="color:var(--ts);font-size:13px">菜单图片/环境图/人均/标签/营业时间——缺任何一项都影响展示排名</span></div></div>
+<div class="step"><div class="step-num">2</div><div class="step-body"><strong>扫码点餐菜单上线测试</strong><br><span style="color:var(--ts);font-size:13px">每道菜必须有图片；开业弹窗配置；支付测试无报错</span></div></div>
+<div class="step"><div class="step-num">3</div><div class="step-body"><strong>会员系统配置完成</strong><br><span style="color:var(--ts);font-size:13px">入会礼配置；分层规则设置；首条欢迎短信测试发送</span></div></div>
+<div class="step"><div class="step-num">4</div><div class="step-body"><strong>储值档位上线（开业版）</strong><br><span style="color:var(--ts);font-size:13px">4个档位全部测试；赠送金额准确；收银员操作培训</span></div></div>
+<div class="step"><div class="step-num">5</div><div class="step-body"><strong>数字化营销投放计划启动</strong><br><span style="color:var(--ts);font-size:13px">商圈定向设置；日预算100元；投放素材上传（门店图+套餐图）</span></div></div>
+<div class="step"><div class="step-num">6</div><div class="step-body"><strong>达人探店邀约确认</strong><br><span style="color:var(--ts);font-size:13px">5人名单确定；时间约定好（开业前2-3天到店）；要求说明清楚</span></div></div>
+<div class="step"><div class="step-num">7</div><div class="step-body"><strong>员工话术培训完成</strong><br><span style="color:var(--ts);font-size:13px">入座/上菜/结账/离店 四大话术背熟；角色扮演练习1遍</span></div></div>
+
+<h3>✅ 开业第一周每日必做</h3>
+<ul>
+  <li>每天查看大众点评后台：评价数/评分/评价内容（差评立刻处理）</li>
+  <li>每天查看数字化营销数据：点击率/转化率（低于2%立刻调整素材）</li>
+  <li>每天收银下班前统计：储值笔数/新增会员数</li>
+  <li>每天服务结束后5分钟：BD微信收到运营日报（收银报表自动发送）</li>
+</ul>
+
+<h3>⚠️ 翻车预警 & 应对方案</h3>
+<table class="t">
+  <tr><th>翻车场景</th><th>应对方案</th></tr>
+  <tr><td>开业第1周0差评但评价增速慢</td><td>加强离店话术，BD到店陪跑1天，示范给服务员看</td></tr>
+  <tr><td>首条差评出现</td><td>24小时内回复（表歉意+承诺改进），联系顾客补偿（如送券）</td></tr>
+  <tr><td>储值推荐被拒绝多</td><td>话术调整：换场景（第2次来时再推更有效）</td></tr>
+  <tr><td>投放点击率低</td><td>更换投放图片（换成食物特写），调整文案（突出"新店开业"）</td></tr>
+</table>
+`},
+
+  15:{
+    num:'CH · 15 · 附录',
+    title:'标杆案例 · 日料品牌参考',
+    html:`
+<h3>🏆 日料/居酒屋标杆案例参考</h3>
+
+<div class="icard">
+  <div class="ict">案例1：杭州某精品日料 · 商场型新店（参考数据）</div>
+  <table class="t">
+    <tr><th>项目</th><th>数据</th></tr>
+    <tr><td>开业30天会员积累</td><td>180人（来客40%入会）</td></tr>
+    <tr><td>开业30天储值额</td><td>¥12,000（开业期加赠效果显著）</td></tr>
+    <tr><td>开业60天评价数</td><td>80条（评分4.6分）</td></tr>
+    <tr><td>寿司九宫格活动效果</td><td>30天内自然带来32条小红书相关笔记</td></tr>
+  </table>
+  <p style="font-size:12px;color:var(--ts)">关键成功因素：开业前完成5条达人定调评价，开业当天扫码率超60%</p>
+</div>
+
+<div class="icard">
+  <div class="ict">案例2：成都居酒屋 · 清酒品鉴会案例</div>
+  <table class="t">
+    <tr><th>项目</th><th>数据</th></tr>
+    <tr><td>每月清酒品鉴会参与人数</td><td>30-40人（周五/六各1场）</td></tr>
+    <tr><td>品鉴会后整瓶购买率</td><td>约35%的参与者购买了整瓶清酒</td></tr>
+    <tr><td>品鉴会客群复购率</td><td>比普通顾客高2.3倍</td></tr>
+    <tr><td>品鉴会顾客储值率</td><td>48%（高价值客群）</td></tr>
+  </table>
+  <p style="font-size:12px;color:var(--ts)">关键成功因素：品鉴会定价39.9元（微盈利），让顾客觉得超值；知识卡让顾客有"学到东西"的成就感</p>
+</div>
+
+<div class="icard">
+  <div class="ict">案例3：深圳居酒屋深夜食堂案例</div>
+  <table class="t">
+    <tr><th>项目</th><th>数据</th></tr>
+    <tr><td>22:00后客流提升</td><td>开通深夜菜单后，夜间时段客流+40%</td></tr>
+    <tr><td>人均深夜消费</td><td>比正常时段低20%，但翻台率高（停留时间短）</td></tr>
+    <tr><td>社交媒体曝光</td><td>"深夜食堂"话题月均3次登上本地探店笔记</td></tr>
+  </table>
+  <p style="font-size:12px;color:var(--ts)">关键成功因素：扫码点餐自动切换菜单（无需服务员操作），灯光调暗营造氛围是关键的零成本差异化</p>
+</div>
+
+<h3>🌸 银杏居酒屋的独特优势（比案例更好的地方）</h3>
+<div class="tags">
+  <span class="tag g">奥体印象城选址红利</span>
+  <span class="tag g">5大SaaS工具齐全</span>
+  <span class="tag g">居酒屋商场稀缺性</span>
+  <span class="tag g">人均100定位精准</span>
+  <span class="tag">银杏品牌识别度高</span>
+</div>
+<div class="hl"><p>💡 银杏居酒屋占据了"新店流量红利 + 工具齐全 + 稀缺选址"三大优势——只要开业期执行到位，60天内建立稳定客群完全可期。</p></div>
+`}
+};
+
+function openModal(n){
+  const d=contents[n];
+  if(!d)return;
+  document.getElementById('mnum').textContent=d.num;
+  document.getElementById('mtit').textContent=d.title;
+  document.getElementById('mbody').innerHTML=d.html;
+  document.getElementById('overlay').classList.add('active');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('overlay').classList.remove('active');
+  document.body.style.overflow='';
+}
+function closeModalOverlay(e){
+  if(e.target===document.getElementById('overlay'))closeModal();
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+</script>
+</body>
+</html>
