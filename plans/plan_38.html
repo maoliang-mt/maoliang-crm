@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>晴间咖啡 · 运营增长方案</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#6B4F3B;--primary-light:#A0826D;--accent:#D4A574;--accent-glow:#E8C9A0;--bg-dark:#1A1210;--bg-card:#2A201A;--bg-card-hover:#3A2E26;--text:#F5EDE8;--text-muted:#B8A89E;--success:#7EC8A0;--warning:#E8A87C}
+body{font-family:'Noto Sans SC',sans-serif;background:var(--bg-dark);color:var(--text);min-height:100vh;overflow-x:hidden}
+.particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.particle{position:absolute;width:4px;height:4px;background:var(--accent);border-radius:50%;opacity:.3;animation:float 8s infinite ease-in-out}
+.particle:nth-child(1){top:10%;left:15%;animation-delay:0s}
+.particle:nth-child(2){top:25%;left:70%;animation-delay:1s}
+.particle:nth-child(3){top:45%;left:30%;animation-delay:2s}
+.particle:nth-child(4){top:60%;left:85%;animation-delay:3s}
+.particle:nth-child(5){top:75%;left:50%;animation-delay:4s}
+.particle:nth-child(6){top:15%;left:90%;animation-delay:5s}
+.particle:nth-child(7){top:85%;left:20%;animation-delay:6s}
+.particle:nth-child(8){top:35%;left:55%;animation-delay:7s}
+.particle:nth-child(9){top:55%;left:10%;animation-delay:1.5s}
+.particle:nth-child(10){top:90%;left:75%;animation-delay:3.5s}
+@keyframes float{0%,100%{transform:translateY(0) translateX(0);opacity:.3}25%{transform:translateY(-20px) translateX(10px);opacity:.6}50%{transform:translateY(-40px) translateX(-5px);opacity:.3}75%{transform:translateY(-20px) translateX(15px);opacity:.5}}
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:60px 20px;background:linear-gradient(180deg,rgba(26,18,16,.3) 0%,rgba(26,18,16,.95) 100%),radial-gradient(ellipse at 50% 30%,rgba(212,165,116,.15) 0%,transparent 70%)}
+.hero-glow{position:absolute;top:20%;left:50%;transform:translate(-50%,-50%);width:400px;height:400px;background:radial-gradient(circle,rgba(212,165,116,.2) 0%,transparent 70%);border-radius:50%;animation:pulse 4s infinite ease-in-out}
+@keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.6}50%{transform:translate(-50%,-50%) scale(1.2);opacity:.3}}
+.badge{display:inline-block;padding:8px 20px;background:rgba(212,165,116,.15);border:1px solid var(--accent);border-radius:30px;font-size:13px;color:var(--accent);letter-spacing:2px;margin-bottom:30px}
+.hero h1{font-family:'Noto Serif SC',serif;font-size:clamp(2.5rem,6vw,4rem);font-weight:700;margin-bottom:16px;background:linear-gradient(135deg,#D4A574,#E8C9A0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero .subtitle{font-size:clamp(1rem,2.5vw,1.3rem);color:var(--text-muted);margin-bottom:30px;font-weight:300}
+.hero .address{font-size:14px;color:var(--text-muted);margin-bottom:40px;opacity:.8}
+.stats-row{display:flex;gap:40px;flex-wrap:wrap;justify-content:center}
+.stat-item{text-align:center}
+.stat-item .num{font-family:'Inter',sans-serif;font-size:2rem;font-weight:700;color:var(--accent)}
+.stat-item .label{font-size:12px;color:var(--text-muted);margin-top:4px}
+.wave-divider{position:relative;height:80px;overflow:hidden}
+.wave-divider svg{position:absolute;bottom:0;width:100%;height:80px}
+.container{max-width:1200px;margin:0 auto;padding:60px 20px;position:relative;z-index:1}
+.section-title{font-family:'Noto Serif SC',serif;font-size:1.8rem;text-align:center;margin-bottom:50px;color:var(--accent)}
+.chapter-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:16px;margin-bottom:60px}
+.chapter-card{background:var(--bg-card);border:1px solid rgba(212,165,116,.2);border-radius:12px;padding:20px 16px;cursor:pointer;transition:all .3s ease;position:relative;overflow:hidden}
+.chapter-card:hover{background:var(--bg-card-hover);border-color:var(--accent);transform:translateY(-3px);box-shadow:0 8px 30px rgba(212,165,116,.15)}
+.chapter-card.locked{opacity:.5;cursor:not-allowed}
+.chapter-card.locked:hover{transform:none;box-shadow:none;border-color:rgba(212,165,116,.2)}
+.chapter-card .num{font-family:'Inter',sans-serif;font-size:2rem;font-weight:700;color:var(--accent);opacity:.6}
+.chapter-card .ch-title{font-size:14px;margin-top:10px;font-weight:500}
+.chapter-card .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;margin-top:8px;background:rgba(212,165,116,.15);color:var(--accent)}
+.chapter-card .lock-icon{position:absolute;top:12px;right:12px;font-size:16px;opacity:.7}
+.unlock-bar{background:var(--bg-card);border:1px solid rgba(212,165,116,.3);border-radius:16px;padding:30px;text-align:center;margin:40px auto;max-width:500px}
+.unlock-bar h3{font-size:1.1rem;margin-bottom:16px;color:var(--text)}
+.unlock-bar .input-group{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.unlock-bar input{padding:12px 20px;border:1px solid rgba(212,165,116,.3);border-radius:8px;background:rgba(26,18,16,.8);color:var(--text);font-size:15px;outline:none;width:200px}
+.unlock-bar input:focus{border-color:var(--accent)}
+.unlock-bar button{padding:12px 24px;background:linear-gradient(135deg,#6B4F3B,#A0826D);border:none;border-radius:8px;color:white;font-size:15px;cursor:pointer;font-weight:500;transition:opacity .3s}
+.unlock-bar button:hover{opacity:.85}
+.unlock-msg{margin-top:12px;font-size:13px;min-height:20px}
+.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);z-index:1000;justify-content:center;align-items:center;padding:20px}
+.modal-overlay.active{display:flex}
+.modal{background:var(--bg-card);border:1px solid rgba(212,165,116,.3);border-radius:16px;padding:40px;max-width:800px;width:100%;max-height:85vh;overflow-y:auto;position:relative}
+.modal-close{position:absolute;top:16px;right:20px;font-size:24px;cursor:pointer;color:var(--text-muted);background:none;border:none;transition:color .3s}
+.modal-close:hover{color:var(--text)}
+.modal h2{font-family:'Noto Serif SC',serif;font-size:1.5rem;color:var(--accent);margin-bottom:24px;padding-right:40px}
+.modal .chapter-num{font-family:'Inter',sans-serif;font-size:3rem;font-weight:700;color:var(--accent);opacity:.3;margin-bottom:8px}
+.modal p,.modal li{line-height:1.8;color:var(--text);margin-bottom:12px}
+.modal ul,.modal ol{padding-left:20px;margin-bottom:16px}
+.modal table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+.modal th{background:rgba(212,165,116,.15);padding:10px 12px;text-align:left;font-weight:500;color:var(--accent);border-bottom:1px solid rgba(212,165,116,.3)}
+.modal td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.05)}
+.modal .highlight-card{background:rgba(212,165,116,.08);border-left:3px solid var(--accent);padding:16px 20px;border-radius:0 8px 8px 0;margin:16px 0}
+.modal .metric{display:inline-block;background:rgba(212,165,116,.12);padding:4px 12px;border-radius:20px;font-family:'Inter',sans-serif;font-weight:600;color:var(--accent);margin:4px}
+.modal h3{font-size:1.1rem;color:var(--accent-glow);margin:20px 0 12px}
+.modal h4{font-size:1rem;color:var(--text);margin:16px 0 8px}
+.footer{text-align:center;padding:40px 20px;color:var(--text-muted);font-size:13px;border-top:1px solid rgba(255,255,255,.05)}
+@media(max-width:768px){.chapter-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}.modal{padding:24px}.stats-row{gap:24px}.container{padding:40px 16px}}
+</style>
+</head>
+<body>
+<div class="particles"><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div></div>
+
+<section class="hero">
+<div class="hero-glow"></div>
+<div class="badge">☕ 精品咖啡 · 运营增长方案</div>
+<h1>晴间咖啡</h1>
+<p class="subtitle">白领精品咖啡 × 轻食复合空间 · 全域增长作战方案</p>
+<p class="address">📍 杭州市滨江区江南大道588号星光国际广场1层</p>
+<div class="stats-row">
+<div class="stat-item"><div class="num">¥35</div><div class="label">人均客单</div></div>
+<div class="stat-item"><div class="num">¥12万</div><div class="label">月营收</div></div>
+<div class="stat-item"><div class="num">55㎡</div><div class="label">门店面积</div></div>
+<div class="stat-item"><div class="num">114</div><div class="label">日均客次</div></div>
+</div>
+</section>
+
+<div class="wave-divider"><svg viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0,40 C360,80 720,0 1440,40 L1440,80 L0,80 Z" fill="rgba(212,165,116,0.05)"/><path d="M0,50 C480,20 960,70 1440,30 L1440,80 L0,80 Z" fill="rgba(212,165,116,0.03)"/></svg></div>
+
+<div class="container">
+<h2 class="section-title">方案全览</h2>
+<div class="chapter-grid" id="chapterGrid"></div>
+<div class="unlock-bar" id="unlockBar">
+<h3>🔒 完整方案需签约后查看</h3>
+<div class="input-group">
+<input type="password" id="unlockInput" placeholder="请输入解锁码">
+<button onclick="unlock()">🔓 签约解锁全部</button>
+</div>
+<div class="unlock-msg" id="unlockMsg"></div>
+</div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+<div class="modal" id="modalContent" onclick="event.stopPropagation()">
+<button class="modal-close" onclick="closeModalDirect()">✕</button>
+<div id="modalBody"></div>
+</div>
+</div>
+
+<footer class="footer">
+<p>晴间咖啡 · 运营增长方案 | 美团餐饮SaaS | 2026年5月</p>
+<p style="margin-top:8px;opacity:.6">本方案数据来源：大众点评公开数据、美团商户经营数据、行业公开报告</p>
+</footer>
+
+<script>
+const chapters=[
+{num:"01",title:"经营数据诊断",tag:"现状分析",locked:false,content:`<div class="chapter-num">01</div><h2>经营数据诊断 · 找到增长卡点</h2><div class="highlight-card"><strong>📊 数据基石（交叉验证通过）</strong><br>月流水 ¥120,000 ÷ 客单价 ¥35 = 日均客次 114人<br>55㎡坪效：¥2,182/㎡/月（咖啡行业优秀线 ¥2,000+）✅</div><h3>核心经营指标</h3><table><tr><th>指标</th><th>当前值</th><th>品类基准</th><th>诊断</th></tr><tr><td>月营收</td><td><span class="metric">¥120,000</span></td><td>同规模¥8-15万</td><td>✅ 中上水平</td></tr><tr><td>客单价</td><td><span class="metric">¥35</span></td><td>精品咖啡¥30-50</td><td>✅ 合理区间</td></tr><tr><td>日均客次</td><td><span class="metric">114人</span></td><td>55㎡店100-130人</td><td>✅ 正常</td></tr><tr><td>坪效</td><td><span class="metric">¥2,182/㎡</span></td><td>优秀线¥2,000+</td><td>✅ 达标</td></tr></table><h3>⚠️ 核心问题：时段分布严重失衡</h3><div class="highlight-card"><strong>下午茶时段强、早晚时段弱</strong><br>• 早间（7:30-10:00）：约15%营收 → ¥18,000/月<br>• 午间（11:00-14:00）：约25%营收 → ¥30,000/月<br>• 下午茶（14:00-17:30）：约40%营收 → ¥48,000/月 ← 高峰集中<br>• 晚间（17:30-21:00）：约20%营收 → ¥24,000/月<br><br><strong>增长空间：</strong>早间+晚间若各提升50%，月增收潜力 ¥21,000</div><h3>已签约SaaS模块</h3><ul><li>✅ 智能收银 — 基础经营数字化</li><li>✅ 会员营销旗舰版 — 团购会员卡+潜客营销+6大特有活动（待激活）</li><li>✅ 扫码点餐 — 减少排队、提升人效</li><li>✅ 美团外卖接入 — 线上渠道已打通</li></ul><p><strong>关键发现：</strong>旗舰版会员功能强大但尚未深度运营，团购会员卡和潜客营销是待激活的"隐藏金矿"。</p>`},
+{num:"02",title:"竞品分析",tag:"商圈洞察",locked:false,content:`<div class="chapter-num">02</div><h2>周边3公里竞争格局</h2><div class="highlight-card"><strong>📍 商圈定位：</strong>滨江区江南大道·星光国际广场<br><strong>客群画像：</strong>互联网大厂员工（阿里/网易/海康）+ 写字楼白领 + 自由职业者<br><strong>核心消费场景：</strong>工作日提神 / 午后办公 / 周末社交 / 外卖早咖</div><h3>周边3公里主要竞品</h3><table><tr><th>竞品</th><th>人均</th><th>核心弱点</th><th>晴间切入点</th></tr><tr><td><strong>猫客厅maoketing</strong><br>江南大道4346号</td><td>¥35-50</td><td>面积大但咖啡专业度一般；周末20:00打烊</td><td>精品手冲品质碾压+晚间时段覆盖</td></tr><tr><td><strong>Goowa Coffee&Bar</strong><br>新联路明月江南</td><td>¥30-45</td><td>20:00关门；甜品为主非咖啡专业店</td><td>咖啡专业度+早间时段+外卖抢刚需</td></tr><tr><td><strong>恰巧CHERCHER</strong><br>江南大道4756号世茂缤谷</td><td>¥50-80</td><td>客单高不适合日常；餐厅属性重</td><td>¥35精品咖啡抢日常复购客流</td></tr><tr><td><strong>瑞幸/库迪 ×3+家</strong><br>星光广场周边500m</td><td>¥9.9-15</td><td>空间体验差；出品无个性；无社交属性</td><td>不打价格战！空间+品质+会员锁客</td></tr><tr><td><strong>UFO Outside</strong><br>闻涛路与信诚路</td><td>¥30-40</td><td>户外座位看天吃饭；不适合办公</td><td>全天候室内+办公友好+稳定出品</td></tr></table><h3>竞争策略总结</h3><div class="highlight-card"><strong>晴间的核心壁垒：</strong><br>① 精品豆品质 — 手冲+创意特调vs9.9元标准化<br>② 白领刚需场景 — 早咖+午间轻食+办公续杯<br>③ 外卖+到店复合 — 覆盖周边1.5km写字楼<br>④ 会员储值锁客 — 咖啡高频复购（周2-5次），储值ROI极高</div>`},
+{num:"03",title:"核心策略",tag:"增长引擎",locked:false,content:`<div class="chapter-num">03</div><h2>三大增长引擎</h2><div class="highlight-card"><strong>策略核心：</strong>高频复购×时段拉平×私域锁客，把每杯咖啡价值最大化</div><h3>引擎一：次卡/储值 · 锁定高频用户</h3><p>咖啡用户每周消费2-5次，天然储值场景。把"可能去瑞幸"的客人变成"只来晴间"。</p><table><tr><th>卡种</th><th>定价</th><th>权益</th><th>目标客群</th></tr><tr><td><strong>畅饮月卡</strong></td><td>¥199/月</td><td>每日1杯指定饮品（美式/拿铁）≈¥6.6/杯</td><td>每日1杯刚需白领</td></tr><tr><td><strong>10次卡</strong></td><td>¥280</td><td>任意饮品10杯≈¥28/杯，60天有效</td><td>每周2-3次中频用户</td></tr><tr><td><strong>储值卡</strong></td><td>充¥300赠¥45</td><td>≈8.6折，锁定8.6次消费</td><td>稳定复购+轻食客群</td></tr><tr><td><strong>年度VIP</strong></td><td>充¥1000赠¥200</td><td>≈8.3折+生日免费特调+新品优先</td><td>超高频忠实客</td></tr></table><h3>引擎二：时段拉平 · 激活早晚场景</h3><table><tr><th>时段</th><th>策略</th><th>具体动作</th><th>预期增收</th></tr><tr><td><strong>早间7:30-10:00</strong></td><td>早咖套餐+外卖前置</td><td>「早鸟套餐」美式+贝果¥25（省¥8）<br>外卖7:30开始接单，30分钟必达</td><td>+¥9,000/月</td></tr><tr><td><strong>晚间17:30-21:00</strong></td><td>特调+轻社交场景</td><td>「晚安特调」系列（低咖/零咖）¥32<br>每周四"晴间夜话"主题之夜</td><td>+¥6,000/月</td></tr></table><h3>引擎三：外卖精细化 · 扩大服务半径</h3><ul><li>外卖时段前移至7:30（抢早咖刚需，竞品多9:00才开）</li><li>外卖专属SKU：「办公室续命包」双杯拿铁¥52（省¥18）</li><li>包装升级：咖啡防洒杯盖+手写祝福卡（成本<¥0.5，但好评率+30%）</li><li>目标：外卖月单量从当前水平提升40%，月增收约¥6,000</li></ul>`},
+{num:"04",title:"大众点评赋能",tag:"公域引流",locked:false,content:`<div class="chapter-num">04</div><h2>大众点评 · 公域流量引擎</h2><div class="highlight-card"><strong>公域策略核心：</strong>精品咖啡的新客来源80%靠大众点评+小红书搜索。做好线上门面=24小时不打烊的获客机器。</div><h3>大众点评运营三板斧</h3><h4>① 评分冲刺：目标4.5分+</h4><table><tr><th>动作</th><th>执行方式</th><th>工具</th></tr><tr><td>好评引导自动化</td><td>结账后POS自动弹好评页，扫码点餐离店推送好评链接</td><td>🔧 评价专家（已签约模块关联）</td></tr><tr><td>差评48小时响应</td><td>老板/店长每日查看评价，差评当天私信致歉+补偿券</td><td>🔧 美团商家App通知</td></tr><tr><td>前20条评价定调</td><td>邀请10位老客写带图好评，聚焦"手冲品质""空间舒适""轻食好吃"</td><td>好评赠饮活动</td></tr></table><h4>② 团购套餐设计</h4><table><tr><th>套餐</th><th>定价</th><th>内容</th><th>目的</th></tr><tr><td>引流款</td><td>¥19.9</td><td>美式1杯（到店核销）</td><td>低门槛引新客到店，体验空间→转化会员</td></tr><tr><td>体验款</td><td>¥49.9</td><td>任意饮品+轻食1份</td><td>展示咖啡+轻食组合实力</td></tr><tr><td>锚定款</td><td>¥99</td><td>双人下午茶（2饮品+甜品拼盘）</td><td>拉高客单，让¥49.9显得超值</td></tr></table><h4>③ 标签+榜单优化</h4><ul><li>重点冲击：滨江区咖啡口味榜、滨江区咖啡好评榜</li><li>优化商户标签：精品咖啡 / 手冲 / 轻食 / 适合办公 / 宠物友好（如适用）</li><li>每周更新3张高质量环境图+出品图</li></ul>`},
+{num:"05",title:"会员体系设计",tag:"私域留客",locked:true,content:`<div class="chapter-num">05</div><h2>会员体系 · 把路人变熟客</h2><div class="highlight-card"><strong>设计原则：</strong>咖啡是高频低客单品类，扫码即会员（零门槛），用频次驱动升级。<br>已签约会员营销旗舰版，具备团购会员卡+潜客营销+6大特有活动能力。</div><h3>等级会员体系</h3><table><tr><th>等级</th><th>升级条件</th><th>专属权益</th></tr><tr><td>☕ 新朋友</td><td>扫码即注册</td><td>首杯9折券+入会积10分</td></tr><tr><td>☕☕ 老朋友</td><td>累计消费5次</td><td>每周二第2杯半价+生日免费饮品</td></tr><tr><td>☕☕☕ 咖啡知己</td><td>累计消费20次</td><td>专属9折+新品免费尝鲜+储值额外赠5%+优先预留座位</td></tr></table><h3>储值体系（与等级联动）</h3><table><tr><th>档位</th><th>赠送</th><th>折算折扣</th><th>锁定消费次数</th></tr><tr><td>充¥150</td><td>赠¥15</td><td>≈9.1折</td><td>≈4.7次</td></tr><tr><td>充¥300</td><td>赠¥45</td><td>≈8.7折</td><td>≈9.9次</td></tr><tr><td>充¥500</td><td>赠¥100</td><td>≈8.3折</td><td>≈17次</td></tr><tr><td>充¥1000</td><td>赠¥200</td><td>≈8.3折</td><td>≈34次</td></tr></table><p><strong>联动逻辑：</strong>高等级会员享更优储值比例（咖啡知己充¥300额外多赠¥15），形成"越喝越省→越省越充→越充越来"的正循环。</p><h3>潜客营销（旗舰版独有）</h3><ul><li>浏览未下单用户 → 自动推送¥5无门槛体验券</li><li>7天未复购 → 推送"想你了"关怀消息+第2杯半价券</li><li>沉睡会员（30天+未到店） → 唤醒礼：免费升杯券</li></ul>`},
+{num:"06",title:"公私域联动",tag:"闭环流程",locked:true,content:`<div class="chapter-num">06</div><h2>公私域联动 · 从流量到留量</h2><div class="highlight-card"><strong>核心逻辑：</strong>公域拉新客 → 到店体验 → 扫码入会员（私域） → 储值/次卡锁定 → 持续复购 → 好评反哺公域 → 更多新客<br>这是一个完整闭环，不是三个平台各自为政。</div><h3>公域矩阵（拉新）</h3><table><tr><th>平台</th><th>角色</th><th>具体动作</th><th>月预算</th></tr><tr><td><strong>大众点评</strong></td><td>搜索入口+决策平台</td><td>团购套餐3档+评分4.5+冲刺+榜单优化</td><td>¥500（推广通基础投放）</td></tr><tr><td><strong>小红书</strong></td><td>种草+打卡引流</td><td>每周2篇图文（空间美学+出品美图）<br>邀请3位本地博主探店（赠饮置换）</td><td>¥300（博主赠饮成本）</td></tr><tr><td><strong>美团外卖</strong></td><td>覆盖1.5km写字楼</td><td>早咖套餐+办公室续命包+满减活动</td><td>平台抽佣内</td></tr></table><h3>私域沉淀（留客）</h3><table><tr><th>触点</th><th>动作</th><th>工具</th></tr><tr><td>到店扫码点餐</td><td>自动注册会员+推送新人礼</td><td>🔧 扫码点餐+会员系统</td></tr><tr><td>结账时</td><td>POS弹储值推荐"今天¥35，充¥150省¥15下次直接刷"</td><td>🔧 智能收银+储值模块</td></tr><tr><td>离店后</td><td>自动推送好评引导+下次优惠</td><td>🔧 评价专家+会员触达</td></tr><tr><td>未复购7天</td><td>自动发送关怀+第2杯半价券</td><td>🔧 潜客营销（旗舰版）</td></tr></table><h3>联动闭环图</h3><div class="highlight-card"><strong>完整链路：</strong><br>📱 小红书/点评种草 → 🏪 到店体验（团购核销）→ 📲 扫码入会员 → 💰 储值锁定 → ☕ 持续复购 → ⭐ 好评产出 → 📱 反哺线上曝光<br><br><strong>关键转化率目标：</strong><br>• 团购核销 → 入会率：80%+（扫码点餐即入会）<br>• 入会 → 首次储值率：15%（结账话术推动）<br>• 会员 → 月复购率：40%+（潜客营销自动触达）</div>`},
+{num:"07",title:"营销节奏",tag:"执行日历",locked:true,content:`<div class="chapter-num">07</div><h2>12周营销节奏表</h2><div class="highlight-card"><strong>节奏原则：</strong>咖啡是高频品类，每1-2周换活动保持新鲜感。活动不是"打折"，是制造到店理由。</div><table><tr><th>周次</th><th>主题</th><th>具体活动</th><th>目标</th></tr><tr><td><strong>W1-W2</strong></td><td>🚀 会员启动周</td><td>扫码点餐上线+新人首杯9折+储值充¥150赠¥15<br>大众点评¥19.9引流套餐上架</td><td>首2周入会200人<br>储值30笔</td></tr><tr><td><strong>W3-W4</strong></td><td>☀️ 早鸟计划</td><td>「早鸟套餐」美式+贝果¥25（7:30-10:00限定）<br>外卖7:30开始接单+满¥30减¥5</td><td>早间营收+50%<br>外卖单量+30%</td></tr><tr><td><strong>W5-W6</strong></td><td>🌙 晴间夜话</td><td>每周四「晚安特调」系列上新（低咖/零咖）¥32<br>晚间19:00后到店享第2杯半价</td><td>晚间营收+40%<br>新增夜间客群</td></tr><tr><td><strong>W7-W8</strong></td><td>👯 老带新裂变</td><td>老会员邀请好友入会，双方各得¥10券<br>3人同行1人免单（限工作日）</td><td>新增会员150人<br>工作日客流+20%</td></tr><tr><td><strong>W9-W10</strong></td><td>🏆 储值冲刺月</td><td>限时储值加码：充¥300赠¥60（常规赠¥45）<br>储值满¥500送限定咖啡杯</td><td>储值金额¥30,000+<br>现金流回笼</td></tr><tr><td><strong>W11-W12</strong></td><td>⭐ 好评冲榜</td><td>好评晒图送小饼干+冲刺点评4.5分<br>小红书打卡活动：带话题发帖送次卡1次</td><td>新增好评80条<br>评分达4.5</td></tr></table>`},
+{num:"08",title:"外卖优化",tag:"渠道增长",locked:true,content:`<div class="chapter-num">08</div><h2>外卖精细化运营</h2><div class="highlight-card"><strong>外卖定位：</strong>不是堂食的平替，是"把晴间的品质送到你工位"。差异化包装+专属SKU+时段前移。</div><h3>外卖SKU设计</h3><table><tr><th>类别</th><th>产品</th><th>定价</th><th>策略</th></tr><tr><td>引流款</td><td>冰美式/热美式</td><td>¥18</td><td>低价走量，吸引首单</td></tr><tr><td>利润款</td><td>燕麦拿铁/特调系列</td><td>¥32-38</td><td>主力利润来源</td></tr><tr><td>套餐款</td><td>办公室续命包（双杯拿铁）</td><td>¥52</td><td>提升客单+复购</td></tr><tr><td>早间专属</td><td>早鸟套餐（美式+贝果）</td><td>¥25</td><td>抢占7:30-10:00空白时段</td></tr></table><h3>外卖运营关键动作</h3><ul><li><strong>时段前移</strong>：7:30开始接单（竞品多9:00），抢占早咖蓝海</li><li><strong>30分钟必达</strong>：配合骑手调度，咖啡出杯3分钟内交付</li><li><strong>包装差异化</strong>：防洒杯盖+手写祝福小卡（成本<¥0.5，好评率+30%）</li><li><strong>满减策略</strong>：满¥30减¥5 / 满¥55减¥10（引导凑单提客单）</li><li><strong>月目标</strong>：外卖月单量提升40%，月增收约¥6,000</li></ul>`},
+{num:"09",title:"体验设计",tag:"峰终定律",locked:true,content:`<div class="chapter-num">09</div><h2>峰终定律 · 顾客体验设计</h2><div class="highlight-card"><strong>核心原理：</strong>顾客只记"最爽瞬间"和"走时感觉"。把有限资源集中在峰值+终值两个点，零/极低成本创造记忆点。</div><h3>峰值触点（选中2个）</h3><table><tr><th>触点</th><th>落地方法</th><th>成本</th><th>工具</th></tr><tr><td><strong>扫码惊喜弹窗</strong></td><td>新客首次扫码弹"欢迎来到晴间☕ 送你一份新朋友礼"</td><td>零</td><td>🔧 扫码点餐弹窗配置</td></tr><tr><td><strong>出品仪式感</strong></td><td>手冲咖啡当面萃取，拉花展示，杯身手写顾客名字（忙时简写昵称）</td><td>零</td><td>咖啡师操作标准</td></tr></table><h3>终值触点（选中2个）</h3><table><tr><th>触点</th><th>落地方法</th><th>成本</th><th>工具</th></tr><tr><td><strong>结账即时反馈</strong></td><td>POS自动显示"您是晴间第XX位朋友，本单已为您节省¥X"</td><td>零</td><td>🔧 会员+POS联动</td></tr><tr><td><strong>离店自动关怀</strong></td><td>离店30分钟后自动推送"今天的咖啡还合口味吗？☕"+好评引导</td><td>零</td><td>🔧 会员触达+评价专家</td></tr></table><p><strong>预期效果：</strong>好评率提升30%，自然好评每月+15条，推动评分从当前水平向4.5迈进。</p>`},
+{num:"10",title:"小红书策略",tag:"内容种草",locked:true,content:`<div class="chapter-num">10</div><h2>小红书 · 内容种草引流</h2><div class="highlight-card"><strong>为什么必须做小红书：</strong>精品咖啡+滨江白领客群=小红书核心用户。"杭州滨江咖啡"搜索量月均5000+，每一篇笔记都是免费的获客入口。</div><h3>内容矩阵（每周2篇）</h3><table><tr><th>内容类型</th><th>频率</th><th>主题方向</th><th>预期效果</th></tr><tr><td>空间美学</td><td>每周1篇</td><td>光影/角落/窗景/工位/"在晴间办公的一天"</td><td>吸引打卡+办公客群</td></tr><tr><td>出品展示</td><td>每周1篇</td><td>拉花特写/特调创意/轻食摆盘/"今日手冲豆单"</td><td>展示专业度+引发食欲</td></tr><tr><td>探店合作</td><td>每月2-3篇</td><td>邀请本地博主（1000-5000粉）赠饮置换发帖</td><td>本地精准曝光</td></tr></table><h3>执行要点</h3><ul><li>固定话题标签：#杭州咖啡 #滨江咖啡 #杭州适合办公的咖啡馆 #晴间咖啡</li><li>拍摄时间：下午2-4点自然光最佳，每次拍5-8张备用</li><li>博主合作预算：每月¥300（赠饮成本，不额外付费）</li><li>引流路径：笔记 → 评论区置顶"📍大众点评搜晴间咖啡" → 到店核销团购</li></ul>`},
+{num:"11",title:"OKR目标",tag:"量化目标",locked:true,content:`<div class="chapter-num">11</div><h2>OKR量化目标 · 90天增长路径</h2><div class="highlight-card"><strong>总目标：</strong>90天内月营收从¥120,000提升至¥141,000（+¥21,000/月，增幅17.5%）</div><h3>月度OKR拆解</h3><table><tr><th>维度</th><th>当前基线</th><th>第1月目标</th><th>第2月目标</th><th>第3月目标</th></tr><tr><td><strong>月营收</strong></td><td>¥120,000</td><td>¥126,000</td><td>¥134,000</td><td>¥141,000</td></tr><tr><td><strong>会员数</strong></td><td>0（新启动）</td><td>200人</td><td>500人</td><td>800人</td></tr><tr><td><strong>储值金额</strong></td><td>¥0</td><td>¥15,000</td><td>¥30,000</td><td>¥45,000</td></tr><tr><td><strong>点评评分</strong></td><td>⚠️ 未知</td><td>4.2分+</td><td>4.4分+</td><td>4.5分+</td></tr><tr><td><strong>外卖月单量</strong></td><td>基线</td><td>+20%</td><td>+35%</td><td>+40%</td></tr><tr><td><strong>早间营收占比</strong></td><td>15%</td><td>18%</td><td>22%</td><td>25%</td></tr></table><h3>月增收¥21,000来源拆解</h3><table><tr><th>增收来源</th><th>金额</th><th>逻辑</th></tr><tr><td>早间时段激活</td><td>+¥9,000</td><td>早鸟套餐+外卖前移，早间营收从¥18K→¥27K</td></tr><tr><td>晚间时段拉升</td><td>+¥6,000</td><td>晚安特调+夜话活动，晚间营收从¥24K→¥30K</td></tr><tr><td>外卖增量</td><td>+¥6,000</td><td>外卖单量+40%（套餐+时段前移+满减）</td></tr><tr><td><strong>合计</strong></td><td><strong>+¥21,000</strong></td><td>与OKR月营收目标一致 ✅</td></tr></table>`},
+{num:"12",title:"ROI投资回报",tag:"算清账",locked:true,content:`<div class="chapter-num">12</div><h2>投资回报分析 · 算清每一笔账</h2><h3>月度投入</h3><table><tr><th>投入项</th><th>月费用</th><th>说明</th></tr><tr><td>大众点评推广通</td><td>¥500</td><td>基础曝光，精准投放"滨江咖啡"等关键词</td></tr><tr><td>小红书博主合作</td><td>¥300</td><td>赠饮置换，3位本地博主/月</td></tr><tr><td>储值赠送成本</td><td>¥1,500</td><td>按月储值¥30,000×赠送比例15%估算</td></tr><tr><td>团购让利</td><td>¥800</td><td>引流款¥19.9美式的成本差额</td></tr><tr><td>活动物料</td><td>¥200</td><td>小卡片/桌贴/立牌等</td></tr><tr><td><strong>合计月投入</strong></td><td><strong>¥3,300</strong></td><td></td></tr></table><h3>月度回报</h3><table><tr><th>回报项</th><th>月增收</th><th>来源</th></tr><tr><td>早间时段激活</td><td>+¥9,000</td><td>早鸟套餐+外卖前移</td></tr><tr><td>晚间时段拉升</td><td>+¥6,000</td><td>晚安特调+夜话活动</td></tr><tr><td>外卖增量</td><td>+¥6,000</td><td>单量+40%</td></tr><tr><td><strong>合计月增收</strong></td><td><strong>+¥21,000</strong></td><td></td></tr></table><div class="highlight-card"><strong>📊 ROI计算：</strong><br>• 月净增收：¥21,000 - ¥3,300 = <strong>¥17,700</strong><br>• ROI：¥21,000 ÷ ¥3,300 = <strong>6.4倍</strong><br>• 储值回笼现金流：¥30,000-45,000/月（预收款，立即回笼）<br>• 回本周期：首月即正向收益，无需额外大额投入</div><h3>90天财务预测</h3><table><tr><th></th><th>第1月</th><th>第2月</th><th>第3月</th><th>季度累计</th></tr><tr><td>月营收</td><td>¥126,000</td><td>¥134,000</td><td>¥141,000</td><td>¥401,000</td></tr><tr><td>vs基线增量</td><td>+¥6,000</td><td>+¥14,000</td><td>+¥21,000</td><td>+¥41,000</td></tr><tr><td>投入成本</td><td>¥3,300</td><td>¥3,300</td><td>¥3,300</td><td>¥9,900</td></tr><tr><td>净增利润</td><td>+¥2,700</td><td>+¥10,700</td><td>+¥17,700</td><td>+¥31,100</td></tr></table>`},
+{num:"C",title:"行业趋势",tag:"附录",locked:false,content:`<div class="chapter-num">C</div><h2>附录C · 咖啡行业趋势与机遇</h2><div class="highlight-card"><strong>2025年中国咖啡市场：</strong>规模突破¥1,320亿元，门店数25.5万+家，同比+19.8%。价格战倒逼精品咖啡差异化竞争。</div><h3>行业关键数据</h3><table><tr><th>指标</th><th>数据</th></tr><tr><td>2024年咖饮市场规模</td><td>¥1,177亿元，同比+15.4%</td></tr><tr><td>2025年预测</td><td>¥1,320亿元</td></tr><tr><td>全国门店数</td><td>25.5万+家，同比+19.8%</td></tr><tr><td>人均消费</td><td>¥27.9（同比降14.1%，价格战影响）</td></tr><tr><td>连锁化率</td><td>~40%+</td></tr></table><h3>精品咖啡的机遇</h3><ul><li><strong>价格战红利：</strong>9.9元咖啡教育了市场，培养了日均一杯的习惯，但"喝过好的"用户回不去了</li><li><strong>空间价值回归：</strong>远程办公潮下，"第三空间"需求强烈，愿意为环境多付¥15-20</li><li><strong>杭州优势：</strong>互联网从业者密集，咖啡消费频次全国TOP3，滨江区是核心白领聚集区</li><li><strong>品质升级趋势：</strong>精品咖啡从"小而美"走向规模化，Manner/M Stand加速扩张证明赛道可行</li></ul><h3>晴间咖啡的定位优势</h3><div class="highlight-card">人均¥35的精品咖啡+轻食定位，精准卡位"比瑞幸好喝、比星巴克亲民、比网红店专业"的黄金区间。<br>55㎡精致空间+写字楼商圈=高坪效+高复购的理想模型。</div>`}
+];
+
+let unlocked=false;
+function renderGrid(){
+  const grid=document.getElementById('chapterGrid');
+  grid.innerHTML='';
+  chapters.forEach((ch,i)=>{
+    const isLocked=ch.locked&&!unlocked;
+    const card=document.createElement('div');
+    card.className='chapter-card'+(isLocked?' locked':'');
+    card.innerHTML=`<div class="num">${ch.num}</div><div class="ch-title">${ch.title}</div><div class="tag">${ch.tag}</div>${isLocked?'<div class="lock-icon">🔒</div>':''}`;
+    if(!isLocked){card.onclick=()=>openModal(i);}
+    grid.appendChild(card);
+  });
+}
+function unlock(){
+  const input=document.getElementById('unlockInput');
+  const msg=document.getElementById('unlockMsg');
+  if(input.value==='123456'){
+    unlocked=true;
+    msg.innerHTML='<span style="color:var(--success)">✅ 已解锁全部章节</span>';
+    document.getElementById('unlockBar').style.display='none';
+    renderGrid();
+  }else{
+    msg.innerHTML='<span style="color:var(--warning)">解锁码不正确</span>';
+  }
+}
+function openModal(i){
+  document.getElementById('modalBody').innerHTML=chapters[i].content;
+  document.getElementById('modalOverlay').classList.add('active');
+  document.body.style.overflow='hidden';
+}
+function closeModal(e){if(e.target===document.getElementById('modalOverlay'))closeModalDirect();}
+function closeModalDirect(){
+  document.getElementById('modalOverlay').classList.remove('active');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModalDirect();});
+renderGrid();
+</script>
+</body>
+</html>
