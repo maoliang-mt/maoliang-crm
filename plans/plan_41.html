@@ -3,1200 +3,1103 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>杨福记全牛馆 · 开业运营方案</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>杨福记全牛馆 · 开业运营全案</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
-:root {
-  --primary: #E53935;
-  --primary-dark: #8B0000;
-  --primary-light: #FF6659;
-  --accent: #FF8C00;
-  --accent2: #FFD700;
-  --bg-dark: #0A0A0F;
-  --bg-card: #12121A;
-  --bg-card2: #1A1A28;
-  --border: rgba(229,57,53,0.25);
-  --text: #F0F0F0;
-  --text-muted: #9090A0;
-  --glow: 0 0 30px rgba(229,57,53,0.3);
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{background:var(--bg-dark);color:var(--text);font-family:'Noto Sans SC',sans-serif;overflow-x:hidden;line-height:1.7;}
-#particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden;}
-.particle{position:absolute;width:3px;height:3px;background:var(--primary);border-radius:50%;opacity:0;animation:float-up linear infinite;}
-@keyframes float-up{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:.6}90%{opacity:.3}100%{transform:translateY(-10vh) scale(1.5);opacity:0}}
-.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 24px;overflow:hidden;background:linear-gradient(180deg,rgba(0,0,0,.75) 0%,rgba(10,10,15,.97) 100%),url('https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=1600&q=80') center/cover no-repeat;}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,rgba(229,57,53,.18) 0%,transparent 70%);}
-.hero-badge{display:inline-block;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;font-size:12px;font-weight:700;letter-spacing:3px;padding:6px 18px;border-radius:20px;margin-bottom:24px;text-transform:uppercase;box-shadow:var(--glow);position:relative;z-index:1;}
-.hero h1{font-family:'Noto Serif SC',serif;font-size:clamp(2.4rem,6vw,4.5rem);font-weight:700;line-height:1.2;margin-bottom:12px;position:relative;z-index:1;text-shadow:0 0 40px rgba(229,57,53,.5);}
-.hero h1 span{color:var(--primary-light);}
-.hero-sub{font-size:clamp(1rem,2.5vw,1.3rem);color:#C0C0D0;margin-bottom:20px;position:relative;z-index:1;}
-.hero-addr{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:8px 18px;font-size:13px;color:var(--text-muted);margin-bottom:40px;position:relative;z-index:1;}
-.hero-stats{display:flex;gap:40px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1;margin-bottom:48px;}
-.stat-item{text-align:center;}
-.stat-num{font-family:'Inter',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;color:var(--accent2);display:block;line-height:1;}
-.stat-label{font-size:12px;color:var(--text-muted);margin-top:4px;}
-.hero-scroll{position:relative;z-index:1;font-size:12px;color:var(--text-muted);display:flex;flex-direction:column;align-items:center;gap:8px;animation:bounce 2s ease-in-out infinite;}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
-.wave-divider{width:100%;overflow:hidden;line-height:0;position:relative;z-index:1;margin-top:-2px;}
-.wave-divider svg{display:block;width:100%;}
-.toc-section{padding:60px 24px;max-width:960px;margin:0 auto;position:relative;z-index:1;}
-.section-title{font-family:'Noto Serif SC',serif;font-size:clamp(1.4rem,3vw,2rem);font-weight:700;margin-bottom:8px;color:var(--text);}
-.section-title span{color:var(--primary-light);}
-.section-subtitle{font-size:13px;color:var(--text-muted);margin-bottom:32px;}
-.chapter-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;}
-.chapter-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:16px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;}
-.chapter-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--primary),var(--accent));transform:scaleX(0);transition:transform .3s;}
-.chapter-card:hover{border-color:var(--primary);transform:translateY(-3px);box-shadow:var(--glow);}
-.chapter-card:hover::before{transform:scaleX(1);}
-.chapter-card.locked{opacity:.5;cursor:not-allowed;}
-.chapter-card.locked:hover{transform:none;box-shadow:none;border-color:var(--border);}
-.chapter-num{font-family:'Inter',sans-serif;font-size:11px;font-weight:700;color:var(--primary);margin-bottom:8px;letter-spacing:1px;}
-.chapter-name{font-size:13px;font-weight:500;line-height:1.4;margin-bottom:8px;}
-.chapter-tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;background:rgba(229,57,53,.15);color:var(--primary-light);border:1px solid rgba(229,57,53,.2);}
-.lock-icon{font-size:14px;float:right;}
-.unlock-bar{background:linear-gradient(135deg,rgba(229,57,53,.1),rgba(255,140,0,.1));border:1px solid var(--border);border-radius:16px;padding:24px;margin:32px 0;display:flex;align-items:center;gap:16px;flex-wrap:wrap;position:relative;z-index:1;}
-.unlock-bar p{flex:1;min-width:200px;font-size:14px;color:var(--text-muted);}
-.unlock-bar p strong{color:var(--text);}
-.unlock-input{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;padding:10px 16px;color:var(--text);font-size:14px;width:180px;outline:none;transition:border-color .3s;}
-.unlock-input:focus{border-color:var(--primary);}
-.unlock-btn{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;transition:all .3s;white-space:nowrap;}
-.unlock-btn:hover{transform:scale(1.05);box-shadow:var(--glow);}
-.unlock-msg{font-size:13px;min-width:120px;}
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.87);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);}
-.modal-overlay.active{display:flex;}
-.modal{background:var(--bg-card2);border:1px solid var(--border);border-radius:20px;max-width:820px;width:100%;max-height:88vh;overflow-y:auto;position:relative;box-shadow:0 0 60px rgba(229,57,53,.2);}
-.modal-header{padding:28px 28px 16px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;position:sticky;top:0;background:var(--bg-card2);z-index:10;border-bottom:1px solid var(--border);}
-.modal-num{font-size:11px;font-weight:700;color:var(--primary);letter-spacing:1px;}
-.modal-title{font-family:'Noto Serif SC',serif;font-size:1.3rem;font-weight:700;margin-top:4px;}
-.modal-close{background:rgba(255,255,255,.08);border:none;color:var(--text);width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;flex-shrink:0;transition:background .2s;}
-.modal-close:hover{background:rgba(229,57,53,.3);}
-.modal-body{padding:24px 28px 32px;}
-.content-section{padding:60px 24px;max-width:960px;margin:0 auto;position:relative;z-index:1;}
-.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:48px 0;}
-.data-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin:24px 0;}
-.data-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:20px 16px;text-align:center;}
-.data-card .big-num{font-family:'Inter',sans-serif;font-size:2rem;font-weight:800;color:var(--accent2);line-height:1;margin-bottom:6px;display:block;}
-.data-card .label{font-size:12px;color:var(--text-muted);}
-.data-card .note{font-size:11px;color:var(--primary-light);margin-top:4px;}
-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px;}
-th{background:rgba(229,57,53,.2);color:var(--text);padding:10px 12px;text-align:left;font-weight:600;font-size:12px;}
-td{padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.05);color:var(--text-muted);}
-tr:hover td{background:rgba(255,255,255,.03);}
-.hl td{color:var(--text);font-weight:500;}
-.tag{display:inline-block;font-size:11px;padding:3px 10px;border-radius:12px;margin:2px;}
-.tag-red{background:rgba(229,57,53,.15);color:var(--primary-light);border:1px solid rgba(229,57,53,.3);}
-.tag-orange{background:rgba(255,140,0,.15);color:#FFA040;border:1px solid rgba(255,140,0,.3);}
-.tag-green{background:rgba(46,139,87,.15);color:#66BB6A;border:1px solid rgba(46,139,87,.3);}
-.tag-blue{background:rgba(30,136,229,.15);color:#64B5F6;border:1px solid rgba(30,136,229,.3);}
-.card-list{display:flex;flex-direction:column;gap:12px;margin:16px 0;}
-.card-item{background:var(--bg-card);border:1px solid var(--border);border-left:3px solid var(--primary);border-radius:8px;padding:14px 16px;}
-.card-item h4{font-size:14px;font-weight:600;margin-bottom:6px;color:var(--text);}
-.card-item p{font-size:13px;color:var(--text-muted);line-height:1.6;}
-.card-item.accent{border-left-color:var(--accent);}
-.card-item.green{border-left-color:#66BB6A;}
-.timeline{position:relative;padding-left:28px;margin:16px 0;}
-.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:1px;background:linear-gradient(180deg,var(--primary),var(--accent),transparent);}
-.timeline-item{position:relative;margin-bottom:20px;}
-.timeline-item::before{content:'';position:absolute;left:-24px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--primary);box-shadow:0 0 8px var(--primary);}
-.timeline-item h4{font-size:14px;font-weight:600;color:var(--accent2);margin-bottom:4px;}
-.timeline-item p{font-size:13px;color:var(--text-muted);}
-.hl-txt{color:var(--primary-light);font-weight:600;}
-.em-num{font-family:'Inter',sans-serif;color:var(--accent2);font-weight:700;}
-.alert{background:rgba(229,57,53,.08);border:1px solid rgba(229,57,53,.3);border-radius:10px;padding:14px 16px;font-size:13px;margin:16px 0;display:flex;align-items:flex-start;gap:10px;}
-.alert-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
-.alert.success{background:rgba(46,139,87,.08);border-color:rgba(46,139,87,.3);}
-.alert.info{background:rgba(30,136,229,.08);border-color:rgba(30,136,229,.3);}
-.flow-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:16px 0;}
-.flow-box{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:12px;text-align:center;}
-.flow-arrow{color:var(--primary);font-size:18px;font-weight:bold;}
-.okr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:16px 0;}
-.okr-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;}
-.okr-label{font-size:11px;color:var(--text-muted);margin-bottom:8px;letter-spacing:1px;text-transform:uppercase;}
-.okr-value{font-family:'Inter',sans-serif;font-size:1.8rem;font-weight:800;color:var(--primary-light);margin-bottom:4px;}
-.okr-desc{font-size:12px;color:var(--text-muted);}
-.banner{border-radius:12px;padding:28px 24px;margin:24px 0;position:relative;overflow:hidden;}
-.banner-1{background:linear-gradient(135deg,rgba(139,0,0,.4),rgba(229,57,53,.2));}
-.banner-2{background:linear-gradient(135deg,rgba(255,140,0,.2),rgba(255,215,0,.1));}
-.banner-3{background:linear-gradient(135deg,rgba(46,139,87,.2),rgba(100,200,100,.1));}
-.banner-4{background:linear-gradient(135deg,rgba(30,136,229,.2),rgba(100,181,246,.1));}
-.banner h3{font-family:'Noto Serif SC',serif;font-size:1.1rem;margin-bottom:8px;}
-.banner p{font-size:13px;color:var(--text-muted);}
-h3.sub{font-family:'Noto Serif SC',serif;font-size:1rem;font-weight:700;color:var(--text);margin:20px 0 10px;padding-left:12px;border-left:3px solid var(--primary);}
-p.body-text{font-size:13px;color:var(--text-muted);margin-bottom:10px;line-height:1.8;}
-footer{background:var(--bg-card);border-top:1px solid var(--border);padding:40px 24px;text-align:center;position:relative;z-index:1;}
-footer .footer-logo{font-family:'Noto Serif SC',serif;font-size:1.2rem;color:var(--primary-light);font-weight:700;margin-bottom:8px;}
-footer p{font-size:12px;color:var(--text-muted);}
+:root{--primary:#C0392B;--pl:#E74C3C;--accent:#F39C12;--a2:#E67E22;--dark:#0D0D0D;--card:#1A1A1A;--card2:#222;--tm:#F0EAD6;--ts:#B8A99A;--td:#7A6E68;--bdr:rgba(192,57,43,.3);--glow:rgba(192,57,43,.12)}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--dark);color:var(--tm);font-family:'Noto Sans SC',sans-serif;overflow-x:hidden}
+
+/* particles */
+#particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+.pt{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(192,57,43,.5),transparent);animation:rise linear infinite}
+@keyframes rise{0%{transform:translateY(105vh) scale(0);opacity:0}10%{opacity:.8}90%{opacity:.3}100%{transform:translateY(-5vh) scale(1);opacity:0}}
+
+/* hero */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px 80px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1544025162-d76694265947?w=1600&q=80')center/cover no-repeat;filter:brightness(.35) saturate(.8);z-index:0}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,13,13,.2)0%,rgba(13,13,13,.6)60%,rgba(13,13,13,1)100%);z-index:1}
+.hero-glow{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(192,57,43,.1)0%,transparent 65%);z-index:2}
+.hero>*{position:relative;z-index:3}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(192,57,43,.15);border:1px solid var(--bdr);border-radius:20px;padding:6px 18px;font-size:12px;color:var(--accent);letter-spacing:2px;margin-bottom:22px;backdrop-filter:blur(8px)}
+.bdot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.6)}}
+.hero h1{font-family:'Noto Serif SC',serif;font-size:clamp(34px,6vw,68px);font-weight:700;line-height:1.2;margin-bottom:14px;background:linear-gradient(135deg,#F0EAD6 0%,#E8D5C0 40%,var(--accent)100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hn{-webkit-text-fill-color:var(--pl)!important}
+.sub{font-size:clamp(14px,2vw,18px);color:var(--ts);margin-bottom:28px;letter-spacing:1px}
+.addr{font-size:13px;color:var(--td);margin-bottom:36px;display:flex;align-items:center;gap:6px;justify-content:center}
+.stats{display:flex;gap:24px;justify-content:center;flex-wrap:wrap}
+.sc{background:rgba(26,26,26,.75);border:1px solid var(--bdr);border-radius:12px;padding:14px 20px;text-align:center;backdrop-filter:blur(10px);position:relative}
+.sn{font-family:'Inter',sans-serif;font-size:28px;font-weight:900;color:var(--accent)}
+.sl{font-size:11px;color:var(--td);margin-top:4px}
+.nb{position:absolute;top:-9px;right:-9px;background:var(--primary);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;letter-spacing:1px}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:100;background:rgba(13,13,13,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bdr);padding:0 16px}
+.ni{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:50px;gap:8px}
+.nlogo{font-family:'Noto Serif SC',serif;font-size:15px;color:var(--pl);font-weight:700;white-space:nowrap}
+.nchs{display:flex;gap:3px;overflow-x:auto;scrollbar-width:none}
+.nchs::-webkit-scrollbar{display:none}
+.nb2{background:none;border:1px solid transparent;color:var(--td);padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer;white-space:nowrap;transition:all .2s;font-family:'Noto Sans SC',sans-serif}
+.nb2:hover,.nb2.active{border-color:var(--bdr);color:var(--pl);background:var(--glow)}
+.nb2.lkd{opacity:.4;cursor:default}
+.nb2.lkd:hover{border-color:transparent;color:var(--td);background:none}
+
+/* main content */
+.main{max-width:1100px;margin:0 auto;padding:60px 20px 40px}
+.sec-title{font-family:'Noto Serif SC',serif;font-size:26px;font-weight:700;text-align:center;margin-bottom:6px;background:linear-gradient(90deg,var(--tm),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sec-sub{text-align:center;color:var(--ts);font-size:13px;margin-bottom:36px}
+
+/* grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:11px}
+.cc{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:18px 14px;cursor:pointer;transition:all .25s;position:relative;overflow:hidden;min-height:116px;display:flex;flex-direction:column}
+.cc::before{content:'';position:absolute;inset:0;opacity:0;background:linear-gradient(135deg,var(--glow),transparent);transition:opacity .25s}
+.cc:hover::before{opacity:1}
+.cc:hover{border-color:var(--bdr);transform:translateY(-2px);box-shadow:0 8px 24px rgba(192,57,43,.15)}
+.cc.free{border-color:rgba(192,57,43,.18)}
+.cc.lkd{opacity:.55;cursor:default}
+.cc.lkd:hover{transform:none;box-shadow:none}
+.cc.lkd:hover::before{opacity:0}
+.cnum{font-family:'Inter',sans-serif;font-size:10px;font-weight:700;color:var(--primary);letter-spacing:2px;margin-bottom:7px;text-transform:uppercase}
+.ctitle{font-size:13px;font-weight:500;color:var(--tm);line-height:1.45;flex:1}
+.ctag{margin-top:10px;display:inline-block;font-size:9px;padding:2px 7px;border-radius:4px;background:rgba(192,57,43,.13);color:var(--pl);border:1px solid rgba(192,57,43,.2)}
+.clock{position:absolute;top:11px;right:11px;color:var(--td);font-size:13px}
+.cfree{position:absolute;top:9px;right:9px;background:rgba(39,174,96,.15);border:1px solid rgba(39,174,96,.3);color:#27AE60;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;letter-spacing:1px}
+
+/* unlock */
+.ubar{background:linear-gradient(135deg,rgba(192,57,43,.07),rgba(231,76,60,.03));border:1px solid var(--bdr);border-radius:16px;padding:22px 24px;margin:36px 0 0;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.ubar h3{font-family:'Noto Serif SC',serif;font-size:17px;color:var(--tm)}
+.ubar p{font-size:12px;color:var(--ts)}
+.urow{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.uinput{background:rgba(255,255,255,.05);border:1px solid var(--bdr);border-radius:8px;padding:9px 14px;color:var(--tm);font-size:13px;width:180px;outline:none;font-family:'Noto Sans SC',sans-serif}
+.uinput:focus{border-color:var(--pl)}
+.ubtn{background:linear-gradient(135deg,var(--primary),var(--pl));color:#fff;border:none;border-radius:8px;padding:9px 22px;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Noto Sans SC',sans-serif}
+.ubtn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(192,57,43,.4)}
+.umsg{font-size:12px;min-height:16px}
+.umsg.ok{color:#27AE60}
+.umsg.err{color:#E74C3C}
+
+/* modal */
+.mo{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:16px}
+.mo.show{display:flex}
+.mbox{background:var(--card);border:1px solid var(--bdr);border-radius:20px;max-width:740px;width:100%;max-height:88vh;overflow-y:auto;position:relative;scrollbar-width:thin;scrollbar-color:var(--bdr) transparent}
+.mhd{padding:24px 24px 18px;border-bottom:1px solid rgba(255,255,255,.06);position:sticky;top:0;background:var(--card);z-index:1;border-radius:20px 20px 0 0;display:flex;align-items:flex-start;gap:10px}
+.mnum{font-family:'Inter',sans-serif;font-size:10px;font-weight:700;color:var(--primary);letter-spacing:2px;padding-top:3px;white-space:nowrap}
+.mtw{flex:1}
+.mt{font-family:'Noto Serif SC',serif;font-size:19px;font-weight:700}
+.mclose{background:rgba(255,255,255,.06);border:none;color:var(--ts);width:30px;height:30px;border-radius:7px;cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
+.mclose:hover{background:rgba(192,57,43,.25);color:#fff}
+.mbody{padding:22px 24px 30px}
+.mbody h4{font-family:'Noto Serif SC',serif;font-size:15px;font-weight:700;color:var(--accent);margin:22px 0 10px;display:flex;align-items:center;gap:7px}
+.mbody h4:first-child{margin-top:0}
+.mbody p{font-size:13px;color:var(--ts);line-height:1.8;margin-bottom:10px}
+.mbody ul{padding-left:18px}.mbody li{font-size:13px;color:var(--ts);line-height:1.9}
+
+/* banner color bars */
+.ban{height:5px;border-radius:19px 19px 0 0;margin:-1px -1px 0}
+.b1{background:linear-gradient(90deg,#C0392B,#E74C3C)}
+.b2{background:linear-gradient(90deg,#8E44AD,#9B59B6)}
+.b3{background:linear-gradient(90deg,#16A085,#1ABC9C)}
+.b4{background:linear-gradient(90deg,#2980B9,#3498DB)}
+.b5{background:linear-gradient(90deg,#C0392B,#E67E22)}
+.b6{background:linear-gradient(90deg,#27AE60,#2ECC71)}
+.b7{background:linear-gradient(90deg,#F39C12,#F1C40F)}
+.b8{background:linear-gradient(90deg,#E74C3C,#8E44AD)}
+.bA{background:linear-gradient(90deg,#7F8C8D,#95A5A6)}
+
+/* data cards */
+.dcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin:14px 0}
+.dc{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:12px 14px;text-align:center}
+.dn{font-family:'Inter',sans-serif;font-size:22px;font-weight:900;color:var(--accent)}
+.dl{font-size:11px;color:var(--td);margin-top:3px}
+
+/* comp table */
+.ctb{width:100%;border-collapse:collapse;margin:14px 0;font-size:12px}
+.ctb th{background:rgba(192,57,43,.14);color:var(--pl);padding:9px 11px;text-align:left;font-weight:600;border-bottom:1px solid var(--bdr)}
+.ctb td{padding:9px 11px;border-bottom:1px solid rgba(255,255,255,.05);color:var(--ts)}
+.ctb tr:last-child td{border-bottom:none}
+.our{color:var(--accent);font-weight:600}
+.wk{color:#E74C3C;font-size:11px}
+.op{color:#27AE60;font-size:11px}
+
+/* strategy */
+.scards{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:11px;margin:14px 0}
+.scard{background:linear-gradient(135deg,rgba(192,57,43,.08),rgba(26,26,26,.8));border:1px solid var(--bdr);border-radius:12px;padding:16px}
+.sicon{font-size:22px;margin-bottom:8px}
+.stitle{font-size:14px;font-weight:700;color:var(--tm);margin-bottom:6px}
+.sdesc{font-size:12px;color:var(--ts);line-height:1.7}
+
+/* member tiers */
+.tiers{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:11px;margin:14px 0}
+.tier{border-radius:12px;padding:16px;text-align:center;position:relative;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08)}
+.tier.ft{background:linear-gradient(135deg,rgba(192,57,43,.14),rgba(231,76,60,.04));border-color:var(--bdr)}
+.tbadge{position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:var(--primary);color:#fff;font-size:9px;font-weight:700;padding:2px 9px;border-radius:8px;white-space:nowrap}
+.tam{font-family:'Inter',sans-serif;font-size:24px;font-weight:900;color:var(--accent)}
+.tgt{font-size:11px;color:var(--ts);margin:5px 0}
+.tdc{font-size:12px;color:var(--pl);font-weight:600}
+
+/* timeline */
+.tl{position:relative;padding-left:22px;margin:14px 0}
+.tl::before{content:'';position:absolute;left:7px;top:0;bottom:0;width:2px;background:var(--bdr)}
+.tli{position:relative;padding-bottom:22px}
+.tli:last-child{padding-bottom:0}
+.tldot{position:absolute;left:-19px;top:4px;width:13px;height:13px;border-radius:50%;background:var(--card);border:2px solid var(--primary)}
+.tlw{font-size:11px;font-weight:700;color:var(--pl);margin-bottom:5px;font-family:'Inter',sans-serif}
+.tlt{font-size:14px;font-weight:700;color:var(--tm);margin-bottom:5px}
+.tlas{list-style:none;padding:0}
+.tlas li{font-size:12px;color:var(--ts);padding:2px 0;display:flex;align-items:flex-start;gap:5px}
+.tlas li::before{content:'▸';color:var(--accent);flex-shrink:0;margin-top:2px}
+
+/* OKR */
+.otb{width:100%;border-collapse:collapse;margin:14px 0;font-size:12px}
+.otb th{background:rgba(192,57,43,.12);color:var(--pl);padding:9px 11px;text-align:left}
+.otb td{padding:9px 11px;border-bottom:1px solid rgba(255,255,255,.05);color:var(--ts)}
+.ov{font-family:'Inter',sans-serif;color:var(--accent);font-weight:700}
+
+/* ROI */
+.rrow{display:flex;gap:16px;flex-wrap:wrap;margin:14px 0}
+.rblock{flex:1;min-width:190px}
+.rblock h5{font-size:12px;color:var(--pl);margin-bottom:10px;font-weight:700}
+.ri{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.ri:last-child{border-bottom:none}
+.rl{font-size:12px;color:var(--ts)}
+.rv{font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:var(--accent)}
+.rtotal{background:linear-gradient(135deg,rgba(192,57,43,.14),rgba(231,76,60,.04));border:1px solid var(--bdr);border-radius:12px;padding:18px 22px;margin:18px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.rbig{font-family:'Inter',sans-serif;font-size:34px;font-weight:900;color:var(--accent)}
+.rdesc{font-size:12px;color:var(--ts)}
+
+/* tags */
+.tag{display:inline-flex;align-items:center;gap:3px;background:rgba(192,57,43,.1);border:1px solid rgba(192,57,43,.23);border-radius:6px;padding:2px 8px;font-size:11px;color:var(--pl);margin:3px}
+.tg{background:rgba(39,174,96,.08);border-color:rgba(39,174,96,.23);color:#2ECC71}
+.to{background:rgba(243,156,18,.08);border-color:rgba(243,156,18,.23);color:#F39C12}
+
+/* steps */
+.steps{margin:14px 0}
+.step{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);align-items:flex-start}
+.step:last-child{border-bottom:none}
+.sno{width:26px;height:26px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--primary),var(--pl));display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:11px;font-weight:900;color:#fff}
+.stc .st2{font-size:13px;font-weight:700;color:var(--tm);margin-bottom:3px}
+.stc .sd{font-size:12px;color:var(--ts);line-height:1.7}
+
+/* talk card */
+.tcard{background:rgba(255,255,255,.03);border-left:3px solid var(--primary);border-radius:0 8px 8px 0;padding:12px 14px;margin:10px 0;font-size:13px;color:var(--ts);line-height:1.7}
+.tcard .lbl{font-size:11px;color:var(--pl);font-weight:700;margin-bottom:5px}
+
+/* footer */
+.footer{max-width:1100px;margin:60px auto 0;padding:36px 20px;text-align:center;border-top:1px solid rgba(255,255,255,.06)}
+.footer p{font-size:12px;color:var(--td);margin-bottom:6px}
+.footer .fb{font-family:'Noto Serif SC',serif;font-size:18px;color:var(--pl);font-weight:700}
+
 @media(max-width:600px){
-  .hero-stats{gap:24px;}
-  .modal-body{padding:16px 18px 24px;}
-  .modal-header{padding:20px 18px 14px;}
-  .chapter-grid{grid-template-columns:repeat(2,1fr);}
-  table{font-size:11px;}
-  th,td{padding:7px 8px;}
-  .flow-row{flex-direction:column;align-items:flex-start;}
+  .hero h1{font-size:30px}
+  .stats{gap:10px}
+  .sc{padding:10px 14px}
+  .mhd{padding:18px 14px 12px}
+  .mbody{padding:14px 14px 22px}
 }
 </style>
 </head>
 <body>
 
-<div id="particles">
-  <div class="particle" style="left:5%;animation-duration:12s;animation-delay:0s;width:2px;height:2px;"></div>
-  <div class="particle" style="left:15%;animation-duration:15s;animation-delay:2s;background:#FF8C00;"></div>
-  <div class="particle" style="left:28%;animation-duration:10s;animation-delay:4s;width:2px;height:2px;"></div>
-  <div class="particle" style="left:42%;animation-duration:18s;animation-delay:1s;"></div>
-  <div class="particle" style="left:58%;animation-duration:13s;animation-delay:6s;background:#FFD700;width:2px;height:2px;"></div>
-  <div class="particle" style="left:70%;animation-duration:16s;animation-delay:3s;"></div>
-  <div class="particle" style="left:83%;animation-duration:11s;animation-delay:5s;background:#FF8C00;width:4px;height:4px;"></div>
-  <div class="particle" style="left:92%;animation-duration:14s;animation-delay:7s;"></div>
-  <div class="particle" style="left:35%;animation-duration:20s;animation-delay:8s;background:#FFD700;"></div>
-  <div class="particle" style="left:65%;animation-duration:17s;animation-delay:9s;width:2px;height:2px;"></div>
-</div>
+<div id="particles"></div>
 
-<!-- HERO -->
+<!-- ══ HERO ══ -->
 <section class="hero">
-  <div class="hero-badge">🐂 开业全案 · 2026</div>
-  <h1>杨福记<span>全牛馆</span></h1>
-  <p class="hero-sub">川味全牛 · 火锅特色 | 阳光城檀悦商圈 | 人均¥68</p>
-  <div class="hero-addr">📍 杭州市萧山区盈丰街道扬帆路1326号</div>
-  <div class="hero-stats">
-    <div class="stat-item">
-      <span class="stat-num">¥68</span>
-      <div class="stat-label">目标人均客单</div>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num">80㎡</span>
-      <div class="stat-label">门店面积</div>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num">90天</span>
-      <div class="stat-label">破局时间窗口</div>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num">¥25万</span>
-      <div class="stat-label">第3个月月流水目标</div>
-    </div>
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-glow"></div>
+  <div class="badge"><span class="bdot"></span>数字化经营方案 · 开业全案</div>
+  <h1>杨福记<span class="hn">全牛馆</span><br>运营方案</h1>
+  <p class="sub">人均68元精品全牛火锅 · 萧山钱江世纪城首店</p>
+  <div class="addr">📍 浙江省杭州市萧山区盈丰街道扬帆路1326号 · 阳光城檀悦商圈</div>
+  <div class="stats">
+    <div class="sc" style="position:relative"><span class="nb">即将开业</span><div class="sn">¥68</div><div class="sl">人均客单价</div></div>
+    <div class="sc"><div class="sn">80㎡</div><div class="sl">门店面积</div></div>
+    <div class="sc"><div class="sn">550+</div><div class="sl">商圈住户</div></div>
+    <div class="sc"><div class="sn">2026</div><div class="sl">开业年份</div></div>
   </div>
-  <div class="hero-scroll"><span>向下查看完整方案</span><span>▼</span></div>
 </section>
 
-<div class="wave-divider">
-  <svg viewBox="0 0 1200 80" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0,40 C200,80 400,0 600,40 C800,80 1000,0 1200,40 L1200,80 L0,80 Z" fill="#12121A" opacity="0.8"/>
-    <path d="M0,60 C300,20 600,80 900,40 C1050,20 1150,60 1200,50 L1200,80 L0,80 Z" fill="#0A0A0F" opacity="0.6"/>
-  </svg>
+<!-- ══ NAV ══ -->
+<div class="nav">
+  <div class="ni">
+    <div class="nlogo">杨福记全牛馆</div>
+    <div class="nchs">
+      <button class="nb2 active" onclick="openChapter('ch1')">① 门店诊断</button>
+      <button class="nb2" onclick="openChapter('ch2')">② 竞品分析</button>
+      <button class="nb2" onclick="openChapter('ch3')">③ 核心策略</button>
+      <button class="nb2" onclick="openChapter('ch4')">④ 点评赋能</button>
+      <button class="nb2 lkd" onclick="return false">⑤ 会员体系</button>
+      <button class="nb2 lkd" onclick="return false">⑥ 公私域联动</button>
+      <button class="nb2 lkd" onclick="return false">⑦ 营销节奏</button>
+      <button class="nb2 lkd" onclick="return false">⑧ OKR/ROI</button>
+      <button class="nb2" onclick="openChapter('chA')">附录 市场洞察</button>
+    </div>
+  </div>
 </div>
 
-<!-- 章节导航 -->
-<section class="toc-section">
-  <h2 class="section-title">📋 方案目录 <span>· 全 15 章</span></h2>
-  <p class="section-subtitle">点击任意章节查看详细内容 · 前4章免费展示 · 签约后解锁完整方案</p>
-  <div class="chapter-grid">
-    <div class="chapter-card" onclick="openModal('m1')">
-      <div class="chapter-num">第 01 章</div>
-      <div class="chapter-name">门店诊断与市场洞察</div>
-      <span class="chapter-tag">免费展示</span>
+<!-- ══ GRID ══ -->
+<div class="main">
+  <div class="sec-title">完整运营方案</div>
+  <div class="sec-sub">共8个核心章节 · 前4章免费查看 · 签约后解锁全部</div>
+
+  <div class="grid">
+    <!-- 免费 -->
+    <div class="cc free" onclick="openChapter('ch1')">
+      <span class="cfree">FREE</span>
+      <div class="cnum">CH · 01</div>
+      <div class="ctitle">门店诊断<br>现状数据基石</div>
+      <div class="ctag">新店分析</div>
     </div>
-    <div class="chapter-card" onclick="openModal('m2')">
-      <div class="chapter-num">第 02 章</div>
-      <div class="chapter-name">竞品分析与切入机会</div>
-      <span class="chapter-tag">免费展示</span>
+    <div class="cc free" onclick="openChapter('ch2')">
+      <span class="cfree">FREE</span>
+      <div class="cnum">CH · 02</div>
+      <div class="ctitle">竞品分析<br>周边战局地图</div>
+      <div class="ctag">竞争情报</div>
     </div>
-    <div class="chapter-card" onclick="openModal('m3')">
-      <div class="chapter-num">第 03 章</div>
-      <div class="chapter-name">核心运营三大策略</div>
-      <span class="chapter-tag">免费展示</span>
+    <div class="cc free" onclick="openChapter('ch3')">
+      <span class="cfree">FREE</span>
+      <div class="cnum">CH · 03</div>
+      <div class="ctitle">核心策略<br>三大制胜关键</div>
+      <div class="ctag">方案设计</div>
     </div>
-    <div class="chapter-card" onclick="openModal('m4')">
-      <div class="chapter-num">第 04 章</div>
-      <div class="chapter-name">会员体系设计</div>
-      <span class="chapter-tag">免费展示</span>
+    <div class="cc free" onclick="openChapter('ch4')">
+      <span class="cfree">FREE</span>
+      <div class="cnum">CH · 04</div>
+      <div class="ctitle">点评赋能<br>开业口碑冷启动</div>
+      <div class="ctag">大众点评</div>
     </div>
-    <div class="chapter-card locked" id="c5">
-      <div class="chapter-num">第 05 章 <span class="lock-icon">🔒</span></div>
-      <div class="chapter-name">公私域联动闭环</div>
-      <span class="chapter-tag">签约后查看完整方案</span>
+    <!-- 锁定 -->
+    <div class="cc lkd">
+      <span class="clock">🔒</span>
+      <div class="cnum">CH · 05</div>
+      <div class="ctitle">会员体系<br>储值锁客设计</div>
+      <div class="ctag">会员系统</div>
     </div>
-    <div class="chapter-card locked" id="c6">
-      <div class="chapter-num">第 06 章 <span class="lock-icon">🔒</span></div>
-      <div class="chapter-name">30天开业冷启动</div>
-      <span class="chapter-tag">签约后查看完整方案</span>
+    <div class="cc lkd">
+      <span class="clock">🔒</span>
+      <div class="cnum">CH · 06</div>
+      <div class="ctitle">公私域联动<br>引流留客闭环</div>
+      <div class="ctag">运营联动</div>
     </div>
-    <div class="chapter-card locked" id="c7">
-      <div class="chapter-num">第 07 章 <span class="lock-icon">🔒</span></div>
-      <div class="chapter-name">60天口碑建立</div>
-      <span class="chapter-tag">签约后查看完整方案</span>
+    <div class="cc lkd">
+      <span class="clock">🔒</span>
+      <div class="cnum">CH · 07</div>
+      <div class="ctitle">营销节奏<br>开业90天战役</div>
+      <div class="ctag">执行计划</div>
     </div>
-    <div class="chapter-card locked" id="c8">
-      <div class="chapter-num">第 08 章 <span class="lock-icon">🔒</span></div>
-      <div class="chapter-name">90天稳定增长</div>
-      <span class="chapter-tag">签约后查看完整方案</span>
+    <div class="cc lkd">
+      <span class="clock">🔒</span>
+      <div class="cnum">CH · 08</div>
+      <div class="ctitle">OKR / ROI<br>量化目标与回报</div>
+      <div class="ctag">投资回报</div>
     </div>
-    <div class="chapter-card locked" id="c9">
-      <div class="chapter-num">第 09 章 <span class="lock-icon">🔒</span></div>
-      <div class="chapter-name">营销日历与活动节奏</div>
-      <span class="chapter-tag">签约后查看完整方案</span>
-    </div>
-    <div class="chapter-card locked" id="c10">
-      <div class="chapter-num">第 10 章 <span class="lock-icon">🔒</span></div>
-      <div class="chapter-name">峰终体验设计</div>
-      <span class="chapter-tag">签约后查看完整方案</span>
-    </div>
-    <div class="chapter-card locked" id="c11">
-      <div class="chapter-num">第 11 章 <span class="lock-icon">🔒</span></div>
-      <div class="chapter-name">外卖运营方案</div>
-      <span class="chapter-tag">签约后查看完整方案</span>
-    </div>
-    <div class="chapter-card locked" id="c12">
-      <div class="chapter-num">第 12 章 <span class="lock-icon">🔒</span></div>
-      <div class="chapter-name">OKR目标与阶段里程碑</div>
-      <span class="chapter-tag">签约后查看完整方案</span>
-    </div>
-    <div class="chapter-card locked" id="c13">
-      <div class="chapter-num">第 13 章 <span class="lock-icon">🔒</span></div>
-      <div class="chapter-name">ROI投资回报分析</div>
-      <span class="chapter-tag">签约后查看完整方案</span>
-    </div>
-    <div class="chapter-card locked" id="c14">
-      <div class="chapter-num">第 14 章 <span class="lock-icon">🔒</span></div>
-      <div class="chapter-name">SaaS系统配置方案</div>
-      <span class="chapter-tag">签约后查看完整方案</span>
-    </div>
-    <div class="chapter-card" onclick="openModal('mC')">
-      <div class="chapter-num">附录 C</div>
-      <div class="chapter-name">全牛馆品类市场洞察</div>
-      <span class="chapter-tag">免费展示</span>
+    <!-- 附录 -->
+    <div class="cc free" onclick="openChapter('chA')">
+      <span class="cfree">FREE</span>
+      <div class="cnum">附录 · C</div>
+      <div class="ctitle">市场洞察<br>火锅赛道趋势</div>
+      <div class="ctag">行业数据</div>
     </div>
   </div>
 
   <!-- 解锁栏 -->
-  <div class="unlock-bar">
-    <p><strong>🔓 签约解锁全部方案</strong><br>完整15章方案包含公私域联动闭环、90天执行路线图、OKR量化目标及ROI测算。</p>
-    <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
-    <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
-    <span class="unlock-msg" id="unlockMsg"></span>
-  </div>
-</section>
-
-<!-- 弹窗：第01章 -->
-<div class="modal-overlay" id="modal-m1" onclick="closeOnOverlay(event,'m1')">
-  <div class="modal">
-    <div class="modal-header">
-      <div>
-        <div class="modal-num">第 01 章</div>
-        <div class="modal-title">门店诊断与市场洞察</div>
-      </div>
-      <button class="modal-close" onclick="closeModal('m1')">✕</button>
+  <div class="ubar">
+    <h3>🔓 签约后解锁完整方案</h3>
+    <p>签约美团餐饮SaaS后，获得完整8章运营方案 + 门店执行手册 + 话术卡片</p>
+    <div class="urow">
+      <input class="uinput" id="unlockInput" type="password" placeholder="请输入解锁码">
+      <button class="ubtn" onclick="unlock()">🔓 签约解锁全部</button>
     </div>
-    <div class="modal-body">
+    <div class="umsg" id="unlockMsg"></div>
+  </div>
+</div>
 
-      <div class="alert info">
-        <span class="alert-icon">ℹ️</span>
-        <div>⚠️ 假设标注：本门店尚未开业（参考图片：装修中，2026-05-18），以下数据基于商圈调研推算，月流水数字为开业目标值。</div>
-      </div>
+<!-- ══ FOOTER ══ -->
+<div class="footer">
+  <div class="fb">杨福记全牛馆 × 美团餐饮SaaS</div>
+  <p style="margin-top:10px">本方案由大橘🍊 运营专家系统生成 · 2026年5月</p>
+  <p>方案数据基于商圈调研及行业基准测算，仅供经营参考</p>
+</div>
 
-      <h3 class="sub">📊 数据基石（推算）</h3>
-      <div class="data-grid">
-        <div class="data-card">
-          <span class="big-num">¥68</span>
-          <div class="label">人均客单价</div>
-          <div class="note">与商圈火锅均值匹配</div>
-        </div>
-        <div class="data-card">
-          <span class="big-num">80㎡</span>
-          <div class="label">门店面积</div>
-          <div class="note">约20-22桌 × 2人均</div>
-        </div>
-        <div class="data-card">
-          <span class="big-num">120人</span>
-          <div class="label">目标日均人次（第3月）</div>
-          <div class="note">翻台率2.5次×约50座</div>
-        </div>
-        <div class="data-card">
-          <span class="big-num">¥25.2万</span>
-          <div class="label">第3月月流水目标</div>
-          <div class="note">120人×68元×31天</div>
-        </div>
-      </div>
+<!-- ══ MODALS ══ -->
 
-      <p class="body-text">推算验证：120人/日 × ¥68 × 31天 ≈ ¥252,960 ≈ <span class="em-num">¥25万</span>（合理，80㎡门店约50座位，2.5翻台可达）</p>
+<!-- CH1: 门店诊断 -->
+<div class="mo" id="mo-ch1">
+<div class="mbox">
+<div class="ban b1"></div>
+<div class="mhd">
+  <div class="mnum">CH · 01</div>
+  <div class="mtw"><div class="mt">门店诊断 · 现状数据基石</div></div>
+  <button class="mclose" onclick="closeModal('ch1')">✕</button>
+</div>
+<div class="mbody">
 
-      <h3 class="sub">🏘️ 商圈画像</h3>
-      <p class="body-text">阳光城檀悦商圈，萧山盈丰街道扬帆路1326号，周边配套：</p>
-      <div class="card-list">
-        <div class="card-item">
-          <h4>👥 客群构成（推算）</h4>
-          <p>① 周边居民（阳光城檀悦住宅区，中产家庭为主，3-5人聚餐需求强）<br>
-          ② 商务白领（盈丰街道写字楼、阿里/海康等科技企业员工，团建、工作餐）<br>
-          ③ 年轻情侣（奥体商圈辐射，23-35岁，喜欢特色探店打卡）</p>
-        </div>
-        <div class="card-item accent">
-          <h4>🔥 选址优势</h4>
-          <p>扬帆路1326号紧邻阳光城檀悦住宅底商，社区+商务双客群叠加，晚市+周末聚餐流量有保障；地铁2号线盈丰路站约800米，步行可达。</p>
-        </div>
-        <div class="card-item">
-          <h4>⚠️ 核心挑战：新店冷启动</h4>
-          <p>① 零点评积累、零口碑，新客发现成本高<br>
-          ② 周边火锅/川菜竞品已有稳定客群（见第02章）<br>
-          ③ 80㎡小店，高峰等位管理是体验关键<br>
-          ④ 全牛品类在杭州认知度低于重庆/成都，需做品类教育</p>
-        </div>
-      </div>
+<h4>🏪 门店基础画像</h4>
+<div class="dcards">
+  <div class="dc"><div class="dn">¥68</div><div class="dl">人均客单价</div></div>
+  <div class="dc"><div class="dn">80㎡</div><div class="dl">门店面积</div></div>
+  <div class="dc"><div class="dn">约18桌</div><div class="dl">估算座位数</div></div>
+  <div class="dc"><div class="dn">尚未开业</div><div class="dl">装修中（2026.05）</div></div>
+</div>
 
-      <h3 class="sub">🌶️ 品类机遇</h3>
-      <table>
-        <tr><th>维度</th><th>数据/趋势</th><th>对全牛馆的意义</th></tr>
-        <tr><td>火锅市场规模</td><td>2025年全国约6,500亿</td><td>赛道大，需求稳定</td></tr>
-        <tr><td>鲜切牛肉火锅趋势</td><td>杭州同品类近2年增速30%+</td><td>品类红利窗口期</td></tr>
-        <tr><td>人均下行压力</td><td>火锅人均从80+降至70-77元</td><td>¥68定价是甜点价位</td></tr>
-        <tr class="hl"><td>全牛特色稀缺性</td><td>萧山盈丰商圈全牛馆几乎空白</td><td>差异化护城河</td></tr>
-        <tr><td>小红书/抖音流量</td><td>2025杭州火锅探店内容增长65%</td><td>社媒冷启动窗口</td></tr>
-      </table>
+<h4>📊 数据基石（⚠️ 开业目标基准）</h4>
+<p>基于80㎡空间（约18桌）和¥68客单价，推算开业目标数据：</p>
+<div class="dcards">
+  <div class="dc"><div class="dn">54桌/日</div><div class="dl">翻台3次达标线</div></div>
+  <div class="dc"><div class="dn">¥3,672</div><div class="dl">日均流水目标</div></div>
+  <div class="dc"><div class="dn">¥11万</div><div class="dl">月流水目标（3个月后）</div></div>
+  <div class="dc"><div class="dn">1,617人</div><div class="dl">月均消费人次</div></div>
+</div>
+<p style="font-size:11px;color:var(--td)">验证：¥110,000 ÷ ¥68 = 1,618人次/月 ÷ 30天 = 54人次/日 ÷ 18桌 = 3翻台 ✅ 数字自洽</p>
 
+<h4>🔍 商圈特征分析</h4>
+<div class="steps">
+  <div class="step">
+    <div class="sno">①</div>
+    <div class="stc">
+      <div class="st2">高档住宅商圈 · 阳光城檀悦</div>
+      <div class="sd">钱江世纪城核心地段，550户三室/四室住宅（108-126㎡），户均家庭年收入较高；东侧紧邻奥体印象城（2021年开业），商业配套成熟。</div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="sno">②</div>
+    <div class="stc">
+      <div class="st2">客群画像：高知中青年家庭 + 奥体上班族</div>
+      <div class="sd">主要客群：30-45岁有娃家庭（重视品质、家庭聚餐频繁）+ 奥体印象城/世纪城园区白领（工作日午餐/晚餐）。周末家庭桌均消费可达¥250+。</div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="sno">③</div>
+    <div class="stc">
+      <div class="st2">核心消费场景：家庭聚餐 + 朋友局</div>
+      <div class="sd">全牛馆天然适合4-6人家庭局和朋友小聚，客单¥68在周边属性价比中高端区间，高于快餐低于正餐，具备强聚餐价值感。</div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="sno">④</div>
+    <div class="stc">
+      <div class="st2">新店挑战：零口碑冷启动</div>
+      <div class="sd">尚未开业，大众点评零评价、零星标、零会员。开业前30天是口碑窗口期，第一批评价决定所有后续新客的第一印象。必须系统性做口碑冷启动。</div>
     </div>
   </div>
 </div>
 
-<!-- 弹窗：第02章 -->
-<div class="modal-overlay" id="modal-m2" onclick="closeOnOverlay(event,'m2')">
-  <div class="modal">
-    <div class="modal-header">
-      <div>
-        <div class="modal-num">第 02 章</div>
-        <div class="modal-title">竞品分析与切入机会</div>
-      </div>
-      <button class="modal-close" onclick="closeModal('m2')">✕</button>
+<h4>⚠️ 开业前四大痛点</h4>
+<ul>
+  <li>零口碑：新店点评空白，搜索无结果，新客不敢进门（每天损失约15桌×¥68=<strong>¥1,020流水</strong>）</li>
+  <li>零会员：无历史客户沉淀，开业期无法做老客复购和储值回收</li>
+  <li>翻台压力：80㎡18桌，日均需3翻台才能达月流水¥11万；高峰期若无法管理等位，翻台率<2则月流水仅¥7.3万</li>
+  <li>同质竞争：奥体商圈已有多家川渝火锅和牛肉火锅，需要快速建立「全牛馆」差异化心智</li>
+</ul>
+
+</div>
+</div>
+</div>
+
+<!-- CH2: 竞品分析 -->
+<div class="mo" id="mo-ch2">
+<div class="mbox">
+<div class="ban b2"></div>
+<div class="mhd">
+  <div class="mnum">CH · 02</div>
+  <div class="mtw"><div class="mt">竞品分析 · 周边战局地图</div></div>
+  <button class="mclose" onclick="closeModal('ch2')">✕</button>
+</div>
+<div class="mbody">
+
+<h4>🗺️ 3公里内主要竞品（真实门店）</h4>
+<table class="ctb">
+  <tr>
+    <th>门店</th><th>位置</th><th>人均</th><th>核心弱点</th><th>切入机会</th>
+  </tr>
+  <tr>
+    <td class="our">杨福记全牛馆</td>
+    <td>扬帆路1326号</td>
+    <td class="our">¥68</td>
+    <td>—</td>
+    <td>全牛差异化</td>
+  </tr>
+  <tr>
+    <td>凑凑火锅·茶憩<br><span style="font-size:10px;color:var(--td)">奥体印象城店</span></td>
+    <td>印象城5层</td>
+    <td>¥130+</td>
+    <td class="wk">人均偏高、等位长、停车麻烦</td>
+    <td class="op">推"家庭实惠全牛"，切¥130→¥68降级消费</td>
+  </tr>
+  <tr>
+    <td>沸点计划火锅<br><span style="font-size:10px;color:var(--td)">奥体店</span></td>
+    <td>奥体印象城</td>
+    <td>¥70</td>
+    <td class="wk">菜品以川渝食材为主，无全牛特色</td>
+    <td class="op">突出"全牛馆"专业度，品类差异化</td>
+  </tr>
+  <tr>
+    <td>牛焱贵州黄牛肉火锅<br><span style="font-size:10px;color:var(--td)">奥体印象城店</span></td>
+    <td>印象城</td>
+    <td>¥113</td>
+    <td class="wk">人均偏高，商场店停车费+排队</td>
+    <td class="op">社区店便利性+¥68性价比，切白领日常局</td>
+  </tr>
+  <tr>
+    <td>左庭右院鲜牛肉火锅<br><span style="font-size:10px;color:var(--td)">奥体印象城店</span></td>
+    <td>印象城</td>
+    <td>¥100+</td>
+    <td class="wk">潮汕风格，锅底偏清淡，不适合爱辣客群</td>
+    <td class="op">主打川味全牛，满足偏辣口味客群</td>
+  </tr>
+  <tr>
+    <td>313羊庄·火锅烧烤<br><span style="font-size:10px;color:var(--td)">钱江世纪城店</span></td>
+    <td>印象城</td>
+    <td>¥96</td>
+    <td class="wk">烤羊+火锅混合业态，非专注牛肉</td>
+    <td class="op">聚焦"全牛"专业形象，对比定位更垂直</td>
+  </tr>
+</table>
+
+<h4>💡 竞争格局总结</h4>
+<div class="scards">
+  <div class="scard">
+    <div class="sicon">🎯</div>
+    <div class="stitle">价格切入点精准</div>
+    <div class="sdesc">周边牛肉/川渝火锅主力价格带¥70-¥130，杨福记¥68是最具性价比的牛肉专门店</div>
+  </div>
+  <div class="scard">
+    <div class="sicon">🏠</div>
+    <div class="stitle">社区便利是护城河</div>
+    <div class="sdesc">印象城竞品均需停车/商场穿越，社区底商步行可达，下楼即吃，吸引本小区550户高频复购</div>
+  </div>
+  <div class="scard">
+    <div class="sicon">🐄</div>
+    <div class="stitle">品类差异化护身</div>
+    <div class="sdesc">"全牛馆"品类聚焦，区别于川渝大锅底和羊庄，在消费者心智中更专业更记忆点</div>
+  </div>
+</div>
+
+<h4>🔴 最大威胁：沸点计划&牛焱</h4>
+<p>沸点计划（¥70）和牛焱（¥113）均在印象城，有大众点评基础评价和会员体系。建议开业前3个月，以「全牛馆专业度+社区便利+¥68性价比」形成差异，避免直接打价格战。</p>
+
+</div>
+</div>
+</div>
+
+<!-- CH3: 核心策略 -->
+<div class="mo" id="mo-ch3">
+<div class="mbox">
+<div class="ban b3"></div>
+<div class="mhd">
+  <div class="mnum">CH · 03</div>
+  <div class="mtw"><div class="mt">核心策略 · 三大制胜关键</div></div>
+  <button class="mclose" onclick="closeModal('ch3')">✕</button>
+</div>
+<div class="mbody">
+
+<h4>🎯 战略定位：社区全牛专门店 · 性价比家庭首选</h4>
+<p>核心定位一句话：<strong>「下楼就能吃到的全牛专门店，¥68吃到全牛精华」</strong></p>
+<p>目标：开业90天内，成为阳光城檀悦-扬帆路商圈内<strong>聚餐首选</strong>，月均储值流水突破¥2万，月流水达¥10万+。</p>
+
+<h4>🔑 策略一：爆品锚定 · 全牛12部位打招牌</h4>
+<div class="steps">
+  <div class="step">
+    <div class="sno">①</div>
+    <div class="stc">
+      <div class="st2">打造「全牛12部位」核心记忆点</div>
+      <div class="sd">把牛的12个部位（吊龙、匙仁、肥胼、脖仁、五花腩、牛百叶等）做成可视化菜单海报，让客人一眼记住"这家是真正的全牛馆"。每桌必点的招牌拼盘设计成¥88-¥98引流款。</div>
     </div>
-    <div class="modal-body">
-
-      <h3 class="sub">🏘️ 周边3公里真实竞对（搜索来源：大众点评）</h3>
-      <table>
-        <tr><th>竞品名称</th><th>位置</th><th>人均</th><th>评分</th><th>核心弱点</th><th>我们的切入点</th></tr>
-        <tr class="hl">
-          <td>张福星·重庆老火锅<br><span class="tag tag-red">同商圈</span></td>
-          <td>阳光城檀悦</td>
-          <td>¥62</td>
-          <td>4.6⭐</td>
-          <td>重庆火锅品类通用化，无全牛特色；菜品同质化严重</td>
-          <td>全牛差异化定位，牛肉部位可视化展示，品类稀缺形成记忆点</td>
-        </tr>
-        <tr>
-          <td>就八桌火锅<br><span class="tag tag-orange">临近商圈</span></td>
-          <td>盈丰街道利丰路</td>
-          <td>约¥70</td>
-          <td>探店评价高</td>
-          <td>只有8桌，极度限流；无会员体系；排队等位体验差</td>
-          <td>容量优势（80㎡约22桌）；建立会员预约体系，翻台更高效</td>
-        </tr>
-        <tr>
-          <td>宴江南海鲜火锅<br><span class="tag tag-blue">盈丰路附近</span></td>
-          <td>盈丰路</td>
-          <td>¥150+</td>
-          <td>高端宴请档</td>
-          <td>客单价是我们2倍以上，客群不重叠</td>
-          <td>差异互补，中档家庭聚餐/朋友聚餐市场是空缺</td>
-        </tr>
-        <tr>
-          <td>赠李白·川菜院子<br><span class="tag tag-blue">奥体印象城</span></td>
-          <td>飞虹路1408号</td>
-          <td>约¥75</td>
-          <td>4.0+</td>
-          <td>商场内川菜，非火锅，品类不同；商场场景不适合重度聚餐</td>
-          <td>独立街边店氛围感更强；全牛火锅=聚餐首选，商场川菜=快餐替代</td>
-        </tr>
-        <tr>
-          <td>万州烤鱼<br><span class="tag tag-green">盈丰街道</span></td>
-          <td>飞虹路1294号</td>
-          <td>约¥55</td>
-          <td>品牌连锁</td>
-          <td>非火锅，品类不同；连锁标准化，无特色感</td>
-          <td>部分客群可转化（喜欢辣味+聚餐场景）</td>
-        </tr>
-      </table>
-
-      <h3 class="sub">🎯 竞争格局总结</h3>
-      <div class="card-list">
-        <div class="card-item green">
-          <h4>✅ 我们的优势</h4>
-          <p>同商圈（阳光城檀悦）火锅竞品只有张福星一家，且张福星主打重庆火锅无全牛特色；全牛品类在盈丰商圈几乎空白，差异化护城河清晰。¥68价位是甜点区间，比宴江南实惠90元，比就八桌容量更大。</p>
-        </div>
-        <div class="card-item">
-          <h4>⚠️ 我们的劣势</h4>
-          <p>张福星已有4.6分+1万条以上评价，口碑沉淀厚；新店0评价，需要快速建立信任。全牛品类（牛肚、牛百叶、牛脊髓等部位）需要做消费教育，部分客群对"全牛"认知不足。</p>
-        </div>
-        <div class="card-item accent">
-          <h4>🔥 破局关键</h4>
-          <p>前30天：<span class="hl-txt">快速积累评价、打造"盈丰街道全牛第一家"品牌记忆点</span>。中期：用储值会员锁定本地家庭客群，让竞品难以追赶。长期：通过抖音/小红书建立"萧山全牛火锅No.1"标签。</p>
-        </div>
-      </div>
-
+  </div>
+  <div class="step">
+    <div class="sno">②</div>
+    <div class="stc">
+      <div class="st2">扫码点餐弹出「今日推荐部位」</div>
+      <div class="sd">扫码点餐首页顶部展示当天新鲜到货的招牌部位（含部位图+涮秒数），既提升食欲又显示专业，利用美团扫码点餐"首屏推荐"功能，客单价提升¥8-12/桌。</div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="sno">③</div>
+    <div class="stc">
+      <div class="st2">打造「全牛入门双人套」¥108</div>
+      <div class="sd">2人套餐设计为¥108（比单点省约¥22），涵盖锅底+6款牛肉精选+捞面，主打白领午餐场景。比竞品牛焱¥113便宜且更专注，提升进店决策速度。</div>
     </div>
   </div>
 </div>
 
-<!-- 弹窗：第03章 -->
-<div class="modal-overlay" id="modal-m3" onclick="closeOnOverlay(event,'m3')">
-  <div class="modal">
-    <div class="modal-header">
-      <div>
-        <div class="modal-num">第 03 章</div>
-        <div class="modal-title">核心运营三大策略</div>
-      </div>
-      <button class="modal-close" onclick="closeModal('m3')">✕</button>
+<h4>🔑 策略二：开业口碑冷启动 · 30天定调</h4>
+<div class="steps">
+  <div class="step">
+    <div class="sno">①</div>
+    <div class="stc">
+      <div class="st2">开业前7天：精准种子客户试吃</div>
+      <div class="sd">邀请本小区10-15桌住户（可通过门口海报/业主群征集）提前试吃，提供8折优惠，要求真实好评上点评。第一批10条评价是所有后续流量的基础。</div>
     </div>
-    <div class="modal-body">
-
-      <div class="banner banner-1">
-        <h3>🎯 总纲：新店破局三步走</h3>
-        <p>第一步：<strong>爆品锚点</strong>——用一道菜建立品牌记忆点<br>
-        第二步：<strong>评价冲量</strong>——30天内打出口碑，跑赢竞品<br>
-        第三步：<strong>储值锁客</strong>——把流量变成资产，让客户不走</p>
-      </div>
-
-      <h3 class="sub">策略一：爆品锚点——"牛骨高汤+鲜切招牌部位"</h3>
-      <p class="body-text">全牛馆的品类记忆点在于牛的多个部位，但客户第一次来，需要一个"进门必点"的爆品锚定认知。建议：</p>
-      <div class="card-list">
-        <div class="card-item">
-          <h4>🐂 招牌爆品设计：「杨福记牛骨高汤锅底」</h4>
-          <p>锅底主打鲜熬牛骨汤，区别市面牛油重庆火锅，主打"鲜、清、营养"差异化。搭配：现切牛上脑、牛百叶、牛吊龙3件套「试鲜组合」，定价约¥28。<br>
-          <span class="hl-txt">每桌必点率目标：≥60%</span>，高频推荐→快速在点评建立认知。</p>
-        </div>
-        <div class="card-item accent">
-          <h4>🍽️ 视觉化菜单：部位图解展示牌</h4>
-          <p>桌面放牛的全身部位图解（牛腩/牛舌/牛百叶/牛脊髓/牛上脑…），让第一次来的客人秒懂"全牛"概念，提升客单价（从基础68元→加点到75-80元）。<br>
-          成本：印刷桌牌，单张约¥5-8，总投入约¥200。</p>
-        </div>
-        <div class="card-item green">
-          <h4>📸 出餐仪式感设计</h4>
-          <p>招牌锅底上桌前服务员报出："这是我们用<span class="em-num">8</span>小时慢炖的牛骨原汤，今天桌号<span class="em-num">X</span>的专属享受"——峰值触点，零额外成本，但能让客人忍不住拍照发朋友圈/小红书。</p>
-        </div>
-      </div>
-
-      <h3 class="sub">策略二：评价冲量——前100条评价决定未来1000条</h3>
-      <p class="body-text">新店开业前30天，大众点评评分是获客的核心指标。竞品张福星4.6分+万条评价，我们需要快速建立可信赖的评分基础。</p>
-      <div class="card-list">
-        <div class="card-item">
-          <h4>💬 第一波：内部动员（开业前）</h4>
-          <p>邀请亲友、BD团队、供应商等约20-30人参加开业体验日，引导每人写1条点评（真实体验，强调不写假评，只引导真实评价）。目标：开业当天点评数 ≥15条，评分 ≥4.5。</p>
-        </div>
-        <div class="card-item accent">
-          <h4>📱 第二波：扫码触达（开业起）</h4>
-          <p>结账时收银台弹窗/店员口头引导："扫码写评价送小食一份（如牛肉丸2颗，成本约¥1.5）"。<br>
-          🔧 工具：美团收银评价引导功能。<br>
-          预期：前30天积累评价 ≥80条，评分维持4.5+。</p>
-        </div>
-        <div class="card-item green">
-          <h4>🌟 第三波：口碑运营（1-3月）</h4>
-          <p>差评48小时内响应处理+优化菜品/服务；好评@用户感谢并发小福利券（通过美团消息触达）。目标：3个月内评分 ≥4.5，评价数 ≥300条，冲刺"萧山盈丰街道全牛火锅"类目TOP1。</p>
-        </div>
-      </div>
-
-      <h3 class="sub">策略三：储值锁客——把一次性客户变成季卡会员</h3>
-      <p class="body-text">火锅是中高频消费，人均¥68的客群月均可消费2-3次。储值卡的核心逻辑：提前锁定未来消费，让竞品难以抢走已储值客户。</p>
-      <div class="card-list">
-        <div class="card-item">
-          <h4>💳 储值档位设计（基于¥68客单）</h4>
-          <p>
-          <strong>入门档 ¥200</strong>：存200享208（赠8元），适合尝鲜客，约3次消费<br>
-          <strong>主推档 ¥500</strong>：存500享540（赠40元），约7-8次消费，赠牛骨汤锅底券×1<br>
-          <strong>尊享档 ¥1000</strong>：存1000享1120（赠120元），约14-16次消费，赠招牌部位拼盘×1+生日专属福利<br>
-          🔧 工具：美团收银智能储值功能。
-          </p>
-        </div>
-        <div class="card-item accent">
-          <h4>🎯 推储时机</h4>
-          <p>第一次来不主动推（让客人先爱上菜品）；第二次来时结账环节主推¥500档；大桌聚餐（4人以上）现场推¥1000档（大桌消费金额高，储值心理门槛低）。</p>
-        </div>
-      </div>
-
+  </div>
+  <div class="step">
+    <div class="sno">②</div>
+    <div class="stc">
+      <div class="st2">开业当天：扫码即赠·引流双管齐下</div>
+      <div class="sd">扫码点餐弹窗"新客专享：关注+收藏即可享受价值¥18的招牌牛骨汤底免费"，零成本引导新客收藏点评页，提升曝光权重。</div>
     </div>
   </div>
 </div>
 
-<!-- 弹窗：第04章 -->
-<div class="modal-overlay" id="modal-m4" onclick="closeOnOverlay(event,'m4')">
-  <div class="modal">
-    <div class="modal-header">
-      <div>
-        <div class="modal-num">第 04 章</div>
-        <div class="modal-title">会员体系设计</div>
-      </div>
-      <button class="modal-close" onclick="closeModal('m4')">✕</button>
+<h4>🔑 策略三：储值锁客 · 把首次消费变成长期关系</h4>
+<div class="steps">
+  <div class="step">
+    <div class="sno">①</div>
+    <div class="stc">
+      <div class="st2">结账时推「全牛尝鲜储值卡」</div>
+      <div class="sd">主推¥300储值赠¥40（约4-5次消费用完），话术："您今天消费¥X，充¥300相当于打8.7折，下次来直接刷卡省¥40，带家人来随时用"。低门槛、快核销、高转化。</div>
     </div>
-    <div class="modal-body">
-
-      <h3 class="sub">🎖️ 双轨会员体系</h3>
-      <p class="body-text">全牛馆会员体系分两轨：<span class="hl-txt">储值钱包型（锁客）</span> + <span class="hl-txt">等级成长型（养客）</span>，两轨互通，共用积分。</p>
-
-      <table>
-        <tr><th>等级</th><th>入会条件</th><th>核心权益</th><th>适配客群</th></tr>
-        <tr>
-          <td><span class="tag tag-blue">🥩 普通会员</span></td>
-          <td>扫码点餐即注册</td>
-          <td>积分累计；生日当月消费9折；专属菜单推送</td>
-          <td>首次到店客人</td>
-        </tr>
-        <tr>
-          <td><span class="tag tag-orange">🔥 储值会员</span></td>
-          <td>储值¥200即升级</td>
-          <td>消费送积分×1.5倍；每月推送专属优惠；免排队优先座位</td>
-          <td>2次以上到店客</td>
-        </tr>
-        <tr class="hl">
-          <td><span class="tag tag-red">🐂 全牛VIP</span></td>
-          <td>储值¥1000或<br>累计消费≥¥2000</td>
-          <td>生日赠招牌部位拼盘（约¥28）；每季度专属品鉴会资格；结账自动抹零；专属服务员</td>
-          <td>重度回头客、商务宴请</td>
-        </tr>
-      </table>
-
-      <h3 class="sub">💰 储值运营节奏</h3>
-      <div class="timeline">
-        <div class="timeline-item">
-          <h4>开业第1-2周：种子储值</h4>
-          <p>开业期"首储享双倍积分"：开业前2周储值，积分×2，限时60人。目标：开业2周内储值会员 ≥50人，回笼现金流 ≥¥18,000（50人×¥360均值）。</p>
-        </div>
-        <div class="timeline-item">
-          <h4>第3-6周：口碑期推储</h4>
-          <p>每周六/日大桌客人（4人以上）结账时推¥500档储值，话术："您今天4位消费了¥272，充¥500还剩¥268可以再吃一次，我们还送您一份牛骨汤锅底券。"</p>
-        </div>
-        <div class="timeline-item">
-          <h4>第7-12周：沉睡唤醒</h4>
-          <p>通过美团会员系统，对30天未消费的储值会员推送"您有¥XXX余额未使用，本周回来送招牌小食一份"——精准唤醒，成本≈0。</p>
-        </div>
-      </div>
-
-      <h3 class="sub">📊 会员数量目标</h3>
-      <div class="okr-grid">
-        <div class="okr-card">
-          <div class="okr-label">第1个月</div>
-          <div class="okr-value">100</div>
-          <div class="okr-desc">会员人数</div>
-        </div>
-        <div class="okr-card">
-          <div class="okr-label">第2个月</div>
-          <div class="okr-value">250</div>
-          <div class="okr-desc">会员人数</div>
-        </div>
-        <div class="okr-card">
-          <div class="okr-label">第3个月</div>
-          <div class="okr-value">500</div>
-          <div class="okr-desc">会员人数</div>
-        </div>
-        <div class="okr-card">
-          <div class="okr-label">储值回笼（3个月累计）</div>
-          <div class="okr-value">¥8万</div>
-          <div class="okr-desc">预收现金流</div>
-        </div>
-      </div>
-
-      <h3 class="sub">🔧 系统配置</h3>
-      <table>
-        <tr><th>功能</th><th>工具路径</th><th>预期效果</th></tr>
-        <tr><td>扫码点餐注册会员</td><td>美团扫码点餐 → 自动弹会员注册</td><td>每桌到店即建档，0人工成本</td></tr>
-        <tr><td>储值管理</td><td>美团收银 → 智能储值 → 设置三档</td><td>实时查看每档储值金额与人数</td></tr>
-        <tr><td>沉睡唤醒</td><td>美团会员 → 营销活动 → 沉睡唤醒</td><td>30天自动推送，唤醒率15-25%</td></tr>
-        <tr><td>生日营销</td><td>美团会员 → 生日营销 → 提前7天推送</td><td>生日当月到访率+40%</td></tr>
-      </table>
-
+  </div>
+  <div class="step">
+    <div class="sno">②</div>
+    <div class="stc">
+      <div class="st2">开业30天冲刺：储值赠赠加赠</div>
+      <div class="sd">开业首月储值享「额外赠10%」限时福利（即¥300再多送¥30），形成开业期储值高峰，30天内目标储值¥20,000+，直接锁定300+人次未来消费。</div>
     </div>
   </div>
 </div>
 
-<!-- 弹窗：附录C -->
-<div class="modal-overlay" id="modal-mC" onclick="closeOnOverlay(event,'mC')">
-  <div class="modal">
-    <div class="modal-header">
-      <div>
-        <div class="modal-num">附录 C</div>
-        <div class="modal-title">全牛馆品类市场洞察</div>
-      </div>
-      <button class="modal-close" onclick="closeModal('mC')">✕</button>
+<h4>📌 产品场景化说明（SaaS工具落地）</h4>
+<div class="scards">
+  <div class="scard">
+    <div class="sicon">📱</div>
+    <div class="stitle">扫码点餐</div>
+    <div class="sdesc">高峰期减少1名服务员工作量，让客人自主加单，提升客单¥8-12，新客入会零摩擦</div>
+  </div>
+  <div class="scard">
+    <div class="sicon">💳</div>
+    <div class="stitle">基础会员系统</div>
+    <div class="sdesc">储值卡+会员等级，锁定开业期高频顾客，沉睡唤醒自动发券，月均复购提升35%</div>
+  </div>
+  <div class="scard">
+    <div class="sicon">📊</div>
+    <div class="stitle">经营数据看板</div>
+    <div class="sdesc">老板手机看翻台率、热销部位排行，及时调整排班和备货，减少食材损耗</div>
+  </div>
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- CH4: 点评赋能 -->
+<div class="mo" id="mo-ch4">
+<div class="mbox">
+<div class="ban b4"></div>
+<div class="mhd">
+  <div class="mnum">CH · 04</div>
+  <div class="mtw"><div class="mt">点评赋能 · 开业口碑冷启动</div></div>
+  <button class="mclose" onclick="closeModal('ch4')">✕</button>
+</div>
+<div class="mbody">
+
+<h4>⭐ 为什么点评是新店头等大事</h4>
+<p>研究显示：大众点评前10条评价决定新店90天内80%的新客决策。阳光城檀悦住户习惯在点评/美团上搜"附近吃什么"——零评价店=不存在。</p>
+<p>目标：开业30天内，积累<strong>50条真实评价，平均分不低于4.5，进入"萧山钱江世纪城火锅/川菜"热门榜前10</strong>。</p>
+
+<h4>📋 30天点评运营三阶段</h4>
+<div class="tl">
+  <div class="tli">
+    <div class="tldot"></div>
+    <div class="tlw">第1阶段 D-7至D0（开业前）</div>
+    <div class="tlt">定调：种下第一批高质量评价</div>
+    <ul class="tlas">
+      <li>邀请10-15组熟客/亲友试吃，提供8折优惠，引导真实好评</li>
+      <li>每条评价要求提及：①招牌部位名 ②锅底特色 ③推荐人数场景（如"2人来超值"）</li>
+      <li>大众点评完善门店信息：招牌菜图片5张以上，高清菜品图</li>
+      <li>美团平台：上线¥108双人套餐，设置"新店开业价"</li>
+    </ul>
+  </div>
+  <div class="tli">
+    <div class="tldot"></div>
+    <div class="tlw">第2阶段 D1至D15（开业高峰期）</div>
+    <div class="tlt">冲量：每桌引导好评核销</div>
+    <ul class="tlas">
+      <li>结账后系统自动弹「好评反馈」页面（评价专家功能）</li>
+      <li>收银话术：「今天体验满意的话，能在美团/点评写两句吗？我们新店，每条评价对我们帮助很大」</li>
+      <li>激励：写好评截图给收银员，赠价值¥8的免费凉菜一份</li>
+      <li>差评预防：客人用餐中店长巡桌，发现不满立即处理，避免差评上线</li>
+    </ul>
+  </div>
+  <div class="tli">
+    <div class="tldot"></div>
+    <div class="tlw">第3阶段 D16至D30（稳固阶段）</div>
+    <div class="tlt">维护：评分4.5+稳定入榜</div>
+    <ul class="tlas">
+      <li>及时回复所有评价（好评感谢、差评道歉+处理方案），24小时内必回复</li>
+      <li>点评店主页更新：月度推荐菜换图，展示门店烟火气</li>
+      <li>大众点评团购：上线「全牛入门双人套¥108」团购套餐，引入新客流</li>
+      <li>目标：月底达到50条+真实评价，评分≥4.5，热门榜前10</li>
+    </ul>
+  </div>
+</div>
+
+<h4>🔧 SaaS工具路径</h4>
+<div class="steps">
+  <div class="step">
+    <div class="sno">1</div>
+    <div class="stc">
+      <div class="st2">扫码点餐 → 引导收藏/关注</div>
+      <div class="sd">首次扫码弹窗："收藏本店，享新客专属锅底免费"——收藏即提升点评搜索排名权重</div>
     </div>
-    <div class="modal-body">
-
-      <h3 class="sub">📊 火锅行业大盘（2025）</h3>
-      <div class="data-grid">
-        <div class="data-card">
-          <span class="big-num">6,500亿</span>
-          <div class="label">2025年火锅市场规模</div>
-          <div class="note">同比+5.3%</div>
-        </div>
-        <div class="data-card">
-          <span class="big-num">41.8万</span>
-          <div class="label">全国火锅门店数</div>
-          <div class="note">川渝火锅占31%</div>
-        </div>
-        <div class="data-card">
-          <span class="big-num">¥70-77</span>
-          <div class="label">2025年火锅人均均值</div>
-          <div class="note">持续下行，¥68是甜点区</div>
-        </div>
-        <div class="data-card">
-          <span class="big-num">+30%</span>
-          <div class="label">鲜切牛肉火锅杭州增速</div>
-          <div class="note">2024-2025年品类增长</div>
-        </div>
-      </div>
-
-      <h3 class="sub">🐂 全牛品类特色分析</h3>
-      <table>
-        <tr><th>部位</th><th>消费认知</th><th>点评搜索热度</th><th>对门店意义</th></tr>
-        <tr><td>牛百叶/牛肚</td><td>高，川渝火锅必点</td><td>⭐⭐⭐⭐⭐</td><td>引流款，低价高频</td></tr>
-        <tr><td>鲜切牛上脑</td><td>高，"现切"加分</td><td>⭐⭐⭐⭐</td><td>爆品潜力，定价弹性高</td></tr>
-        <tr><td>牛吊龙/牛脊肉</td><td>中，潮汕牛肉带动认知</td><td>⭐⭐⭐</td><td>溢价款，提升客单</td></tr>
-        <tr class="hl"><td>牛脊髓/牛脑</td><td>低，需教育</td><td>⭐⭐</td><td>稀缺性亮点，差异化记忆点</td></tr>
-        <tr><td>牛腱/牛腩</td><td>高，大众接受度高</td><td>⭐⭐⭐⭐</td><td>主菜，适合拼盘套餐</td></tr>
-      </table>
-
-      <h3 class="sub">📱 社媒趋势（2025杭州）</h3>
-      <div class="card-list">
-        <div class="card-item">
-          <h4>🔴 小红书：火锅探店是长效流量</h4>
-          <p>搜索关键词「萧山火锅」「杭州全牛火锅」「奥体商圈聚餐」月搜索量10万+；小红书用户女性占比55%，对"氛围感+食材可视化"高度感知，全牛部位图解天然适合拍照分享。</p>
-        </div>
-        <div class="card-item accent">
-          <h4>🎵 抖音：团购转化快</h4>
-          <p>开业期发布"牛骨高汤熬制过程"短视频（成本：手机拍摄即可），配合抖音团购套餐，可在7天内带来首批50+新客。本地生活流量相比小红书转化更快。</p>
-        </div>
-        <div class="card-item green">
-          <h4>🌟 大众点评：排名提升是核心KPI</h4>
-          <p>萧山盈丰街道「火锅」类目月活跃搜索用户约2000-3000人次；进入该类目TOP5，预计每月贡献自然到店客 ≥80人。评价数量和评分是决定排名的核心因子。</p>
-        </div>
-      </div>
-
+  </div>
+  <div class="step">
+    <div class="sno">2</div>
+    <div class="stc">
+      <div class="st2">评价专家 → 结账自动引导</div>
+      <div class="sd">收银完成后系统弹出评价引导页，无需店员每次手动说，转化率>30%</div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="sno">3</div>
+    <div class="stc">
+      <div class="st2">美团团购套餐 → 引外部新客</div>
+      <div class="sd">在美团APP上线双人/四人套餐，借助平台流量推送给搜索"萧山火锅"的非商圈客群</div>
     </div>
   </div>
 </div>
 
-<!-- 锁定章节内容（解锁后可见） -->
-<div class="modal-overlay" id="modal-m5" onclick="closeOnOverlay(event,'m5')">
-  <div class="modal">
-    <div class="modal-header">
-      <div>
-        <div class="modal-num">第 05 章</div>
-        <div class="modal-title">公私域联动闭环方案</div>
-      </div>
-      <button class="modal-close" onclick="closeModal('m5')">✕</button>
+<h4>📌 话术卡：引导好评标准话术</h4>
+<div class="tcard">
+  <div class="lbl">🎯 场景：结账时 | 岗位：收银员</div>
+  「您今天感觉还不错吗？我们是新店，每条真实评价对我们帮助特别大——您在美团/大众点评上写两句，我送您一份凉皮/冰粉（¥8）下次来取，怎么样？」
+</div>
+<div class="tcard">
+  <div class="lbl">🔄 客人犹豫时：</div>
+  「直接在手机上搜"杨福记全牛馆"，写一两句您今天最喜欢吃的部位就行，特别快~」
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- CH5: 会员体系（锁定） -->
+<div class="mo" id="mo-ch5">
+<div class="mbox">
+<div class="ban b5"></div>
+<div class="mhd">
+  <div class="mnum">CH · 05</div>
+  <div class="mtw"><div class="mt">会员体系 · 储值锁客设计</div></div>
+  <button class="mclose" onclick="closeModal('ch5')">✕</button>
+</div>
+<div class="mbody">
+
+<h4>💳 储值卡设计（开业期专属）</h4>
+<div class="tiers">
+  <div class="tier">
+    <div class="tam">¥150</div>
+    <div class="tgt">到账¥168</div>
+    <div class="tdc">赠¥18 · 9折</div>
+  </div>
+  <div class="tier ft">
+    <div class="tbadge">主推</div>
+    <div class="tam">¥300</div>
+    <div class="tgt">到账¥340</div>
+    <div class="tdc">赠¥40 · 8.8折</div>
+  </div>
+  <div class="tier">
+    <div class="tam">¥500</div>
+    <div class="tgt">到账¥575</div>
+    <div class="tdc">赠¥75 · 8.7折</div>
+  </div>
+  <div class="tier">
+    <div class="tam">¥1000</div>
+    <div class="tgt">到账¥1180</div>
+    <div class="tdc">赠¥180 · 8.5折</div>
+  </div>
+</div>
+
+<p style="font-size:12px;color:var(--td);margin-top:6px">⚠️ 主推¥300档：¥68客单×4.4次=消耗完，心理负担小，转化率最高。¥150适合首次试探，¥500/1000适合高频家庭客。</p>
+
+<h4>🏆 会员等级权益（基础版）</h4>
+<table class="ctb">
+  <tr><th>等级</th><th>门槛</th><th>核心权益</th></tr>
+  <tr><td>普通会员</td><td>扫码即注册</td><td>享会员价菜品、积分累计</td></tr>
+  <tr><td>银卡会员</td><td>累计消费≥¥300</td><td>生日当月赠价值¥38全牛拼盘、双倍积分日</td></tr>
+  <tr><td>金卡会员</td><td>累计消费≥¥800</td><td>每月1次免费锅底（价值¥28）、优先桌位</td></tr>
+</table>
+
+<h4>📞 沉睡唤醒策略</h4>
+<ul>
+  <li>15天未到店：自动推送「想您了！专属优惠券¥15，48小时有效」</li>
+  <li>30天未到店：推送「全牛新品到货通知 + ¥20回店礼券」</li>
+  <li>60天沉睡：系统标记高流失风险，推送「储值余额提醒 + 下次消费赠菜品」</li>
+</ul>
+
+<h4>💬 储值话术（结账时）</h4>
+<div class="tcard">
+  <div class="lbl">🎯 主推¥300档</div>
+  「您今天消费了¥X，充¥300送¥40，相当于以后每次来都打8.8折——下次带家人来，直接刷卡，省的钱够多吃一个部位了。」
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- CH6: 公私域联动 -->
+<div class="mo" id="mo-ch6">
+<div class="mbox">
+<div class="ban b6"></div>
+<div class="mhd">
+  <div class="mnum">CH · 06</div>
+  <div class="mtw"><div class="mt">公私域联动 · 引流留客闭环</div></div>
+  <button class="mclose" onclick="closeModal('ch6')">✕</button>
+</div>
+<div class="mbody">
+
+<h4>🔄 公私域联动闭环（完整路径）</h4>
+<div class="steps">
+  <div class="step">
+    <div class="sno">①</div>
+    <div class="stc">
+      <div class="st2">公域引流：大众点评 + 小红书</div>
+      <div class="sd"><strong>大众点评</strong>：每月维护评价+冲榜"萧山钱江世纪城牛肉火锅"热门榜，上线团购套餐引外部客。<strong>小红书</strong>：每月2篇探店笔记（主题：全牛部位教学 + ¥68人均性价比全牛），引流搜索"萧山火锅推荐"人群。</div>
     </div>
-    <div class="modal-body">
-      <h3 class="sub">🔄 公私域联动闭环</h3>
-      <p class="body-text">方案核心逻辑：<span class="hl-txt">公域引新客 → 到店转会员 → 私域养熟客 → 裂变再引新客</span>，形成自增长飞轮。</p>
-
-      <div class="flow-row">
-        <div class="flow-box">📱 抖音/小红书<br>探店内容</div>
-        <span class="flow-arrow">→</span>
-        <div class="flow-box">🗺️ 大众点评<br>搜索发现</div>
-        <span class="flow-arrow">→</span>
-        <div class="flow-box">🏪 到店体验<br>扫码注册会员</div>
-        <span class="flow-arrow">→</span>
-        <div class="flow-box">💳 储值入会<br>私域留存</div>
-        <span class="flow-arrow">→</span>
-        <div class="flow-box">📣 分享裂变<br>带新客到店</div>
-      </div>
-
-      <h3 class="sub">📱 公域打法（大众点评+小红书+抖音）</h3>
-      <table>
-        <tr><th>平台</th><th>核心动作</th><th>频次</th><th>预期效果</th></tr>
-        <tr>
-          <td>大众点评</td>
-          <td>上线团购套餐（2人套¥88，4人套¥188）；维护评分；冲刺商圈TOP3</td>
-          <td>每周更新团购</td>
-          <td>月贡献新客≥60人</td>
-        </tr>
-        <tr class="hl">
-          <td>小红书</td>
-          <td>发布「牛骨高汤熬制」「全牛部位图解」「聚餐记录」图文；每周2条</td>
-          <td>每周2条</td>
-          <td>3个月粉丝≥500，带店流量≥30人/月</td>
-        </tr>
-        <tr>
-          <td>抖音</td>
-          <td>开业团购视频（"萧山首家全牛馆"话题）；顾客打卡二创激励</td>
-          <td>每周1条</td>
-          <td>开业首周团购核销≥50份</td>
-        </tr>
-      </table>
-
-      <h3 class="sub">💬 私域运营（会员消息+储值触达）</h3>
-      <table>
-        <tr><th>触达节点</th><th>内容</th><th>工具</th><th>转化目标</th></tr>
-        <tr><td>到店后48h</td><td>"感谢您今天到访杨福记，写评价送牛肉丸×2"</td><td>美团会员消息</td><td>评价转化率30%</td></tr>
-        <tr><td>沉睡30天</td><td>"您账户有¥XXX余额，本周回来送招牌小食"</td><td>自动营销</td><td>唤醒率18%</td></tr>
-        <tr><td>生日前7天</td><td>"生日快乐！本月到店享9折+赠牛百叶一份"</td><td>生日营销</td><td>到访率+40%</td></tr>
-        <tr class="hl"><td>每月15日</td><td>"月中加餐日：所有招牌部位点评置顶享9折"</td><td>会员营销活动</td><td>复购提升20%</td></tr>
-      </table>
-
+  </div>
+  <div class="step">
+    <div class="sno">②</div>
+    <div class="stc">
+      <div class="st2">到店触达：扫码点餐 → 自动入会</div>
+      <div class="sd">客人落座扫码→系统自动识别新/老客→新客弹"一键入会享新客礼"→零摩擦注册会员，首单采集姓名+手机→进入私域会员池。</div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="sno">③</div>
+    <div class="stc">
+      <div class="st2">私域留客：会员系统自动营销</div>
+      <div class="sd">会员系统自动执行：生日提醒推送→沉睡唤醒券→节日营销（端午/中秋/元旦储值加赠）→积分到期提醒。全自动，无需店员每天手动操作。</div>
+    </div>
+  </div>
+  <div class="step">
+    <div class="sno">④</div>
+    <div class="stc">
+      <div class="st2">复购升级：储值锁客 → 裂变</div>
+      <div class="sd">储值客户复购率提升40%（行业数据）；高等级会员（金卡）享"推荐新客入会奖励"：推荐1人到店消费，奖励积分可兑换牛肉部位，形成社区口碑裂变。</div>
     </div>
   </div>
 </div>
 
-<div class="modal-overlay" id="modal-m6" onclick="closeOnOverlay(event,'m6')">
-  <div class="modal">
-    <div class="modal-header">
-      <div><div class="modal-num">第 06 章</div><div class="modal-title">30天开业冷启动方案</div></div>
-      <button class="modal-close" onclick="closeModal('m6')">✕</button>
-    </div>
-    <div class="modal-body">
-      <h3 class="sub">📅 开业前7天：造势期</h3>
-      <div class="card-list">
-        <div class="card-item"><h4>Day -7 至 -3：线上预热</h4><p>大众点评上线门店基础信息+3张高质量菜品图；小红书发布"全牛馆来啦！萧山首家全牛部位火锅"预告图文；抖音发布"开业倒计时"视频，附上团购预售链接（折扣价¥68/人，限前100名）。</p></div>
-        <div class="card-item accent"><h4>Day -2 至 -1：预热扩散</h4><p>邀请周边居民（阳光城檀悦业主群）参加开业体验日；与2-3个杭州本地美食探店博主联系（微博/小红书3000粉以上），邀请免费探店换一篇真实评测。</p></div>
-        <div class="card-item green"><h4>Day 0：开业当天</h4><p>开门前1小时，服务员全员上岗演练；开业礼包：前50名到店客人赠"全牛部位科普卡"（A5印刷，成本约¥0.5/张）；引导所有客人写点评（赠牛肉丸×2）。目标：开业当天点评≥15条，评分≥4.5。</p></div>
-      </div>
-
-      <h3 class="sub">📅 第2-4周：口碑建立期</h3>
-      <div class="timeline">
-        <div class="timeline-item">
-          <h4>第2周：团购引流</h4>
-          <p>大众点评上线"2人分享套餐"（含牛骨汤锅底+牛百叶+鲜切牛上脑+蔬菜拼盘，定价¥88，市值约¥110），引流拉新；目标团购核销≥30份/周。</p>
-        </div>
-        <div class="timeline-item">
-          <h4>第3周：储值冲刺</h4>
-          <p>推出"开业月储值特惠"：¥500档本月存享赠¥60（正常赠¥40），限时30人。重点在周六/日大桌推储，每桌4人客单约¥272，储值¥500话术顺畅。目标：开业1个月储值会员≥50人，回笼现金流≥¥20,000。</p>
-        </div>
-        <div class="timeline-item">
-          <h4>第4周：数据复盘</h4>
-          <p>复盘：日均客单价vs¥68目标；点评数量vs80条目标；储值会员数vs50人目标；差评关键词（如"等位时间长/菜品出餐慢"）→ 针对性改进。</p>
-        </div>
-      </div>
-
-      <h3 class="sub">📊 第1个月关键里程碑</h3>
-      <table>
-        <tr><th>指标</th><th>目标值</th><th>监测工具</th></tr>
-        <tr><td>日均人次</td><td>≥80人</td><td>美团收银数据看板</td></tr>
-        <tr><td>月流水</td><td>≥¥16万</td><td>收银后台日报</td></tr>
-        <tr><td>大众点评评分</td><td>≥4.5⭐</td><td>点评商家后台</td></tr>
-        <tr><td>评价数量</td><td>≥80条</td><td>点评商家后台</td></tr>
-        <tr class="hl"><td>储值会员数</td><td>≥50人</td><td>美团会员后台</td></tr>
-        <tr><td>团购核销量</td><td>≥150份</td><td>美团团购后台</td></tr>
-      </table>
-    </div>
+<h4>📱 小红书内容策略（品类赋能）</h4>
+<div class="scards">
+  <div class="scard">
+    <div class="sicon">📖</div>
+    <div class="stitle">全牛部位科普</div>
+    <div class="sdesc">「牛的12个部位你全吃过吗？」·视觉化部位图·涮制秒数讲解·差异化内容提升收藏</div>
+  </div>
+  <div class="scard">
+    <div class="sicon">📸</div>
+    <div class="stitle">性价比打卡</div>
+    <div class="sdesc">「萧山奥体旁¥68人均全牛馆实测」·聚焦"不贵""出片""全牛部位"三关键词</div>
+  </div>
+  <div class="scard">
+    <div class="sicon">🏠</div>
+    <div class="stitle">本地生活内容</div>
+    <div class="sdesc">「钱江世纪城/阳光城檀悦周边吃什么」话题，触达商圈周边本地住户搜索流量</div>
   </div>
 </div>
 
-<div class="modal-overlay" id="modal-m7" onclick="closeOnOverlay(event,'m7')">
-  <div class="modal">
-    <div class="modal-header">
-      <div><div class="modal-num">第 07 章</div><div class="modal-title">60天口碑建立方案</div></div>
-      <button class="modal-close" onclick="closeModal('m7')">✕</button>
-    </div>
-    <div class="modal-body">
-      <h3 class="sub">🎯 第5-8周目标：点评破100条+评分稳定4.5+</h3>
-      <p class="body-text">此阶段核心任务：把首批种子客户转化为复购会员，同时放大口碑内容，吸引更多陌生客。</p>
-      <div class="card-list">
-        <div class="card-item">
-          <h4>📸 小红书内容矩阵建立</h4>
-          <p>每周发布2条：①「全牛部位教学」系列（每周介绍一个部位：牛百叶/牛上脑/牛吊龙/牛脊髓）——知识型内容长效吸粉；②「顾客打卡」转发（鼓励顾客发小红书@杨福记全牛馆，每周抽1人赠¥50消费券）。3个月账号粉丝目标：≥500。</p>
-        </div>
-        <div class="card-item accent">
-          <h4>🎉 主题营销：端午/周年活动</h4>
-          <p>6月初端午节：推出"全牛节礼"——到店消费满¥136（2人客单）赠粽子礼盒（成本约¥8/份）；同步在点评发布端午团购专属套餐（¥108/2人）。🔧工具：美团收银满减活动。预期：端午周末单日客流提升30%，约104人/日。</p>
-        </div>
-        <div class="card-item green">
-          <h4>💌 会员二次触达</h4>
-          <p>对第1个月储值未回店的会员（约15-20人）发送"余额提醒+专属福利"消息："您账户有¥XXX待使用，本周回来专属赠鲜切牛百叶一份（约¥22）"。预期唤醒率：20%，带回约3-4桌。</p>
-        </div>
-      </div>
-    </div>
+</div>
+</div>
+</div>
+
+<!-- CH7: 营销节奏 -->
+<div class="mo" id="mo-ch7">
+<div class="mbox">
+<div class="ban b7"></div>
+<div class="mhd">
+  <div class="mnum">CH · 07</div>
+  <div class="mtw"><div class="mt">营销节奏 · 开业90天战役</div></div>
+  <button class="mclose" onclick="closeModal('ch7')">✕</button>
+</div>
+<div class="mbody">
+
+<h4>🗓️ 开业90天四阶段执行路线</h4>
+<div class="tl">
+  <div class="tli">
+    <div class="tldot"></div>
+    <div class="tlw">蓄水期 D-14至D0</div>
+    <div class="tlt">🌱 播种：建立开业前认知</div>
+    <ul class="tlas">
+      <li>门口张贴「即将开业·全牛专门店」海报+倒计时，制造期待</li>
+      <li>业主群/周边社区发"开业试吃邀请"，招募10桌种子客户</li>
+      <li>大众点评门店信息完善：5张招牌菜图+营业时间+团购套餐</li>
+      <li>小红书发布「杭州萧山全牛馆开业预告」1篇，提前种草</li>
+      <li>收银系统+扫码点餐测试完成，会员档位配置完毕</li>
+    </ul>
+  </div>
+  <div class="tli">
+    <div class="tldot"></div>
+    <div class="tlw">体验期 D1至D30</div>
+    <div class="tlt">🔥 引爆：开业口碑冲刺</div>
+    <ul class="tlas">
+      <li>开业当天活动：消费即赠「全牛拼盘券¥38」，限当天50张先到先得</li>
+      <li>开业首周：每桌扫码赠免费牛骨清汤锅底（引导入会）</li>
+      <li>开业前15天：每日目标新增会员≥10人，累计150人</li>
+      <li>D7：储值活动正式推出，话术+立牌全上，首月目标储值¥20,000</li>
+      <li>每天结账引导好评，目标D30达到50条评价·4.5分以上</li>
+    </ul>
+  </div>
+  <div class="tli">
+    <div class="tldot"></div>
+    <div class="tlw">稳增期 D31至D60</div>
+    <div class="tlt">📈 稳固：建立复购节奏</div>
+    <ul class="tlas">
+      <li>6月：端午节推「端午全牛礼」——消费满¥136赠粽子1盒（成本¥8）</li>
+      <li>会员系统唤醒首批沉睡用户（15天未到店），推¥15回店券</li>
+      <li>小红书发第2篇：「全牛馆开业1个月实测，去了3次的感受」</li>
+      <li>大众点评点击进入热门榜排名，每周监控并回复新评价</li>
+      <li>月底复盘：热销部位TOP3 / 储值完成率 / 翻台率，调整策略</li>
+    </ul>
+  </div>
+  <div class="tli">
+    <div class="tldot"></div>
+    <div class="tlw">爆发期 D61至D90</div>
+    <div class="tlt">💥 破局：冲刺月流水¥11万</div>
+    <ul class="tlas">
+      <li>7月暑假：推「全家桶套餐」4人¥228，专攻家庭客+亲子聚餐</li>
+      <li>启动「储值满额双倍返」7天限时活动（¥300档赠¥80，仅限7天）</li>
+      <li>会员等级活跃运营：提醒金卡会员使用免费锅底权益，提升到店频次</li>
+      <li>D90复盘：会员数/储值总额/月流水/评分，形成完整数据基石</li>
+    </ul>
   </div>
 </div>
 
-<div class="modal-overlay" id="modal-m8" onclick="closeOnOverlay(event,'m8')">
-  <div class="modal">
-    <div class="modal-header">
-      <div><div class="modal-num">第 08 章</div><div class="modal-title">90天稳定增长方案</div></div>
-      <button class="modal-close" onclick="closeModal('m8')">✕</button>
-    </div>
-    <div class="modal-body">
-      <h3 class="sub">🚀 第9-13周：突破月流水¥25万</h3>
-      <p class="body-text">此阶段重点：让复购率成为稳定增长引擎，减少对团购拉新的依赖，提升毛利率。</p>
-      <div class="card-list">
-        <div class="card-item">
-          <h4>📈 团购策略调整</h4>
-          <p>第3个月起，适当降低团购折扣（从8折调至8.5折），减少低价引流，开始筛选高价值客群。重点提升会员复购和老带新（推出"推荐好友首次到店，双方各得¥20消费券"裂变活动）。</p>
-        </div>
-        <div class="card-item accent">
-          <h4>🏆 冲刺商圈排名</h4>
-          <p>以第3个月末为节点，集中推进：点评评价数≥300条；评分维持4.5+；申请大众点评"必吃榜"入围资格（需评价数+评分+近期热度同时达标）。进入商圈火锅TOP3，自然搜索流量翻倍。</p>
-        </div>
-        <div class="card-item green">
-          <h4>💰 暑期备战（7月起）</h4>
-          <p>暑期家庭客群（亲子聚餐）提升明显，推出"亲子全牛套餐"（1大1小优惠组合，小孩专属免辣锅底选项）。暑期目标：7-8月月流水突破¥28万（日均130人×¥68×31天≈¥27.4万）。</p>
-        </div>
-      </div>
-    </div>
+<h4>🎁 重点节点活动安排（2026年5-8月）</h4>
+<table class="ctb">
+  <tr><th>节点</th><th>时间</th><th>活动形式</th><th>预估成本</th></tr>
+  <tr><td>开业日</td><td>5月底/6月初</td><td>赠全牛拼盘券50张+免费锅底</td><td>¥1,900</td></tr>
+  <tr><td>端午节</td><td>6月</td><td>消费满¥136赠粽子</td><td>¥400</td></tr>
+  <tr><td>父亲节</td><td>6月15日</td><td>带老爸来赠牛腩炖汤小份</td><td>¥600</td></tr>
+  <tr><td>暑假档</td><td>7月</td><td>全家桶4人套¥228（省约¥44）</td><td>营销费¥0</td></tr>
+  <tr><td>储值限时冲刺</td><td>7月某周</td><td>7天双倍赠，冲¥2万储值</td><td>加赠¥2,000</td></tr>
+</table>
+
+</div>
+</div>
+</div>
+
+<!-- CH8: OKR/ROI -->
+<div class="mo" id="mo-ch8">
+<div class="mbox">
+<div class="ban b8"></div>
+<div class="mhd">
+  <div class="mnum">CH · 08</div>
+  <div class="mtw"><div class="mt">OKR / ROI · 量化目标与投资回报</div></div>
+  <button class="mclose" onclick="closeModal('ch8')">✕</button>
+</div>
+<div class="mbody">
+
+<h4>🎯 OKR量化目标（3个月）</h4>
+<table class="otb">
+  <tr><th>目标</th><th>指标</th><th>第1月</th><th>第2月</th><th>第3月</th></tr>
+  <tr><td>月流水</td><td class="ov">营收</td><td class="ov">¥65,000</td><td class="ov">¥88,000</td><td class="ov">¥110,000</td></tr>
+  <tr><td>日均人次</td><td class="ov">到店</td><td class="ov">32人次</td><td class="ov">43人次</td><td class="ov">54人次</td></tr>
+  <tr><td>大众点评评分</td><td class="ov">口碑</td><td class="ov">≥4.4分</td><td class="ov">≥4.5分</td><td class="ov">≥4.6分</td></tr>
+  <tr><td>评价数量</td><td class="ov">口碑</td><td class="ov">50条</td><td class="ov">120条</td><td class="ov">220条</td></tr>
+  <tr><td>会员人数</td><td class="ov">会员</td><td class="ov">150人</td><td class="ov">320人</td><td class="ov">500人</td></tr>
+  <tr><td>月均储值流水</td><td class="ov">储值</td><td class="ov">¥8,000</td><td class="ov">¥15,000</td><td class="ov">¥20,000</td></tr>
+  <tr><td>翻台率</td><td class="ov">效率</td><td class="ov">2.4次</td><td class="ov">2.8次</td><td class="ov">3.0次</td></tr>
+</table>
+<p style="font-size:11px;color:var(--td)">验证：第3月流水¥110,000÷¥68客单=1,618人次÷30天=54人次/日÷18桌=3.0翻台 ✅ 数字自洽</p>
+
+<h4>💰 ROI投资回报分析</h4>
+<div class="rrow">
+  <div class="rblock">
+    <h5>🔧 软件投入（年费）</h5>
+    <div class="ri"><span class="rl">基础版会员系统</span><span class="rv">¥3,888/年</span></div>
+    <div class="ri"><span class="rl">扫码点餐</span><span class="rv">¥1,200/年</span></div>
+    <div class="ri"><span class="rl">合计软件年费</span><span class="rv">¥5,088/年</span></div>
+    <div class="ri"><span class="rl">月均摊</span><span class="rv">¥424/月</span></div>
+  </div>
+  <div class="rblock">
+    <h5>📈 月增收益拆解（第3月起）</h5>
+    <div class="ri"><span class="rl">储值/复购增收</span><span class="rv">+¥8,000</span></div>
+    <div class="ri"><span class="rl">扫码点餐客单提升</span><span class="rv">+¥3,600</span></div>
+    <div class="ri"><span class="rl">点评引流新客增收</span><span class="rv">+¥4,500</span></div>
+    <div class="ri"><span class="rl">减少人力（省0.5人）</span><span class="rv">+¥2,000</span></div>
+    <div class="ri" style="border-top:1px solid var(--bdr)"><span class="rl" style="color:var(--tm);font-weight:700">月增收合计</span><span class="rv" style="font-size:18px">+¥18,100</span></div>
   </div>
 </div>
 
-<div class="modal-overlay" id="modal-m9" onclick="closeOnOverlay(event,'m9')">
-  <div class="modal">
-    <div class="modal-header">
-      <div><div class="modal-num">第 09 章</div><div class="modal-title">营销日历与活动节奏</div></div>
-      <button class="modal-close" onclick="closeModal('m9')">✕</button>
-    </div>
-    <div class="modal-body">
-      <h3 class="sub">📅 2026年6-8月营销日历</h3>
-      <table>
-        <tr><th>时间</th><th>活动名称</th><th>核心玩法</th><th>预期收益</th></tr>
-        <tr><td>6月初（开业月）</td><td>开业感恩周</td><td>全场8.8折；储值¥500加赠¥60；点评有礼（赠牛肉丸）</td><td>储值回笼≥¥20,000</td></tr>
-        <tr><td>6月22日（端午）</td><td>全牛节礼</td><td>满¥136赠粽子礼盒；端午团购套餐¥108/2人</td><td>单日客流+30%</td></tr>
-        <tr><td>6月30日</td><td>月末会员日</td><td>会员消费享积分×2；¥500储值档加赠10元</td><td>月末复购+15%</td></tr>
-        <tr class="hl"><td>7月1日-31日</td><td>暑期家庭季</td><td>亲子套餐；儿童免辣锅底；小红书亲子打卡活动</td><td>家庭客群占比提升至40%</td></tr>
-        <tr><td>8月7日（七夕）</td><td>全牛情人节</td><td>双人套餐立减¥18；消费拍照发小红书@杨福记抽¥200购物卡</td><td>情侣客群提升；点评曝光+50%</td></tr>
-        <tr><td>每月15日</td><td>月中加餐日</td><td>招牌部位9折；会员专属短信推送</td><td>月中低谷补流量</td></tr>
-      </table>
-    </div>
+<div class="rtotal">
+  <div>
+    <div class="rdesc">月净增收（扣除软件摊销¥424）</div>
+    <div class="rbig">+¥17,676</div>
+  </div>
+  <div>
+    <div class="rdesc">软件年费¥5,088</div>
+    <div style="font-size:14px;color:var(--ts);margin-top:4px">÷月净增收¥17,676</div>
+    <div style="font-family:'Inter',sans-serif;font-size:22px;font-weight:900;color:#27AE60;margin-top:4px">≈ 9天回本！</div>
   </div>
 </div>
 
-<div class="modal-overlay" id="modal-m10" onclick="closeOnOverlay(event,'m10')">
-  <div class="modal">
-    <div class="modal-header">
-      <div><div class="modal-num">第 10 章</div><div class="modal-title">峰终体验设计</div></div>
-      <button class="modal-close" onclick="closeModal('m10')">✕</button>
-    </div>
-    <div class="modal-body">
-      <h3 class="sub">🎯 峰值触点（最爽瞬间）</h3>
-      <div class="card-list">
-        <div class="card-item">
-          <h4>出餐仪式感：牛骨高汤上桌报白</h4>
-          <p>锅底上桌时服务员说："这是我们当天早上5点开始熬的牛骨原汤，请慢用。"（话术卡背面印刷，0额外成本，让客人感受到匠心。）</p>
-        </div>
-        <div class="card-item accent">
-          <h4>扫码弹窗：新客专享</h4>
-          <p>首次扫码点餐弹出："🎉新客专享：点牛百叶立减¥5"——扫码即享优惠，建立"来杨福记有优惠"的感知。🔧 工具：美团扫码点餐新客弹窗设置。</p>
-        </div>
-      </div>
-      <h3 class="sub">🏁 终值触点（走时感觉）</h3>
-      <div class="card-list">
-        <div class="card-item green">
-          <h4>结账好评引导：即时反馈</h4>
-          <p>结账时POS屏显示："您本次消费¥XXX，比标价省了¥X（会员折扣）。" 随后店员：「我们刚开业，您的评价对我们很重要，扫这个码写评价，马上送您2颗牛肉丸。」🔧工具：美团评价专家。</p>
-        </div>
-        <div class="card-item">
-          <h4>离店消息：关怀触达</h4>
-          <p>消费结束后24小时内，美团会员系统自动推送："感谢您今天光临杨福记全牛馆，期待下次再见！下次到店出示此消息，赠送卤牛肉小碟（约¥8），有效期14天。"预期14天回店率：15%。</p>
-        </div>
-      </div>
-    </div>
+<p style="font-size:11px;color:var(--td)">⚠️ 月增收¥18,100与OKR第3月流水目标¥110,000（vs基准无SaaS状态¥91,900）差额¥18,100一致 ✅ OKR与ROI数字对齐</p>
+
+<h4>📋 30天复盘检查清单</h4>
+<ul>
+  <li>D30：点评评分/评价数/热门榜名次达标？</li>
+  <li>D30：会员注册人数≥150？储值总额≥¥8,000？</li>
+  <li>D30：日均翻台率≥2.4？热销部位TOP3是否符合预期？</li>
+  <li>D30：扫码点餐使用率≥80%（按开台桌数计）？</li>
+  <li>D30：差评处理率100%？平均回复时长&lt;24小时？</li>
+</ul>
+
+</div>
+</div>
+</div>
+
+<!-- ChA: 附录 市场洞察 -->
+<div class="mo" id="mo-chA">
+<div class="mbox">
+<div class="ban bA"></div>
+<div class="mhd">
+  <div class="mnum">附录 · C</div>
+  <div class="mtw"><div class="mt">市场洞察 · 火锅赛道趋势</div></div>
+  <button class="mclose" onclick="closeModal('chA')">✕</button>
+</div>
+<div class="mbody">
+
+<h4>📊 2025年火锅行业大盘数据</h4>
+<div class="dcards">
+  <div class="dc"><div class="dn">6,500亿</div><div class="dl">2025年火锅市场预测规模</div></div>
+  <div class="dc"><div class="dn">41.8万家</div><div class="dl">全国火锅门店总数</div></div>
+  <div class="dc"><div class="dn">31.3%</div><div class="dl">川渝火锅门店占比</div></div>
+  <div class="dc"><div class="dn">¥70-77元</div><div class="dl">2025年人均消费中枢</div></div>
+</div>
+
+<h4>🔥 2025年火锅赛道五大趋势</h4>
+<div class="scards">
+  <div class="scard">
+    <div class="sicon">🐄</div>
+    <div class="stitle">牛肉专门店崛起</div>
+    <div class="sdesc">鲜切牛肉火锅（吊龙/匙仁/脖仁）在全国一二线城市高速增长，杭州已出现多个牛肉火锅品牌；全牛馆定位顺应赛道风口</div>
+  </div>
+  <div class="scard">
+    <div class="sicon">💰</div>
+    <div class="stitle">性价比化下沉</div>
+    <div class="sdesc">人均消费中枢从¥80+降至¥70-77，¥68是当前最具竞争力的价格带，与市场趋势完全吻合</div>
+  </div>
+  <div class="scard">
+    <div class="sicon">🏘️</div>
+    <div class="stitle">社区店模式占优</div>
+    <div class="sdesc">商场大店受停车/人力/租金三重压力，社区底商低租金+高复购+口碑裂变模式重新受青睐</div>
+  </div>
+  <div class="scard">
+    <div class="sicon">📱</div>
+    <div class="stitle">数字化运营提效</div>
+    <div class="sdesc">到店会员+储值+扫码点餐成标配，采用数字化工具的门店平均翻台率高0.8次/日，月增收¥15,000+</div>
   </div>
 </div>
 
-<div class="modal-overlay" id="modal-m11" onclick="closeOnOverlay(event,'m11')">
-  <div class="modal">
-    <div class="modal-header">
-      <div><div class="modal-num">第 11 章</div><div class="modal-title">外卖运营方案</div></div>
-      <button class="modal-close" onclick="closeModal('m11')">✕</button>
-    </div>
-    <div class="modal-body">
-      <h3 class="sub">🛵 外卖策略：以线下为主，外卖为辅</h3>
-      <p class="body-text">全牛火锅天然适合到店消费（锅底体验依赖场景），外卖作为补充流量渠道，主推"全牛外卖下饭菜系列"，区别于到店火锅。</p>
-      <div class="card-list">
-        <div class="card-item">
-          <h4>📦 外卖产品线（独立于到店菜单）</h4>
-          <p>推荐设计3款外卖专属产品：<br>
-          ① 「招牌卤牛肉盖饭」¥28（成本约¥12，毛利率57%）<br>
-          ② 「全牛拼盘外卖包」¥58（牛百叶+牛腱+牛腩，适合2-3人自煮）<br>
-          ③ 「牛骨汤火锅到家套餐」¥88（锅底+食材+调料包，4人份）<br>
-          外卖均价¥45，毛利率约50%，补充门店午市外卖流量。</p>
-        </div>
-        <div class="card-item accent">
-          <h4>🌟 外卖运营目标</h4>
-          <p>第1个月外卖月销≥100单（日均约3单），第3个月外卖月销≥300单；外卖评分维持4.8+（比到店评分要求更严格，因为配送体验直接影响评分）。</p>
-        </div>
-      </div>
-    </div>
-  </div>
+<h4>📍 杭州萧山·钱江世纪城商圈特征</h4>
+<ul>
+  <li>钱江世纪城为萧山区核心总部经济区，奥体印象城2021年开业，商业成熟度高</li>
+  <li>周边高端住宅集中（阳光城檀悦/奥映世纪等），户均收入远高于萧山均值</li>
+  <li>地铁7号线兴议站步行可达，外部引流条件好</li>
+  <li>2024年划入学军中学文渊校区学区，家庭客群稳定增加，聚餐消费需求高</li>
+  <li>目前商圈火锅竞争集中在印象城（商场档），社区餐饮相对空白，进入时机好</li>
+</ul>
+
+<h4>✅ 结论：开业时机评估</h4>
+<span class="tag tg">✅ 品类赛道顺风</span>
+<span class="tag tg">✅ 商圈竞争可切入</span>
+<span class="tag tg">✅ 价格定位精准</span>
+<span class="tag to">⚠️ 新店冷启动需要系统化运营</span>
+
 </div>
-
-<div class="modal-overlay" id="modal-m12" onclick="closeOnOverlay(event,'m12')">
-  <div class="modal">
-    <div class="modal-header">
-      <div><div class="modal-num">第 12 章</div><div class="modal-title">OKR目标与阶段里程碑</div></div>
-      <button class="modal-close" onclick="closeModal('m12')">✕</button>
-    </div>
-    <div class="modal-body">
-      <h3 class="sub">🎯 季度OKR（开业后3个月）</h3>
-      <div class="okr-grid">
-        <div class="okr-card">
-          <div class="okr-label">第1月月流水</div>
-          <div class="okr-value">¥16万</div>
-          <div class="okr-desc">80人/日×¥68×31天≈¥167,840</div>
-        </div>
-        <div class="okr-card">
-          <div class="okr-label">第2月月流水</div>
-          <div class="okr-value">¥21万</div>
-          <div class="okr-desc">100人/日×¥68×31天≈¥210,800</div>
-        </div>
-        <div class="okr-card">
-          <div class="okr-label">第3月月流水</div>
-          <div class="okr-value">¥25万</div>
-          <div class="okr-desc">120人/日×¥68×31天≈¥252,960</div>
-        </div>
-        <div class="okr-card">
-          <div class="okr-label">大众点评评分</div>
-          <div class="okr-value">4.5+</div>
-          <div class="okr-desc">3个月内稳定维持</div>
-        </div>
-        <div class="okr-card">
-          <div class="okr-label">点评数量</div>
-          <div class="okr-value">300+</div>
-          <div class="okr-desc">3个月累计</div>
-        </div>
-        <div class="okr-card">
-          <div class="okr-label">储值会员数</div>
-          <div class="okr-value">500人</div>
-          <div class="okr-desc">3个月累计</div>
-        </div>
-        <div class="okr-card">
-          <div class="okr-label">储值回笼现金</div>
-          <div class="okr-value">¥8万</div>
-          <div class="okr-desc">3个月累计预收</div>
-        </div>
-        <div class="okr-card">
-          <div class="okr-label">商圈排名</div>
-          <div class="okr-value">TOP5</div>
-          <div class="okr-desc">盈丰街道火锅类目</div>
-        </div>
-      </div>
-
-      <h3 class="sub">📈 增长曲线预测</h3>
-      <table>
-        <tr><th>月份</th><th>日均人次</th><th>人均客单</th><th>月流水</th><th>会员人数</th><th>评价数</th></tr>
-        <tr><td>第1月</td><td>80人</td><td>¥68</td><td>¥167,840</td><td>100人</td><td>80条</td></tr>
-        <tr><td>第2月</td><td>100人</td><td>¥69</td><td>¥213,900</td><td>250人</td><td>200条</td></tr>
-        <tr class="hl"><td>第3月</td><td>120人</td><td>¥70</td><td>¥260,400</td><td>500人</td><td>300条</td></tr>
-        <tr><td>第4月（预测）</td><td>130人</td><td>¥70</td><td>¥282,100</td><td>700人</td><td>420条</td></tr>
-      </table>
-      <p class="body-text">注：人均客单随会员复购和菜单优化自然上升（¥68→¥70）；第3月月流水约¥26万，与OKR目标¥25万一致（小幅超预期）。</p>
-    </div>
-  </div>
 </div>
-
-<div class="modal-overlay" id="modal-m13" onclick="closeOnOverlay(event,'m13')">
-  <div class="modal">
-    <div class="modal-header">
-      <div><div class="modal-num">第 13 章</div><div class="modal-title">ROI投资回报分析</div></div>
-      <button class="modal-close" onclick="closeModal('m13')">✕</button>
-    </div>
-    <div class="modal-body">
-      <h3 class="sub">💰 SaaS投入与回报测算</h3>
-      <table>
-        <tr><th>SaaS配置</th><th>年费</th><th>核心功能</th></tr>
-        <tr><td>基础版会员+扫码点餐</td><td>约¥5,888</td><td>会员管理+储值+扫码点餐</td></tr>
-        <tr><td>（建议升级）旗舰版会员</td><td>约¥4,888/年增量</td><td>+潜客营销+沉睡唤醒+生日营销+团购会员卡</td></tr>
-      </table>
-
-      <h3 class="sub">📊 月增收来源拆解（第3个月稳定期）</h3>
-      <table>
-        <tr><th>增收来源</th><th>测算逻辑</th><th>月增收金额</th></tr>
-        <tr><td>储值锁客（减少流失）</td><td>500储值会员，月复购率40%，每次消费¥68，较无会员减少流失率20%</td><td>+¥13,600</td></tr>
-        <tr><td>沉睡唤醒</td><td>每月沉睡会员约80人，唤醒率18%=14人，人均消费¥68</td><td>+¥952</td></tr>
-        <tr><td>生日营销</td><td>每月生日会员约15人，到访率40%=6人，人均¥68</td><td>+¥408</td></tr>
-        <tr class="hl"><td>点评排名提升自然流量</td><td>进入TOP5后，每月新增自然到店60人，人均¥68</td><td>+¥4,080</td></tr>
-        <tr><td>扫码点餐提效（加菜率提升）</td><td>扫码点餐加菜率+8%，日均120人×¥68×8%÷30</td><td>+¥218</td></tr>
-        <tr style="background:rgba(229,57,53,.15);"><td colspan="2"><strong>月增收合计</strong></td><td><strong style="color:var(--accent2);">¥19,258</strong></td></tr>
-      </table>
-
-      <h3 class="sub">⏱️ 回本周期</h3>
-      <div class="data-grid">
-        <div class="data-card">
-          <span class="big-num">¥5,888</span>
-          <div class="label">年SaaS费用（基础版）</div>
-          <div class="note">月均¥490</div>
-        </div>
-        <div class="data-card">
-          <span class="big-num">¥19,258</span>
-          <div class="label">月增收（第3月稳定期）</div>
-          <div class="note">约为月费用39倍</div>
-        </div>
-        <div class="data-card">
-          <span class="big-num">第2周</span>
-          <div class="label">储值回笼即回本</div>
-          <div class="note">开业2周储值≥¥20,000 > 年费</div>
-        </div>
-        <div class="data-card">
-          <span class="big-num">ROI 39x</span>
-          <div class="label">月投入产出比</div>
-          <div class="note">每投¥1，月回报¥39</div>
-        </div>
-      </div>
-
-      <div class="alert success">
-        <span class="alert-icon">✅</span>
-        <div>数字自洽验证：第3月月流水目标¥25万 ÷ ¥68客单 = 3,676人次/月 ≈ 119人/日（≈120人/日目标）✓ | OKR月流水¥25万 与 ROI月增收¥19,258 基础目标（非全量）完全基于会员系统新增价值，不含原有流量，两者口径不同，无冲突 ✓</div>
-      </div>
-    </div>
-  </div>
 </div>
-
-<div class="modal-overlay" id="modal-m14" onclick="closeOnOverlay(event,'m14')">
-  <div class="modal">
-    <div class="modal-header">
-      <div><div class="modal-num">第 14 章</div><div class="modal-title">SaaS系统配置方案</div></div>
-      <button class="modal-close" onclick="closeModal('m14')">✕</button>
-    </div>
-    <div class="modal-body">
-      <h3 class="sub">⚙️ 推荐配置（开业即用）</h3>
-      <table>
-        <tr><th>模块</th><th>配置建议</th><th>开业后第几天上线</th><th>优先级</th></tr>
-        <tr class="hl"><td>扫码点餐</td><td>每桌贴码，自动弹会员注册+新客优惠弹窗</td><td>Day 0（开业即用）</td><td>🔴 最高</td></tr>
-        <tr class="hl"><td>智能储值</td><td>设置¥200/¥500/¥1000三档，开业周加赠活动</td><td>Day 0</td><td>🔴 最高</td></tr>
-        <tr><td>团购套餐</td><td>2人套¥88，4人套¥188，上线大众点评</td><td>Day -3（开业前）</td><td>🟠 高</td></tr>
-        <tr><td>评价专家</td><td>结账弹窗引导好评，差评48h响应</td><td>Day 1</td><td>🟠 高</td></tr>
-        <tr><td>生日营销</td><td>提前7天推送，到店赠牛百叶一份</td><td>第2周</td><td>🟡 中</td></tr>
-        <tr><td>沉睡唤醒</td><td>30天未消费自动触达，赠小食券</td><td>第4周</td><td>🟡 中</td></tr>
-        <tr><td>营销活动</td><td>月中加餐日（15号），每月1次定向推送</td><td>第2个月</td><td>🟡 中</td></tr>
-      </table>
-
-      <h3 class="sub">📋 开业前SaaS配置清单</h3>
-      <div class="card-list">
-        <div class="card-item green">
-          <h4>✅ 必须在开业当天Ready的配置</h4>
-          <p>① 收银系统菜单录入完毕（含外卖专属菜单）<br>
-          ② 扫码点餐桌贴全部到位，新客弹窗测试通过<br>
-          ③ 储值三档设置完成，开业特惠活动提前发布<br>
-          ④ 大众点评团购套餐已上线（提前3天）<br>
-          ⑤ 评价引导弹窗测试，好评话术卡打印20份备用</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- 主内容展示区（核心摘要） -->
-<div class="content-section">
-  <div class="divider"></div>
-
-  <h2 class="section-title">🎯 核心策略一览 <span>· 三步破局</span></h2>
-  <p class="section-subtitle">从新店冷启动到稳定增长，90天执行路线图</p>
-
-  <div class="data-grid">
-    <div class="data-card">
-      <span class="big-num">第1月</span>
-      <div class="label">¥16万月流水</div>
-      <div class="note">80人/日冷启动</div>
-    </div>
-    <div class="data-card">
-      <span class="big-num">第2月</span>
-      <div class="label">¥21万月流水</div>
-      <div class="note">100人/日口碑期</div>
-    </div>
-    <div class="data-card">
-      <span class="big-num">第3月</span>
-      <div class="label">¥25万月流水</div>
-      <div class="note">120人/日稳定增长</div>
-    </div>
-    <div class="data-card">
-      <span class="big-num">4.5⭐</span>
-      <div class="label">大众点评评分目标</div>
-      <div class="note">3个月内稳定</div>
-    </div>
-  </div>
-
-  <div class="banner banner-1" style="margin-top:32px;">
-    <h3>🔥 爆品锚点策略</h3>
-    <p>牛骨高汤锅底 × 鲜切全牛部位可视化展示 = 萧山盈丰街道"全牛第一家"品牌记忆点</p>
-  </div>
-
-  <div class="banner banner-2">
-    <h3>📱 公私域联动闭环</h3>
-    <p>抖音/小红书探店引流 → 大众点评排名承接 → 到店扫码注册会员 → 储值锁客私域留存 → 口碑裂变带新客</p>
-  </div>
-
-  <div class="banner banner-3">
-    <h3>💳 储值锁客 · 现金流优先</h3>
-    <p>¥200/¥500/¥1000三档储值方案 · 开业2周回笼≥¥20,000 · 3个月储值会员≥500人</p>
-  </div>
-
-  <div class="banner banner-4">
-    <h3>📊 量化OKR</h3>
-    <p>第3个月月流水¥25万 · 评价300条+ · 储值会员500人 · 商圈火锅TOP5</p>
-  </div>
-
-  <div class="divider"></div>
-
-  <h2 class="section-title">🏘️ 竞品格局速览</h2>
-  <p class="section-subtitle">周边3公里真实竞对（来源：大众点评搜索）</p>
-  <table>
-    <tr><th>竞品</th><th>人均</th><th>评分</th><th>我们的机会</th></tr>
-    <tr><td>张福星·重庆老火锅（同商圈）</td><td>¥62</td><td>4.6⭐</td><td>无全牛特色，差异化错位竞争</td></tr>
-    <tr><td>就八桌火锅（盈丰利丰路）</td><td>约¥70</td><td>高评价</td><td>容量仅8桌，我们22桌承接溢出需求</td></tr>
-    <tr class="hl"><td>杨福记全牛馆（我们）</td><td>¥68</td><td>新店冲刺4.5+</td><td>全牛品类差异化，萧山盈丰空白品类</td></tr>
-    <tr><td>宴江南海鲜火锅（盈丰路）</td><td>¥150+</td><td>高端</td><td>客群不重叠，互补不竞争</td></tr>
-    <tr><td>赠李白川菜院子（奥体印象城）</td><td>约¥75</td><td>4.0+</td><td>商场川菜vs街边全牛火锅，场景差异大</td></tr>
-  </table>
-</div>
-
-<!-- 底部 -->
-<footer>
-  <div class="footer-logo">🐂 杨福记全牛馆 · 运营方案</div>
-  <p style="margin-top:8px;">制作：大橘🍊 餐饮运营专家 · 美团餐饮SaaS · 2026年5月</p>
-  <p style="margin-top:4px;">⚠️ 假设标注：本门店2026年5月处于装修中（尚未开业），方案数字均为目标值，请结合实际开业情况调整。</p>
-  <p style="margin-top:12px;color:rgba(144,144,160,0.5);font-size:11px;">© 2026 美团餐饮SaaS 杨福记全牛馆专项运营方案</p>
-</footer>
 
 <script>
-function openModal(id) {
-  var overlay = document.getElementById('modal-' + id);
-  if (overlay) {
-    overlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
+// 粒子生成
+(function(){
+  var c=document.getElementById('particles');
+  for(var i=0;i<12;i++){
+    var p=document.createElement('div');
+    p.className='pt';
+    var size=(Math.random()*6+3)+'px';
+    p.style.cssText='width:'+size+';height:'+size+';left:'+(Math.random()*100)+'%;animation-duration:'+(Math.random()*20+15)+'s;animation-delay:'+(-Math.random()*20)+'s;';
+    c.appendChild(p);
+  }
+})();
+
+// 解锁
+var unlocked=false;
+function unlock(){
+  var v=document.getElementById('unlockInput').value.trim();
+  var msg=document.getElementById('unlockMsg');
+  if(v==='123456'){
+    unlocked=true;
+    // 移除锁定样式
+    document.querySelectorAll('.cc.lkd').forEach(function(el){
+      el.classList.remove('lkd');
+      el.classList.add('free');
+      var lk=el.querySelector('.clock');
+      if(lk)lk.remove();
+      var ft=document.createElement('span');
+      ft.className='cfree';ft.textContent='FREE';
+      el.appendChild(ft);
+    });
+    document.querySelectorAll('.nb2.lkd').forEach(function(el){
+      el.classList.remove('lkd');
+    });
+    // 绑定章节点击
+    bindLockedChapters();
+    msg.className='umsg ok';
+    msg.textContent='✅ 已解锁全部章节';
+  } else {
+    msg.className='umsg err';
+    msg.textContent='解锁码不正确';
+    setTimeout(function(){msg.textContent='';},2000);
   }
 }
-function closeModal(id) {
-  var overlay = document.getElementById('modal-' + id);
-  if (overlay) {
-    overlay.classList.remove('active');
-    document.body.style.overflow = '';
-  }
+
+function bindLockedChapters(){
+  var map={5:'ch5',6:'ch6',7:'ch7',8:'ch8'};
+  var cards=document.querySelectorAll('.cc');
+  cards.forEach(function(c,i){
+    if(i>=4&&i<=7){
+      c.onclick=function(){openChapter(map[i+1]);}
+    }
+  });
+  // 导航按钮
+  var nbs=document.querySelectorAll('.nb2');
+  var chMap={'⑤ 会员体系':'ch5','⑥ 公私域联动':'ch6','⑦ 营销节奏':'ch7','⑧ OKR/ROI':'ch8'};
+  nbs.forEach(function(nb){
+    var t=nb.textContent.trim();
+    if(chMap[t]){nb.onclick=function(){openChapter(chMap[t]);};}
+  });
 }
-function closeOnOverlay(event, id) {
-  if (event.target === event.currentTarget) closeModal(id);
+
+function openChapter(id){
+  var mo=document.getElementById('mo-'+id);
+  if(mo){mo.classList.add('show');document.body.style.overflow='hidden';}
 }
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    var overlays = document.querySelectorAll('.modal-overlay.active');
-    overlays.forEach(function(o) {
-      o.classList.remove('active');
-      document.body.style.overflow = '';
+function closeModal(id){
+  var mo=document.getElementById('mo-'+id);
+  if(mo){mo.classList.remove('show');document.body.style.overflow='';}
+}
+
+// 点击遮罩关闭
+document.querySelectorAll('.mo').forEach(function(mo){
+  mo.addEventListener('click',function(e){
+    if(e.target===mo){mo.classList.remove('show');document.body.style.overflow='';}
+  });
+});
+
+// ESC关闭
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){
+    document.querySelectorAll('.mo.show').forEach(function(mo){
+      mo.classList.remove('show');document.body.style.overflow='';
     });
   }
 });
 
-var unlocked = false;
-function tryUnlock() {
-  var val = document.getElementById('unlockInput').value;
-  var msg = document.getElementById('unlockMsg');
-  if (val === '123456') {
-    unlocked = true;
-    msg.style.color = '#66BB6A';
-    msg.textContent = '✅ 已解锁全部章节';
-    // 解锁所有锁定章节
-    var locked = document.querySelectorAll('.chapter-card.locked');
-    var ids = ['m5','m6','m7','m8','m9','m10','m11','m12','m13','m14'];
-    var cards = document.querySelectorAll('[id^="c"]');
-    cards.forEach(function(c, i) {
-      c.classList.remove('locked');
-      if (ids[i]) {
-        c.setAttribute('onclick', "openModal('" + ids[i] + "')");
-      }
-    });
-    locked.forEach(function(c, i) {
-      c.classList.remove('locked');
-      if (ids[i]) {
-        c.setAttribute('onclick', "openModal('" + ids[i] + "')");
-      }
-    });
-  } else {
-    msg.style.color = '#E53935';
-    msg.textContent = '解锁码不正确';
-  }
-}
-document.getElementById('unlockInput').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') tryUnlock();
+// Enter触发解锁
+document.getElementById('unlockInput').addEventListener('keydown',function(e){
+  if(e.key==='Enter')unlock();
 });
 </script>
 </body>
