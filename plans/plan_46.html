@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MEXI PAPA墨西哥餐·酒吧 · 运营方案</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--pr:#C8522A;--prl:#E8784A;--prd:#9B3D1A;--ac:#F5A623;--ac2:#2AAC8A;--bg:#0D0D0D;--bgc:#181818;--bgc2:#1E1E1E;--tx:#F0EDE8;--ts:#A09880;--bd:rgba(200,82,42,0.25);--gw:rgba(200,82,42,0.45);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:'Noto Sans SC',sans-serif;min-height:100vh;overflow-x:hidden;}
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px 100px;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(200,82,42,0.18) 0%,transparent 70%),radial-gradient(ellipse 60% 60% at 80% 80%,rgba(245,166,35,0.10) 0%,transparent 60%),url('https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=1600&q=80') center/cover no-repeat;filter:brightness(0.22) saturate(1.3);animation:hz 18s ease-in-out infinite alternate;}
+@keyframes hz{from{transform:scale(1.0);}to{transform:scale(1.08);}}
+.hero-ov{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(13,13,13,0.2) 0%,rgba(13,13,13,0.7) 70%,rgba(13,13,13,1) 100%);}
+.hero-c{position:relative;z-index:2;max-width:800px;}
+.badge{display:inline-block;background:linear-gradient(135deg,var(--pr),var(--ac));color:#fff;font-size:12px;font-weight:700;letter-spacing:2px;padding:6px 18px;border-radius:20px;margin-bottom:24px;text-transform:uppercase;}
+.hero h1{font-family:'Noto Serif SC',serif;font-size:clamp(2rem,5vw,3.6rem);font-weight:700;line-height:1.2;margin-bottom:16px;background:linear-gradient(135deg,#fff 0%,var(--ac) 60%,var(--prl) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-size:clamp(1rem,2.5vw,1.3rem);color:var(--ts);margin-bottom:12px;font-weight:300;letter-spacing:1px;}
+.hero-addr{font-size:.9rem;color:rgba(160,152,128,.7);margin-bottom:36px;display:flex;align-items:center;justify-content:center;gap:8px;}
+.hero-stats{display:flex;gap:32px;justify-content:center;flex-wrap:wrap;}
+.stat-box{background:rgba(255,255,255,.05);border:1px solid var(--bd);border-radius:12px;padding:16px 28px;backdrop-filter:blur(8px);}
+.stat-box .num{font-family:'Inter',sans-serif;font-size:2rem;font-weight:700;color:var(--ac);display:block;}
+.stat-box .label{font-size:.78rem;color:var(--ts);letter-spacing:1px;}
+.particle{position:fixed;border-radius:50%;pointer-events:none;z-index:0;animation:fp linear infinite;opacity:.18;}
+@keyframes fp{0%{transform:translateY(100vh) rotate(0deg);opacity:0;}10%{opacity:.18;}90%{opacity:.18;}100%{transform:translateY(-100px) rotate(720deg);opacity:0;}}
+.wave-wrap{position:relative;height:80px;overflow:hidden;background:var(--bg);}
+.wave-wrap svg{position:absolute;bottom:0;width:100%;}
+.sec-title{text-align:center;padding:60px 24px 32px;position:relative;z-index:1;}
+.sec-title h2{font-family:'Noto Serif SC',serif;font-size:clamp(1.4rem,3vw,2rem);font-weight:600;margin-bottom:8px;}
+.sec-title p{color:var(--ts);font-size:.9rem;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:16px;max-width:1100px;margin:0 auto;padding:0 24px 20px;position:relative;z-index:1;}
+.card{background:var(--bgc);border:1px solid var(--bd);border-radius:14px;padding:22px 16px 18px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;text-align:center;}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--pr),var(--ac));opacity:0;transition:opacity .3s;}
+.card:hover::before{opacity:1;}
+.card:hover{border-color:var(--pr);transform:translateY(-4px);box-shadow:0 12px 36px rgba(200,82,42,.25);}
+.card.locked{opacity:.45;cursor:not-allowed;filter:grayscale(.5);}
+.card.locked:hover{transform:none;box-shadow:none;border-color:var(--bd);}
+.card .cnum{font-family:'Inter',sans-serif;font-size:.78rem;color:var(--prl);font-weight:600;letter-spacing:1px;margin-bottom:8px;}
+.card .ctitle{font-size:.95rem;font-weight:600;line-height:1.4;margin-bottom:8px;color:var(--tx);}
+.card .ctag{display:inline-block;font-size:.7rem;padding:3px 10px;border-radius:10px;background:rgba(200,82,42,.15);color:var(--prl);border:1px solid rgba(200,82,42,.3);}
+.lock-ic{position:absolute;top:10px;right:10px;font-size:.9rem;opacity:.6;}
+.unlock-bar{background:linear-gradient(135deg,var(--bgc2),#111);border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);padding:24px;text-align:center;position:relative;z-index:1;margin:0 0 0 0;}
+.unlock-bar h3{font-size:1rem;font-weight:600;margin-bottom:6px;}
+.unlock-bar p{font-size:.82rem;color:var(--ts);margin-bottom:16px;}
+.unlock-form{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.unlock-input{background:rgba(255,255,255,.06);border:1px solid var(--bd);border-radius:8px;color:var(--tx);font-size:.9rem;padding:10px 18px;outline:none;width:200px;transition:border-color .2s;}
+.unlock-input:focus{border-color:var(--pr);}
+.unlock-input::placeholder{color:rgba(160,152,128,.5);}
+.unlock-btn{background:linear-gradient(135deg,var(--pr),var(--ac));border:none;border-radius:8px;color:#fff;font-size:.9rem;font-weight:700;padding:10px 24px;cursor:pointer;transition:all .2s;}
+.unlock-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(200,82,42,.4);}
+.unlock-msg{margin-top:10px;font-size:.85rem;min-height:20px;}
+.unlock-ok{color:var(--ac2);}.unlock-err{color:#F44;}
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px);}
+.mo.active{display:flex;}
+.mbox{background:#161616;border:1px solid var(--bd);border-radius:18px;max-width:780px;width:100%;max-height:88vh;overflow-y:auto;position:relative;box-shadow:0 24px 80px rgba(200,82,42,.2);scrollbar-width:thin;scrollbar-color:var(--pr) transparent;}
+.mhd{padding:28px 32px 20px;border-bottom:1px solid var(--bd);position:sticky;top:0;background:#161616;z-index:2;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;}
+.mhd .cn{font-family:'Inter',sans-serif;font-size:.75rem;color:var(--prl);font-weight:600;letter-spacing:2px;margin-bottom:4px;}
+.mhd h2{font-family:'Noto Serif SC',serif;font-size:1.3rem;font-weight:700;line-height:1.3;}
+.mcl{background:rgba(255,255,255,.07);border:none;border-radius:8px;color:var(--ts);cursor:pointer;font-size:1.2rem;padding:8px 12px;flex-shrink:0;transition:all .2s;}
+.mcl:hover{background:rgba(200,82,42,.2);color:var(--prl);}
+.mbody{padding:28px 32px 36px;line-height:1.9;color:var(--tx);font-size:.92rem;}
+.mbody h3{font-family:'Noto Serif SC',serif;font-size:1.05rem;color:var(--ac);margin:24px 0 10px;padding-left:12px;border-left:3px solid var(--pr);}
+.mbody h3:first-child{margin-top:0;}
+.mbody p{margin-bottom:12px;color:rgba(240,237,232,.88);}
+.mbody ul,.mbody ol{padding-left:20px;margin-bottom:14px;}
+.mbody li{margin-bottom:8px;}
+.note{background:rgba(245,166,35,.08);border-left:3px solid var(--ac);border-radius:0 8px 8px 0;padding:12px 16px;margin:16px 0;font-size:.88rem;color:rgba(240,237,232,.8);}
+.kt{width:100%;border-collapse:collapse;margin:16px 0;font-size:.88rem;}
+.kt th{background:rgba(200,82,42,.2);color:var(--ac);padding:10px 14px;text-align:left;border-bottom:1px solid var(--bd);font-weight:600;}
+.kt td{padding:10px 14px;border-bottom:1px solid rgba(200,82,42,.1);color:rgba(240,237,232,.85);vertical-align:top;}
+.kt tr:hover td{background:rgba(200,82,42,.05);}
+.hlbox{background:linear-gradient(135deg,rgba(200,82,42,.12),rgba(245,166,35,.08));border:1px solid rgba(200,82,42,.3);border-radius:10px;padding:16px 20px;margin:16px 0;}
+.hlbox .bn{font-family:'Inter',sans-serif;font-size:2.2rem;font-weight:700;color:var(--ac);}
+.hlbox .bl{font-size:.85rem;color:var(--ts);}
+.mrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:16px 0;}
+.mc{background:var(--bgc2);border:1px solid var(--bd);border-radius:10px;padding:14px;text-align:center;}
+.mc .val{font-family:'Inter',sans-serif;font-size:1.6rem;font-weight:700;color:var(--ac);display:block;}
+.mc .desc{font-size:.78rem;color:var(--ts);margin-top:4px;}
+.sl{list-style:none;padding:0;counter-reset:sc;}
+.sl li{counter-increment:sc;padding:12px 16px 12px 50px;position:relative;border-left:2px solid rgba(200,82,42,.2);margin-bottom:4px;}
+.sl li::before{content:counter(sc);position:absolute;left:-13px;top:10px;background:var(--pr);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:.8rem;font-weight:700;}
+.tb{display:inline-block;background:rgba(42,172,138,.15);border:1px solid rgba(42,172,138,.3);color:var(--ac2);font-size:.75rem;padding:2px 8px;border-radius:6px;margin-left:6px;font-weight:600;}
+footer{text-align:center;padding:40px 24px;color:rgba(160,152,128,.4);font-size:.78rem;border-top:1px solid rgba(255,255,255,.05);position:relative;z-index:1;}
+@media(max-width:600px){.mbody{padding:20px 18px 28px;}.mhd{padding:20px 18px 16px;}.mhd h2{font-size:1.1rem;}.hero-stats{gap:14px;}.stat-box{padding:12px 18px;}.grid{gap:12px;padding:0 16px 40px;}}
+</style>
+</head>
+<body>
+
+<script>
+const pc=['#C8522A','#E8784A','#F5A623','#9B3D1A','#FFAA44'];
+for(let i=0;i<12;i++){const d=document.createElement('div');d.className='particle';const s=Math.random()*6+3;d.style.cssText=`width:${s}px;height:${s}px;background:${pc[i%pc.length]};left:${Math.random()*100}vw;animation-duration:${Math.random()*20+15}s;animation-delay:-${Math.random()*20}s;`;document.body.appendChild(d);}
+</script>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-ov"></div>
+  <div class="hero-c">
+    <div class="badge">🌮 运营增长方案 · 2026</div>
+    <h1>MEXI PAPA<br>墨西哥餐·酒吧</h1>
+    <p class="hero-sub">美团餐饮SaaS · 系统化增长方案</p>
+    <p class="hero-addr">📍 ⚠️ 假设：杭州市区商圈 · 120㎡ · 人均86元</p>
+    <div class="hero-stats">
+      <div class="stat-box"><span class="num">86</span><span class="label">人均消费（元）</span></div>
+      <div class="stat-box"><span class="num">120</span><span class="label">门店面积（㎡）</span></div>
+      <div class="stat-box"><span class="num">5步</span><span class="label">说服链框架</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="wave-wrap">
+  <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+    <path fill="rgba(200,82,42,0.08)" d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z"><animate attributeName="d" dur="8s" repeatCount="indefinite" values="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z;M0,20 C240,0 480,80 720,20 C960,0 1200,80 1440,20 L1440,80 L0,80 Z;M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z"/></path>
+    <path fill="rgba(245,166,35,0.05)" d="M0,60 C360,20 720,80 1080,40 C1260,20 1380,60 1440,50 L1440,80 L0,80 Z"><animate attributeName="d" dur="11s" repeatCount="indefinite" values="M0,60 C360,20 720,80 1080,40 C1260,20 1380,60 1440,50 L1440,80 L0,80 Z;M0,40 C360,70 720,30 1080,60 C1260,70 1380,30 1440,60 L1440,80 L0,80 Z;M0,60 C360,20 720,80 1080,40 C1260,20 1380,60 1440,50 L1440,80 L0,80 Z"/></path>
+  </svg>
+</div>
+
+<div class="sec-title">
+  <h2>🌮 五步增长方案 · 完整框架</h2>
+  <p>从品牌理解到投资回报 · 系统性驱动MEXI PAPA增长</p>
+</div>
+
+<div class="grid" id="chaptersGrid">
+  <div class="card" onclick="openModal('ch1')"><div class="cnum">01</div><div class="ctitle">品牌洞察与门店诊断</div><div class="ctag">免费展示</div></div>
+  <div class="card" onclick="openModal('ch2')"><div class="cnum">02</div><div class="ctitle">商圈竞争与客群画像</div><div class="ctag">免费展示</div></div>
+  <div class="card" onclick="openModal('ch3')"><div class="cnum">03</div><div class="ctitle">SaaS系统解决方案</div><div class="ctag">免费展示</div></div>
+  <div class="card" onclick="openModal('ch4')"><div class="cnum">04</div><div class="ctitle">大众点评赋能策略</div><div class="ctag">免费展示</div></div>
+
+  <div class="card locked" id="card5"><span class="lock-ic">🔒</span><div class="cnum">05</div><div class="ctitle">公域引流全攻略</div><div class="ctag">签约后查看</div></div>
+  <div class="card locked" id="card6"><span class="lock-ic">🔒</span><div class="cnum">06</div><div class="ctitle">私域会员运营体系</div><div class="ctag">签约后查看</div></div>
+  <div class="card locked" id="card7"><span class="lock-ic">🔒</span><div class="cnum">07</div><div class="ctitle">储值锁客方案</div><div class="ctag">签约后查看</div></div>
+  <div class="card locked" id="card8"><span class="lock-ic">🔒</span><div class="cnum">08</div><div class="ctitle">主题活动策划库</div><div class="ctag">签约后查看</div></div>
+  <div class="card locked" id="card9"><span class="lock-ic">🔒</span><div class="cnum">09</div><div class="ctitle">峰终体验设计</div><div class="ctag">签约后查看</div></div>
+  <div class="card locked" id="card10"><span class="lock-ic">🔒</span><div class="cnum">10</div><div class="ctitle">30天启动执行计划</div><div class="ctag">签约后查看</div></div>
+  <div class="card locked" id="card11"><span class="lock-ic">🔒</span><div class="cnum">11</div><div class="ctitle">爆品锚点打造方法</div><div class="ctag">签约后查看</div></div>
+  <div class="card locked" id="card12"><span class="lock-ic">🔒</span><div class="cnum">12</div><div class="ctitle">投资回报测算</div><div class="ctag">签约后查看</div></div>
+  <div class="card locked" id="card13"><span class="lock-ic">🔒</span><div class="cnum">13</div><div class="ctitle">月度OKR目标体系</div><div class="ctag">签约后查看</div></div>
+  <div class="card locked" id="card14"><span class="lock-ic">🔒</span><div class="cnum">14</div><div class="ctitle">员工话术与SOP手册</div><div class="ctag">签约后查看</div></div>
+
+  <div class="card" onclick="openModal('chC')"><div class="cnum">附录C</div><div class="ctitle">同品类成功案例</div><div class="ctag">免费展示</div></div>
+</div>
+
+<!-- UNLOCK BAR -->
+<div class="unlock-bar">
+  <h3>🔐 查看完整方案</h3>
+  <p>前4章免费展示 · 签约后解锁全部14章详细内容</p>
+  <div class="unlock-form">
+    <input class="unlock-input" id="unlockInput" type="password" placeholder="请输入解锁码" onkeydown="if(event.key==='Enter')doUnlock()">
+    <button class="unlock-btn" onclick="doUnlock()">🔓 签约解锁全部</button>
+  </div>
+  <div class="unlock-msg" id="unlockMsg"></div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>大橘🍊 · 美团餐饮SaaS · 专属运营方案 · 2026</p>
+  <p style="margin-top:6px;">本方案由AI辅助生成，数据含假设值，请以实际核实为准</p>
+</footer>
+
+<!-- MODALS -->
+<div class="mo" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="mbox">
+    <div class="mhd">
+      <div><div class="cn" id="mNum"></div><h2 id="mTitle"></h2></div>
+      <button class="mcl" onclick="closeModal()">✕</button>
+    </div>
+    <div class="mbody" id="mBody"></div>
+  </div>
+</div>
+
+<script>
+const chapters={
+  ch1:{
+    num:'第一章',
+    title:'品牌洞察与门店诊断 — 我懂你',
+    body:`
+<h3>🌮 品牌定位理解</h3>
+<p>MEXI PAPA是一家主打墨西哥风味的餐酒吧，人均86元，面积120㎡，定位于年轻都市人群的"异域风情+微醺"餐饮体验场。这一品类在国内属于细分赛道，正处于从"小众探索"向"都市网红打卡"升级的窗口期。</p>
+<p>⚠️ 假设：门店位于杭州市区人流较旺的商业街区或购物中心附近，周边年轻客群密度较高。</p>
+<div class="note">💡 品牌资产判断：墨西哥餐酒吧的核心竞争力不在于食材成本，而在于"场景氛围+社交属性"。这是最难被竞品直接复制的护城河，也是运营策略的出发点。</div>
+
+<h3>📊 门店基础数据推算</h3>
+<div class="mrow">
+  <div class="mc"><span class="val">86元</span><div class="desc">人均消费</div></div>
+  <div class="mc"><span class="val">~40座</span><div class="desc">⚠️假设翻台座位数</div></div>
+  <div class="mc"><span class="val">~1.5次</span><div class="desc">⚠️假设日均翻台率</div></div>
+  <div class="mc"><span class="val">~5,160</span><div class="desc">⚠️假设日均流水（元）</div></div>
+</div>
+<p>推算逻辑：40座×1.5翻台×86元/人×约1.5人/桌=约5,160元/天；月流水约15.5万元（行业参考值，请核实）。</p>
+
+<h3>🔍 核心痛点诊断</h3>
+<table class="kt">
+  <tr><th>痛点类型</th><th>具体表现</th><th>对应机会</th></tr>
+  <tr><td>引流难</td><td>墨西哥菜认知度低，非刚需，客群教育成本高</td><td>内容营销种草+体验感打卡</td></tr>
+  <tr><td>复购低</td><td>网红打卡属性强，但首次尝鲜后回头率不高</td><td>会员体系+储值锁客</td></tr>
+  <tr><td>时段空洞</td><td>⚠️假设：下午3-6点客流低谷，造成资源浪费</td><td>下午茶套餐+酒水欢乐时光</td></tr>
+  <tr><td>口碑沉淀慢</td><td>新颖品类评价基数少，消费者决策时参考不足</td><td>评价专家系统化运营</td></tr>
+  <tr><td>客单提升难</td><td>部分顾客只点单品，酒水转化率低</td><td>套餐组合+推荐话术</td></tr>
+</table>
+
+<h3>✨ 门店独特资产盘点</h3>
+<ul>
+  <li><strong>稀缺性：</strong>墨西哥餐+酒吧的组合在多数城市属于品类稀缺，自带话题和好奇心流量</li>
+  <li><strong>场景多元：</strong>可覆盖午餐、晚餐、下班小酌、朋友聚会、网红打卡多种消费场景</li>
+  <li><strong>视觉传播力：</strong>墨西哥风格的装饰、菜品配色天然适合小红书/抖音打卡传播</li>
+  <li><strong>酒水加成空间：</strong>墨西哥鸡尾酒（玛格丽特/特基拉）是提升客单价的核心武器</li>
+</ul>`
+  },
+  ch2:{
+    num:'第二章',
+    title:'商圈竞争与客群画像 — 我专业',
+    body:`
+<h3>👥 目标客群精准画像</h3>
+<div class="mrow">
+  <div class="mc"><span class="val">22-35</span><div class="desc">核心年龄段</div></div>
+  <div class="mc"><span class="val">60%+</span><div class="desc">⚠️假设女性比例</div></div>
+  <div class="mc"><span class="val">2-4人</span><div class="desc">主要聚餐规模</div></div>
+  <div class="mc"><span class="val">晚间为主</span><div class="desc">消费高峰时段</div></div>
+</div>
+<p>核心客群：都市年轻白领、大学生（周边高校）、小红书/抖音用户。消费动机主要为：①新奇体验/尝鲜；②朋友聚会；③情侣约会；④下班解压小酌。次级客群：外籍人士、餐饮探店KOL。</p>
+
+<h3>🏙️ 商圈竞争分析</h3>
+<div class="note">⚠️ 以下竞品为行业参考假设，请国庆核实周边3-5公里实际竞品情况。</div>
+<table class="kt">
+  <tr><th>竞品类型</th><th>假设人均</th><th>核心弱点</th><th>MEXI PAPA切入机会</th></tr>
+  <tr><td>普通中餐/快餐</td><td>40-60元</td><td>品类无差异化，同质竞争严重</td><td>异域特色完全错位竞争，不存在直接抢客</td></tr>
+  <tr><td>日韩料理店</td><td>80-120元</td><td>网红效应消退，缺乏新鲜感</td><td>同价位异品类，争夺"今晚吃什么"决策</td></tr>
+  <tr><td>酒吧/清吧</td><td>100-150元</td><td>纯酒消费，缺乏食物吸引力</td><td>餐+酒一体，性价比更高，拉低决策门槛</td></tr>
+  <tr><td>同类墨西哥餐</td><td>80-100元</td><td>⚠️假设：周边3公里内暂无直接同品类竞争</td><td>先发优势窗口，立即建立品牌心智占位</td></tr>
+</table>
+
+<h3>📍 消费场景矩阵</h3>
+<table class="kt">
+  <tr><th>消费场景</th><th>适配时段</th><th>核心需求</th><th>产品策略</th></tr>
+  <tr><td>🌮 工作日午餐</td><td>11:30-13:30</td><td>快速、美味、有特色</td><td>推出午市简餐套餐（55-75元，含主食+饮品）</td></tr>
+  <tr><td>🎉 朋友聚会晚餐</td><td>18:00-21:00</td><td>氛围、出片、丰盛</td><td>主推3-4人共享套餐（280-360元/桌）</td></tr>
+  <tr><td>🍹 下班小酌</td><td>17:00-20:00</td><td>微醺、解压、性价比</td><td>Happy Hour酒水5折（17-19点）</td></tr>
+  <tr><td>📸 网红打卡</td><td>周末全天</td><td>好看、好拍、值得分享</td><td>打卡套餐+专属拍照位</td></tr>
+  <tr><td>💑 情侣约会</td><td>周末晚间</td><td>浪漫、私密、不一样</td><td>双人套餐+桌面小装饰</td></tr>
+</table>
+
+<h3>📈 品类趋势判断</h3>
+<p>墨西哥餐在一线城市（北京/上海）已形成稳定市场，正在向新一线城市（杭州/成都/武汉）扩散。小红书上"墨西哥餐"相关笔记持续增长，是典型的"消费者认知正在被教育"阶段。此时切入，是抢占本地市场认知的最佳窗口。</p>`
+  },
+  ch3:{
+    num:'第三章',
+    title:'SaaS系统解决方案 — 场景化产品',
+    body:`
+<h3>🔧 问题→系统→效果 三位一体</h3>
+<p>MEXI PAPA面临的问题，用通用方式解决效率低——下面逐一说明美团SaaS如何解决你的具体痛点。</p>
+
+<table class="kt">
+  <tr><th>门店痛点</th><th>对应SaaS功能</th><th>预期效果</th></tr>
+  <tr><td>客流数据全靠感觉，不知道哪个时段、哪个菜最挣钱</td><td>收银系统+数据报表</td><td>精准掌握高峰时段/爆品/桌均消费，决策从"感觉"变"数据"</td></tr>
+  <tr><td>打卡顾客不留痕迹，来一次就再也找不到</td><td>扫码点餐+会员注册</td><td>每桌扫码点餐自动留存手机号，单月新增会员200+（⚠️参考值）</td></tr>
+  <tr><td>想搞活动但不知道推给谁，群发消息全是骚扰</td><td>会员营销（旗舰版）</td><td>按消费频次/金额/沉睡时长精准推送，到店率提升3-5倍</td></tr>
+  <tr><td>点评评分靠运气，看到差评不知道怎么处理</td><td>评价专家</td><td>结账后自动引导好评，差评提前预警，月均好评率提升15-20%</td></tr>
+  <tr><td>老顾客流失快，不知道谁30天没来了</td><td>智能储值+沉睡唤醒</td><td>自动识别沉睡顾客，定向发送召回券，唤醒率约15-25%</td></tr>
+  <tr><td>酒水想做套餐但收银操作繁琐</td><td>商品组合/套餐功能</td><td>灵活设置餐酒套餐，前台一键出单，减少点餐错误</td></tr>
+</table>
+
+<h3>🎯 推荐配置方案</h3>
+<div class="hlbox">
+  <div class="bn">旗舰版</div>
+  <div class="bl">会员管理 · 智能储值 · 潜客营销 · 评价专家 · 扫码点餐 · 数据分析</div>
+</div>
+<p>旗舰版独有能力：团购会员卡功能（与大众点评打通）、潜客营销（覆盖尚未到店的周边潜在消费者）、6大特有营销活动（幸运抽奖/消费赠券/储值有礼/生日营销/会员日/沉睡唤醒）。</p>
+
+<h3>💡 核心场景演示：扫码点餐→会员→召回 闭环</h3>
+<ol class="sl">
+  <li>顾客到店，扫桌贴二维码点餐 <span class="tb">扫码点餐</span></li>
+  <li>首次扫码弹出"新客专享9折"，引导注册会员 <span class="tb">会员系统</span></li>
+  <li>消费结束，系统自动推送好评引导页 <span class="tb">评价专家</span></li>
+  <li>结账时员工推荐储值："充300送50，下次来直接用" <span class="tb">智能储值</span></li>
+  <li>30天未到店，系统自动推送"老朋友我们想你了，专属回头券" <span class="tb">沉睡唤醒</span></li>
+  <li>顾客凭券再次到店，完成复购闭环 ✅</li>
+</ol>
+
+<h3>⚠️ 关于已签约模块</h3>
+<div class="note">本方案中SaaS模块配置基于旗舰版假设。实际签约模块以合同为准，如已签约请告知大橘，方案将根据实际模块调整运营策略和执行步骤。</div>`
+  },
+  ch4:{
+    num:'第四章',
+    title:'大众点评赋能策略 — 公域流量第一阵地',
+    body:`
+<h3>📍 大众点评对墨西哥餐的特殊价值</h3>
+<p>在消费者决策链中，"今晚去哪吃"有超过60%的决策始于大众点评搜索。墨西哥餐是搜索型消费品类（顾客主动搜"杭州墨西哥餐"），而非路过型消费品类——这意味着点评排名直接决定你能不能被找到。</p>
+<div class="note">⚠️ 假设：MEXI PAPA在大众点评的综合评分约4.2-4.5分，月销量约100-200单，在本地墨西哥品类排名中属于中等偏上。若实际数据有差异，请反馈给国庆调整策略。</div>
+
+<h3>🎯 四步点评提升方案</h3>
+<div class="mrow">
+  <div class="mc"><span class="val">Step 1</span><div class="desc">定调前10条</div></div>
+  <div class="mc"><span class="val">Step 2</span><div class="desc">冲量100+</div></div>
+  <div class="mc"><span class="val">Step 3</span><div class="desc">关键词优化</div></div>
+  <div class="mc"><span class="val">Step 4</span><div class="desc">持续维护</div></div>
+</div>
+
+<h3>🌟 第一步：定调（前10条评价决定一切）</h3>
+<p>顾客在看评价时，前10条会被反复翻看。这10条决定了门店的"第一印象关键词"。MEXI PAPA需要定调的核心词：氛围感、好出片、玛格丽特好喝、朋友聚会必来、性价比高。</p>
+<ul>
+  <li><strong>操作：</strong>选10位口碑好的熟客，真实消费后引导写评，提示可以提到上述关键词</li>
+  <li><strong>工具：</strong>评价专家系统自动在结账后弹出点评引导页 <span class="tb">评价专家</span></li>
+  <li><strong>时间：</strong>开始运营后第1周集中完成</li>
+</ul>
+
+<h3>📈 第二步：冲量（评价数量提升搜索排名）</h3>
+<p>大众点评搜索排名算法中，近30天新增评价数量是重要权重因子。目标：月新增好评30-50条。</p>
+<ul>
+  <li>结账引导率目标：10%的消费者完成评价（每天5-8桌×10%=约5条/天）</li>
+  <li>可设置"好评有礼"：展示评价截图赠小食或折扣券，成本约5-8元/条，单月预算约200元</li>
+  <li>禁止刷评，所有引导必须基于真实消费</li>
+</ul>
+
+<h3>🏷️ 第三步：关键词优化（影响搜索展示）</h3>
+<table class="kt">
+  <tr><th>优化维度</th><th>具体操作</th><th>效果</th></tr>
+  <tr><td>店名标签</td><td>确保大众点评后台标签包含"墨西哥餐"、"异域风情"、"餐酒吧"</td><td>增加品类搜索曝光</td></tr>
+  <tr><td>主图优化</td><td>首图换成最有食欲/最出片的玛格丽特+塔可组合图</td><td>点击率提升20-30%</td></tr>
+  <tr><td>菜单完整度</td><td>所有菜品上传图片，价格齐全，减少顾客决策疑虑</td><td>到店转化率提升</td></tr>
+  <tr><td>团购套餐</td><td>上线1-2款团购套餐（2人餐/4人餐），主攻聚会场景</td><td>引流效果显著</td></tr>
+</table>
+
+<h3>💬 第四步：差评管理（保住评分下限）</h3>
+<ul>
+  <li>差评48小时内必回复，回复语气温和专业，避免对怼</li>
+  <li>评价专家系统可在顾客离店后弹出"满意度反馈"，提前拦截不满情绪，让顾客先向门店投诉而非直接上点评</li>
+  <li>对1-2星差评，私信顾客了解情况，提供补救措施（如下次到店赠品）</li>
+</ul>
+
+<h3>📊 阶段性里程碑</h3>
+<table class="kt">
+  <tr><th>时间节点</th><th>评分目标</th><th>月新增评价</th><th>排名目标</th></tr>
+  <tr><td>第1个月</td><td>维持现有或+0.1</td><td>30条以上</td><td>本地墨西哥品类前5</td></tr>
+  <tr><td>第3个月</td><td>达到4.5+</td><td>50条以上</td><td>本地墨西哥品类前3</td></tr>
+  <tr><td>第6个月</td><td>冲刺4.7+</td><td>持续60条/月</td><td>冲刺必吃榜提名</td></tr>
+</table>`
+  },
+  ch5:{
+    num:'第五章',
+    title:'公域引流全攻略',
+    body:`
+<h3>🚀 双平台引流策略：大众点评 + 小红书/抖音</h3>
+<p>MEXI PAPA是典型的"年轻化网红品类"，公域打法必须覆盖两端：搜索型流量（大众点评）+ 种草型流量（小红书/抖音）。两端协同，才能形成"线上种草→搜索验证→线下到店"的完整链路。</p>
+
+<h3>📱 小红书种草策略（核心公域阵地）</h3>
+<p>墨西哥餐+酒吧是小红书的天然内容基因：高颜值出餐、玛格丽特鸡尾酒打光、塔可饼拉丝效果、墨西哥风格装饰——每一个细节都是小红书内容素材。</p>
+<ul>
+  <li><strong>账号定位：</strong>以门店官方号为主，打造"杭州最正宗墨西哥风情"人设</li>
+  <li><strong>发布节奏：</strong>每周2-3条，以场景类笔记（朋友聚会/约会/下班小酌）为主</li>
+  <li><strong>内容公式：</strong>封面图（出片最好的菜品/调酒）+ 标题（"杭州｜藏在XX路的墨西哥风情，人均86喝好吃好"）+ 正文（场景描述+菜品推荐+地址指引）</li>
+  <li><strong>KOL合作：</strong>每月邀请1-2位本地探店博主（粉丝5k-50k），置换方式（免费试吃），预算0元</li>
+  <li><strong>关键词布局：</strong>笔记中埋入"杭州墨西哥餐"、"杭州酒吧推荐"、"杭州聚餐"等高搜索量标签</li>
+</ul>
+
+<h3>🎬 抖音/视频号策略</h3>
+<ul>
+  <li><strong>优先级：</strong>次于小红书，但出餐视频/调酒过程视频在抖音传播性极强</li>
+  <li><strong>内容类型：</strong>调酒制作短视频（15-30秒）、顾客打卡Vlog、特色菜出餐仪式感视频</li>
+  <li><strong>抖音团购：</strong>上线1款引流套餐（如2人玛格丽特套餐，特价118元），以低价换到店</li>
+  <li><strong>发布频次：</strong>每周1条，重点在周五/周六发布，配合周末到店高峰</li>
+</ul>
+
+<h3>📍 大众点评团购套餐设计</h3>
+<table class="kt">
+  <tr><th>套餐名称</th><th>内容</th><th>团购价</th><th>原价</th><th>目的</th></tr>
+  <tr><td>双人探店套餐</td><td>2份塔可+1杯玛格丽特+1份薯条</td><td>108元</td><td>138元</td><td>降低首次尝鲜门槛</td></tr>
+  <tr><td>四人欢聚套餐</td><td>4道主菜+2杯鸡尾酒+无限玉米饼</td><td>268元</td><td>320元</td><td>提升桌均消费+聚会场景</td></tr>
+  <tr><td>工作日午市套餐</td><td>1道主菜+1饮品+沙拉</td><td>58元</td><td>75元</td><td>填充工作日午间空位</td></tr>
+</table>
+
+<h3>💡 引流→到店转化关键动作</h3>
+<ol class="sl">
+  <li>确保大众点评主图是最吸引人的出品图（第一眼决定点击）</li>
+  <li>小红书笔记置入精准LBS（杭州+具体区域），提升本地搜索权重</li>
+  <li>每逢节日（情人节/万圣节/圣诞节）提前1周推出主题内容，借势自然流量</li>
+  <li>顾客到店后，引导拍照打卡并@门店账号，形成UGC内容池</li>
+  <li>每月统计各渠道来源（小红书/抖音/点评/路过），优化投入比例</li>
+</ol>`
+  },
+  ch6:{
+    num:'第六章',
+    title:'私域会员运营体系',
+    body:`
+<h3>🎯 私域的核心价值：把一次性顾客变成回头客</h3>
+<p>公域把人引来，私域让人留下来。MEXI PAPA当前阶段，私域运营的核心目标是：每月新增会员200+，30天复购率从行业均值15%提升至25%。</p>
+
+<h3>🏗️ 会员体系架构设计</h3>
+<table class="kt">
+  <tr><th>等级</th><th>入会条件</th><th>核心权益</th><th>运营目标</th></tr>
+  <tr><td>🌵 新朋友</td><td>首次扫码点餐注册</td><td>欢迎券10元（满60可用）</td><td>留存手机号+激活首券</td></tr>
+  <tr><td>🌮 常客</td><td>累计消费3次或满200元</td><td>每月会员日8.8折+生日礼</td><td>建立消费习惯</td></tr>
+  <tr><td>🍹 老炮</td><td>累计消费8次或满800元</td><td>每次消费赠1调酒券+专属位预留</td><td>锁定高价值用户</td></tr>
+</table>
+
+<h3>📲 私域触达节奏（月度）</h3>
+<table class="kt">
+  <tr><th>时间</th><th>触达对象</th><th>内容</th><th>工具</th></tr>
+  <tr><td>每月1日</td><td>全体会员</td><td>"本月特惠"预告+会员日提醒</td><td>会员群发</td></tr>
+  <tr><td>每月15日</td><td>会员日</td><td>当天消费享专属折扣/赠品</td><td>会员日活动</td></tr>
+  <tr><td>生日当月</td><td>生日会员</td><td>生日专属礼（1杯玛格丽特免费）</td><td>生日营销</td></tr>
+  <tr><td>30天未到店</td><td>沉睡会员</td><td>"好久不见，专属召回券"（满58减15）</td><td>沉睡唤醒</td></tr>
+  <tr><td>节假日前3天</td><td>活跃会员</td><td>节日主题套餐预告</td><td>精准推送</td></tr>
+</table>
+
+<h3>💰 储值会员设计</h3>
+<p>储值是锁客效率最高的工具。结账场景是推储值的黄金时机——顾客刚吃完，体验最好，此时说"充值划算"接受度最高。</p>
+<div class="mrow">
+  <div class="mc"><span class="val">充300</span><div class="desc">送50元餐饮券</div></div>
+  <div class="mc"><span class="val">充500</span><div class="desc">送100+酒水1杯</div></div>
+  <div class="mc"><span class="val">充1000</span><div class="desc">送200+老炮专属券×3</div></div>
+</div>
+<p>目标：每月新增储值顾客30人，平均储值400元，月储值回款约1.2万元（⚠️参考值）。</p>
+
+<h3>📊 私域运营30天目标</h3>
+<ul>
+  <li>第1-7天：完成扫码点餐配置，新增会员100+</li>
+  <li>第8-14天：发送首批欢迎券，追踪核销率（目标30%+）</li>
+  <li>第15天：举办首次会员日活动，到店率≥20%</li>
+  <li>第16-30天：识别首批沉睡会员，发送召回券，唤醒率目标15%</li>
+</ul>`
+  },
+  ch7:{
+    num:'第七章',
+    title:'储值锁客方案',
+    body:`
+<h3>💡 储值的本质：让顾客在钱包里"预约"下一次</h3>
+<p>储值不是简单的打折促销，而是通过"预存金额"让顾客与门店形成资金纽带。对于MEXI PAPA这类以聚会、微醺消费为主的门店，储值的最佳触发时机是顾客喝到微醺、正在结账的时刻。</p>
+
+<h3>🎯 储值产品设计</h3>
+<table class="kt">
+  <tr><th>档位</th><th>充值</th><th>赠送</th><th>折算</th><th>推荐人群</th></tr>
+  <tr><td>体验档</td><td>300元</td><td>50元餐饮券（分2次用）</td><td>相当于8.6折</td><td>首次储值，降低门槛</td></tr>
+  <tr><td>主力档</td><td>500元</td><td>100元券+1杯招牌玛格丽特</td><td>相当于8.3折</td><td>重点推荐，ROI最优</td></tr>
+  <tr><td>大客档</td><td>1000元</td><td>200元券+老炮专属券×3张</td><td>相当于8.2折</td><td>高频顾客/公司团餐</td></tr>
+</table>
+
+<h3>🗣️ 收银台话术（员工版）</h3>
+<div class="note">🎤 推荐话术（结账时）："今天总共消费238元，如果您办我们的会员储值，充500块送100元券还有一杯玛格丽特，相当于今天这顿直接打了8折，下次来直接刷卡，还省得每次带钱。您要不要试试？"</div>
+
+<h3>📈 储值回款预测（月度）</h3>
+<div class="mrow">
+  <div class="mc"><span class="val">30人</span><div class="desc">月新增储值客户目标</div></div>
+  <div class="mc"><span class="val">~500元</span><div class="desc">人均储值金额</div></div>
+  <div class="mc"><span class="val">~1.5万</span><div class="desc">月储值回款（元）</div></div>
+  <div class="mc"><span class="val">3个月</span><div class="desc">储值核销周期</div></div>
+</div>
+
+<h3>⚠️ 储值运营注意事项</h3>
+<ul>
+  <li>储值金额设置合理有效期（建议12个月），避免法律风险</li>
+  <li>每月统计储值沉淀率（充值金额-已核销金额），超过60%需加强消费引导</li>
+  <li>对储值余额>200元但90天未消费的顾客，主动推送提醒，避免余额沉睡</li>
+  <li>储值数据完全在SaaS系统管理，换收银员也不丢失</li>
+</ul>`
+  },
+  ch8:{
+    num:'第八章',
+    title:'主题活动策划库',
+    body:`
+<h3>🎉 MEXI PAPA活动策划原则</h3>
+<p>所有活动必须符合三个条件：①低/零额外投入；②强化"墨西哥风情"品牌调性；③制造可传播的内容素材。严禁大额投入活动（不请乐队/不搭舞台/不做灯光工程）。</p>
+
+<h3>📅 全年活动日历（重点场景）</h3>
+<table class="kt">
+  <tr><th>月份</th><th>主题活动</th><th>核心卖点</th><th>执行要点</th></tr>
+  <tr><td>2月</td><td>情人节·玛格丽特之夜</td><td>双人套餐+赠玫瑰</td><td>提前1周上团购，桌面小卡片制造浪漫感</td></tr>
+  <tr><td>5月</td><td>五月节·Cinco de Mayo</td><td>墨西哥传统节日，主题日</td><td>员工戴墨西哥帽，出示帽子照片享优惠</td></tr>
+  <tr><td>6月</td><td>World Cup特调季</td><td>看球喝酒组合</td><td>投屏播放足球比赛，特调鸡尾酒打折</td></tr>
+  <tr><td>7-8月</td><td>夏日微醺季</td><td>Happy Hour延长至20:00</td><td>下班打工人召集，17-20点酒水打折</td></tr>
+  <tr><td>10月</td><td>万圣节·骷髅派对</td><td>骷髅脸妆到店享折扣</td><td>万圣节是墨西哥文化的重要节日，极强话题性</td></tr>
+  <tr><td>12月</td><td>圣诞·年终聚会季</td><td>公司团餐/朋友年聚套餐</td><td>提前1个月推团餐预订，确保12月满座率</td></tr>
+</table>
+
+<h3>🌮 常规运营活动（月度）</h3>
+<ul>
+  <li><strong>每月15日会员日：</strong>当天消费满88元享8.8折，朋友圈打卡可参与抽奖</li>
+  <li><strong>周三工作日特惠：</strong>指定套餐8折，填补周三低谷时段</li>
+  <li><strong>好友推荐：</strong>老会员推荐新朋友首次到店，双方各得1张20元折扣券</li>
+  <li><strong>生日特权：</strong>生日当月凭证明免1杯玛格丽特，成本约15元，话题传播价值>1000元</li>
+</ul>
+
+<h3>📸 打卡互动活动（持续性）</h3>
+<ul>
+  <li>店内设置专属拍照墙（墨西哥图腾元素），0成本内容生产机器</li>
+  <li>小红书/抖音@门店账号，赠1份薯条（成本约5元，换1条UGC内容）</li>
+  <li>每月评选"最美打卡照"，赠1次双人免单（月均预算约172元）</li>
+</ul>`
+  },
+  ch9:{
+    num:'第九章',
+    title:'峰终体验设计',
+    body:`
+<h3>🧠 峰终定律在MEXI PAPA的应用</h3>
+<p>顾客离开后记住的不是"整体体验"，而是"最爽的那一刻（峰）"和"走时的感受（终）"。把有限资源集中在这两个触点，效果远超平均提升所有环节。</p>
+
+<h3>✨ 峰值触点设计（选2个重点执行）</h3>
+<table class="kt">
+  <tr><th>触点</th><th>具体方案</th><th>成本</th><th>传播价值</th></tr>
+  <tr><td>调酒仪式感</td><td>调酒师在桌边完成最后一步制作（挤柠檬/撒盐），顾客可拍摄全程</td><td>零额外成本</td><td>极高（视频素材）</td></tr>
+  <tr><td>出餐烟雾效果</td><td>特定菜品（如铁板）出餐时加干冰效果，制造视觉冲击</td><td>干冰约3元/份</td><td>高（打卡必拍）</td></tr>
+  <tr><td>扫码新客弹窗</td><td>首次扫码点餐弹出"新客专享，本桌今日消费88折"</td><td>零成本</td><td>提升首单体验</td></tr>
+  <tr><td>结账省钱提示</td><td>POS结账时显示"本次使用会员优惠，您节省了XX元"</td><td>零成本</td><td>增强会员价值感</td></tr>
+</table>
+
+<h3>🚪 终值触点设计（离店时的感受）</h3>
+<table class="kt">
+  <tr><th>触点</th><th>具体方案</th><th>成本</th><th>目的</th></tr>
+  <tr><td>好评自动引导</td><td>结账后系统自动弹点评引导页，3步完成评价</td><td>零成本</td><td>沉淀口碑</td></tr>
+  <tr><td>储值话术</td><td>员工结账时一句话推储值（见第7章话术）</td><td>零成本</td><td>锁定下次消费</td></tr>
+  <tr><td>离店小惊喜</td><td>收银台放小包装墨西哥辣椒糖，顾客自取</td><td>约0.5元/份</td><td>提升离店记忆点</td></tr>
+  <tr><td>离店消息</td><td>离店30分钟后，系统推送"感谢光临，凭此消息下次来享9折"</td><td>零成本</td><td>再次触达+复购引导</td></tr>
+</table>
+
+<h3>📊 体验优化优先级</h3>
+<ol class="sl">
+  <li>确保调酒/出餐的视觉仪式感（峰值最强触点，零成本改造）</li>
+  <li>配置评价专家系统，实现结账后自动引导好评（终值核心）</li>
+  <li>在SaaS中设置离店自动消息（24小时后推送，避免打扰）</li>
+  <li>收银台摆放离店小物（墨西哥糖/薄荷糖），月均成本约300元</li>
+  <li>每月抽查10桌，用神秘顾客视角评估峰值/终值触点执行质量</li>
+</ol>`
+  },
+  ch10:{
+    num:'第十章',
+    title:'30天启动执行计划',
+    body:`
+<h3>🗓️ 30天冲刺计划（开始运营起算）</h3>
+<p>30天内完成系统配置、基础数据积累和首批会员沉淀，建立可持续增长的运营基础。</p>
+
+<h3>第一周（第1-7天）：系统配置+基础建设</h3>
+<ol class="sl">
+  <li>收银系统上线，所有菜品/套餐/价格录入完毕 <span class="tb">收银系统</span></li>
+  <li>扫码点餐二维码粘贴到每张桌子，测试全流程 <span class="tb">扫码点餐</span></li>
+  <li>大众点评后台完善：主图更新/菜单图片上传/分类标签优化 <span class="tb">点评</span></li>
+  <li>上线第一款团购套餐（双人探店套餐108元）</li>
+  <li>小红书官方账号发布第一条笔记（门店探店向导）</li>
+  <li>员工完成"储值话术+会员引导"培训（30分钟，见第14章SOP）</li>
+</ol>
+
+<h3>第二周（第8-14天）：引流启动+首批会员</h3>
+<ol class="sl">
+  <li>评价专家上线，结账后自动弹点评引导 <span class="tb">评价专家</span></li>
+  <li>邀请2位本地探店博主来店体验（置换，0成本）</li>
+  <li>发布小红书内容第2条（菜品种草向，突出视觉效果）</li>
+  <li>统计第一周会员注册数（目标50+），发送欢迎券</li>
+  <li>配置沉睡唤醒规则：30天未到店自动触发 <span class="tb">智能营销</span></li>
+</ol>
+
+<h3>第三周（第15-21天）：首次会员日+数据复盘</h3>
+<ol class="sl">
+  <li>举办第一次会员日（15日），当天消费享专属折扣</li>
+  <li>复盘第一轮数据：会员注册量/团购核销量/点评新增数/储值转化率</li>
+  <li>根据数据调整团购套餐定价（如核销率<5%考虑降价或换产品组合）</li>
+  <li>小红书第3条内容（顾客打卡UGC向，展示真实体验）</li>
+</ol>
+
+<h3>第四周（第22-30天）：优化迭代+月度总结</h3>
+<ol class="sl">
+  <li>完成30天数据汇总：日均流水变化/会员数/储值金额/点评评分</li>
+  <li>首批沉睡顾客识别与召回（7天未到店发券）</li>
+  <li>制定第二个月活动日历（含节假日主题）</li>
+  <li>与国庆BD确认下月OKR目标，调整运营重点</li>
+</ol>
+
+<h3>⚡ 30天关键里程碑</h3>
+<table class="kt">
+  <tr><th>指标</th><th>目标值</th><th>备注</th></tr>
+  <tr><td>会员注册数</td><td>200人</td><td>⚠️参考值</td></tr>
+  <tr><td>大众点评新增评价</td><td>30条以上</td><td>4星以上为主</td></tr>
+  <tr><td>团购套餐核销</td><td>50单以上</td><td>月均</td></tr>
+  <tr><td>储值顾客</td><td>20人以上</td><td>首月破冰目标</td></tr>
+  <tr><td>小红书笔记发布</td><td>8条以上</td><td>涵盖不同场景</td></tr>
+</table>`
+  },
+  ch11:{
+    num:'第十一章',
+    title:'爆品锚点打造',
+    body:`
+<h3>🔥 爆品的战略价值</h3>
+<p>一道真正的爆品可以承担三重功能：①作为营销记忆点（"那家玛格丽特酒吧"）；②作为引流钩子（团购/套餐以爆品为核心）；③作为客单提升工具（爆品+搭配菜组合销售）。MEXI PAPA需要打造至少1道标志性爆品。</p>
+
+<h3>🌮 爆品候选分析</h3>
+<table class="kt">
+  <tr><th>产品</th><th>打造方向</th><th>传播钩子</th><th>变现路径</th></tr>
+  <tr><td>招牌玛格丽特</td><td>差异化配方（⚠️假设：门店自有配方），现场调制仪式感</td><td>调酒过程视频，#杭州最好喝玛格丽特#</td><td>带动酒水销售额，提升客单20%+</td></tr>
+  <tr><td>特色塔可饼</td><td>食材差异化（⚠️假设：自制辣椒酱/特色馅料），大尺寸高颜值</td><td>拉丝/叠饼视频，小红书打卡必点</td><td>作为套餐主角，提升团购吸引力</td></tr>
+  <tr><td>铁板法士达</td><td>出餐时的烟雾+声音效果，制造"全场回头"的表演性</td><td>出餐视频，抖音15秒爆款素材</td><td>桌均多点1份菜，客单提升约30元</td></tr>
+</table>
+
+<h3>🎯 爆品打造四步法</h3>
+<ol class="sl">
+  <li><strong>产品精修：</strong>选定1道爆品，反复迭代口味/出餐方式/盛器颜值，直到每桌必点</li>
+  <li><strong>内容包装：</strong>为爆品制作专属内容（调酒/出餐视频），在小红书和抖音重点推广</li>
+  <li><strong>菜单置顶：</strong>扫码点餐菜单首页突出展示爆品，加"必点"标签和推荐理由</li>
+  <li><strong>员工话术：</strong>服务员点单时主动推荐："我们的招牌玛格丽特很受欢迎，第一次来一定要试试"</li>
+</ol>
+
+<h3>💰 爆品带动客单测算</h3>
+<div class="mrow">
+  <div class="mc"><span class="val">+28元</span><div class="desc">爆品单价</div></div>
+  <div class="mc"><span class="val">60%</span><div class="desc">推荐转化率目标</div></div>
+  <div class="mc"><span class="val">+16.8元</span><div class="desc">桌均客单提升</div></div>
+  <div class="mc"><span class="val">+19.5%</span><div class="desc">客单提升幅度</div></div>
+</div>
+<div class="note">⚠️ 以上均为假设推算，实际数据以门店运营后核实为准。爆品推荐转化率受员工执行力影响较大，需做好话术培训。</div>`
+  },
+  ch12:{
+    num:'第十二章',
+    title:'投资回报测算',
+    body:`
+<h3>💰 ROI测算基础假设</h3>
+<div class="note">⚠️ 以下所有数据均为行业参考值假设，请国庆在实际拜访中核实门店真实流水和消费数据后校准。</div>
+
+<h3>📊 现状基准（假设）</h3>
+<table class="kt">
+  <tr><th>指标</th><th>假设当前值</th><th>数据来源</th></tr>
+  <tr><td>日均流水</td><td>5,000元</td><td>40座×1.5翻台×86元×0.97≈5,000元</td></tr>
+  <tr><td>月流水</td><td>15万元</td><td>5,000×30天</td></tr>
+  <tr><td>月消费人次</td><td>约1,750人</td><td>5,000÷86×30</td></tr>
+  <tr><td>月复购率</td><td>约15%（行业均值）</td><td>行业参考</td></tr>
+</table>
+
+<h3>📈 运营后预期增长（3个月后）</h3>
+<table class="kt">
+  <tr><th>增收来源</th><th>具体机制</th><th>月增收估算</th></tr>
+  <tr><td>①团购引流新客</td><td>每月新团购核销50单×86元均消</td><td>+4,300元</td></tr>
+  <tr><td>②会员复购提升</td><td>复购率从15%→22%，月增约122人次×86元</td><td>+10,500元</td></tr>
+  <tr><td>③储值沉淀</td><td>月储值15,000元，核销周期3个月，实际月增营业</td><td>+5,000元</td></tr>
+  <tr><td>④爆品带动客单</td><td>桌均消费+16.8元，月1,750人次×16.8元×50%转化</td><td>+14,700元</td></tr>
+</table>
+
+<div class="hlbox">
+  <div class="bn">+34,500元</div>
+  <div class="bl">预计月新增流水（⚠️假设值，请核实）</div>
+</div>
+<p>月流水增幅：约+23%（从15万→18.5万）</p>
+
+<h3>💳 投入成本估算</h3>
+<table class="kt">
+  <tr><th>费用项</th><th>金额</th><th>说明</th></tr>
+  <tr><td>美团SaaS旗舰版</td><td>4,888元/年</td><td>约407元/月</td></tr>
+  <tr><td>好评引导礼品</td><td>200元/月</td><td>约40条×5元</td></tr>
+  <tr><td>离店小物</td><td>300元/月</td><td>约600份×0.5元</td></tr>
+  <tr><td>内容运营（探店邀请）</td><td>0元</td><td>以置换方式合作</td></tr>
+  <tr><td><strong>月均总投入</strong></td><td><strong>~907元/月</strong></td><td>极低成本</td></tr>
+</table>
+
+<div class="hlbox">
+  <div class="bn">~1.2个月</div>
+  <div class="bl">预计投资回收周期（月增收34,500÷月总投入约4,888年费≈1.2个月回本年费）</div>
+</div>`
+  },
+  ch13:{
+    num:'第十三章',
+    title:'月度OKR目标体系',
+    body:`
+<h3>🎯 OKR框架：目标拆解到执行</h3>
+<p>OKR不是KPI考核，而是帮助老板和团队对齐"这个月最重要的事是什么"。以下是3个月滚动OKR建议。</p>
+
+<h3>第一月OKR（基建期）</h3>
+<table class="kt">
+  <tr><th>目标O</th><th>关键结果KR</th><th>衡量方式</th></tr>
+  <tr><td rowspan="4">建立运营基础设施</td><td>KR1：会员注册达200人</td><td>SaaS后台会员数</td></tr>
+  <tr><td>KR2：大众点评新增好评30条，综合评分不下降</td><td>点评后台</td></tr>
+  <tr><td>KR3：团购套餐上线，首月核销50单</td><td>团购核销报告</td></tr>
+  <tr><td>KR4：员工完成话术培训，储值成功20笔</td><td>收银记录</td></tr>
+</table>
+
+<h3>第二月OKR（提速期）</h3>
+<table class="kt">
+  <tr><th>目标O</th><th>关键结果KR</th><th>衡量方式</th></tr>
+  <tr><td rowspan="3">提升复购率和口碑</td><td>KR1：30天复购率达到20%+</td><td>会员消费记录</td></tr>
+  <tr><td>KR2：小红书搜索"杭州墨西哥餐"出现门店笔记3条以上</td><td>小红书搜索</td></tr>
+  <tr><td>KR3：月流水环比增长10%+</td><td>收银日报</td></tr>
+</table>
+
+<h3>第三月OKR（收割期）</h3>
+<table class="kt">
+  <tr><th>目标O</th><th>关键结果KR</th><th>衡量方式</th></tr>
+  <tr><td rowspan="3">形成稳定增长飞轮</td><td>KR1：大众点评评分达4.5+，进入本地品类前3</td><td>点评排名</td></tr>
+  <tr><td>KR2：月储值回款达到1.5万元</td><td>储值统计</td></tr>
+  <tr><td>KR3：月流水较运营前增长20%+</td><td>收银对比</td></tr>
+</table>
+
+<h3>📅 复盘节点</h3>
+<ul>
+  <li><strong>每周五：</strong>国庆BD与店长5分钟数据对齐（本周流水/新增会员/评价数）</li>
+  <li><strong>每月15日：</strong>月中复盘，评估KR进度，调整下半月执行重点</li>
+  <li><strong>每月最后一天：</strong>月度复盘，对比OKR完成率，制定下月OKR</li>
+</ul>`
+  },
+  ch14:{
+    num:'第十四章',
+    title:'员工话术与SOP手册',
+    body:`
+<h3>📋 门店员工操作手册</h3>
+<p>本手册供店长和员工日常执行使用，涵盖会员引导、储值推介和评价引导三大核心场景的标准话术与操作步骤。</p>
+
+<h3>🗣️ 话术卡1：新客扫码点餐引导</h3>
+<div class="note">
+<strong>时机：</strong>顾客入座后，服务员递上桌贴<br>
+<strong>话术：</strong>"您好，欢迎来MEXI PAPA！扫桌上二维码可以直接点单，新客注册一下，今天消费直接9折，非常划算，一步就完成了。"<br>
+<strong>关键动作：</strong>指向桌贴二维码，保持微笑，不要催促
+</div>
+
+<h3>🗣️ 话术卡2：结账储值推介</h3>
+<div class="note">
+<strong>时机：</strong>POS弹出结账界面时<br>
+<strong>话术：</strong>"今天消费XX元，我们有个会员储值，充500送100加一杯玛格丽特，下次来直接用，相当于今天这顿打了八折。您看要办一下吗？"<br>
+<strong>顾客说"下次再说"：</strong>"好的，没关系，下次来随时可以办，我给您留着这个优惠。"（不要强推）
+</div>
+
+<h3>🗣️ 话术卡3：好评引导</h3>
+<div class="note">
+<strong>时机：</strong>顾客准备离开时（手机已弹出评价引导页）<br>
+<strong>话术：</strong>"感谢今天光临！如果今天体验还不错，可以在大众点评帮我们写几个字，对我们很有帮助，下次来可以跟我们说，有小礼物送给您。"<br>
+<strong>注意：</strong>绝对不说"给个五星"，让顾客真实感受后自愿评价
+</div>
+
+<h3>📋 每日运营检查清单</h3>
+<table class="kt">
+  <tr><th>时段</th><th>检查项</th><th>负责人</th></tr>
+  <tr><td>开店前</td><td>桌贴二维码完好，扫码可正常点单</td><td>值班员工</td></tr>
+  <tr><td>开店前</td><td>当日特价/活动在扫码菜单中已设置</td><td>店长</td></tr>
+  <tr><td>营业中</td><td>每桌结账时主动推储值（执行率目标100%）</td><td>收银员</td></tr>
+  <tr><td>营业中</td><td>出餐时完成调酒仪式/铁板出烟等峰值触点</td><td>出餐员工</td></tr>
+  <tr><td>收店后</td><td>查看当日会员新增数和点评新增数</td><td>店长</td></tr>
+  <tr><td>收店后</td><td>处理当日差评（48小时内必须回复）</td><td>店长</td></tr>
+</table>
+
+<h3>❌ 禁止行为清单</h3>
+<ul>
+  <li>禁止强迫顾客给五星好评或以换取优惠为条件</li>
+  <li>禁止在顾客未消费的情况下引导储值</li>
+  <li>禁止对差评进行反怼或情绪性回复</li>
+  <li>禁止私自修改SaaS系统中的菜品价格和活动设置</li>
+</ul>`
+  },
+  chC:{
+    num:'附录C',
+    title:'同品类成功案例参考',
+    body:`
+<h3>📚 美团SaaS · 餐酒吧/异域餐厅标杆案例</h3>
+<div class="note">⚠️ 以下案例为行业参考，具体数据已做脱敏处理。实际案例国庆BD可在美团案例库中检索原版资料。</div>
+
+<h3>案例1：某日系居酒屋（人均92元，面积100㎡）</h3>
+<p><strong>背景：</strong>典型的都市年轻人"下班小酌"场所，与MEXI PAPA场景高度相似，同属"餐+酒"复合业态。</p>
+<p><strong>核心做法：</strong>
+①通过扫码点餐积累会员3,200人（8个月）<br>
+②设置"居酒屋月票"储值产品（充600送月度8.8折），月均储值回款1.8万<br>
+③每周四"深夜档"活动（22:00前特定酒水打折），小红书打卡内容定向扩散<br>
+④点评综合评分从4.2提升至4.6，进入本地日料TOP5</p>
+<p><strong>数据结果：</strong>8个月后月流水从12万→18.5万，增幅54%，复购率从13%→26%。</p>
+
+<h3>案例2：某东南亚风味餐厅（人均78元，面积130㎡）</h3>
+<p><strong>背景：</strong>小众异域品类，与墨西哥餐面临相同的"认知教育"问题。</p>
+<p><strong>核心做法：</strong>
+①以网红菜品（椰子盅）为爆品，抖音视频累计播放量超100万<br>
+②大众点评上线"异域探险套餐"（2人餐128元），首月核销320单<br>
+③结合品类文化（泰国新年/越南中秋）做主题活动，强化品牌差异性<br>
+④私域会员沉睡唤醒活动，发出3,000条召回消息，到店率22%</p>
+<p><strong>数据结果：</strong>6个月月流水增长38%，大众点评评分4.7，成为本地网红必打卡。</p>
+
+<h3>📌 对MEXI PAPA的参考价值</h3>
+<table class="kt">
+  <tr><th>可复制打法</th><th>MEXI PAPA适配方案</th></tr>
+  <tr><td>爆品视频引流</td><td>调酒/铁板出餐视频，主攻小红书和抖音</td></tr>
+  <tr><td>品类文化节日活动</td><td>墨西哥节日（Cinco de Mayo/亡灵节）主题化运营</td></tr>
+  <tr><td>储值月票型产品</td><td>充500送100+酒水，锁定月均消费</td></tr>
+  <tr><td>沉睡唤醒精准营销</td><td>30天未到店自动触发，到店率目标18%+</td></tr>
+</table>
+
+<h3>🌮 大橘🍊 结语</h3>
+<p>MEXI PAPA是一个有真正增长潜力的门店。品类稀缺、场景独特、视觉传播力强——这三件事都是很多餐厅羡慕都羡慕不来的天然资产。现在缺的，是一套把这些资产系统变现的运营工具和方法。</p>
+<p>美团SaaS就是这个工具。不是来卖软件的，是来帮你把现有资产的价值放大3-5倍的。</p>
+<p style="color:var(--ac);font-weight:600;">开始行动，3个月见效果。🍊</p>`
+  }
+};
+
+function openModal(id){
+  const ch=chapters[id];
+  if(!ch)return;
+  document.getElementById('mNum').textContent=ch.num;
+  document.getElementById('mTitle').textContent=ch.title;
+  document.getElementById('mBody').innerHTML=ch.body;
+  document.getElementById('modal').classList.add('active');
+  document.body.style.overflow='hidden';
+}
+
+function closeModal(){
+  document.getElementById('modal').classList.remove('active');
+  document.body.style.overflow='';
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+let unlocked=false;
+function doUnlock(){
+  const v=document.getElementById('unlockInput').value.trim();
+  const msg=document.getElementById('unlockMsg');
+  if(v==='123456'){
+    unlocked=true;
+    msg.innerHTML='<span class="unlock-ok">✅ 已解锁全部章节</span>';
+    const cards=['card5','card6','card7','card8','card9','card10','card11','card12','card13','card14'];
+    const ids=['ch5','ch6','ch7','ch8','ch9','ch10','ch11','ch12','ch13','ch14'];
+    cards.forEach((cid,i)=>{
+      const el=document.getElementById(cid);
+      if(el){
+        el.classList.remove('locked');
+        const lockIc=el.querySelector('.lock-ic');
+        if(lockIc)lockIc.remove();
+        const ctag=el.querySelector('.ctag');
+        if(ctag){ctag.textContent='已解锁';ctag.style.background='rgba(42,172,138,0.15)';ctag.style.color='#2AAC8A';ctag.style.borderColor='rgba(42,172,138,0.3)';}
+        const idx=i;
+        el.onclick=()=>openModal(ids[idx]);
+      }
+    });
+  } else {
+    msg.innerHTML='<span class="unlock-err">解锁码不正确</span>';
+  }
+}
+</script>
+</body>
+</html>
