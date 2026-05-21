@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1892-club 数字化经营解决方案</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@400;600;700;800&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#C4A35A;--primary-dark:#8B7332;--primary-light:#E8D5A0;--accent:#1DB954;--accent2:#FF6B35;--bg-dark:#0a0a0f;--bg-card:#151520;--bg-card2:#1a1a2e;--text:#e8e8e8;--text-dim:#8a8a9a;--border:rgba(196,163,90,0.2);--glow:rgba(196,163,90,0.15)}
+body{font-family:'Noto Sans SC',sans-serif;background:var(--bg-dark);color:var(--text);line-height:1.7;overflow-x:hidden}
+.particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.particle{position:absolute;width:4px;height:4px;background:var(--primary);border-radius:50%;opacity:.3;animation:float 8s infinite ease-in-out}
+.particle:nth-child(2){left:20%;animation-delay:1s;animation-duration:10s}
+.particle:nth-child(3){left:40%;animation-delay:2s;animation-duration:7s}
+.particle:nth-child(4){left:60%;animation-delay:3s;animation-duration:9s}
+.particle:nth-child(5){left:80%;animation-delay:4s;animation-duration:11s}
+.particle:nth-child(6){left:15%;animation-delay:.5s;animation-duration:12s}
+.particle:nth-child(7){left:35%;animation-delay:1.5s;animation-duration:8s}
+.particle:nth-child(8){left:55%;animation-delay:2.5s;animation-duration:10s}
+@keyframes float{0%,100%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:.4}50%{opacity:.2;transform:translateY(50vh) scale(1)}90%{opacity:0}}
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 20px;background:radial-gradient(ellipse at center,rgba(196,163,90,.08) 0%,transparent 70%)}
+.hero::before{content:'';position:absolute;inset:0;background:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="g" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M10 0L0 0 0 10" fill="none" stroke="rgba(196,163,90,0.04)" stroke-width=".5"/></pattern></defs><rect width="100" height="100" fill="url(%23g)"/></svg>');opacity:.5}
+.hero-badge{display:inline-block;padding:8px 24px;border:1px solid var(--primary);border-radius:50px;font-size:13px;color:var(--primary);letter-spacing:2px;margin-bottom:30px;position:relative;z-index:1}
+.hero h1{font-family:'Noto Serif SC',serif;font-size:clamp(2.5rem,6vw,4.5rem);font-weight:700;background:linear-gradient(135deg,var(--primary-light),var(--primary),var(--primary-dark));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:16px;position:relative;z-index:1}
+.hero .subtitle{font-size:clamp(1rem,2.5vw,1.3rem);color:var(--text-dim);margin-bottom:30px;position:relative;z-index:1}
+.hero .address{font-size:14px;color:var(--text-dim);margin-bottom:40px;position:relative;z-index:1}
+.hero-stats{display:flex;gap:40px;flex-wrap:wrap;justify-content:center;position:relative;z-index:1}
+.hero-stat{text-align:center}
+.hero-stat .number{font-family:'Inter',sans-serif;font-size:2rem;font-weight:800;color:var(--primary)}
+.hero-stat .label{font-size:12px;color:var(--text-dim);margin-top:4px}
+.chapters-section{padding:60px 20px;max-width:1200px;margin:0 auto}
+.section-title{font-family:'Noto Serif SC',serif;font-size:2rem;text-align:center;margin-bottom:50px;color:var(--primary-light)}
+.chapters-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:16px}
+.chapter-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:24px 16px;text-align:center;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+.chapter-card:hover{transform:translateY(-4px);border-color:var(--primary);box-shadow:0 8px 32px var(--glow)}
+.chapter-card.locked{opacity:.5;cursor:not-allowed}
+.chapter-card.locked::after{content:'🔒';position:absolute;top:10px;right:10px;font-size:16px}
+.chapter-num{font-family:'Inter',sans-serif;font-size:2rem;font-weight:800;color:var(--primary);opacity:.6}
+.chapter-title{font-size:14px;margin-top:8px;font-weight:500}
+.chapter-tag{display:inline-block;margin-top:10px;padding:3px 10px;border-radius:20px;font-size:11px;background:rgba(196,163,90,.15);color:var(--primary)}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+.modal-overlay.active{display:flex}
+.modal{background:var(--bg-card2);border:1px solid var(--border);border-radius:20px;padding:40px;max-width:800px;width:100%;max-height:85vh;overflow-y:auto;position:relative;animation:modalIn .3s ease}
+@keyframes modalIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-close{position:absolute;top:16px;right:20px;background:none;border:none;color:var(--text-dim);font-size:24px;cursor:pointer}
+.modal h2{font-family:'Noto Serif SC',serif;font-size:1.5rem;color:var(--primary-light);margin-bottom:24px;padding-right:30px}
+.modal h3{font-size:1.1rem;color:var(--primary);margin:20px 0 10px}
+.modal p,.modal li{font-size:14px;line-height:1.8;color:var(--text)}
+.modal ul{padding-left:20px;margin:10px 0}
+.modal li{margin-bottom:8px}
+.modal table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+.modal th{background:rgba(196,163,90,.1);padding:10px 12px;text-align:left;font-weight:500;color:var(--primary);border-bottom:1px solid var(--border)}
+.modal td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.05)}
+.highlight-box{background:rgba(196,163,90,.08);border-left:3px solid var(--primary);padding:16px 20px;border-radius:0 10px 10px 0;margin:16px 0}
+.metric-card{display:inline-block;background:rgba(196,163,90,.1);border:1px solid var(--border);border-radius:12px;padding:12px 20px;margin:6px;text-align:center}
+.metric-card .value{font-family:'Inter',sans-serif;font-size:1.3rem;font-weight:700;color:var(--primary)}
+.metric-card .desc{font-size:11px;color:var(--text-dim);margin-top:4px}
+.unlock-bar{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:30px;margin:40px auto;max-width:500px;text-align:center}
+.unlock-bar input{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;padding:12px 20px;color:var(--text);font-size:14px;width:200px;margin-right:10px;outline:none}
+.unlock-bar input:focus{border-color:var(--primary)}
+.unlock-bar button{background:linear-gradient(135deg,var(--primary-dark),var(--primary));border:none;border-radius:10px;padding:12px 24px;color:#fff;font-size:14px;font-weight:500;cursor:pointer;transition:all .3s}
+.unlock-bar button:hover{transform:scale(1.05);box-shadow:0 4px 20px rgba(196,163,90,.3)}
+.unlock-msg{margin-top:12px;font-size:13px;min-height:20px}
+.footer{text-align:center;padding:40px 20px;color:var(--text-dim);font-size:12px}
+@media(max-width:600px){.hero-stats{gap:20px}.chapters-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}.modal{padding:24px}.unlock-bar input{width:140px;margin-bottom:10px}}
+</style>
+</head>
+<body>
+<div class="particles"><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div></div>
+
+<section class="hero">
+<span class="hero-badge">⚽ 酒馆 × 港式小吃 × 足球文化</span>
+<h1>1892-club</h1>
+<p class="subtitle">三业态融合 · 开业冷启动数字化运营方案</p>
+<p class="address">📍 杭州上城区彭埠街道运新路100号 · 御临云府商圈</p>
+<div class="hero-stats">
+<div class="hero-stat"><div class="number">200㎡</div><div class="label">营业面积</div></div>
+<div class="hero-stat"><div class="number">3合1</div><div class="label">业态融合</div></div>
+<div class="hero-stat"><div class="number">新店</div><div class="label">即将开业</div></div>
+<div class="hero-stat"><div class="number">御临云府</div><div class="label">聚客商圈</div></div>
+</div>
+</section>
+
+<section class="chapters-section">
+<h2 class="section-title">📋 方案目录</h2>
+<div class="chapters-grid">
+<div class="chapter-card" onclick="openModal(1)"><div class="chapter-num">01</div><div class="chapter-title">门店诊断</div><div class="chapter-tag">现状分析</div></div>
+<div class="chapter-card" onclick="openModal(2)"><div class="chapter-num">02</div><div class="chapter-title">商圈竞品</div><div class="chapter-tag">竞争格局</div></div>
+<div class="chapter-card" onclick="openModal(3)"><div class="chapter-num">03</div><div class="chapter-title">品牌定位</div><div class="chapter-tag">差异化</div></div>
+<div class="chapter-card" onclick="openModal(4)"><div class="chapter-num">04</div><div class="chapter-title">开业冷启动</div><div class="chapter-tag">蓄客引爆</div></div>
+<div class="chapter-card locked" onclick="checkLock(5)"><div class="chapter-num">05</div><div class="chapter-title">会员储值</div><div class="chapter-tag">锁客体系</div></div>
+<div class="chapter-card locked" onclick="checkLock(6)"><div class="chapter-num">06</div><div class="chapter-title">公私域联动</div><div class="chapter-tag">全域流量</div></div>
+<div class="chapter-card locked" onclick="checkLock(7)"><div class="chapter-num">07</div><div class="chapter-title">营销节奏</div><div class="chapter-tag">12周规划</div></div>
+<div class="chapter-card locked" onclick="checkLock(8)"><div class="chapter-num">08</div><div class="chapter-title">足球赛事运营</div><div class="chapter-tag">特色玩法</div></div>
+<div class="chapter-card locked" onclick="checkLock(9)"><div class="chapter-num">09</div><div class="chapter-title">产品场景化</div><div class="chapter-tag">SaaS方案</div></div>
+<div class="chapter-card locked" onclick="checkLock(10)"><div class="chapter-num">10</div><div class="chapter-title">OKR目标</div><div class="chapter-tag">量化考核</div></div>
+<div class="chapter-card locked" onclick="checkLock(11)"><div class="chapter-num">11</div><div class="chapter-title">ROI测算</div><div class="chapter-tag">投资回报</div></div>
+<div class="chapter-card" onclick="openModal(12)"><div class="chapter-num">C</div><div class="chapter-title">同行案例</div><div class="chapter-tag">附录</div></div>
+</div>
+<div class="unlock-bar">
+<p style="margin-bottom:16px;color:var(--text-dim);font-size:13px">签约后查看完整方案（第5-11章）</p>
+<input type="password" id="unlockInput" placeholder="请输入解锁码" onkeypress="if(event.key==='Enter')unlock()">
+<button onclick="unlock()">🔓 签约解锁全部</button>
+<div class="unlock-msg" id="unlockMsg"></div>
+</div>
+</section>
+
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+<div class="modal"><button class="modal-close" onclick="closeModal()">✕</button><div id="modalContent"></div></div>
+</div>
+
+<footer class="footer">
+<p>美团餐饮SaaS · 1892-club 开业运营方案 · 2026年5月</p>
+<p style="margin-top:8px">方案仅供商户决策参考，最终执行方案以签约内容为准</p>
+</footer>
+
+<script>
+const chapters={
+1:`<h2>01 门店诊断 · 三业态新店画像</h2>
+<div class="highlight-box"><strong>⚠️ 核心判断：</strong>1892-club是一家尚未开业的三业态融合新店（酒馆+港式小吃+足球周边），位于御临云府社区商圈。老板在浦沿有老店经验，新店是品牌升级。核心挑战：让三个业态在200㎡空间产生1+1+1>3的化学反应。</div>
+<h3>📊 门店基础信息</h3>
+<table><tr><th>维度</th><th>数据</th><th>解读</th></tr>
+<tr><td>面积</td><td>200㎡</td><td>酒馆区约100㎡+港式小吃区50㎡+足球周边展售区50㎡</td></tr>
+<tr><td>位置</td><td>彭埠街道运新路100号</td><td>御临云府社区底商，辐射住宅+东站商务客群</td></tr>
+<tr><td>业态</td><td>酒馆+港式小吃+足球周边</td><td>独创"看球+喝酒+吃宵夜"一站式场景</td></tr>
+<tr><td>状态</td><td>尚未开业（0-30天新店）</td><td>冷启动阶段，核心是蓄客→试营业→引爆</td></tr>
+<tr><td>老板背景</td><td>浦沿有老店</td><td>非纯新手，有运营经验和种子客群</td></tr></table>
+<h3>🎯 五大核心痛点</h3>
+<ul>
+<li><strong>品牌认知空白：</strong>新商圈+新品牌，周边3000+住户不知道有这家店</li>
+<li><strong>业态定义模糊：</strong>三合一业态如何让客人10秒内理解"你是干嘛的"</li>
+<li><strong>开业流量悬崖：</strong>社区底商无商场自然人流，不主动引流=冷场</li>
+<li><strong>复购链条缺失：</strong>新店零回头客，第一批客人必须留住变常客</li>
+<li><strong>线上空白：</strong>大众点评0评价、0评分，线上决策信任为零</li></ul>
+<h3>💡 独特资产（方案的起点）</h3>
+<ul>
+<li>⚽ <strong>1892足球IP</strong>——品牌名即利物浦创立年份，天然吸引球迷社群</li>
+<li>🍜 <strong>港式小吃差异</strong>——彭埠片区无港式+酒馆组合，品类空白</li>
+<li>🏠 <strong>老店口碑迁移</strong>——浦沿老客群可定向转化为新店种子</li>
+<li>📍 <strong>社区+商务双客群</strong>——白天港式简餐，夜晚酒馆看球</li></ul>`,
+
+2:`<h2>02 商圈洞察 · 竞品分析</h2>
+<div class="highlight-box"><p><strong>商圈判断：</strong>御临云府属彭埠新兴住宅区，紧邻火车东站商务区。周边常住人口以25-40岁年轻白领/新杭州人为主，夜间消费需求旺盛但酒馆供给分散、无足球主题门店。</p></div>
+<h3>🏘️ 周边3公里核心竞品</h3>
+<table><tr><th>竞品</th><th>人均</th><th>优势</th><th>弱点</th><th>1892切入点</th></tr>
+<tr><td><strong>缘一酒馆</strong><br>悦郡城底商</td><td>¥87</td><td>复古工业风+宠物友好+KTV+凌晨5点打烊</td><td>纯酒水无餐食；无赛事内容；价格偏高</td><td>「吃+喝+看球」一站式 > 纯喝酒；港式小吃提供饱腹感</td></tr>
+<tr><td><strong>下次再见小酒馆</strong><br>三花国际B1</td><td>¥68</td><td>驻唱+川味下酒菜+复古海报+537条评价</td><td>负一层位置深；菜品川菜同质化；无IP主题</td><td>街面底商更易到达；足球IP+港式小吃形成独特记忆</td></tr>
+<tr><td><strong>1022Bistro</strong><br>城东彭埠</td><td>¥43</td><td>暗黑水泥风+餐+KTV+调酒颜值</td><td>客单低品质有限；定位模糊无法被记住</td><td>「1892」品牌名即球迷暗号；中等客单锁定精准人群</td></tr>
+<tr><td><strong>青年疗养院</strong><br>杭州之翼店</td><td>¥60</td><td>治愈主题+小串+东站商圈</td><td>偏年轻化无深度社群；无体育内容</td><td>足球社群产生强粘性；球赛日自带流量</td></tr></table>
+<h3>📊 竞争格局总结</h3>
+<ul>
+<li>彭埠酒馆赛道人均区间：¥43-87，竞争集中在<strong>氛围感+调酒</strong>维度</li>
+<li>⚠️ <strong>无一家</strong>有体育赛事主题——这是1892-club的蓝海</li>
+<li>⚠️ <strong>无一家</strong>有港式小吃——"边喝酒边吃虾饺肠粉"是差异化壁垒</li>
+<li>竞品平均评价数300+条，1892开业后需60天内积累100+条优质评价</li></ul>
+<h3>🎯 竞争策略结论</h3>
+<p><strong>不在"氛围感调酒"赛道卷，而在"足球社群+港式餐食"赛道建立无人区。</strong></p>
+<p>1892的客人不是"想找个地方喝一杯"的人，而是"想找一群人一起看球吃宵夜"的人。锁定这批人，竞品抢不走。</p>`,
+
+3:`<h2>03 品牌定位 · 差异化策略</h2>
+<h3>🎯 一句话定位</h3>
+<div class="highlight-box" style="font-size:18px;text-align:center;padding:24px"><strong>「彭埠球迷的深夜食堂」</strong><br><span style="font-size:14px;color:var(--text-dim)">看球 × 微醺 × 港式宵夜 — 一个让你不想回家的地方</span></div>
+<h3>🧩 三业态融合逻辑</h3>
+<table><tr><th>业态</th><th>角色</th><th>贡献</th><th>时段</th></tr>
+<tr><td>⚽ 足球文化</td><td>流量引擎+社群粘性</td><td>赛事日自带客流，球迷社群产生归属感</td><td>赛事时段（晚间/凌晨）</td></tr>
+<tr><td>🍻 酒馆</td><td>利润核心+氛围营造</td><td>酒水毛利70%+，支撑整体盈利</td><td>18:00-凌晨（全时段）</td></tr>
+<tr><td>🍜 港式小吃</td><td>差异化+提升客单</td><td>解决"光喝酒肚子饿"痛点，拉高桌均</td><td>午间简餐+夜宵全时段</td></tr></table>
+<h3>💡 核心差异化壁垒</h3>
+<ul>
+<li><strong>壁垒1 — 球迷社群：</strong>建立「1892球迷会」微信社群，每周赛事竞猜+包场看球活动，形成"不是来消费，是来聚会"的心智</li>
+<li><strong>壁垒2 — 港式餐食：</strong>虾饺/肠粉/菠萝油+特调鸡尾酒的搭配，在酒馆赛道独一无二</li>
+<li><strong>壁垒3 — 足球周边零售：</strong>球衣/围巾/纪念品展售区让球迷"逛起来"，增加停留时长和社交话题</li></ul>
+<h3>👥 目标客群画像</h3>
+<table><tr><th>客群</th><th>占比</th><th>画像</th><th>消费场景</th><th>人均贡献</th></tr>
+<tr><td>核心：球迷社群</td><td>40%</td><td>25-40岁男性为主，有固定看球习惯</td><td>赛事日包场看球+赛后宵夜</td><td>¥80-120</td></tr>
+<tr><td>扩展：社区夜饮</td><td>35%</td><td>御临云府住户，下班后小酌放松</td><td>工作日晚间2-4人小聚</td><td>¥60-80</td></tr>
+<tr><td>增量：港式简餐</td><td>25%</td><td>周边写字楼白领，午间快餐需求</td><td>午间港式套餐（非酒水时段）</td><td>¥35-45</td></tr></table>
+<h3>💰 客单价设定</h3>
+<div class="highlight-box">
+<p><strong>综合人均：¥75</strong>（加权：球迷¥100×40% + 夜饮¥70×35% + 午餐¥40×25%）</p>
+<p>⚠️ 假设值，基于竞品区间¥43-87取中等偏上定位，待开业后实际数据验证</p></div>`,
+
+4:`<h2>04 开业冷启动 · 蓄客引爆方案</h2>
+<h3>📅 开业倒计时节奏（D-30 → D+14）</h3>
+<table><tr><th>阶段</th><th>时间</th><th>核心目标</th><th>关键动作</th></tr>
+<tr><td><strong>蓄客期</strong></td><td>D-30至D-7</td><td>500人知道你即将开业</td><td>社群建设+线上预热+异业合作</td></tr>
+<tr><td><strong>试营业</strong></td><td>D-7至D-1</td><td>磨合团队+积累10条好评</td><td>7天试营业，每天60%容量</td></tr>
+<tr><td><strong>引爆期</strong></td><td>D0至D+3</td><td>开业日排队，首周日均40桌</td><td>开业活动+点评霸王餐+社群裂变</td></tr>
+<tr><td><strong>承接期</strong></td><td>D+4至D+14</td><td>日均稳定25桌，沉淀回头客</td><td>储值转化+会员注册+评价引导</td></tr></table>
+
+<h3>🎯 蓄客期（D-30至D-7）具体执行</h3>
+<p><strong>线上蓄客：</strong></p>
+<ul>
+<li>📱 <strong>球迷社群搭建：</strong>以老店客群为种子，建3个200人「1892球迷会」微信群，每天发装修进度+赛事预告（成本：0元）</li>
+<li>📝 <strong>小红书种草：</strong>发5篇"杭州新开的足球主题酒馆"探店笔记，突出港式小吃+球衣墙颜值（成本：自发0元 or 邀KOC 500元/篇×3=1,500元）</li>
+<li>🎬 <strong>抖音短视频：</strong>拍3条装修过程vlog："我在杭州开了家足球酒馆"系列，挂门店POI（成本：自拍0元）</li>
+<li>⭐ <strong>大众点评：</strong>提前创建商户页→上传装修照+菜单预览→设置"即将开业"标签（成本：0元）</li></ul>
+<p><strong>线下蓄客：</strong></p>
+<ul>
+<li>🏘️ <strong>社区渗透：</strong>御临云府业主群发红包+开业预告（红包预算300元），一句话："邻居们！楼下开了家看球的地方，开业请你喝第一杯🍺"</li>
+<li>🤝 <strong>异业合作：</strong>周边健身房/足球场/台球室互放优惠券（成本：物料200元）</li>
+<li>📄 <strong>足球圈渗透：</strong>在杭州业余足球联赛/约球群发开业信息（成本：0元，老板球圈人脉）</li></ul>
+
+<h3>🔥 引爆期活动设计（D0至D+3）</h3>
+<table><tr><th>活动</th><th>内容</th><th>成本</th><th>预期效果</th></tr>
+<tr><td>开业折扣</td><td>开业当天全场6.8折，D+1-3日7.8折</td><td>约让利30元/桌×40桌=1,200元</td><td>制造排队效应</td></tr>
+<tr><td>球迷暗号</td><td>穿任意球队球衣到店，赠精酿一杯（限前50名/天）</td><td>成本8元/杯×50=400元/天</td><td>制造话题+筛选精准客群</td></tr>
+<tr><td>储值锁客</td><td>开业首周限定：充500送100（20%），充1000送250（25%）</td><td>让利约20-25%（回本快）</td><td>预计首周储值15笔=¥10,000+回笼</td></tr>
+<tr><td>点评霸王餐</td><td>大众点评"免费试"15份双人套餐（2杯酒+4份小吃）</td><td>成本约60元/份×15=900元</td><td>快速积累15条优质长评</td></tr></table>
+<h3>💰 开业冷启动总预算</h3>
+<div class="highlight-box"><p><strong>总计：约5,000-8,000元</strong></p>
+<p>小红书KOC 1,500 + 社区红包300 + 物料200 + 开业折扣让利1,200×3天=3,600 + 球衣赠饮400×3天=1,200 + 霸王餐900 ≈ <strong>¥7,700</strong></p>
+<p>⚠️ 无大额投入，全部是低成本高杠杆打法</p></div>`,
+
+5:`<h2>05 会员储值体系 · 锁客设计</h2>
+<h3>🎯 设计原则</h3>
+<div class="highlight-box"><p>1892-club属于<strong>中高客单+中频消费</strong>的酒馆业态（人均¥75），核心策略：<strong>储值锁定球迷高频消费 + 等级会员养成社区常客</strong></p></div>
+
+<h3>💳 储值卡方案</h3>
+<table><tr><th>档位</th><th>充值金额</th><th>赠送金额</th><th>赠送比例</th><th>锁定次数</th><th>目标人群</th></tr>
+<tr><td>⚽ 球迷卡</td><td>¥500</td><td>¥100</td><td>20%</td><td>约8次</td><td>初次到店体验不错的客人</td></tr>
+<tr><td>🏆 主场卡</td><td>¥1,000</td><td>¥250</td><td>25%</td><td>约17次</td><td>球迷社群核心成员</td></tr>
+<tr><td>👑 传奇卡</td><td>¥2,000</td><td>¥600</td><td>30%</td><td>约35次</td><td>包场看球组织者/KOL</td></tr></table>
+
+<h3>⭐ 等级会员体系</h3>
+<table><tr><th>等级</th><th>升级条件</th><th>权益</th></tr>
+<tr><td>🥉 新球迷</td><td>扫码即注册</td><td>生日赠饮1杯 + 积分1倍 + 会员价点单</td></tr>
+<tr><td>🥈 老球迷</td><td>累计消费满¥800</td><td>赛事日专属折扣8.8折 + 积分1.5倍 + 优先预约包场</td></tr>
+<tr><td>🥇 传奇球迷</td><td>累计消费满¥3,000</td><td>全场8折 + 积分2倍 + 赛事免费小食拼盘 + 球衣周边9折</td></tr></table>
+
+<h3>🔄 储值×等级联动</h3>
+<ul>
+<li>储值消费同步累积等级经验值（1元=1经验）</li>
+<li>金卡等级享受更优储值赠送：老球迷充500额外+20元，传奇充500额外+50元</li>
+<li>积分兑换：500积分=1杯指定精酿 / 1000积分=港式小吃拼盘</li></ul>
+
+<h3>📈 储值目标</h3>
+<div class="metric-card"><div class="value">¥30,000</div><div class="desc">开业首月储值目标</div></div>
+<div class="metric-card"><div class="value">50笔</div><div class="desc">首月储值笔数</div></div>
+<div class="metric-card"><div class="value">¥600</div><div class="desc">笔均储值金额</div></div>`,
+
+6:`<h2>06 公私域联动 · 全域流量闭环</h2>
+<h3>🔄 闭环逻辑</h3>
+<div class="highlight-box"><p><strong>公域获客 → 到店体验 → 私域沉淀 → 社群激活 → 复购/裂变 → 公域反哺</strong></p>
+<p>核心思路：用"足球赛事"做公域内容钩子，用"球迷社群"做私域粘性容器，两端互相喂养。</p></div>
+
+<h3>📢 公域策略</h3>
+<table><tr><th>平台</th><th>定位</th><th>内容策略</th><th>执行频率</th><th>目标</th></tr>
+<tr><td><strong>大众点评</strong></td><td>线上门面+团购转化</td><td>① 上线3款团购套餐（双人微醺¥128/球迷拼盘¥168/港式宵夜¥88）<br>② 评价管理：每条差评24h内回复<br>③ 冲刺"彭埠酒吧好评榜"</td><td>每周更新套餐/每日回复评价</td><td>60天内达4.5分+100条评价</td></tr>
+<tr><td><strong>小红书</strong></td><td>种草引流+打卡传播</td><td>① "杭州足球主题酒馆"+"港式宵夜"双标签<br>② 球衣墙/港式出餐/赛事氛围出片内容<br>③ 每月邀2位本地探店博主</td><td>每周2-3篇自发+每月2篇KOC</td><td>月均笔记曝光2万+</td></tr>
+<tr><td><strong>抖音</strong></td><td>赛事氛围感+团购</td><td>① 赛事日店内氛围短视频（球迷欢呼/进球瞬间）<br>② 上线抖音团购套餐<br>③ 偶尔直播赛事观赛氛围</td><td>赛事日必发+每周1-2条</td><td>视频平均播放3000+</td></tr></table>
+
+<h3>🔐 私域策略</h3>
+<table><tr><th>阵地</th><th>功能</th><th>运营SOP</th></tr>
+<tr><td><strong>球迷社群（3群×200人）</strong></td><td>赛事通知+竞猜活动+到店预约</td><td>赛前24h发预告→赛中实时互动→赛后评球+下次预约</td></tr>
+<tr><td><strong>企业微信（1对1）</strong></td><td>储值到期提醒+生日权益+专属推荐</td><td>新客3天内触达→7天未复购推券→30天沉睡唤醒</td></tr>
+<tr><td><strong>会员系统（美团收银）</strong></td><td>积分/储值/等级管理</td><td>扫码即入会→消费自动积分→升级自动通知</td></tr></table>
+
+<h3>🔗 公私域联动闭环（以一场英超赛事为例）</h3>
+<ul>
+<li><strong>赛前3天（公域）：</strong>小红书发"本周六1892包场看利物浦！"笔记 → 评论区引导加群</li>
+<li><strong>赛前1天（私域）：</strong>球迷群发竞猜活动"猜比分赢免单" → 接龙报名占座</li>
+<li><strong>赛事当天（到店）：</strong>穿球衣到店赠饮 → 扫码入会 → 推荐储值（"充500下场看球免费喝"）</li>
+<li><strong>赛后第2天（私域）：</strong>群内发赛事精彩回顾+现场照片 → 询问下场看球时间</li>
+<li><strong>赛后第3天（公域）：</strong>将店内看球氛围照发小红书/抖音 → 吸引新球迷关注</li></ul>`,
+
+7:`<h2>07 营销节奏 · 12周作战地图</h2>
+<h3>📅 第1-4周：开业引爆期</h3>
+<table><tr><th>周次</th><th>主题</th><th>核心活动</th><th>目标</th></tr>
+<tr><td>第1周</td><td>开业风暴</td><td>全场6.8折→7.8折阶梯 + 球衣赠饮 + 霸王餐15份</td><td>日均35桌，积累30+好评</td></tr>
+<tr><td>第2周</td><td>储值狂欢</td><td>开业限定储值档位（充500送100） + 点评推"双人套餐"</td><td>储值15笔共¥8,000+</td></tr>
+<tr><td>第3周</td><td>球迷集结号</td><td>首场赛事包场观看 + 竞猜免单 + 朋友圈传播奖励</td><td>建群满300人，赛事日满座</td></tr>
+<tr><td>第4周</td><td>港式美食节</td><td>每日限量港式招牌菜5折体验（虾饺/肠粉/菠萝油轮播）</td><td>午间客群拓展，日间流水¥800+</td></tr></table>
+
+<h3>📅 第5-8周：稳态运营期</h3>
+<table><tr><th>周次</th><th>主题</th><th>核心活动</th><th>目标</th></tr>
+<tr><td>第5周</td><td>会员日启动</td><td>每周三定为"1892会员日"：会员全场9折+积分翻倍</td><td>周三到店率提升50%</td></tr>
+<tr><td>第6周</td><td>世界杯预选赛</td><td>国足比赛日活动：进一球全场半价啤酒（大概率不会进…兜底免费花生）</td><td>赛事日翻台2轮</td></tr>
+<tr><td>第7周</td><td>深夜食堂周</td><td>22:00后港式宵夜套餐¥68（2菜1汤+1杯精酿），社群专属</td><td>夜间22-1点客流提升</td></tr>
+<tr><td>第8周</td><td>裂变周</td><td>"带新朋友来看球"：老带新双方各赠1杯特调</td><td>新增会员50人</td></tr></table>
+
+<h3>📅 第9-12周：增长加速期</h3>
+<table><tr><th>周次</th><th>主题</th><th>核心活动</th><th>目标</th></tr>
+<tr><td>第9周</td><td>球迷之夜</td><td>月度球迷Party：评选月度最佳预测+颁奖（奖品：签名球衣抽奖）</td><td>社群活跃度提升，到店30桌+</td></tr>
+<tr><td>第10周</td><td>夏日特调</td><td>推出3款夏日限定鸡尾酒（足球主题命名） + 小红书打卡抽免单</td><td>特调销量占比达30%</td></tr>
+<tr><td>第11周</td><td>沉睡唤醒</td><td>30天未到店会员推送"老朋友回来看球"¥20无门槛券</td><td>唤醒率15%+</td></tr>
+<tr><td>第12周</td><td>季度复盘+续储</td><td>储值余额不足¥100的客户定向推"续充"优惠 + 3个月成绩单海报</td><td>续储率40%，月储值¥15,000</td></tr></table>`,
+
+8:`<h2>08 足球赛事运营 · 特色玩法</h2>
+<h3>⚽ 这是1892-club最大的差异化武器</h3>
+<div class="highlight-box"><p>彭埠片区没有第二家足球主题酒馆。每一场英超/欧冠/世界杯赛事，都是1892的<strong>免费流量日</strong>。关键是把"看球"从一次性消费变成"每周都来"的习惯。</p></div>
+
+<h3>📋 赛事运营SOP</h3>
+<table><tr><th>时间节点</th><th>动作</th><th>工具</th></tr>
+<tr><td>赛前3天</td><td>社群发赛事预告海报+接龙报名</td><td>企微群+海报模板</td></tr>
+<tr><td>赛前1天</td><td>发竞猜活动（猜比分/首球/角球数）→记录参与者</td><td>小程序接龙</td></tr>
+<tr><td>赛事当天18:00</td><td>提前布置大屏+确认音响+备好赛事套餐</td><td>门店准备</td></tr>
+<tr><td>赛事进行中</td><td>进球→全场欢呼拍短视频→实时发群+朋友圈</td><td>手机拍摄</td></tr>
+<tr><td>赛后30分钟</td><td>公布竞猜结果→获奖者现场兑奖→合影发群</td><td>社群互动</td></tr>
+<tr><td>赛后次日</td><td>精彩瞬间剪辑发小红书/抖音 + 预告下场赛事</td><td>剪映+社媒</td></tr></table>
+
+<h3>🏆 赛事分级运营</h3>
+<table><tr><th>赛事级别</th><th>赛事类型</th><th>活动力度</th><th>预期到店</th></tr>
+<tr><td>S级</td><td>欧冠决赛/世界杯/英超德比</td><td>全场包场+赛事套餐+竞猜免单+限量球衣抽奖</td><td>满座50人+</td></tr>
+<tr><td>A级</td><td>英超/西甲/欧冠小组赛焦点战</td><td>赛事套餐8折+竞猜赠饮+进球啤酒半价</td><td>30-40人</td></tr>
+<tr><td>B级</td><td>常规联赛/非焦点场次</td><td>正常营业+大屏播放+群内互动</td><td>日常客流</td></tr></table>
+
+<h3>💡 竞猜玩法设计（零成本高互动）</h3>
+<ul>
+<li><strong>猜比分：</strong>猜中全场比分→免单一桌（概率极低，成本可控）</li>
+<li><strong>猜首球时间：</strong>最接近者→赠招牌特调1杯（成本¥15）</li>
+<li><strong>连续3场全猜中：</strong>赠传奇卡充值¥200额度（制造话题）</li>
+<li><strong>群内投票：</strong>赛前投票支持哪队→赢的一方全员9折（增加参与感）</li></ul>`,
+
+9:`<h2>09 产品场景化 · SaaS解决方案</h2>
+<h3>🎯 不是"美团SaaS有什么功能"，而是"1892-club的问题怎么解决"</h3>
+<table><tr><th>门店痛点</th><th>解决方案</th><th>具体操作路径</th><th>预期效果</th></tr>
+<tr><td>新店0评价，线上没存在感</td><td>评价管理+点评运营</td><td>🔧 结账自动弹好评页→好评赠积分50→差评实时预警→24h内回复</td><td>60天100+条评价，冲4.5分</td></tr>
+<tr><td>客人来一次不回头</td><td>会员旗舰版+智能储值</td><td>🔧 扫码即入会→消费自动积分→储值推荐弹窗→沉睡唤醒自动触达</td><td>会员转化率40%+，月储值¥30,000</td></tr>
+<tr><td>赛事日人多点单慢</td><td>扫码点餐</td><td>🔧 桌贴二维码→赛事套餐置顶→加购推荐→直接出票到吧台</td><td>点单效率提升60%，赛事日不丢单</td></tr>
+<tr><td>三业态账务混乱</td><td>美团收银·智能版</td><td>🔧 酒水/小吃/周边三品类分开核算→日报自动生成→老板手机看数据</td><td>每日经营数据清晰可视</td></tr>
+<tr><td>老客回不来不知道</td><td>会员营销（潜客+沉睡唤醒）</td><td>🔧 7天未到店→自动推"想你了"券→30天未到→推更大额券→精准触达</td><td>沉睡唤醒率15%+</td></tr></table>
+
+<h3>📦 推荐签约方案</h3>
+<div class="highlight-box">
+<p><strong>美团收银智能版 + 会员旗舰版 + 扫码点餐 + 评价专家</strong></p>
+<p>标准报价：¥5,888/年（会员旗舰版4,888 + 扫码点餐+评价专家套餐1,000）</p>
+<p>核心价值：不是卖软件，是帮你<strong>3个月内</strong>建立起"500个回头客+月储值3万"的经营基本盘。</p></div>`,
+
+10:`<h2>10 OKR目标 · 量化考核</h2>
+<h3>📊 3个月核心OKR</h3>
+<table><tr><th>目标维度</th><th>第1个月</th><th>第2个月</th><th>第3个月</th></tr>
+<tr><td><strong>月营收</strong></td><td>¥120,000</td><td>¥150,000</td><td>¥180,000</td></tr>
+<tr><td><strong>日均营收</strong></td><td>¥4,000</td><td>¥5,000</td><td>¥6,000</td></tr>
+<tr><td><strong>日均桌数</strong></td><td>25桌</td><td>30桌</td><td>35桌</td></tr>
+<tr><td><strong>会员数</strong></td><td>200人</td><td>400人</td><td>600人</td></tr>
+<tr><td><strong>储值流水</strong></td><td>¥30,000</td><td>¥25,000</td><td>¥20,000</td></tr>
+<tr><td><strong>大众点评评分</strong></td><td>4.3分（50+评价）</td><td>4.5分（100+评价）</td><td>4.5分稳定（150+评价）</td></tr>
+<tr><td><strong>球迷社群人数</strong></td><td>300人</td><td>500人</td><td>600人</td></tr>
+<tr><td><strong>复购率</strong></td><td>20%</td><td>30%</td><td>35%</td></tr></table>
+
+<h3>📐 数据推算逻辑</h3>
+<div class="highlight-box">
+<p><strong>第3个月目标 ¥180,000/月 验证：</strong></p>
+<p>日均营收¥6,000 ÷ 桌均消费¥170（2-3人/桌×人均¥75）= 日均35桌</p>
+<p>200㎡ ÷ 5㎡/桌 ≈ 40桌容量，35桌=87.5%上座率（酒馆业态合理）</p>
+<p>¥6,000 × 30天 = ¥180,000 ✓</p></div>
+
+<h3>🎯 月度KPI拆解（第3个月）</h3>
+<ul>
+<li>酒水收入：¥108,000（占60%，毛利率70%=毛利¥75,600）</li>
+<li>港式小吃：¥45,000（占25%，毛利率55%=毛利¥24,750）</li>
+<li>足球周边：¥18,000（占10%，毛利率40%=毛利¥7,200）</li>
+<li>团购/储值释放：¥9,000（占5%）</li>
+<li><strong>综合毛利：约¥107,550（毛利率约60%）</strong></li></ul>`,
+
+11:`<h2>11 ROI测算 · 投资回报</h2>
+<h3>💰 SaaS投入成本</h3>
+<table><tr><th>项目</th><th>费用</th><th>说明</th></tr>
+<tr><td>美团收银智能版</td><td>含在套餐中</td><td>收银+报表+库存基础管理</td></tr>
+<tr><td>会员旗舰版</td><td>¥4,888/年</td><td>储值/等级/积分/潜客营销/沉睡唤醒/团购会员卡</td></tr>
+<tr><td>扫码点餐+评价专家</td><td>¥1,000/年</td><td>赛事日高效点单+评价管理</td></tr>
+<tr><td><strong>年度总投入</strong></td><td><strong>¥5,888</strong></td><td>月均¥490</td></tr></table>
+
+<h3>📈 月度增收来源（第3个月稳态）</h3>
+<table><tr><th>增收来源</th><th>月增收</th><th>逻辑</th></tr>
+<tr><td>会员复购提升</td><td>+¥25,000</td><td>600会员×35%复购率×月均多消费¥120≈¥25,200</td></tr>
+<tr><td>储值消费释放</td><td>+¥15,000</td><td>累计储值¥75,000×月释放率20%=¥15,000</td></tr>
+<tr><td>点评引流新客</td><td>+¥12,000</td><td>4.5分+100评价→日新增2桌×桌均¥170×30天÷3（归因系数）</td></tr>
+<tr><td>赛事日增量</td><td>+¥8,000</td><td>月均4场赛事×比日常多15桌×桌均¥130（赛事套餐）</td></tr>
+<tr><td><strong>月度总增收</strong></td><td><strong>+¥60,000</strong></td><td>对应OKR：从¥120,000增长至¥180,000</td></tr></table>
+
+<h3>📊 ROI计算</h3>
+<div class="highlight-box" style="text-align:center">
+<p style="font-size:1.5rem;color:var(--primary);font-weight:700">月增收 ¥60,000 ÷ 月投入 ¥490 = <span style="font-size:2rem">ROI 122:1</span></p>
+<p style="margin-top:12px;font-size:13px;color:var(--text-dim)">即使保守按30%归因SaaS贡献：月增收¥18,000 ÷ ¥490 = ROI 36:1</p>
+<p style="margin-top:8px;font-size:13px;color:var(--text-dim)"><strong>回本周期：&lt;1个月</strong>（首月储值¥30,000即远超年费投入）</p></div>
+
+<h3>⚠️ 数字对齐验证</h3>
+<ul>
+<li>OKR目标：第3月营收¥180,000 = 第1月¥120,000 + 增长¥60,000 ✓</li>
+<li>ROI月增收¥60,000 = OKR增长额¥60,000 ✓</li>
+<li>日均35桌×桌均¥170 = 日均¥5,950 ≈ ¥6,000 ✓</li>
+<li>储值目标3个月累计¥75,000（30k+25k+20k）→ 月释放20%=¥15,000 ✓</li></ul>`,
+
+12:`<h2>附录C · 同行案例参考</h2>
+<h3>🍺 彭埠酒馆赛道标杆</h3>
+<table><tr><th>门店</th><th>核心打法</th><th>效果数据</th><th>1892可借鉴点</th></tr>
+<tr><td><strong>下次再见小酒馆</strong><br>三花国际B1</td><td>驻唱+川味下酒菜+复古氛围</td><td>537条评价，人均¥68，彭埠酒馆评价数第一</td><td>评价运营策略：开业期密集引导，60天冲100条</td></tr>
+<tr><td><strong>缘一酒馆</strong><br>悦郡城</td><td>宠物友好+KTV+凌晨5点</td><td>336条评价，人均¥87，复购客群稳定</td><td>差异化标签（宠物→足球），建立"只有我有"的认知</td></tr></table>
+
+<h3>⚽ 足球主题酒馆全国标杆</h3>
+<ul>
+<li><strong>京A精酿（北京）：</strong>英超赛事包场+自酿精酿+球迷社群1000+人，赛事日翻台3轮，印证"赛事=免费流量"模式</li>
+<li><strong>拜仁球迷酒吧（上海）：</strong>深耕单一球队粉丝，会员储值卡锁定核心球迷，月均储值5万+</li>
+<li><strong>442酒吧（广州）：</strong>足球+小吃+周边三合一模式，社群600人，赛事日营收为普通日3倍</li></ul>
+
+<h3>📊 行业基准数据</h3>
+<table><tr><th>指标</th><th>酒馆行业均值</th><th>1892目标（3个月后）</th></tr>
+<tr><td>月营收/㎡</td><td>¥600-900</td><td>¥900（¥180,000÷200㎡）</td></tr>
+<tr><td>会员转化率</td><td>25-35%</td><td>40%</td></tr>
+<tr><td>复购率</td><td>20-25%</td><td>35%</td></tr>
+<tr><td>储值占比</td><td>15-20%</td><td>25%</td></tr>
+<tr><td>酒水占比</td><td>55-65%</td><td>60%</td></tr></table>
+<div class="highlight-box"><p><strong>结论：</strong>1892-club的三业态模式+足球社群，有潜力在3个月内跑赢彭埠酒馆赛道均值，成为御临云府商圈夜间消费第一选择。</p></div>`
+};
+
+let unlocked = false;
+
+function openModal(id) {
+  if (!chapters[id]) return;
+  document.getElementById('modalContent').innerHTML = chapters[id];
+  document.getElementById('modalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function checkLock(id) {
+  if (unlocked) { openModal(id); return; }
+  document.getElementById('unlockMsg').innerHTML = '<span style="color:var(--accent2)">签约后查看完整方案</span>';
+  document.getElementById('unlockInput').focus();
+}
+
+function unlock() {
+  const code = document.getElementById('unlockInput').value;
+  if (code === '123456') {
+    unlocked = true;
+    document.querySelectorAll('.chapter-card.locked').forEach(card => {
+      card.classList.remove('locked');
+      card.onclick = function() { openModal(parseInt(this.querySelector('.chapter-num').textContent)); };
+    });
+    document.getElementById('unlockMsg').innerHTML = '<span style="color:var(--accent)">✅ 已解锁全部章节</span>';
+  } else {
+    document.getElementById('unlockMsg').innerHTML = '<span style="color:var(--accent2)">解锁码不正确</span>';
+  }
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+
+
+<!-- ========== 执行手册 ========== -->
+<div class="execution-manual" style="background:#0d0d1a;padding:60px 20px;border-top:2px solid rgba(196,163,90,0.3)">
+  <div style="max-width:900px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:50px">
+      <div style="display:inline-block;padding:6px 20px;border:1px solid #C4A35A;border-radius:50px;font-size:12px;color:#C4A35A;letter-spacing:2px;margin-bottom:16px">附录</div>
+      <h2 style="font-family:'Noto Serif SC',serif;font-size:2rem;color:#E8D5A0;margin-bottom:8px">📋 门店执行手册</h2>
+      <p style="color:#8a8a9a;font-size:14px">拿到即用 · 员工看一眼就会做</p>
+    </div>
+
+    <!-- 话术卡片 -->
+    <div style="margin-bottom:48px">
+      <h3 style="font-family:'Noto Serif SC',serif;font-size:1.4rem;color:#C4A35A;margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid rgba(196,163,90,0.2)">
+        💬 员工话术卡片
+      </h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px">
+
+        <!-- 卡片1：迎客扫码 -->
+        <div style="background:#151520;border:1px solid rgba(196,163,90,0.25);border-radius:14px;padding:20px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+            <span style="background:rgba(196,163,90,0.15);color:#C4A35A;padding:4px 10px;border-radius:20px;font-size:11px">服务员</span>
+            <span style="color:#8a8a9a;font-size:12px">落座30秒内</span>
+          </div>
+          <div style="font-size:13px;color:#aaa;margin-bottom:10px">🎯 <strong style="color:#E8D5A0">迎客引导</strong></div>
+          <div style="background:rgba(196,163,90,0.08);border-radius:8px;padding:12px;margin-bottom:10px">
+            <p style="font-size:13px;color:#e8e8e8;line-height:1.7">「欢迎来到1892！扫桌上二维码直接点餐，首次扫码还能领新人福利券～」</p>
+          </div>
+          <div style="font-size:12px;color:#8a8a9a">
+            <p>犹豫：「不用注册，手机号一秒登录」</p>
+            <p style="margin-top:4px">✅ 成功：客人扫码</p>
+          </div>
+        </div>
+
+        <!-- 卡片2：储值推荐 -->
+        <div style="background:#151520;border:1px solid rgba(196,163,90,0.25);border-radius:14px;padding:20px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+            <span style="background:rgba(196,163,90,0.15);color:#C4A35A;padding:4px 10px;border-radius:20px;font-size:11px">收银员</span>
+            <span style="color:#8a8a9a;font-size:12px">结账时必说</span>
+          </div>
+          <div style="font-size:13px;color:#aaa;margin-bottom:10px">💰 <strong style="color:#E8D5A0">储值推荐</strong></div>
+          <div style="background:rgba(196,163,90,0.08);border-radius:8px;padding:12px;margin-bottom:10px">
+            <p style="font-size:13px;color:#e8e8e8;line-height:1.7">「今天消费[金额]元，充500送50元，这单直接抵扣，相当于这顿打9折」</p>
+          </div>
+          <div style="font-size:12px;color:#8a8a9a">
+            <p>犹豫：「充了用不完随时退的，很多球迷老客都充了」</p>
+            <p style="margin-top:4px">拒绝：「好的没关系～」（微笑收场）</p>
+            <p style="margin-top:4px">✅ 成功：储值率达15%+</p>
+          </div>
+        </div>
+
+        <!-- 卡片3：好评引导 -->
+        <div style="background:#151520;border:1px solid rgba(196,163,90,0.25);border-radius:14px;padding:20px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+            <span style="background:rgba(29,185,84,0.15);color:#1DB954;padding:4px 10px;border-radius:20px;font-size:11px">服务员</span>
+            <span style="color:#8a8a9a;font-size:12px">客人满意时</span>
+          </div>
+          <div style="font-size:13px;color:#aaa;margin-bottom:10px">⭐ <strong style="color:#E8D5A0">好评引导</strong></div>
+          <div style="background:rgba(29,185,84,0.08);border-radius:8px;padding:12px;margin-bottom:10px">
+            <p style="font-size:13px;color:#e8e8e8;line-height:1.7">「谢谢认可！如果方便在大众点评帮我们写两句，对我们新店帮助特别大～」</p>
+          </div>
+          <div style="font-size:12px;color:#8a8a9a">
+            <p>加码：「写完截图发给我们，下次来有小惊喜」</p>
+            <p style="margin-top:4px">✅ 成功：30天新增50+条好评，冲到4.5分</p>
+          </div>
+        </div>
+
+        <!-- 卡片4：球赛引流 -->
+        <div style="background:#151520;border:1px solid rgba(196,163,90,0.25);border-radius:14px;padding:20px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+            <span style="background:rgba(255,107,53,0.15);color:#FF6B35;padding:4px 10px;border-radius:20px;font-size:11px">店长</span>
+            <span style="color:#8a8a9a;font-size:12px">比赛前3天</span>
+          </div>
+          <div style="font-size:13px;color:#aaa;margin-bottom:10px">⚽ <strong style="color:#E8D5A0">球赛包场引流</strong></div>
+          <div style="background:rgba(255,107,53,0.08);border-radius:8px;padding:12px;margin-bottom:10px">
+            <p style="font-size:13px;color:#e8e8e8;line-height:1.7">社群发：「[周末/X月X日] 有[球队]的比赛，来看球！消费满150元，赠送酒水一扎，先到先得，限20桌」</p>
+          </div>
+          <div style="font-size:12px;color:#8a8a9a">
+            <p>配合：朋友圈+小红书同步发</p>
+            <p style="margin-top:4px">✅ 成功：球赛日坐满率≥80%</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 活动执行SOP -->
+    <div style="margin-bottom:48px">
+      <h3 style="font-family:'Noto Serif SC',serif;font-size:1.4rem;color:#C4A35A;margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid rgba(196,163,90,0.2)">
+        📅 开业冲刺活动SOP（第1个月）
+      </h3>
+      <div style="background:#151520;border:1px solid rgba(196,163,90,0.2);border-radius:14px;overflow:hidden">
+        <div style="background:rgba(196,163,90,0.1);padding:16px 20px;display:flex;gap:24px;flex-wrap:wrap">
+          <span style="font-size:13px;color:#C4A35A">🎯 目标：储值流水≥3万元 / 新增会员200人 / 评分冲4.3</span>
+        </div>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:13px">
+            <thead>
+              <tr style="background:rgba(196,163,90,0.08)">
+                <th style="padding:12px 16px;text-align:left;color:#C4A35A;white-space:nowrap">阶段</th>
+                <th style="padding:12px 16px;text-align:left;color:#C4A35A">动作</th>
+                <th style="padding:12px 16px;text-align:left;color:#C4A35A;white-space:nowrap">责任人</th>
+                <th style="padding:12px 16px;text-align:left;color:#C4A35A;white-space:nowrap">完成标志</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-top:1px solid rgba(196,163,90,0.1)">
+                <td style="padding:10px 16px;color:#8a8a9a;white-space:nowrap">D-7 筹备</td>
+                <td style="padding:10px 16px;color:#e8e8e8">配置会员入会礼（新客扫码即送9折券）</td>
+                <td style="padding:10px 16px;color:#aaa;white-space:nowrap">BD</td>
+                <td style="padding:10px 16px;color:#aaa">系统测试通过</td>
+              </tr>
+              <tr style="border-top:1px solid rgba(196,163,90,0.1);background:rgba(255,255,255,0.02)">
+                <td style="padding:10px 16px;color:#8a8a9a;white-space:nowrap">D-5 筹备</td>
+                <td style="padding:10px 16px;color:#e8e8e8">配置储值规则：充500送50 / 充1000送150</td>
+                <td style="padding:10px 16px;color:#aaa;white-space:nowrap">BD</td>
+                <td style="padding:10px 16px;color:#aaa">收银员能操作</td>
+              </tr>
+              <tr style="border-top:1px solid rgba(196,163,90,0.1)">
+                <td style="padding:10px 16px;color:#8a8a9a;white-space:nowrap">D-3 筹备</td>
+                <td style="padding:10px 16px;color:#e8e8e8">物料设计打印：桌贴万能码+储值立牌+足球周边展示架</td>
+                <td style="padding:10px 16px;color:#aaa;white-space:nowrap">BD+店长</td>
+                <td style="padding:10px 16px;color:#aaa">全桌到位</td>
+              </tr>
+              <tr style="border-top:1px solid rgba(196,163,90,0.1);background:rgba(255,255,255,0.02)">
+                <td style="padding:10px 16px;color:#8a8a9a;white-space:nowrap">D-2 筹备</td>
+                <td style="padding:10px 16px;color:#e8e8e8">员工话术培训（10分钟）：迎客/储值/好评三套话术</td>
+                <td style="padding:10px 16px;color:#aaa;white-space:nowrap">店长</td>
+                <td style="padding:10px 16px;color:#aaa">每人能背出</td>
+              </tr>
+              <tr style="border-top:1px solid rgba(196,163,90,0.1)">
+                <td style="padding:10px 16px;color:#8a8a9a;white-space:nowrap">D-1 就绪</td>
+                <td style="padding:10px 16px;color:#e8e8e8">测试储值1笔→退款；社群+朋友圈发开业预热</td>
+                <td style="padding:10px 16px;color:#aaa;white-space:nowrap">收银+店长</td>
+                <td style="padding:10px 16px;color:#aaa">测试OK+发出</td>
+              </tr>
+              <tr style="border-top:1px solid rgba(196,163,90,0.1);background:rgba(255,255,255,0.02)">
+                <td style="padding:10px 16px;color:#C4A35A;white-space:nowrap;font-weight:600">D-Day</td>
+                <td style="padding:10px 16px;color:#e8e8e8">晨会话术提醒（3分钟）；每桌引导扫码；结账必推储值</td>
+                <td style="padding:10px 16px;color:#aaa;white-space:nowrap">全员</td>
+                <td style="padding:10px 16px;color:#aaa">储值率≥15%</td>
+              </tr>
+              <tr style="border-top:1px solid rgba(196,163,90,0.1)">
+                <td style="padding:10px 16px;color:#8a8a9a;white-space:nowrap">D+1-7 跟踪</td>
+                <td style="padding:10px 16px;color:#e8e8e8">每日播报会员数+储值笔数；发现转化低立即调整话术</td>
+                <td style="padding:10px 16px;color:#aaa;white-space:nowrap">店长+BD</td>
+                <td style="padding:10px 16px;color:#aaa">每日有数据</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 每日检查清单 -->
+    <div>
+      <h3 style="font-family:'Noto Serif SC',serif;font-size:1.4rem;color:#C4A35A;margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid rgba(196,163,90,0.2)">
+        ✅ 每日检查清单（对标OKR目标）
+      </h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px">
+
+        <div style="background:#151520;border:1px solid rgba(196,163,90,0.2);border-radius:14px;padding:20px">
+          <div style="font-size:14px;font-weight:600;color:#C4A35A;margin-bottom:16px">🌅 开店前（9:00）</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer">
+              <input type="checkbox" style="margin-top:2px;accent-color:#C4A35A">
+              <span style="font-size:13px;color:#e8e8e8">桌台万能码桌贴是否完好</span>
+            </label>
+            <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer">
+              <input type="checkbox" style="margin-top:2px;accent-color:#C4A35A">
+              <span style="font-size:13px;color:#e8e8e8">储值立牌是否在收银台</span>
+            </label>
+            <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer">
+              <input type="checkbox" style="margin-top:2px;accent-color:#C4A35A">
+              <span style="font-size:13px;color:#e8e8e8">今日是否有球赛（提前发社群）</span>
+            </label>
+            <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer">
+              <input type="checkbox" style="margin-top:2px;accent-color:#C4A35A">
+              <span style="font-size:13px;color:#e8e8e8">晨会口头强调今日话术重点（1分钟）</span>
+            </label>
+          </div>
+        </div>
+
+        <div style="background:#151520;border:1px solid rgba(196,163,90,0.2);border-radius:14px;padding:20px">
+          <div style="font-size:14px;font-weight:600;color:#1DB954;margin-bottom:16px">☀️ 营业中（每桌）</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer">
+              <input type="checkbox" style="margin-top:2px;accent-color:#1DB954">
+              <span style="font-size:13px;color:#e8e8e8">落座30秒引导扫码点餐（引流入会）</span>
+            </label>
+            <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer">
+              <input type="checkbox" style="margin-top:2px;accent-color:#1DB954">
+              <span style="font-size:13px;color:#e8e8e8">结账时每桌必说储值话术一遍</span>
+            </label>
+            <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer">
+              <input type="checkbox" style="margin-top:2px;accent-color:#1DB954">
+              <span style="font-size:13px;color:#e8e8e8">满意客人主动引导大众点评好评</span>
+            </label>
+            <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer">
+              <input type="checkbox" style="margin-top:2px;accent-color:#1DB954">
+              <span style="font-size:13px;color:#e8e8e8">新品/足球周边主动介绍推荐</span>
+            </label>
+          </div>
+        </div>
+
+        <div style="background:#151520;border:1px solid rgba(196,163,90,0.2);border-radius:14px;padding:20px">
+          <div style="font-size:14px;font-weight:600;color:#FF6B35;margin-bottom:16px">🌙 收店前（21:00）</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer">
+              <input type="checkbox" style="margin-top:2px;accent-color:#FF6B35">
+              <span style="font-size:13px;color:#e8e8e8">查看今日新增会员数（目标7+人/天）</span>
+            </label>
+            <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer">
+              <input type="checkbox" style="margin-top:2px;accent-color:#FF6B35">
+              <span style="font-size:13px;color:#e8e8e8">查看今日储值笔数（目标≥3笔/天）</span>
+            </label>
+            <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer">
+              <input type="checkbox" style="margin-top:2px;accent-color:#FF6B35">
+              <span style="font-size:13px;color:#e8e8e8">回复今日所有新评价（24h内必回）</span>
+            </label>
+            <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer">
+              <input type="checkbox" style="margin-top:2px;accent-color:#FF6B35">
+              <span style="font-size:13px;color:#e8e8e8">社群发今日营业亮点/球赛预告</span>
+            </label>
+            <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer">
+              <input type="checkbox" style="margin-top:2px;accent-color:#FF6B35">
+              <span style="font-size:13px;color:#e8e8e8">日营收达标检查（目标¥4,000）</span>
+            </label>
+          </div>
+        </div>
+
+      </div>
+      
+      <!-- OKR进度追踪 -->
+      <div style="margin-top:24px;background:#151520;border:1px solid rgba(196,163,90,0.2);border-radius:14px;padding:24px">
+        <div style="font-size:14px;font-weight:600;color:#E8D5A0;margin-bottom:16px">📊 月度OKR进度追踪（第1个月目标）</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px">
+          <div style="background:rgba(196,163,90,0.08);border-radius:10px;padding:14px;text-align:center">
+            <div style="font-size:11px;color:#8a8a9a;margin-bottom:6px">月营收目标</div>
+            <div style="font-size:1.5rem;font-weight:700;color:#C4A35A">¥120,000</div>
+            <div style="font-size:11px;color:#8a8a9a;margin-top:4px">日均≥¥4,000</div>
+          </div>
+          <div style="background:rgba(29,185,84,0.08);border-radius:10px;padding:14px;text-align:center">
+            <div style="font-size:11px;color:#8a8a9a;margin-bottom:6px">会员数目标</div>
+            <div style="font-size:1.5rem;font-weight:700;color:#1DB954">200人</div>
+            <div style="font-size:11px;color:#8a8a9a;margin-top:4px">日均新增7人</div>
+          </div>
+          <div style="background:rgba(255,107,53,0.08);border-radius:10px;padding:14px;text-align:center">
+            <div style="font-size:11px;color:#8a8a9a;margin-bottom:6px">储值流水目标</div>
+            <div style="font-size:1.5rem;font-weight:700;color:#FF6B35">¥30,000</div>
+            <div style="font-size:11px;color:#8a8a9a;margin-top:4px">日均3笔储值</div>
+          </div>
+          <div style="background:rgba(100,100,255,0.08);border-radius:10px;padding:14px;text-align:center">
+            <div style="font-size:11px;color:#8a8a9a;margin-bottom:6px">点评评分目标</div>
+            <div style="font-size:1.5rem;font-weight:700;color:#9090ff">4.3分</div>
+            <div style="font-size:11px;color:#8a8a9a;margin-top:4px">累计50+评价</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
