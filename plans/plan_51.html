@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>测试 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #B8860B;
+      --primary-light: #DAA520;
+      --accent: #FFC107;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #B8860B40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">海鲜/水产 · 运营提升方案</div>
+  <h1 class="hero-title">测试</h1>
+  <p class="hero-subtitle">以鲜为本，用会员锁住回头客，让每桌海鲜宴都带来下一次预订</p>
+  <div class="hero-address">未提供（行业参考值）</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥120</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">海鲜/水产</span>
+      <div class="hero-stat-label">品类定位</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '品牌定位', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">品牌定位</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '系统方案', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">系统方案</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评赋能', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评赋能</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" >
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">会员体系</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" >
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">储值方案</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" >
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">营销活动</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" >
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">投资回报</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏 -->
+  <div class="unlock-bar" id="unlockBar">
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>海鲜/水产品类市场趋势（2025-2026）</h3><p>中国餐饮市场2024年总规模达<strong>5.57万亿元</strong>，同比增长5.3%。海鲜/水产作为正餐高客单赛道，近年呈现以下核心趋势：</p><ul><li><strong>消费升级与健康饮食叠加：</strong>消费者对海鲜的需求从「吃饱」转向「吃鲜」，活鲜现做、透明海鲜池成为标配</li><li><strong>蒸汽海鲜/小份制走红：</strong>蒸汽海鲜锅品类2025年门店增速超15%，满足「轻量级」聚餐需求</li><li><strong>价格带分化明显：</strong>人均80-150元的品质海鲜大排档增长最快，高端商务海鲜（300+）持续萎缩</li><li><strong>供应链透明化：</strong>消费者更关注海鲜来源（码头直供/可溯源），「明档+明码标价」成信任基础</li></ul><h3>门店基础数据（⚠️ 行业参考值，请核实）</h3><table><tr><th>指标</th><th>行业参考值</th><th>备注</th></tr><tr><td>人均客单价</td><td>¥120</td><td>海鲜正餐品质档位中位数</td></tr><tr><td>日均流水</td><td>¥12,000</td><td>按100人次×¥120推算</td></tr><tr><td>月流水</td><td>¥36万</td><td>按30天计算</td></tr><tr><td>日均人次</td><td>100人次</td><td>含午市30+晚市70</td></tr><tr><td>翻台率</td><td>1.5次/天</td><td>海鲜正餐偏低频</td></tr></table><h3>竞品分析（⚠️ 行业典型竞品画像，请核实周边实际竞品）</h3><table><tr><th>竞品类型</th><th>人均</th><th>核心弱点</th><th>我方切入机会</th></tr><tr><td>老牌海鲜酒楼A</td><td>¥150-200</td><td>价格偏高、年轻客群流失、点评运营弱（评分4.0-4.2）</td><td>性价比+线上口碑碾压</td></tr><tr><td>蒸汽海鲜连锁B</td><td>¥100-130</td><td>产品同质化严重、无会员体系、回头客依赖自然流量</td><td>差异化招牌菜+储值锁客</td></tr><tr><td>海鲜大排档C</td><td>¥80-100</td><td>环境粗糙、食品安全信任度低、无线上运营</td><td>品质升级+点评评分优势</td></tr></table><p><strong>核心结论：</strong>海鲜品类竞争的本质是<strong>「鲜度信任+价格透明+回头客粘性」</strong>，谁能同时做好这三点，谁就能在区域内形成口碑垄断。</p></div>
+<div id="modal-content-2" style="display:none"><h3>门店定位诊断</h3><p>基于海鲜/水产品类特征，建议门店锚定以下核心定位：</p><div class="highlight-box"><strong>一句话定位：</strong>「活鲜现做·透明消费」的品质海鲜餐厅，主打人均120元的家庭聚餐/朋友聚会场景</div><h3>目标客群画像</h3><table><tr><th>客群类型</th><th>占比（行业参考值）</th><th>消费场景</th><th>客单贡献</th></tr><tr><td><strong>家庭聚餐</strong></td><td>40%</td><td>周末/节假日3-6人桌</td><td>¥400-800/桌</td></tr><tr><td><strong>朋友聚会</strong></td><td>30%</td><td>晚市4-8人桌，酒水+海鲜</td><td>¥600-1200/桌</td></tr><tr><td><strong>商务宴请</strong></td><td>20%</td><td>包厢/大桌，看重面子和品质</td><td>¥1000-2000/桌</td></tr><tr><td><strong>情侣/小聚</strong></td><td>10%</td><td>双人套餐/精致小份</td><td>¥250-400/桌</td></tr></table><h3>品牌差异化策略</h3><ul><li><strong>核心差异点1——鲜度可视化：</strong>明档海鲜池+现点现杀全程可视，建立「眼见为实」的信任感</li><li><strong>核心差异点2——爆品锚定：</strong>选定1道招牌海鲜菜（如蒸汽海鲜拼盘/招牌椒盐皮皮虾）作为品牌记忆点，所有营销围绕这道菜展开</li><li><strong>核心差异点3——透明定价：</strong>所有海鲜明码标价+公平秤，杜绝「宰客」顾虑，正面回应消费者最大痛点</li></ul><h3>品牌记忆资产挖掘</h3><p>每家海鲜店都有独特资产，以下是海鲜品类常见可用资产：</p><ul><li>海鲜来源故事（码头直供/渔船合作/特定海域）</li><li>独家烹饪手法（祖传秘方/特色蘸料/独创做法）</li><li>食材展示方式（超大海鲜池/明档厨房/现捞体验）</li><li>老客口碑（回头客比例/客户自发好评）</li></ul><p><strong>行动建议：</strong>找到本店最独特的1个资产，将其放大为品牌核心记忆点，贯穿所有线上线下宣传物料。</p></div>
+<div id="modal-content-3" style="display:none"><h3>SaaS产品配置方案（海鲜/水产门店推荐）</h3><p>针对海鲜品类特殊需求（活鲜称重计价、海鲜池管理、高客单储值），推荐以下系统配置：</p><table><tr><th>产品模块</th><th>解决的具体问题</th><th>预期效果</th></tr><tr><td><strong>美团收银Pro</strong></td><td>海鲜按重量/份计价混合结算、多台位管理、包厢预订</td><td>结账效率提升40%，减少手工算账出错</td></tr><tr><td><strong>扫码点餐</strong></td><td>海鲜品种多（50+SKU）、时价变动频繁，纸质菜单更新成本高</td><td>菜单实时更新，人力成本降低1-2人</td></tr><tr><td><strong>会员旗舰版</strong>（¥4,888/年）</td><td>高客单低频→需储值锁客、沉睡唤醒、生日营销</td><td>会员复购率提升25%，月储值流水¥3.5万</td></tr><tr><td><strong>评价专家</strong></td><td>海鲜品类差评杀伤力极大（食安/缺斤少两），需主动管理评价</td><td>点评评分3个月内提升至4.5分</td></tr></table><h3>为什么海鲜店必须上会员旗舰版？</h3><p>海鲜品类的天然特征是<strong>「高客单+低频次」</strong>——人均120元，客户平均消费频次1-2次/月。这意味着：</p><ul><li><strong>获客成本高：</strong>每个新客到店成本约¥30-50（线上推广），必须让TA来第2次、第3次才能回本</li><li><strong>储值是最优解：</strong>充¥1,000送¥150，锁定8次消费，相当于把「散客」变成「确定性营收」</li><li><strong>旗舰版独有能力：</strong>团购会员卡（点评下单即入会）+ 潜客营销（浏览未下单用户触达）+ 6大特有活动模板</li></ul><h3>海鲜店专属场景化应用</h3><ul><li><strong>海鲜时价管理：</strong>通过扫码点餐后台实时调整时价，顾客扫码即看最新价格，省去服务员逐桌告知</li><li><strong>包厢预订管理：</strong>收银系统支持包厢预订+预付定金，减少「放鸽子」空桌损失</li><li><strong>海鲜拼盘套餐化：</strong>将高毛利组合设计为固定套餐（如「双人海鲜拼盘¥298」），提升客单同时降低选择焦虑</li><li><strong>菜品毛利分析：</strong>通过进销存追踪每道海鲜菜的食材成本率，砍掉毛利低于40%的低效菜品</li></ul></div>
+<div id="modal-content-4" style="display:none"><h3>大众点评运营策略（海鲜品类专属）</h3><p>海鲜品类在大众点评上的核心挑战：<strong>消费者对「缺斤少两」「不新鲜」「宰客」的恐惧是第一决策障碍</strong>。点评运营的核心就是破除这个信任壁垒。</p><h3>第一阶段：评分冲刺期（第1-30天）</h3><ul><li><strong>目标：</strong>30天内积累50条优质好评，评分稳定在4.3+</li><li>🔧 评价专家设置：结账后自动弹好评引导页面，5秒弹出不打扰</li><li>🔧 好评激励：好评晒图送下次到店凉拌海蜇丝1份（成本¥4）</li><li>🔧 差评拦截：设置差评预警，24小时内电话回访+补偿方案</li></ul><h3>第二阶段：流量放大期（第31-60天）</h3><ul><li><strong>目标：</strong>月均曝光量提升50%，团购套餐核销率达60%以上</li><li>上线3款团购套餐：双人海鲜套餐¥258 / 4人家庭宴¥498 / 商务精选¥888</li><li>开通推广通，日预算¥80，主投「海鲜」「聚餐」「生日宴」关键词</li><li>每周更新3-5张高质量菜品图（海鲜特写+出品过程）</li><li>优化门店标签：添加「明档海鲜」「活鲜现做」「公平秤」等信任标签</li></ul><h3>第三阶段：口碑维护期（第61天起持续）</h3><ul><li>维持每周新增5-8条好评的节奏</li><li>每月更新1次团购套餐（结合时令海鲜）</li><li>冲刺品类榜单/必吃榜提名</li></ul><h3>海鲜品类点评内容方向（破除信任壁垒）</h3><table><tr><th>内容方向</th><th>具体做法</th><th>解决的顾虑</th></tr><tr><td>鲜度证明</td><td>拍摄海鲜池活鲜视频/现捞过程</td><td>「是不是冻货？」</td></tr><tr><td>价格透明</td><td>拍价格牌/公平秤/结账单</td><td>「会不会宰客？」</td></tr><tr><td>分量展示</td><td>拍菜品与参照物对比</td><td>「会不会缺斤少两？」</td></tr><tr><td>出品过程</td><td>拍厨师现杀/蒸煮过程</td><td>「后厨干净吗？」</td></tr></table><h3>公域联动：大众点评+小红书+抖音</h3><p><strong>大众点评（核心交易平台）：</strong>团购套餐+评价管理+推广通投放，承接「想吃海鲜去哪家」的直接决策需求。每月推广通预算¥2,400（日均¥80），预期带来150+新客到店。</p><p><strong>小红书（种草引流）：</strong>邀请2-3位本地美食博主探店（预算¥500-1000/位），重点拍摄「海鲜池选鱼→现杀→上桌」全过程，笔记标题覆盖「[城市]+海鲜+推荐+聚餐」。</p><p><strong>抖音（爆款视频）：</strong>每周发2-3条15秒短视频——「开蚝/开蟹/蒸汽海鲜揭盖」等解压类内容，利用海鲜天然的视觉冲击力引爆本地流量。</p><p><strong>联动闭环：</strong>小红书/抖音种草→用户搜索大众点评→看到4.5分+优质评价→下单团购套餐→到店体验→注册会员入私域→储值/复购→发好评反哺公域。</p></div>
+<div id="modal-content-5" style="display:none"><h3>会员体系整体架构（储值+等级双轨制）</h3><p>海鲜品类客单高（¥120）、频次偏低（1-2次/月），会员体系的核心目标是<strong>「把散客变熟客，把熟客变铁粉」</strong>。</p><h3>等级会员设计</h3><table><tr><th>等级</th><th>入会条件</th><th>核心权益</th><th>目标人群</th></tr><tr><td>鲜友会员</td><td>扫码即注册</td><td>积分累积（1元=1分）+生日月双倍积分+新客首单立减¥20</td><td>所有到店顾客</td></tr><tr><td>银卡会员</td><td>累计消费满¥1,000</td><td>全单9.5折+每月1张¥30券+优先预约包厢</td><td>中频回头客</td></tr><tr><td>金卡会员</td><td>累计消费满¥3,000或储值¥2,000+</td><td>全单9折+生日免费海鲜拼盘(价值¥168)+专属客服+节日礼品</td><td>高价值客户</td></tr></table><h3>会员运营节奏</h3><ul><li><strong>入会即触达：</strong>新会员注册后30分钟内推送欢迎消息+首单¥20优惠券</li><li><strong>7天回访：</strong>消费后第7天推送关怀消息+¥15小额券（限7天使用）</li><li><strong>沉睡唤醒：</strong>30天未到店推送「老朋友专属¥50抵用券」（限时7天有效）</li><li><strong>生日营销：</strong>生日前3天推送生日权益提醒，金卡享免费海鲜拼盘（价值¥168）</li><li><strong>节日触达：</strong>中秋/春节等海鲜消费旺季提前7天推送预订提醒+专属套餐</li></ul><h3>团购会员卡（旗舰版独有）</h3><p>消费者在大众点评购买团购套餐时，<strong>自动注册为门店会员</strong>，实现零操作入会。意味着：</p><ul><li>每一个团购客户都沉淀到私域会员池，后续可反复触达</li><li>团购核销后自动推送储值优惠：「今天消费满¥200，充¥1,000送¥150，本单直接抵扣」</li><li>形成「公域获客→私域留客→复购变现」完整闭环</li></ul><h3>会员KPI目标（行业参考值）</h3><table><tr><th>指标</th><th>当前（假设）</th><th>3个月目标</th><th>6个月目标</th></tr><tr><td>会员总数</td><td>0</td><td>300人</td><td>800人</td></tr><tr><td>会员消费占比</td><td>0%</td><td>35%</td><td>55%</td></tr><tr><td>会员复购率</td><td>—</td><td>40%</td><td>55%</td></tr><tr><td>会员客单价vs非会员</td><td>—</td><td>高15%（¥138）</td><td>高20%（¥144）</td></tr></table></div>
+<div id="modal-content-6" style="display:none"><h3>储值体系设计（海鲜品类专属）</h3><p>海鲜品类客单¥120，按「客单×3-5次」原则设计储值档位，让客户觉得「划算但不心疼」：</p><table><tr><th>储值档位</th><th>充值金额</th><th>赠送金额</th><th>赠送比例</th><th>锁定消费次数</th><th>适用客群</th></tr><tr><td>体验档</td><td>¥500</td><td>¥60</td><td>12%</td><td>约4次</td><td>首次储值尝鲜</td></tr><tr><td><strong>主推档</strong></td><td><strong>¥1,000</strong></td><td><strong>¥150</strong></td><td><strong>15%</strong></td><td><strong>约8次</strong></td><td><strong>家庭常客/回头客</strong></td></tr><tr><td>尊享档</td><td>¥2,000</td><td>¥350</td><td>17.5%</td><td>约16次</td><td>商务宴请/高频客户</td></tr><tr><td>VIP档</td><td>¥5,000</td><td>¥1,000</td><td>20%</td><td>约42次</td><td>企业客户/超级铁粉</td></tr></table><h3>储值推荐时机与话术逻辑</h3><p>海鲜品类属于<strong>高客单低频</strong>，储值不宜首次就推，最佳时机是<strong>第二次到店消费时</strong>：</p><ul><li><strong>第一次到店：</strong>只引导注册会员，不提储值（让客户先体验品质）</li><li><strong>第二次到店：</strong>结账时POS弹出储值推荐——「您本次消费¥256，充¥1,000送¥150，本单直接用储值余额结算相当于打8.7折」</li><li><strong>话术逻辑：</strong>不说「充值」说「存钱」，不说「优惠」说「省了多少」，把储值框定为「反正要来吃，提前存着更划算」</li></ul><h3>储值促活机制</h3><ul><li><strong>余额不足提醒：</strong>储值余额低于¥200时推送「余额即将用完，续充¥1,000再享¥150赠送」</li><li><strong>储值专属菜：</strong>每月推出1道储值会员专享价海鲜菜（如波士顿龙虾储值价¥128/只，原价¥168）</li><li><strong>储值生日加赠：</strong>生日月储值额外多赠10%</li><li><strong>季度TOP10奖励：</strong>季度储值排行TOP10客户送时令海鲜礼盒（成本¥80）</li></ul><h3>储值目标（行业参考值）</h3><table><tr><th>指标</th><th>第1个月</th><th>第3个月</th><th>第6个月</th></tr><tr><td>月储值流水</td><td>¥2万</td><td>¥3.5万</td><td>¥5万</td></tr><tr><td>储值会员数</td><td>20人</td><td>60人</td><td>120人</td></tr><tr><td>储值消费占比</td><td>10%</td><td>20%</td><td>30%</td></tr></table><p><strong>核心价值：</strong>月储值¥3.5万 = 提前锁定约29次客户到店消费（按客单¥120计算），相当于每天多1桌「确定性营收」。</p></div>
+<div id="modal-content-7" style="display:none"><h3>全年营销节奏规划（海鲜品类）</h3><p>海鲜品类的营销节奏紧跟<strong>「时令海鲜+传统节日+日常拉动」</strong>三条线并行：</p><table><tr><th>月份</th><th>时令主题</th><th>营销活动</th><th>目标</th></tr><tr><td>1-2月</td><td>年货海鲜/年夜饭</td><td>「海鲜年夜饭预订」储值加赠+大桌套餐</td><td>春节锁大桌消费</td></tr><tr><td>3-4月</td><td>春季开渔/皮皮虾季</td><td>「开渔第一鲜」限时套餐+会员尝鲜价</td><td>唤醒沉睡客户</td></tr><tr><td>5-6月</td><td>小龙虾/生蚝季</td><td>「生蚝畅吃夜」主题+小红书探店联动</td><td>拉新+晚市提升</td></tr><tr><td>7-8月</td><td>暑期聚餐高峰</td><td>「暑期家庭海鲜宴」4-6人套餐优惠</td><td>提升家庭桌均</td></tr><tr><td>9-10月</td><td>大闸蟹/梭子蟹季</td><td>「蟹季尝鲜」储值赠蟹券+中秋宴预订</td><td>拉动储值+大桌</td></tr><tr><td>11-12月</td><td>冬季进补/年末宴请</td><td>「海鲜暖锅季」套餐+企业年会预订</td><td>商务桌均提升</td></tr></table><h3>首月重点活动详案（启动期）</h3><ul><li><strong>活动1：新会员首充礼</strong><br>内容：新注册会员首次储值¥1,000，额外赠¥50券（总赠¥200）<br>时间：持续30天<br>🔧 路径：会员系统→新客专享活动→设置首充额外赠送<br>预期：首月新增储值会员20人，储值流水¥2万</li><li><strong>活动2：好评有礼</strong><br>内容：大众点评好评晒图，结账出示赠凉拌海蜇丝1份（成本¥4）<br>时间：持续执行<br>🔧 路径：评价专家→好评激励→设置赠品<br>预期：月新增好评30条，评分稳步提升至4.3+</li><li><strong>活动3：周二海鲜日</strong><br>内容：每周二指定2款海鲜会员专享8折价，拉动工作日淡场<br>时间：每周二全天<br>🔧 路径：会员系统→周期活动→会员专享价<br>预期：周二到店人次提升30%（+30人次）</li></ul><h3>公私域联动闭环（完整流程图）</h3><p><strong>获客层（公域）：</strong></p><ol><li>大众点评：团购套餐（双人¥258/家庭¥498）→ 搜索曝光+交易转化</li><li>小红书：本地博主探店笔记（2-3位/月，预算¥1,500）→ 种草+搜索引流</li><li>抖音：每周3条「开蚝/蒸汽揭盖」短视频 → 本地流量曝光</li></ol><p><strong>转化层（到店）：</strong></p><ol><li>团购核销即入会 → 自动注册会员（零操作）</li><li>首次体验不推储值 → 建立好感+品质认知</li><li>结账引导好评 → 公域口碑正向循环</li></ol><p><strong>留存层（私域）：</strong></p><ol><li>二次到店推储值 → 锁定8-16次消费</li><li>会员触达节奏（7天/30天/生日/节日）→ 持续激活</li><li>储值专属菜+会员日 → 差异化体验感</li></ol><p><strong>裂变层（口碑扩散）：</strong></p><ol><li>好评返小食券 → 激励口碑产出</li><li>会员带新储值赠 → 老带新裂变（老会员推荐新人储值，老客得¥30券）</li></ol></div>
+<div id="modal-content-8" style="display:none"><h3>投资预算明细</h3><table><tr><th>投入项目</th><th>金额</th><th>说明</th></tr><tr><td>会员旗舰版（年费）</td><td>¥4,888</td><td>含团购会员卡+潜客营销+6大活动模板</td></tr><tr><td>评价专家（年费）</td><td>¥1,500（行业参考值）</td><td>好评管理+差评预警+自动引导</td></tr><tr><td>推广通月度预算</td><td>¥2,400/月</td><td>日均¥80，投「海鲜/聚餐/生日」关键词</td></tr><tr><td>小红书探店（首月）</td><td>¥1,500</td><td>2-3位本地博主，首月集中种草</td></tr><tr><td>好评激励成本</td><td>¥120/月</td><td>30条好评×¥4/份凉拌海蜇</td></tr><tr><td><strong>首年总投入</strong></td><td><strong>约¥3.5万</strong></td><td>含SaaS年费+12个月推广+首月种草</td></tr></table><h3>预期收益（月度增收拆解）</h3><table><tr><th>增收来源</th><th>月增收金额</th><th>推算逻辑</th></tr><tr><td>储值锁客带来的复购增量</td><td>¥18,000</td><td>月储值¥3.5万×储值客复购提升率50%≈多15桌×¥120客单</td></tr><tr><td>点评团购新客导流</td><td>¥12,000</td><td>推广通月引流100新客×到店率60%×¥120客单×70%毛利贡献</td></tr><tr><td>会员沉睡唤醒</td><td>¥7,200</td><td>300会员×30%沉睡率×唤醒成功20%×¥120客单×2次</td></tr><tr><td>客单提升（套餐化+会员加购）</td><td>¥5,400</td><td>日均100人次×15%套餐转化率×客单提升¥12</td></tr><tr><td><strong>月度总增收</strong></td><td><strong>¥42,600</strong></td><td></td></tr></table><h3>投资回报分析</h3><ul><li><strong>月均投入：</strong>约¥2,900（年投入¥3.5万÷12月）</li><li><strong>月均增收：</strong>¥42,600</li><li><strong>投入产出比：</strong>1:14.7（每投入1元带来14.7元增收）</li><li><strong>回本周期：</strong>首月即超额回本</li></ul><h3>OKR量化目标</h3><table><tr><th>目标维度</th><th>1个月目标</th><th>3个月目标</th><th>6个月目标</th></tr><tr><td>月营收（含增量）</td><td>¥38万（基础¥36万+增量¥2万）</td><td>¥40.3万（月增¥4.3万）</td><td>¥43万（月增¥7万）</td></tr><tr><td>大众点评评分</td><td>4.3分</td><td>4.5分</td><td>4.6分（冲刺品类榜）</td></tr><tr><td>会员总数</td><td>100人</td><td>300人</td><td>800人</td></tr><tr><td>月储值流水</td><td>¥2万</td><td>¥3.5万</td><td>¥5万</td></tr><tr><td>团购核销率</td><td>50%</td><td>60%</td><td>70%</td></tr></table><h3>数字验证</h3><p><strong>基础数据验证：</strong>月流水¥36万 ÷ 客单¥120 = 日均100人次 ÷ 30天 = 3,000人次/月 ✓</p><p><strong>ROI与OKR一致性：</strong>3个月目标月增收¥4.3万 ≈ ROI月增收¥4.26万（取整一致）✓</p><p><strong>储值逻辑验证：</strong>月储值¥3.5万 ÷ 主推档¥1,000 = 35人次新增储值 → 累计60人储值会员（含续充）✓</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>本方案由 <strong>美团SaaS方案工厂</strong> 智能生成 · 专属顾问：<strong>陈国庆</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>海鲜/水产品类市场趋势（2025-2026）</h3><p>中国餐饮市场2024年总规模达<strong>5.57万亿元</strong>，同比增长5.3%。海鲜/水产作为正餐高客单赛道，近年呈现以下核心趋势：</p><ul><li><strong>消费升级与健康饮食叠加：</strong>消费者对海鲜的需求从「吃饱」转向「吃鲜」，活鲜现做、透明海鲜池成为标配</li><li><strong>蒸汽海鲜/小份制走红：</strong>蒸汽海鲜锅品类2025年门店增速超15%，满足「轻量级」聚餐需求</li><li><strong>价格带分化明显：</strong>人均80-150元的品质海鲜大排档增长最快，高端商务海鲜（300+）持续萎缩</li><li><strong>供应链透明化：</strong>消费者更关注海鲜来源（码头直供/可溯源），「明档+明码标价」成信任基础</li></ul><h3>门店基础数据（⚠️ 行业参考值，请核实）</h3><table><tr><th>指标</th><th>行业参考值</th><th>备注</th></tr><tr><td>人均客单价</td><td>¥120</td><td>海鲜正餐品质档位中位数</td></tr><tr><td>日均流水</td><td>¥12,000</td><td>按100人次×¥120推算</td></tr><tr><td>月流水</td><td>¥36万</td><td>按30天计算</td></tr><tr><td>日均人次</td><td>100人次</td><td>含午市30+晚市70</td></tr><tr><td>翻台率</td><td>1.5次/天</td><td>海鲜正餐偏低频</td></tr></table><h3>竞品分析（⚠️ 行业典型竞品画像，请核实周边实际竞品）</h3><table><tr><th>竞品类型</th><th>人均</th><th>核心弱点</th><th>我方切入机会</th></tr><tr><td>老牌海鲜酒楼A</td><td>¥150-200</td><td>价格偏高、年轻客群流失、点评运营弱（评分4.0-4.2）</td><td>性价比+线上口碑碾压</td></tr><tr><td>蒸汽海鲜连锁B</td><td>¥100-130</td><td>产品同质化严重、无会员体系、回头客依赖自然流量</td><td>差异化招牌菜+储值锁客</td></tr><tr><td>海鲜大排档C</td><td>¥80-100</td><td>环境粗糙、食品安全信任度低、无线上运营</td><td>品质升级+点评评分优势</td></tr></table><p><strong>核心结论：</strong>海鲜品类竞争的本质是<strong>「鲜度信任+价格透明+回头客粘性」</strong>，谁能同时做好这三点，谁就能在区域内形成口碑垄断。</p>`,
+    2: `<h3>门店定位诊断</h3><p>基于海鲜/水产品类特征，建议门店锚定以下核心定位：</p><div class="highlight-box"><strong>一句话定位：</strong>「活鲜现做·透明消费」的品质海鲜餐厅，主打人均120元的家庭聚餐/朋友聚会场景</div><h3>目标客群画像</h3><table><tr><th>客群类型</th><th>占比（行业参考值）</th><th>消费场景</th><th>客单贡献</th></tr><tr><td><strong>家庭聚餐</strong></td><td>40%</td><td>周末/节假日3-6人桌</td><td>¥400-800/桌</td></tr><tr><td><strong>朋友聚会</strong></td><td>30%</td><td>晚市4-8人桌，酒水+海鲜</td><td>¥600-1200/桌</td></tr><tr><td><strong>商务宴请</strong></td><td>20%</td><td>包厢/大桌，看重面子和品质</td><td>¥1000-2000/桌</td></tr><tr><td><strong>情侣/小聚</strong></td><td>10%</td><td>双人套餐/精致小份</td><td>¥250-400/桌</td></tr></table><h3>品牌差异化策略</h3><ul><li><strong>核心差异点1——鲜度可视化：</strong>明档海鲜池+现点现杀全程可视，建立「眼见为实」的信任感</li><li><strong>核心差异点2——爆品锚定：</strong>选定1道招牌海鲜菜（如蒸汽海鲜拼盘/招牌椒盐皮皮虾）作为品牌记忆点，所有营销围绕这道菜展开</li><li><strong>核心差异点3——透明定价：</strong>所有海鲜明码标价+公平秤，杜绝「宰客」顾虑，正面回应消费者最大痛点</li></ul><h3>品牌记忆资产挖掘</h3><p>每家海鲜店都有独特资产，以下是海鲜品类常见可用资产：</p><ul><li>海鲜来源故事（码头直供/渔船合作/特定海域）</li><li>独家烹饪手法（祖传秘方/特色蘸料/独创做法）</li><li>食材展示方式（超大海鲜池/明档厨房/现捞体验）</li><li>老客口碑（回头客比例/客户自发好评）</li></ul><p><strong>行动建议：</strong>找到本店最独特的1个资产，将其放大为品牌核心记忆点，贯穿所有线上线下宣传物料。</p>`,
+    3: `<h3>SaaS产品配置方案（海鲜/水产门店推荐）</h3><p>针对海鲜品类特殊需求（活鲜称重计价、海鲜池管理、高客单储值），推荐以下系统配置：</p><table><tr><th>产品模块</th><th>解决的具体问题</th><th>预期效果</th></tr><tr><td><strong>美团收银Pro</strong></td><td>海鲜按重量/份计价混合结算、多台位管理、包厢预订</td><td>结账效率提升40%，减少手工算账出错</td></tr><tr><td><strong>扫码点餐</strong></td><td>海鲜品种多（50+SKU）、时价变动频繁，纸质菜单更新成本高</td><td>菜单实时更新，人力成本降低1-2人</td></tr><tr><td><strong>会员旗舰版</strong>（¥4,888/年）</td><td>高客单低频→需储值锁客、沉睡唤醒、生日营销</td><td>会员复购率提升25%，月储值流水¥3.5万</td></tr><tr><td><strong>评价专家</strong></td><td>海鲜品类差评杀伤力极大（食安/缺斤少两），需主动管理评价</td><td>点评评分3个月内提升至4.5分</td></tr></table><h3>为什么海鲜店必须上会员旗舰版？</h3><p>海鲜品类的天然特征是<strong>「高客单+低频次」</strong>——人均120元，客户平均消费频次1-2次/月。这意味着：</p><ul><li><strong>获客成本高：</strong>每个新客到店成本约¥30-50（线上推广），必须让TA来第2次、第3次才能回本</li><li><strong>储值是最优解：</strong>充¥1,000送¥150，锁定8次消费，相当于把「散客」变成「确定性营收」</li><li><strong>旗舰版独有能力：</strong>团购会员卡（点评下单即入会）+ 潜客营销（浏览未下单用户触达）+ 6大特有活动模板</li></ul><h3>海鲜店专属场景化应用</h3><ul><li><strong>海鲜时价管理：</strong>通过扫码点餐后台实时调整时价，顾客扫码即看最新价格，省去服务员逐桌告知</li><li><strong>包厢预订管理：</strong>收银系统支持包厢预订+预付定金，减少「放鸽子」空桌损失</li><li><strong>海鲜拼盘套餐化：</strong>将高毛利组合设计为固定套餐（如「双人海鲜拼盘¥298」），提升客单同时降低选择焦虑</li><li><strong>菜品毛利分析：</strong>通过进销存追踪每道海鲜菜的食材成本率，砍掉毛利低于40%的低效菜品</li></ul>`,
+    4: `<h3>大众点评运营策略（海鲜品类专属）</h3><p>海鲜品类在大众点评上的核心挑战：<strong>消费者对「缺斤少两」「不新鲜」「宰客」的恐惧是第一决策障碍</strong>。点评运营的核心就是破除这个信任壁垒。</p><h3>第一阶段：评分冲刺期（第1-30天）</h3><ul><li><strong>目标：</strong>30天内积累50条优质好评，评分稳定在4.3+</li><li>🔧 评价专家设置：结账后自动弹好评引导页面，5秒弹出不打扰</li><li>🔧 好评激励：好评晒图送下次到店凉拌海蜇丝1份（成本¥4）</li><li>🔧 差评拦截：设置差评预警，24小时内电话回访+补偿方案</li></ul><h3>第二阶段：流量放大期（第31-60天）</h3><ul><li><strong>目标：</strong>月均曝光量提升50%，团购套餐核销率达60%以上</li><li>上线3款团购套餐：双人海鲜套餐¥258 / 4人家庭宴¥498 / 商务精选¥888</li><li>开通推广通，日预算¥80，主投「海鲜」「聚餐」「生日宴」关键词</li><li>每周更新3-5张高质量菜品图（海鲜特写+出品过程）</li><li>优化门店标签：添加「明档海鲜」「活鲜现做」「公平秤」等信任标签</li></ul><h3>第三阶段：口碑维护期（第61天起持续）</h3><ul><li>维持每周新增5-8条好评的节奏</li><li>每月更新1次团购套餐（结合时令海鲜）</li><li>冲刺品类榜单/必吃榜提名</li></ul><h3>海鲜品类点评内容方向（破除信任壁垒）</h3><table><tr><th>内容方向</th><th>具体做法</th><th>解决的顾虑</th></tr><tr><td>鲜度证明</td><td>拍摄海鲜池活鲜视频/现捞过程</td><td>「是不是冻货？」</td></tr><tr><td>价格透明</td><td>拍价格牌/公平秤/结账单</td><td>「会不会宰客？」</td></tr><tr><td>分量展示</td><td>拍菜品与参照物对比</td><td>「会不会缺斤少两？」</td></tr><tr><td>出品过程</td><td>拍厨师现杀/蒸煮过程</td><td>「后厨干净吗？」</td></tr></table><h3>公域联动：大众点评+小红书+抖音</h3><p><strong>大众点评（核心交易平台）：</strong>团购套餐+评价管理+推广通投放，承接「想吃海鲜去哪家」的直接决策需求。每月推广通预算¥2,400（日均¥80），预期带来150+新客到店。</p><p><strong>小红书（种草引流）：</strong>邀请2-3位本地美食博主探店（预算¥500-1000/位），重点拍摄「海鲜池选鱼→现杀→上桌」全过程，笔记标题覆盖「[城市]+海鲜+推荐+聚餐」。</p><p><strong>抖音（爆款视频）：</strong>每周发2-3条15秒短视频——「开蚝/开蟹/蒸汽海鲜揭盖」等解压类内容，利用海鲜天然的视觉冲击力引爆本地流量。</p><p><strong>联动闭环：</strong>小红书/抖音种草→用户搜索大众点评→看到4.5分+优质评价→下单团购套餐→到店体验→注册会员入私域→储值/复购→发好评反哺公域。</p>`,
+    5: `<h3>会员体系整体架构（储值+等级双轨制）</h3><p>海鲜品类客单高（¥120）、频次偏低（1-2次/月），会员体系的核心目标是<strong>「把散客变熟客，把熟客变铁粉」</strong>。</p><h3>等级会员设计</h3><table><tr><th>等级</th><th>入会条件</th><th>核心权益</th><th>目标人群</th></tr><tr><td>鲜友会员</td><td>扫码即注册</td><td>积分累积（1元=1分）+生日月双倍积分+新客首单立减¥20</td><td>所有到店顾客</td></tr><tr><td>银卡会员</td><td>累计消费满¥1,000</td><td>全单9.5折+每月1张¥30券+优先预约包厢</td><td>中频回头客</td></tr><tr><td>金卡会员</td><td>累计消费满¥3,000或储值¥2,000+</td><td>全单9折+生日免费海鲜拼盘(价值¥168)+专属客服+节日礼品</td><td>高价值客户</td></tr></table><h3>会员运营节奏</h3><ul><li><strong>入会即触达：</strong>新会员注册后30分钟内推送欢迎消息+首单¥20优惠券</li><li><strong>7天回访：</strong>消费后第7天推送关怀消息+¥15小额券（限7天使用）</li><li><strong>沉睡唤醒：</strong>30天未到店推送「老朋友专属¥50抵用券」（限时7天有效）</li><li><strong>生日营销：</strong>生日前3天推送生日权益提醒，金卡享免费海鲜拼盘（价值¥168）</li><li><strong>节日触达：</strong>中秋/春节等海鲜消费旺季提前7天推送预订提醒+专属套餐</li></ul><h3>团购会员卡（旗舰版独有）</h3><p>消费者在大众点评购买团购套餐时，<strong>自动注册为门店会员</strong>，实现零操作入会。意味着：</p><ul><li>每一个团购客户都沉淀到私域会员池，后续可反复触达</li><li>团购核销后自动推送储值优惠：「今天消费满¥200，充¥1,000送¥150，本单直接抵扣」</li><li>形成「公域获客→私域留客→复购变现」完整闭环</li></ul><h3>会员KPI目标（行业参考值）</h3><table><tr><th>指标</th><th>当前（假设）</th><th>3个月目标</th><th>6个月目标</th></tr><tr><td>会员总数</td><td>0</td><td>300人</td><td>800人</td></tr><tr><td>会员消费占比</td><td>0%</td><td>35%</td><td>55%</td></tr><tr><td>会员复购率</td><td>—</td><td>40%</td><td>55%</td></tr><tr><td>会员客单价vs非会员</td><td>—</td><td>高15%（¥138）</td><td>高20%（¥144）</td></tr></table>`,
+    6: `<h3>储值体系设计（海鲜品类专属）</h3><p>海鲜品类客单¥120，按「客单×3-5次」原则设计储值档位，让客户觉得「划算但不心疼」：</p><table><tr><th>储值档位</th><th>充值金额</th><th>赠送金额</th><th>赠送比例</th><th>锁定消费次数</th><th>适用客群</th></tr><tr><td>体验档</td><td>¥500</td><td>¥60</td><td>12%</td><td>约4次</td><td>首次储值尝鲜</td></tr><tr><td><strong>主推档</strong></td><td><strong>¥1,000</strong></td><td><strong>¥150</strong></td><td><strong>15%</strong></td><td><strong>约8次</strong></td><td><strong>家庭常客/回头客</strong></td></tr><tr><td>尊享档</td><td>¥2,000</td><td>¥350</td><td>17.5%</td><td>约16次</td><td>商务宴请/高频客户</td></tr><tr><td>VIP档</td><td>¥5,000</td><td>¥1,000</td><td>20%</td><td>约42次</td><td>企业客户/超级铁粉</td></tr></table><h3>储值推荐时机与话术逻辑</h3><p>海鲜品类属于<strong>高客单低频</strong>，储值不宜首次就推，最佳时机是<strong>第二次到店消费时</strong>：</p><ul><li><strong>第一次到店：</strong>只引导注册会员，不提储值（让客户先体验品质）</li><li><strong>第二次到店：</strong>结账时POS弹出储值推荐——「您本次消费¥256，充¥1,000送¥150，本单直接用储值余额结算相当于打8.7折」</li><li><strong>话术逻辑：</strong>不说「充值」说「存钱」，不说「优惠」说「省了多少」，把储值框定为「反正要来吃，提前存着更划算」</li></ul><h3>储值促活机制</h3><ul><li><strong>余额不足提醒：</strong>储值余额低于¥200时推送「余额即将用完，续充¥1,000再享¥150赠送」</li><li><strong>储值专属菜：</strong>每月推出1道储值会员专享价海鲜菜（如波士顿龙虾储值价¥128/只，原价¥168）</li><li><strong>储值生日加赠：</strong>生日月储值额外多赠10%</li><li><strong>季度TOP10奖励：</strong>季度储值排行TOP10客户送时令海鲜礼盒（成本¥80）</li></ul><h3>储值目标（行业参考值）</h3><table><tr><th>指标</th><th>第1个月</th><th>第3个月</th><th>第6个月</th></tr><tr><td>月储值流水</td><td>¥2万</td><td>¥3.5万</td><td>¥5万</td></tr><tr><td>储值会员数</td><td>20人</td><td>60人</td><td>120人</td></tr><tr><td>储值消费占比</td><td>10%</td><td>20%</td><td>30%</td></tr></table><p><strong>核心价值：</strong>月储值¥3.5万 = 提前锁定约29次客户到店消费（按客单¥120计算），相当于每天多1桌「确定性营收」。</p>`,
+    7: `<h3>全年营销节奏规划（海鲜品类）</h3><p>海鲜品类的营销节奏紧跟<strong>「时令海鲜+传统节日+日常拉动」</strong>三条线并行：</p><table><tr><th>月份</th><th>时令主题</th><th>营销活动</th><th>目标</th></tr><tr><td>1-2月</td><td>年货海鲜/年夜饭</td><td>「海鲜年夜饭预订」储值加赠+大桌套餐</td><td>春节锁大桌消费</td></tr><tr><td>3-4月</td><td>春季开渔/皮皮虾季</td><td>「开渔第一鲜」限时套餐+会员尝鲜价</td><td>唤醒沉睡客户</td></tr><tr><td>5-6月</td><td>小龙虾/生蚝季</td><td>「生蚝畅吃夜」主题+小红书探店联动</td><td>拉新+晚市提升</td></tr><tr><td>7-8月</td><td>暑期聚餐高峰</td><td>「暑期家庭海鲜宴」4-6人套餐优惠</td><td>提升家庭桌均</td></tr><tr><td>9-10月</td><td>大闸蟹/梭子蟹季</td><td>「蟹季尝鲜」储值赠蟹券+中秋宴预订</td><td>拉动储值+大桌</td></tr><tr><td>11-12月</td><td>冬季进补/年末宴请</td><td>「海鲜暖锅季」套餐+企业年会预订</td><td>商务桌均提升</td></tr></table><h3>首月重点活动详案（启动期）</h3><ul><li><strong>活动1：新会员首充礼</strong><br>内容：新注册会员首次储值¥1,000，额外赠¥50券（总赠¥200）<br>时间：持续30天<br>🔧 路径：会员系统→新客专享活动→设置首充额外赠送<br>预期：首月新增储值会员20人，储值流水¥2万</li><li><strong>活动2：好评有礼</strong><br>内容：大众点评好评晒图，结账出示赠凉拌海蜇丝1份（成本¥4）<br>时间：持续执行<br>🔧 路径：评价专家→好评激励→设置赠品<br>预期：月新增好评30条，评分稳步提升至4.3+</li><li><strong>活动3：周二海鲜日</strong><br>内容：每周二指定2款海鲜会员专享8折价，拉动工作日淡场<br>时间：每周二全天<br>🔧 路径：会员系统→周期活动→会员专享价<br>预期：周二到店人次提升30%（+30人次）</li></ul><h3>公私域联动闭环（完整流程图）</h3><p><strong>获客层（公域）：</strong></p><ol><li>大众点评：团购套餐（双人¥258/家庭¥498）→ 搜索曝光+交易转化</li><li>小红书：本地博主探店笔记（2-3位/月，预算¥1,500）→ 种草+搜索引流</li><li>抖音：每周3条「开蚝/蒸汽揭盖」短视频 → 本地流量曝光</li></ol><p><strong>转化层（到店）：</strong></p><ol><li>团购核销即入会 → 自动注册会员（零操作）</li><li>首次体验不推储值 → 建立好感+品质认知</li><li>结账引导好评 → 公域口碑正向循环</li></ol><p><strong>留存层（私域）：</strong></p><ol><li>二次到店推储值 → 锁定8-16次消费</li><li>会员触达节奏（7天/30天/生日/节日）→ 持续激活</li><li>储值专属菜+会员日 → 差异化体验感</li></ol><p><strong>裂变层（口碑扩散）：</strong></p><ol><li>好评返小食券 → 激励口碑产出</li><li>会员带新储值赠 → 老带新裂变（老会员推荐新人储值，老客得¥30券）</li></ol>`,
+    8: `<h3>投资预算明细</h3><table><tr><th>投入项目</th><th>金额</th><th>说明</th></tr><tr><td>会员旗舰版（年费）</td><td>¥4,888</td><td>含团购会员卡+潜客营销+6大活动模板</td></tr><tr><td>评价专家（年费）</td><td>¥1,500（行业参考值）</td><td>好评管理+差评预警+自动引导</td></tr><tr><td>推广通月度预算</td><td>¥2,400/月</td><td>日均¥80，投「海鲜/聚餐/生日」关键词</td></tr><tr><td>小红书探店（首月）</td><td>¥1,500</td><td>2-3位本地博主，首月集中种草</td></tr><tr><td>好评激励成本</td><td>¥120/月</td><td>30条好评×¥4/份凉拌海蜇</td></tr><tr><td><strong>首年总投入</strong></td><td><strong>约¥3.5万</strong></td><td>含SaaS年费+12个月推广+首月种草</td></tr></table><h3>预期收益（月度增收拆解）</h3><table><tr><th>增收来源</th><th>月增收金额</th><th>推算逻辑</th></tr><tr><td>储值锁客带来的复购增量</td><td>¥18,000</td><td>月储值¥3.5万×储值客复购提升率50%≈多15桌×¥120客单</td></tr><tr><td>点评团购新客导流</td><td>¥12,000</td><td>推广通月引流100新客×到店率60%×¥120客单×70%毛利贡献</td></tr><tr><td>会员沉睡唤醒</td><td>¥7,200</td><td>300会员×30%沉睡率×唤醒成功20%×¥120客单×2次</td></tr><tr><td>客单提升（套餐化+会员加购）</td><td>¥5,400</td><td>日均100人次×15%套餐转化率×客单提升¥12</td></tr><tr><td><strong>月度总增收</strong></td><td><strong>¥42,600</strong></td><td></td></tr></table><h3>投资回报分析</h3><ul><li><strong>月均投入：</strong>约¥2,900（年投入¥3.5万÷12月）</li><li><strong>月均增收：</strong>¥42,600</li><li><strong>投入产出比：</strong>1:14.7（每投入1元带来14.7元增收）</li><li><strong>回本周期：</strong>首月即超额回本</li></ul><h3>OKR量化目标</h3><table><tr><th>目标维度</th><th>1个月目标</th><th>3个月目标</th><th>6个月目标</th></tr><tr><td>月营收（含增量）</td><td>¥38万（基础¥36万+增量¥2万）</td><td>¥40.3万（月增¥4.3万）</td><td>¥43万（月增¥7万）</td></tr><tr><td>大众点评评分</td><td>4.3分</td><td>4.5分</td><td>4.6分（冲刺品类榜）</td></tr><tr><td>会员总数</td><td>100人</td><td>300人</td><td>800人</td></tr><tr><td>月储值流水</td><td>¥2万</td><td>¥3.5万</td><td>¥5万</td></tr><tr><td>团购核销率</td><td>50%</td><td>60%</td><td>70%</td></tr></table><h3>数字验证</h3><p><strong>基础数据验证：</strong>月流水¥36万 ÷ 客单¥120 = 日均100人次 ÷ 30天 = 3,000人次/月 ✓</p><p><strong>ROI与OKR一致性：</strong>3个月目标月增收¥4.3万 ≈ ROI月增收¥4.26万（取整一致）✓</p><p><strong>储值逻辑验证：</strong>月储值¥3.5万 ÷ 主推档¥1,000 = 35人次新增储值 → 累计60人储值会员（含续充）✓</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
