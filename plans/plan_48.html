@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>aaa测试·海鲜水产 新店开业全案 | 美团餐饮SaaS</title>
+<style>
+:root{--primary:#B8860B;--accent:#FFC107;--accent2:#00BCD4;--green:#27AE60;--red:#E74C3C;--dark:#0D1520;--text:#1A2030;--sub:#666;--border:#F0E8D0;--bg:#F5F0E8;--shadow:0 4px 20px rgba(184,134,11,.12)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+.cover{background:linear-gradient(135deg,#0D1520 0%,#1A2540 45%,#8B6914 100%);min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:60px 30px;position:relative;overflow:hidden}
+.cover::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at 30% 70%,rgba(184,134,11,.2) 0%,transparent 60%),radial-gradient(ellipse at 70% 30%,rgba(0,188,212,.1) 0%,transparent 60%);animation:pulse 8s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.badge{background:rgba(184,134,11,.2);border:1px solid rgba(255,193,7,.5);color:#FFC107;padding:6px 20px;border-radius:20px;font-size:13px;letter-spacing:2px;margin-bottom:28px;position:relative;z-index:1}
+.cover h1{font-size:48px;font-weight:800;color:#fff;position:relative;z-index:1;text-shadow:0 4px 20px rgba(0,0,0,.3);margin-bottom:14px}
+.cover h1 span{color:#FFC107}
+.cover-sub{font-size:18px;color:rgba(255,255,255,.8);position:relative;z-index:1;margin-bottom:40px;letter-spacing:2px}
+.cover-tags{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;position:relative;z-index:1;margin-bottom:40px}
+.cover-tag{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;padding:7px 18px;border-radius:20px;font-size:13px}
+.cover-meta{font-size:13px;color:rgba(255,255,255,.4);position:relative;z-index:1}
+.wrap{max-width:960px;margin:0 auto;padding:60px 24px}
+.sec-white{background:#fff}
+.ch{display:flex;align-items:center;gap:14px;margin-bottom:36px}
+.ch-num{background:var(--primary);color:#fff;font-size:11px;font-weight:700;padding:4px 12px;border-radius:4px;letter-spacing:1px}
+.ch-title{font-size:26px;font-weight:700}
+.ch-sub{font-size:14px;color:var(--sub);margin-top:4px}
+.cards{display:grid;gap:18px}
+.c2{grid-template-columns:1fr 1fr}
+.c3{grid-template-columns:1fr 1fr 1fr}
+.c4{grid-template-columns:1fr 1fr 1fr 1fr}
+@media(max-width:700px){.c2,.c3,.c4{grid-template-columns:1fr}}
+.card{background:#fff;border-radius:14px;padding:22px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.card-icon{font-size:28px;margin-bottom:10px}
+.card-title{font-size:15px;font-weight:700;margin-bottom:7px}
+.card-body{font-size:13px;color:var(--sub);line-height:1.8}
+.pain-opp{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:600px){.pain-opp{grid-template-columns:1fr}}
+.pain-box{background:#FFF5F5;border:1px solid #FFD5D5;border-radius:12px;padding:18px}
+.opp-box{background:#F0FFF4;border:1px solid #C3E6CB;border-radius:12px;padding:18px}
+.box-ttl{font-size:13px;font-weight:700;margin-bottom:10px}
+.pain-box .box-ttl{color:#C0392B}
+.opp-box .box-ttl{color:#27AE60}
+.il{list-style:none}
+.il li{padding:5px 0;font-size:13px;color:var(--sub);border-bottom:1px solid rgba(0,0,0,.05);display:flex;align-items:flex-start;gap:8px}
+.il li:last-child{border-bottom:none}
+.b0{font-size:10px;padding:1px 6px;border-radius:10px;font-weight:700;background:#FFE0E0;color:#C0392B;white-space:nowrap;margin-top:3px}
+.b1{font-size:10px;padding:1px 6px;border-radius:10px;font-weight:700;background:#FFF3CD;color:#856404;white-space:nowrap;margin-top:3px}
+table.dt{width:100%;border-collapse:collapse;font-size:13px}
+.dt th{background:var(--primary);color:#fff;padding:11px 14px;text-align:left;font-weight:600}
+.dt td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--sub)}
+.dt tr:nth-child(even) td{background:#FAFAFA}
+.hl{color:var(--primary);font-weight:700}
+.tl{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+@media(max-width:700px){.tl{grid-template-columns:1fr 1fr}}
+.tl-item{padding:18px 14px;border-top:4px solid var(--border)}
+.tl-item.on{border-top-color:var(--primary)}
+.tl-n{font-size:11px;color:var(--sub);font-weight:600;letter-spacing:1px;margin-bottom:6px}
+.tl-l{font-size:14px;font-weight:700;margin-bottom:10px}
+.tl-items{list-style:none}
+.tl-items li{font-size:12px;color:var(--sub);padding:3px 0;border-bottom:1px solid #F5F5F5}
+.dep-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:700px){.dep-cards{grid-template-columns:1fr}}
+.dep-card{border-radius:14px;padding:22px;text-align:center;position:relative;overflow:hidden}
+.dep-card.rec{background:linear-gradient(135deg,#B8860B,#DAA520);color:#fff}
+.dep-card.basic{background:#F8F9FA;border:2px solid var(--border);color:var(--text)}
+.dep-card.prem{background:linear-gradient(135deg,#0D1520,#1A2540);color:#fff}
+.dep-star{position:absolute;top:10px;right:10px;font-size:10px;background:#E74C3C;color:#fff;padding:2px 7px;border-radius:10px;font-weight:700}
+.dep-amt{font-size:32px;font-weight:800;margin:10px 0 3px}
+.dep-lbl{font-size:12px;opacity:.8;margin-bottom:6px}
+.dep-gift{font-size:16px;font-weight:700}
+.dep-desc{font-size:11px;opacity:.7;margin-top:7px}
+.roi-box{background:linear-gradient(135deg,#0D1520,#1A2540);border-radius:18px;padding:36px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;text-align:center}
+@media(max-width:600px){.roi-box{grid-template-columns:1fr}}
+.roi-lbl{font-size:12px;color:rgba(255,255,255,.6);margin-bottom:6px}
+.roi-val{font-size:32px;font-weight:800;color:#FFC107}
+.roi-sub{font-size:11px;color:rgba(255,255,255,.5);margin-top:4px}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media(max-width:700px){.kpi-grid{grid-template-columns:1fr 1fr}}
+.kpi-card{background:#fff;border-radius:10px;padding:16px;border-left:3px solid var(--primary);box-shadow:var(--shadow)}
+.kpi-node{font-size:11px;color:var(--sub);margin-bottom:6px}
+.kpi-metric{font-size:12px;font-weight:700;margin-bottom:6px}
+.kpi-vals{display:flex;gap:6px;align-items:center}
+.kpi-c{font-size:12px;color:#999}
+.kpi-arr{color:var(--primary)}
+.kpi-t{font-size:15px;font-weight:700;color:var(--primary)}
+.sp-card{background:#F8F9FA;border-radius:10px;padding:18px;margin-bottom:14px;border-left:4px solid var(--accent)}
+.sp-time{font-size:11px;color:var(--primary);font-weight:700;margin-bottom:5px}
+.sp-text{font-size:13px;font-style:italic;background:#fff;padding:10px 14px;border-radius:7px;border:1px solid var(--border);margin-bottom:5px}
+.sp-why{font-size:11px;color:var(--sub)}
+.pkg-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:700px){.pkg-cards{grid-template-columns:1fr 1fr}}
+.pkg-card{background:#fff;border-radius:10px;padding:16px;text-align:center;border:2px solid var(--border);box-shadow:var(--shadow)}
+.pkg-card.main{border-color:var(--primary)}
+.pkg-emoji{font-size:24px;margin-bottom:6px}
+.pkg-name{font-size:12px;font-weight:700;margin-bottom:6px}
+.pkg-price{font-size:22px;font-weight:800;color:var(--primary)}
+.pkg-ori{font-size:11px;color:#999;text-decoration:line-through}
+.pkg-note{font-size:11px;color:var(--sub);margin-top:6px;line-height:1.5}
+.act-hdr{display:grid;grid-template-columns:70px 1fr 110px 110px 140px;gap:10px;padding:10px 0;background:#F8F9FA;font-size:12px;font-weight:700;color:var(--sub);border-bottom:2px solid var(--border)}
+.act-row{display:grid;grid-template-columns:70px 1fr 110px 110px 140px;gap:10px;padding:12px 0;border-bottom:1px solid var(--border);font-size:13px;align-items:start}
+@media(max-width:700px){.act-hdr,.act-row{grid-template-columns:1fr}}
+.act-week{font-weight:700;color:var(--primary)}
+.act-name{font-weight:600}
+.act-detail{font-size:11px;color:var(--sub);margin-top:3px}
+.act-cost{color:var(--red);font-weight:600}
+.act-goal{color:var(--green);font-weight:600}
+.act-tool{font-size:11px;color:var(--accent2)}
+.bgt-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+@media(max-width:700px){.bgt-grid{grid-template-columns:1fr}}
+.bgt-tbl{width:100%;font-size:13px;border-collapse:collapse}
+.bgt-tbl td{padding:8px 10px;border-bottom:1px solid var(--border)}
+.bgt-tbl .tot{font-weight:700;background:#FFFBF0}
+.bgt-tbl .nm{color:var(--sub)}
+.bgt-tbl .pr{text-align:right;color:var(--primary);font-weight:600}
+.warn{background:#FFFBF0;border:1px solid #FFC107;border-radius:10px;padding:14px 18px;margin-bottom:14px;display:flex;gap:10px;align-items:flex-start}
+.warn-icon{font-size:18px;flex-shrink:0;margin-top:2px}
+.warn-ttl{font-size:13px;font-weight:700;color:#856404;margin-bottom:3px}
+.warn-txt{font-size:12px;color:var(--sub);line-height:1.7}
+.hl-box{background:linear-gradient(135deg,#B8860B,#DAA520);color:#fff;border-radius:14px;padding:28px 36px;text-align:center;margin:22px 0}
+.hl-box .big{font-size:48px;font-weight:800;color:#fff}
+.hl-box .lbl{font-size:15px;opacity:.9;margin-top:6px}
+.footer-sec{background:linear-gradient(135deg,#0D1520 0%,#1A2540 100%);padding:70px 24px;text-align:center}
+.footer-ttl{font-size:32px;font-weight:800;color:#fff;margin-bottom:14px}
+.footer-ttl span{color:#FFC107}
+.footer-sub{font-size:15px;color:rgba(255,255,255,.6);margin-bottom:36px}
+.footer-vals{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:36px}
+.footer-val{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;padding:10px 18px;border-radius:8px;font-size:13px}
+.footer-meta{font-size:12px;color:rgba(255,255,255,.35)}
+.divider{height:1px;background:var(--border);margin:28px 0}
+.tag{display:inline-block;padding:3px 9px;border-radius:14px;font-size:11px;font-weight:600}
+.tag-g{background:#FFF3CD;color:#856404}
+.tag-b{background:#E3F2FD;color:#1565C0}
+.tag-gr{background:#E8F5E9;color:#2E7D32}
+.tp{display:inline-block;background:#E3F2FD;color:#1565C0;font-size:11px;padding:1px 7px;border-radius:3px;font-family:monospace}
+.cl{list-style:none}
+.cl li{padding:9px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;font-size:13px;align-items:flex-start}
+.cl li:last-child{border-bottom:none}
+.cb{width:18px;height:18px;border-radius:3px;border:2px solid var(--border);flex-shrink:0;margin-top:2px}
+.cc{flex:1}
+.cc-ttl{font-weight:600}
+.cc-sub{font-size:12px;color:var(--sub);margin-top:2px}
+h3.sec-h{font-size:16px;color:var(--primary);margin-bottom:14px;font-weight:700}
+p.note{font-size:13px;color:var(--sub);line-height:1.8;margin-bottom:12px}
+</style>
+</head>
+<body>
+
+<!-- 封面 -->
+<div class="cover">
+  <div class="badge">🐟 新店开业全案 · 美团餐饮SaaS</div>
+  <h1>aaa测试<br><span>海鲜/水产</span>运营全案</h1>
+  <div class="cover-sub">数字化开业护航 · 从第一天就赢</div>
+  <div class="cover-tags">
+    <div class="cover-tag">🦀 品类：海鲜/水产</div>
+    <div class="cover-tag">🆕 新店开业方案</div>
+    <div class="cover-tag">📅 2026年5月</div>
+  </div>
+  <div class="cover-meta">美团餐饮SaaS · 陈国庆 出品</div>
+</div>
+
+<!-- 首月摘要 -->
+<div class="sec-white">
+<div class="wrap">
+  <div class="ch">
+    <div class="ch-num">SUMMARY</div>
+    <div>
+      <div class="ch-title">⚡ 首月行动摘要</div>
+      <div class="ch-sub">老板5分钟看完能做决定</div>
+    </div>
+  </div>
+
+  <div class="hl-box">
+    <div style="font-size:16px;font-weight:700;margin-bottom:10px;">🎯 一句话策略</div>
+    <div style="font-size:15px;line-height:1.8;opacity:.95;">
+      用"鲜活品质+数字化会员"双轮驱动——开业60天线上口碑定调，<br>储值锁住第一批回头客，让海鲜门店在本地从0到口碑TOP。
+    </div>
+  </div>
+
+  <table class="dt" style="margin-top:24px;">
+    <thead><tr><th>时间段</th><th>做什么</th><th>预期效果</th></tr></thead>
+    <tbody>
+      <tr><td><strong>第1周（开业前7天）</strong></td><td>系统配置+员工话术培训+开业套餐设计+邀约5位达人定调评价</td><td>开业当天10条高质量点评就位</td></tr>
+      <tr><td><strong>第2周（开业1-7天）</strong></td><td>开业限时折扣+扫码入会礼+主推储值话术+每桌必问</td><td>新增会员150人，储值20单</td></tr>
+      <tr><td><strong>第3-4周（开业8-30天）</strong></td><td>拼团裂变活动+节日营销+点评持续增量+复购召回推送</td><td>会员300人，点评60条，储值占营收≥15%</td></tr>
+    </tbody>
+  </table>
+
+  <div class="roi-box" style="margin-top:28px;">
+    <div><div class="roi-lbl">首月总投入（含软硬件+营销）</div><div class="roi-val">¥14,800</div><div class="roi-sub">软件年费+硬件+开业营销</div></div>
+    <div><div class="roi-lbl">月增收测算</div><div class="roi-val">¥9,200</div><div class="roi-sub">省人力+储值增收+复购提升</div></div>
+    <div><div class="roi-lbl">预计回本周期</div><div class="roi-val">约2个月</div><div class="roi-sub">第二年起仅年费¥4,888</div></div>
+  </div>
+</div>
+</div>
+
+<!-- 第一章：门店诊断 -->
+<div>
+<div class="wrap">
+  <div class="ch">
+    <div class="ch-num">CHAPTER 01</div>
+    <div>
+      <div class="ch-title">🔍 门店诊断：看清战场</div>
+      <div class="ch-sub">先摸清处境，再制定打法</div>
+    </div>
+  </div>
+
+  <h3 class="sec-h">1.1 海鲜/水产赛道机遇（2024-2025）</h3>
+  <div class="cards c3" style="margin-bottom:28px;">
+    <div class="card">
+      <div class="card-icon">📈</div>
+      <div class="card-title">高客单赛道逆势增长</div>
+      <div class="card-body">一二线城市"鲜活食材+品质感"门店2024年同比增长18%，消费者愿为新鲜多花30-50元，高客单海鲜赛道抗跌性强。</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏆</div>
+      <div class="card-title">数字化洼地，先做先赢</div>
+      <div class="card-body">海鲜门店真正做会员数字化的不超过20%，大多数仍靠口口相传。这正是新店弯道超车的窗口——用系统锁客，竞品还在手工操作。</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">⚡</div>
+      <div class="card-title">开业60天黄金流量期</div>
+      <div class="card-body">新店开业头60天：美团/点评新店推流+顾客猎奇心理双叠加，错过这个窗口期线上曝光成本翻3倍。<strong>现在每一步都是打折买流量。</strong></div>
+    </div>
+  </div>
+
+  <h3 class="sec-h">1.2 新店核心痛点与机遇</h3>
+  <div class="pain-opp" style="margin-bottom:28px;">
+    <div class="pain-box">
+      <div class="box-ttl">⚠️ 5大核心痛点</div>
+      <ul class="il">
+        <li><span class="b0">P0</span>开业初期线上无任何口碑，搜索排名靠后，新客找不到</li>
+        <li><span class="b0">P0</span>没有会员体系，回头客全靠记忆，无法主动召回</li>
+        <li><span class="b1">P1</span>点单靠人工，高峰期出餐慢，顾客等待体验差</li>
+        <li><span class="b1">P1</span>活鲜成本高，库存损耗难控，毛利压力大</li>
+        <li><span class="b1">P1</span>无数据支撑，不知道哪道菜受欢迎、哪个时段客流集中</li>
+      </ul>
+    </div>
+    <div class="opp-box">
+      <div class="box-ttl">🌟 4大真实机遇</div>
+      <ul class="il">
+        <li>✅ 新店流量红利60天，平台主动推流不用花钱</li>
+        <li>✅ 海鲜客单价高（80-150元），储值门槛设计空间大，锁客效果显著</li>
+        <li>✅ 品类稀缺性强——一个商圈鲜少有2家以上品质海鲜，差异化容易建立</li>
+        <li>✅ 点评好评早期定调，前10条决定后续口碑调性，先做先赢</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="sec-h">1.3 参考数据基准（同类门店行业基准）</h3>
+  <table class="dt">
+    <thead><tr><th>指标</th><th>行业基准值</th><th>我们的目标</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td>客单价</td><td class="hl">¥80-150</td><td>¥90-120（推算用）</td><td>中等规格海鲜门店</td></tr>
+      <tr><td>月均客流</td><td>800-1200人次</td><td>开业第3月达到1000人次</td><td>按日均33人次</td></tr>
+      <tr><td>储值转化率</td><td>3-5%</td><td>首月8%（开业期高于均值）</td><td>主动话术驱动</td></tr>
+      <tr><td>点评数/月</td><td>20-40条</td><td>开业首月60条</td><td>达人+顾客双渠道</td></tr>
+      <tr><td>外卖占比</td><td>15-25%</td><td>第2个月起建立外卖渠道</td><td>海鲜外卖需专门包装</td></tr>
+    </tbody>
+  </table>
+</div>
+</div>
+
+<!-- 第二章：策略设计 -->
+<div class="sec-white">
+<div class="wrap">
+  <div class="ch">
+    <div class="ch-num">CHAPTER 02</div>
+    <div>
+      <div class="ch-title">🎯 整体营销策略</div>
+      <div class="ch-sub">从独特资产出发，设计清晰的致胜路径</div>
+    </div>
+  </div>
+
+  <div class="hl-box">
+    <div style="font-size:14px;margin-bottom:8px;opacity:.9;">核心打法</div>
+    <div style="font-size:16px;line-height:1.8;">
+      鲜活品质（引流钩子）→ 扫码入会（留住第一批客人）→ 储值锁客（确保复购）→ 口碑裂变（口碑滚雪球）
+    </div>
+  </div>
+
+  <h3 class="sec-h" style="margin-top:28px;">2.1 品类特征与策略选择</h3>
+  <div class="cards c2" style="margin-bottom:28px;">
+    <div class="card">
+      <div class="card-title">🦀 海鲜/水产品类特征</div>
+      <div class="card-body">
+        <strong>高客单、中低频</strong>（月均1-2次）<br>
+        储值策略：客单×5-8次为最优档位（¥500-800），不宜过低<br>
+        会员策略：消费即入会，二次消费才推储值（不急于第一单）<br>
+        营销节奏：按月设计活动，不宜每周换活动（客单高、决策重）<br>
+        复购引擎：到货提醒（"今日到了波士顿龙虾"）+节日提醒
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">📦 已签约SaaS模块能力匹配</div>
+      <div class="card-body">
+        <table style="width:100%;font-size:12px;border-collapse:collapse">
+          <tr><td style="padding:5px;color:var(--sub)">开单慢/人工出错</td><td style="padding:5px;color:var(--primary);font-weight:600">→ 扫码点餐</td><td style="padding:5px;color:var(--sub)">顾客自助点单，省1名服务员</td></tr>
+          <tr><td style="padding:5px;color:var(--sub)">没有回头客</td><td style="padding:5px;color:var(--primary);font-weight:600">→ 会员系统</td><td style="padding:5px;color:var(--sub)">扫码自动入会，后续可精准推送</td></tr>
+          <tr><td style="padding:5px;color:var(--sub)">客人不储值</td><td style="padding:5px;color:var(--primary);font-weight:600">→ 智能储值</td><td style="padding:5px;color:var(--sub)">收银话术+弹窗，主推充500送60</td></tr>
+          <tr><td style="padding:5px;color:var(--sub)">不知道哪道菜受欢迎</td><td style="padding:5px;color:var(--primary);font-weight:600">→ 经营数据</td><td style="padding:5px;color:var(--sub)">手机看日报，实时调整备货</td></tr>
+          <tr><td style="padding:5px;color:var(--sub)">口碑难管理</td><td style="padding:5px;color:var(--primary);font-weight:600">→ 评价专家</td><td style="padding:5px;color:var(--sub)">结账自动弹窗，引导写点评</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sec-h">2.2 四阶段核心节奏</h3>
+  <div class="tl">
+    <div class="tl-item on">
+      <div class="tl-n">PHASE 01 · D-7→D0</div>
+      <div class="tl-l">🌱 筹备蓄水期</div>
+      <ul class="tl-items">
+        <li>系统安装调试</li>
+        <li>菜单录入定价</li>
+        <li>员工话术培训</li>
+        <li>邀约5位达人</li>
+        <li>开业套餐设计</li>
+        <li>点评基础页设置</li>
+      </ul>
+    </div>
+    <div class="tl-item on">
+      <div class="tl-n">PHASE 02 · D1→D14</div>
+      <div class="tl-l">🔥 开业爆发期</div>
+      <ul class="tl-items">
+        <li>限时开业折扣</li>
+        <li>扫码入会送礼</li>
+        <li>储值话术全员推</li>
+        <li>达人评价发布</li>
+        <li>小红书探店</li>
+        <li>每桌推储值</li>
+      </ul>
+    </div>
+    <div class="tl-item on">
+      <div class="tl-n">PHASE 03 · D15→D45</div>
+      <div class="tl-l">📈 成长巩固期</div>
+      <ul class="tl-items">
+        <li>拼团裂变活动</li>
+        <li>节日专属套餐</li>
+        <li>老客召回推送</li>
+        <li>点评持续增量</li>
+        <li>外卖渠道开启</li>
+        <li>爆品持续打造</li>
+      </ul>
+    </div>
+    <div class="tl-item">
+      <div class="tl-n">PHASE 04 · D46→D90</div>
+      <div class="tl-l">🏆 稳定增长期</div>
+      <ul class="tl-items">
+        <li>次卡/年卡推出</li>
+        <li>会员分级运营</li>
+        <li>私域社群建立</li>
+        <li>季度主题活动</li>
+        <li>竞品监测调整</li>
+        <li>续费/加购决策</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 第三章：运营方案 -->
+<div>
+<div class="wrap">
+  <div class="ch">
+    <div class="ch-num">CHAPTER 03</div>
+    <div>
+      <div class="ch-title">⚙️ 运营方案：精确到每个动作</div>
+      <div class="ch-sub">每个执行动作：时间+金额+工具路径+预期效果</div>
+    </div>
+  </div>
+
+  <!-- 3.1 会员体系 -->
+  <h3 class="sec-h">3.1 会员体系设计</h3>
+  <div class="cards c2" style="margin-bottom:28px;">
+    <div class="card">
+      <div class="card-title">入会方式</div>
+      <div class="card-body">
+        <strong>扫桌码即入会</strong>（万能码自动识别）<br>
+        入会礼：新人专属券8元（7天有效，客单价≥80元可用）<br>
+        <div class="divider" style="margin:12px 0;"></div>
+        <strong>等级体系：</strong><br>
+        🐚 普通会员：扫码即入，享入会礼<br>
+        🦐 银贝会员：累计消费≥300元，享9.5折+优先订座<br>
+        🦀 金贝会员：累计消费≥800元，享9折+赠品+节日专属礼<br>
+        <div class="divider" style="margin:12px 0;"></div>
+        <span class="tp">会员系统 → 等级设置 → 积分规则</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">首月会员建立目标</div>
+      <div class="card-body">
+        <table style="width:100%;font-size:13px;border-collapse:collapse">
+          <tr><td style="padding:6px 0;color:var(--sub)">第1周目标</td><td style="padding:6px 0;font-weight:700;color:var(--primary)">≥100人</td></tr>
+          <tr><td style="padding:6px 0;color:var(--sub)">第2周目标</td><td style="padding:6px 0;font-weight:700;color:var(--primary)">≥200人（累计）</td></tr>
+          <tr><td style="padding:6px 0;color:var(--sub)">第4周目标</td><td style="padding:6px 0;font-weight:700;color:var(--primary)">≥300人（累计）</td></tr>
+          <tr><td style="padding:6px 0;color:var(--sub)">入会率目标</td><td style="padding:6px 0;font-weight:700;color:var(--primary)">≥60%到店即扫码</td></tr>
+        </table>
+        <div style="margin-top:12px;font-size:12px;color:var(--sub);">
+          💬 话术提示：「扫这个码点餐，顺便帮您登记会员，以后有新到活鲜第一时间通知您」
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3.2 储值方案 -->
+  <h3 class="sec-h">3.2 储值方案设计（主推：充500送60）</h3>
+  <p class="note">推算逻辑：客单¥100 × 5次消费 = ¥500，用完心理负担小；充后到账¥560，折扣率8.9折，对高客单顾客有吸引力。</p>
+  <div class="dep-cards" style="margin-bottom:28px;">
+    <div class="dep-card basic">
+      <div class="dep-amt">¥200</div>
+      <div class="dep-lbl">引流档（到账¥212）</div>
+      <div class="dep-gift">赠¥12</div>
+      <div class="dep-desc">新客试水，心理门槛低<br>约2次消费用完</div>
+    </div>
+    <div class="dep-card rec">
+      <div class="dep-star">⭐主推</div>
+      <div class="dep-amt">¥500</div>
+      <div class="dep-lbl">主力档（到账¥560）</div>
+      <div class="dep-gift">赠¥60（8.9折）</div>
+      <div class="dep-desc">5次消费用完，正好<br>锁住高频回头客</div>
+    </div>
+    <div class="dep-card prem">
+      <div class="dep-amt">¥1000</div>
+      <div class="dep-lbl">锁客档（到账¥1200）</div>
+      <div class="dep-gift">赠¥200（8.3折）</div>
+      <div class="dep-desc">高净值老客专属<br>让主推档显得超值</div>
+    </div>
+  </div>
+
+  <div class="sp-card">
+    <div class="sp-time">💬 收银台储值话术（结账时说）</div>
+    <div class="sp-text">「您今天消费了XX元，我们现在充500块到账560，下次来直接抵用，相当于打88折。而且我们有活鲜到货提醒，充了会员下次有波士顿龙虾第一时间通知您——要不要充一下？」</div>
+    <div class="sp-why">为什么这样说有效：先报本单金额建立关联感，再算清楚账（打88折），最后加一个专属权益（到货提醒）——三句话把储值说成了"不充才吃亏"。</div>
+  </div>
+
+  <!-- 3.3 套餐设计 -->
+  <h3 class="sec-h">3.3 开业点评套餐设计（大众点评上架）</h3>
+  <div class="pkg-cards" style="margin-bottom:28px;">
+    <div class="pkg-card">
+      <div class="pkg-emoji">🍤</div>
+      <div class="pkg-name">体验款（双人）</div>
+      <div class="pkg-price">¥89</div>
+      <div class="pkg-ori">价值¥136</div>
+      <div class="pkg-note">限每天20份<br>拉新钩子，制造稀缺感</div>
+    </div>
+    <div class="pkg-card main">
+      <div class="pkg-emoji">🦞</div>
+      <div class="pkg-name">⭐主推双人套</div>
+      <div class="pkg-price">¥168</div>
+      <div class="pkg-ori">价值¥240</div>
+      <div class="pkg-note">主力引流款<br>人均84元，高性价比</div>
+    </div>
+    <div class="pkg-card">
+      <div class="pkg-emoji">🦀</div>
+      <div class="pkg-name">商务四人套</div>
+      <div class="pkg-price">¥368</div>
+      <div class="pkg-ori">价值¥520</div>
+      <div class="pkg-note">请客有面子<br>人均92元不心疼</div>
+    </div>
+    <div class="pkg-card">
+      <div class="pkg-emoji">🎊</div>
+      <div class="pkg-name">八人宴席套</div>
+      <div class="pkg-price">¥788</div>
+      <div class="pkg-ori">价值¥1100</div>
+      <div class="pkg-note">锚定高价<br>让四人套显得超值</div>
+    </div>
+  </div>
+
+  <!-- 3.4 营销活动排期 -->
+  <h3 class="sec-h">3.4 首月营销活动排期（精确到每周）</h3>
+  <div style="overflow-x:auto;">
+    <div class="act-hdr" style="display:grid;grid-template-columns:70px 1fr 110px 110px 140px;gap:10px;padding:10px 8px;background:#F8F9FA;font-size:12px;font-weight:700;color:var(--sub);border-bottom:2px solid var(--border)">
+      <div>周次</div><div>活动名称</div><div>成本</div><div>目标</div><div>工具路径</div>
+    </div>
+    <div style="display:grid;grid-template-columns:70px 1fr 110px 110px 140px;gap:10px;padding:12px 8px;border-bottom:1px solid var(--border);font-size:13px;align-items:start">
+      <div style="font-weight:700;color:var(--primary)">开业前</div>
+      <div><strong>「鲜到」达人探店</strong><div style="font-size:11px;color:var(--sub);margin-top:3px">邀请5位本地美食达人到店品鉴，开业前发布探店视频/点评，要求400字+5张图</div></div>
+      <div style="color:var(--red);font-weight:600">¥500-800<br><span style="font-size:11px;color:var(--sub)">（餐费+礼品）</span></div>
+      <div style="color:var(--green);font-weight:600">开业10条高分评价</div>
+      <div style="font-size:11px;color:var(--accent2)">手动联系本地达人<br>点评星级5星</div>
+    </div>
+    <div style="display:grid;grid-template-columns:70px 1fr 110px 110px 140px;gap:10px;padding:12px 8px;border-bottom:1px solid var(--border);font-size:13px;align-items:start">
+      <div style="font-weight:700;color:var(--primary)">W1</div>
+      <div><strong>「开业鲜礼」扫码入会送券</strong><div style="font-size:11px;color:var(--sub);margin-top:3px">扫桌码即自动入会，弹窗赠8元券（7天有效）；服务员口头强调「现在扫有礼物」</div></div>
+      <div style="color:var(--red);font-weight:600">¥8×100=¥800</div>
+      <div style="color:var(--green);font-weight:600">新增会员100人</div>
+      <div style="font-size:11px;color:var(--accent2)">会员系统→新人礼<br>设置8元券</div>
+    </div>
+    <div style="display:grid;grid-template-columns:70px 1fr 110px 110px 140px;gap:10px;padding:12px 8px;border-bottom:1px solid var(--border);font-size:13px;align-items:start">
+      <div style="font-weight:700;color:var(--primary)">W2</div>
+      <div><strong>「尝鲜价」开业限时折扣</strong><div style="font-size:11px;color:var(--sub);margin-top:3px">开业第二周，全单9折（不与其他优惠叠加），同步主推储值：「今天9折，充了会员下次也能享受优惠」</div></div>
+      <div style="color:var(--red);font-weight:600">折扣成本约¥1200</div>
+      <div style="color:var(--green);font-weight:600">储值20单，营业额提升30%</div>
+      <div style="font-size:11px;color:var(--accent2)">美团收银→营销中心<br>→折扣活动</div>
+    </div>
+    <div style="display:grid;grid-template-columns:70px 1fr 110px 110px 140px;gap:10px;padding:12px 8px;border-bottom:1px solid var(--border);font-size:13px;align-items:start">
+      <div style="font-weight:700;color:var(--primary)">W3</div>
+      <div><strong>「带朋友来吃鲜」拼团裂变</strong><div style="font-size:11px;color:var(--sub);margin-top:3px">2人拼团享9折，3人以上8.8折；分享链接给好友成团，每成一单给推荐人赠20元券</div></div>
+      <div style="color:var(--red);font-weight:600">折扣+推荐奖约¥1500</div>
+      <div style="color:var(--green);font-weight:600">新增客户40人</div>
+      <div style="font-size:11px;color:var(--accent2)">会员系统→拼团活动<br>→分享有礼</div>
+    </div>
+    <div style="display:grid;grid-template-columns:70px 1fr 110px 110px 140px;gap:10px;padding:12px 8px;font-size:13px;align-items:start">
+      <div style="font-weight:700;color:var(--primary)">W4</div>
+      <div><strong>「月底大回购」复购召回</strong><div style="font-size:11px;color:var(--sub);margin-top:3px">对第1-2周入会但未储值的会员推送短信：「本月最后3天，充500送60优惠截止，您有专属名额」</div></div>
+      <div style="color:var(--red);font-weight:600">短信成本约¥30</div>
+      <div style="color:var(--green);font-weight:600">追加储值10单</div>
+      <div style="font-size:11px;color:var(--accent2)">会员系统→营销推送<br>→目标会员筛选</div>
+    </div>
+  </div>
+
+  <!-- 3.5 口碑/点评运营 -->
+  <h3 class="sec-h" style="margin-top:28px;">3.5 口碑运营：三步节奏</h3>
+  <div class="cards c3" style="margin-bottom:28px;">
+    <div class="card" style="border-top:3px solid var(--primary)">
+      <div class="card-icon">🎯</div>
+      <div class="card-title">第一步：定调（开业前10条）</div>
+      <div class="card-body">邀请5位美食达人/本地KOL到店，要求：400字+精美菜品照5张，重点强调"食材新鲜当日到货"。这10条决定所有后续顾客的第一印象。</div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--accent)">
+      <div class="card-icon">📈</div>
+      <div class="card-title">第二步：冲量（开业前30天达60条）</div>
+      <div class="card-body">结账时服务员说：「帮我们发个点评，150字以上+几张菜品照，系统会给您推送一张下次用的6元券。」<br>目标：日均2条评价。</div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--green)">
+      <div class="card-icon">🔄</div>
+      <div class="card-title">第三步：维护（每月8-12条）</div>
+      <div class="card-body">重点引导两类场景评价：家庭聚餐（周末晚餐）+商务宴请，丰富评价维度，提升搜索权重。<br>目标：3个月内点评数≥150条。</div>
+    </div>
+  </div>
+
+  <!-- 3.6 峰终体验 -->
+  <h3 class="sec-h">3.6 峰终体验设计（零额外成本）</h3>
+  <div class="sp-card">
+    <div class="sp-time">🏮 入座峰值触点</div>
+    <div class="sp-text">「欢迎光临！今天的大头虾/石斑鱼是今早刚到的，非常新鲜，很多回头客专门来吃——需要我给您介绍几道今日必点吗？」</div>
+    <div class="sp-why">植入"今日新鲜到货"，建立食材新鲜感知，这是海鲜门店最核心的差异化点。</div>
+  </div>
+  <div class="sp-card">
+    <div class="sp-time">📸 上招牌菜峰值触点</div>
+    <div class="sp-text">「这道是我们的招牌，食材早上刚到的，非常适合拍照——发小红书的朋友都喜欢。」</div>
+    <div class="sp-why">不直接求顾客发小红书，而是"暗示"拍照是自然的，降低心理抵触，增加自发传播。</div>
+  </div>
+  <div class="sp-card">
+    <div class="sp-time">💳 结账终值触点</div>
+    <div class="sp-text">「您今天消费了XX元，充500到账560相当于打折。另外帮我们在点评上写个感受，150字以上+几张图，会员系统会自动给您推一张6元券。」</div>
+    <div class="sp-why">把好评引导和储值推荐放在结账这一个时机点，同时解决两件事，服务员不觉得多余，顾客不觉得被打扰。</div>
+  </div>
+</div>
+</div>
+
+<!-- 第四章：投资回报 -->
+<div class="sec-white">
+<div class="wrap">
+  <div class="ch">
+    <div class="ch-num">CHAPTER 04</div>
+    <div>
+      <div class="ch-title">💰 投资回报分析</div>
+      <div class="ch-sub">花多少、赚多少、多久回本——账算清楚再做决定</div>
+    </div>
+  </div>
+
+  <div class="bgt-grid" style="margin-bottom:32px;">
+    <div>
+      <h3 class="sec-h">投入明细</h3>
+      <table class="bgt-tbl">
+        <tr><td colspan="2" style="font-weight:700;padding-bottom:6px;color:var(--sub);">软件年费</td></tr>
+        <tr><td class="nm">美团餐饮SaaS旗舰版</td><td class="pr">¥4,888/年</td></tr>
+        <tr><td class="nm">会员系统（含储值+次卡）</td><td class="pr">含旗舰版</td></tr>
+        <tr><td class="nm">扫码点餐+万能码</td><td class="pr">含旗舰版</td></tr>
+        <tr><td class="nm">评价专家</td><td class="pr">含旗舰版</td></tr>
+        <tr><td colspan="2" style="font-weight:700;padding-top:12px;padding-bottom:6px;color:var(--sub);">硬件（一次性）</td></tr>
+        <tr><td class="nm">收银一体机（S4mini-pro）</td><td class="pr">¥1,698</td></tr>
+        <tr><td class="nm">扫码盒（SC3）</td><td class="pr">¥100</td></tr>
+        <tr><td class="nm">后厨打印机（80C-pro）</td><td class="pr">¥270</td></tr>
+        <tr><td colspan="2" style="font-weight:700;padding-top:12px;padding-bottom:6px;color:var(--sub);">开业营销预算（首月）</td></tr>
+        <tr><td class="nm">达人探店+礼品</td><td class="pr">¥800</td></tr>
+        <tr><td class="nm">新人入会券（100人×8元）</td><td class="pr">¥800</td></tr>
+        <tr><td class="nm">折扣活动补贴（W2）</td><td class="pr">¥1,200</td></tr>
+        <tr><td class="nm">裂变+推荐奖励（W3-W4）</td><td class="pr">¥1,530</td></tr>
+        <tr><td class="nm">短信召回</td><td class="pr">¥30</td></tr>
+        <tr class="tot"><td class="nm">首月总投入</td><td class="pr" style="font-size:16px;">¥11,316</td></tr>
+        <tr class="tot"><td class="nm">首年总投入（含年费+硬件+营销）</td><td class="pr" style="font-size:18px;">¥14,800</td></tr>
+      </table>
+    </div>
+    <div>
+      <h3 class="sec-h">月增收测算</h3>
+      <table class="bgt-tbl">
+        <tr><td class="nm">省人力成本（扫码点餐替代1人）</td><td class="pr">¥3,500/月</td></tr>
+        <tr><td class="nm" style="font-size:11px;color:#999">推算：1名服务员月薪4500×80%工作量被系统替代</td><td></td></tr>
+        <tr><td class="nm">储值提升月营收（锁定复购）</td><td class="pr">¥3,000/月</td></tr>
+        <tr><td class="nm" style="font-size:11px;color:#999">推算：30单×¥500储值÷5月摊销=3000额外到店消费/月</td><td></td></tr>
+        <tr><td class="nm">会员复购率提升</td><td class="pr">¥1,700/月</td></tr>
+        <tr><td class="nm" style="font-size:11px;color:#999">推算：300会员×5%提升到店率×¥100客单=1500+推送转化200</td><td></td></tr>
+        <tr><td class="nm">点评口碑拉新</td><td class="pr">¥1,000/月</td></tr>
+        <tr><td class="nm" style="font-size:11px;color:#999">推算：评分4.5+后自然曝光提升→月增10桌×¥100</td><td></td></tr>
+        <tr class="tot"><td class="nm">月增收合计</td><td class="pr" style="font-size:18px;">¥9,200/月</td></tr>
+      </table>
+      <div class="hl-box" style="margin-top:20px;">
+        <div class="big" style="font-size:36px;">≈ 2个月回本</div>
+        <div class="lbl">¥14,800 ÷ ¥9,200/月 ≈ 1.6个月<br>第二年起仅年费¥4,888，净收益翻倍</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KPI -->
+  <h3 class="sec-h">KPI 复盘节点</h3>
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-node">🕐 第2周</div>
+      <div class="kpi-metric">会员数</div>
+      <div class="kpi-vals"><span class="kpi-c">0人</span><span class="kpi-arr">→</span><span class="kpi-t">150人</span></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-node">🕐 第30天</div>
+      <div class="kpi-metric">储值金额</div>
+      <div class="kpi-vals"><span class="kpi-c">¥0</span><span class="kpi-arr">→</span><span class="kpi-t">≥¥15,000</span></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-node">🕐 第30天</div>
+      <div class="kpi-metric">点评数</div>
+      <div class="kpi-vals"><span class="kpi-c">0条</span><span class="kpi-arr">→</span><span class="kpi-t">≥60条</span></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-node">🕐 第60天</div>
+      <div class="kpi-metric">点评评分</div>
+      <div class="kpi-vals"><span class="kpi-c">无评分</span><span class="kpi-arr">→</span><span class="kpi-t">≥4.5★</span></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-node">🕐 第60天</div>
+      <div class="kpi-metric">复购率</div>
+      <div class="kpi-vals"><span class="kpi-c">—</span><span class="kpi-arr">→</span><span class="kpi-t">≥25%</span></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-node">🕐 第60天</div>
+      <div class="kpi-metric">储值占营收比</div>
+      <div class="kpi-vals"><span class="kpi-c">0%</span><span class="kpi-arr">→</span><span class="kpi-t">≥15%</span></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-node">🕐 第90天</div>
+      <div class="kpi-metric">会员总数</div>
+      <div class="kpi-vals"><span class="kpi-c">0人</span><span class="kpi-arr">→</span><span class="kpi-t">≥600人</span></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-node">🕐 第90天</div>
+      <div class="kpi-metric">月营收</div>
+      <div class="kpi-vals"><span class="kpi-c">—</span><span class="kpi-arr">→</span><span class="kpi-t">稳定¥10万+</span></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 第五章：注意事项 -->
+<div>
+<div class="wrap">
+  <div class="ch">
+    <div class="ch-num">CHAPTER 05</div>
+    <div>
+      <div class="ch-title">⚠️ 注意事项与防踩坑</div>
+      <div class="ch-sub">海鲜门店特有的风险点，提前规避</div>
+    </div>
+  </div>
+
+  <div class="warn">
+    <div class="warn-icon">⚠️</div>
+    <div>
+      <div class="warn-ttl">储值不要第一单就推</div>
+      <div class="warn-txt">海鲜是高客单品类，顾客第一次来需要先体验品质再决定是否长期光顾。第一单推储值成功率低且影响体验。建议：第一次来→入会+体验→第二次来→推储值。开业期除外（可适当松一点）。</div>
+    </div>
+  </div>
+  <div class="warn">
+    <div class="warn-icon">⚠️</div>
+    <div>
+      <div class="warn-ttl">活鲜套餐要控好成本</div>
+      <div class="warn-txt">开业套餐中包含活鲜的，必须计算好食材成本（活鲜成本占比通常40-55%），套餐定价至少覆盖食材+人工成本。89元双人体验款建议选择大头虾/花螺等相对稳定的品种，避免用波龙等波动品。</div>
+    </div>
+  </div>
+  <div class="warn">
+    <div class="warn-icon">⚠️</div>
+    <div>
+      <div class="warn-ttl">达人评价不要一天全部发出</div>
+      <div class="warn-txt">5条达人评价分3天陆续发布（D-3、D-1、D0），避免集中发布被平台判定为刷评，同时营造"持续有人来吃"的印象。评价内容要各有侧重（食材/环境/服务/性价比）。</div>
+    </div>
+  </div>
+  <div class="warn">
+    <div class="warn-icon">⚠️</div>
+    <div>
+      <div class="warn-ttl">外卖渠道不要开业第一天就开</div>
+      <div class="warn-txt">海鲜外卖包装成本高、配送时效要求严。建议开业第2个月、堂食流程跑顺后再开外卖。先用堂食积累口碑和运营经验，外卖是增量渠道不是救命稻草。</div>
+    </div>
+  </div>
+  <div class="warn">
+    <div class="warn-icon">⚠️</div>
+    <div>
+      <div class="warn-ttl">库存与备货节奏</div>
+      <div class="warn-txt">利用系统数据（每日销量报表）在开业一周后调整备货节奏。海鲜损耗是利润杀手——系统会告诉你"周三没人点的那道菜可以少备"。一定要看数据再调整，不要凭感觉。</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 尾页 -->
+<div class="footer-sec">
+  <div class="footer-ttl">aaa测试 × <span>美团餐饮SaaS</span></div>
+  <div class="footer-sub">鲜活品质 + 数字化会员 = 从第一天就赢</div>
+  <div class="footer-vals">
+    <div class="footer-val">🐟 食材新鲜驱动</div>
+    <div class="footer-val">📱 数字化锁客</div>
+    <div class="footer-val">📈 口碑快速定调</div>
+    <div class="footer-val">💰 2个月回本</div>
+    <div class="footer-val">🏆 60天冲击TOP</div>
+  </div>
+  <div class="footer-meta">
+    美团餐饮SaaS · 陈国庆 出品 · 2026年5月<br>
+    本方案由 AI 智能生成，仅供参考
+  </div>
+</div>
+
+</body>
+</html>
