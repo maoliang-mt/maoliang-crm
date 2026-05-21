@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>佳乐美食 · 运营增长方案</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8B0000;
+            --primary-light: #B22222;
+            --accent: #D4A574;
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-hover: #1a1a25;
+            --text-primary: #f5f5f7;
+            --text-secondary: #a0a0b0;
+            --text-muted: #6a6a7a;
+            --border: #2a2a3a;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Sans SC', -apple-system, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 24px;
+            background: linear-gradient(180deg, rgba(10,10,15,0.3) 0%, rgba(10,10,15,0.9) 100%), linear-gradient(135deg, #8B0000 0%, #2a0a0a 60%, #0a0a0f 100%);
+        }
+        .badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(139, 0, 0, 0.3);
+            border: 1px solid var(--primary);
+            border-radius: 20px;
+            font-size: 14px;
+            color: var(--accent);
+            margin-bottom: 24px;
+        }
+        .hero h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(36px, 8vw, 64px);
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+        }
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        .stat-value {
+            font-family: 'Inter', sans-serif;
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        .chapters-section {
+            padding: 80px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 28px;
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .chapters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 16px;
+        }
+        .chapter-card {
+            padding: 24px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            text-align: center;
+        }
+        .chapter-number {
+            font-family: 'Inter', sans-serif;
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        .footer {
+            padding: 40px 24px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="badge">🔥 美团餐饮SaaS · 运营增长方案</div>
+        <h1>佳乐美食</h1>
+        <p class="hero-subtitle">用私域锁住回头客，让每一桌都成为下次再来的理由</p>
+        <div class="hero-stats">
+            <div><div class="stat-value">浙菜</div><div class="stat-label">品类定位</div></div>
+            <div><div class="stat-value">杭帮菜</div><div class="stat-label">细分赛道</div></div>
+            <div><div class="stat-value">钱塘区</div><div class="stat-label">核心商圈</div></div>
+        </div>
+        <p style="color: var(--text-secondary);">📍 浙江省杭州市钱塘区义蓬街道英冠天地城</p>
+    </section>
+    
+    <section class="chapters-section">
+        <h2 class="section-title">📋 方案已生成</h2>
+        <div class="chapters-grid">
+            <div class="chapter-card"><div class="chapter-number">01</div><div>市场洞察</div></div>
+            <div class="chapter-card"><div class="chapter-number">02</div><div>品牌定位</div></div>
+            <div class="chapter-card"><div class="chapter-number">03</div><div>系统方案</div></div>
+            <div class="chapter-card"><div class="chapter-number">04</div><div>点评赋能</div></div>
+            <div class="chapter-card"><div class="chapter-number">05</div><div>会员体系</div></div>
+            <div class="chapter-card"><div class="chapter-number">06</div><div>储值方案</div></div>
+            <div class="chapter-card"><div class="chapter-number">07</div><div>营销活动</div></div>
+            <div class="chapter-card"><div class="chapter-number">08</div><div>投资回报</div></div>
+        </div>
+    </section>
+    
+    <footer class="footer">
+        <p>方案制作：<strong style="color: var(--accent);">美团餐饮SaaS · 陈国庆</strong></p>
+        <p>© 2026 雄狮方案工厂</p>
+    </footer>
+</body>
+</html>
