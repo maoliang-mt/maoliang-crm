@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1892 Club · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">混合酒馆 / 港式小吃 / 足球主题 · 运营提升方案</div>
+  <h1 class="hero-title">1892 Club</h1>
+  <p class="hero-subtitle">三大业态打通会员，老客群带新客群，从浦沿到彭埠的品牌二次起飞</p>
+  <div class="hero-address">浙江杭州上城区彭埠街道御临云府</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">3.8→4.5</span>
+      <div class="hero-stat-label">老店评分→新店目标</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">200㎡</span>
+      <div class="hero-stat-label">新店面积</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">彭埠新区</span>
+      <div class="hero-stat-label">高潜力商圈</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '品牌定位', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">品牌定位</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '系统方案', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">系统方案</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评赋能', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评赋能</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" >
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">会员体系</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" >
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">储值方案</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" >
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">营销活动</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" >
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">投资回报</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏 -->
+  <div class="unlock-bar" id="unlockBar">
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>📊 门店数据概览（来源：大众点评公开数据）</h3>
+<p>🏪 1892 Club（老店）⭐ 评分：<strong>3.8分</strong> 💰 人均：<strong>¥67/人</strong> 📍 浦沿街道，垃圾街/滨江高教园精酿酒吧，已有固定客群，团购129条。</p>
+<h3>🏘️ 彭埠新店周边竞争格局（3公里内）</h3>
+<table>
+<tr><th>竞品名称</th><th>人均</th><th>风格</th><th>核心弱点</th><th>1892切入机会</th></tr>
+<tr><td>缘一酒馆（悦郡城）</td><td>¥70</td><td>复古工业+KTV</td><td>无港式餐饮、无足球主题差异化</td><td>足球场景独占，三业态护城河</td></tr>
+<tr><td>1022 Bistro（彭埠城东）</td><td>¥43</td><td>暗黑水泥风+KTV</td><td>客单低，无会员储值体系</td><td>高客单+储值锁客，价值感更强</td></tr>
+<tr><td>反复清吧（彭埠边）</td><td>¥70</td><td>室内露营风+棋牌</td><td>无餐饮业态，缺复购场景</td><td>港式小吃+酒馆组合满足吃喝一体需求</td></tr>
+<tr><td>下次再见小酒馆（三花国际）</td><td>未知</td><td>地下沉浸+餐酒演</td><td>位置偏地下，曝光获客难</td><td>御临云府底商可见度更高</td></tr>
+</table>
+<h3>彭埠商圈特征分析</h3>
+<ul>
+<li><strong>主力人群：</strong>25-35岁新杭州人，互联网/制造业白领为主，下班后解压消费刚需旺盛</li>
+<li><strong>消费特征：</strong>周末聚会频次高，足球欧冠/世界杯赛季人流明显增加，有「主题消费」偏好</li>
+<li><strong>竞争空白：</strong>彭埠5公里内暂无「酒馆+港式小吃+足球主题」三业态融合的差异化玩家，1892是唯一选手</li>
+<li><strong>政策红利：</strong>上城区彭埠是杭州重点发展的新城区，人口持续导入，夜经济消费场景成长空间大</li>
+</ul>
+<h3>行业趋势</h3>
+<p>2025-2026年杭州小酒馆赛道增速约18%，但同质化严重（清吧+KTV模式泛滥）。具备<strong>明确主题+餐饮支撑+会员私域</strong>的混合业态门店，复购率是纯酒吧的2.3倍（行业参考值）。1892 Club三业态融合恰好卡在这个差异化窗口期。</p></div>
+<div id="modal-content-2" style="display:none"><h3>1892 Club 的独特资产盘点</h3>
+<p>这是方案一切策略的出发点。老板拥有竞争对手很难复制的稀缺组合：</p>
+<ul>
+<li>✅ <strong>浦沿老店固定客群：</strong>已验证的精酿酒馆消费人群，有口碑积累，是新店最宝贵的种子资产</li>
+<li>✅ <strong>足球主题差异化标签：</strong>彭埠5公里内唯一有足球周边业态的酒馆，无可复制的圈层入口</li>
+<li>✅ <strong>港式小吃支撑：</strong>解决纯酒馆「没吃的、客单低、早退场」三大痛点，拉长人均停留时长</li>
+<li>✅ <strong>200㎡优质空间：</strong>足够承载三业态分区运营，空间资产利用率高</li>
+<li>✅ <strong>品牌故事性：</strong>「1892」是有历史感的品牌名，天然有高级感叙事空间</li>
+</ul>
+<h3>⚠️ 当前最大风险</h3>
+<p>三个业态同时开张，<strong>没有会员数据沉淀</strong>，无法做人群分层运营。老店客群带来的「熟人效应」如果不快速转化为会员数据，只是短暂的开业人气，3个月后会归零。老板对美团售后有顾虑——但正因为如此，更需要一套<strong>自己掌控的会员私域体系</strong>，不能永远依赖平台流量，被平台牵着鼻子走。</p>
+<div class='highlight-box'>
+<p><strong>新店品牌主张：「1892 Club = 球赛 + 好酒 + 港味」——彭埠唯一的下班目的地</strong></p>
+<p>不是清吧，不是KTV，是有主题、有仪式感、有专属会员权益的城市生活方式俱乐部。</p>
+</div>
+<h3>目标客群分层运营策略</h3>
+<table>
+<tr><th>客群类型</th><th>来源</th><th>核心诉求</th><th>运营策略</th></tr>
+<tr><td>老客迁移（种子层）</td><td>浦沿老店会员</td><td>支持新店、延续品牌情感</td><td>会员迁移激励：双倍积分有效期3个月</td></tr>
+<tr><td>足球圈层（核心层）</td><td>彭埠周边球迷</td><td>看球+下酒+同好社交</td><td>赛季包场预定+会员专属看球区权益</td></tr>
+<tr><td>白领夜经济（主力层）</td><td>御临云府及周边居民</td><td>下班解压+朋友聚餐</td><td>港式小吃套餐+首单优惠会员快速转化</td></tr>
+<tr><td>小红书新客（增量层）</td><td>周边年轻用户</td><td>打卡+拍照+社交分享</td><td>三业态融合高颜值内容，小红书精准投放</td></tr>
+</table></div>
+<div id="modal-content-3" style="display:none"><h3>美团收银旗舰版 vs 银豹系统：客观对比</h3>
+<p>老板已了解银豹系统，以下是客观对比，让老板自己判断哪个更适合三业态融合场景：</p>
+<table>
+<tr><th>对比维度</th><th>银豹系统</th><th>美团收银旗舰版</th></tr>
+<tr><td>会员触达渠道</td><td>仅门店私域（短信/微信）</td><td>大众点评公域+私域双通道</td></tr>
+<tr><td>团购会员卡</td><td>❌ 无</td><td>✅ 团购会员卡（旗舰独有）</td></tr>
+<tr><td>潜客营销</td><td>❌ 只能触达已消费会员</td><td>✅ 触达未消费新客，开业期最关键</td></tr>
+<tr><td>多业态会员打通</td><td>需额外配置，综合成本更高</td><td>✅ 同一系统天然支持三业态打通</td></tr>
+<tr><td>实时数据看板</td><td>基础报表</td><td>实时经营+会员行为分析</td></tr>
+<tr><td>售后服务</td><td>第三方服务商，响应慢</td><td>本地BD（翟卫婷）直接对接，响应快</td></tr>
+</table>
+<h3>三业态会员打通核心路径</h3>
+<div class='highlight-box'>
+<p>🔧 <strong>实现路径：</strong>美团收银旗舰版 → 多场景同一会员账号 → 顾客在任何业态消费都累积同一账户 → 数据合并分析客群行为</p>
+</div>
+<ul>
+<li><strong>酒馆业态：</strong>消费精酿/鸡尾酒 → 累积积分+储值余额，赛季日积分×1.5倍</li>
+<li><strong>港式小吃：</strong>消费小食套餐 → 同一会员账号，不重复入会，积分合并计算</li>
+<li><strong>足球周边：</strong>购买球衣/周边/包场 → 积分×2倍，触发「球迷专属权益」解锁</li>
+</ul>
+<h3>推荐配置：旗舰版（¥4,888/年）</h3>
+<p>旗舰版4个独有功能，精准命中1892 Club三业态痛点：</p>
+<ul>
+<li>✅ <strong>团购会员卡：</strong>在大众点评直接售卖「1892俱乐部年度会员卡」，新客扫码即购买，公域直接引流到私域</li>
+<li>✅ <strong>潜客营销：</strong>新店开业期，向彭埠5公里未消费人群定向推送开业优惠</li>
+<li>✅ <strong>6大特有活动：</strong>足球赛季包场促销、港式小吃节等场景完美匹配</li>
+<li>✅ <strong>智能储值：</strong>系统自动推荐最优储值档，储值用于三业态通用消费，降低员工话术压力</li>
+</ul></div>
+<div id="modal-content-4" style="display:none"><h3>老店点评现状分析</h3>
+<p>老店评分 <strong>3.8分</strong>（精酿酒吧赛道）——处于中等偏下水平。彭埠商圈竞争对手普遍在4.0-4.5分区间，<strong>评价运营从开业第一天就要做，而不是等差评出现了才补救。</strong></p>
+<h3>新店开业评价运营三阶段</h3>
+<table>
+<tr><th>阶段</th><th>时间</th><th>目标</th><th>具体动作</th></tr>
+<tr><td>定调期</td><td>开业前72小时内部试营业</td><td>前10条评价定调性</td><td>邀请老店忠实客+业内朋友先体验，写真实探店，重点突出「足球主题」「港式小吃」差异化标签</td></tr>
+<tr><td>冲量期</td><td>开业第1-4周</td><td>突破50条评价，评分4.0+</td><td>结账后扫码评价赠「隐藏款精酿一杯」；🔧 美团评价专家自动引导评价页跳转</td></tr>
+<tr><td>维护期</td><td>第2个月起长期执行</td><td>保持评分≥4.3</td><td>差评48小时必回复；好评截图发私域群感谢；每月盘点高频差评关键词针对改善</td></tr>
+</table>
+<h3>大众点评团购套餐设置</h3>
+<ul>
+<li><strong>主推套餐1「1892看球套餐」：</strong>精酿×2 + 港式炸物拼盘，定价¥128（约1.6人份），主打球赛日场景</li>
+<li><strong>主推套餐2「港式夜宵双人餐」：</strong>精酿×1 + 港式小食×3样，定价¥88，主打白领下班聚餐</li>
+<li><strong>锚点套餐3「1892豪华包场」：</strong>定价¥298，含精酿桶+全桌港式小吃+足球区专属，作为价格锚点让¥128显得超值</li>
+</ul>
+<h3>小红书/抖音公域布局</h3>
+<p>混合酒馆+港式小吃+足球，这个组合在小红书是高适配内容，强烈建议布局：</p>
+<ul>
+<li>🎯 <strong>内容方向1：</strong>「杭州彭埠最特别的酒馆」探店笔记 — 三业态融合视觉冲击强，差异化显著</li>
+<li>🎯 <strong>内容方向2：</strong>足球赛季「在哪里看欧冠」话题 — 天然流量入口，每到赛季自动引流</li>
+<li>🎯 <strong>内容方向3：</strong>港式小吃颜值特写 — 炸鱿鱼/虾饺/煎饺等高颜值食物，小红书传播力强</li>
+<li>🎯 <strong>内容方向4：</strong>「1892年风格混搭」品牌故事 — 利用品牌名字的历史感做深度内容</li>
+</ul></div>
+<div id="modal-content-5" style="display:none"><h3>1892 Club 三业态会员打通设计方案</h3>
+<p>这是整个运营方案的核心差异化。三个业态用同一个会员账号，顾客消费任意业态都累积积分和储值余额，实现<strong>「一次入会，三倍锁客」</strong>效果。</p>
+<h3>会员等级设计</h3>
+<table>
+<tr><th>等级</th><th>入会条件</th><th>专属权益</th><th>对应场景</th></tr>
+<tr><td>🍺 啤酒会员（基础）</td><td>消费1次即自动入会</td><td>积分兑换消费 + 生日赠饮×1</td><td>偶尔来喝一杯的散客</td></tr>
+<tr><td>⚽ 球迷会员（进阶）</td><td>累计消费≥¥500 或 储值¥300+</td><td>赛季包场优先预订 + 港式小吃九折 + 每月赠精酿×1</td><td>足球爱好者，高频主力客群</td></tr>
+<tr><td>🏆 俱乐部会员（VIP）</td><td>储值¥1000+ 或 年消费≥¥3000</td><td>专属座位预留 + 足球周边折扣 + 生日专场包厢 + 优先新品体验</td><td>核心老客、企业包场客</td></tr>
+</table>
+<h3>老店→新店会员迁移计划（开业前必做）</h3>
+<div class='highlight-box'>
+<p>⚠️ 老店固定客群是新店最宝贵的种子资产，迁移策略：</p>
+<ul>
+<li>老店会员首次在新店消费，<strong>积分×2倍</strong>，优惠有效期3个月</li>
+<li>老店会员带新朋友首次消费，老客获赠「精酿一扎（市价¥58）」</li>
+<li>🔧 美团会员系统支持「会员迁移」功能，老客不需要重新入会，数据直接打通</li>
+<li>目标：开业30天内迁移老店会员≥100人</li>
+</ul>
+</div>
+<h3>团购会员卡（旗舰独有功能）</h3>
+<p>在大众点评上线「1892年度俱乐部卡」，实现公域→私域闭环：</p>
+<ul>
+<li><strong>定价：</strong>¥199/年（有效期12个月）</li>
+<li><strong>权益：</strong>入会即送¥50储值余额 + 每月精酿×1 + 港式小吃九折 + 足球周边85折</li>
+<li><strong>获客逻辑：</strong>新客在大众点评看到团购会员卡 → 购买 → 到店消费 → 转化为私域会员</li>
+<li><strong>首月目标：</strong>销售50张，折合新增会员¥9,950储值预收（扣除¥2,500赠送余额后净收¥7,450）</li>
+</ul>
+<h3>三业态积分联动规则</h3>
+<table>
+<tr><th>业态</th><th>基础积分倍率</th><th>特殊加成场景</th></tr>
+<tr><td>酒馆（精酿/鸡尾酒）</td><td>1元=1积分</td><td>赛季大赛日消费 ×1.5倍</td></tr>
+<tr><td>港式小吃</td><td>1元=1积分</td><td>新品上线日 ×2倍积分</td></tr>
+<tr><td>足球周边（购买/包场）</td><td>1元=2积分</td><td>欧冠/世界杯期间 ×3倍</td></tr>
+</table></div>
+<div id="modal-content-6" style="display:none"><h3>三业态储值设计原则</h3>
+<p>酒馆类客群储值接受度高，但1892 Club面对的是有消费能力的25-35岁白领，储值档位设计要体现<strong>「专属感」</strong>而非「打折促销」——让顾客感觉是加入了一个俱乐部，而不是被推销。</p>
+<h3>推荐储值档位</h3>
+<table>
+<tr><th>储值档位</th><th>赠送</th><th>实际到账</th><th>主打人群</th><th>核心话术</th></tr>
+<tr><td>¥200 基础档</td><td>赠¥20</td><td>¥220</td><td>首次试探型</td><td>「充个200，下次来不用带钱包，三个业态都能用」</td></tr>
+<tr><td>¥500 进阶档</td><td>赠¥80 + 球迷会员升级</td><td>¥580</td><td>高频酒馆客</td><td>「充500直接升球迷会员，每月白送1杯精酿，值了」</td></tr>
+<tr><td>¥1000 VIP档</td><td>赠¥200 + VIP会员升级</td><td>¥1200</td><td>企业包场/死忠球迷</td><td>「充1000，欧冠赛季包场随时优先，位置给你留着」</td></tr>
+</table>
+<h3>储值推送时机（最重要）</h3>
+<div class='highlight-box'>
+<p>🔧 美团智能储值：系统在以下3个时机自动推送储值提示（不需要员工主动开口）</p>
+<ol>
+<li>结账消费满¥150 → 弹「¥200储值档，立省¥20，三个业态通用」</li>
+<li>会员积分接近升级门槛（差100积分时）→ 推「储值¥200积分直接升级球迷会员」</li>
+<li>沉睡会员（30天未消费）→ 推「回来喝一杯，您的储值余额快到期了」</li>
+</ol>
+</div>
+<h3>足球赛季储值爆发期</h3>
+<p>欧冠/世界杯等大赛期间（5-6月、10-12月），是酒馆储值的黄金窗口：</p>
+<ul>
+<li><strong>赛前1周：</strong>推「赛季储值礼包」，储值¥500送专属球迷帽×1（成本约¥15，感知价值¥80）</li>
+<li><strong>赛事当晚结账时：</strong>推「本赛季储值翻倍积分」，趁热打铁转化高意向客</li>
+<li><strong>预计效果：</strong>欧冠赛季（10-12月）单月储值可达平时2-3倍（行业参考值）</li>
+</ul>
+<h3>三业态储值数据价值</h3>
+<p>打通三业态后，老板可以看到单业态看不到的数据：</p>
+<ul>
+<li>哪个客群同时买港式小吃+喝精酿（高价值用户，重点维护）</li>
+<li>哪个客群只买足球周边但不消费酒水（待开发用户，可针对性引导）</li>
+<li>哪个客群高频消费但从不储值（流失风险，需特殊挽留策略）</li>
+</ul>
+<p>这些数据，银豹系统给不了。</p></div>
+<div id="modal-content-7" style="display:none"><h3>1892 Club 年度营销节奏规划</h3>
+<h4>📅 开业期（第1-30天）：快速建口碑+种子会员</h4>
+<table>
+<tr><th>时间</th><th>活动名称</th><th>具体内容</th><th>预期效果</th></tr>
+<tr><td>开业第0天（试营业）</td><td>老客迁移开城仪式</td><td>邀请浦沿老店TOP50会员，扫码迁移账号送¥30储值+精酿1杯；🔧 美团会员迁移功能</td><td>种子会员50人，当日流水预计¥8,000+</td></tr>
+<tr><td>开业第1-7天</td><td>「首杯免费」入会礼</td><td>扫码点餐入会即送精酿×1（限量100份/天）；🔧 扫码点餐首次弹窗设置</td><td>首周新增会员200人</td></tr>
+<tr><td>开业第2-4周</td><td>好评有礼</td><td>结账引导评价，成功截图赠港式薯条1份（成本¥3）；🔧 评价专家自动引导</td><td>30天积累50条好评，评分突破4.0</td></tr>
+</table>
+<h4>⚽ 足球主题营销（赛季联动，全年持续）</h4>
+<ul>
+<li><strong>「1892看球夜」（每个赛季大赛日）：</strong>会员可预定「足球专属区域」，每桌最低消费¥200含精酿×2+港式小吃拼盘；🔧 团购预定提前锁座，避免当天拥堵</li>
+<li><strong>「赛前比分竞猜」：</strong>扫码参与比分竞猜，猜对赠精酿×1（成本极低，互动价值高，带动社群活跃）</li>
+<li><strong>「球迷会员专属折扣」：</strong>球迷会员购买足球周边享85折，VIP会员享8折</li>
+</ul>
+<h4>🍱 港式小吃营销（提升客单，高频拉新）</h4>
+<ul>
+<li><strong>「每周一物」：</strong>每周推出1个港式小吃新品/限定尝鲜，扫码点餐首单新品半价；🔧 扫码点餐后台一键设置限时半价</li>
+<li><strong>「酒食配对推荐」：</strong>菜单上每款精酿配推荐港式小吃（如「IPA × 椒盐鱿鱼」），提升连带消费</li>
+<li><strong>目标：</strong>客单价从¥67提升到¥85+，每桌港式小吃连带率≥70%</li>
+</ul>
+<h4>📱 私域留存（每月固定执行）</h4>
+<ul>
+<li><strong>每月1日：</strong>向30天未消费会员群发「回归礼」（赠¥15代金券，消费满¥80可用）；🔧 美团会员营销群发</li>
+<li><strong>会员生日月：</strong>系统自动发送「生日专属精酿1杯」，员工接待时主动认出</li>
+<li><strong>节日储值活动（端午/国庆/春节前）：</strong>储值双倍积分，提前1周推送</li>
+</ul></div>
+<div id="modal-content-8" style="display:none"><h3>📊 数据假设基础（⚠️ 行业参考值，请与翟卫婷核实）</h3>
+<table>
+<tr><th>指标</th><th>假设值</th><th>依据</th></tr>
+<tr><td>新店开业日均流水</td><td>¥4,000-5,000</td><td>200㎡酒馆，老客迁移+新客导入，保守估算</td></tr>
+<tr><td>客单价</td><td>¥80-100/人</td><td>酒馆+港式小吃组合，高于老店¥67</td></tr>
+<tr><td>日均接待人次</td><td>40-60人次</td><td>¥4,500÷¥85≈53人次（数字自洽）</td></tr>
+<tr><td>月流水</td><td>约¥13-15万</td><td>日均¥4,500×30天</td></tr>
+</table>
+<h3>美团SaaS投入 vs 月增收测算</h3>
+<table>
+<tr><th>收益来源</th><th>月增收估算</th><th>实现路径</th></tr>
+<tr><td>储值预收现金流（前3月）</td><td>¥18,000-22,000/月</td><td>目标月新增储值会员50人，人均储值¥430</td></tr>
+<tr><td>沉睡会员唤醒</td><td>+¥6,000/月</td><td>唤醒25%沉睡会员，每人额外贡献¥200消费</td></tr>
+<tr><td>团购会员卡销售</td><td>¥5,000-7,500/月</td><td>月销50张×¥199，扣除¥50储值赠送净收¥7,450</td></tr>
+<tr><td>客单价提升（连带消费）</td><td>+¥12,000/月</td><td>客单¥67→¥85，月均1,500人次×¥18提升</td></tr>
+</table>
+<h3>总投入 vs 回本周期</h3>
+<table>
+<tr><th>项目</th><th>金额</th></tr>
+<tr><td>美团收银旗舰版（年费）</td><td>¥4,888</td></tr>
+<tr><td>月均摊成本</td><td>¥407/月</td></tr>
+<tr><td><strong>月增收（保守估算）</strong></td><td><strong>¥41,000-47,500</strong></td></tr>
+<tr><td>回本周期</td><td><strong>第1个月即回本</strong>（储值预收首月覆盖全年成本）</td></tr>
+<tr><td>年净增收</td><td>约¥50万（保守）</td></tr>
+</table>
+<h3>📈 季度OKR量化目标</h3>
+<table>
+<tr><th>指标</th><th>开业第1个月</th><th>第3个月</th><th>第6个月</th></tr>
+<tr><td>大众点评评分</td><td>≥4.0分</td><td>≥4.3分</td><td>≥4.5分</td></tr>
+<tr><td>会员总数</td><td>≥200人</td><td>≥500人</td><td>≥1,000人</td></tr>
+<tr><td>储值预收总额</td><td>¥20,000</td><td>¥60,000</td><td>¥120,000</td></tr>
+<tr><td>团购好评数</td><td>≥50条</td><td>≥150条</td><td>≥300条</td></tr>
+<tr><td>月流水</td><td>¥13万</td><td>¥15万</td><td>¥18万</td></tr>
+</table>
+<h3>30天复盘节点</h3>
+<ul>
+<li><strong>Day 7：</strong>检查首周新增会员数，调整入会礼品种类</li>
+<li><strong>Day 15：</strong>评价数量及评分是否达标，优化评价引导话术</li>
+<li><strong>Day 30：</strong>完整复盘：会员数/储值额/评分/客单价四指标，决定下月营销重点</li>
+</ul></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>本方案由 <strong>美团SaaS方案工厂</strong> 智能生成 · 专属顾问：<strong>翟卫婷</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>📊 门店数据概览（来源：大众点评公开数据）</h3>
+<p>🏪 1892 Club（老店）⭐ 评分：<strong>3.8分</strong> 💰 人均：<strong>¥67/人</strong> 📍 浦沿街道，垃圾街/滨江高教园精酿酒吧，已有固定客群，团购129条。</p>
+<h3>🏘️ 彭埠新店周边竞争格局（3公里内）</h3>
+<table>
+<tr><th>竞品名称</th><th>人均</th><th>风格</th><th>核心弱点</th><th>1892切入机会</th></tr>
+<tr><td>缘一酒馆（悦郡城）</td><td>¥70</td><td>复古工业+KTV</td><td>无港式餐饮、无足球主题差异化</td><td>足球场景独占，三业态护城河</td></tr>
+<tr><td>1022 Bistro（彭埠城东）</td><td>¥43</td><td>暗黑水泥风+KTV</td><td>客单低，无会员储值体系</td><td>高客单+储值锁客，价值感更强</td></tr>
+<tr><td>反复清吧（彭埠边）</td><td>¥70</td><td>室内露营风+棋牌</td><td>无餐饮业态，缺复购场景</td><td>港式小吃+酒馆组合满足吃喝一体需求</td></tr>
+<tr><td>下次再见小酒馆（三花国际）</td><td>未知</td><td>地下沉浸+餐酒演</td><td>位置偏地下，曝光获客难</td><td>御临云府底商可见度更高</td></tr>
+</table>
+<h3>彭埠商圈特征分析</h3>
+<ul>
+<li><strong>主力人群：</strong>25-35岁新杭州人，互联网/制造业白领为主，下班后解压消费刚需旺盛</li>
+<li><strong>消费特征：</strong>周末聚会频次高，足球欧冠/世界杯赛季人流明显增加，有「主题消费」偏好</li>
+<li><strong>竞争空白：</strong>彭埠5公里内暂无「酒馆+港式小吃+足球主题」三业态融合的差异化玩家，1892是唯一选手</li>
+<li><strong>政策红利：</strong>上城区彭埠是杭州重点发展的新城区，人口持续导入，夜经济消费场景成长空间大</li>
+</ul>
+<h3>行业趋势</h3>
+<p>2025-2026年杭州小酒馆赛道增速约18%，但同质化严重（清吧+KTV模式泛滥）。具备<strong>明确主题+餐饮支撑+会员私域</strong>的混合业态门店，复购率是纯酒吧的2.3倍（行业参考值）。1892 Club三业态融合恰好卡在这个差异化窗口期。</p>`,
+    2: `<h3>1892 Club 的独特资产盘点</h3>
+<p>这是方案一切策略的出发点。老板拥有竞争对手很难复制的稀缺组合：</p>
+<ul>
+<li>✅ <strong>浦沿老店固定客群：</strong>已验证的精酿酒馆消费人群，有口碑积累，是新店最宝贵的种子资产</li>
+<li>✅ <strong>足球主题差异化标签：</strong>彭埠5公里内唯一有足球周边业态的酒馆，无可复制的圈层入口</li>
+<li>✅ <strong>港式小吃支撑：</strong>解决纯酒馆「没吃的、客单低、早退场」三大痛点，拉长人均停留时长</li>
+<li>✅ <strong>200㎡优质空间：</strong>足够承载三业态分区运营，空间资产利用率高</li>
+<li>✅ <strong>品牌故事性：</strong>「1892」是有历史感的品牌名，天然有高级感叙事空间</li>
+</ul>
+<h3>⚠️ 当前最大风险</h3>
+<p>三个业态同时开张，<strong>没有会员数据沉淀</strong>，无法做人群分层运营。老店客群带来的「熟人效应」如果不快速转化为会员数据，只是短暂的开业人气，3个月后会归零。老板对美团售后有顾虑——但正因为如此，更需要一套<strong>自己掌控的会员私域体系</strong>，不能永远依赖平台流量，被平台牵着鼻子走。</p>
+<div class='highlight-box'>
+<p><strong>新店品牌主张：「1892 Club = 球赛 + 好酒 + 港味」——彭埠唯一的下班目的地</strong></p>
+<p>不是清吧，不是KTV，是有主题、有仪式感、有专属会员权益的城市生活方式俱乐部。</p>
+</div>
+<h3>目标客群分层运营策略</h3>
+<table>
+<tr><th>客群类型</th><th>来源</th><th>核心诉求</th><th>运营策略</th></tr>
+<tr><td>老客迁移（种子层）</td><td>浦沿老店会员</td><td>支持新店、延续品牌情感</td><td>会员迁移激励：双倍积分有效期3个月</td></tr>
+<tr><td>足球圈层（核心层）</td><td>彭埠周边球迷</td><td>看球+下酒+同好社交</td><td>赛季包场预定+会员专属看球区权益</td></tr>
+<tr><td>白领夜经济（主力层）</td><td>御临云府及周边居民</td><td>下班解压+朋友聚餐</td><td>港式小吃套餐+首单优惠会员快速转化</td></tr>
+<tr><td>小红书新客（增量层）</td><td>周边年轻用户</td><td>打卡+拍照+社交分享</td><td>三业态融合高颜值内容，小红书精准投放</td></tr>
+</table>`,
+    3: `<h3>美团收银旗舰版 vs 银豹系统：客观对比</h3>
+<p>老板已了解银豹系统，以下是客观对比，让老板自己判断哪个更适合三业态融合场景：</p>
+<table>
+<tr><th>对比维度</th><th>银豹系统</th><th>美团收银旗舰版</th></tr>
+<tr><td>会员触达渠道</td><td>仅门店私域（短信/微信）</td><td>大众点评公域+私域双通道</td></tr>
+<tr><td>团购会员卡</td><td>❌ 无</td><td>✅ 团购会员卡（旗舰独有）</td></tr>
+<tr><td>潜客营销</td><td>❌ 只能触达已消费会员</td><td>✅ 触达未消费新客，开业期最关键</td></tr>
+<tr><td>多业态会员打通</td><td>需额外配置，综合成本更高</td><td>✅ 同一系统天然支持三业态打通</td></tr>
+<tr><td>实时数据看板</td><td>基础报表</td><td>实时经营+会员行为分析</td></tr>
+<tr><td>售后服务</td><td>第三方服务商，响应慢</td><td>本地BD（翟卫婷）直接对接，响应快</td></tr>
+</table>
+<h3>三业态会员打通核心路径</h3>
+<div class='highlight-box'>
+<p>🔧 <strong>实现路径：</strong>美团收银旗舰版 → 多场景同一会员账号 → 顾客在任何业态消费都累积同一账户 → 数据合并分析客群行为</p>
+</div>
+<ul>
+<li><strong>酒馆业态：</strong>消费精酿/鸡尾酒 → 累积积分+储值余额，赛季日积分×1.5倍</li>
+<li><strong>港式小吃：</strong>消费小食套餐 → 同一会员账号，不重复入会，积分合并计算</li>
+<li><strong>足球周边：</strong>购买球衣/周边/包场 → 积分×2倍，触发「球迷专属权益」解锁</li>
+</ul>
+<h3>推荐配置：旗舰版（¥4,888/年）</h3>
+<p>旗舰版4个独有功能，精准命中1892 Club三业态痛点：</p>
+<ul>
+<li>✅ <strong>团购会员卡：</strong>在大众点评直接售卖「1892俱乐部年度会员卡」，新客扫码即购买，公域直接引流到私域</li>
+<li>✅ <strong>潜客营销：</strong>新店开业期，向彭埠5公里未消费人群定向推送开业优惠</li>
+<li>✅ <strong>6大特有活动：</strong>足球赛季包场促销、港式小吃节等场景完美匹配</li>
+<li>✅ <strong>智能储值：</strong>系统自动推荐最优储值档，储值用于三业态通用消费，降低员工话术压力</li>
+</ul>`,
+    4: `<h3>老店点评现状分析</h3>
+<p>老店评分 <strong>3.8分</strong>（精酿酒吧赛道）——处于中等偏下水平。彭埠商圈竞争对手普遍在4.0-4.5分区间，<strong>评价运营从开业第一天就要做，而不是等差评出现了才补救。</strong></p>
+<h3>新店开业评价运营三阶段</h3>
+<table>
+<tr><th>阶段</th><th>时间</th><th>目标</th><th>具体动作</th></tr>
+<tr><td>定调期</td><td>开业前72小时内部试营业</td><td>前10条评价定调性</td><td>邀请老店忠实客+业内朋友先体验，写真实探店，重点突出「足球主题」「港式小吃」差异化标签</td></tr>
+<tr><td>冲量期</td><td>开业第1-4周</td><td>突破50条评价，评分4.0+</td><td>结账后扫码评价赠「隐藏款精酿一杯」；🔧 美团评价专家自动引导评价页跳转</td></tr>
+<tr><td>维护期</td><td>第2个月起长期执行</td><td>保持评分≥4.3</td><td>差评48小时必回复；好评截图发私域群感谢；每月盘点高频差评关键词针对改善</td></tr>
+</table>
+<h3>大众点评团购套餐设置</h3>
+<ul>
+<li><strong>主推套餐1「1892看球套餐」：</strong>精酿×2 + 港式炸物拼盘，定价¥128（约1.6人份），主打球赛日场景</li>
+<li><strong>主推套餐2「港式夜宵双人餐」：</strong>精酿×1 + 港式小食×3样，定价¥88，主打白领下班聚餐</li>
+<li><strong>锚点套餐3「1892豪华包场」：</strong>定价¥298，含精酿桶+全桌港式小吃+足球区专属，作为价格锚点让¥128显得超值</li>
+</ul>
+<h3>小红书/抖音公域布局</h3>
+<p>混合酒馆+港式小吃+足球，这个组合在小红书是高适配内容，强烈建议布局：</p>
+<ul>
+<li>🎯 <strong>内容方向1：</strong>「杭州彭埠最特别的酒馆」探店笔记 — 三业态融合视觉冲击强，差异化显著</li>
+<li>🎯 <strong>内容方向2：</strong>足球赛季「在哪里看欧冠」话题 — 天然流量入口，每到赛季自动引流</li>
+<li>🎯 <strong>内容方向3：</strong>港式小吃颜值特写 — 炸鱿鱼/虾饺/煎饺等高颜值食物，小红书传播力强</li>
+<li>🎯 <strong>内容方向4：</strong>「1892年风格混搭」品牌故事 — 利用品牌名字的历史感做深度内容</li>
+</ul>`,
+    5: `<h3>1892 Club 三业态会员打通设计方案</h3>
+<p>这是整个运营方案的核心差异化。三个业态用同一个会员账号，顾客消费任意业态都累积积分和储值余额，实现<strong>「一次入会，三倍锁客」</strong>效果。</p>
+<h3>会员等级设计</h3>
+<table>
+<tr><th>等级</th><th>入会条件</th><th>专属权益</th><th>对应场景</th></tr>
+<tr><td>🍺 啤酒会员（基础）</td><td>消费1次即自动入会</td><td>积分兑换消费 + 生日赠饮×1</td><td>偶尔来喝一杯的散客</td></tr>
+<tr><td>⚽ 球迷会员（进阶）</td><td>累计消费≥¥500 或 储值¥300+</td><td>赛季包场优先预订 + 港式小吃九折 + 每月赠精酿×1</td><td>足球爱好者，高频主力客群</td></tr>
+<tr><td>🏆 俱乐部会员（VIP）</td><td>储值¥1000+ 或 年消费≥¥3000</td><td>专属座位预留 + 足球周边折扣 + 生日专场包厢 + 优先新品体验</td><td>核心老客、企业包场客</td></tr>
+</table>
+<h3>老店→新店会员迁移计划（开业前必做）</h3>
+<div class='highlight-box'>
+<p>⚠️ 老店固定客群是新店最宝贵的种子资产，迁移策略：</p>
+<ul>
+<li>老店会员首次在新店消费，<strong>积分×2倍</strong>，优惠有效期3个月</li>
+<li>老店会员带新朋友首次消费，老客获赠「精酿一扎（市价¥58）」</li>
+<li>🔧 美团会员系统支持「会员迁移」功能，老客不需要重新入会，数据直接打通</li>
+<li>目标：开业30天内迁移老店会员≥100人</li>
+</ul>
+</div>
+<h3>团购会员卡（旗舰独有功能）</h3>
+<p>在大众点评上线「1892年度俱乐部卡」，实现公域→私域闭环：</p>
+<ul>
+<li><strong>定价：</strong>¥199/年（有效期12个月）</li>
+<li><strong>权益：</strong>入会即送¥50储值余额 + 每月精酿×1 + 港式小吃九折 + 足球周边85折</li>
+<li><strong>获客逻辑：</strong>新客在大众点评看到团购会员卡 → 购买 → 到店消费 → 转化为私域会员</li>
+<li><strong>首月目标：</strong>销售50张，折合新增会员¥9,950储值预收（扣除¥2,500赠送余额后净收¥7,450）</li>
+</ul>
+<h3>三业态积分联动规则</h3>
+<table>
+<tr><th>业态</th><th>基础积分倍率</th><th>特殊加成场景</th></tr>
+<tr><td>酒馆（精酿/鸡尾酒）</td><td>1元=1积分</td><td>赛季大赛日消费 ×1.5倍</td></tr>
+<tr><td>港式小吃</td><td>1元=1积分</td><td>新品上线日 ×2倍积分</td></tr>
+<tr><td>足球周边（购买/包场）</td><td>1元=2积分</td><td>欧冠/世界杯期间 ×3倍</td></tr>
+</table>`,
+    6: `<h3>三业态储值设计原则</h3>
+<p>酒馆类客群储值接受度高，但1892 Club面对的是有消费能力的25-35岁白领，储值档位设计要体现<strong>「专属感」</strong>而非「打折促销」——让顾客感觉是加入了一个俱乐部，而不是被推销。</p>
+<h3>推荐储值档位</h3>
+<table>
+<tr><th>储值档位</th><th>赠送</th><th>实际到账</th><th>主打人群</th><th>核心话术</th></tr>
+<tr><td>¥200 基础档</td><td>赠¥20</td><td>¥220</td><td>首次试探型</td><td>「充个200，下次来不用带钱包，三个业态都能用」</td></tr>
+<tr><td>¥500 进阶档</td><td>赠¥80 + 球迷会员升级</td><td>¥580</td><td>高频酒馆客</td><td>「充500直接升球迷会员，每月白送1杯精酿，值了」</td></tr>
+<tr><td>¥1000 VIP档</td><td>赠¥200 + VIP会员升级</td><td>¥1200</td><td>企业包场/死忠球迷</td><td>「充1000，欧冠赛季包场随时优先，位置给你留着」</td></tr>
+</table>
+<h3>储值推送时机（最重要）</h3>
+<div class='highlight-box'>
+<p>🔧 美团智能储值：系统在以下3个时机自动推送储值提示（不需要员工主动开口）</p>
+<ol>
+<li>结账消费满¥150 → 弹「¥200储值档，立省¥20，三个业态通用」</li>
+<li>会员积分接近升级门槛（差100积分时）→ 推「储值¥200积分直接升级球迷会员」</li>
+<li>沉睡会员（30天未消费）→ 推「回来喝一杯，您的储值余额快到期了」</li>
+</ol>
+</div>
+<h3>足球赛季储值爆发期</h3>
+<p>欧冠/世界杯等大赛期间（5-6月、10-12月），是酒馆储值的黄金窗口：</p>
+<ul>
+<li><strong>赛前1周：</strong>推「赛季储值礼包」，储值¥500送专属球迷帽×1（成本约¥15，感知价值¥80）</li>
+<li><strong>赛事当晚结账时：</strong>推「本赛季储值翻倍积分」，趁热打铁转化高意向客</li>
+<li><strong>预计效果：</strong>欧冠赛季（10-12月）单月储值可达平时2-3倍（行业参考值）</li>
+</ul>
+<h3>三业态储值数据价值</h3>
+<p>打通三业态后，老板可以看到单业态看不到的数据：</p>
+<ul>
+<li>哪个客群同时买港式小吃+喝精酿（高价值用户，重点维护）</li>
+<li>哪个客群只买足球周边但不消费酒水（待开发用户，可针对性引导）</li>
+<li>哪个客群高频消费但从不储值（流失风险，需特殊挽留策略）</li>
+</ul>
+<p>这些数据，银豹系统给不了。</p>`,
+    7: `<h3>1892 Club 年度营销节奏规划</h3>
+<h4>📅 开业期（第1-30天）：快速建口碑+种子会员</h4>
+<table>
+<tr><th>时间</th><th>活动名称</th><th>具体内容</th><th>预期效果</th></tr>
+<tr><td>开业第0天（试营业）</td><td>老客迁移开城仪式</td><td>邀请浦沿老店TOP50会员，扫码迁移账号送¥30储值+精酿1杯；🔧 美团会员迁移功能</td><td>种子会员50人，当日流水预计¥8,000+</td></tr>
+<tr><td>开业第1-7天</td><td>「首杯免费」入会礼</td><td>扫码点餐入会即送精酿×1（限量100份/天）；🔧 扫码点餐首次弹窗设置</td><td>首周新增会员200人</td></tr>
+<tr><td>开业第2-4周</td><td>好评有礼</td><td>结账引导评价，成功截图赠港式薯条1份（成本¥3）；🔧 评价专家自动引导</td><td>30天积累50条好评，评分突破4.0</td></tr>
+</table>
+<h4>⚽ 足球主题营销（赛季联动，全年持续）</h4>
+<ul>
+<li><strong>「1892看球夜」（每个赛季大赛日）：</strong>会员可预定「足球专属区域」，每桌最低消费¥200含精酿×2+港式小吃拼盘；🔧 团购预定提前锁座，避免当天拥堵</li>
+<li><strong>「赛前比分竞猜」：</strong>扫码参与比分竞猜，猜对赠精酿×1（成本极低，互动价值高，带动社群活跃）</li>
+<li><strong>「球迷会员专属折扣」：</strong>球迷会员购买足球周边享85折，VIP会员享8折</li>
+</ul>
+<h4>🍱 港式小吃营销（提升客单，高频拉新）</h4>
+<ul>
+<li><strong>「每周一物」：</strong>每周推出1个港式小吃新品/限定尝鲜，扫码点餐首单新品半价；🔧 扫码点餐后台一键设置限时半价</li>
+<li><strong>「酒食配对推荐」：</strong>菜单上每款精酿配推荐港式小吃（如「IPA × 椒盐鱿鱼」），提升连带消费</li>
+<li><strong>目标：</strong>客单价从¥67提升到¥85+，每桌港式小吃连带率≥70%</li>
+</ul>
+<h4>📱 私域留存（每月固定执行）</h4>
+<ul>
+<li><strong>每月1日：</strong>向30天未消费会员群发「回归礼」（赠¥15代金券，消费满¥80可用）；🔧 美团会员营销群发</li>
+<li><strong>会员生日月：</strong>系统自动发送「生日专属精酿1杯」，员工接待时主动认出</li>
+<li><strong>节日储值活动（端午/国庆/春节前）：</strong>储值双倍积分，提前1周推送</li>
+</ul>`,
+    8: `<h3>📊 数据假设基础（⚠️ 行业参考值，请与翟卫婷核实）</h3>
+<table>
+<tr><th>指标</th><th>假设值</th><th>依据</th></tr>
+<tr><td>新店开业日均流水</td><td>¥4,000-5,000</td><td>200㎡酒馆，老客迁移+新客导入，保守估算</td></tr>
+<tr><td>客单价</td><td>¥80-100/人</td><td>酒馆+港式小吃组合，高于老店¥67</td></tr>
+<tr><td>日均接待人次</td><td>40-60人次</td><td>¥4,500÷¥85≈53人次（数字自洽）</td></tr>
+<tr><td>月流水</td><td>约¥13-15万</td><td>日均¥4,500×30天</td></tr>
+</table>
+<h3>美团SaaS投入 vs 月增收测算</h3>
+<table>
+<tr><th>收益来源</th><th>月增收估算</th><th>实现路径</th></tr>
+<tr><td>储值预收现金流（前3月）</td><td>¥18,000-22,000/月</td><td>目标月新增储值会员50人，人均储值¥430</td></tr>
+<tr><td>沉睡会员唤醒</td><td>+¥6,000/月</td><td>唤醒25%沉睡会员，每人额外贡献¥200消费</td></tr>
+<tr><td>团购会员卡销售</td><td>¥5,000-7,500/月</td><td>月销50张×¥199，扣除¥50储值赠送净收¥7,450</td></tr>
+<tr><td>客单价提升（连带消费）</td><td>+¥12,000/月</td><td>客单¥67→¥85，月均1,500人次×¥18提升</td></tr>
+</table>
+<h3>总投入 vs 回本周期</h3>
+<table>
+<tr><th>项目</th><th>金额</th></tr>
+<tr><td>美团收银旗舰版（年费）</td><td>¥4,888</td></tr>
+<tr><td>月均摊成本</td><td>¥407/月</td></tr>
+<tr><td><strong>月增收（保守估算）</strong></td><td><strong>¥41,000-47,500</strong></td></tr>
+<tr><td>回本周期</td><td><strong>第1个月即回本</strong>（储值预收首月覆盖全年成本）</td></tr>
+<tr><td>年净增收</td><td>约¥50万（保守）</td></tr>
+</table>
+<h3>📈 季度OKR量化目标</h3>
+<table>
+<tr><th>指标</th><th>开业第1个月</th><th>第3个月</th><th>第6个月</th></tr>
+<tr><td>大众点评评分</td><td>≥4.0分</td><td>≥4.3分</td><td>≥4.5分</td></tr>
+<tr><td>会员总数</td><td>≥200人</td><td>≥500人</td><td>≥1,000人</td></tr>
+<tr><td>储值预收总额</td><td>¥20,000</td><td>¥60,000</td><td>¥120,000</td></tr>
+<tr><td>团购好评数</td><td>≥50条</td><td>≥150条</td><td>≥300条</td></tr>
+<tr><td>月流水</td><td>¥13万</td><td>¥15万</td><td>¥18万</td></tr>
+</table>
+<h3>30天复盘节点</h3>
+<ul>
+<li><strong>Day 7：</strong>检查首周新增会员数，调整入会礼品种类</li>
+<li><strong>Day 15：</strong>评价数量及评分是否达标，优化评价引导话术</li>
+<li><strong>Day 30：</strong>完整复盘：会员数/储值额/评分/客单价四指标，决定下月营销重点</li>
+</ul>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
