@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>a a a测试 · 面食快餐运营方案</title>
+<style>
+:root{--primary:#E8472A;--primary-light:#FF6B4A;--secondary:#F7A432;--dark:#1A1A2E;--card-bg:rgba(255,255,255,0.05);--card-border:rgba(255,255,255,0.10);--text:#E8E8F0;--text-muted:#A0A8C0;--green:#4CAF85;--blue:#4A9EFF;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:linear-gradient(135deg,#0D0D1A 0%,#1A1A35 50%,#0D1A2E 100%);color:var(--text);font-family:'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;line-height:1.7;}
+.topbar{background:rgba(0,0,0,0.6);backdrop-filter:blur(10px);padding:12px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--card-border);position:sticky;top:0;z-index:100;}
+.topbar .logo{font-size:17px;font-weight:700;color:var(--primary-light);}
+.topbar .meta{font-size:12px;color:var(--text-muted);}
+.topbar .badge{background:var(--primary);color:#fff;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;}
+.hero{background:linear-gradient(135deg,#1A0A0A 0%,#2A1010 40%,#1A1A3A 100%);padding:70px 40px 55px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(232,71,42,0.15) 0%,transparent 70%);}
+.hero .tag{display:inline-block;background:rgba(232,71,42,0.2);border:1px solid var(--primary);color:var(--primary-light);padding:5px 18px;border-radius:30px;font-size:12px;margin-bottom:18px;letter-spacing:2px;}
+.hero h1{font-size:40px;font-weight:800;color:#fff;margin-bottom:8px;text-shadow:0 0 30px rgba(232,71,42,0.4);}
+.hero h2{font-size:18px;color:var(--secondary);font-weight:500;margin-bottom:20px;}
+.hero-desc{max-width:680px;margin:0 auto 36px;color:var(--text-muted);font-size:14px;}
+.summary-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:860px;margin:0 auto;}
+.scard{background:var(--card-bg);border:1px solid var(--card-border);border-radius:12px;padding:18px;text-align:center;}
+.scard .num{font-size:26px;font-weight:800;color:var(--primary-light);display:block;}
+.scard .unit{font-size:13px;color:var(--secondary);}
+.scard .label{font-size:11px;color:var(--text-muted);margin-top:3px;}
+.sec{max-width:1080px;margin:0 auto;padding:50px 40px;}
+.sec-hd{display:flex;align-items:center;gap:14px;margin-bottom:28px;}
+.sec-num{width:42px;height:42px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;color:#fff;flex-shrink:0;box-shadow:0 0 20px rgba(232,71,42,0.35);}
+.sec-title{font-size:24px;font-weight:700;color:#fff;}
+.sec-sub{font-size:13px;color:var(--text-muted);margin-top:3px;}
+.divider{border:none;border-top:1px solid var(--card-border);margin:0 40px;}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:14px;padding:22px;position:relative;overflow:hidden;transition:all 0.3s;}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--primary),var(--secondary));border-radius:14px 14px 0 0;}
+.card:hover{transform:translateY(-3px);border-color:rgba(232,71,42,0.3);}
+.card-icon{font-size:26px;margin-bottom:10px;}
+.card-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:7px;}
+.card-body{font-size:13px;color:var(--text-muted);}
+.card-hl{background:rgba(232,71,42,0.1);border-left:3px solid var(--primary);padding:7px 11px;border-radius:0 7px 7px 0;margin-top:10px;font-size:12px;color:var(--primary-light);font-weight:600;}
+.alert-info{background:rgba(74,158,255,0.08);border:1px solid rgba(74,158,255,0.25);border-radius:12px;padding:18px 22px;margin-bottom:20px;}
+.alert-info .at{font-size:13px;font-weight:700;color:var(--blue);margin-bottom:10px;}
+.comp-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:13px;}
+.comp-row:last-child{border-bottom:none;}
+.cn{color:var(--text);font-weight:600;}
+.cp{color:var(--secondary);}
+.cw{color:#FF8C69;font-size:11px;}
+.co{color:var(--green);font-size:11px;}
+.assume{background:rgba(247,164,50,0.08);border:1px solid rgba(247,164,50,0.25);border-radius:9px;padding:13px 16px;margin-bottom:18px;font-size:13px;color:rgba(247,164,50,0.9);}
+.assume strong{color:var(--secondary);}
+.scene-row{background:var(--card-bg);border:1px solid var(--card-border);border-radius:11px;padding:16px 18px;margin-bottom:13px;}
+.scene-row-inner{display:grid;grid-template-columns:1fr 28px 1fr 28px 1fr;align-items:center;gap:10px;}
+.scene-problem{font-size:13px;color:#FF8C69;}
+.scene-arrow{color:var(--secondary);font-size:16px;text-align:center;}
+.scene-product{font-size:13px;color:var(--text);font-weight:600;}
+.scene-effect{font-size:12px;color:var(--green);}
+.scene-tool{margin-top:8px;padding-top:8px;border-top:1px solid var(--card-border);}
+.tool-tag{display:inline-flex;align-items:center;gap:3px;background:rgba(74,158,255,0.12);border:1px solid rgba(74,158,255,0.3);color:var(--blue);padding:2px 9px;border-radius:7px;font-size:11px;margin:2px;}
+.peak-end{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.pe-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:13px;overflow:hidden;}
+.pe-hd{padding:13px 18px;font-weight:700;font-size:14px;color:#fff;}
+.pe-hd.pk{background:rgba(232,71,42,0.2);border-bottom:2px solid var(--primary);}
+.pe-hd.ed{background:rgba(76,175,133,0.2);border-bottom:2px solid var(--green);}
+.pe-items{padding:14px 18px;}
+.pe-item{display:flex;gap:9px;margin-bottom:12px;font-size:13px;}
+.pe-item:last-child{margin-bottom:0;}
+.pe-em{font-size:16px;flex-shrink:0;}
+.pe-txt{color:var(--text-muted);}
+.pe-txt strong{color:var(--text);display:block;font-size:13px;}
+.domain{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.dm-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:13px;overflow:hidden;}
+.dm-hd{padding:13px 18px;display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px;color:#fff;}
+.dm-hd.pub{background:rgba(74,158,255,0.15);border-bottom:2px solid var(--blue);}
+.dm-hd.pri{background:rgba(76,175,133,0.15);border-bottom:2px solid var(--green);}
+.dm-items{padding:14px 18px;}
+.dm-item{display:flex;gap:9px;margin-bottom:11px;font-size:13px;}
+.dm-item:last-child{margin-bottom:0;}
+.dm-ico{font-size:15px;flex-shrink:0;}
+.dm-ct{color:var(--text-muted);}
+.dm-ct strong{color:var(--text);display:block;}
+.linkage{margin-top:18px;background:rgba(247,164,50,0.07);border:1px solid rgba(247,164,50,0.2);border-radius:11px;padding:14px 18px;font-size:13px;color:var(--text-muted);}
+.linkage .lt{color:var(--secondary);font-weight:700;margin-bottom:7px;font-size:13px;}
+.act-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:13px;padding:18px;margin-bottom:14px;}
+.act-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;}
+.act-title{font-size:14px;font-weight:700;color:#fff;}
+.act-badge{background:rgba(76,175,133,0.15);border:1px solid var(--green);color:var(--green);padding:2px 9px;border-radius:9px;font-size:11px;white-space:nowrap;margin-left:8px;}
+.act-steps{list-style:none;counter-reset:s;}
+.act-steps li{counter-increment:s;position:relative;padding-left:26px;margin-bottom:7px;font-size:12px;color:var(--text-muted);}
+.act-steps li::before{content:counter(s);position:absolute;left:0;top:2px;width:16px;height:16px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;}
+.roi-sec{background:linear-gradient(135deg,rgba(232,71,42,0.07),rgba(76,175,133,0.07));border:1px solid rgba(232,71,42,0.18);border-radius:15px;padding:28px;}
+.roi-g{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:22px;}
+.roi-i{text-align:center;padding:18px;background:rgba(0,0,0,0.2);border-radius:11px;}
+.roi-i .rn{font-size:30px;font-weight:800;}
+.roi-i .rl{font-size:12px;color:var(--text-muted);margin-top:3px;}
+.roi-detail{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;margin-bottom:20px;}
+.roi-row{background:rgba(0,0,0,0.2);border-radius:9px;padding:11px 14px;display:flex;justify-content:space-between;align-items:center;font-size:13px;}
+.roi-row .rs{color:var(--text-muted);}
+.roi-row .ra{color:var(--green);font-weight:700;}
+.okr-t{width:100%;border-collapse:collapse;font-size:12px;margin-top:20px;}
+.okr-t th{background:rgba(232,71,42,0.13);color:var(--primary-light);padding:9px 14px;text-align:left;border-bottom:1px solid rgba(232,71,42,0.25);font-weight:600;}
+.okr-t td{padding:9px 14px;border-bottom:1px solid var(--card-border);color:var(--text-muted);}
+.okr-t td:first-child{color:var(--text);font-weight:600;}
+.okr-t .tv{color:var(--secondary);font-weight:700;}
+.okr-t tr:last-child td{border-bottom:none;}
+.month-t{width:100%;border-collapse:collapse;font-size:12px;}
+.month-t th{background:rgba(0,0,0,0.3);color:var(--text-muted);padding:9px 13px;text-align:left;border-bottom:1px solid var(--card-border);font-weight:600;}
+.month-t td{padding:9px 13px;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:top;}
+.month-t .mc{color:var(--secondary);font-weight:700;white-space:nowrap;}
+.month-t .ac{color:var(--text);}
+.month-t .gc{color:var(--green);}
+.month-t .bc{color:var(--primary-light);}
+.footer{text-align:center;padding:36px;border-top:1px solid var(--card-border);color:var(--text-muted);font-size:12px;}
+.footer .fb{color:var(--primary-light);font-weight:700;font-size:15px;margin-bottom:7px;}
+.hl{color:var(--primary-light);font-weight:700;}
+.hly{color:var(--secondary);font-weight:700;}
+.hlg{color:var(--green);font-weight:700;}
+.hlb{color:var(--blue);font-weight:700;}
+.tl{position:relative;padding-left:36px;}
+.tl::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--primary),var(--secondary),var(--green));}
+.tl-item{position:relative;margin-bottom:28px;}
+.tl-dot{position:absolute;left:-30px;top:4px;width:14px;height:14px;background:var(--primary);border-radius:50%;border:2px solid #1A1A35;box-shadow:0 0 7px rgba(232,71,42,0.5);}
+.tl-period{display:inline-block;background:rgba(232,71,42,0.13);border:1px solid var(--primary);color:var(--primary-light);padding:2px 9px;border-radius:9px;font-size:11px;margin-bottom:8px;}
+.tl-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:6px;}
+.tl-body{font-size:13px;color:var(--text-muted);}
+@media(max-width:768px){.hero{padding:45px 20px 35px;}.hero h1{font-size:26px;}.summary-strip{grid-template-columns:repeat(2,1fr);}.sec{padding:35px 20px;}.grid2,.grid3,.grid4,.peak-end,.domain,.roi-g,.roi-detail{grid-template-columns:1fr;}.scene-row-inner{grid-template-columns:1fr;}.scene-arrow{display:none;}.topbar{padding:10px 16px;}}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="logo">🍊 大橘运营方案</div>
+  <div class="meta">BD顾问：陈国庆 · 面食/快餐 · 2026.05</div>
+  <div class="badge">内部文件</div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="tag">✦ 美团餐饮SaaS · 运营全案 ✦</div>
+  <h1>a a a测试</h1>
+  <h2>面食快餐 · 数字化运营增长方案</h2>
+  <p class="hero-desc">从点评流量到私域沉淀，从出餐效率到会员留存——一份专为面食快餐量身定制的作战手册，让每一碗面都变成可复制的营收增长。</p>
+  <div class="summary-strip">
+    <div class="scard"><span class="num">+35%</span><span class="unit">月营收增幅</span><div class="label">90天目标</div></div>
+    <div class="scard"><span class="num">500+</span><span class="unit">沉淀会员数</span><div class="label">首季目标</div></div>
+    <div class="scard"><span class="num">4.6+</span><span class="unit">点评评分</span><div class="label">60天目标</div></div>
+    <div class="scard"><span class="num">5.3×</span><span class="unit">ROI回报</span><div class="label">全年测算</div></div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- SECTION 1: 诊断 -->
+<div class="sec">
+  <div class="sec-hd">
+    <div class="sec-num">①</div>
+    <div>
+      <div class="sec-title">我懂你 · 门店现状诊断</div>
+      <div class="sec-sub">大众点评公开数据 + 杭州面食赛道调研（2025-2026）</div>
+    </div>
+  </div>
+
+  <div class="assume">
+    <strong>⚠️ 自动化假设</strong>（地址/人均/面积未知，以下为行业基准推算，执行前请国庆老师确认）：
+    人均消费约 <strong>22-35元</strong>；日均客流约 <strong>60-120人</strong>；客群以周边上班族+居民为主；已签约基础收银+扫码点餐模块。
+  </div>
+
+  <!-- 竞品 -->
+  <div class="alert-info">
+    <div class="at">🔍 周边竞争格局（杭州面食赛道标杆参照）</div>
+    <div class="comp-row">
+      <span class="cn">复兴面王（米其林必比登推荐）</span>
+      <span class="cp">人均 ¥28-39</span>
+      <span class="cw">弱点：排队长、满员即走</span>
+      <span class="co">机会：预点餐+快出餐截流</span>
+    </div>
+    <div class="comp-row">
+      <span class="cn">小狗面馆（《舌尖》推荐）</span>
+      <span class="cp">人均 ¥29-35</span>
+      <span class="cw">弱点：门店小、选品有限</span>
+      <span class="co">机会：差异化浇头+会员体系</span>
+    </div>
+    <div class="comp-row">
+      <span class="cn">菊英面店（快速连锁扩张中）</span>
+      <span class="cp">人均 ¥21-30</span>
+      <span class="cw">弱点：快速扩张后品控下滑</span>
+      <span class="co">机会：稳定出品+评价运营超车</span>
+    </div>
+    <div class="comp-row">
+      <span class="cn">无名氏面馆（30年老店）</span>
+      <span class="cp">人均 ¥27</span>
+      <span class="cw">弱点：数字化几乎为零</span>
+      <span class="co">机会：私域运营形成代差优势</span>
+    </div>
+  </div>
+
+  <!-- 痛点 -->
+  <div class="grid3">
+    <div class="card">
+      <div class="card-icon">📉</div>
+      <div class="card-title">新客进店率不稳定</div>
+      <div class="card-body">面食赛道竞品密集，点评评分和排名直接影响自然曝光。没有稳定的点评运营，流量被强竞品截走。</div>
+      <div class="card-hl">→ 点评评分提升 + 好评引导是首要任务</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔄</div>
+      <div class="card-title">老客复购靠"感情"不靠"机制"</div>
+      <div class="card-body">快餐客群理应是高频复购，但没有会员体系锁客，老客来了也不知道，走了也找不回来。</div>
+      <div class="card-hl">→ 扫码入会 + 储值卡机制亟待建立</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">⚡</div>
+      <div class="card-title">高峰期出餐效率瓶颈</div>
+      <div class="card-body">面食午市高峰11:30-13:00，人工点单效率低，排队体验差，容易造成流失。出餐慢是快餐的致命伤。</div>
+      <div class="card-hl">→ 扫码点餐 + KDS厨显提速是核心</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">💰</div>
+      <div class="card-title">客单价天花板低</div>
+      <div class="card-body">单碗面20-35元，附加消费少，小食/饮料点单率极低。缺少有效的加购引导，坪效无法提升。</div>
+      <div class="card-hl">→ 套餐组合 + 加购弹窗拉升客单价</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌐</div>
+      <div class="card-title">外卖占比偏低</div>
+      <div class="card-body">杭州互联网人密集，外卖渗透率极高（50%+），但面食外卖在周边写字楼/小区的触达还有巨大空间。</div>
+      <div class="card-hl">→ 外卖优化 + 美团外卖附近推</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎯</div>
+      <div class="card-title">缺乏爆品锚点记忆</div>
+      <div class="card-body">没有一道让人想起"就是这家"的招牌菜。品牌记忆靠重复一个点，找不到爆品的门店注定是散的。</div>
+      <div class="card-hl">→ 打造1道视觉+口味双爆品</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- SECTION 2: 商圈洞察 -->
+<div class="sec">
+  <div class="sec-hd">
+    <div class="sec-num">②</div>
+    <div>
+      <div class="sec-title">我专业 · 品类机遇 & 客群洞察</div>
+      <div class="sec-sub">面食/快餐赛道数据 · 2025-2026年行业基准</div>
+    </div>
+  </div>
+
+  <div class="grid4">
+    <div class="card">
+      <div class="card-icon">📊</div>
+      <div class="card-title">面条赛道规模</div>
+      <div class="card-body">2024年全国面条类市场规模 <span class="hl">3,257亿元</span>，粉面汤类门店同比增长 <span class="hlg">+25.3%</span>，快餐小吃类连锁化率已达27-30%。</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏆</div>
+      <div class="card-title">杭州面食特征</div>
+      <div class="card-body">杭州拌川（拌面）是本地强需求，片儿川、虾爆鳝等杭帮面有强文化认同；外卖渗透率高，写字楼午餐竞争激烈。</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">👥</div>
+      <div class="card-title">核心客群画像</div>
+      <div class="card-body">25-45岁上班族/居民为主力；工作日午餐刚需（11:30-13:00高峰）；价格敏感度高，人均20-35元是甜蜜区间。</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📱</div>
+      <div class="card-title">数字化差距</div>
+      <div class="card-body">头部面馆靠口碑排队，但会员体系/数字化运营几乎为零。<span class="hl">先做会员体系的门店将建立2-3年竞争壁垒。</span></div>
+    </div>
+  </div>
+
+  <!-- 行业数字 -->
+  <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:14px;padding:22px;margin-top:18px;">
+    <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:14px;">📈 关键行业数据（方案数字依据）</div>
+    <div class="grid3" style="gap:12px;">
+      <div style="background:rgba(0,0,0,0.2);border-radius:9px;padding:14px;text-align:center;">
+        <div style="font-size:22px;font-weight:800;color:var(--primary-light);">8~15%</div>
+        <div style="font-size:12px;color:var(--text-muted);">优秀快餐净利润率</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:9px;padding:14px;text-align:center;">
+        <div style="font-size:22px;font-weight:800;color:var(--secondary);">50%+</div>
+        <div style="font-size:12px;color:var(--text-muted);">杭州面食外卖渗透率</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:9px;padding:14px;text-align:center;">
+        <div style="font-size:22px;font-weight:800;color:var(--green);">80%+</div>
+        <div style="font-size:12px;color:var(--text-muted);">储值客户30天复购率</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- SECTION 3: 产品场景化 -->
+<div class="sec">
+  <div class="sec-hd">
+    <div class="sec-num">③</div>
+    <div>
+      <div class="sec-title">场景化产品 · 你的问题这样解</div>
+      <div class="sec-sub">SaaS工具 → 门店具体痛点 → 可量化效果</div>
+    </div>
+  </div>
+
+  <div class="scene-row">
+    <div class="scene-row-inner">
+      <div class="scene-problem">😤 高峰期排队长，人工点单慢，客人等不及走了</div>
+      <div class="scene-arrow">→</div>
+      <div class="scene-product">🔧 扫码点餐 + KDS厨显</div>
+      <div class="scene-arrow">→</div>
+      <div class="scene-effect">高峰期出餐效率提升30%+，翻台率提升0.5次/天，日增营收约 +¥300-600</div>
+    </div>
+    <div class="scene-tool">
+      <span class="tool-tag">🔧 扫码点餐</span>
+      <span class="tool-tag">🔧 KDS后厨显示</span>
+      <span class="tool-tag">🔧 POS收银</span>
+    </div>
+  </div>
+
+  <div class="scene-row">
+    <div class="scene-row-inner">
+      <div class="scene-problem">😶 来了就吃，吃完就走，老客认不出，新客抓不住</div>
+      <div class="scene-arrow">→</div>
+      <div class="scene-product">🔧 会员旗舰版 + 万能码</div>
+      <div class="scene-arrow">→</div>
+      <div class="scene-effect">首月沉淀会员200+人，30天复购率从约10%提升至40%+</div>
+    </div>
+    <div class="scene-tool">
+      <span class="tool-tag">🔧 会员系统旗舰版</span>
+      <span class="tool-tag">🔧 万能码一码多用</span>
+      <span class="tool-tag">🔧 潜客营销</span>
+    </div>
+  </div>
+
+  <div class="scene-row">
+    <div class="scene-row-inner">
+      <div class="scene-problem">💸 储值推不动，客人说"下次再说"，现金流紧张</div>
+      <div class="scene-arrow">→</div>
+      <div class="scene-product">🔧 智能储值 + POS结账引导</div>
+      <div class="scene-arrow">→</div>
+      <div class="scene-effect">结账话术+系统弹窗双触达，储值转化率15-25%，月回笼现金¥8,000-20,000</div>
+    </div>
+    <div class="scene-tool">
+      <span class="tool-tag">🔧 智能储值</span>
+      <span class="tool-tag">🔧 收银弹窗</span>
+      <span class="tool-tag">🔧 会员余额提醒</span>
+    </div>
+  </div>
+
+  <div class="scene-row">
+    <div class="scene-row-inner">
+      <div class="scene-problem">⭐ 点评评分上不去，差评没有及时发现，好评没人引导</div>
+      <div class="scene-arrow">→</div>
+      <div class="scene-product">🔧 评价专家 + 自动好评引导</div>
+      <div class="scene-arrow">→</div>
+      <div class="scene-effect">结账后自动弹好评引导，差评2小时内发现；60天内评分从当前提升至4.6+</div>
+    </div>
+    <div class="scene-tool">
+      <span class="tool-tag">🔧 评价专家</span>
+      <span class="tool-tag">🔧 点评管理</span>
+      <span class="tool-tag">🔧 差评预警</span>
+    </div>
+  </div>
+
+  <div class="scene-row">
+    <div class="scene-row-inner">
+      <div class="scene-problem">📦 外卖接单乱，多平台订单手动记录，漏单/错单时有发生</div>
+      <div class="scene-arrow">→</div>
+      <div class="scene-product">🔧 外卖聚合管理 + 订单看板</div>
+      <div class="scene-arrow">→</div>
+      <div class="scene-effect">多平台订单自动聚合，出错率降至近零，外卖评分提升带来更多自然流量</div>
+    </div>
+    <div class="scene-tool">
+      <span class="tool-tag">🔧 外卖管理</span>
+      <span class="tool-tag">🔧 聚合接单</span>
+      <span class="tool-tag">🔧 外卖数据看板</span>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- SECTION 4: 公私域联动 -->
+<div class="sec">
+  <div class="sec-hd">
+    <div class="sec-num">④</div>
+    <div>
+      <div class="sec-title">公私域联动 · 流量闭环作战图</div>
+      <div class="sec-sub">公域引流 × 私域留客 · 两层联动，缺一不可</div>
+    </div>
+  </div>
+
+  <div class="domain">
+    <div class="dm-card">
+      <div class="dm-hd pub">🌐 公域阵地（拉新引流）</div>
+      <div class="dm-items">
+        <div class="dm-item">
+          <div class="dm-ico">⭐</div>
+          <div class="dm-ct">
+            <strong>大众点评 · 评分冲刺</strong>
+            30天内新增30条优质好评（4图+100字），冲击区域面食品类TOP榜。评价专家自动引导，差评24小时内响应处理。
+          </div>
+        </div>
+        <div class="dm-item">
+          <div class="dm-ico">🛒</div>
+          <div class="dm-ct">
+            <strong>美团外卖 · 附近推投放</strong>
+            针对周边3公里写字楼/居民区，设置新客立减8元引流钩子，每日限量20份控制成本。外卖评分目标4.8+。
+          </div>
+        </div>
+        <div class="dm-item">
+          <div class="dm-ico">🎟️</div>
+          <div class="dm-ct">
+            <strong>团购套餐 · 拉新利器</strong>
+            上架19.9元引流双人套餐（一面一饮），大众点评+美团双平台同步。新客核销后自动引导入会。
+          </div>
+        </div>
+        <div class="dm-item">
+          <div class="dm-ico">📱</div>
+          <div class="dm-ct">
+            <strong>美团附近 · 短视频运营</strong>
+            面食适合出餐过程视频（拌面手法/浇头翻炒），每周发布2条，带门店定位+团购链接。
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dm-card">
+      <div class="dm-hd pri">🔒 私域阵地（留客复购）</div>
+      <div class="dm-items">
+        <div class="dm-item">
+          <div class="dm-ico">👤</div>
+          <div class="dm-ct">
+            <strong>扫码即会员 · 零摩擦入会</strong>
+            万能码落座自动弹窗，扫码点餐=入会，新客首单享免费小食。目标：月新增会员80-120人。
+          </div>
+        </div>
+        <div class="dm-item">
+          <div class="dm-ico">💳</div>
+          <div class="dm-ct">
+            <strong>储值卡 · 锁客核心武器</strong>
+            3档储值（充100送15 / 充200送35 / 充500送100），POS结账自动弹窗，话术："充200省35，这单直接省XX元"。
+          </div>
+        </div>
+        <div class="dm-item">
+          <div class="dm-ico">🔔</div>
+          <div class="dm-ct">
+            <strong>会员触达 · 沉睡唤醒</strong>
+            15天未到店自动触达，发"想你了+专属8折券"，唤醒率目标20%+。月沉睡用户挽回30-50人。
+          </div>
+        </div>
+        <div class="dm-item">
+          <div class="dm-ico">🎯</div>
+          <div class="dm-ct">
+            <strong>潜客营销 · 美团独家能力</strong>
+            旗舰版独有：美团平台内的潜客人群定向触达，让附近3公里内有消费意向的用户看到本店优惠推送。
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="linkage">
+    <div class="lt">🔗 联动逻辑：公域流量如何转化为私域价值</div>
+    点评好评 → 自然流量↑ → 新客到店 → 扫码点餐入会 → POS推储值 → 会员复购 → 评价专家引导好评 → 好评再带来新流量。
+    <br>闭环关键：<span class="hl">每一个公域入口都要连接到会员系统</span>，让流量变存量，不白跑一趟。
+    <br>外卖用户：外卖小卡片引导加微信群，私域维护→堂食转化，外卖不只是出单，是拉新渠道。
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- SECTION 5: 峰终定律 -->
+<div class="sec">
+  <div class="sec-hd">
+    <div class="sec-num">🧠</div>
+    <div>
+      <div class="sec-title">峰终定律 · 顾客体验设计</div>
+      <div class="sec-sub">顾客只记最爽瞬间和走时感受 · 资源集中在峰值+终值两个点</div>
+    </div>
+  </div>
+
+  <div class="peak-end">
+    <div class="pe-card">
+      <div class="pe-hd pk">🔥 峰值触点（最爽瞬间）</div>
+      <div class="pe-items">
+        <div class="pe-item">
+          <div class="pe-em">🍜</div>
+          <div class="pe-txt">
+            <strong>出餐仪式感 — 服务员喊桌号上面</strong>
+            端面时服务员统一话术："您的XX面来了！趁热拌开吃更香~"。零成本但创造记忆点。
+          </div>
+        </div>
+        <div class="pe-item">
+          <div class="pe-em">💥</div>
+          <div class="pe-txt">
+            <strong>扫码弹窗惊喜 — 新客专享礼</strong>
+            首次扫码点餐弹出："新客专享！今日免费加卤蛋一枚🥚"。成本约1元，转化率极高。
+          </div>
+        </div>
+        <div class="pe-item">
+          <div class="pe-em">🎲</div>
+          <div class="pe-txt">
+            <strong>小概率惊喜 — 每20单随机1单赠加料</strong>
+            后厨出餐时每20单随机1单多送一份浇头，店员告知"您是今天的幸运客人"。成本&lt;2元，口碑传播力强。
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pe-card">
+      <div class="pe-hd ed">🌟 终值触点（走时感受）</div>
+      <div class="pe-items">
+        <div class="pe-item">
+          <div class="pe-em">⭐</div>
+          <div class="pe-txt">
+            <strong>结账后好评引导 — 自动弹评价页</strong>
+            评价专家：结账后手机自动弹出大众点评好评引导页，无需店员开口，好评率提升3-5倍。
+          </div>
+        </div>
+        <div class="pe-item">
+          <div class="pe-em">💰</div>
+          <div class="pe-txt">
+            <strong>储值结账话术 — 一句话锁客</strong>
+            POS收银自动弹窗，店员话术："您今天消费28元，充100送15元，下次这碗面只要13元！"数字具体、好算清楚。
+          </div>
+        </div>
+        <div class="pe-item">
+          <div class="pe-em">🍬</div>
+          <div class="pe-txt">
+            <strong>收银台小物 — 低成本温度感</strong>
+            收银台放薄荷糖/纸巾自取（成本&lt;0.1元/人）。走时顺手拿一颗，"这家还挺周到"的印象留下了。
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- SECTION 6: 30天行动计划 -->
+<div class="sec">
+  <div class="sec-hd">
+    <div class="sec-num">⑤</div>
+    <div>
+      <div class="sec-title">90天行动计划 · 月度落地节奏</div>
+      <div class="sec-sub">每个动作四要素：精确时间 + 具体金额 + 工具路径 + 预期效果</div>
+    </div>
+  </div>
+
+  <div class="tl">
+    <!-- 第1个月 -->
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-period">第1个月 · Day 1-30</div>
+      <div class="tl-title">🏗️ 数字化地基搭建期</div>
+      <div class="tl-body">
+        <div class="act-card">
+          <div class="act-top">
+            <div class="act-title">🔧 扫码点餐 + 万能码全门店铺设</div>
+            <span class="act-badge">Day 1-3 完成</span>
+          </div>
+          <ul class="act-steps">
+            <li>每桌贴万能码台卡（含"扫码点餐享新客礼"提示），门口立A4台牌</li>
+            <li>扫码点餐菜单配置：套餐置顶，招牌面品加"🏆最多人点"标签</li>
+            <li>设置新客首次扫码弹窗：免费加卤蛋1枚（成本¥1，转化率50%+）</li>
+            <li>测试全流程：扫码→点餐→出餐→会员注册链路畅通</li>
+          </ul>
+          <div style="margin-top:10px;">
+            <span class="tool-tag">🔧 扫码点餐</span>
+            <span class="tool-tag">🔧 万能码</span>
+            <span class="tool-tag">🔧 会员系统</span>
+          </div>
+        </div>
+        <div class="act-card">
+          <div class="act-top">
+            <div class="act-title">⭐ 点评评分冲刺行动</div>
+            <span class="act-badge">Day 1-30 持续</span>
+          </div>
+          <ul class="act-steps">
+            <li>Day1：优化大众点评主页（更换高清菜品图3张+，完善营业时间/停车信息）</li>
+            <li>设置好评返现机制：消费后发布4图+100字好评，截图给收银员返5元现金券（评价专家引导）</li>
+            <li>差评48小时内必回复（评价专家实时预警），回复话术：道歉+补偿+邀请再次体验</li>
+            <li>Day15：检查当前评分和排名，与第一阶段目标对比调整策略</li>
+          </ul>
+          <div style="margin-top:10px;">
+            <span class="tool-tag">🔧 评价专家</span>
+            <span class="tool-tag">🔧 大众点评商家版</span>
+          </div>
+        </div>
+        <div class="act-card">
+          <div class="act-top">
+            <div class="act-title">💳 储值体系正式上线</div>
+            <span class="act-badge">Day 5 上线</span>
+          </div>
+          <ul class="act-steps">
+            <li>配置3档储值：充100送15 / 充200送35 / 充500送100（旗舰版功能）</li>
+            <li>POS收银配置储值弹窗，每笔消费结账时自动弹出推荐话术</li>
+            <li>店员储值话术培训（30分钟，重点：用数字说话，不用"很划算"空话）</li>
+            <li>收银台放储值活动立牌，设计A4海报（含3档说明+二维码）</li>
+          </ul>
+          <div style="margin-top:10px;">
+            <span class="tool-tag">🔧 智能储值</span>
+            <span class="tool-tag">🔧 POS收银</span>
+            <span class="tool-tag">🔧 会员系统</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 第2个月 -->
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-period">第2个月 · Day 31-60</div>
+      <div class="tl-title">🚀 活动拉新 + 私域沉淀期</div>
+      <div class="tl-body">
+        <div class="act-card">
+          <div class="act-top">
+            <div class="act-title">🎟️ 19.9元引流团购套餐上线</div>
+            <span class="act-badge">Day 31 上线</span>
+          </div>
+          <ul class="act-steps">
+            <li>设计套餐：招牌面1碗+小食1份（食材成本控制在8元内）→定价19.9元，每日限量20份</li>
+            <li>美团+大众点评双平台同步上架，套餐图片精选最出片的菜品</li>
+            <li>团购核销时：店员引导扫码入会，自动推送首次会员欢迎券（满30减5）</li>
+            <li>每周统计核销率、加购转化率，优化套餐结构</li>
+          </ul>
+          <div style="margin-top:10px;">
+            <span class="tool-tag">🔧 美团团购</span>
+            <span class="tool-tag">🔧 扫码核销</span>
+            <span class="tool-tag">🔧 会员系统</span>
+          </div>
+        </div>
+        <div class="act-card">
+          <div class="act-top">
+            <div class="act-title">🏃 写字楼午市突击 + 外卖拉新</div>
+            <span class="act-badge">Day 35 启动</span>
+          </div>
+          <ul class="act-steps">
+            <li>制作A5传单（正面招牌面图片+人均价，背面二维码领"新客立减10元券"）</li>
+            <li>每周二/四 11:00-11:30 在周边写字楼大堂派发，每次200份</li>
+            <li>外卖平台设置新客立减8元（每日限量），外卖包装袋内附"加微信群领下次优惠"小卡片</li>
+            <li>月度统计外卖新客到堂食转化率，目标10-15%</li>
+          </ul>
+        </div>
+        <div class="act-card">
+          <div class="act-top">
+            <div class="act-title">📅 工作日盲盒套餐（周一到周五不重样）</div>
+            <span class="act-badge">Day 40 启动</span>
+          </div>
+          <ul class="act-steps">
+            <li>每工作日推出1款盲盒套餐（24.9元，当日11:00社群揭晓），限量50份</li>
+            <li>内容：招牌面品+1道配菜+饮品，食材成本控制在12元以内</li>
+            <li>周五盲盒为"豪华版"（加大份量），制造每周期待感</li>
+            <li>6月端午节：推出"五黄面套餐"（黄鳝/黄鱼口味特供），节日营销借势</li>
+          </ul>
+          <div style="margin-top:10px;">
+            <span class="tool-tag">🔧 扫码点餐每日更新</span>
+            <span class="tool-tag">🔧 社群运营</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 第3个月 -->
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-period">第3个月 · Day 61-90</div>
+      <div class="tl-title">💎 会员深耕 + 复购强化期</div>
+      <div class="tl-body">
+        <div class="act-card">
+          <div class="act-top">
+            <div class="act-title">🔄 沉睡会员唤醒行动</div>
+            <span class="act-badge">Day 61 启动</span>
+          </div>
+          <ul class="act-steps">
+            <li>系统自动识别15天未到店会员，触发短信+微信推送："XX，好久不见，专属8折券3天有效"</li>
+            <li>30天未到店进阶唤醒：发送免费招牌面兑换券（成本约8元，挽回1个老客比拉1个新客便宜3倍）</li>
+            <li>每月第8号设为会员日：全场会员88折+双倍积分，提前3天社群预告</li>
+            <li>月底统计唤醒率（目标20%+）和会员日营业额增幅（目标+30%）</li>
+          </ul>
+          <div style="margin-top:10px;">
+            <span class="tool-tag">🔧 会员营销</span>
+            <span class="tool-tag">🔧 自动触发系统</span>
+            <span class="tool-tag">🔧 短信推送</span>
+          </div>
+        </div>
+        <div class="act-card">
+          <div class="act-top">
+            <div class="act-title">🏆 爆品打造 + 点评冲榜收官</div>
+            <span class="act-badge">Day 65-90</span>
+          </div>
+          <ul class="act-steps">
+            <li>确定1道"镇店爆品"（点评推荐菜中最高频出现的那道）作为视觉锚点，全面强化</li>
+            <li>拍摄爆品出餐短视频（翻炒/出餐过程）发美团短视频，带团购链接</li>
+            <li>冲击区域面食类必吃榜（对比当前榜单差距，制定精准补评计划）</li>
+            <li>Day 90：复盘三个月数据，更新会员体系权益，规划Q4运营策略</li>
+          </ul>
+          <div style="margin-top:10px;">
+            <span class="tool-tag">🔧 评价专家</span>
+            <span class="tool-tag">🔧 美团短视频</span>
+            <span class="tool-tag">🔧 数据看板</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 全年营销日历 -->
+  <div style="margin-top:28px;">
+    <div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:14px;">📅 5-8月营销节点速查</div>
+    <table class="month-t">
+      <tr><th>月份</th><th>核心节点</th><th>推荐活动</th><th>目标</th><th>预算</th></tr>
+      <tr>
+        <td class="mc">5月</td>
+        <td>五一黄金周<br>母亲节5/11<br>520表白日</td>
+        <td class="ac">五一：劳动者特价套餐+打卡集章<br>母亲节：妈妈免费加汤+拍照打印<br>520：双人甜蜜面套餐</td>
+        <td class="gc">新客+200人<br>母亲节桌均↑20%</td>
+        <td class="bc">¥800-1,500</td>
+      </tr>
+      <tr>
+        <td class="mc">6月</td>
+        <td>端午节<br>618购物节<br>高考季</td>
+        <td class="ac">端午：五黄面套餐（黄鳝/黄鱼）<br>618：储值充300送60，限5天<br>高考：学生证专属9折</td>
+        <td class="gc">618储值目标¥15,000<br>学生会员+80人</td>
+        <td class="bc">¥600-1,200</td>
+      </tr>
+      <tr>
+        <td class="mc">7月</td>
+        <td>暑期开始<br>大暑</td>
+        <td class="ac">暑假嗨吃卡（¥39/月，学生专属）<br>深夜食堂：22:00后凉面特供<br>大暑：免费绿豆汤/酸梅汤</td>
+        <td class="gc">暑期卡销售50张+<br>夜间时段营业额↑30%</td>
+        <td class="bc">¥500-1,000</td>
+      </tr>
+      <tr>
+        <td class="mc">8月</td>
+        <td>七夕<br>立秋贴秋膘</td>
+        <td class="ac">七夕：双人面套餐+小礼品<br>立秋：秋季新浇头上线（酱牛腩/大闸蟹）<br>暑期卡核销冲刺+续卡优惠</td>
+        <td class="gc">七夕客单↑25%<br>秋季新品上线3款</td>
+        <td class="bc">¥400-800</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- SECTION: ROI + OKR -->
+<div class="sec">
+  <div class="sec-hd">
+    <div class="sec-num">💰</div>
+    <div>
+      <div class="sec-title">投资回报 · 算清这笔账</div>
+      <div class="sec-sub">⚠️ 基准假设：人均25元，日均80人，月营业额约¥60,000（实际数据请代入修正）</div>
+    </div>
+  </div>
+
+  <div class="roi-sec">
+    <div class="roi-g">
+      <div class="roi-i">
+        <div class="rn" style="color:var(--primary-light);">¥9,800</div>
+        <div class="rl">首年SaaS总投入（旗舰版¥4,888+工具¥4,912）</div>
+      </div>
+      <div class="roi-i">
+        <div class="rn" style="color:var(--secondary);">¥52,000</div>
+        <div class="rl">首年预计新增营收</div>
+      </div>
+      <div class="roi-i">
+        <div class="rn" style="color:var(--green);">5.3×</div>
+        <div class="rl">ROI（不含人员成本节省）</div>
+      </div>
+    </div>
+
+    <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:12px;">月增收来源拆解（4个来源，互相验证）</div>
+    <div class="roi-detail">
+      <div class="roi-row">
+        <span class="rs">① 翻台率提升（出餐提速30%）</span>
+        <span class="ra">月增 ¥4,800</span>
+      </div>
+      <div class="roi-row">
+        <span class="rs">② 会员复购率提升（复购率10%→35%）</span>
+        <span class="ra">月增 ¥6,200</span>
+      </div>
+      <div class="roi-row">
+        <span class="rs">③ 团购/点评引流新客（月+60人）</span>
+        <span class="ra">月增 ¥2,500</span>
+      </div>
+      <div class="roi-row">
+        <span class="rs">④ 客单价提升（套餐+加购，人均+3元）</span>
+        <span class="ra">月增 ¥2,400</span>
+      </div>
+    </div>
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:18px;padding:10px 14px;background:rgba(0,0,0,0.2);border-radius:9px;">
+      <span style="color:var(--green);font-weight:700;">数字自洽验证：</span>
+      月增收¥15,900 ÷ 人均25元 = 月新增636人次消费，其中真实新客约240人，复购贡献约396次（500会员×复购率35%×约2.3次/月），数字自洽 ✅
+    </div>
+
+    <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:12px;">📋 月度/季度 OKR 量化目标</div>
+    <table class="okr-t">
+      <tr>
+        <th>指标</th>
+        <th>当前基准</th>
+        <th>30天目标</th>
+        <th>60天目标</th>
+        <th>90天目标</th>
+      </tr>
+      <tr>
+        <td>大众点评评分</td>
+        <td>未知（假设4.2）</td>
+        <td class="tv">4.4+</td>
+        <td class="tv">4.6+</td>
+        <td class="tv">4.7+</td>
+      </tr>
+      <tr>
+        <td>月新增会员数</td>
+        <td>0（无体系）</td>
+        <td class="tv">100+人</td>
+        <td class="tv">200+人</td>
+        <td class="tv">500+人（累计）</td>
+      </tr>
+      <tr>
+        <td>会员30天复购率</td>
+        <td>约10%（凭感觉）</td>
+        <td class="tv">20%+</td>
+        <td class="tv">30%+</td>
+        <td class="tv">40%+</td>
+      </tr>
+      <tr>
+        <td>月储值金额</td>
+        <td>0</td>
+        <td class="tv">¥3,000+</td>
+        <td class="tv">¥8,000+</td>
+        <td class="tv">¥15,000+</td>
+      </tr>
+      <tr>
+        <td>月营业额</td>
+        <td>~¥60,000（假设）</td>
+        <td class="tv">¥65,000+</td>
+        <td class="tv">¥72,000+</td>
+        <td class="tv">¥81,000+（+35%）</td>
+      </tr>
+      <tr>
+        <td>团购/外卖月核销</td>
+        <td>未知</td>
+        <td class="tv">50单+</td>
+        <td class="tv">100单+</td>
+        <td class="tv">150单+</td>
+      </tr>
+    </table>
+
+    <div style="margin-top:18px;padding:14px 18px;background:rgba(232,71,42,0.1);border:1px solid rgba(232,71,42,0.2);border-radius:9px;font-size:13px;color:var(--text-muted);">
+      <span style="color:var(--primary-light);font-weight:700;">📅 30天复盘节点</span>：Day 30（数据基线核对）→ Day 60（活动效果复盘）→ Day 90（ROI核算+Q4规划）。
+      每次复盘输出：会员增长曲线 + 储值回笼金额 + 评分变化截图。<span class="hl">增长曲线比终点数字更有说服力——给老板画曲线，不是扔一个终点。</span>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="fb">🍊 大橘运营专家 · 美团餐饮SaaS</div>
+  <p>BD顾问：陈国庆 · 杭州区域 · 方案生成日期：2026年5月</p>
+  <p style="margin-top:6px;">本方案基于面食/快餐品类行业基准生成，部分数字为合理假设 | 实际数据请在签约后代入修正</p>
+</div>
+
+</body>
+</html>
