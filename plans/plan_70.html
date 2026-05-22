@@ -685,25 +685,25 @@
       <div class="chapter-title">点评赋能</div>
       <span class="chapter-type free">免费</span>
     </div>
-    <div class="chapter-card locked" >
+    <div class="chapter-card locked" onclick="openChapter(5, '会员体系', 5)">
       <div class="lock-icon">🔒</div>
       <div class="chapter-num">CHAPTER 05</div>
       <div class="chapter-title">会员体系</div>
       <span class="chapter-type locked-badge">🔒 签约解锁</span>
     </div>
-    <div class="chapter-card locked" >
+    <div class="chapter-card locked" onclick="openChapter(6, '储值方案', 6)">
       <div class="lock-icon">🔒</div>
       <div class="chapter-num">CHAPTER 06</div>
       <div class="chapter-title">储值方案</div>
       <span class="chapter-type locked-badge">🔒 签约解锁</span>
     </div>
-    <div class="chapter-card locked" >
+    <div class="chapter-card locked" onclick="openChapter(7, '营销活动', 7)">
       <div class="lock-icon">🔒</div>
       <div class="chapter-num">CHAPTER 07</div>
       <div class="chapter-title">营销活动</div>
       <span class="chapter-type locked-badge">🔒 签约解锁</span>
     </div>
-    <div class="chapter-card locked" >
+    <div class="chapter-card locked" onclick="openChapter(8, '投资回报', 8)">
       <div class="lock-icon">🔒</div>
       <div class="chapter-num">CHAPTER 08</div>
       <div class="chapter-title">投资回报</div>
@@ -783,6 +783,20 @@
 
   // ── 弹窗控制 ──
   function openChapter(id, title, num) {
+    // 如果卡片还是 locked 状态，跳转到解锁栏提示
+    const card = document.querySelector(`.chapter-card[onclick*="openChapter(${id},"]`);
+    if (card && card.classList.contains('locked')) {
+      const unlockBar = document.getElementById('unlockBar');
+      if (unlockBar) {
+        unlockBar.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        document.getElementById('unlockInput').focus();
+        const msg = document.getElementById('unlockMsg');
+        msg.className = 'unlock-msg';
+        msg.textContent = '🔒 请先输入解锁码查看此章节';
+        setTimeout(() => { if (msg.textContent.includes('请先')) msg.textContent = ''; }, 3000);
+      }
+      return;
+    }
     const content = CHAPTER_CONTENTS[id];
     if (!content) return;
     document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
