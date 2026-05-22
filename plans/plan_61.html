@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>川菜火锅运营方案</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--red:#C8281A;--gold:#E8A020;--dark:#1A1A2E;--darker:#0F0F1A;--card:#16213E;--text:#E8E8E8;--muted:#A0A0B0;--accent:#FF6B35;--green:#2ECC71;--blue:#3498DB;--border:rgba(200,40,26,0.3)}
+body{background:var(--darker);color:var(--text);font-family:'PingFang SC','Microsoft YaHei',sans-serif;line-height:1.7}
+.cover{background:linear-gradient(135deg,#1A0808 0%,#2D0A0A 40%,#1A1A2E 100%);min-height:90vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 40px;position:relative;overflow:hidden}
+.cover::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 50%,rgba(200,40,26,.15) 0%,transparent 60%)}
+.cover-badge{display:inline-block;background:linear-gradient(135deg,var(--red),#8B1A10);color:#fff;padding:8px 24px;border-radius:20px;font-size:13px;letter-spacing:2px;margin-bottom:28px;position:relative}
+.cover h1{font-size:44px;font-weight:800;background:linear-gradient(135deg,#FF6B6B,var(--gold),#FF6B35);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:12px;line-height:1.2;position:relative}
+.cover h2{font-size:18px;color:var(--muted);font-weight:400;margin-bottom:36px;position:relative}
+.cover-meta{display:flex;gap:40px;justify-content:center;flex-wrap:wrap;position:relative}
+.cover-meta-item .num{font-size:32px;font-weight:800;color:var(--gold);display:block;line-height:1}
+.cover-meta-item .label{font-size:12px;color:var(--muted);margin-top:4px}
+.cover-divider{width:60px;height:3px;background:linear-gradient(90deg,var(--red),var(--gold));margin:28px auto}
+.cover-prepared{font-size:13px;color:var(--muted);position:relative}
+.cover-prepared span{color:var(--gold)}
+.sec{max-width:1100px;margin:0 auto;padding:50px 36px}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
+.sh{display:flex;align-items:center;gap:14px;margin-bottom:36px}
+.sn{width:44px;height:44px;background:linear-gradient(135deg,var(--red),#8B1A10);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#fff;flex-shrink:0}
+.st{font-size:24px;font-weight:700;color:var(--text)}
+.ss{font-size:13px;color:var(--muted);margin-top:2px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:26px;margin-bottom:18px}
+.ct{font-size:14px;font-weight:700;color:var(--gold);margin-bottom:14px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.stat{background:linear-gradient(135deg,rgba(200,40,26,.1),rgba(232,160,32,.05));border:1px solid var(--border);border-radius:12px;padding:22px 14px;text-align:center}
+.stat .n{font-size:28px;font-weight:800;color:var(--gold);display:block;line-height:1;margin-bottom:4px}
+.stat .u{font-size:12px;color:var(--muted)}
+.stat .l{font-size:11px;color:var(--text);margin-top:6px}
+.pain{display:flex;gap:12px;align-items:flex-start;padding:12px;background:rgba(200,40,26,.05);border-left:3px solid var(--red);border-radius:0 10px 10px 0;margin-bottom:10px}
+.pain .ic{font-size:18px;flex-shrink:0}
+.pain .pt{font-weight:600;color:var(--text);margin-bottom:2px;font-size:13px}
+.pain .pd{font-size:11px;color:var(--muted)}
+.ctbl{width:100%;border-collapse:collapse}
+.ctbl th{background:rgba(200,40,26,.2);padding:10px 12px;text-align:left;font-size:11px;color:var(--gold);font-weight:600}
+.ctbl td{padding:10px 12px;font-size:11px;color:var(--text);border-bottom:1px solid rgba(255,255,255,.05)}
+.tw{background:rgba(200,40,26,.2);color:#FF6B6B;padding:2px 8px;border-radius:20px;font-size:10px}
+.to{background:rgba(46,204,113,.2);color:var(--green);padding:2px 8px;border-radius:20px;font-size:10px}
+.acrd{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:18px;position:relative;overflow:hidden}
+.acrd::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red),var(--gold))}
+.ah{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.at{font-size:15px;font-weight:700;color:var(--text)}
+.atg{font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500}
+.tnw{background:rgba(52,152,219,.2);color:var(--blue)}
+.tk{background:rgba(46,204,113,.2);color:var(--green)}
+.tr{background:rgba(232,160,32,.2);color:var(--gold)}
+.steps{list-style:none}
+.steps li{padding:6px 0;font-size:11px;color:var(--muted);border-bottom:1px solid rgba(255,255,255,.05);display:flex;gap:8px;align-items:flex-start}
+.steps li:last-child{border-bottom:none}
+.sn2{min-width:18px;height:18px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0;margin-top:2px}
+.ameta{display:flex;gap:16px;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.05);flex-wrap:wrap}
+.mi{font-size:11px;color:var(--muted)}
+.mi span{color:var(--gold);font-weight:600}
+.okrc{background:linear-gradient(135deg,rgba(200,40,26,.08),rgba(232,160,32,.04));border:1px solid rgba(232,160,32,.3);border-radius:14px;padding:20px;margin-bottom:14px}
+.okrp{font-size:11px;color:var(--gold);font-weight:600;margin-bottom:10px;text-transform:uppercase;letter-spacing:1px}
+.okri{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.okri:last-child{border-bottom:none}
+.okrl{font-size:12px;color:var(--text)}
+.okrt{font-size:12px;font-weight:700;color:var(--gold)}
+.roi-flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:18px}
+.roi-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;text-align:center;flex:1;min-width:90px}
+.roi-num{font-size:18px;font-weight:800;color:var(--gold)}
+.roi-unit{font-size:10px;color:var(--muted)}
+.roi-label{font-size:11px;color:var(--text);margin-top:3px}
+.roi-arrow{font-size:20px;color:var(--red);flex-shrink:0}
+.hl{background:linear-gradient(135deg,rgba(200,40,26,.15),rgba(232,160,32,.08));border:1px solid rgba(232,160,32,.4);border-radius:14px;padding:20px 24px;margin:18px 0}
+.hlt{font-size:14px;font-weight:700;color:var(--gold);margin-bottom:10px}
+.warn{background:rgba(255,107,53,.08);border:1px solid rgba(255,107,53,.3);border-radius:8px;padding:10px 12px;font-size:11px;color:var(--accent);margin-top:10px}
+.cl{list-style:none;margin-top:10px}
+.cl li{padding:4px 0;font-size:12px;color:var(--muted);display:flex;gap:6px}
+.cl li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0}
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.pc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px}
+.pl{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:8px}
+.pl.pk{color:var(--red)}
+.pl.pv{color:var(--gold)}
+.pi{font-size:11px;color:var(--text);padding:5px 0;display:flex;gap:6px;align-items:flex-start}
+.footer{background:linear-gradient(135deg,#0F0F1A,#1A0808);padding:50px 36px;text-align:center}
+.footer h2{font-size:28px;font-weight:800;background:linear-gradient(135deg,#FF6B6B,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:12px}
+.footer p{color:var(--muted);font-size:13px;max-width:600px;margin:0 auto 24px}
+.footer-meta{font-size:11px;color:rgba(160,160,176,.5)}
+@media(max-width:768px){.g2,.g3,.g4,.pg{grid-template-columns:1fr}.cover h1{font-size:28px}}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-badge">🍊 大橘运营方案 · 2026版</div>
+  <h1>川菜·火锅<br>精准增长运营方案</h1>
+  <h2>自动化测试门店1779439041429 | 公私域双轮驱动</h2>
+  <div class="cover-divider"></div>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><span class="num">+35%</span><div class="label">预计月营收增幅</div></div>
+    <div class="cover-meta-item"><span class="num">90天</span><div class="label">完整部署周期</div></div>
+    <div class="cover-meta-item"><span class="num">3大模块</span><div class="label">公域+私域+体验</div></div>
+    <div class="cover-meta-item"><span class="num">ROI 1:4</span><div class="label">投入产出比</div></div>
+  </div>
+  <div class="cover-divider"></div>
+  <div class="cover-prepared">由 <span>大橘🍊 餐饮运营专家</span> 出品 · 2026年5月</div>
+</div>
+
+<div class="divider"></div>
+
+<div class="sec">
+  <div class="sh"><div class="sn">01</div><div><div class="st">门店诊断 · 我懂你</div><div class="ss">行业大盘 × 竞品格局 × 痛点识别</div></div></div>
+
+  <div class="card">
+    <div class="ct">📊 2026年川菜/火锅赛道核心数据</div>
+    <div class="g4">
+      <div class="stat"><span class="n">6,689亿</span><div class="u">元</div><div class="l">2025年全国火锅市场规模</div></div>
+      <div class="stat"><span class="n">31.3%</span><div class="u">占比</div><div class="l">川渝火锅在火锅品类中绝对主导</div></div>
+      <div class="stat"><span class="n">70元</span><div class="u">人均</div><div class="l">全国火锅人均，从80+持续下行</div></div>
+      <div class="stat"><span class="n">28.8%</span><div class="u">关店率</div><div class="l">2025年关店率&gt;开店率，市场承压</div></div>
+    </div>
+    <div class="warn">⚠️ 市场信号：消费降级趋势明确，性价比区间（55-75元）是主战场。有数字化会员体系的门店，复购率是传统门店3倍。数字化是唯一护城河。</div>
+  </div>
+
+  <div class="card">
+    <div class="ct">🏘️ 周边竞品格局（⚠️ 假设：杭州主城区商圈）</div>
+    <table class="ctbl">
+      <thead><tr><th>竞品门店</th><th>定位</th><th>人均</th><th>核心弱点</th><th>本店切入机会</th></tr></thead>
+      <tbody>
+        <tr><td><strong>川味观·鲜货火锅</strong><br><small style="color:var(--muted)">杭州老牌多店连锁，评价20000+</small></td><td>川渝毛肚火锅</td><td>90-118元</td><td><span class="tw">客单价偏高</span></td><td><span class="to">性价比套餐+会员储值</span></td></tr>
+        <tr><td><strong>火社川味火锅</strong><br><small style="color:var(--muted)">网红人气店，常排长队</small></td><td>四川正宗锅底</td><td>85元</td><td><span class="tw">等位体验差</span></td><td><span class="to">预约制+快速翻台</span></td></tr>
+        <tr><td><strong>捌玖巷往老火锅</strong><br><small style="color:var(--muted)">复古风，余杭区，评价162条</small></td><td>川渝老火锅</td><td>65-70元</td><td><span class="tw">位置偏，私域运营弱</span></td><td><span class="to">数字化运营全面碾压</span></td></tr>
+        <tr><td><strong>周边家常川菜馆</strong><br><small style="color:var(--muted)">3-5家散店，无数字化</small></td><td>家常小炒+川菜</td><td>40-60元</td><td><span class="tw">无会员/无营销体系</span></td><td><span class="to">会员锁客+复购激活</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="g2">
+    <div>
+      <div class="pain"><div class="ic">📉</div><div><div class="pt">线上曝光不足，新客进店成本高</div><div class="pd">团购/小红书/抖音布局薄弱，周边3公里潜客无感知</div></div></div>
+      <div class="pain"><div class="ic">🔄</div><div><div class="pt">老客复购率偏低，沉睡客多</div><div class="pd">无主动唤醒机制，沉睡会员大量存在但无人触达</div></div></div>
+      <div class="pain"><div class="ic">💸</div><div><div class="pt">客单价不稳定，加购率低</div><div class="pd">无套餐引导机制，顾客随意点单，人均波动大</div></div></div>
+    </div>
+    <div>
+      <div class="pain"><div class="ic">⭐</div><div><div class="pt">点评评分增长慢</div><div class="pd">好评未主动引导，差评无快速响应，排名靠后</div></div></div>
+      <div class="pain"><div class="ic">🌞</div><div><div class="pt">夏季淡季应对无策略</div><div class="pd">火锅淡季（6-9月）客流下降30-40%，缺乏破局活动</div></div></div>
+      <div class="pain"><div class="ic">💰</div><div><div class="pt">无储值体系，现金流波动</div><div class="pd">无储值沉淀，淡旺季收入悬殊，全年现金流难平滑</div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="sec">
+  <div class="sh"><div class="sn">02</div><div><div class="st">商圈洞察 · 我专业</div><div class="ss">客群画像 × 消费场景 × SaaS工具映射</div></div></div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="ct">👥 三类核心客群</div>
+      <div style="margin-bottom:14px">
+        <div style="font-weight:600;color:var(--text);font-size:13px;margin-bottom:4px">🔥 主力：25-38岁社交聚餐型（60%）</div>
+        <div style="font-size:11px;color:var(--muted)">朋友/同事聚餐、情侣约会。人均80-120元，1-2次/月。注重氛围和口味，价格中等敏感。<br><span style="color:var(--gold)">→ 打法：储值锁客+拼桌社交+辣度挑战裂变</span></div>
+      </div>
+      <div style="margin-bottom:14px">
+        <div style="font-weight:600;color:var(--text);font-size:13px;margin-bottom:4px">🏠 潜力：35-55岁家庭聚餐型（25%）</div>
+        <div style="font-size:11px;color:var(--muted)">周末家庭/亲子，人均60-100元，2-4次/月，重口碑和稳定出品。<br><span style="color:var(--gold)">→ 打法：家庭套餐+生日营销+节假日宴席</span></div>
+      </div>
+      <div>
+        <div style="font-weight:600;color:var(--text);font-size:13px;margin-bottom:4px">💼 价值：商务宴请型（15%）</div>
+        <div style="font-size:11px;color:var(--muted)">团建/客户宴请，人均120-200元，包间需求强，客单高。<br><span style="color:var(--gold)">→ 打法：包间VIP权益+企业团建套餐</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="ct">🔧 SaaS工具精准映射</div>
+      <div style="background:rgba(52,152,219,.08);border:1px solid rgba(52,152,219,.2);border-radius:8px;padding:12px;margin-bottom:10px">
+        <div style="color:var(--blue);font-weight:600;font-size:12px;margin-bottom:6px">📱 扫码点餐 → 解决加购率低</div>
+        <div style="font-size:11px;color:var(--muted)">套餐置顶推荐 / 时段菜单切换 / 新客弹窗入会 / 加购提示</div>
+      </div>
+      <div style="background:rgba(46,204,113,.08);border:1px solid rgba(46,204,113,.2);border-radius:8px;padding:12px;margin-bottom:10px">
+        <div style="color:var(--green);font-weight:600;font-size:12px;margin-bottom:6px">👤 会员+智能储值 → 解决复购流失</div>
+        <div style="font-size:11px;color:var(--muted)">储值锁客年均消费×3 / 15天沉睡自动唤醒 / 生日精准推送 / 潜客营销</div>
+      </div>
+      <div style="background:rgba(232,160,32,.08);border:1px solid rgba(232,160,32,.2);border-radius:8px;padding:12px">
+        <div style="color:var(--gold);font-weight:600;font-size:12px;margin-bottom:6px">⭐ 评价专家 → 解决评分增长慢</div>
+        <div style="font-size:11px;color:var(--muted)">结账自动弹好评页 / 差评2h预警 / 持续冲刺区域必吃榜</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hl">
+    <div class="hlt">🎯 峰终定律 · 核心体验设计</div>
+    <div style="font-size:12px;color:var(--text)">火锅消费停留60-90分钟。顾客最终只记住2个时刻：<strong style="color:var(--gold)">① 最爽的那口（峰值）</strong> 和 <strong style="color:var(--gold)">② 结账离店的感觉（终值）</strong>。所有体验设计围绕这2个点，成本控制在客单价3%以内。</div>
+    <div class="pg">
+      <div class="pc">
+        <div class="pl pk">🔝 峰值触点 · 让他爽爆</div>
+        <div class="pi"><span style="color:var(--red)">▶</span><div><strong>出餐仪式感：</strong>毛肚上桌服务员标准报菜名"7上7下，入口即化"——零成本强记忆</div></div>
+        <div class="pi"><span style="color:var(--red)">▶</span><div><strong>新客首扫弹窗：</strong>第一次点餐弹"新客锅底8折"——即时惊喜感</div></div>
+        <div class="pi"><span style="color:var(--red)">▶</span><div><strong>随机小惊喜：</strong>每10单抽1单赠冰粉（成本2元）——低频高感知</div></div>
+      </div>
+      <div class="pc">
+        <div class="pl pv">🎬 终值触点 · 让他满意离开</div>
+        <div class="pi"><span style="color:var(--gold)">▶</span><div><strong>结账即时省：</strong>POS显示"本单已省12元"——有占便宜感</div></div>
+        <div class="pi"><span style="color:var(--gold)">▶</span><div><strong>好评自动引导：</strong>结账后弹好评页，18秒完成——好评率+40%</div></div>
+        <div class="pi"><span style="color:var(--gold)">▶</span><div><strong>储值话术：</strong>服务员一句话"充300送50，今天这锅报销了"</div></div>
+        <div class="pi"><span style="color:var(--gold)">▶</span><div><strong>薄荷糖：</strong>收银台自取，成本0.3元，温暖感</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="sec">
+  <div class="sh"><div class="sn">03</div><div><div class="st">公私域运营方案 · 全年作战图</div><div class="ss">公域引流 × 私域留客 × 联动闭环</div></div></div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="ct">📡 公域引流体系</div>
+      <div style="font-size:12px;color:var(--text)">
+        <div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)"><strong style="color:var(--gold)">大众点评（核心阵地）</strong><br><span style="color:var(--muted)">每周回复全部评价 → 上线9.9元引流团购（限20份/天）→ 冲刺区域川菜/火锅TOP5 → 评价专家自动引导好评</span></div>
+        <div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)"><strong style="color:var(--gold)">美团团购（流量钩子）</strong><br><span style="color:var(--muted)">设计"引流锅底套餐99元"（含鸳鸯锅底+毛肚+蔬菜），亏损换新客 → 到店引导入会转私域</span></div>
+        <div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)"><strong style="color:var(--gold)">小红书（种草主阵地）</strong><br><span style="color:var(--muted)">每周1条"杭州川菜/火锅探店"内容 → 素人矩阵每月招募10人免费体验 → 话题#杭州火锅必吃榜</span></div>
+        <div style="padding:8px 0"><strong style="color:var(--gold)">抖音（裂变放大器）</strong><br><span style="color:var(--muted)">每周1条锅底/食材仪式感短视频 → "辣度挑战赛"话题 → 带店铺定位+团购链接</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="ct">🔒 私域留客体系</div>
+      <div style="font-size:12px;color:var(--text)">
+        <div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)"><strong style="color:var(--gold)">会员沉淀（全员入会）</strong><br><span style="color:var(--muted)">到店扫万能码自动注册会员 → 首次入会赠"新客专享券20元" → 当月消费记录打底</span></div>
+        <div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)"><strong style="color:var(--gold)">储值锁客（现金流主力）</strong><br><span style="color:var(--muted)">充300送50 / 充500送100 / 充1000送250 → 结账时服务员一句话推 → POS自动弹窗提示</span></div>
+        <div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)"><strong style="color:var(--gold)">精准触达（自动化）</strong><br><span style="color:var(--muted)">15天未消费→自动推"想你了+8折券" → 生日前3天推生日套餐 → 节假日推主题活动</span></div>
+        <div style="padding:8px 0"><strong style="color:var(--gold)">微信社群（活跃运营）</strong><br><span style="color:var(--muted)">每周三"群内秒杀"9.9元招牌菜（限10份）→ 每日专属价 → 月8号会员日全员通知</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ct">🔗 公私域联动闭环（流量漏斗）</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:10px 0;font-size:11px;text-align:center">
+      <div style="flex:1;min-width:80px;background:rgba(200,40,26,.1);border-radius:8px;padding:10px 6px">
+        <div style="font-size:18px">🌐</div>
+        <div style="color:var(--gold);font-weight:600">公域曝光</div>
+        <div style="color:var(--muted)">点评/团购<br>小红书/抖音</div>
+      </div>
+      <div style="color:var(--red);font-size:18px">→</div>
+      <div style="flex:1;min-width:80px;background:rgba(52,152,219,.1);border-radius:8px;padding:10px 6px">
+        <div style="font-size:18px">🚶</div>
+        <div style="color:var(--blue);font-weight:600">到店进门</div>
+        <div style="color:var(--muted)">扫码点餐<br>新客弹窗</div>
+      </div>
+      <div style="color:var(--red);font-size:18px">→</div>
+      <div style="flex:1;min-width:80px;background:rgba(46,204,113,.1);border-radius:8px;padding:10px 6px">
+        <div style="font-size:18px">👤</div>
+        <div style="color:var(--green);font-weight:600">沉淀会员</div>
+        <div style="color:var(--muted)">入会送券<br>储值锁客</div>
+      </div>
+      <div style="color:var(--red);font-size:18px">→</div>
+      <div style="flex:1;min-width:80px;background:rgba(232,160,32,.1);border-radius:8px;padding:10px 6px">
+        <div style="font-size:18px">🔄</div>
+        <div style="color:var(--gold);font-weight:600">复购留存</div>
+        <div style="color:var(--muted)">沉睡唤醒<br>社群运营</div>
+      </div>
+      <div style="color:var(--red);font-size:18px">→</div>
+      <div style="flex:1;min-width:80px;background:rgba(200,40,26,.1);border-radius:8px;padding:10px 6px">
+        <div style="font-size:18px">📣</div>
+        <div style="color:var(--red);font-weight:600">裂变传播</div>
+        <div style="color:var(--muted)">老带新<br>打卡发圈</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="sec">
+  <div class="sh"><div class="sn">04</div><div><div class="st">六大核心活动方案</div><div class="ss">每个活动：精确时间+具体金额+工具路径+预期效果</div></div></div>
+
+  <div class="acrd">
+    <div class="ah">
+      <div class="at">活动①：辣度挑战赛「辣王争霸」——拉新裂变</div>
+      <div class="atg tnw">拉新</div>
+    </div>
+    <ul class="steps">
+      <li><div class="sn2">1</div><div>设置5级辣度挑战菜单，每月固定周末举办（全通关免单并上辣王墙）</div></li>
+      <li><div class="sn2">2</div><div>万能码生成报名链接，桌贴+入口宣传，店员主动引导"您敢挑战吗？"</div></li>
+      <li><div class="sn2">3</div><div>挑战过程鼓励拍短视频发抖音，带门店定位，凭截图点赞50+送免费小食</div></li>
+      <li><div class="sn2">4</div><div>每月"辣王"照片上墙+社群公示，终身85折会员卡（绑定会员系统）</div></li>
+    </ul>
+    <div class="ameta">
+      <div class="mi">🔧 SaaS工具：<span>万能码+会员系统+评价专家</span></div>
+      <div class="mi">💰 月成本：<span>约300-500元（菜品+道具）</span></div>
+      <div class="mi">📈 预期：<span>月新增社交媒体曝光5000+，到店转化30-50人</span></div>
+    </div>
+  </div>
+
+  <div class="acrd">
+    <div class="ah">
+      <div class="at">活动②：「充300送50」阶梯储值——锁客现金流</div>
+      <div class="atg tr">储值</div>
+    </div>
+    <ul class="steps">
+      <li><div class="sn2">1</div><div>SaaS系统配置3档：充200送30 / 充300送50 / 充500送100 / 充1000送250</div></li>
+      <li><div class="sn2">2</div><div>收银台放储值活动立牌，POS结账时自动弹储值推荐弹窗</div></li>
+      <li><div class="sn2">3</div><div>服务员结账话术："今天消费了86元，充300送50，相当于今天这锅只花了36元！"</div></li>
+      <li><div class="sn2">4</div><div>余额低于50元自动推送"余额不足提醒+充值惊喜"，防止余额流失</div></li>
+    </ul>
+    <div class="ameta">
+      <div class="mi">🔧 SaaS工具：<span>智能储值+会员系统+短信推送</span></div>
+      <div class="mi">💰 让利比例：<span>约10-15%（餐饮成本约5-7%）</span></div>
+      <div class="mi">📈 预期：<span>月储值额达营业额20-30%，储值客户复购率提升至80%+</span></div>
+    </div>
+  </div>
+
+  <div class="acrd">
+    <div class="ah">
+      <div class="at">活动③：「一人食火锅」拼桌交友局——淡季破局</div>
+      <div class="atg tnw">拉新</div>
+    </div>
+    <ul class="steps">
+      <li><div class="sn2">1</div><div>每周固定1晚（建议周三/四）设拼桌之夜，单人/双人可报名，4人成桌享8.5折</div></li>
+      <li><div class="sn2">2</div><div>万能码生成报名链接，社群+门口海报宣传，服务员引导单人到店顾客参与</div></li>
+      <li><div class="sn2">3</div><div>拼桌专区布置（简单气球/小旗），提供"破冰话题卡"（你最爱哪种锅底？）</div></li>
+      <li><div class="sn2">4</div><div>拼桌成功赠招牌菜1道，鼓励拍合照发小红书，转化为会员</div></li>
+    </ul>
+    <div class="ameta">
+      <div class="mi">🔧 SaaS工具：<span>万能码+扫码点餐（拼桌套餐）+会员系统</span></div>
+      <div class="mi">💰 月成本：<span>约200-400元（赠菜+物料）</span></div>
+      <div class="mi">📈 预期：<span>淡季增加2-4桌/周，30%拼桌客户后续带朋友复访</span></div>
+    </div>
+  </div>
+
+  <div class="acrd">
+    <div class="ah">
+      <div class="at">活动④：「锅底DIY投票」——社群活跃+二次消费</div>
+      <div class="atg tk">复购</div>
+    </div>
+    <ul class="steps">
+      <li><div class="sn2">1</div><div>每周在微信群发起锅底投票（3-5个候选），得票最高的周末上架享8.5折</div></li>
+      <li><div class="sn2">2</div><div>万能码生成投票链接，桌贴提示"扫码投票锅底，下周享折扣"</div></li>
+      <li><div class="sn2">3</div><div>每周一公布投票结果，入选锅底命名"本周人气王"并在门店上墙</div></li>
+      <li><div class="sn2">4</div><div>参与投票即自动获得5积分，激活沉睡会员互动</div></li>
+    </ul>
+    <div class="ameta">
+      <div class="mi">🔧 SaaS工具：<span>万能码（投票）+会员系统（积分）+社群运营</span></div>
+      <div class="mi">💰 月成本：<span>约0元（折扣从毛利消化，印刷约50元）</span></div>
+      <div class="mi">📈 预期：<span>社群活跃度提升3倍，参与投票会员当周到店率+25%</span></div>
+    </div>
+  </div>
+
+  <div class="acrd">
+    <div class="ah">
+      <div class="at">活动⑤：生日双重礼「寿星专属体验」——情感锁客</div>
+      <div class="atg tk">复购</div>
+    </div>
+    <ul class="steps">
+      <li><div class="sn2">1</div><div>会员注册时收集生日信息（注册即送50元券激励填写）</div></li>
+      <li><div class="sn2">2</div><div>生日前3天自动发送专属短信：当周到店享8折+赠招牌小食一份</div></li>
+      <li><div class="sn2">3</div><div>到店出示生日券，赠手写生日贺卡（店员提前备好），服务员口头祝福</div></li>
+      <li><div class="sn2">4</div><div>生日桌拍照发朋友圈额外送甜品一份，引导发圈传播</div></li>
+    </ul>
+    <div class="ameta">
+      <div class="mi">🔧 SaaS工具：<span>会员系统（生日自动触发）+自动发券+短信推送</span></div>
+      <div class="mi">💰 月成本：<span>约5-8元/人（小食+贺卡）</span></div>
+      <div class="mi">📈 预期：<span>生日到店率40-60%，生日桌消费比普通桌高50%+</span></div>
+    </div>
+  </div>
+
+  <div class="acrd">
+    <div class="ah">
+      <div class="at">活动⑥：每月8号「会员日」——固定复购节奏</div>
+      <div class="atg tk">复购</div>
+    </div>
+    <ul class="steps">
+      <li><div class="sn2">1</div><div>每月8号设为会员日，全场会员88折+双倍积分+1道限定菜品</div></li>
+      <li><div class="sn2">2</div><div>提前3天社群+短信推送"本月会员日快到了，88折等你！"</div></li>
+      <li><div class="sn2">3</div><div>当天门口放会员日立牌，非会员可现场免费入会并立享</div></li>
+      <li><div class="sn2">4</div><div>月底统计会员日新增会员数和当日营业额，下月优化</div></li>
+    </ul>
+    <div class="ameta">
+      <div class="mi">🔧 SaaS工具：<span>会员系统（88折+积分翻倍）+短信+社群</span></div>
+      <div class="mi">💰 月成本：<span>让利约12%+限定菜成本约300元</span></div>
+      <div class="mi">📈 预期：<span>会员日当天营业额比平日提升35-50%，月新增会员20-40人</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="sec">
+  <div class="sh"><div class="sn">05</div><div><div class="st">全年营销日历 · 2026下半年</div><div class="ss">当前月（5月）起 × 重点节点 × 活动策略</div></div></div>
+
+  <div class="g3">
+    <div class="card">
+      <div class="ct">🌸 5月 · 520+母亲节（旺季）</div>
+      <div style="font-size:12px;color:var(--muted)">
+        <div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05)"><span style="color:var(--gold)">520限定鸳鸯锅：</span>¥188/288/388三档情侣套餐，赠玫瑰+定制甜品</div>
+        <div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05)"><span style="color:var(--gold)">母亲节家宴：</span>4-6人桌妈妈专属，到店赠康乃馨</div>
+        <div style="padding:6px 0"><span style="color:var(--gold)">五一冲储值：</span>充值满500额外送50元，黄金周备货+30%</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ct">☀️ 6-9月 · 淡季破局</div>
+      <div style="font-size:12px;color:var(--muted)">
+        <div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05)"><span style="color:var(--gold)">夏季小火锅套餐：</span>人均59元轻量版，冰粉免费送，清凉火锅</div>
+        <div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05)"><span style="color:var(--gold)">618储值活动：</span>蹭618流量，充300送50，限时5天</div>
+        <div style="padding:6px 0"><span style="color:var(--gold)">拼桌交友局：</span>每周固定举办，填补非高峰时段</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ct">🍁 10月 · 国庆大旺季（全年最旺）</div>
+      <div style="font-size:12px;color:var(--muted)">
+        <div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05)"><span style="color:var(--gold)">国庆7天不重样：</span>每天1款限定特价菜，日限30份，集3张消费小票送伴手礼</div>
+        <div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05)"><span style="color:var(--gold)">游客新客拓展：</span>万能码扫码入会送"杭州美食打卡章"</div>
+        <div style="padding:6px 0"><span style="color:var(--gold)">备货+排班：</span>备货上浮50%，全员在岗</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ct">🔥 11月 · 双11储值冲刺</div>
+      <div style="font-size:12px;color:var(--muted)">
+        <div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05)"><span style="color:var(--gold)">年度最大储值：</span>充500送120/充1000送280，全年仅此一次</div>
+        <div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05)"><span style="color:var(--gold)">黑卡VIP：</span>前100名储值客户获赠全年95折黑卡</div>
+        <div style="padding:6px 0"><span style="color:var(--gold)">火锅季开炉：</span>立冬仪式感营销，冬季旺季启动</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ct">🎄 12月 · 圣诞跨年收官</div>
+      <div style="font-size:12px;color:var(--muted)">
+        <div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05)"><span style="color:var(--gold)">双12储值：</span>与双11同等力度，3天限时，附赠抽奖</div>
+        <div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05)"><span style="color:var(--gold)">冬至大如年：</span>到店赠手工饺子+暖姜茶，套餐预订</div>
+        <div style="padding:6px 0"><span style="color:var(--gold)">跨年夜：</span>倒计时+新年第一锅，预约制限量</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ct">❄️ 次年1-3月 · 春节旺季</div>
+      <div style="font-size:12px;color:var(--muted)">
+        <div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05)"><span style="color:var(--gold)">年夜饭预订：</span>1月提前开放，5档套餐，早鸟95折</div>
+        <div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05)"><span style="color:var(--gold)">春节储值红包：</span>充1000送150+定制利是红包</div>
+        <div style="padding:6px 0"><span style="color:var(--gold)">情人节：</span>2月限定鸳鸯火锅双人礼</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="sec">
+  <div class="sh"><div class="sn">06</div><div><div class="st">投资回报与OKR</div><div class="ss">算清账 · 月均增收来源分析 · 季度目标</div></div></div>
+
+  <div class="hl">
+    <div class="hlt">💡 数据假设（⚠️ 基于行业均值推算，实际以门店真实数据为准）</div>
+    <div style="font-size:12px;color:var(--text)">假设当前：月营业额约10万元 / 日均客流60-80人 / 客单价80元 / 会员数约200人 / 复购率约25%</div>
+  </div>
+
+  <div class="card">
+    <div class="ct">💰 月均增收来源分解（运营满3个月后）</div>
+    <div class="roi-flow">
+      <div class="roi-item"><div class="roi-num">+1.2万</div><div class="roi-unit">元/月</div><div class="roi-label">📡 公域引流新客（+15人/天×80元×25%新客贡献）</div></div>
+      <div class="roi-arrow">+</div>
+      <div class="roi-item"><div class="roi-num">+0.8万</div><div class="roi-unit">元/月</div><div class="roi-label">🔄 储值复购提升（现有会员消费频次×1.3）</div></div>
+      <div class="roi-arrow">+</div>
+      <div class="roi-item"><div class="roi-num">+0.6万</div><div class="roi-unit">元/月</div><div class="roi-label">🛒 客单价提升（套餐引导+8元/人）</div></div>
+      <div class="roi-arrow">+</div>
+      <div class="roi-item"><div class="roi-num">+0.9万</div><div class="roi-unit">元/月</div><div class="roi-label">⭐ 评分提升曝光（排名提升带来自然流量）</div></div>
+      <div class="roi-arrow">=</div>
+      <div class="roi-item" style="background:linear-gradient(135deg,rgba(200,40,26,.15),rgba(232,160,32,.08));border-color:rgba(232,160,32,.4)"><div class="roi-num" style="font-size:22px">+3.5万</div><div class="roi-unit">元/月</div><div class="roi-label">月总增收（+35%）</div></div>
+    </div>
+    <div style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);display:flex;gap:20px;flex-wrap:wrap;font-size:12px">
+      <div><span style="color:var(--muted)">月总投入（活动+让利）：</span><span style="color:var(--gold);font-weight:700">约8,000元</span></div>
+      <div><span style="color:var(--muted)">月净增收：</span><span style="color:var(--gold);font-weight:700">约27,000元</span></div>
+      <div><span style="color:var(--muted)">ROI：</span><span style="color:var(--green);font-weight:700">1 : 4.4</span></div>
+      <div><span style="color:var(--muted)">回本周期：</span><span style="color:var(--gold);font-weight:700">第1个月起即正收益</span></div>
+    </div>
+  </div>
+
+  <div class="g3">
+    <div class="okrc">
+      <div class="okrp">📅 第1个月（0-30天）· 地基期</div>
+      <div class="okri"><div class="okrl">月营业额目标</div><div class="okrt">+15%（约11.5万）</div></div>
+      <div class="okri"><div class="okrl">新增会员数</div><div class="okrt">≥100人</div></div>
+      <div class="okri"><div class="okrl">储值回款</div><div class="okrt">≥1.5万元</div></div>
+      <div class="okri"><div class="okrl">点评好评新增</div><div class="okrt">≥30条</div></div>
+      <div class="okri"><div class="okrl">完成SaaS基础配置</div><div class="okrt">100%上线</div></div>
+    </div>
+    <div class="okrc">
+      <div class="okrp">📅 第2个月（31-60天）· 爬坡期</div>
+      <div class="okri"><div class="okrl">月营业额目标</div><div class="okrt">+25%（约12.5万）</div></div>
+      <div class="okri"><div class="okrl">会员复购率</div><div class="okrt">≥35%</div></div>
+      <div class="okri"><div class="okrl">储值总余额</div><div class="okrt">≥3万元</div></div>
+      <div class="okri"><div class="okrl">大众点评评分</div><div class="okrt">≥4.5分</div></div>
+      <div class="okri"><div class="okrl">社群活跃人数</div><div class="okrt">≥150人</div></div>
+    </div>
+    <div class="okrc">
+      <div class="okrp">📅 第3个月（61-90天）· 稳定期</div>
+      <div class="okri"><div class="okrl">月营业额目标</div><div class="okrt">+35%（约13.5万）</div></div>
+      <div class="okri"><div class="okrl">会员总数</div><div class="okrt">≥500人</div></div>
+      <div class="okri"><div class="okrl">团购核销率</div><div class="okrt">≥60%</div></div>
+      <div class="okri"><div class="okrl">点评区域榜排名</div><div class="okrt">进入TOP10</div></div>
+      <div class="okri"><div class="okrl">回本周期核验</div><div class="okrt">投入完全覆盖</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ct">📆 90天部署时间线</div>
+    <div style="display:flex;flex-direction:column;gap:12px;font-size:12px">
+      <div style="display:flex;gap:16px;align-items:flex-start;padding:10px;background:rgba(200,40,26,.05);border-left:3px solid var(--red);border-radius:0 8px 8px 0">
+        <div style="min-width:80px;color:var(--gold);font-weight:600">第1-7天</div>
+        <div style="color:var(--muted)">完成SaaS基础配置：开通会员/扫码点餐/评价专家 → 设计首批3档储值方案 → 上线9.9元引流团购 → 制作桌贴/立牌物料</div>
+      </div>
+      <div style="display:flex;gap:16px;align-items:flex-start;padding:10px;background:rgba(232,160,32,.05);border-left:3px solid var(--gold);border-radius:0 8px 8px 0">
+        <div style="min-width:80px;color:var(--gold);font-weight:600">第8-30天</div>
+        <div style="color:var(--muted)">启动会员沉淀：到店全员扫码入会 → 建微信群引导首批100人 → 开展辣度挑战赛第1场 → 开始每周小红书/抖音更新</div>
+      </div>
+      <div style="display:flex;gap:16px;align-items:flex-start;padding:10px;background:rgba(46,204,113,.05);border-left:3px solid var(--green);border-radius:0 8px 8px 0">
+        <div style="min-width:80px;color:var(--gold);font-weight:600">第31-60天</div>
+        <div style="color:var(--muted)">复购激活：启动沉睡客自动唤醒 → 开启每月8号会员日 → 首次双倍积分活动 → 拼桌交友局上线 → 复盘第一个月数据</div>
+      </div>
+      <div style="display:flex;gap:16px;align-items:flex-start;padding:10px;background:rgba(52,152,219,.05);border-left:3px solid var(--blue);border-radius:0 8px 8px 0">
+        <div style="min-width:80px;color:var(--gold);font-weight:600">第61-90天</div>
+        <div style="color:var(--muted)">体系化运营：节假日活动规律化 → 根据复盘数据优化储值档位 → 小红书素人矩阵扩大 → 冲击点评区域TOP10 → 输出季度运营复盘</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="sec">
+  <div class="sh"><div class="sn">07</div><div><div class="st">会员体系设计</div><div class="ss">储值锁客 + 等级养客 + 双轮联动</div></div></div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="ct">💳 储值会员（锁客型）</div>
+      <div style="font-size:12px;color:var(--muted)">
+        <div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)"><strong style="color:var(--text)">入会门槛：</strong>扫码即免费注册，首充立享权益</div>
+        <div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)"><strong style="color:var(--text)">充值档位：</strong>充200送30 / 充300送50 / 充500送100 / 充1000送250</div>
+        <div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)"><strong style="color:var(--text)">核心逻辑：</strong>预存锁定未来消费，锁定客单×3-5次消费</div>
+        <div style="padding:8px 0"><strong style="color:var(--text)">自动触达：</strong>余额低于50元→推送充值提醒；余额用完→推送专属复充优惠</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ct">🏆 等级会员（养客型）</div>
+      <div style="font-size:12px;color:var(--muted)">
+        <div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)"><strong style="color:var(--text)">银卡（免费入会）：</strong>9.5折 + 积分1倍</div>
+        <div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)"><strong style="color:var(--text)">金卡（累计消费≥500元）：</strong>9折 + 积分2倍 + 生日礼</div>
+        <div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)"><strong style="color:var(--text)">钻石卡（累计消费≥2000元）：</strong>8.5折 + 积分3倍 + 包间优先 + 生日免单1菜</div>
+        <div style="padding:8px 0"><strong style="color:var(--text)">旗舰权益（充值≥5000）：</strong>团购会员卡 + 潜客营销 + 全年6大特有活动资格</div>
+      </div>
+    </div>
+  </div>
+  <div class="warn">⚠️ 两套体系互补：储值解决「锁客」（短期现金流），等级解决「养客」（长期粘性）。推荐以储值为主要转化目标，等级作为长期维系工具。</div>
+</div>
+
+<div class="divider"></div>
+
+<div class="footer">
+  <h2>🍊 让数字开口说话，让老板省心省力</h2>
+  <p>这份方案的核心逻辑：用SaaS工具替代人力，用数据驱动决策，用活动制造到店理由。每个动作都配备了精确的工具路径、成本估算和预期效果，让落地零歧义。</p>
+  <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:24px;font-size:13px">
+    <span style="color:var(--gold)">✓ 90天部署路线图</span>
+    <span style="color:var(--green)">✓ 月度OKR可量化</span>
+    <span style="color:var(--blue)">✓ ROI数据自洽</span>
+    <span style="color:var(--accent)">✓ 零大额投入</span>
+  </div>
+  <div class="footer-meta">由 大橘🍊 餐饮运营专家出品 · 美团餐饮SaaS BD运营方案 · 2026年5月</div>
+</div>
+
+</body>
+</html>
