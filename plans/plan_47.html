@@ -3,1784 +3,968 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>进化饭店·运营增长方案 | 美团餐饮SaaS</title>
+<title>进化饭店 · 数字化运营提升方案</title>
 <style>
-  :root {
-    --primary: #FF6B2B;
-    --primary-dark: #E55520;
-    --secondary: #1A1A2E;
-    --accent: #FFB347;
-    --green: #27AE60;
-    --blue: #2980B9;
-    --red: #E74C3C;
-    --light-bg: #FFF8F4;
-    --card-bg: #FFFFFF;
-    --text-primary: #1A1A2E;
-    --text-secondary: #555;
-    --border: #F0E0D8;
-    --shadow: 0 4px 20px rgba(255,107,43,0.12);
-  }
+:root {
+  --dg: #1a3a2a; --mg: #2d5a3d; --lg: #3d7a52;
+  --gold: #c9a227; --goldl: #e8c547; --goldp: #f5e4a0;
+  --cream: #faf6ec; --white: #ffffff;
+  --td: #1a2a1a; --tm: #3a4a3a; --tl: #6a7a6a;
+  --red: #c0392b;
+  --sh: 0 4px 20px rgba(26,58,42,0.12);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'PingFang SC','Microsoft YaHei',sans-serif; background:var(--cream); color:var(--td); line-height:1.7; }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  
-  body {
-    font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
-    background: #F5F0EB;
-    color: var(--text-primary);
-    line-height: 1.7;
-  }
+/* HERO */
+.hero { background:linear-gradient(135deg,#0d2018 0%,#1a3a2a 45%,#2d5a3d 100%); padding:56px 40px 48px; position:relative; overflow:hidden; }
+.hero::before { content:''; position:absolute; top:-60px; right:-60px; width:320px; height:320px; border-radius:50%; background:radial-gradient(circle,rgba(201,162,39,.2) 0%,transparent 70%); }
+.hero-inner { max-width:960px; margin:0 auto; position:relative; z-index:1; }
+.hero-badge { display:inline-block; background:rgba(201,162,39,.15); border:1px solid rgba(201,162,39,.4); color:var(--goldl); padding:4px 16px; border-radius:20px; font-size:12px; letter-spacing:2px; margin-bottom:18px; }
+.hero h1 { font-size:36px; font-weight:700; color:#fff; letter-spacing:2px; margin-bottom:6px; }
+.hero h1 span { color:var(--goldl); }
+.hero-sub { font-size:14px; color:rgba(255,255,255,.6); margin-bottom:28px; }
+.hero-tags { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:28px; }
+.hero-tag { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18); color:rgba(255,255,255,.8); padding:4px 12px; border-radius:6px; font-size:12px; }
+.hero-tag.gold { background:rgba(201,162,39,.12); border-color:rgba(201,162,39,.35); color:var(--goldl); }
+.hero-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+.stat-box { background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12); border-radius:10px; padding:16px; text-align:center; }
+.stat-v { font-size:24px; font-weight:700; color:var(--goldl); line-height:1; margin-bottom:5px; }
+.stat-l { font-size:12px; color:rgba(255,255,255,.55); }
 
-  /* COVER */
-  .cover {
-    background: linear-gradient(135deg, #1A1A2E 0%, #2D1B4E 40%, #FF6B2B 100%);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 60px 40px;
-    position: relative;
-    overflow: hidden;
-  }
-  .cover::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(ellipse at 30% 70%, rgba(255,107,43,0.15) 0%, transparent 60%),
-                radial-gradient(ellipse at 70% 30%, rgba(255,179,71,0.1) 0%, transparent 60%);
-    animation: pulse 8s ease-in-out infinite;
-  }
-  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
-  
-  .cover-badge {
-    background: rgba(255,107,43,0.2);
-    border: 1px solid rgba(255,107,43,0.5);
-    color: #FFB347;
-    padding: 6px 20px;
-    border-radius: 20px;
-    font-size: 13px;
-    letter-spacing: 2px;
-    margin-bottom: 30px;
-    position: relative;
-    z-index: 1;
-  }
-  .cover h1 {
-    font-size: 52px;
-    font-weight: 800;
-    color: #FFFFFF;
-    position: relative;
-    z-index: 1;
-    text-shadow: 0 4px 20px rgba(0,0,0,0.3);
-    margin-bottom: 16px;
-  }
-  .cover h1 span { color: #FFB347; }
-  .cover-subtitle {
-    font-size: 20px;
-    color: rgba(255,255,255,0.8);
-    position: relative;
-    z-index: 1;
-    margin-bottom: 50px;
-    max-width: 600px;
-  }
-  .cover-subtitle em {
-    color: #FFB347;
-    font-style: normal;
-    font-weight: 600;
-  }
-  
-  .cover-stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    max-width: 700px;
-    position: relative;
-    z-index: 1;
-    margin-bottom: 50px;
-  }
-  .cover-stat {
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 12px;
-    padding: 16px 12px;
-    text-align: center;
-  }
-  .cover-stat .num {
-    font-size: 26px;
-    font-weight: 800;
-    color: #FFB347;
-    display: block;
-  }
-  .cover-stat .label {
-    font-size: 12px;
-    color: rgba(255,255,255,0.7);
-    margin-top: 4px;
-  }
-  
-  .cover-meta {
-    position: relative;
-    z-index: 1;
-    color: rgba(255,255,255,0.5);
-    font-size: 13px;
-  }
-  .cover-meta span { margin: 0 12px; }
+/* LAYOUT */
+.wrap { max-width:960px; margin:0 auto; padding:0 24px; }
+.sec { padding:48px 0 36px; }
+.sec-hd { display:flex; align-items:center; gap:14px; margin-bottom:28px; }
+.sec-icon { width:42px; height:42px; background:linear-gradient(135deg,var(--mg),var(--lg)); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; box-shadow:0 3px 10px rgba(45,90,61,.3); }
+.sec-title { font-size:21px; font-weight:700; color:var(--dg); letter-spacing:1px; }
+.sep { border:none; height:1px; background:linear-gradient(90deg,transparent,rgba(45,90,61,.13),transparent); margin:0 24px; }
 
-  /* NAV */
-  .nav {
-    background: var(--secondary);
-    padding: 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 20px rgba(0,0,0,0.3);
-  }
-  .nav-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    gap: 0;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .nav-inner::-webkit-scrollbar { display: none; }
-  .nav-item {
-    color: rgba(255,255,255,0.6);
-    text-decoration: none;
-    padding: 16px 20px;
-    font-size: 14px;
-    white-space: nowrap;
-    transition: all 0.2s;
-    border-bottom: 3px solid transparent;
-  }
-  .nav-item:hover, .nav-item.active {
-    color: #FFB347;
-    border-bottom-color: #FFB347;
-  }
+/* CARDS */
+.card { background:var(--white); border-radius:14px; padding:26px; box-shadow:var(--sh); border:1px solid rgba(45,90,61,.07); }
+.card-title { font-size:14px; font-weight:700; color:var(--dg); margin-bottom:14px; padding-bottom:10px; border-bottom:2px solid var(--goldp); display:flex; align-items:center; gap:8px; }
+.card-title::before { content:''; width:4px; height:15px; background:linear-gradient(180deg,var(--gold),var(--lg)); border-radius:2px; }
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+.g3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; }
 
-  /* CONTAINER */
-  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+/* DATA STONE */
+.ds { background:linear-gradient(135deg,var(--dg),var(--mg)); border-radius:14px; padding:26px; color:#fff; margin-bottom:22px; }
+.ds-lbl { font-size:12px; color:rgba(255,255,255,.55); letter-spacing:2px; margin-bottom:14px; }
+.ds-row { display:flex; gap:30px; flex-wrap:wrap; align-items:flex-end; }
+.ds-item { text-align:center; }
+.ds-num { font-size:26px; font-weight:700; color:var(--goldl); line-height:1; }
+.ds-unit { font-size:12px; color:rgba(255,255,255,.5); margin-top:4px; }
+.ds-note { font-size:12px; color:rgba(255,255,255,.65); margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,.12); }
 
-  /* SECTION */
-  .section {
-    padding: 60px 0;
-  }
-  .section-title {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 40px;
-  }
-  .section-icon {
-    width: 48px;
-    height: 48px;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    flex-shrink: 0;
-  }
-  .section-title h2 {
-    font-size: 28px;
-    font-weight: 800;
-    color: var(--secondary);
-  }
-  .section-title p {
-    font-size: 14px;
-    color: var(--text-secondary);
-    margin-top: 2px;
-  }
+/* PAIN CARDS */
+.pain-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.pc { background:var(--white); border-radius:12px; padding:20px; border-left:4px solid; box-shadow:var(--sh); }
+.pc.r { border-color:#c0392b; } .pc.o { border-color:#e67e22; } .pc.b { border-color:#2980b9; }
+.pc.p { border-color:#8e44ad; } .pc.g { border-color:var(--lg); } .pc.y { border-color:var(--gold); }
+.pc-icon { font-size:22px; margin-bottom:8px; }
+.pc-title { font-size:13px; font-weight:700; color:var(--td); margin-bottom:5px; }
+.pc-desc { font-size:12px; color:var(--tm); line-height:1.6; }
+.pc-num { margin-top:8px; font-size:12px; color:var(--red); font-weight:600; }
 
-  /* CARDS */
-  .card {
-    background: var(--card-bg);
-    border-radius: 16px;
-    padding: 28px;
-    box-shadow: var(--shadow);
-    border: 1px solid var(--border);
-  }
-  .card-title {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--secondary);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .card-title::before {
-    content: '';
-    width: 4px;
-    height: 18px;
-    background: var(--primary);
-    border-radius: 2px;
-  }
+/* COMPETITOR TABLE */
+.ct { width:100%; border-collapse:collapse; font-size:13px; }
+.ct th { background:var(--dg); color:var(--goldl); padding:11px 14px; text-align:left; font-weight:600; font-size:12px; }
+.ct th:first-child { border-radius:8px 0 0 0; } .ct th:last-child { border-radius:0 8px 0 0; }
+.ct td { padding:11px 14px; border-bottom:1px solid rgba(45,90,61,.08); color:var(--tm); vertical-align:top; }
+.ct tr:last-child td { border-bottom:none; }
+.ct tr:nth-child(even) td { background:rgba(45,90,61,.025); }
+.ct .hl td { background:linear-gradient(90deg,rgba(201,162,39,.08),rgba(201,162,39,.02)); font-weight:700; color:var(--dg); }
+.tw { display:inline-block; background:rgba(192,57,43,.1); color:#c0392b; padding:1px 7px; border-radius:4px; font-size:11px; }
+.to { display:inline-block; background:rgba(45,90,61,.1); color:var(--mg); padding:1px 7px; border-radius:4px; font-size:11px; }
 
-  /* GRID LAYOUTS */
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+/* PRODUCT SCENE */
+.ps-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.psc { background:var(--white); border-radius:12px; padding:20px; box-shadow:var(--sh); border-top:3px solid var(--mg); }
+.psc-prob { background:rgba(192,57,43,.06); border-radius:7px; padding:8px 12px; font-size:12px; color:var(--red); margin-bottom:8px; line-height:1.6; }
+.psc-sol { background:rgba(45,90,61,.06); border-radius:7px; padding:8px 12px; font-size:12px; color:var(--mg); margin-bottom:8px; line-height:1.6; }
+.psc-eff { font-size:12px; color:var(--gold); font-weight:600; }
+.psc-title { font-size:13px; font-weight:700; color:var(--dg); margin-bottom:10px; }
 
-  /* DATA BOX */
-  .data-box {
-    background: var(--light-bg);
-    border: 2px solid var(--border);
-    border-radius: 12px;
-    padding: 20px;
-    text-align: center;
-  }
-  .data-box .value {
-    font-size: 32px;
-    font-weight: 800;
-    color: var(--primary);
-    line-height: 1.1;
-  }
-  .data-box .label {
-    font-size: 13px;
-    color: var(--text-secondary);
-    margin-top: 6px;
-  }
-  .data-box .note {
-    font-size: 12px;
-    color: var(--primary);
-    margin-top: 4px;
-    font-weight: 600;
-  }
+/* STRATEGY */
+.step-list { display:flex; flex-direction:column; gap:14px; }
+.step { background:var(--white); border-radius:12px; padding:22px; box-shadow:var(--sh); display:flex; gap:18px; }
+.step-n { width:38px; height:38px; background:linear-gradient(135deg,var(--dg),var(--mg)); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:700; color:var(--goldl); flex-shrink:0; }
+.step-body { flex:1; }
+.step-t { font-size:14px; font-weight:700; color:var(--dg); margin-bottom:5px; }
+.step-d { font-size:13px; color:var(--tm); line-height:1.7; }
+.step-tags { margin-top:10px; display:flex; flex-wrap:wrap; gap:7px; }
+.stag { background:rgba(45,90,61,.08); border:1px solid rgba(45,90,61,.14); color:var(--dg); padding:3px 10px; border-radius:5px; font-size:11px; font-weight:600; }
+.stag.y { background:rgba(201,162,39,.1); border-color:rgba(201,162,39,.28); color:#7a5a08; }
 
-  /* HIGHLIGHT BOX */
-  .highlight-box {
-    background: linear-gradient(135deg, #FFF3ED, #FFF8F4);
-    border: 2px solid var(--primary);
-    border-radius: 16px;
-    padding: 28px;
-    margin: 24px 0;
-  }
-  .highlight-box .hl-title {
-    font-size: 18px;
-    font-weight: 800;
-    color: var(--primary);
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  /* PROBLEM BOX */
-  .problem-item {
-    background: #FFF5F5;
-    border-left: 4px solid var(--red);
-    border-radius: 0 12px 12px 0;
-    padding: 16px 20px;
-    margin-bottom: 14px;
-  }
-  .problem-item .prob-title {
-    font-weight: 700;
-    color: var(--red);
-    font-size: 15px;
-    margin-bottom: 6px;
-  }
-  .problem-item .prob-desc {
-    font-size: 14px;
-    color: var(--text-secondary);
-    line-height: 1.6;
-  }
-  .problem-item .prob-solution {
-    font-size: 13px;
-    color: var(--green);
-    margin-top: 6px;
-    font-weight: 600;
-  }
+/* OPERATION PLAN */
+.dom-badge { padding:3px 12px; border-radius:20px; font-size:12px; font-weight:700; letter-spacing:1px; }
+.dom-badge.pub { background:rgba(41,128,185,.12); color:#1a5276; }
+.dom-badge.pri { background:rgba(45,90,61,.12); color:var(--dg); }
+.op-items { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; }
+.op-item { background:var(--white); border-radius:9px; padding:14px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+.op-title { font-size:12px; font-weight:700; color:var(--dg); margin-bottom:4px; }
+.op-desc { font-size:12px; color:var(--tm); line-height:1.6; }
+.ttag { display:inline-block; background:rgba(201,162,39,.12); color:#8a6a10; padding:1px 6px; border-radius:3px; font-size:10px; font-weight:600; }
+.link-box { background:linear-gradient(135deg,rgba(45,90,61,.06),rgba(201,162,39,.06)); border:1px dashed rgba(45,90,61,.2); border-radius:9px; padding:14px 18px; margin-top:18px; font-size:13px; color:var(--tm); line-height:1.7; }
+.link-box strong { color:var(--dg); }
 
-  /* STRATEGY FLOW */
-  .strategy-flow {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin: 20px 0;
-  }
-  .flow-step {
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    color: white;
-    padding: 10px 18px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    text-align: center;
-    flex: 1;
-    min-width: 100px;
-  }
-  .flow-arrow {
-    font-size: 20px;
-    color: var(--primary);
-    font-weight: 700;
-    flex-shrink: 0;
-  }
+/* STORAGE */
+.sc-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:18px; }
+.scc { background:var(--white); border-radius:12px; padding:22px 18px; text-align:center; box-shadow:var(--sh); position:relative; overflow:hidden; border:2px solid transparent; }
+.scc.main { border-color:var(--gold); background:linear-gradient(180deg,#fffdf4,var(--white)); }
+.scc.main::before { content:'主推'; position:absolute; top:0; right:0; background:var(--gold); color:#fff; font-size:11px; font-weight:700; padding:3px 9px; border-radius:0 10px 0 7px; }
+.sc-lv { font-size:11px; color:var(--tl); margin-bottom:7px; letter-spacing:1px; }
+.sc-amt { font-size:30px; font-weight:700; color:var(--dg); margin-bottom:3px; }
+.sc-amt span { font-size:15px; }
+.sc-gift { font-size:12px; color:var(--gold); font-weight:600; margin-bottom:9px; }
+.sc-bens { font-size:12px; color:var(--tm); line-height:1.8; text-align:left; list-style:none; }
+.sc-bens li { padding-left:12px; position:relative; }
+.sc-bens li::before { content:'·'; position:absolute; left:0; color:var(--gold); font-weight:700; }
 
-  /* TABLE */
-  .mtable {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
-  }
-  .mtable th {
-    background: var(--secondary);
-    color: white;
-    padding: 12px 16px;
-    text-align: left;
-    font-weight: 600;
-  }
-  .mtable th:first-child { border-radius: 8px 0 0 0; }
-  .mtable th:last-child { border-radius: 0 8px 0 0; }
-  .mtable td {
-    padding: 12px 16px;
-    border-bottom: 1px solid #F0ECE8;
-    vertical-align: top;
-  }
-  .mtable tr:nth-child(even) td { background: #FAFAF8; }
-  .mtable tr:last-child td { border-bottom: none; }
-  .mtable .highlight-row td {
-    background: #FFF3ED !important;
-    font-weight: 700;
-    color: var(--primary);
-  }
+/* ROI */
+.roi-block { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:18px; }
+.roi-row { display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid rgba(45,90,61,.07); font-size:13px; }
+.roi-row:last-child { border-bottom:none; }
+.roi-lbl { color:var(--tm); }
+.roi-val { font-weight:700; color:var(--dg); }
+.roi-val.g { color:var(--mg); }
+.roi-val.y { color:var(--gold); }
+.roi-total { background:linear-gradient(135deg,var(--dg),var(--mg)); border-radius:10px; padding:16px 20px; display:flex; justify-content:space-between; align-items:center; margin-top:10px; }
+.rt-lbl { font-size:13px; color:rgba(255,255,255,.75); }
+.rt-val { font-size:22px; font-weight:700; color:var(--goldl); }
 
-  /* BADGE */
-  .badge {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-  }
-  .badge-orange { background: #FFF0E8; color: var(--primary); }
-  .badge-green { background: #E8F8F0; color: var(--green); }
-  .badge-blue { background: #E8F4FF; color: var(--blue); }
-  .badge-red { background: #FFE8E8; color: var(--red); }
+/* OKR TABLE */
+.okr { width:100%; border-collapse:collapse; font-size:13px; }
+.okr th { background:linear-gradient(90deg,var(--dg),var(--mg)); color:var(--goldl); padding:11px 14px; text-align:left; font-size:12px; font-weight:600; }
+.okr th:first-child { border-radius:8px 0 0 0; } .okr th:last-child { border-radius:0 8px 0 0; }
+.okr td { padding:11px 14px; border-bottom:1px solid rgba(45,90,61,.08); color:var(--tm); }
+.okr tr:last-child td { border-bottom:none; }
+.okr tr:nth-child(even) td { background:rgba(45,90,61,.02); }
+.okr-flag { font-weight:700; color:var(--dg); }
+.okr-n { font-weight:700; color:var(--mg); }
 
-  /* ACTIVITY CARD */
-  .activity-card {
-    background: var(--card-bg);
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: var(--shadow);
-    border: 1px solid var(--border);
-    border-top: 4px solid var(--primary);
-    position: relative;
-  }
-  .activity-week {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    background: var(--primary);
-    color: white;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 700;
-  }
-  .activity-name {
-    font-size: 18px;
-    font-weight: 800;
-    color: var(--secondary);
-    margin-bottom: 10px;
-  }
-  .activity-desc {
-    font-size: 14px;
-    color: var(--text-secondary);
-    margin-bottom: 14px;
-    line-height: 1.6;
-  }
-  .activity-meta {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-  .activity-meta-item {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .activity-meta-item .key {
-    font-size: 12px;
-    color: var(--text-secondary);
-  }
-  .activity-meta-item .val {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--secondary);
-  }
-  .activity-meta-item .val.green { color: var(--green); }
-  .activity-meta-item .val.orange { color: var(--primary); }
+/* TIMELINE */
+.tl { position:relative; padding-left:30px; }
+.tl::before { content:''; position:absolute; left:8px; top:0; bottom:0; width:2px; background:linear-gradient(180deg,var(--gold),var(--lg),var(--mg)); }
+.tl-item { position:relative; margin-bottom:22px; }
+.tl-dot { position:absolute; left:-25px; top:4px; width:13px; height:13px; border-radius:50%; background:var(--gold); border:3px solid #fff; box-shadow:0 0 0 2px var(--gold); }
+.tl-period { font-size:11px; font-weight:700; color:var(--gold); letter-spacing:1px; margin-bottom:3px; }
+.tl-title { font-size:14px; font-weight:700; color:var(--dg); margin-bottom:5px; }
+.tl-body { font-size:13px; color:var(--tm); line-height:1.7; }
+.tl-body li { margin-left:16px; }
 
-  /* PRODUCT MATCH */
-  .product-item {
-    background: var(--card-bg);
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: var(--shadow);
-    border: 1px solid var(--border);
-    display: flex;
-    gap: 16px;
-    align-items: flex-start;
-  }
-  .product-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    flex-shrink: 0;
-  }
-  .product-info .prod-name {
-    font-weight: 700;
-    font-size: 15px;
-    color: var(--secondary);
-    margin-bottom: 4px;
-  }
-  .product-info .prod-pain {
-    font-size: 13px;
-    color: var(--red);
-    margin-bottom: 6px;
-  }
-  .product-info .prod-solution {
-    font-size: 13px;
-    color: var(--green);
-    line-height: 1.5;
-  }
+/* MODULES */
+.mod-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+.mod { background:var(--white); border-radius:10px; padding:16px 14px; box-shadow:var(--sh); border-top:3px solid var(--mg); }
+.mod.y { border-top-color:var(--gold); }
+.mod.b { border-top-color:#2980b9; }
+.mod-n { font-size:13px; font-weight:700; color:var(--dg); margin-bottom:5px; }
+.mod-u { font-size:12px; color:var(--tm); line-height:1.6; }
+.mod-st { margin-top:7px; display:inline-block; padding:1px 7px; border-radius:4px; font-size:10px; font-weight:600; background:rgba(45,90,61,.1); color:var(--mg); }
+.mod-st.y { background:rgba(201,162,39,.1); color:#8a6a10; }
 
-  /* ROI SECTION */
-  .roi-box {
-    background: linear-gradient(135deg, #1A1A2E, #2D1B4E);
-    border-radius: 20px;
-    padding: 40px;
-    color: white;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .roi-box::before {
-    content: '';
-    position: absolute;
-    top: -30%;
-    right: -10%;
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, rgba(255,107,43,0.2) 0%, transparent 70%);
-  }
-  .roi-title {
-    font-size: 18px;
-    color: rgba(255,255,255,0.7);
-    margin-bottom: 16px;
-    position: relative;
-    z-index: 1;
-  }
-  .roi-number {
-    font-size: 72px;
-    font-weight: 900;
-    color: #FFB347;
-    line-height: 1;
-    position: relative;
-    z-index: 1;
-  }
-  .roi-unit {
-    font-size: 24px;
-    color: rgba(255,255,255,0.8);
-    margin-bottom: 24px;
-    position: relative;
-    z-index: 1;
-  }
-  .roi-formula {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    position: relative;
-    z-index: 1;
-  }
-  .roi-formula-item {
-    text-align: center;
-  }
-  .roi-formula-item .rf-num {
-    font-size: 24px;
-    font-weight: 800;
-    color: #FFB347;
-  }
-  .roi-formula-item .rf-label {
-    font-size: 12px;
-    color: rgba(255,255,255,0.6);
-    margin-top: 4px;
-  }
-  .roi-formula-sep {
-    font-size: 28px;
-    color: rgba(255,255,255,0.4);
-  }
+/* ALERT */
+.alert { border-radius:9px; padding:14px 18px; font-size:13px; line-height:1.7; margin-bottom:14px; display:flex; gap:10px; }
+.alert.w { background:rgba(230,126,34,.08); border:1px solid rgba(230,126,34,.2); color:#7a4008; }
+.alert.i { background:rgba(45,90,61,.06); border:1px solid rgba(45,90,61,.14); color:var(--dg); }
+.alert.y { background:rgba(201,162,39,.08); border:1px solid rgba(201,162,39,.24); color:#7a5008; }
+.alert-ic { font-size:17px; flex-shrink:0; }
 
-  /* KPI */
-  .kpi-item {
-    background: var(--card-bg);
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: var(--shadow);
-    border: 1px solid var(--border);
-  }
-  .kpi-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-  }
-  .kpi-name { font-weight: 700; font-size: 15px; }
-  .kpi-node { font-size: 12px; color: var(--text-secondary); }
-  .kpi-values {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 10px;
-  }
-  .kpi-current {
-    text-align: center;
-  }
-  .kpi-current .kv { font-size: 20px; font-weight: 700; color: var(--text-secondary); }
-  .kpi-current .kl { font-size: 11px; color: var(--text-secondary); }
-  .kpi-arrow {
-    font-size: 24px;
-    color: var(--primary);
-  }
-  .kpi-target {
-    text-align: center;
-  }
-  .kpi-target .kv { font-size: 24px; font-weight: 800; color: var(--primary); }
-  .kpi-target .kl { font-size: 11px; color: var(--primary); }
-  .kpi-bar {
-    height: 6px;
-    background: #F0ECE8;
-    border-radius: 3px;
-    overflow: hidden;
-  }
-  .kpi-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--primary), var(--accent));
-    border-radius: 3px;
-  }
+/* HIGHLIGHT */
+.hl-box { background:linear-gradient(135deg,var(--dg),var(--mg)); border-radius:14px; padding:28px; color:#fff; text-align:center; }
+.hl-box h3 { font-size:17px; color:var(--goldl); margin-bottom:8px; }
+.hl-box p { font-size:13px; color:rgba(255,255,255,.8); line-height:1.8; }
+.hl-metrics { display:flex; justify-content:center; gap:40px; margin-top:20px; }
+.hm { text-align:center; }
+.hm-n { font-size:28px; font-weight:700; color:var(--goldl); }
+.hm-l { font-size:11px; color:rgba(255,255,255,.55); margin-top:3px; }
 
-  /* MEMBER TABLE */
-  .member-tier {
-    background: var(--card-bg);
-    border-radius: 12px;
-    padding: 20px;
-    border: 2px solid var(--border);
-    text-align: center;
-    transition: all 0.2s;
-  }
-  .member-tier.active {
-    border-color: var(--primary);
-    background: linear-gradient(135deg, #FFF8F4, #FFF0E8);
-  }
-  .member-tier .tier-name {
-    font-size: 18px;
-    font-weight: 800;
-    margin-bottom: 8px;
-  }
-  .member-tier .tier-condition {
-    font-size: 13px;
-    color: var(--text-secondary);
-    margin-bottom: 14px;
-  }
-  .member-tier .tier-benefits {
-    text-align: left;
-    font-size: 13px;
-    color: var(--text-secondary);
-    line-height: 1.8;
-  }
-
-  /* FOOTER */
-  .footer {
-    background: var(--secondary);
-    color: rgba(255,255,255,0.6);
-    text-align: center;
-    padding: 40px 24px;
-    font-size: 13px;
-  }
-  .footer .footer-brand {
-    font-size: 20px;
-    font-weight: 800;
-    color: white;
-    margin-bottom: 8px;
-  }
-  .footer .footer-brand span { color: #FFB347; }
-
-  /* DIVIDER */
-  .divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border), transparent);
-    margin: 40px 0;
-  }
-
-  /* QUOTE */
-  .quote-box {
-    background: linear-gradient(135deg, #FFF8F4, #FFF3ED);
-    border-left: 4px solid var(--primary);
-    border-radius: 0 12px 12px 0;
-    padding: 16px 20px;
-    font-size: 15px;
-    color: var(--secondary);
-    font-style: italic;
-    margin: 16px 0;
-  }
-
-  /* TAG */
-  .tag { display: inline-block; background: var(--light-bg); border: 1px solid var(--border); padding: 4px 12px; border-radius: 6px; font-size: 13px; color: var(--primary); margin: 3px; font-weight: 600; }
-
-  /* INFO ROW */
-  .info-row { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px dashed var(--border); }
-  .info-row:last-child { border-bottom: none; }
-  .info-row .info-key { font-size: 13px; color: var(--text-secondary); min-width: 90px; flex-shrink: 0; }
-  .info-row .info-val { font-size: 14px; font-weight: 600; color: var(--secondary); }
-
-  /* STICKY NOTE */
-  .sticky { background: #FFF9C4; border: 1px solid #F5E642; border-radius: 8px; padding: 14px 18px; font-size: 14px; color: #6B5900; }
-  .sticky strong { color: #4A3F00; }
-
-  /* ALERT */
-  .alert { display: flex; gap: 12px; padding: 14px 18px; border-radius: 12px; margin: 16px 0; }
-  .alert.alert-warning { background: #FFF3CD; border: 1px solid #FFCA28; }
-  .alert.alert-success { background: #E8F8F0; border: 1px solid #27AE60; }
-  .alert.alert-info { background: #E8F4FF; border: 1px solid #2980B9; }
-  .alert-icon { font-size: 20px; flex-shrink: 0; }
-  .alert-content { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
-  .alert-content strong { color: var(--secondary); }
-
-  /* RESPONSIVE */
-  @media (max-width: 768px) {
-    .cover h1 { font-size: 34px; }
-    .cover-stats { grid-template-columns: repeat(2, 1fr); }
-    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
-    .strategy-flow { flex-direction: column; }
-    .flow-arrow { transform: rotate(90deg); }
-  }
-
-  /* PRINT */
-  @media print {
-    .nav { display: none; }
-    .section { page-break-inside: avoid; }
-  }
+/* FOOTER */
+footer { background:linear-gradient(135deg,#0d2018,#1a3a2a); color:rgba(255,255,255,.55); text-align:center; padding:28px 24px; font-size:12px; margin-top:40px; }
+footer strong { color:var(--goldl); }
 </style>
 </head>
-
 <body>
 
-<!-- ===== COVER ===== -->
-<section class="cover" id="cover">
-  <div class="cover-badge">美团餐饮SaaS · 专属运营增长方案</div>
-  <h1>进化饭店<br><span>盈利突破方案</span></h1>
-  <p class="cover-subtitle">
-    用<em>会员私域+外卖开源+储值锁客</em>三板斧<br>
-    60天让一年50万房租不再是压力
-  </p>
-  
-  <div class="cover-stats">
-    <div class="cover-stat">
-      <span class="num">4.8⭐</span>
-      <span class="label">大众点评评分</span>
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">老店提升 · 数字化运营方案</div>
+    <h1>进化饭店 · <span>盈利提升全案</span></h1>
+    <div class="hero-sub">浙菜/杭帮菜 · 萧山区蜀山街道商圈 · 350㎡ · 美团餐饮SaaS运营策划团队</div>
+    <div class="hero-tags">
+      <span class="hero-tag">📍 萧金路1216号</span>
+      <span class="hero-tag">👥 人均 ¥111</span>
+      <span class="hero-tag">⭐ 4.8分 / 61条评价</span>
+      <span class="hero-tag gold">🎯 年租50万 · 亟需提升盈利</span>
+      <span class="hero-tag gold">✅ 已签约：旗舰版会员 + 外卖 + 预订</span>
     </div>
-    <div class="cover-stat">
-      <span class="num">111元</span>
-      <span class="label">客单价</span>
-    </div>
-    <div class="cover-stat">
-      <span class="num">350㎡</span>
-      <span class="label">门店面积</span>
-    </div>
-    <div class="cover-stat">
-      <span class="num">+30%</span>
-      <span class="label">目标月营收增幅</span>
+    <div class="hero-stats">
+      <div class="stat-box"><div class="stat-v">111</div><div class="stat-l">当前人均(元)</div></div>
+      <div class="stat-box"><div class="stat-v">4.8</div><div class="stat-l">点评评分</div></div>
+      <div class="stat-box"><div class="stat-v">350</div><div class="stat-l">门店面积(㎡)</div></div>
+      <div class="stat-box"><div class="stat-v">50万</div><div class="stat-l">年租压力(元)</div></div>
     </div>
   </div>
-  
-  <div class="cover-meta">
-    <span>📍 杭州萧山区 萧金路1216号</span>
-    <span>🍽️ 浙菜 / 杭帮菜</span>
-    <span>📅 2026年05月</span>
-    <span>制作方：美团餐饮SaaS · 陈国庆</span>
-  </div>
-</section>
+</div>
 
-<!-- NAV -->
-<nav class="nav">
-  <div class="nav-inner">
-    <a href="#summary" class="nav-item active">📋 行动摘要</a>
-    <a href="#diagnosis" class="nav-item">🔍 门店诊断</a>
-    <a href="#strategy" class="nav-item">🎯 策略设计</a>
-    <a href="#operations" class="nav-item">🚀 运营方案</a>
-    <a href="#products" class="nav-item">⚙️ 产品匹配</a>
-    <a href="#roi" class="nav-item">💰 投资回报</a>
-    <a href="#kpi" class="nav-item">📊 KPI计划</a>
+<!-- ===== 数据基石 ===== -->
+<div class="wrap">
+<div class="sec">
+  <div class="sec-hd">
+    <div class="sec-icon">📊</div>
+    <div class="sec-title">数据基石 · 经营现状核算</div>
   </div>
-</nav>
 
-<!-- ===== SECTION 0: 首月行动摘要 ===== -->
-<section class="section" id="summary" style="background: var(--light-bg);">
-  <div class="container">
-    <div class="section-title">
-      <div class="section-icon">📋</div>
+  <div class="ds">
+    <div class="ds-lbl">当前经营基础数据（推算）</div>
+    <div class="ds-row">
+      <div class="ds-item"><div class="ds-num">111</div><div class="ds-unit">客单价(元)</div></div>
+      <div class="ds-item"><div class="ds-num">~80</div><div class="ds-unit">日均接待人次</div></div>
+      <div class="ds-item"><div class="ds-num">~8,880</div><div class="ds-unit">日均营业额(元)</div></div>
+      <div class="ds-item"><div class="ds-num">~26.6万</div><div class="ds-unit">月均营业额(元)</div></div>
+      <div class="ds-item"><div class="ds-num">~320万</div><div class="ds-unit">年营业额估算(元)</div></div>
+    </div>
+    <div class="ds-note">
+      ⚠️ 基于人均111元、350㎡正餐门店、行业翻台率2.2次/日估算（60座左右有效座位）。年租50万约占年营业额15.6%，叠加食材（40%）+人工（25%）+水电（4%），净利润空间极窄。<br>
+      <strong style="color:#e8c547">核心诊断：房租压力大、利润薄 → 必须靠提升客单价×翻台率×外卖增量三管齐下打破平衡点。</strong>
+    </div>
+  </div>
+</div>
+</div>
+
+<hr class="sep">
+
+<!-- ===== 第一章：门店诊断 ===== -->
+<div class="wrap">
+<div class="sec">
+  <div class="sec-hd">
+    <div class="sec-icon">🩺</div>
+    <div class="sec-title">第一章 · 门店诊断：我懂你的困境</div>
+  </div>
+
+  <div class="alert i">
+    <span class="alert-ic">💡</span>
+    <span>进化饭店4.8分的高评分说明菜品和服务没有问题，<strong>困境不是"做得不好"，而是"好但没有转化成利润"</strong>。评价质量高、客流有基础，缺的是让好口碑变现金流的运营机制。</span>
+  </div>
+
+  <div class="pain-grid">
+    <div class="pc r">
+      <div class="pc-icon">🏠</div>
+      <div class="pc-title">房租侵蚀利润</div>
+      <div class="pc-desc">年租50万，占估算年营业额约15.6%，远高于行业8-10%健康水位。每天光房租就需产出1,370元才保本。</div>
+      <div class="pc-num">→ 月房租成本约4.17万，是最重的固定成本</div>
+    </div>
+    <div class="pc o">
+      <div class="pc-icon">🔄</div>
+      <div class="pc-title">翻台率待提升</div>
+      <div class="pc-desc">350㎡正餐厅，若翻台率仅1.8次/日，大量时段桌位空置。宴请包厢场景利用率直接影响月营业额2-3万。</div>
+      <div class="pc-num">→ 翻台率提升0.5次/日 ≈ 月增营业额约3万</div>
+    </div>
+    <div class="pc b">
+      <div class="pc-icon">📱</div>
+      <div class="pc-title">外卖增量未释放</div>
+      <div class="pc-desc">堂食已接近饱和，外卖是纯增量。350㎡后厨有产能余量，但外卖目前可能月销量不足200单，缺乏系统运营。</div>
+      <div class="pc-num">→ 外卖破量至500单/月，月增收约3.5万</div>
+    </div>
+    <div class="pc p">
+      <div class="pc-icon">💳</div>
+      <div class="pc-title">现金流压力</div>
+      <div class="pc-desc">收支基本持平，月末发工资、交房租时资金紧张。缺乏"预收款"机制——储值沉淀可显著改善现金流节奏。</div>
+      <div class="pc-num">→ 100位储值会员×600元 = 提前锁入6万现金</div>
+    </div>
+    <div class="pc g">
+      <div class="pc-icon">👑</div>
+      <div class="pc-title">客单价提升空间</div>
+      <div class="pc-desc">杭帮菜正餐111元客单属中偏低区间，蜀山街道商务宴请需求旺盛，但套餐/宴请包设计不足，客户自然升单路径不清晰。</div>
+      <div class="pc-num">→ 客单价提升至128元，月增营业额约2.4万</div>
+    </div>
+    <div class="pc y">
+      <div class="pc-icon">😴</div>
+      <div class="pc-title">老客沉睡流失</div>
+      <div class="pc-desc">61条评价、4.8分说明有忠实客群，但缺乏唤醒机制。若沉睡会员占比40%，每月至少有30%的复购机会在流失。</div>
+      <div class="pc-num">→ 激活沉睡会员200人 ≈ 月增到访频次约1.8万元</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<hr class="sep">
+
+<!-- ===== 第二章：竞品 ===== -->
+<div class="wrap">
+<div class="sec">
+  <div class="sec-hd">
+    <div class="sec-icon">🗺️</div>
+    <div class="sec-title">第二章 · 商圈洞察：谁在和你抢生意</div>
+  </div>
+
+  <div class="alert w">
+    <span class="alert-ic">📍</span>
+    <span>聚焦蜀山街道3-5公里商圈，萧山区商务宴请/家庭聚会需求旺盛，周边竞品以传统浙菜、融合菜为主。进化饭店4.8分处于区域领先位置，关键是<strong>把评分优势转化成到店优势</strong>。</span>
+  </div>
+
+  <div class="card">
+    <div class="card-title">周边主要竞品对比（蜀山街道3-5公里）</div>
+    <table class="ct">
+      <thead>
+        <tr>
+          <th>竞品门店</th>
+          <th>人均</th>
+          <th>评分</th>
+          <th>核心弱点</th>
+          <th>进化饭店切入机会</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>萧山老字号杭帮菜馆</strong><br><small>传统型，装修老旧</small></td>
+          <td>¥95</td>
+          <td>4.5</td>
+          <td><span class="tw">无数字化会员</span><br><span class="tw">无预订系统</span></td>
+          <td><span class="to">高评分溢价</span><br><span class="to">预订抢先机</span></td>
+        </tr>
+        <tr>
+          <td><strong>萧金路商务餐厅A</strong><br><small>写字楼商务宴请</small></td>
+          <td>¥130</td>
+          <td>4.3</td>
+          <td><span class="tw">差评处理慢</span><br><span class="tw">外卖不活跃</span></td>
+          <td><span class="to">评价运营优势</span><br><span class="to">外卖抢占份额</span></td>
+        </tr>
+        <tr>
+          <td><strong>蜀山街道融合菜B</strong><br><small>新开2年，营销活跃</small></td>
+          <td>¥105</td>
+          <td>4.6</td>
+          <td><span class="tw">人均低、利润薄</span><br><span class="tw">无宴请场景</span></td>
+          <td><span class="to">宴请包厢差异化</span><br><span class="to">储值锁定忠客</span></td>
+        </tr>
+        <tr>
+          <td><strong>周边火锅/烤肉店</strong><br><small>高频聚餐竞品</small></td>
+          <td>¥120-160</td>
+          <td>4.4</td>
+          <td><span class="tw">品类局限</span><br><span class="tw">不适合商务宴请</span></td>
+          <td><span class="to">正式宴请首选定位</span></td>
+        </tr>
+        <tr class="hl">
+          <td>🟢 <strong>进化饭店</strong></td>
+          <td>¥111</td>
+          <td><strong>4.8 ⭐</strong></td>
+          <td>现金流偏紧<br>外卖待发力</td>
+          <td><strong>区域评分第一 · 全面数字化运营优势</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="margin-top:18px;">
+    <div class="alert i">
+      <span class="alert-ic">🎯</span>
+      <span><strong>核心判断：</strong>进化饭店4.8分已在区域建立口碑护城河，竞品最怕你的是"评分高+数字化运营能力强"的组合。当务之急是用会员储值锁住老客、用预订系统吃下商务宴请市场、用外卖接入打开增量通道。</span>
+    </div>
+  </div>
+</div>
+</div>
+
+<hr class="sep">
+
+<!-- ===== 第三章：产品场景化 ===== -->
+<div class="wrap">
+<div class="sec">
+  <div class="sec-hd">
+    <div class="sec-icon">🔧</div>
+    <div class="sec-title">第三章 · 产品场景化：你的问题→这个功能→见效</div>
+  </div>
+
+  <div class="ps-grid">
+    <div class="psc">
+      <div class="psc-title">🏠 房租压力 → 储值改善现金流</div>
+      <div class="psc-prob">每月月末还没到账房租就要交了，资金紧张，靠每天营业额周转。</div>
+      <div class="psc-sol">会员旗舰版储值功能：扫码点餐结账时一键推储值，POS提示"储¥500得¥550"。月初储值集中到账，提前锁定6-8万现金。</div>
+      <div class="psc-eff">100位储值用户×600元均档 = 预收6万，相当于月租金的1.4倍。</div>
+    </div>
+    <div class="psc">
+      <div class="psc-title">🔄 翻台率低 → 在线预订防空位</div>
+      <div class="psc-prob">很多顾客打电话问有没有位子，没有接到就去别家了；节假日走进来的客人不知道要预约包厢。</div>
+      <div class="psc-sol">智能预订系统：美团/大众点评平台订位汇聚到一个屏幕，电话来电弹出顾客信息，包厢提前锁定，高峰期无撞座。</div>
+      <div class="psc-eff">预订率提升20%，减少空等走客，翻台率提升0.3次/日 ≈ 月增收约1.8万。</div>
+    </div>
+    <div class="psc">
+      <div class="psc-title">📱 外卖增量 → 外卖接入系统化</div>
+      <div class="psc-prob">外卖单零散接，下单来了后厨不知道，出餐慢、差评多；平台活动不知道怎么参加，一直在第二页。</div>
+      <div class="psc-sol">美团外卖一键接单（订单到收银系统）+ 多平台经营专家（竞品监控+差评预警+活动推荐），后厨KDS联动出餐。</div>
+      <div class="psc-eff">外卖月销从100单→500单，月增收约3.5万（人均外卖客单约70元×400单增量）。</div>
+    </div>
+    <div class="psc">
+      <div class="psc-title">👑 客单价偏低 → 会员升单机制</div>
+      <div class="psc-prob">顾客点菜没有明显的升单引导，有人想加菜但没看到推荐，宴请桌经常超出预期反而觉得没档次。</div>
+      <div class="psc-sol">扫码点餐页面设置"推荐套餐"组合，POS结账时显示会员专属加购优惠；会员高消费自动升级享宴请优先预订。</div>
+      <div class="psc-eff">客单价从111元→128元，增幅15%，月增营业额约2.4万。</div>
+    </div>
+    <div class="psc">
+      <div class="psc-title">😴 老客流失 → 沉睡唤醒</div>
+      <div class="psc-prob">有些老顾客60天没来，根本不知道是去了别家还是出去了；没有办法主动联系他们。</div>
+      <div class="psc-sol">旗舰版会员：按"最后消费距今天数"精准分组，对45-90天未消费会员自动推送"老友回归专享券¥20"。</div>
+      <div class="psc-eff">唤醒率15%×沉睡会员300人×45元贡献 = 月增约2,025元，持续累积。</div>
+    </div>
+    <div class="psc">
+      <div class="psc-title">⭐ 评分优势 → 平台曝光变流量</div>
+      <div class="psc-prob">4.8分是商圈最高分，但门店在大众点评排名却不靠前，新客找不到你，好评没有转化成流量。</div>
+      <div class="psc-sol">收银系统支付后自动引导好评，买单销量同步到点评提升排名权重；团购会员卡让平台用户直接入会。</div>
+      <div class="psc-eff">点评排名从第8-10位→前3位，自然流量月增20%，新客月增约40人次。</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<hr class="sep">
+
+<!-- ===== 第四章：公私域联动 ===== -->
+<div class="wrap">
+<div class="sec">
+  <div class="sec-hd">
+    <div class="sec-icon">🌐</div>
+    <div class="sec-title">第四章 · 公私域联动：引流 × 留客 × 转化</div>
+  </div>
+
+  <!-- 公域 -->
+  <div style="margin-bottom:24px;">
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+      <span class="dom-badge pub">公 域</span>
+      <span style="font-size:15px; font-weight:700; color:var(--td);">大众点评 + 美团外卖 · 拉新引流主战场</span>
+    </div>
+    <div class="op-items">
+      <div class="op-item">
+        <div class="op-title">📸 点评评分冲刺 <span class="ttag">评价专家</span></div>
+        <div class="op-desc">目标：从61条评价→6个月内积累200条。结账后收银机自动弹好评引导页，店员口头确认一句"扫码评价有惊喜"。4.8分+200条评价 = 商圈必吃榜候选资格。</div>
+      </div>
+      <div class="op-item">
+        <div class="op-title">🎁 团购套餐上新 <span class="ttag">多平台经营</span></div>
+        <div class="op-desc">设计"¥198双人尝鲜套餐"（含招牌菜3道+汤+小食），大众点评上线。设定月核销量指标80单，核销后系统自动引导会员注册。</div>
+      </div>
+      <div class="op-item">
+        <div class="op-title">🚴 外卖破量计划 <span class="ttag">外卖接入</span></div>
+        <div class="op-desc">设计4款外卖套餐（¥58单人餐/¥108双人餐/¥168家庭餐/¥238聚会餐），参与美团"满减活动"，开启外卖运营前3个月冲量阶段。目标：月销500单。</div>
+      </div>
+      <div class="op-item">
+        <div class="op-title">🏷️ 点评标签优化 <span class="ttag">平台运营</span></div>
+        <div class="op-desc">引导好评集中提及"蜀山街道最好吃杭帮菜""商务宴请首选""招牌西湖醋鱼"等关键词，带动搜索排名。每月监控标签变化，调整引导话术。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 私域 -->
+  <div style="margin-bottom:24px;">
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+      <span class="dom-badge pri">私 域</span>
+      <span style="font-size:15px; font-weight:700; color:var(--td);">美团会员系统 · 锁客养客变现</span>
+    </div>
+    <div class="op-items">
+      <div class="op-item">
+        <div class="op-title">📲 默认入会扫码 <span class="ttag">旗舰版会员</span></div>
+        <div class="op-desc">扫码点餐即自动注册会员（零障碍），首单完成后弹出"欢迎成为进化饭店会员，赠您专属8折折扣券×1"。目标：月新增会员150人。</div>
+      </div>
+      <div class="op-item">
+        <div class="op-title">💰 储值激励机制 <span class="ttag">智能储值</span></div>
+        <div class="op-desc">500元存550元（返10%）/ 800元存920元（返15%）/ 1500元存1800元（返20%）。店员在结账时一句话推：「您今天消费了XX元，储500可以省50元，下次直接抵」。</div>
+      </div>
+      <div class="op-item">
+        <div class="op-title">🎂 生日礼 + 节日营销 <span class="ttag">40+营销玩法</span></div>
+        <div class="op-desc">会员生日月自动推送"生日专属礼：到店赠招牌菜1道"，春节/中秋/端午等节日前3天定向推送"节庆团圆宴预订优惠"。触达精准，成本极低。</div>
+      </div>
+      <div class="op-item">
+        <div class="op-title">🔁 沉睡唤醒 + 裂变 <span class="ttag">旗舰版专属</span></div>
+        <div class="op-desc">45天未到店会员推"回来吃一顿，送您价值28元小菜券"；老带新：分享给朋友首次消费，老会员获20元储值金。旗舰版裂变功能自动追踪。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 联动逻辑 -->
+  <div class="link-box">
+    <strong>🔗 公私域联动闭环：</strong>大众点评高分曝光 → 新客进店扫码默认入会 → 消费后引导好评（反哺公域排名）→ 会员数据积累后精准触达复购 → 储值锁定高价值客户 → 储值客户主动带朋友来（新一轮公域口碑）。<br>
+    每一个环节都由美团SaaS工具自动执行，<strong>无需增加人手，老板只需关注月度数据复盘</strong>。
+  </div>
+</div>
+</div>
+
+<hr class="sep">
+
+<!-- ===== 第五章：储值方案 ===== -->
+<div class="wrap">
+<div class="sec">
+  <div class="sec-hd">
+    <div class="sec-icon">💳</div>
+    <div class="sec-title">第五章 · 储值方案：锁现金流 · 锁回头客</div>
+  </div>
+
+  <div class="alert y">
+    <span class="alert-ic">💡</span>
+    <span>基于111元客单价，储值档位设计遵循「客单价×3-5次」原则，主推¥500-¥800档。储值不是打折，是用"存钱赠金"换取顾客的消费承诺，改善门店现金流的同时锁定复购。</span>
+  </div>
+
+  <div class="sc-grid">
+    <div class="scc">
+      <div class="sc-lv">体验档</div>
+      <div class="sc-amt"><span>¥</span>300</div>
+      <div class="sc-gift">赠 ¥30（共¥330可用）</div>
+      <ul class="sc-bens">
+        <li>新客首次低门槛入门</li>
+        <li>约3次到店消费保障</li>
+        <li>开通会员专属价格</li>
+        <li>每月1张85折券</li>
+      </ul>
+    </div>
+    <div class="scc main">
+      <div class="sc-lv">主推档</div>
+      <div class="sc-amt"><span>¥</span>600</div>
+      <div class="sc-gift">赠 ¥60（共¥660可用）</div>
+      <ul class="sc-bens">
+        <li>约5-6次到店消费</li>
+        <li>宴请优先预订权</li>
+        <li>生日当月赠招牌菜1道</li>
+        <li>每月2张9折券</li>
+        <li>停车优惠码（合作停车场）</li>
+      </ul>
+    </div>
+    <div class="scc">
+      <div class="sc-lv">尊享档</div>
+      <div class="sc-amt"><span>¥</span>1,500</div>
+      <div class="sc-gift">赠 ¥300（共¥1,800可用）</div>
+      <ul class="sc-bens">
+        <li>约13-15次到店消费</li>
+        <li>包厢专属预留服务</li>
+        <li>节假日宴请优先权</li>
+        <li>每月3张8折券</li>
+        <li>年度专属客户答谢</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">储值推广节奏 · 3个月计划</div>
+    <div class="g3" style="margin-top:0;">
       <div>
-        <h2>首月行动摘要</h2>
-        <p>老板5分钟看完这一页，就知道怎么干</p>
+        <div style="font-size:13px; font-weight:700; color:var(--dg); margin-bottom:8px;">第1个月：启动</div>
+        <div style="font-size:12px; color:var(--tm); line-height:1.8;">• 收银POS配置储值弹窗<br>• 店员培训推储值话术<br>• 目标：首月50位储值用户<br>• 预计回笼现金约3万</div>
       </div>
-    </div>
-
-    <div class="highlight-box">
-      <div class="hl-title">🎯 一句话策略</div>
-      <p style="font-size:16px; color: var(--secondary); line-height:1.7;">
-        以<strong>进化土鸡为爆品锚点</strong>，激活美团外卖新渠道开源增流，上线会员储值锁住老客复购，
-        用扫码点餐提升人均+10%——60天内月营收从保本线冲到<strong>月净增4.2万元</strong>，
-        让50万年租金压力从"压垮利润"变成"可覆盖成本"。
-      </p>
-    </div>
-
-    <div class="card" style="margin-bottom: 24px;">
-      <div class="card-title">📅 首月四周行动计划</div>
-      <table class="mtable">
-        <thead>
-          <tr>
-            <th style="width:100px">时间</th>
-            <th>核心动作</th>
-            <th style="width:200px">预期效果</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><span class="badge badge-orange">第1周</span></td>
-            <td>
-              ① 上线扫码点餐，设置"加一道"推荐弹窗（推荐土鸡锅底/蛏子）<br>
-              ② 完成会员体系搭建，入会礼：赠88元储值券（30天有效）<br>
-              ③ 美团外卖门店上线，首批团购套餐3款
-            </td>
-            <td>客单价提升目标 +11元/单<br>首周会员入会≥60人</td>
-          </tr>
-          <tr>
-            <td><span class="badge badge-blue">第2周</span></td>
-            <td>
-              ④ 启动"老客唤回"短信推送：「进化饭店会员专享，本周来店消费享8.8折」<br>
-              ⑤ 上线储值活动：充500送60，主推档充1000送150<br>
-              ⑥ 大众点评发起"霸王餐"活动（10份土鸡套餐），冲点评好评
-            </td>
-            <td>储值目标：≥5万元<br>点评新增好评≥15条</td>
-          </tr>
-          <tr>
-            <td><span class="badge badge-green">第3周</span></td>
-            <td>
-              ⑦ 启动"土鸡拼桌"团购套餐（2-4人套餐¥198），美团平台限量推广<br>
-              ⑧ 在线预订功能上线，周末可提前占桌，解决客流量高峰流失<br>
-              ⑨ 扫码点餐增加"招牌菜点评返利"引导语
-            </td>
-            <td>外卖/团购日均≥20单<br>预订量≥30桌/周</td>
-          </tr>
-          <tr>
-            <td><span class="badge badge-red">第4周</span></td>
-            <td>
-              ⑩ 推出"土鸡节"月度活动：凭会员卡购整鸡立减20元<br>
-              ⑪ 储值余额短信推送（有余额未消费用户），二次促活<br>
-              ⑫ BD复盘：对比KPI数据，调整下月活动节奏
-            </td>
-            <td>月环比营收增幅≥20%<br>会员活跃率≥60%</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="roi-box">
-      <div class="roi-title">总投入 → 月增收 → 回本周期</div>
-      <div class="roi-number">4.2万</div>
-      <div class="roi-unit">元/月 净增收（第2个月起稳定）</div>
-      <div class="roi-formula">
-        <div class="roi-formula-item">
-          <div class="rf-num">¥2.8万</div>
-          <div class="rf-label">软件+硬件总投入</div>
-        </div>
-        <div class="roi-formula-sep">÷</div>
-        <div class="roi-formula-item">
-          <div class="rf-num">¥4.2万</div>
-          <div class="rf-label">月均净增收</div>
-        </div>
-        <div class="roi-formula-sep">=</div>
-        <div class="roi-formula-item">
-          <div class="rf-num" style="color:white">约7天</div>
-          <div class="rf-label">硬件回本周期</div>
-        </div>
+      <div>
+        <div style="font-size:13px; font-weight:700; color:var(--dg); margin-bottom:8px;">第2-3个月：规模化</div>
+        <div style="font-size:12px; color:var(--tm); line-height:1.8;">• 发起"储值开卡月"活动<br>• 团购会员卡引流入私域<br>• 目标：累计储值用户150人<br>• 沉淀现金约9-10万</div>
+      </div>
+      <div>
+        <div style="font-size:13px; font-weight:700; color:var(--dg); margin-bottom:8px;">持续阶段：维护</div>
+        <div style="font-size:12px; color:var(--tm); line-height:1.8;">• 储值余额低于100元提醒续充<br>• 季度储值用户专属感谢活动<br>• 目标：储值用户续充率60%<br>• 形成稳定现金流正循环</div>
       </div>
     </div>
   </div>
-</section>
+</div>
+</div>
 
-<!-- ===== SECTION 1: 门店诊断 ===== -->
-<section class="section" id="diagnosis">
-  <div class="container">
-    <div class="section-title">
-      <div class="section-icon">🔍</div>
-      <div>
-        <h2>门店诊断</h2>
-        <p>先看清楚"哪里漏钱"，再开方子</p>
-      </div>
-    </div>
+<hr class="sep">
 
-    <!-- 数据概览 -->
-    <div class="card" style="margin-bottom: 24px;">
-      <div class="card-title">📊 门店数据快照（来源：大众点评公开数据）</div>
-      <div class="grid-4" style="margin-bottom: 20px;">
-        <div class="data-box">
-          <div class="value">4.8⭐</div>
-          <div class="label">大众点评评分</div>
-          <div class="note">61条真实评价</div>
-        </div>
-        <div class="data-box">
-          <div class="value">¥111</div>
-          <div class="label">人均消费</div>
-          <div class="note">浙菜中高客单</div>
-        </div>
-        <div class="data-box">
-          <div class="value">350㎡</div>
-          <div class="label">门店面积</div>
-          <div class="note">约60-70桌位容量</div>
-        </div>
-        <div class="data-box">
-          <div class="value">50万</div>
-          <div class="label">年租金</div>
-          <div class="note">日均成本≈1370元</div>
-        </div>
-      </div>
-      <div class="alert alert-info">
-        <span class="alert-icon">ℹ️</span>
-        <div class="alert-content">
-          <strong>数据推算：</strong>按350㎡容量约65桌，翻台率1.8次/天，客单111元，
-          日均流水约 65×1.8×111 = <strong>¥13,000元</strong>，月流水约<strong>39万元</strong>。
-          按行业浙菜成本结构（食材40%+人力22%+房租），50万年租（月4.17万）占月流水约10.7%，
-          属于<strong>租金偏高、利润被压缩</strong>的典型痛点。
-        </div>
-      </div>
-    </div>
+<!-- ===== 第六章：宴请大桌专项 ===== -->
+<div class="wrap">
+<div class="sec">
+  <div class="sec-hd">
+    <div class="sec-icon">🍽️</div>
+    <div class="sec-title">第六章 · 宴请专项：350㎡大店的核心增收场景</div>
+  </div>
 
-    <!-- 点评数据 -->
-    <div class="card" style="margin-bottom: 24px;">
-      <div class="card-title">📱 大众点评竞争分析（萧山区同品类参考）</div>
-      <table class="mtable">
-        <thead>
-          <tr><th>门店</th><th>人均</th><th>评分</th><th>核心优势</th><th>进化饭店机会</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>进化饭店（本店）</strong></td>
-            <td>¥111</td>
-            <td><span class="badge badge-green">4.8分</span></td>
-            <td>土鸡王牌、农家风格、4.8高分口碑</td>
-            <td>—</td>
-          </tr>
-          <tr>
-            <td>彩娥饭店（萧山）</td>
-            <td>¥90-120</td>
-            <td>4.7分</td>
-            <td>白切竹林鸡、萧山本地口碑</td>
-            <td>同品类，可通过外卖+预订差异化</td>
-          </tr>
-          <tr>
-            <td>棠季江南府第（萧山菜）</td>
-            <td>¥95</td>
-            <td>4.6分</td>
-            <td>连锁品牌、装修精致</td>
-            <td>本店性价比更高，土鸡更正宗</td>
-          </tr>
-          <tr>
-            <td>萧山本地农家菜</td>
-            <td>¥70-90</td>
-            <td>4.2-4.5</td>
-            <td>价格低</td>
-            <td>本店评分碾压，需利用评分优势拉新</td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="sticky" style="margin-top: 14px;">
-        <strong>📍 洞察：</strong>进化饭店4.8分在萧山区同品类属于顶尖水平，但评价数61条偏少，
-        说明口碑极好但曝光不足——这是最大的增长机会。高分但低曝光 = 待激活的金矿。
-      </div>
-    </div>
+  <div class="alert i">
+    <span class="alert-ic">🎯</span>
+    <span>蜀山街道商务宴请、家庭宴请需求旺盛。350㎡门店有包厢/大桌资源，<strong>宴请场景客单价可达180-350元/人</strong>，是提升客单价的最高效路径。当前问题：预订管理落后，高峰期包厢被散客占用，宴请客流失。</span>
+  </div>
 
-    <!-- 问题诊断 -->
+  <div class="g2">
     <div class="card">
-      <div class="card-title">⚠️ 核心问题诊断（4大漏洞）</div>
-      
-      <div class="problem-item">
-        <div class="prob-title">🔴 问题1：好口碑没有变成好生意——老客留存机制缺失</div>
-        <div class="prob-desc">
-          4.8分的评分说明出品质量极好，但61条评价数量偏少，说明没有系统引导顾客留下好评、二次消费。
-          没有会员体系，来过的客人下次来不来全靠感觉，没有"钩子"把他们拉回来。
-          估计老客回头率不足25%（行业正常水平40%+）。
-        </div>
-        <div class="prob-solution">→ 第三章·会员体系+储值方案解决</div>
-      </div>
-
-      <div class="problem-item">
-        <div class="prob-title">🔴 问题2：收入单靠堂食——外卖渠道=零</div>
-        <div class="prob-desc">
-          350㎡门店，服务半径局限在进化镇周边。搜索数据显示不少食客专门驾车来吃，
-          说明品牌已有区域知名度，但没有外卖渠道，无法服务萧山区更大范围的客群。
-          外卖可带来月均额外流水8-12万元，目前等于白白放弃了。
-        </div>
-        <div class="prob-solution">→ 第三章·美团外卖接入方案解决</div>
-      </div>
-
-      <div class="problem-item">
-        <div class="prob-title">🔴 问题3：客单价没充分挖掘——点餐效率低</div>
-        <div class="prob-desc">
-          传统服务员纸质点餐，消费者被动接受推荐，主动加购率低。
-          进化土鸡人均108-110元，但通过扫码点餐+智能推荐（配菜、酒水、特色小吃），
-          人均可以轻松提升10-15元（至少+10%）。每月多出3-5万收入。
-        </div>
-        <div class="prob-solution">→ 第三章·扫码点餐+客单提升方案解决</div>
-      </div>
-
-      <div class="problem-item">
-        <div class="prob-title">🟡 问题4：周末流量浪费——没有预订系统漏客</div>
-        <div class="prob-desc">
-          从搜索评价看，本店属于"开车30分钟专程来吃"级别的目的地餐厅，
-          周末翻台率高但缺少在线预订，到店扑空的客人大概率流失到竞品。
-          每周漏掉的"扑空客人"保守估计15-20桌，直接损失每周1.7-2.2万营收。
-        </div>
-        <div class="prob-solution">→ 第三章·在线预订方案解决</div>
+      <div class="card-title">预订管理系统化</div>
+      <div style="font-size:13px; color:var(--tm); line-height:1.8;">
+        <p>🔧 <strong>工具：</strong>智能预订系统</p>
+        <p style="margin-top:8px;">• 大众点评页面直接显示预订入口，顾客自助预订包厢</p>
+        <p>• 电话来电弹出客户信息，主动问"是几位用餐/是否需要包厢"</p>
+        <p>• 包厢台位单独管理，设置最少消费标准（4-6人桌¥600起/包厢¥1,200起）</p>
+        <p>• 预订后自动发短信确认+1小时前提醒，减少爽约</p>
+        <p style="margin-top:10px; color:var(--gold); font-weight:600;">📈 预计包厢利用率从40%→75%，月增包厢营收约1.5万</p>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ===== SECTION 2: 策略设计 ===== -->
-<section class="section" id="strategy" style="background: var(--light-bg);">
-  <div class="container">
-    <div class="section-title">
-      <div class="section-icon">🎯</div>
-      <div>
-        <h2>策略设计</h2>
-        <p>从门店独特资产出发，三板斧打通盈利闭环</p>
-      </div>
-    </div>
-
-    <!-- 品类机遇 -->
-    <div class="card" style="margin-bottom: 24px;">
-      <div class="card-title">🌱 浙菜/杭帮菜品类机遇（2026）</div>
-      <div class="grid-3">
-        <div style="padding: 16px; background: var(--light-bg); border-radius: 10px;">
-          <div style="font-size:24px; margin-bottom: 8px;">📈</div>
-          <div style="font-weight:700; margin-bottom: 6px;">地方菜崛起</div>
-          <div style="font-size:13px; color: var(--text-secondary);">2025年浙菜/杭帮菜搜索热度同比+35%，"正宗土菜"需求旺盛，外来游客和本地回流人口双驱动</div>
-        </div>
-        <div style="padding: 16px; background: var(--light-bg); border-radius: 10px;">
-          <div style="font-size:24px; margin-bottom: 8px;">🐔</div>
-          <div style="font-weight:700; margin-bottom: 6px;">土鸡赛道稀缺</div>
-          <div style="font-size:13px; color: var(--text-secondary);">搜索显示萧山区被誉为"吃鸡圣地"，进化土鸡在杭州有独特IP价值，竞品难以复制</div>
-        </div>
-        <div style="padding: 16px; background: var(--light-bg); border-radius: 10px;">
-          <div style="font-size:24px; margin-bottom: 8px;">🍱</div>
-          <div style="font-weight:700; margin-bottom: 6px;">外卖渗透提速</div>
-          <div style="font-size:13px; color: var(--text-secondary);">2025年餐饮外卖规模1.4万亿，正餐外卖渗透率提升到22%，品质正餐外卖需求持续增长</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 核心策略 -->
-    <div class="highlight-box">
-      <div class="hl-title">🎯 核心策略：土鸡锚点 × 三路开源 × 数字锁客</div>
-      <div class="strategy-flow">
-        <div class="flow-step">🐔 土鸡爆品<br><small>IP化+标准化</small></div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-step">📱 扫码点餐<br><small>客单+10%</small></div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-step">🛵 外卖开源<br><small>新增8万/月</small></div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-step">💎 储值锁客<br><small>回购率+15%</small></div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-step">📊 数据复盘<br><small>持续优化</small></div>
-      </div>
-    </div>
-
-    <!-- 资产分析 -->
-    <div class="card" style="margin-top: 24px;">
-      <div class="card-title">💎 进化饭店的独特资产（竞品无法复制的护城河）</div>
-      <div class="grid-2">
-        <div>
-          <div class="info-row">
-            <div class="info-key">🐔 土鸡IP</div>
-            <div class="info-val">进化土鸡=萧山区特产，外来食客专程驾车而来，口碑"必吃"级别，稀缺性极强</div>
-          </div>
-          <div class="info-row">
-            <div class="info-key">⭐ 4.8高分</div>
-            <div class="info-val">萧山同品类顶尖评分，说服力极强，新客转化率高于4.5分以下竞品50%+</div>
-          </div>
-          <div class="info-row">
-            <div class="info-key">🏠 350㎡大店</div>
-            <div class="info-val">可容纳大桌/包厢，适合家庭聚会/企业宴请，宴请场景溢价空间大</div>
-          </div>
-        </div>
-        <div>
-          <div class="info-row">
-            <div class="info-key">🌿 农家特色</div>
-            <div class="info-val">活鱼活虾、时令蔬菜、自酿杨梅酒，食材稀缺性是抵抗价格战的核武器</div>
-          </div>
-          <div class="info-row">
-            <div class="info-key">📍 老店资历</div>
-            <div class="info-val">老店老客基数大，一旦上线会员体系，老客价值可立即变现</div>
-          </div>
-          <div class="info-row">
-            <div class="info-key">🍷 自酿酒</div>
-            <div class="info-val">杨梅烧酒差异化产品，既是体验亮点，也是高毛利商品</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== SECTION 3: 运营方案 ===== -->
-<section class="section" id="operations">
-  <div class="container">
-    <div class="section-title">
-      <div class="section-icon">🚀</div>
-      <div>
-        <h2>运营方案</h2>
-        <p>每个动作都有时间、金额、工具路径和预期效果</p>
-      </div>
-    </div>
-
-    <!-- 3.1 会员体系 -->
-    <div class="card" style="margin-bottom: 24px;">
-      <div class="card-title">💎 3.1 会员体系设计</div>
-      
-      <div class="alert alert-info" style="margin-bottom: 20px;">
-        <span class="alert-icon">💡</span>
-        <div class="alert-content">
-          <strong>设计逻辑：</strong>进化饭店客单111元，属于中高客单正餐，采用"低门槛入会+高价值升级"策略。
-          扫码点餐时强制引导入会，入会礼足够有吸引力让食客当场行动。
-        </div>
-      </div>
-
-      <div class="grid-3" style="margin-bottom: 20px;">
-        <div class="member-tier">
-          <div class="tier-name" style="color: #CD7F32;">🥉 普通会员</div>
-          <div class="tier-condition">扫码即入，零门槛</div>
-          <div class="tier-benefits">
-            ✅ 入会赠88元储值券（30天有效）<br>
-            ✅ 生日月享9折<br>
-            ✅ 积分累计：每消费1元=1分<br>
-            ✅ 会员价菜品折扣
-          </div>
-        </div>
-        <div class="member-tier active">
-          <div class="tier-name" style="color: #C0C0C0;">🥈 银卡会员</div>
-          <div class="tier-condition">累计消费≥500元</div>
-          <div class="tier-benefits">
-            ✅ 以上所有权益<br>
-            ✅ 堂食9折优惠<br>
-            ✅ 每月一张50元代金券<br>
-            ✅ 免费停车协调服务<br>
-            ✅ 预订优先席位
-          </div>
-        </div>
-        <div class="member-tier">
-          <div class="tier-name" style="color: #FFD700;">🥇 金卡会员</div>
-          <div class="tier-condition">累计消费≥2000元</div>
-          <div class="tier-benefits">
-            ✅ 以上所有权益<br>
-            ✅ 88折优惠<br>
-            ✅ 每月120元代金券<br>
-            ✅ 专属包厢优先预留<br>
-            ✅ 新菜品首品资格<br>
-            ✅ 土鸡节专属礼品
-          </div>
-        </div>
-      </div>
-
-      <div class="sticky">
-        <strong>🔧 工具路径：</strong>美团会员管理旗舰版 → 会员等级设置 → 等级权益配置 →
-        扫码点餐页面自动弹出入会引导（顾客到桌扫码，第一步即看到「扫码入会领88元券」）
-      </div>
-    </div>
-
-    <!-- 3.2 储值方案 -->
-    <div class="card" style="margin-bottom: 24px;">
-      <div class="card-title">💰 3.2 储值方案设计（从客单111元推算）</div>
-      
-      <table class="mtable" style="margin-bottom: 16px;">
-        <thead>
-          <tr><th>档位</th><th>充值</th><th>赠送</th><th>折扣率</th><th>推算逻辑</th><th>设计目的</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>引流档</td>
-            <td><strong>¥300</strong></td>
-            <td>送¥30券</td>
-            <td>9折</td>
-            <td>客单×2.7次消费，低门槛试水</td>
-            <td>让犹豫的人"先充小额试试"</td>
-          </tr>
-          <tr class="highlight-row">
-            <td>⭐ 主推档</td>
-            <td><strong>¥600</strong></td>
-            <td>送¥90现金</td>
-            <td>8.7折</td>
-            <td>客单×5.4次消费，性价比最优</td>
-            <td><strong>员工重点推这档，ROI最高</strong></td>
-          </tr>
-          <tr>
-            <td>大额档</td>
-            <td><strong>¥1500</strong></td>
-            <td>送¥300+土鸡1只</td>
-            <td>8.3折</td>
-            <td>客单×13.5次消费，锁住高价值老客</td>
-            <td>让主推档看起来更划算</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="grid-2">
-        <div class="alert alert-success">
-          <span class="alert-icon">💡</span>
-          <div class="alert-content">
-            <strong>储值话术（员工版）：</strong><br>
-            「您好，我们现在有会员储值活动，充600元送90元现金，相当于打了8.7折，
-            您今天的消费也可以直接从余额里扣。多来几次就回本了，很多老客都选这个档。」
-          </div>
-        </div>
-        <div class="alert alert-warning">
-          <span class="alert-icon">⚠️</span>
-          <div class="alert-content">
-            <strong>储值活动时间节点：</strong><br>
-            第1个月：上线储值系统，推出「会员日双倍积分+储值加赠」活动<br>
-            目标：首月储值金额≥5万元<br>
-            （按日均50桌×25%储值转化率×主推档600元=¥7,500/天）
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 3.3 营销活动排期 -->
-    <div class="card" style="margin-bottom: 24px;">
-      <div class="card-title">📅 3.3 首月营销活动排期</div>
-      
-      <div class="grid-2" style="margin-bottom: 16px;">
-        <div class="activity-card">
-          <span class="activity-week">第1周</span>
-          <div class="activity-name">🐔 「土鸡鉴赏家」扫码入会礼</div>
-          <div class="activity-desc">
-            顾客到桌扫码点餐，弹出「首次扫码入会，立得88元代金券（30天有效）」。
-            同时菜单页面置顶显示「本店土鸡今日现杀，建议搭配：鸡汤面 / 葱油蛏子」。
-          </div>
-          <div class="activity-meta">
-            <div class="activity-meta-item">
-              <div class="key">活动成本</div>
-              <div class="val orange">入会成本≈¥22/人（88×25%核销率）</div>
-            </div>
-            <div class="activity-meta-item">
-              <div class="key">目标</div>
-              <div class="val green">首周入会≥60人</div>
-            </div>
-            <div class="activity-meta-item">
-              <div class="key">🔧工具</div>
-              <div class="val">扫码点餐 → 会员设置 → 入会礼配置</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="activity-card">
-          <span class="activity-week">第2周</span>
-          <div class="activity-name">💾 「老客感恩月」储值启动</div>
-          <div class="activity-desc">
-            向已有联系方式的老顾客发送短信：「进化饭店感谢一路陪伴，本周储值600元赠150元（限本周），
-            您可以省掉一顿土鸡钱」。
-          </div>
-          <div class="activity-meta">
-            <div class="activity-meta-item">
-              <div class="key">活动成本</div>
-              <div class="val orange">赠送比例25%，成本可控</div>
-            </div>
-            <div class="activity-meta-item">
-              <div class="key">目标</div>
-              <div class="val green">储值额≥5万元/首月</div>
-            </div>
-            <div class="activity-meta-item">
-              <div class="key">🔧工具</div>
-              <div class="val">会员管理 → 短信营销 → 储值活动</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="activity-card">
-          <span class="activity-week">第3周</span>
-          <div class="activity-name">🛵 「土鸡到家」外卖开门红</div>
-          <div class="activity-desc">
-            美团外卖上线首周，推出「开业优惠：整只土鸡套餐¥198（原价¥248），
-            含鸡汤面+臭豆腐，限每日10份」。配合门店海报：「外卖不用等位了！」
-          </div>
-          <div class="activity-meta">
-            <div class="activity-meta-item">
-              <div class="key">活动成本</div>
-              <div class="val orange">补贴¥50/单，首周上限¥700</div>
-            </div>
-            <div class="activity-meta-item">
-              <div class="key">目标</div>
-              <div class="val green">外卖首周≥50单</div>
-            </div>
-            <div class="activity-meta-item">
-              <div class="key">🔧工具</div>
-              <div class="val">美团外卖后台 → 新店活动 → 限量团购</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="activity-card">
-          <span class="activity-week">第4周</span>
-          <div class="activity-name">⭐ 「进化土鸡节」会员专享</div>
-          <div class="activity-desc">
-            每月第4周设定为「土鸡节」：会员消费整鸡立减20元，
-            同时引导晒照打卡大众点评（晒图送杨梅酒1瓶，成本约8元）。
-            目标：单月新增点评≥20条。
-          </div>
-          <div class="activity-meta">
-            <div class="activity-meta-item">
-              <div class="key">活动成本</div>
-              <div class="val orange">≈¥1,200/月（60人×20元减免）</div>
-            </div>
-            <div class="activity-meta-item">
-              <div class="key">目标</div>
-              <div class="val green">点评新增≥20条/月</div>
-            </div>
-            <div class="activity-meta-item">
-              <div class="key">🔧工具</div>
-              <div class="val">会员活动设置 → 扫码点餐弹窗提醒</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 3.4 外卖运营 -->
-    <div class="card" style="margin-bottom: 24px;">
-      <div class="card-title">🛵 3.4 美团外卖开通方案（新渠道最快见效）</div>
-      
-      <div class="alert alert-warning" style="margin-bottom: 16px;">
-        <span class="alert-icon">🎯</span>
-        <div class="alert-content">
-          <strong>为什么要开外卖？</strong> 进化饭店350㎡堂食已接近容量上限，堂食营收天花板约40万/月。
-          开通外卖=无需新增房租，纯新增收入，边际成本极低。
-          搜索数据显示"萧山进化土鸡"已有知名度，外卖可服务无法到店的远距离客群。
-        </div>
-      </div>
-
-      <table class="mtable">
-        <thead>
-          <tr><th>动作</th><th>具体内容</th><th>预期效果</th><th>时间节点</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>外卖菜单设计</td>
-            <td>
-              主打套餐3款：<br>
-              ① 土鸡2人套餐¥168（土鸡半只+2配菜+米饭×2）<br>
-              ② 土鸡家庭套餐¥298（土鸡整只+4配菜+米饭×4）<br>
-              ③ 单人尝鲜¥58（鸡腿+葱油蛏子+米饭）
-            </td>
-            <td>套餐毛利率≥55%</td>
-            <td>上线前</td>
-          </tr>
-          <tr>
-            <td>评分冲量</td>
-            <td>前50单消费后自动发送「好评返5元」短信，引导留5星好评</td>
-            <td>开店评分≥4.8</td>
-            <td>上线首2周</td>
-          </tr>
-          <tr>
-            <td>新店活动</td>
-            <td>新店减免：前100单每单减10元；美团满减：满80减10</td>
-            <td>日均单量≥20单</td>
-            <td>上线首月</td>
-          </tr>
-          <tr>
-            <td>时段运营</td>
-            <td>午餐11:00-13:30、晚餐17:00-20:00，设置不同时段推荐菜单</td>
-            <td>覆盖两餐时段</td>
-            <td>稳定期</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- 3.5 在线预订 -->
-    <div class="card" style="margin-bottom: 24px;">
-      <div class="card-title">📅 3.5 在线预订——解决周末流失</div>
-      <div class="grid-2">
-        <div>
-          <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 14px;">
-            目前周末客满导致大量专程来客扑空，在线预订可：
-          </p>
-          <div class="info-row">
-            <div class="info-key">预订渠道</div>
-            <div class="info-val">美团/大众点评双渠道在线预订</div>
-          </div>
-          <div class="info-row">
-            <div class="info-key">预订规则</div>
-            <div class="info-val">提前1小时预订，6桌以上需付100元订金</div>
-          </div>
-          <div class="info-row">
-            <div class="info-key">自动提醒</div>
-            <div class="info-val">预订成功后自动短信确认，用餐前2小时短信提醒</div>
-          </div>
-          <div class="info-row">
-            <div class="info-key">预计收益</div>
-            <div class="info-val">每周减少流失10桌 × 111元 × 4人 = 周增¥4,440</div>
-          </div>
-        </div>
-        <div class="data-box" style="display:flex; flex-direction:column; justify-content:center;">
-          <div class="value">+¥1.78万</div>
-          <div class="label" style="margin-top: 8px;">在线预订每月减少流失营收</div>
-          <div class="note" style="margin-top: 8px;">按每周漏掉10桌估算</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 3.6 峰终体验 -->
     <div class="card">
-      <div class="card-title">✨ 3.6 峰终体验设计（零成本提升口碑）</div>
-      <table class="mtable">
-        <thead>
-          <tr><th>触点类型</th><th>触点</th><th>落地方式</th><th>工具</th><th>成本</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><span class="badge badge-orange">峰值</span></td>
-            <td>土鸡上桌仪式</td>
-            <td>服务员上土鸡时说「这是今天现杀的进化土鸡，请慢用」，配小卡片介绍土鸡产地</td>
-            <td>印刷卡片（成本0.2元/张）</td>
-            <td>¥0.2/桌</td>
-          </tr>
-          <tr>
-            <td><span class="badge badge-orange">峰值</span></td>
-            <td>扫码推荐惊喜</td>
-            <td>扫码点餐时弹出「今日特供：湖鲜现捞，只剩3份」制造稀缺感</td>
-            <td>扫码点餐系统</td>
-            <td>¥0</td>
-          </tr>
-          <tr>
-            <td><span class="badge badge-green">终值</span></td>
-            <td>结账引导储值</td>
-            <td>结账时服务员提醒：「我们有储值活动，充600元送90元，您今天的消费也算在里面」</td>
-            <td>收银系统话术培训</td>
-            <td>¥0</td>
-          </tr>
-          <tr>
-            <td><span class="badge badge-green">终值</span></td>
-            <td>离店好评引导</td>
-            <td>支付后自动弹出「点击评价送杨梅酒1小瓶」（微信小程序消息），次日核销</td>
-            <td>扫码点餐+会员系统</td>
-            <td>¥8/人（杨梅酒成本）</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="card-title">宴请套餐设计</div>
+      <div style="font-size:13px; color:var(--tm); line-height:1.8;">
+        <p>🍽️ <strong>推荐套餐档位：</strong></p>
+        <p style="margin-top:8px;">• <strong>商务便宴套餐：</strong>¥398（4人），含6菜1汤</p>
+        <p>• <strong>家庭团圆套餐：</strong>¥688（6人），含9菜1汤+果盘</p>
+        <p>• <strong>尊享宴请套餐：</strong>¥1,280（10人），含14菜2汤+饮品</p>
+        <p style="margin-top:10px;">在大众点评和扫码点餐页面重点展示，设置"提前预订送甜品"钩子。</p>
+        <p style="margin-top:8px; color:var(--gold); font-weight:600;">📈 宴请套餐带动客单价提升至均130元+，月增收约2万</p>
+      </div>
     </div>
   </div>
-</section>
+</div>
+</div>
 
-<!-- ===== SECTION 4: 产品匹配 ===== -->
-<section class="section" id="products" style="background: var(--light-bg);">
-  <div class="container">
-    <div class="section-title">
-      <div class="section-icon">⚙️</div>
-      <div>
-        <h2>产品功能匹配</h2>
-        <p>7个产品，对应7个痛点，不是功能清单是解决方案</p>
+<hr class="sep">
+
+<!-- ===== 第七章：外卖破量 ===== -->
+<div class="wrap">
+<div class="sec">
+  <div class="sec-hd">
+    <div class="sec-icon">🛵</div>
+    <div class="sec-title">第七章 · 外卖破量：纯增量不占堂食资源</div>
+  </div>
+
+  <div class="step-list">
+    <div class="step">
+      <div class="step-n">1</div>
+      <div class="step-body">
+        <div class="step-t">菜单重构：外卖专属菜单（非堂食菜单搬运）</div>
+        <div class="step-d">外卖菜单设计原则：高出餐效率+配送不影响口感+利润率≥55%。去掉现做凉菜类，主推煲/炖类（保温佳）、特色家常菜。设置4款套餐：¥58/¥108/¥168/¥238，以套餐驱动客单价。</div>
+        <div class="step-tags">
+          <span class="stag">🔧 多平台经营专家</span>
+          <span class="stag y">时间：第1周完成</span>
+        </div>
       </div>
     </div>
-
-    <div class="grid-2">
-      <div class="product-item">
-        <div class="product-icon">🖥️</div>
-        <div class="product-info">
-          <div class="prod-name">智能收银（vs 二维火）</div>
-          <div class="prod-pain">⚠️ 痛点：二维火系统老旧，无法与会员/外卖联动，数据孤岛</div>
-          <div class="prod-solution">
-            ✅ 美团智能收银与会员体系、外卖系统无缝打通，顾客结账同时自动推储值，
-            数据全打通不用手动同步。比二维火每单少2步操作，高峰期不卡单。
-          </div>
+    <div class="step">
+      <div class="step-n">2</div>
+      <div class="step-body">
+        <div class="step-t">活动冲量：前3个月参与平台活动+满减设置</div>
+        <div class="step-d">第1-3月：开启"新店冲量"满减（满60减10/满100减18），参与美团外卖"周末特惠"活动，目标进入商圈外卖浙菜/杭帮菜TOP5。外卖中心系统每周查看竞品分析，针对弱点差异化调整。</div>
+        <div class="step-tags">
+          <span class="stag">🔧 外卖中心单店版</span>
+          <span class="stag y">目标：月销100→500单（3个月）</span>
         </div>
       </div>
-
-      <div class="product-item">
-        <div class="product-icon">👑</div>
-        <div class="product-info">
-          <div class="prod-name">会员营销旗舰版</div>
-          <div class="prod-pain">⚠️ 痛点：来了不知道是谁，走了不知道去哪里，老客流失无感知</div>
-          <div class="prod-solution">
-            ✅ 顾客扫码即自动成会员，系统自动识别老客（「欢迎回来」弹窗），
-            30天未消费自动推唤回优惠券，老客流失率可降低40%。
-          </div>
+    </div>
+    <div class="step">
+      <div class="step-n">3</div>
+      <div class="step-body">
+        <div class="step-t">差评管理：外卖评分保护在4.7分以上</div>
+        <div class="step-d">差评实时预警→30分钟内响应处理。每周查看差评关键词，针对"配送包装差/菜品量少/出餐慢"等问题逐一优化。好评率保持在92%以上，是搜索排名的核心权重。</div>
+        <div class="step-tags">
+          <span class="stag">🔧 评价专家</span>
+          <span class="stag y">KPI：外卖评分≥4.7</span>
         </div>
       </div>
-
-      <div class="product-item">
-        <div class="product-icon">🛵</div>
-        <div class="product-info">
-          <div class="prod-name">美团外卖接入</div>
-          <div class="prod-pain">⚠️ 痛点：堂食天花板约40万/月，无外卖=主动放弃一半市场</div>
-          <div class="prod-solution">
-            ✅ 土鸡外卖套餐打包，不影响堂食品质，稳定后月增8-12万纯新增收入。
-            外卖订单直推后厨KDS，不增加人手压力。
-          </div>
-        </div>
-      </div>
-
-      <div class="product-item">
-        <div class="product-icon">📱</div>
-        <div class="product-info">
-          <div class="prod-name">扫码点餐</div>
-          <div class="prod-pain">⚠️ 痛点：服务员纸质点餐效率低，旺季人手不够，客单靠运气</div>
-          <div class="prod-solution">
-            ✅ 顾客自助点餐，系统自动弹出「搭配推荐」（葱油蛏子+土鸡是黄金组合），
-            客单价提升¥10-15/单，同时减少2-3个服务员的点餐工作量。
-          </div>
-        </div>
-      </div>
-
-      <div class="product-item">
-        <div class="product-icon">📅</div>
-        <div class="product-info">
-          <div class="prod-name">在线预订</div>
-          <div class="prod-pain">⚠️ 痛点：周末专程来客扑空，每周损失10桌以上的营收</div>
-          <div class="prod-solution">
-            ✅ 美团/点评双渠道在线预订，顾客提前锁桌，门店提前知道当天客流，
-            食材备货更精准，减少浪费，每月挽回1.78万元流失营收。
-          </div>
-        </div>
-      </div>
-
-      <div class="product-item">
-        <div class="product-icon">📊</div>
-        <div class="product-info">
-          <div class="prod-name">数字化营销</div>
-          <div class="prod-pain">⚠️ 痛点：活动靠拍脑袋，不知道哪个活动有效，钱花了没效果</div>
-          <div class="prod-solution">
-            ✅ 系统自动统计每次活动的ROI（投入¥X→新增流水¥X），
-            下次活动有数据支撑。精准推送仅发给「上次来过、30天未复购」的会员，不骚扰常客。
-          </div>
-        </div>
-      </div>
-
-      <div class="product-item" style="grid-column: 1 / -1;">
-        <div class="product-icon">💳</div>
-        <div class="product-info">
-          <div class="prod-name">储值套餐</div>
-          <div class="prod-pain">⚠️ 痛点：每桌消费完就结束，没有沉淀，现金流完全依赖当日到店</div>
-          <div class="prod-solution">
-            ✅ 储值=预收款，老板手上提前有现金，减少月底现金流压力。
-            首月目标储值5万元，相当于提前锁定约45桌的未来消费。
-            储值客户回头率是非储值客户的3倍，是对抗50万房租最有力的工具。
-          </div>
+    </div>
+    <div class="step">
+      <div class="step-n">4</div>
+      <div class="step-body">
+        <div class="step-t">外卖→堂食转化：包装袋植入到店券</div>
+        <div class="step-d">每个外卖包装袋内附"到店专享券"（满2人消费赠招牌菜1道），引导外卖客转化为堂食会员。扫码进入会员系统，形成"外卖拉新→堂食沉淀→储值留存"的完整链路。</div>
+        <div class="step-tags">
+          <span class="stag">🔧 旗舰版会员</span>
+          <span class="stag y">预计转化率8-12%</span>
         </div>
       </div>
     </div>
   </div>
-</section>
+</div>
+</div>
 
-<!-- ===== SECTION 5: 投资回报 ===== -->
-<section class="section" id="roi">
-  <div class="container">
-    <div class="section-title">
-      <div class="section-icon">💰</div>
-      <div>
-        <h2>投资回报分析</h2>
-        <p>总共花多少、月增收多少、几个月回本</p>
-      </div>
-    </div>
+<hr class="sep">
 
-    <div class="grid-2" style="margin-bottom: 24px;">
-      <!-- 投入 -->
-      <div class="card">
-        <div class="card-title">📥 总投入明细</div>
-        <table class="mtable">
-          <thead><tr><th>类别</th><th>项目</th><th>金额</th></tr></thead>
-          <tbody>
-            <tr><td>软件年费</td><td>智能收银（年费）</td><td>¥3,980</td></tr>
-            <tr><td>软件年费</td><td>会员营销旗舰版（年费）</td><td>¥4,888</td></tr>
-            <tr><td>软件年费</td><td>扫码点餐（年费）</td><td>¥2,880</td></tr>
-            <tr><td>软件年费</td><td>在线预订（年费）</td><td>¥2,400</td></tr>
-            <tr><td>软件年费</td><td>数字化营销（年费）</td><td>¥1,980</td></tr>
-            <tr><td rowspan="2">硬件（一次性）</td><td>收银一体机</td><td>¥2,800</td></tr>
-            <tr><td>扫码桌贴（65桌）</td><td>¥650</td></tr>
-            <tr><td>营销预算（首月）</td><td>入会礼+储值赠送+活动</td><td>¥5,500</td></tr>
-            <tr class="highlight-row"><td colspan="2"><strong>总投入</strong></td><td><strong>¥25,078</strong></td></tr>
-          </tbody>
-        </table>
-        <div class="sticky" style="margin-top: 12px;">
-          <strong>注：</strong>美团外卖接入无年费，按订单量收佣金（约5%），不计入固定投入。
-          第二年起无硬件费用，年费合计约¥16,148。
-        </div>
-      </div>
-
-      <!-- 月增收 -->
-      <div class="card">
-        <div class="card-title">📈 月增收来源测算</div>
-        <table class="mtable">
-          <thead><tr><th>来源</th><th>月增收</th><th>推算逻辑</th></tr></thead>
-          <tbody>
-            <tr>
-              <td>外卖新渠道</td>
-              <td><strong style="color:var(--green)">¥20,000</strong></td>
-              <td>日均20单×¥98净收入×30天=¥58,800，首月爬坡按35%≈¥20,600</td>
-            </tr>
-            <tr>
-              <td>客单价提升</td>
-              <td><strong style="color:var(--green)">¥8,775</strong></td>
-              <td>日均65桌×1.8翻台×¥111客单×10%提升=¥1,300/天×30天扣2成爬坡</td>
-            </tr>
-            <tr>
-              <td>会员复购提升</td>
-              <td><strong style="color:var(--green)">¥7,800</strong></td>
-              <td>老客回购率从25%→40%，月均多增15%客次，65桌×15%×¥111×4人=</td>
-            </tr>
-            <tr>
-              <td>预订减少流失</td>
-              <td><strong style="color:var(--green)">¥5,760</strong></td>
-              <td>每周挽回8桌流失×¥111×4人/桌×4.3周</td>
-            </tr>
-            <tr class="highlight-row">
-              <td><strong>月增收合计</strong></td>
-              <td><strong>¥42,335</strong></td>
-              <td>第2个月起趋于稳定</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="alert alert-success" style="margin-top: 12px;">
-          <span class="alert-icon">📌</span>
-          <div class="alert-content">
-            <strong>房租压力对比：</strong>50万年租÷12月=¥41,667/月。
-            月增收¥42,335 > 月租金¥41,667，<strong>新增收入完全可以覆盖房租！</strong>
-            原有利润不再被房租吞噬。
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ROI BOX -->
-    <div class="roi-box">
-      <div class="roi-title">总投入 ÷ 月增收 = 回本周期</div>
-      <div class="roi-number">< 1</div>
-      <div class="roi-unit">个月回本（软硬件投入¥2.5万，月增收¥4.2万）</div>
-      <div class="roi-formula">
-        <div class="roi-formula-item">
-          <div class="rf-num">¥25,078</div>
-          <div class="rf-label">总投入（软件+硬件）</div>
-        </div>
-        <div class="roi-formula-sep">÷</div>
-        <div class="roi-formula-item">
-          <div class="rf-num">¥42,335</div>
-          <div class="rf-label">月净增收</div>
-        </div>
-        <div class="roi-formula-sep">=</div>
-        <div class="roi-formula-item">
-          <div class="rf-num" style="color: white">0.6个月</div>
-          <div class="rf-label">约18天回本</div>
-        </div>
-      </div>
-      <div style="margin-top: 24px; font-size: 14px; color: rgba(255,255,255,0.6); position: relative; z-index:1;">
-        🎯 第二年起年费仅¥16,148，净利润大幅改善 · 50万房租不再是障碍
-      </div>
-    </div>
+<!-- ===== 第八章：ROI ===== -->
+<div class="wrap">
+<div class="sec">
+  <div class="sec-hd">
+    <div class="sec-icon">💰</div>
+    <div class="sec-title">第八章 · 投资回报：算清这笔账</div>
   </div>
-</section>
 
-<!-- ===== SECTION 6: KPI计划 ===== -->
-<section class="section" id="kpi" style="background: var(--light-bg);">
-  <div class="container">
-    <div class="section-title">
-      <div class="section-icon">📊</div>
-      <div>
-        <h2>KPI目标与复盘节点</h2>
-        <p>有明确数字才能判断方案是否有效</p>
-      </div>
-    </div>
-
-    <div class="grid-2" style="margin-bottom: 24px;">
-      <div class="kpi-item">
-        <div class="kpi-header">
-          <div class="kpi-name">会员总数</div>
-          <div class="kpi-node">第30天复盘</div>
-        </div>
-        <div class="kpi-values">
-          <div class="kpi-current"><div class="kv">0</div><div class="kl">当前</div></div>
-          <div class="kpi-arrow">→</div>
-          <div class="kpi-target"><div class="kv">300人</div><div class="kl">目标</div></div>
-        </div>
-        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:0%"></div></div>
-        <div style="font-size:12px; color: var(--text-secondary); margin-top: 8px;">日均10人入会×30天，扫码点餐入口强制引导</div>
-      </div>
-
-      <div class="kpi-item">
-        <div class="kpi-header">
-          <div class="kpi-name">首月储值金额</div>
-          <div class="kpi-node">第30天复盘</div>
-        </div>
-        <div class="kpi-values">
-          <div class="kpi-current"><div class="kv">¥0</div><div class="kl">当前</div></div>
-          <div class="kpi-arrow">→</div>
-          <div class="kpi-target"><div class="kv">¥50,000</div><div class="kl">目标</div></div>
-        </div>
-        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:0%"></div></div>
-        <div style="font-size:12px; color: var(--text-secondary); margin-top: 8px;">日均50桌×20%储值转化×主推档¥600=¥6,000/天</div>
-      </div>
-
-      <div class="kpi-item">
-        <div class="kpi-header">
-          <div class="kpi-name">外卖月订单量</div>
-          <div class="kpi-node">第60天复盘</div>
-        </div>
-        <div class="kpi-values">
-          <div class="kpi-current"><div class="kv">0单</div><div class="kl">当前</div></div>
-          <div class="kpi-arrow">→</div>
-          <div class="kpi-target"><div class="kv">600单</div><div class="kl">目标</div></div>
-        </div>
-        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:0%"></div></div>
-        <div style="font-size:12px; color: var(--text-secondary); margin-top: 8px;">日均20单×30天，第2个月稳定期目标</div>
-      </div>
-
-      <div class="kpi-item">
-        <div class="kpi-header">
-          <div class="kpi-name">大众点评评价数</div>
-          <div class="kpi-node">第60天复盘</div>
-        </div>
-        <div class="kpi-values">
-          <div class="kpi-current"><div class="kv">61条</div><div class="kl">当前</div></div>
-          <div class="kpi-arrow">→</div>
-          <div class="kpi-target"><div class="kv">150条</div><div class="kl">目标</div></div>
-        </div>
-        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:40%"></div></div>
-        <div style="font-size:12px; color: var(--text-secondary); margin-top: 8px;">月均新增20条，60天后评价数翻倍，曝光量大幅提升</div>
-      </div>
-
-      <div class="kpi-item">
-        <div class="kpi-header">
-          <div class="kpi-name">月均客单价</div>
-          <div class="kpi-node">第30天复盘</div>
-        </div>
-        <div class="kpi-values">
-          <div class="kpi-current"><div class="kv">¥111</div><div class="kl">当前</div></div>
-          <div class="kpi-arrow">→</div>
-          <div class="kpi-target"><div class="kv">¥122</div><div class="kl">目标</div></div>
-        </div>
-        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:90%"></div></div>
-        <div style="font-size:12px; color: var(--text-secondary); margin-top: 8px;">扫码点餐推荐弹窗拉动+10%，每单多¥11</div>
-      </div>
-
-      <div class="kpi-item">
-        <div class="kpi-header">
-          <div class="kpi-name">会员老客回头率</div>
-          <div class="kpi-node">第90天复盘</div>
-        </div>
-        <div class="kpi-values">
-          <div class="kpi-current"><div class="kv">~25%</div><div class="kl">当前估算</div></div>
-          <div class="kpi-arrow">→</div>
-          <div class="kpi-target"><div class="kv">40%</div><div class="kl">目标</div></div>
-        </div>
-        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:62%"></div></div>
-        <div style="font-size:12px; color: var(--text-secondary); margin-top: 8px;">会员体系+储值锁定+短信唤回，30天复购率提升</div>
-      </div>
-    </div>
-
-    <!-- 复盘节点 -->
+  <div class="roi-block">
     <div class="card">
-      <div class="card-title">🔄 复盘节点安排</div>
-      <table class="mtable">
-        <thead><tr><th>节点</th><th>复盘方式</th><th>关键决策</th></tr></thead>
-        <tbody>
-          <tr>
-            <td><strong>第7天</strong></td>
-            <td>BD微信问候，查看系统后台数据：日均入会人数、扫码点餐使用率</td>
-            <td>扫码点餐使用率<50%则调整引导方式</td>
-          </tr>
-          <tr>
-            <td><strong>第30天</strong></td>
-            <td>BD到店15分钟复盘，对比会员数/储值额/客单价三项KPI</td>
-            <td>储值未达¥3万则加大话术培训；效果好则推大额储值档</td>
-          </tr>
-          <tr>
-            <td><strong>第60天</strong></td>
-            <td>线上视频复盘，重点看外卖订单量和评价增长情况</td>
-            <td>外卖<300单则优化套餐定价；效果好则谈美团超级门店</td>
-          </tr>
-          <tr>
-            <td><strong>第90天</strong></td>
-            <td>到店全面复盘+数据报告，对比与入网前财务数据</td>
-            <td>讨论续费/加购经营洞察/数据大屏方案</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="card-title">当前经营基线（月）</div>
+      <div class="roi-row"><span class="roi-lbl">月营业额估算</span><span class="roi-val">¥26.6万</span></div>
+      <div class="roi-row"><span class="roi-lbl">房租（年50万÷12）</span><span class="roi-val">¥4.17万</span></div>
+      <div class="roi-row"><span class="roi-lbl">食材成本（估算40%）</span><span class="roi-val">¥10.6万</span></div>
+      <div class="roi-row"><span class="roi-lbl">人工成本（估算25%）</span><span class="roi-val">¥6.65万</span></div>
+      <div class="roi-row"><span class="roi-lbl">水电杂费（估算4%）</span><span class="roi-val">¥1.06万</span></div>
+      <div class="roi-row"><span class="roi-lbl">当前月利润</span><span class="roi-val" style="color:var(--red)">~¥4.1万（15.4%）</span></div>
+      <div class="roi-total"><span class="rt-lbl">年净利润估算</span><span class="rt-val">~¥49万</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">运营优化后月增收来源</div>
+      <div class="roi-row"><span class="roi-lbl">① 翻台率+预订提升</span><span class="roi-val g">+¥1.8万</span></div>
+      <div class="roi-row"><span class="roi-lbl">② 客单价提升(111→128元)</span><span class="roi-val g">+¥2.4万</span></div>
+      <div class="roi-row"><span class="roi-lbl">③ 外卖增量(+400单×70元)</span><span class="roi-val g">+¥2.8万</span></div>
+      <div class="roi-row"><span class="roi-lbl">④ 宴请包厢利用率提升</span><span class="roi-val g">+¥1.5万</span></div>
+      <div class="roi-row"><span class="roi-lbl">⑤ 沉睡会员激活</span><span class="roi-val g">+¥0.5万</span></div>
+      <div class="roi-row"><span class="roi-lbl">月增收合计</span><span class="roi-val y">+¥9万/月</span></div>
+      <div class="roi-total"><span class="rt-lbl">年增收估算</span><span class="rt-val">+¥108万</span></div>
     </div>
   </div>
-</section>
 
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="footer-brand">美团餐饮<span>SaaS</span></div>
-  <p>本方案由美团餐饮SaaS · 陈国庆 专属定制 | 进化饭店运营增长方案</p>
-  <p style="margin-top: 8px;">📍 杭州市萧山区萧金路1216号 | 浙菜/杭帮菜 | 2026年05月</p>
-  <p style="margin-top: 12px; font-size: 12px; color: rgba(255,255,255,0.3);">
-    本方案数据均基于公开信息及行业基准推算，实际效果以门店运营数据为准。
-    如需进一步了解，请联系您的美团餐饮SaaS专属顾问。
-  </p>
+  <div class="hl-box">
+    <h3>🎯 盈利目标：从保本到年净利翻倍</h3>
+    <p>实施数字化运营方案后，月营业额目标提升至35.6万+，月利润率从15%提升至22%以上。</p>
+    <div class="hl-metrics">
+      <div class="hm"><div class="hm-n">¥35.6万</div><div class="hm-l">目标月营业额</div></div>
+      <div class="hm"><div class="hm-n">22%+</div><div class="hm-l">目标净利润率</div></div>
+      <div class="hm"><div class="hm-n">6个月</div><div class="hm-l">达到盈利目标周期</div></div>
+      <div class="hm"><div class="hm-n">¥4,888</div><div class="hm-l">旗舰版年费投入</div></div>
+    </div>
+  </div>
+
+  <div style="margin-top:16px;" class="alert i">
+    <span class="alert-ic">📊</span>
+    <span>会员旗舰版年费¥4,888，月均投入仅¥407。按月增收¥9万计算，<strong>旗舰版投入回本周期不足3天营业额</strong>。投入产出比约1:220。</span>
+  </div>
+</div>
+</div>
+
+<hr class="sep">
+
+<!-- ===== 第九章：OKR ===== -->
+<div class="wrap">
+<div class="sec">
+  <div class="sec-hd">
+    <div class="sec-icon">🎯</div>
+    <div class="sec-title">第九章 · OKR量化目标：有数字才有方向</div>
+  </div>
+
+  <div class="card" style="padding:0; overflow:hidden;">
+    <table class="okr">
+      <thead>
+        <tr>
+          <th>维度</th>
+          <th>当前基线</th>
+          <th>1个月目标</th>
+          <th>3个月目标</th>
+          <th>6个月目标</th>
+          <th>关键举措</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="okr-flag">月营业额</span></td>
+          <td>~¥26.6万</td>
+          <td class="okr-n">¥29万</td>
+          <td class="okr-n">¥32万</td>
+          <td class="okr-n">¥36万</td>
+          <td>外卖+宴请+会员复购</td>
+        </tr>
+        <tr>
+          <td><span class="okr-flag">月净利润率</span></td>
+          <td>~15%</td>
+          <td class="okr-n">16%</td>
+          <td class="okr-n">19%</td>
+          <td class="okr-n">22%+</td>
+          <td>客单提升+外卖增量覆盖固定成本</td>
+        </tr>
+        <tr>
+          <td><span class="okr-flag">客单价</span></td>
+          <td>¥111</td>
+          <td class="okr-n">¥115</td>
+          <td class="okr-n">¥122</td>
+          <td class="okr-n">¥128+</td>
+          <td>宴请套餐+会员升单+扫码点餐推荐</td>
+        </tr>
+        <tr>
+          <td><span class="okr-flag">会员累计数</span></td>
+          <td>~50人</td>
+          <td class="okr-n">200人</td>
+          <td class="okr-n">500人</td>
+          <td class="okr-n">1,000人</td>
+          <td>默认入会+团购会员卡+外卖导流</td>
+        </tr>
+        <tr>
+          <td><span class="okr-flag">储值用户数</span></td>
+          <td>~0人</td>
+          <td class="okr-n">50人</td>
+          <td class="okr-n">150人</td>
+          <td class="okr-n">300人</td>
+          <td>POS推储值+开卡月活动</td>
+        </tr>
+        <tr>
+          <td><span class="okr-flag">储值沉淀金额</span></td>
+          <td>¥0</td>
+          <td class="okr-n">¥3万</td>
+          <td class="okr-n">¥9万</td>
+          <td class="okr-n">¥18万+</td>
+          <td>以¥600均档为主推</td>
+        </tr>
+        <tr>
+          <td><span class="okr-flag">外卖月销量</span></td>
+          <td>~100单</td>
+          <td class="okr-n">150单</td>
+          <td class="okr-n">300单</td>
+          <td class="okr-n">500单</td>
+          <td>菜单重构+满减活动+评分维护</td>
+        </tr>
+        <tr>
+          <td><span class="okr-flag">大众点评评价数</span></td>
+          <td>61条</td>
+          <td class="okr-n">100条</td>
+          <td class="okr-n">160条</td>
+          <td class="okr-n">250条</td>
+          <td>支付后自动引导好评</td>
+        </tr>
+        <tr>
+          <td><span class="okr-flag">会员复购率</span></td>
+          <td>~30%</td>
+          <td class="okr-n">38%</td>
+          <td class="okr-n">45%</td>
+          <td class="okr-n">52%</td>
+          <td>沉睡唤醒+生日礼+精准发券</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<hr class="sep">
+
+<!-- ===== 第十章：30天执行计划 ===== -->
+<div class="wrap">
+<div class="sec">
+  <div class="sec-hd">
+    <div class="sec-icon">📅</div>
+    <div class="sec-title">第十章 · 30天启动计划：第一步怎么走</div>
+  </div>
+
+  <div class="card" style="padding:28px 28px 20px;">
+    <div class="tl">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-period">第1-3天 · 系统配置</div>
+        <div class="tl-title">打通基础，让系统跑起来</div>
+        <div class="tl-body">
+          <ul>
+            <li>配置扫码点餐菜单（含推荐套餐/宴请套餐展示）</li>
+            <li>设置会员旗舰版：开卡赠券+储值档位¥300/¥600/¥1,500</li>
+            <li>激活智能预订：配置包厢台位+最低消费标准</li>
+            <li>外卖接入测试：确认订单到收银系统无报错</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-period">第4-7天 · 员工培训</div>
+        <div class="tl-title">人是最关键的执行变量</div>
+        <div class="tl-body">
+          <ul>
+            <li>收银员培训：结账时推储值话术（5句话模版）</li>
+            <li>前台培训：预订接待话术+引导好评节点</li>
+            <li>服务员培训：扫码点餐时引导默认入会</li>
+            <li>后厨确认：外卖出餐优先级排序规则</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-period">第8-15天 · 首波活动</div>
+        <div class="tl-title">开卡月 + 团购套餐上线</div>
+        <div class="tl-body">
+          <ul>
+            <li>发起"开卡月"活动：本月储¥600赠额外¥30（限100名）</li>
+            <li>大众点评上线"¥198双人套餐"团购商品</li>
+            <li>外卖菜单全新上线，参与美团外卖满减活动</li>
+            <li>桌贴/收银台摆放储值宣传物料</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-period">第16-25天 · 数据监控</div>
+        <div class="tl-title">用数据发现问题，快速调整</div>
+        <div class="tl-body">
+          <ul>
+            <li>每天查看外卖订单量趋势（目标日均5单→10单）</li>
+            <li>每周统计新增会员数和储值转化率</li>
+            <li>监控大众点评新增好评数量</li>
+            <li>查看预订系统包厢利用率</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-period">第26-30天 · 首月复盘</div>
+        <div class="tl-title">对比数据，确定下月重点</div>
+        <div class="tl-body">
+          <ul>
+            <li>统计首月新增会员/储值用户/储值金额</li>
+            <li>对比外卖月销量变化</li>
+            <li>查看客单价是否有提升</li>
+            <li>确定第2个月运营重点（通常加强复购触达）</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<hr class="sep">
+
+<!-- ===== 已签约产品使用指南 ===== -->
+<div class="wrap">
+<div class="sec">
+  <div class="sec-hd">
+    <div class="sec-icon">✅</div>
+    <div class="sec-title">已签约产品 · 重点使用路径</div>
+  </div>
+
+  <div class="mod-grid">
+    <div class="mod y">
+      <div class="mod-n">会员营销旗舰版</div>
+      <div class="mod-u">默认入会+储值+精准发券+沉睡唤醒+裂变拉新。旗舰版6大独有能力全部激活，这是整个方案的核心引擎。</div>
+      <span class="mod-st y">核心 · 立即启用</span>
+    </div>
+    <div class="mod y">
+      <div class="mod-n">智能预订</div>
+      <div class="mod-u">包厢台位管理+美团/点评订位汇聚+来电弹屏。350㎡大店宴请场景的增收关键，配置包厢最低消费标准。</div>
+      <span class="mod-st y">高优 · 本周配置</span>
+    </div>
+    <div class="mod">
+      <div class="mod-n">智能收银</div>
+      <div class="mod-u">外卖订单一键接入+团购核销+会员消费自动积分+支付后引导好评。是所有系统的数据入口，保持稳定运行。</div>
+      <span class="mod-st">基础 · 已在用</span>
+    </div>
+    <div class="mod">
+      <div class="mod-n">美团外卖接入</div>
+      <div class="mod-u">订单直达收银系统，无需手动切换平台。配合外卖中心做竞品监控和差评管理，第1个月重点冲量。</div>
+      <span class="mod-st">高优 · 本周激活</span>
+    </div>
+    <div class="mod">
+      <div class="mod-n">扫码点餐</div>
+      <div class="mod-u">默认入会的核心入口。配置首页展示宴请套餐、推荐菜，设置新客首次扫码弹出"欢迎券"，转化率提升关键。</div>
+      <span class="mod-st">高优 · 菜单重配</span>
+    </div>
+    <div class="mod">
+      <div class="mod-n">储值套餐</div>
+      <div class="mod-u">¥300/¥600/¥1,500三档已设计完毕，POS结账弹窗+店员话术双管齐下。第1个月目标50位储值用户。</div>
+      <span class="mod-st y">核心 · 立即启用</span>
+    </div>
+    <div class="mod b">
+      <div class="mod-n">数字化营销</div>
+      <div class="mod-u">生日礼/节日营销/沉睡唤醒自动执行。按月设定营销日历，确保每月至少2次精准触达，无需人工操作。</div>
+      <span class="mod-st">常规 · 月度配置</span>
+    </div>
+    <div class="mod b">
+      <div class="mod-n">在线预订</div>
+      <div class="mod-u">与智能预订联动，美团/大众点评平台预订直达系统。重点设置周末/节假日包厢预订窗口，提前2周开放。</div>
+      <span class="mod-st">高优 · 联动配置</span>
+    </div>
+    <div class="mod">
+      <div class="mod-n">替换二维火</div>
+      <div class="mod-u">当前在用二维火，建议完整迁移至美团收银系统。迁移可获得平台深度打通6大独家能力，数据打通是本方案所有效果的前提。</div>
+      <span class="mod-st y">重要 · 排期迁移</span>
+    </div>
+  </div>
+
+  <div style="margin-top:18px;" class="alert w">
+    <span class="alert-ic">⚠️</span>
+    <span><strong>关于二维火迁移：</strong>方案所有效果（会员默认入会、储值、好评同步、翻台数据）均依赖美团收银系统的平台打通能力。建议在系统配置期（第1-3天）同步启动二维火数据迁移，确保历史客户数据不丢失。</span>
+  </div>
+</div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <strong>美团餐饮SaaS运营策划团队</strong><br>
+  <span style="margin-top:6px; display:inline-block;">本方案基于进化饭店门店实际数据定制生成 · 方案数据为行业模型推算，以实际经营数据为准</span><br>
+  <span style="margin-top:4px; display:inline-block; font-size:11px;">萧山区蜀山街道商圈 · 浙菜/杭帮菜 · 老店提升专项 · 2026年</span>
 </footer>
-
-<script>
-// Smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function(e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-});
-
-// Nav active state
-const navItems = document.querySelectorAll('.nav-item');
-const sections = document.querySelectorAll('section[id]');
-
-window.addEventListener('scroll', () => {
-  let current = '';
-  sections.forEach(section => {
-    if (window.scrollY >= section.offsetTop - 100) {
-      current = section.getAttribute('id');
-    }
-  });
-  navItems.forEach(item => {
-    item.classList.remove('active');
-    if (item.getAttribute('href') === '#' + current) {
-      item.classList.add('active');
-    }
-  });
-});
-
-// KPI bar animation
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.style.transition = 'width 1s ease-in-out';
-    }
-  });
-});
-document.querySelectorAll('.kpi-bar-fill').forEach(bar => observer.observe(bar));
-</script>
 
 </body>
 </html>
