@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>aaa · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #8B0000;
+      --primary-light: #B22222;
+      --accent: #D4A574;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #8B000040;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">粤菜/茶餐厅 · 运营提升方案</div>
+  <h1 class="hero-title">aaa</h1>
+  <p class="hero-subtitle">港式风味·私域锁客，让每一位食客成为您的长期主顾</p>
+  <div class="hero-address">（地址待确认）</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥78</span>
+      <div class="hero-stat-label">预估人均（行业参考值）</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.6分</span>
+      <div class="hero-stat-label">目标点评评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">粤菜茶餐厅</span>
+      <div class="hero-stat-label">品类定位</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '品牌定位', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">品牌定位</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '系统方案', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">系统方案</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评赋能', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评赋能</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" >
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">会员体系</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" >
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">储值方案</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" >
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">营销活动</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" >
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">投资回报</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>粤菜/茶餐厅行业大盘</h3><p>粤菜是中国六大菜系之一，2024年市场规模超<strong>1,000亿元</strong>，全国门店占比约9.8%，市场体量稳定、口碑成熟。茶餐厅兼具正餐+下午茶+早茶多时段消费场景，全天候运营潜力突出，是近年来在华南以外地区快速扩张的品类之一。</p><h3>目标客群画像（行业参考值）</h3><ul><li><strong>主力客群：</strong>25-45岁城市白领及中产家庭，偏好精致用餐，对港式点心及粤式煲汤有高度认知</li><li><strong>次要客群：</strong>商务宴请群体，粤菜清淡鲜美养生标签契合商务场景</li><li><strong>早茶/下午茶客群：</strong>退休老人、周末家庭，早茶文化黏性极高，复购率可达70%+</li></ul><h3>消费趋势关键信号</h3><ul><li>消费降级压力下，人均70-100元的轻正餐粤菜模式最具生命力</li><li>早茶文化从华南向全国渗透，二三线城市粤式茶餐厅增长率明显高于行业均值</li><li>养生属性（汤水/无添加/食材新鲜）契合当下健康消费趋势，是粤菜区别于川湘菜系的核心差异化</li><li>小红书/大众点评港式下午茶、广式早茶相关搜索量2024年同比增长约35%</li></ul><h3>周边竞品参考格局（⚠️ 行业参考值，需BD现场核实周边3公里真实竞品）</h3><table><tr><th>竞品类型</th><th>预估人均</th><th>典型弱点</th><th>aaa切入机会</th></tr><tr><td>周边普通粤菜馆</td><td>¥60-80</td><td>菜品同质化，无标志性特色；无会员体系，复购靠缘分</td><td>打造1-2道招牌必点菜+会员积分锁客</td></tr><tr><td>川湘菜系竞争者</td><td>¥50-70</td><td>口味刺激，不适合全年龄段；无养生属性</td><td>强调清淡鲜美·适合全家差异化标签</td></tr><tr><td>连锁快餐（外卖主导）</td><td>¥25-45</td><td>堂食体验差，缺乏仪式感</td><td>瞄准愿意多花30-50元换体验的客群</td></tr></table><p>⚠️ 以上竞品为行业通用参考，BD拜访前请在大众点评搜索门店周边3公里同类餐厅，替换为真实竞对名称。</p></div>
+<div id="modal-content-2" style="display:none"><h3>核心定位建议</h3><p>粤菜/茶餐厅最大竞争优势是<strong>全时段消费场景 × 养生健康标签 × 高黏性早茶文化</strong>。定位策略建议围绕两个方向选择：</p><ul><li><strong>方向A·茶餐厅风格（中高客单）：</strong>主打港式茶餐厅氛围，人均80-120元，早茶+午市+晚市三时段覆盖，目标客群为25-50岁偏好精致体验的本地消费者</li><li><strong>方向B·社区粤菜风格（亲民路线）：</strong>主打家常粤菜+健康汤水，人均50-80元，强调性价比和家庭感，覆盖周边社区家庭及上班族</li></ul><h3>品牌资产挖掘框架</h3><p>好方案第一步是找到门店已有但没用好的东西。请BD拜访时重点挖掘：</p><ul><li>🔍 <strong>招牌菜是什么？</strong> 有无只有这里才有的特色菜或独家汤品</li><li>🔍 <strong>厨师背景？</strong> 广东本地厨师或港资背景是可以传播的故事</li><li>🔍 <strong>早茶/下午茶是否在运营？</strong> 多时段是粤菜馆翻台率最大武器</li></ul><h3>爆品锚点策略</h3><p>品牌记忆靠重复一个点，建议候选爆品：</p><ul><li>🍵 <strong>招牌靓汤</strong>：养生标签+视觉仪式感强，适合小红书打卡</li><li>🍤 <strong>港式早茶招牌点心</strong>（虾饺皇/叉烧包/肠粉）：标准化强，复购高</li><li>🥩 <strong>粤式叉烧/烧腊拼盘</strong>：颜值高+出餐快，外卖爆款潜力</li></ul><div class="highlight-box">💡 确定爆品后，所有营销物料都围绕这道菜，让来aaa就是来吃XX成为用户心智。</div></div>
+<div id="modal-content-3" style="display:none"><h3>已签约SaaS模块分析</h3><p>⚠️ 当前假设已签约：基础版会员 + 扫码点餐。实际模块请BD拜访时核实。</p><h3>🔧 扫码点餐：提效降本</h3><p>粤菜茶餐厅SKU通常30-60道（含早茶点心），人工点单效率低、差错率高。核心解法：</p><ul><li>早茶高峰期（周末8-12点）服务员严重不足 → 扫码自助点单，一个收银台可支持原来2-3个服务员的工作量</li><li>点心品种繁多顾客记不住 → 扫码菜单配图，提高加点率（行业数据：配图菜单客单价提升约12%）</li><li>结账等待时间长影响翻台 → 扫码自助结账，周末翻台率可提升0.3-0.5轮</li></ul><h3>🔧 基础版会员：建立私域基本盘</h3><ul><li><strong>沉睡唤醒：</strong>30天/60天未到店自动触达，早茶粤菜客群一旦沉睡很难自然回流</li><li><strong>消费积分：</strong>每次消费积分，周期性兑换茶位费/小菜，提升回访频率</li><li><strong>生日营销：</strong>生日月到店赠招牌小点心1份（成本约3-5元），触达率高、惊喜感强</li></ul><h3>⬆️ 旗舰版升级机会（重点推介）</h3><p>旗舰版会员（4,888元/年）独有三大能力对粤菜茶餐厅价值极高：</p><table><tr><th>能力</th><th>对粤菜茶餐厅的具体价值</th></tr><tr><td>团购会员卡</td><td>大众点评公域流量直接转为私域会员，早茶团购客变忠实粉丝</td></tr><tr><td>潜客营销</td><td>对3公里内看过但未到店的大众点评用户精准发券，拉新成本远低于传统推广</td></tr><tr><td>裂变拉新</td><td>老客推荐新客各得奖励，利用早茶呼朋唤友的天然社交属性加速裂变</td></tr></table></div>
+<div id="modal-content-4" style="display:none"><h3>大众点评是粤菜茶餐厅的第一生命线</h3><p>粤菜/茶餐厅决策路径：消费者想吃早茶 → 打开大众点评搜索早茶/粤菜 → 看评分/看图片/看评价关键词 → 选择门店。<strong>点评评分每提升0.1分，到店转化率平均提升8-15%</strong>（行业参考值）。</p><h3>评价运营三阶段（新店必做）</h3><ul><li><strong>第一阶段·定调（第1-20条评价）：</strong>前10-20条评价决定门店标签，必须主动引导满意顾客留评。重点强调靓汤鲜美、点心正宗、服务温馨等正向关键词</li><li><strong>第二阶段·冲量（第21-100条评价）：</strong>通过结账时话术+扫码点餐弹窗引导，把好评量快速累积到50+，触发大众点评算法推荐</li><li><strong>第三阶段·维护（持续）：</strong>每条差评48小时内回复，展示服务态度；好评精选置顶（选带图+有具体菜名的高质量评价）</li></ul><h3>团购套餐设计策略（锚定效应）</h3><p>设计3档团购套餐，利用锚定效应引导客户选择主推档：</p><table><tr><th>档次</th><th>建议定价（行业参考值）</th><th>设计目的</th></tr><tr><td>体验套餐（2人餐）</td><td>¥98-128</td><td>引流新客，门槛低，必须有1道招牌菜</td></tr><tr><td>主推套餐（2-3人餐）</td><td>¥168-198</td><td>利润主力，性价比感知最强</td></tr><tr><td>尊享套餐（4人餐）</td><td>¥288-358</td><td>锚定高价，让主推套餐显得划算</td></tr></table><h3>公域引流矩阵</h3><ul><li><strong>大众点评：</strong>优化门店主图（招牌靓汤/早茶摆盘正面拍）、团购套餐配图每季度更新1次、积极参与必吃榜评选</li><li><strong>小红书：</strong>粤菜/茶餐厅是小红书高适配品类，港式下午茶探店笔记自然流量高。建议BD协助老板每月发布2-3条内容（拍摄技巧：靓汤特写+茶点拼盘+店内氛围）</li><li><strong>美团外卖：</strong>若已开外卖，早茶时段（8-11点）外卖订单是增量机会；外卖主推肠粉/早餐粥品等标准化品类</li></ul></div>
+<div id="modal-content-5" style="display:none"><h3>粤菜茶餐厅会员体系设计方案</h3><p>粤菜/茶餐厅客群消费频次属于<strong>中高频（月均1-2次）</strong>，早茶有极强的习惯性，会员体系的核心目标是：将习惯性散客转化为绑定会员，用积分+储值+专属权益形成换店壁垒。</p><h3>会员等级设计（三级制）</h3><table><tr><th>等级</th><th>入会门槛</th><th>核心权益</th><th>升级条件</th></tr><tr><td>🍵 茶客（普通会员）</td><td>扫码注册即可</td><td>消费积1分/元；生日赠招牌点心1份（价值¥15-20）；会员专享小菜1道（到店兑换）</td><td>—</td></tr><tr><td>🌟 雅座会员（银卡）</td><td>累计消费≥¥500</td><td>茶客权益+消费额外积1.2倍；提前15分钟享优先入座；每季度赠老火靓汤1份</td><td>累计消费满¥2000升金卡</td></tr><tr><td>👑 VIP包间会员（金卡）</td><td>累计消费≥¥2000 或 储值≥¥1500</td><td>雅座权益+消费额外积1.5倍；可预约包间优先权；年度专场品鉴活动优先邀请</td><td>—</td></tr></table><h3>积分兑换体系</h3><ul><li>100积分 = ¥1（兑换比例清晰易理解）</li><li>可兑换：招牌靓汤1份（200积分）、港式早茶点心盘（300积分）、茶位费减免（150积分）</li><li>积分有效期：自然年内有效（12月31日清零，年底前推送积分即将过期提醒触达复购）</li></ul><h3>会员触达节奏规划（每月）</h3><ul><li><strong>每月1日：</strong>当月活动预告推送（茶客+银卡会员）</li><li><strong>每月15日：</strong>沉睡唤醒推送（30天未到店）+ 积分余额提醒</li><li><strong>节假日前3天：</strong>节日专属套餐/预约提醒（春节/端午/中秋等粤菜消费高峰）</li><li><strong>生日当月：</strong>生日专属祝福+到店礼品兑换码（有效期整个生日月）</li></ul><div class="highlight-box">💡 <strong>运营铁律：</strong>每次推送必须有明确利益点（是什么）+ 明确时间限制（截止日期）+ 一键跳转行动按钮，三要素缺一不可，否则打开率极低。</div></div>
+<div id="modal-content-6" style="display:none"><h3>粤菜茶餐厅储值策略——锁住回头客现金流</h3><p>粤菜茶餐厅储值的最佳时机：<strong>第2-3次到店</strong>（客户已建立信任感）。推储值核心话术：您经常来，储值有额外优惠，也省得每次结账麻烦。</p><h3>储值三档方案（⚠️ 行业参考值，请根据实际门店人均调整）</h3><table><tr><th>档位</th><th>储值金额</th><th>赠送</th><th>实际折扣</th><th>推荐场景</th></tr><tr><td>体验档</td><td>¥300</td><td>赠¥30（即额外赠送招牌靓汤1份）</td><td>约9折</td><td>新客首次储值，降低门槛</td></tr><tr><td>主推档 ⭐</td><td>¥800</td><td>赠¥120（赠早茶2人套餐1次）</td><td>约8.5折</td><td>核心盈利档，重点推介</td></tr><tr><td>尊享档</td><td>¥2000</td><td>赠¥400（赠4人晚宴套餐1次+自动升金卡会员）</td><td>约8.3折</td><td>大客户/商务宴请客群</td></tr></table><h3>储值推介时机与话术</h3><ul><li><strong>最佳时机1：结账时</strong> → POS弹出储值推荐，收银员一句话：您这次消费¥156，如果现在充¥300送30，这顿饭就当折扣打了。</li><li><strong>最佳时机2：会员积分推送时</strong> → 短信附带储值入口，老客看到自己有积分、又看到储值优惠，转化率更高</li><li><strong>最佳时机3：节假日前</strong> → 年节前推节日储值专享，粤菜茶餐厅节假日消费量大，用节日场景驱动储值</li></ul><h3>储值资金安全设计</h3><ul><li>每月统计储值余额总量，控制在月营收的40%以内，避免资金压力</li><li>设置储值使用限制：每次消费最多使用储值余额的50%（剩余需现付），既保护现金流又延长储值使用周期</li></ul></div>
+<div id="modal-content-7" style="display:none"><h3>全年营销节奏——粤菜茶餐厅专属日历</h3><p>粤菜茶餐厅的营销重心在于<strong>早茶文化、家庭聚会、养生节日</strong>三大场景，与川湘菜系的聚餐狂欢逻辑完全不同。</p><h3>Q2-Q3重点营销活动（当前季度）</h3><ul><li><strong>【5-6月】母亲节/端午节早茶季：</strong>妈妈的早茶时光主题，推出3人家庭早茶套餐（含招牌靓汤+点心盘+港式奶茶），大众点评限量团购+会员优先预约，预计拉新会员30-50人/场</li><li><strong>【7-8月】夏日养生汤品季：</strong>针对粤菜养生标签，每周推出1款时令靓汤，在小红书/朋友圈发布每周靓汤故事（食材来源+功效+食谱），强化养生认知，带动汤品客单价提升</li><li><strong>【9月】中秋团圆宴提前预约：</strong>8月下旬开始预售中秋家宴套餐，老会员优先预约、额外赠月饼礼盒（成本约¥20-25），中秋前一周满座目标</li></ul><h3>常规月度活动（可持续执行）</h3><table><tr><th>活动名称</th><th>频率</th><th>工具</th><th>预期效果</th></tr><tr><td>每周三老客日会员专享菜品8.8折</td><td>每周三</td><td>会员系统+扫码点餐弹窗</td><td>周三翻台率提升15-20%</td></tr><tr><td>招朋引伴老带新双向奖励</td><td>常设</td><td>旗舰版裂变拉新功能</td><td>每月拉新10-20人（行业参考值）</td></tr><tr><td>集章换早茶集满8个章换早茶2人套餐1次</td><td>常设</td><td>会员积分（虚拟章）</td><td>复购频率提升，8次到店周期约1-2月</td></tr><tr><td>点评好评有礼（每月限50名）</td><td>每月</td><td>评价专家引导</td><td>月均新增好评30-50条</td></tr></table><h3>公私域联动闭环流程</h3><ol><li>大众点评团购/潜客券 → 新客首次到店</li><li>到店扫码点餐 → 自动注册会员（公域转私域）</li><li>会员积分+储值推介 → 建立消费习惯</li><li>30天沉睡自动触达 → 召回到店</li><li>满意顾客引导留好评 → 反哺公域评分</li><li>老客分享裂变券 → 拉新再入环</li></ol></div>
+<div id="modal-content-8" style="display:none"><h3>投资回报测算（⚠️ 基于行业参考值，实际数据以门店真实情况为准）</h3><h3>基准假设</h3><table><tr><th>指标</th><th>假设值</th><th>来源</th></tr><tr><td>当前月营收</td><td>¥80,000</td><td>行业参考值：150㎡粤菜馆中等水平</td></tr><tr><td>人均客单价</td><td>¥78</td><td>行业参考值</td></tr><tr><td>日均接待人次</td><td>约34人次（80,000÷78÷30≈34）</td><td>交叉验证通过</td></tr><tr><td>月接待人次</td><td>约1,026人次</td><td>34×30=1,020，与¥80,000÷¥78≈1,026吻合</td></tr></table><h3>月增收预测（分4个来源）</h3><table><tr><th>增收来源</th><th>逻辑</th><th>月增收预估</th></tr><tr><td>扫码点餐提升客单价</td><td>配图菜单提高加单率，1,026人次×¥78×12%×30%转化</td><td>+¥2,880</td></tr><tr><td>会员复购率提升</td><td>会员到店频率比非会员高40%，假设会员化率20%=205人，增频0.5次/月×¥78</td><td>+¥8,000</td></tr><tr><td>储值预收款带来消费刺激</td><td>首月储值转化率5%=51人，平均储值¥500，释放月消费增量按15%算</td><td>+¥3,825</td></tr><tr><td>点评评分提升带来新客</td><td>评分4.4→4.6，到店转化率+10%，月增新客约30人×¥78</td><td>+¥2,340</td></tr></table><p><strong>月增收合计：约+¥17,045</strong>（行业参考值，实际效果因执行力不同有所差异）</p><h3>OKR目标（3个月周期）</h3><table><tr><th>目标维度</th><th>当前（假设值）</th><th>3个月目标</th><th>6个月目标</th></tr><tr><td>月营收</td><td>¥80,000</td><td>¥92,000（+15%）</td><td>¥105,000（+31%）</td></tr><tr><td>大众点评评分</td><td>未知（假设4.3）</td><td>4.5分</td><td>4.7分</td></tr><tr><td>会员注册数</td><td>0（假设从零建立）</td><td>150人</td><td>400人</td></tr><tr><td>月均好评新增</td><td>0</td><td>30条/月</td><td>50条/月</td></tr></table><h3>SaaS投资回本测算</h3><table><tr><th>方案</th><th>年费</th><th>月增收</th><th>回本周期</th></tr><tr><td>旗舰版会员（推荐）</td><td>¥4,888/年</td><td>¥17,045</td><td>不足1个月</td></tr></table><div class="highlight-box">💡 <strong>核心结论：</strong>月增收¥17,045远超旗舰版年费¥4,888/年（月均¥407）。从第1个月起即正向回报，ROI超过40:1（行业参考值）。</div><p>⚠️ 以上所有数字均为行业参考值，实际效果取决于执行质量和门店基础条件，建议BD拜访后替换真实数据重新测算。</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>陈国庆</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>粤菜/茶餐厅行业大盘</h3><p>粤菜是中国六大菜系之一，2024年市场规模超<strong>1,000亿元</strong>，全国门店占比约9.8%，市场体量稳定、口碑成熟。茶餐厅兼具正餐+下午茶+早茶多时段消费场景，全天候运营潜力突出，是近年来在华南以外地区快速扩张的品类之一。</p><h3>目标客群画像（行业参考值）</h3><ul><li><strong>主力客群：</strong>25-45岁城市白领及中产家庭，偏好精致用餐，对港式点心及粤式煲汤有高度认知</li><li><strong>次要客群：</strong>商务宴请群体，粤菜清淡鲜美养生标签契合商务场景</li><li><strong>早茶/下午茶客群：</strong>退休老人、周末家庭，早茶文化黏性极高，复购率可达70%+</li></ul><h3>消费趋势关键信号</h3><ul><li>消费降级压力下，人均70-100元的轻正餐粤菜模式最具生命力</li><li>早茶文化从华南向全国渗透，二三线城市粤式茶餐厅增长率明显高于行业均值</li><li>养生属性（汤水/无添加/食材新鲜）契合当下健康消费趋势，是粤菜区别于川湘菜系的核心差异化</li><li>小红书/大众点评港式下午茶、广式早茶相关搜索量2024年同比增长约35%</li></ul><h3>周边竞品参考格局（⚠️ 行业参考值，需BD现场核实周边3公里真实竞品）</h3><table><tr><th>竞品类型</th><th>预估人均</th><th>典型弱点</th><th>aaa切入机会</th></tr><tr><td>周边普通粤菜馆</td><td>¥60-80</td><td>菜品同质化，无标志性特色；无会员体系，复购靠缘分</td><td>打造1-2道招牌必点菜+会员积分锁客</td></tr><tr><td>川湘菜系竞争者</td><td>¥50-70</td><td>口味刺激，不适合全年龄段；无养生属性</td><td>强调清淡鲜美·适合全家差异化标签</td></tr><tr><td>连锁快餐（外卖主导）</td><td>¥25-45</td><td>堂食体验差，缺乏仪式感</td><td>瞄准愿意多花30-50元换体验的客群</td></tr></table><p>⚠️ 以上竞品为行业通用参考，BD拜访前请在大众点评搜索门店周边3公里同类餐厅，替换为真实竞对名称。</p>`,
+    2: `<h3>核心定位建议</h3><p>粤菜/茶餐厅最大竞争优势是<strong>全时段消费场景 × 养生健康标签 × 高黏性早茶文化</strong>。定位策略建议围绕两个方向选择：</p><ul><li><strong>方向A·茶餐厅风格（中高客单）：</strong>主打港式茶餐厅氛围，人均80-120元，早茶+午市+晚市三时段覆盖，目标客群为25-50岁偏好精致体验的本地消费者</li><li><strong>方向B·社区粤菜风格（亲民路线）：</strong>主打家常粤菜+健康汤水，人均50-80元，强调性价比和家庭感，覆盖周边社区家庭及上班族</li></ul><h3>品牌资产挖掘框架</h3><p>好方案第一步是找到门店已有但没用好的东西。请BD拜访时重点挖掘：</p><ul><li>🔍 <strong>招牌菜是什么？</strong> 有无只有这里才有的特色菜或独家汤品</li><li>🔍 <strong>厨师背景？</strong> 广东本地厨师或港资背景是可以传播的故事</li><li>🔍 <strong>早茶/下午茶是否在运营？</strong> 多时段是粤菜馆翻台率最大武器</li></ul><h3>爆品锚点策略</h3><p>品牌记忆靠重复一个点，建议候选爆品：</p><ul><li>🍵 <strong>招牌靓汤</strong>：养生标签+视觉仪式感强，适合小红书打卡</li><li>🍤 <strong>港式早茶招牌点心</strong>（虾饺皇/叉烧包/肠粉）：标准化强，复购高</li><li>🥩 <strong>粤式叉烧/烧腊拼盘</strong>：颜值高+出餐快，外卖爆款潜力</li></ul><div class="highlight-box">💡 确定爆品后，所有营销物料都围绕这道菜，让来aaa就是来吃XX成为用户心智。</div>`,
+    3: `<h3>已签约SaaS模块分析</h3><p>⚠️ 当前假设已签约：基础版会员 + 扫码点餐。实际模块请BD拜访时核实。</p><h3>🔧 扫码点餐：提效降本</h3><p>粤菜茶餐厅SKU通常30-60道（含早茶点心），人工点单效率低、差错率高。核心解法：</p><ul><li>早茶高峰期（周末8-12点）服务员严重不足 → 扫码自助点单，一个收银台可支持原来2-3个服务员的工作量</li><li>点心品种繁多顾客记不住 → 扫码菜单配图，提高加点率（行业数据：配图菜单客单价提升约12%）</li><li>结账等待时间长影响翻台 → 扫码自助结账，周末翻台率可提升0.3-0.5轮</li></ul><h3>🔧 基础版会员：建立私域基本盘</h3><ul><li><strong>沉睡唤醒：</strong>30天/60天未到店自动触达，早茶粤菜客群一旦沉睡很难自然回流</li><li><strong>消费积分：</strong>每次消费积分，周期性兑换茶位费/小菜，提升回访频率</li><li><strong>生日营销：</strong>生日月到店赠招牌小点心1份（成本约3-5元），触达率高、惊喜感强</li></ul><h3>⬆️ 旗舰版升级机会（重点推介）</h3><p>旗舰版会员（4,888元/年）独有三大能力对粤菜茶餐厅价值极高：</p><table><tr><th>能力</th><th>对粤菜茶餐厅的具体价值</th></tr><tr><td>团购会员卡</td><td>大众点评公域流量直接转为私域会员，早茶团购客变忠实粉丝</td></tr><tr><td>潜客营销</td><td>对3公里内看过但未到店的大众点评用户精准发券，拉新成本远低于传统推广</td></tr><tr><td>裂变拉新</td><td>老客推荐新客各得奖励，利用早茶呼朋唤友的天然社交属性加速裂变</td></tr></table>`,
+    4: `<h3>大众点评是粤菜茶餐厅的第一生命线</h3><p>粤菜/茶餐厅决策路径：消费者想吃早茶 → 打开大众点评搜索早茶/粤菜 → 看评分/看图片/看评价关键词 → 选择门店。<strong>点评评分每提升0.1分，到店转化率平均提升8-15%</strong>（行业参考值）。</p><h3>评价运营三阶段（新店必做）</h3><ul><li><strong>第一阶段·定调（第1-20条评价）：</strong>前10-20条评价决定门店标签，必须主动引导满意顾客留评。重点强调靓汤鲜美、点心正宗、服务温馨等正向关键词</li><li><strong>第二阶段·冲量（第21-100条评价）：</strong>通过结账时话术+扫码点餐弹窗引导，把好评量快速累积到50+，触发大众点评算法推荐</li><li><strong>第三阶段·维护（持续）：</strong>每条差评48小时内回复，展示服务态度；好评精选置顶（选带图+有具体菜名的高质量评价）</li></ul><h3>团购套餐设计策略（锚定效应）</h3><p>设计3档团购套餐，利用锚定效应引导客户选择主推档：</p><table><tr><th>档次</th><th>建议定价（行业参考值）</th><th>设计目的</th></tr><tr><td>体验套餐（2人餐）</td><td>¥98-128</td><td>引流新客，门槛低，必须有1道招牌菜</td></tr><tr><td>主推套餐（2-3人餐）</td><td>¥168-198</td><td>利润主力，性价比感知最强</td></tr><tr><td>尊享套餐（4人餐）</td><td>¥288-358</td><td>锚定高价，让主推套餐显得划算</td></tr></table><h3>公域引流矩阵</h3><ul><li><strong>大众点评：</strong>优化门店主图（招牌靓汤/早茶摆盘正面拍）、团购套餐配图每季度更新1次、积极参与必吃榜评选</li><li><strong>小红书：</strong>粤菜/茶餐厅是小红书高适配品类，港式下午茶探店笔记自然流量高。建议BD协助老板每月发布2-3条内容（拍摄技巧：靓汤特写+茶点拼盘+店内氛围）</li><li><strong>美团外卖：</strong>若已开外卖，早茶时段（8-11点）外卖订单是增量机会；外卖主推肠粉/早餐粥品等标准化品类</li></ul>`,
+    5: `<h3>粤菜茶餐厅会员体系设计方案</h3><p>粤菜/茶餐厅客群消费频次属于<strong>中高频（月均1-2次）</strong>，早茶有极强的习惯性，会员体系的核心目标是：将习惯性散客转化为绑定会员，用积分+储值+专属权益形成换店壁垒。</p><h3>会员等级设计（三级制）</h3><table><tr><th>等级</th><th>入会门槛</th><th>核心权益</th><th>升级条件</th></tr><tr><td>🍵 茶客（普通会员）</td><td>扫码注册即可</td><td>消费积1分/元；生日赠招牌点心1份（价值¥15-20）；会员专享小菜1道（到店兑换）</td><td>—</td></tr><tr><td>🌟 雅座会员（银卡）</td><td>累计消费≥¥500</td><td>茶客权益+消费额外积1.2倍；提前15分钟享优先入座；每季度赠老火靓汤1份</td><td>累计消费满¥2000升金卡</td></tr><tr><td>👑 VIP包间会员（金卡）</td><td>累计消费≥¥2000 或 储值≥¥1500</td><td>雅座权益+消费额外积1.5倍；可预约包间优先权；年度专场品鉴活动优先邀请</td><td>—</td></tr></table><h3>积分兑换体系</h3><ul><li>100积分 = ¥1（兑换比例清晰易理解）</li><li>可兑换：招牌靓汤1份（200积分）、港式早茶点心盘（300积分）、茶位费减免（150积分）</li><li>积分有效期：自然年内有效（12月31日清零，年底前推送积分即将过期提醒触达复购）</li></ul><h3>会员触达节奏规划（每月）</h3><ul><li><strong>每月1日：</strong>当月活动预告推送（茶客+银卡会员）</li><li><strong>每月15日：</strong>沉睡唤醒推送（30天未到店）+ 积分余额提醒</li><li><strong>节假日前3天：</strong>节日专属套餐/预约提醒（春节/端午/中秋等粤菜消费高峰）</li><li><strong>生日当月：</strong>生日专属祝福+到店礼品兑换码（有效期整个生日月）</li></ul><div class="highlight-box">💡 <strong>运营铁律：</strong>每次推送必须有明确利益点（是什么）+ 明确时间限制（截止日期）+ 一键跳转行动按钮，三要素缺一不可，否则打开率极低。</div>`,
+    6: `<h3>粤菜茶餐厅储值策略——锁住回头客现金流</h3><p>粤菜茶餐厅储值的最佳时机：<strong>第2-3次到店</strong>（客户已建立信任感）。推储值核心话术：您经常来，储值有额外优惠，也省得每次结账麻烦。</p><h3>储值三档方案（⚠️ 行业参考值，请根据实际门店人均调整）</h3><table><tr><th>档位</th><th>储值金额</th><th>赠送</th><th>实际折扣</th><th>推荐场景</th></tr><tr><td>体验档</td><td>¥300</td><td>赠¥30（即额外赠送招牌靓汤1份）</td><td>约9折</td><td>新客首次储值，降低门槛</td></tr><tr><td>主推档 ⭐</td><td>¥800</td><td>赠¥120（赠早茶2人套餐1次）</td><td>约8.5折</td><td>核心盈利档，重点推介</td></tr><tr><td>尊享档</td><td>¥2000</td><td>赠¥400（赠4人晚宴套餐1次+自动升金卡会员）</td><td>约8.3折</td><td>大客户/商务宴请客群</td></tr></table><h3>储值推介时机与话术</h3><ul><li><strong>最佳时机1：结账时</strong> → POS弹出储值推荐，收银员一句话：您这次消费¥156，如果现在充¥300送30，这顿饭就当折扣打了。</li><li><strong>最佳时机2：会员积分推送时</strong> → 短信附带储值入口，老客看到自己有积分、又看到储值优惠，转化率更高</li><li><strong>最佳时机3：节假日前</strong> → 年节前推节日储值专享，粤菜茶餐厅节假日消费量大，用节日场景驱动储值</li></ul><h3>储值资金安全设计</h3><ul><li>每月统计储值余额总量，控制在月营收的40%以内，避免资金压力</li><li>设置储值使用限制：每次消费最多使用储值余额的50%（剩余需现付），既保护现金流又延长储值使用周期</li></ul>`,
+    7: `<h3>全年营销节奏——粤菜茶餐厅专属日历</h3><p>粤菜茶餐厅的营销重心在于<strong>早茶文化、家庭聚会、养生节日</strong>三大场景，与川湘菜系的聚餐狂欢逻辑完全不同。</p><h3>Q2-Q3重点营销活动（当前季度）</h3><ul><li><strong>【5-6月】母亲节/端午节早茶季：</strong>妈妈的早茶时光主题，推出3人家庭早茶套餐（含招牌靓汤+点心盘+港式奶茶），大众点评限量团购+会员优先预约，预计拉新会员30-50人/场</li><li><strong>【7-8月】夏日养生汤品季：</strong>针对粤菜养生标签，每周推出1款时令靓汤，在小红书/朋友圈发布每周靓汤故事（食材来源+功效+食谱），强化养生认知，带动汤品客单价提升</li><li><strong>【9月】中秋团圆宴提前预约：</strong>8月下旬开始预售中秋家宴套餐，老会员优先预约、额外赠月饼礼盒（成本约¥20-25），中秋前一周满座目标</li></ul><h3>常规月度活动（可持续执行）</h3><table><tr><th>活动名称</th><th>频率</th><th>工具</th><th>预期效果</th></tr><tr><td>每周三老客日会员专享菜品8.8折</td><td>每周三</td><td>会员系统+扫码点餐弹窗</td><td>周三翻台率提升15-20%</td></tr><tr><td>招朋引伴老带新双向奖励</td><td>常设</td><td>旗舰版裂变拉新功能</td><td>每月拉新10-20人（行业参考值）</td></tr><tr><td>集章换早茶集满8个章换早茶2人套餐1次</td><td>常设</td><td>会员积分（虚拟章）</td><td>复购频率提升，8次到店周期约1-2月</td></tr><tr><td>点评好评有礼（每月限50名）</td><td>每月</td><td>评价专家引导</td><td>月均新增好评30-50条</td></tr></table><h3>公私域联动闭环流程</h3><ol><li>大众点评团购/潜客券 → 新客首次到店</li><li>到店扫码点餐 → 自动注册会员（公域转私域）</li><li>会员积分+储值推介 → 建立消费习惯</li><li>30天沉睡自动触达 → 召回到店</li><li>满意顾客引导留好评 → 反哺公域评分</li><li>老客分享裂变券 → 拉新再入环</li></ol>`,
+    8: `<h3>投资回报测算（⚠️ 基于行业参考值，实际数据以门店真实情况为准）</h3><h3>基准假设</h3><table><tr><th>指标</th><th>假设值</th><th>来源</th></tr><tr><td>当前月营收</td><td>¥80,000</td><td>行业参考值：150㎡粤菜馆中等水平</td></tr><tr><td>人均客单价</td><td>¥78</td><td>行业参考值</td></tr><tr><td>日均接待人次</td><td>约34人次（80,000÷78÷30≈34）</td><td>交叉验证通过</td></tr><tr><td>月接待人次</td><td>约1,026人次</td><td>34×30=1,020，与¥80,000÷¥78≈1,026吻合</td></tr></table><h3>月增收预测（分4个来源）</h3><table><tr><th>增收来源</th><th>逻辑</th><th>月增收预估</th></tr><tr><td>扫码点餐提升客单价</td><td>配图菜单提高加单率，1,026人次×¥78×12%×30%转化</td><td>+¥2,880</td></tr><tr><td>会员复购率提升</td><td>会员到店频率比非会员高40%，假设会员化率20%=205人，增频0.5次/月×¥78</td><td>+¥8,000</td></tr><tr><td>储值预收款带来消费刺激</td><td>首月储值转化率5%=51人，平均储值¥500，释放月消费增量按15%算</td><td>+¥3,825</td></tr><tr><td>点评评分提升带来新客</td><td>评分4.4→4.6，到店转化率+10%，月增新客约30人×¥78</td><td>+¥2,340</td></tr></table><p><strong>月增收合计：约+¥17,045</strong>（行业参考值，实际效果因执行力不同有所差异）</p><h3>OKR目标（3个月周期）</h3><table><tr><th>目标维度</th><th>当前（假设值）</th><th>3个月目标</th><th>6个月目标</th></tr><tr><td>月营收</td><td>¥80,000</td><td>¥92,000（+15%）</td><td>¥105,000（+31%）</td></tr><tr><td>大众点评评分</td><td>未知（假设4.3）</td><td>4.5分</td><td>4.7分</td></tr><tr><td>会员注册数</td><td>0（假设从零建立）</td><td>150人</td><td>400人</td></tr><tr><td>月均好评新增</td><td>0</td><td>30条/月</td><td>50条/月</td></tr></table><h3>SaaS投资回本测算</h3><table><tr><th>方案</th><th>年费</th><th>月增收</th><th>回本周期</th></tr><tr><td>旗舰版会员（推荐）</td><td>¥4,888/年</td><td>¥17,045</td><td>不足1个月</td></tr></table><div class="highlight-box">💡 <strong>核心结论：</strong>月增收¥17,045远超旗舰版年费¥4,888/年（月均¥407）。从第1个月起即正向回报，ROI超过40:1（行业参考值）。</div><p>⚠️ 以上所有数字均为行业参考值，实际效果取决于执行质量和门店基础条件，建议BD拜访后替换真实数据重新测算。</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
