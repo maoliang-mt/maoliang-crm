@@ -964,6 +964,25 @@ body {
         </div>
         <button type="button" class="example-btn" onclick="showUploadExample()">📋 查看上传示例</button>
       </div>
+
+      <div class="form-group">
+        <label class="form-label">盈利测算图 <span style="font-size:11px;color:var(--text-secondary);font-weight:400">（选填）</span></label>
+        <div style="margin-bottom:8px;padding:10px 14px;background:linear-gradient(135deg,rgba(99,102,241,.08),rgba(139,92,246,.08));border:1px solid rgba(99,102,241,.25);border-radius:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+          <span style="font-size:12px;color:#4338CA">💡 没有测算图？先去测算一下，导出后上传</span>
+          <a href="./profit-calc.html" target="_blank" style="display:inline-flex;align-items:center;gap:5px;padding:6px 14px;background:linear-gradient(135deg,#6366F1,#8B5CF6);color:#fff;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap">
+            💰 打开盈利测算工具 →
+          </a>
+        </div>
+        <div class="upload-area" id="profit-calc-upload" onclick="document.getElementById('profit-calc-file').click()">
+          <input type="file" id="profit-calc-file" accept="image/*" style="display:none" onchange="handleProfitCalcUpload(event)">
+          <div class="upload-placeholder" id="profit-calc-placeholder">
+            <span style="font-size:32px">📊</span>
+            <span style="font-size:13px;color:var(--text-secondary)">点击上传盈利测算图</span>
+            <span style="font-size:11px;color:var(--text-secondary)">在盈利测算工具中填写数据→导出图片→上传到这里</span>
+          </div>
+          <div class="upload-preview" id="profit-calc-preview" style="display:none"></div>
+        </div>
+      </div>
     </div>
 
     <div class="form-section">
@@ -1263,6 +1282,7 @@ function handleSubmit(e) {
     monthlyRevenue: parseFloat(document.getElementById('shop-revenue').value) || null,
     dianpingUrl: document.getElementById('shop-dianping-url').value.trim() || null,
     seagullImages: seagullImages.length > 0 ? seagullImages.map(img => img.data) : null,
+    profitCalcImage: profitCalcImage ? profitCalcImage.data : null,
     products: document.getElementById('shop-products').value.trim(),
     competitors: document.getElementById('shop-competitors').value.trim(),
     notes: (() => {
@@ -1303,6 +1323,9 @@ function handleSubmit(e) {
   document.getElementById('plan-form').reset();
   seagullImages = [];
   renderSeagullPreview();
+  profitCalcImage = null;
+  document.getElementById('profit-calc-file').value = '';
+  renderProfitCalcPreview();
   handleTypeChange();
 }
 
@@ -1877,6 +1900,45 @@ function removeSeagullImg(event, index) {
   event.stopPropagation();
   seagullImages.splice(index, 1);
   renderSeagullPreview();
+}
+
+// ===== 盈利测算图上传 =====
+let profitCalcImage = null;
+
+function handleProfitCalcUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    profitCalcImage = { name: file.name, data: e.target.result };
+    renderProfitCalcPreview();
+  };
+  reader.readAsDataURL(file);
+}
+
+function renderProfitCalcPreview() {
+  const preview = document.getElementById('profit-calc-preview');
+  const placeholder = document.getElementById('profit-calc-placeholder');
+  if (!profitCalcImage) {
+    preview.style.display = 'none';
+    placeholder.style.display = 'flex';
+    return;
+  }
+  placeholder.style.display = 'none';
+  preview.style.display = 'flex';
+  preview.innerHTML = `
+    <div class="img-wrap">
+      <img src="${profitCalcImage.data}" alt="${profitCalcImage.name}">
+      <button class="remove-img" onclick="removeProfitCalcImg(event)">×</button>
+    </div>
+  `;
+}
+
+function removeProfitCalcImg(event) {
+  event.stopPropagation();
+  profitCalcImage = null;
+  document.getElementById('profit-calc-file').value = '';
+  renderProfitCalcPreview();
 }
 
 // ===== 上传示例弹窗 =====
