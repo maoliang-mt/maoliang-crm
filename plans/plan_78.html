@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>终态测试 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #8B4513;
+      --primary-light: #A0522D;
+      --accent: #D2B48C;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #8B451340;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">烧烤/烤肉 · 运营提升方案</div>
+  <h1 class="hero-title">终态测试</h1>
+  <p class="hero-subtitle">用炭火锁住烟火气，用数据锁住回头客</p>
+  <div class="hero-address">未提供详细地址</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥85</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">烧烤/烤肉</span>
+      <div class="hero-stat-label">品类定位</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '品牌定位', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">品牌定位</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '系统方案', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">系统方案</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评赋能', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评赋能</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" >
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">会员体系</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" >
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">储值方案</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" >
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">营销活动</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" >
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">投资回报</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>烧烤赛道：2,840亿的烟火生意</h3><p>2024年中国烧烤市场规模达<strong>2,840亿元</strong>，门店数54.1万家（同比+8.5%），年复合增速近<strong>10%</strong>，是近3年开店率持续高于关店率的良性赛道。消费者追求“鲜切现制+情绪价值”，地域风味烧烤持续出圈。</p><h3>行业基准参数（行业参考值）</h3><table><tr><th>指标</th><th>行业均值</th><th>优秀门店</th></tr><tr><td>人均消费</td><td>60-100元</td><td>85-120元</td></tr><tr><td>食材成本率</td><td>35%-40%</td><td>≤35%</td></tr><tr><td>净利润率</td><td>10%-20%</td><td>18%+</td></tr><tr><td>酒水占比</td><td>30%-40%</td><td>35%+（高利润支撑）</td></tr><tr><td>夜宵时段占比</td><td>40%-60%</td><td>50%+</td></tr></table><h3>周边竞争格局（行业参考值，需实际验证）</h3><p>由于未提供详细地址，以下为烧烤品类典型商圈竞争格局参考：</p><table><tr><th>竞品类型</th><th>人均</th><th>典型弱点</th><th>切入机会</th></tr><tr><td>街边夫妻烧烤店</td><td>50-65元</td><td>环境差、无会员体系、卫生堪忧</td><td>品质升级+环境溢价</td></tr><tr><td>连锁品牌烧烤（如木屋烧烤）</td><td>90-120元</td><td>标准化过度、缺少烟火气</td><td>保留现烤特色+性价比</td></tr><tr><td>韩式烤肉店</td><td>100-150元</td><td>翻台率低、午市空档、季节波动</td><td>中式烟火气+夜宵时段</td></tr></table><p><strong>核心机会</strong>：在人均85元价位段，兼顾“街边烟火气”和“品质环境”的差异化定位存在明显空间。通过<strong>品质食材+数字化运营+啤酒场景</strong>形成降维打击。</p></div>
+<div id="modal-content-2" style="display:none"><h3>品牌定位分析</h3><p>烧烤品类的核心消费逻辑是<strong>“社交+情绪释放+烟火气”</strong>，消费者来烧烤店不只是吃饭，是为了释放压力、聚会社交、享受深夜的自由感。</p><h3>定位建议</h3><div class="highlight-box"><p><strong>定位公式</strong>：鲜切现烤 × 深夜社交场 × 啤酒畅饮</p><p><strong>一句话slogan</strong>：「好食材，炭火烤，夜越深味越好」</p></div><h3>目标客群画像</h3><table><tr><th>客群</th><th>占比（行业参考值）</th><th>消费场景</th><th>客单贡献</th></tr><tr><td>20-30岁年轻白领/大学生</td><td>45%</td><td>下班聚餐、周末夜宵、看球</td><td>70-90元/人</td></tr><tr><td>30-40岁职场中年</td><td>30%</td><td>朋友小聚、商务轻社交、减压</td><td>90-120元/人</td></tr><tr><td>家庭/混合客群</td><td>25%</td><td>周末家庭聚餐、生日庆祝</td><td>80-100元/人</td></tr></table><h3>当前阶段痛点诊断（行业参考值）</h3><ul><li><strong>复购率不稳</strong>：烧烤品类平均复购率仅25-30%，缺乏会员体系的门店流失率更高</li><li><strong>午市空档</strong>：烧烤品类午餐时段上座率通常不足30%，人力和房租浪费</li><li><strong>点评口碑薄弱</strong>：无运营意识的门店评分多在3.8-4.2，难获自然流量</li><li><strong>酒水场景未充分开发</strong>：啤酒毛利高达65%+，但多数门店缺乏系统性酒水营销</li><li><strong>季节波动</strong>：冬季客流下降20-30%，缺少应对策略</li></ul><h3>核心机遇</h3><ul><li>烧烤天然适合<strong>夜间经济</strong>，5-10月是黄金旺季，正值当下</li><li>啤酒+烧烤组合客单可提升40%，且啤酒毛利极高</li><li>鲜切现烤的差异化可建立<strong>信任壁垒</strong>，抗击低价竞争</li><li>抖音+小红书对烧烤品类内容友好度极高，烟火气画面天然出片</li></ul></div>
+<div id="modal-content-3" style="display:none"><h3>数字化经营系统方案</h3><p>基于<strong>已签约基础版会员+扫码点餐</strong>的假设（行业参考值，需核实），推荐升级路径：</p><h3>系统升级路径</h3><table><tr><th>模块</th><th>当前状态（假设）</th><th>推荐升级</th><th>解决什么问题</th></tr><tr><td>会员系统</td><td>基础版</td><td>旗舰版（4,888元/年）</td><td>团购会员卡+潜客营销+裂变活动</td></tr><tr><td>扫码点餐</td><td>已有</td><td>优化菜单结构</td><td>提升点餐效率和客单价</td></tr><tr><td>评价管理</td><td>无</td><td>评价专家</td><td>自动好评引导+差评预警</td></tr><tr><td>智能储值</td><td>无</td><td>开通</td><td>锁客+现金流+复购率</td></tr></table><h3>旗舰版会员独有能力</h3><ul><li><strong>团购会员卡</strong>：顾客在大众点评买团购券到店核销自动注册会员，公域流量直接转私域</li><li><strong>潜客营销</strong>：系统识别“来过但没成会员”的顾客，精准推送新客券</li><li><strong>6大特有营销活动</strong>：裂变拉新（老带新奖励）、任务中心（签到/集章）、分享有礼、抽奖等</li></ul><h3>烧烤场景化应用</h3><div class="highlight-box"><p><strong>场景1：夜宵高峰排队</strong><br>问题：晚9点后排队30分钟，顾客流失<br>方案：扫码排队+预点餐，等位时已选好菜，入座即上串，翻台提速15分钟</p></div><div class="highlight-box"><p><strong>场景2：啤酒畅饮锁客</strong><br>问题：顾客喝完就走无复购抓手<br>方案：储值卡绑定啤酒畅饮权益（充500享5次啤酒畅饮2小时），锁定5次到店</p></div><div class="highlight-box"><p><strong>场景3：点评公域转私域</strong><br>问题：花钱买推广通，顾客来了就走<br>方案：团购会员卡——顾客买团购自动成为会员，下次不用再花推广费</p></div></div>
+<div id="modal-content-4" style="display:none"><h3>大众点评运营策略</h3><p>烧烤品类在大众点评的竞争核心是<strong>评分+评价数+套餐设计</strong>。目标：<strong>90天内评分达到4.5分以上，进入区域烧烤热门榜TOP10</strong>。</p><h3>评分提升三步走</h3><table><tr><th>阶段</th><th>时间</th><th>目标</th><th>核心动作</th></tr><tr><td>定调期</td><td>第1-2周</td><td>前20条评价定基调</td><td>邀请老顾客写真实好评（带图5张+200字），设定评价模板参考</td></tr><tr><td>冲量期</td><td>第3-6周</td><td>评价总数破100</td><td>每桌结账自动弹好评引导（评价专家），好评送下次小食券</td></tr><tr><td>维护期</td><td>第7周起</td><td>评分稳定4.5+</td><td>差评24小时内回复+私信跟进，定期更新菜品图片</td></tr></table><h3>团购套餐设计（拉新引流利器）</h3><p>原则：<strong>低门槛体验+高性价比感知+锁定二次到店</strong></p><table><tr><th>套餐名</th><th>内容</th><th>标价</th><th>团购价</th><th>目的</th></tr><tr><td>招牌双人烤串套餐</td><td>10串招牌+4串蔬菜+2瓶啤酒</td><td>168元</td><td>99元</td><td>拉新体验</td></tr><tr><td>四人啤酒畅饮局</td><td>20串精选+凉菜2份+啤酒4瓶</td><td>328元</td><td>199元</td><td>聚餐场景</td></tr><tr><td>会员尊享烤肉套餐</td><td>雪花牛肉+五花肉+海鲜拼+配菜</td><td>258元</td><td>168元</td><td>品质升级</td></tr></table><h3>小红书/抖音联动（烧烤天然出片）</h3><ul><li><strong>小红书</strong>：烧烤品类内容友好度极高——炭火特写、食材摆盘、深夜氛围感都是爆款素材</li><li>策略：每月邀请2-3位本地探店博主（500-2000粉丝即可），成本约一顿免费餐</li><li><strong>抖音</strong>：拍摄15秒「现切现烤」过程短视频，展示鲜肉上炭火的烟火画面</li><li>策略：店员每天拍1条烤串过程视频，自然流量+同城推荐，零成本</li></ul><h3>店铺标签优化</h3><p>大众点评搜索排名与标签强相关，必须覆盖：「深夜食堂」「烧烤」「夜宵」「聚餐」「啤酒」「烤串」。店铺介绍中植入关键词：鲜切、现烤、炭火、精酿、深夜。</p></div>
+<div id="modal-content-5" style="display:none"><h3>会员体系设计方案（旗舰版）</h3><p>烧烤品类客单85元、消费频次2-4次/月，属于<strong>中客单中频</strong>品类。会员策略核心：<strong>二次消费时推储值，用频次+金额混合驱动复购</strong>。</p><h3>等级会员体系</h3><table><tr><th>等级</th><th>升级条件</th><th>权益</th><th>目标客群</th></tr><tr><td>烟火新客</td><td>扫码即注册</td><td>新客券（满100减15）+生日月双倍积分</td><td>所有到店顾客</td></tr><tr><td>炭火常客</td><td>累计消费满500元</td><td>每月1张满150减20券+优先排队+啤酒升杯</td><td>月到店2次+</td></tr><tr><td>烈焰VIP</td><td>累计消费满2000元</td><td>9折通享+专属菜品（隐藏菜单）+季度免费畅饮1次</td><td>高价值老客</td></tr></table><h3>团购会员卡（公域转私域核心武器）</h3><div class="highlight-box"><p><strong>逻辑</strong>：顾客在大众点评购买团购券 → 到店扫码核销 → 自动注册成为会员 → 后续可直接触达（不再依赖平台付费流量）</p><p><strong>效果预估</strong>：团购核销顾客会员转化率可达<strong>80%+</strong>（自动注册，无感完成）</p></div><h3>潜客营销（旗舰版独有）</h3><ul><li>系统自动识别“扫过码/看过菜单但没下单”的潜在顾客</li><li>48小时内自动推送“新客专享券”（满80减12）</li><li>预期转化率：15-20%的潜客会在7天内到店</li></ul><h3>会员运营节奏</h3><table><tr><th>时间</th><th>动作</th><th>工具</th></tr><tr><td>每周二</td><td>会员日（啤酒买一送一）</td><td>会员系统自动发券</td></tr><tr><td>每月15日</td><td>积分兑换日（积分换烤串）</td><td>积分商城</td></tr><tr><td>生日当月</td><td>生日专属（免费烤串拼盘1份）</td><td>自动触发</td></tr><tr><td>沉睡30天</td><td>唤醒券（满100减25）</td><td>自动触发</td></tr></table><p><strong>目标</strong>：3个月内会员数突破<strong>800人</strong>，会员复购率达<strong>45%</strong>（行业均值25-30%）。</p></div>
+<div id="modal-content-6" style="display:none"><h3>智能储值方案</h3><p>烧烤品类人均85元，属中客单，储值策略：<strong>二次消费后推，主推档位=客单×5-8次</strong>（即425-680元），用啤酒畅饮权益作为储值钩子。</p><h3>储值档位设计</h3><table><tr><th>档位</th><th>充值金额</th><th>赠送</th><th>附加权益</th><th>锁定消费次数</th></tr><tr><td>体验档</td><td>300元</td><td>送40元</td><td>啤酒畅饮券2次</td><td>约4次</td></tr><tr><td>主推档</td><td>500元</td><td>送80元</td><td>啤酒畅饮券5次 + 隐藏菜品体验券1张</td><td>约6-7次</td></tr><tr><td>尊享档</td><td>1000元</td><td>送200元</td><td>啤酒畅饮券12次 + VIP折扣 + 优先排队</td><td>约12-14次</td></tr></table><h3>储值钩子：啤酒畅饮权益</h3><div class="highlight-box"><p>烧烤+啤酒是天然CP。利用啤酒的高毛利（成本仅2-4元/瓶，畅饮人均成本约15-25元）作为储值赠品，顾客感知价值高但实际成本可控。</p><p><strong>话术示范</strong>：「哥/姐，今天消费XX元，充500送80还送5次啤酒畅饮，相当于以后每次来喝啤酒都免费，下次带朋友来直接畅饮多爽！」</p></div><h3>储值推荐时机</h3><ul><li><strong>最佳时机</strong>：第二次到店结账时（已有信任基础）</li><li><strong>次佳时机</strong>：消费金额较高时（4人以上聚餐，账单超200元）</li><li><strong>辅助时机</strong>：会员日/节假日储值加赠活动期间</li></ul><h3>储值目标（行业参考值）</h3><table><tr><th>指标</th><th>首月</th><th>第3个月</th><th>稳定期</th></tr><tr><td>月新增储值会员</td><td>20人</td><td>40人</td><td>30人/月</td></tr><tr><td>月储值金额</td><td>12,000元</td><td>25,000元</td><td>20,000元</td></tr><tr><td>储值顾客复购率</td><td>60%</td><td>70%</td><td>75%</td></tr></table><p><strong>核心逻辑</strong>：储值解决“锁客”，等级会员解决“养客”。两套体系互补——储值消费同样累积积分升等级，高等级享更优储值赠送比例，形成正循环。</p></div>
+<div id="modal-content-7" style="display:none"><h3>营销活动规划（5-8月旺季版）</h3><p>5-10月是烧烤品类黄金旺季，围绕<strong>“啤酒+社交+夜宵”</strong>三大场景设计活动节奏。</p><h3>首月活动日历（启动月）</h3><table><tr><th>周次</th><th>活动</th><th>目标</th><th>预算</th></tr><tr><td>第1周</td><td>开业啤酒节：畅饮2小时+烤串套餐99元/人</td><td>拉新引爆</td><td>啤酒成本800元</td></tr><tr><td>第2周</td><td>撸串挑战赛：60分钟吃完50串免单</td><td>社交裂变</td><td>免单成本300元</td></tr><tr><td>第3周</td><td>烤串骰子：消费满150掷骰子赢菜品</td><td>客单提升</td><td>奖品400元</td></tr><tr><td>第4周</td><td>隐藏菜单：会员专属3道限定烤品</td><td>会员拉新</td><td>0元（正常食材）</td></tr></table><h3>重点活动详解</h3><h4>活动1：主题啤酒节（每月1次）</h4><ul><li><strong>形式</strong>：啤酒畅饮套餐（99元/人含烤串+啤酒无限畅饮2小时）</li><li>每晚设“干杯时刻”（21:00全场举杯倒计时），制造社交高潮</li><li><strong>成本</strong>：啤酒批发2-4元/瓶，畅饮人均啤酒成本约15-25元</li><li><strong>SaaS联动</strong>：扫码点餐上架畅饮套餐 + 会员系统打“酒神”标签</li></ul><h4>活动2：盲品挑战（每周五晚）</h4><ul><li><strong>形式</strong>：蒙眼盲品5种烤串，全部猜对免单该5串+获“烧烤大师”称号</li><li>天然产生短视频内容（同桌人拍摄），引导发抖音/点评</li><li><strong>成本</strong>：眼罩0.5元/个 + 免单约15-25元/组</li></ul><h4>活动3：看球之夜（赛事日）</h4><ul><li><strong>形式</strong>：重大赛事投屏直播+“看球套餐”，进球时刻啤酒半价</li><li>将非高峰时段变成引流时段，叠加社交氛围</li><li><strong>成本</strong>：套餐让利约10-15元/份</li></ul><h3>全季度营销节奏</h3><table><tr><th>月份</th><th>主题</th><th>核心活动</th></tr><tr><td>6月</td><td>夏夜啤酒季</td><td>啤酒节+端午烤粽串+618储值冲刺</td></tr><tr><td>7月</td><td>撸串狂欢月</td><td>百串挑战赛+深夜食堂主题夜+会员日加码</td></tr><tr><td>8月</td><td>七夕/开学季</td><td>七夕双人套餐+开学聚餐优惠+储值冲刺</td></tr></table><p><strong>活动铁律</strong>：每个活动必须有<strong>SaaS工具闭环</strong>（引流→注册会员→消费→复购触达），不做一次性活动。</p></div>
+<div id="modal-content-8" style="display:none"><h3>投资回报测算</h3><p>以下测算基于行业参考值（未获得实际月流水数据，按烧烤品类社区店典型值假设月流水<strong>15万元</strong>，月均约1,765人次，日均约59人次）。</p><h3>投入明细</h3><table><tr><th>项目</th><th>金额</th><th>说明</th></tr><tr><td>会员旗舰版</td><td>4,888元/年</td><td>团购会员卡+潜客营销+6大活动</td></tr><tr><td>评价专家</td><td>1,500元/年（行业参考值）</td><td>自动好评引导+差评预警</td></tr><tr><td>活动物料预算</td><td>2,000元/月</td><td>啤酒、奖品、小物料</td></tr><tr><td>推广通（首月）</td><td>3,000元</td><td>大众点评搜索曝光</td></tr><tr><td><strong>首年总投入</strong></td><td><strong>约35,000元</strong></td><td>含SaaS年费+营销预算</td></tr></table><h3>预期月增收拆解（稳定期/第3个月起）</h3><table><tr><th>增收来源</th><th>逻辑</th><th>月增收</th></tr><tr><td>会员复购提升</td><td>800会员×15%增量复购率×85元客单</td><td>+10,200元</td></tr><tr><td>团购引流新客</td><td>月均核销60单×30%二次到店×85元</td><td>+1,530元</td></tr><tr><td>储值锁客消费</td><td>储值会员月均多消费1.5次×30人×85元</td><td>+3,825元</td></tr><tr><td>啤酒场景客单提升</td><td>月1,765人次×15%触达×25元增量</td><td>+6,620元</td></tr><tr><td><strong>合计月增收</strong></td><td></td><td><strong>+22,175元</strong></td></tr></table><h3>回本周期</h3><div class="highlight-box"><p>首年总投入35,000元 ÷ 月增收22,175元 = <strong>约1.6个月回本</strong></p><p>首年净增收：22,175元 × 12 - 35,000元 = <strong>231,100元</strong></p></div><h3>OKR量化目标</h3><table><tr><th>指标</th><th>当前（行业参考值）</th><th>3个月目标</th><th>6个月目标</th></tr><tr><td>月营收</td><td>15万元</td><td>17.2万元（+15%）</td><td>20万元（+33%）</td></tr><tr><td>大众点评评分</td><td>4.0分（假设）</td><td>4.3分</td><td>4.5分</td></tr><tr><td>会员总数</td><td>0</td><td>800人</td><td>1,500人</td></tr><tr><td>储值会员数</td><td>0</td><td>80人</td><td>180人</td></tr><tr><td>月复购率</td><td>25%</td><td>38%</td><td>45%</td></tr><tr><td>团购核销率</td><td>-</td><td>70%</td><td>80%</td></tr></table><p><strong>关键里程碑</strong>：第1个月完成系统搭建+首批会员积累；第2个月启动储值+活动裂变；第3个月进入稳定增长期，月增收稳定在2.2万元以上。</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>陈国庆</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>烧烤赛道：2,840亿的烟火生意</h3><p>2024年中国烧烤市场规模达<strong>2,840亿元</strong>，门店数54.1万家（同比+8.5%），年复合增速近<strong>10%</strong>，是近3年开店率持续高于关店率的良性赛道。消费者追求“鲜切现制+情绪价值”，地域风味烧烤持续出圈。</p><h3>行业基准参数（行业参考值）</h3><table><tr><th>指标</th><th>行业均值</th><th>优秀门店</th></tr><tr><td>人均消费</td><td>60-100元</td><td>85-120元</td></tr><tr><td>食材成本率</td><td>35%-40%</td><td>≤35%</td></tr><tr><td>净利润率</td><td>10%-20%</td><td>18%+</td></tr><tr><td>酒水占比</td><td>30%-40%</td><td>35%+（高利润支撑）</td></tr><tr><td>夜宵时段占比</td><td>40%-60%</td><td>50%+</td></tr></table><h3>周边竞争格局（行业参考值，需实际验证）</h3><p>由于未提供详细地址，以下为烧烤品类典型商圈竞争格局参考：</p><table><tr><th>竞品类型</th><th>人均</th><th>典型弱点</th><th>切入机会</th></tr><tr><td>街边夫妻烧烤店</td><td>50-65元</td><td>环境差、无会员体系、卫生堪忧</td><td>品质升级+环境溢价</td></tr><tr><td>连锁品牌烧烤（如木屋烧烤）</td><td>90-120元</td><td>标准化过度、缺少烟火气</td><td>保留现烤特色+性价比</td></tr><tr><td>韩式烤肉店</td><td>100-150元</td><td>翻台率低、午市空档、季节波动</td><td>中式烟火气+夜宵时段</td></tr></table><p><strong>核心机会</strong>：在人均85元价位段，兼顾“街边烟火气”和“品质环境”的差异化定位存在明显空间。通过<strong>品质食材+数字化运营+啤酒场景</strong>形成降维打击。</p>`,
+    2: `<h3>品牌定位分析</h3><p>烧烤品类的核心消费逻辑是<strong>“社交+情绪释放+烟火气”</strong>，消费者来烧烤店不只是吃饭，是为了释放压力、聚会社交、享受深夜的自由感。</p><h3>定位建议</h3><div class="highlight-box"><p><strong>定位公式</strong>：鲜切现烤 × 深夜社交场 × 啤酒畅饮</p><p><strong>一句话slogan</strong>：「好食材，炭火烤，夜越深味越好」</p></div><h3>目标客群画像</h3><table><tr><th>客群</th><th>占比（行业参考值）</th><th>消费场景</th><th>客单贡献</th></tr><tr><td>20-30岁年轻白领/大学生</td><td>45%</td><td>下班聚餐、周末夜宵、看球</td><td>70-90元/人</td></tr><tr><td>30-40岁职场中年</td><td>30%</td><td>朋友小聚、商务轻社交、减压</td><td>90-120元/人</td></tr><tr><td>家庭/混合客群</td><td>25%</td><td>周末家庭聚餐、生日庆祝</td><td>80-100元/人</td></tr></table><h3>当前阶段痛点诊断（行业参考值）</h3><ul><li><strong>复购率不稳</strong>：烧烤品类平均复购率仅25-30%，缺乏会员体系的门店流失率更高</li><li><strong>午市空档</strong>：烧烤品类午餐时段上座率通常不足30%，人力和房租浪费</li><li><strong>点评口碑薄弱</strong>：无运营意识的门店评分多在3.8-4.2，难获自然流量</li><li><strong>酒水场景未充分开发</strong>：啤酒毛利高达65%+，但多数门店缺乏系统性酒水营销</li><li><strong>季节波动</strong>：冬季客流下降20-30%，缺少应对策略</li></ul><h3>核心机遇</h3><ul><li>烧烤天然适合<strong>夜间经济</strong>，5-10月是黄金旺季，正值当下</li><li>啤酒+烧烤组合客单可提升40%，且啤酒毛利极高</li><li>鲜切现烤的差异化可建立<strong>信任壁垒</strong>，抗击低价竞争</li><li>抖音+小红书对烧烤品类内容友好度极高，烟火气画面天然出片</li></ul>`,
+    3: `<h3>数字化经营系统方案</h3><p>基于<strong>已签约基础版会员+扫码点餐</strong>的假设（行业参考值，需核实），推荐升级路径：</p><h3>系统升级路径</h3><table><tr><th>模块</th><th>当前状态（假设）</th><th>推荐升级</th><th>解决什么问题</th></tr><tr><td>会员系统</td><td>基础版</td><td>旗舰版（4,888元/年）</td><td>团购会员卡+潜客营销+裂变活动</td></tr><tr><td>扫码点餐</td><td>已有</td><td>优化菜单结构</td><td>提升点餐效率和客单价</td></tr><tr><td>评价管理</td><td>无</td><td>评价专家</td><td>自动好评引导+差评预警</td></tr><tr><td>智能储值</td><td>无</td><td>开通</td><td>锁客+现金流+复购率</td></tr></table><h3>旗舰版会员独有能力</h3><ul><li><strong>团购会员卡</strong>：顾客在大众点评买团购券到店核销自动注册会员，公域流量直接转私域</li><li><strong>潜客营销</strong>：系统识别“来过但没成会员”的顾客，精准推送新客券</li><li><strong>6大特有营销活动</strong>：裂变拉新（老带新奖励）、任务中心（签到/集章）、分享有礼、抽奖等</li></ul><h3>烧烤场景化应用</h3><div class="highlight-box"><p><strong>场景1：夜宵高峰排队</strong><br>问题：晚9点后排队30分钟，顾客流失<br>方案：扫码排队+预点餐，等位时已选好菜，入座即上串，翻台提速15分钟</p></div><div class="highlight-box"><p><strong>场景2：啤酒畅饮锁客</strong><br>问题：顾客喝完就走无复购抓手<br>方案：储值卡绑定啤酒畅饮权益（充500享5次啤酒畅饮2小时），锁定5次到店</p></div><div class="highlight-box"><p><strong>场景3：点评公域转私域</strong><br>问题：花钱买推广通，顾客来了就走<br>方案：团购会员卡——顾客买团购自动成为会员，下次不用再花推广费</p></div>`,
+    4: `<h3>大众点评运营策略</h3><p>烧烤品类在大众点评的竞争核心是<strong>评分+评价数+套餐设计</strong>。目标：<strong>90天内评分达到4.5分以上，进入区域烧烤热门榜TOP10</strong>。</p><h3>评分提升三步走</h3><table><tr><th>阶段</th><th>时间</th><th>目标</th><th>核心动作</th></tr><tr><td>定调期</td><td>第1-2周</td><td>前20条评价定基调</td><td>邀请老顾客写真实好评（带图5张+200字），设定评价模板参考</td></tr><tr><td>冲量期</td><td>第3-6周</td><td>评价总数破100</td><td>每桌结账自动弹好评引导（评价专家），好评送下次小食券</td></tr><tr><td>维护期</td><td>第7周起</td><td>评分稳定4.5+</td><td>差评24小时内回复+私信跟进，定期更新菜品图片</td></tr></table><h3>团购套餐设计（拉新引流利器）</h3><p>原则：<strong>低门槛体验+高性价比感知+锁定二次到店</strong></p><table><tr><th>套餐名</th><th>内容</th><th>标价</th><th>团购价</th><th>目的</th></tr><tr><td>招牌双人烤串套餐</td><td>10串招牌+4串蔬菜+2瓶啤酒</td><td>168元</td><td>99元</td><td>拉新体验</td></tr><tr><td>四人啤酒畅饮局</td><td>20串精选+凉菜2份+啤酒4瓶</td><td>328元</td><td>199元</td><td>聚餐场景</td></tr><tr><td>会员尊享烤肉套餐</td><td>雪花牛肉+五花肉+海鲜拼+配菜</td><td>258元</td><td>168元</td><td>品质升级</td></tr></table><h3>小红书/抖音联动（烧烤天然出片）</h3><ul><li><strong>小红书</strong>：烧烤品类内容友好度极高——炭火特写、食材摆盘、深夜氛围感都是爆款素材</li><li>策略：每月邀请2-3位本地探店博主（500-2000粉丝即可），成本约一顿免费餐</li><li><strong>抖音</strong>：拍摄15秒「现切现烤」过程短视频，展示鲜肉上炭火的烟火画面</li><li>策略：店员每天拍1条烤串过程视频，自然流量+同城推荐，零成本</li></ul><h3>店铺标签优化</h3><p>大众点评搜索排名与标签强相关，必须覆盖：「深夜食堂」「烧烤」「夜宵」「聚餐」「啤酒」「烤串」。店铺介绍中植入关键词：鲜切、现烤、炭火、精酿、深夜。</p>`,
+    5: `<h3>会员体系设计方案（旗舰版）</h3><p>烧烤品类客单85元、消费频次2-4次/月，属于<strong>中客单中频</strong>品类。会员策略核心：<strong>二次消费时推储值，用频次+金额混合驱动复购</strong>。</p><h3>等级会员体系</h3><table><tr><th>等级</th><th>升级条件</th><th>权益</th><th>目标客群</th></tr><tr><td>烟火新客</td><td>扫码即注册</td><td>新客券（满100减15）+生日月双倍积分</td><td>所有到店顾客</td></tr><tr><td>炭火常客</td><td>累计消费满500元</td><td>每月1张满150减20券+优先排队+啤酒升杯</td><td>月到店2次+</td></tr><tr><td>烈焰VIP</td><td>累计消费满2000元</td><td>9折通享+专属菜品（隐藏菜单）+季度免费畅饮1次</td><td>高价值老客</td></tr></table><h3>团购会员卡（公域转私域核心武器）</h3><div class="highlight-box"><p><strong>逻辑</strong>：顾客在大众点评购买团购券 → 到店扫码核销 → 自动注册成为会员 → 后续可直接触达（不再依赖平台付费流量）</p><p><strong>效果预估</strong>：团购核销顾客会员转化率可达<strong>80%+</strong>（自动注册，无感完成）</p></div><h3>潜客营销（旗舰版独有）</h3><ul><li>系统自动识别“扫过码/看过菜单但没下单”的潜在顾客</li><li>48小时内自动推送“新客专享券”（满80减12）</li><li>预期转化率：15-20%的潜客会在7天内到店</li></ul><h3>会员运营节奏</h3><table><tr><th>时间</th><th>动作</th><th>工具</th></tr><tr><td>每周二</td><td>会员日（啤酒买一送一）</td><td>会员系统自动发券</td></tr><tr><td>每月15日</td><td>积分兑换日（积分换烤串）</td><td>积分商城</td></tr><tr><td>生日当月</td><td>生日专属（免费烤串拼盘1份）</td><td>自动触发</td></tr><tr><td>沉睡30天</td><td>唤醒券（满100减25）</td><td>自动触发</td></tr></table><p><strong>目标</strong>：3个月内会员数突破<strong>800人</strong>，会员复购率达<strong>45%</strong>（行业均值25-30%）。</p>`,
+    6: `<h3>智能储值方案</h3><p>烧烤品类人均85元，属中客单，储值策略：<strong>二次消费后推，主推档位=客单×5-8次</strong>（即425-680元），用啤酒畅饮权益作为储值钩子。</p><h3>储值档位设计</h3><table><tr><th>档位</th><th>充值金额</th><th>赠送</th><th>附加权益</th><th>锁定消费次数</th></tr><tr><td>体验档</td><td>300元</td><td>送40元</td><td>啤酒畅饮券2次</td><td>约4次</td></tr><tr><td>主推档</td><td>500元</td><td>送80元</td><td>啤酒畅饮券5次 + 隐藏菜品体验券1张</td><td>约6-7次</td></tr><tr><td>尊享档</td><td>1000元</td><td>送200元</td><td>啤酒畅饮券12次 + VIP折扣 + 优先排队</td><td>约12-14次</td></tr></table><h3>储值钩子：啤酒畅饮权益</h3><div class="highlight-box"><p>烧烤+啤酒是天然CP。利用啤酒的高毛利（成本仅2-4元/瓶，畅饮人均成本约15-25元）作为储值赠品，顾客感知价值高但实际成本可控。</p><p><strong>话术示范</strong>：「哥/姐，今天消费XX元，充500送80还送5次啤酒畅饮，相当于以后每次来喝啤酒都免费，下次带朋友来直接畅饮多爽！」</p></div><h3>储值推荐时机</h3><ul><li><strong>最佳时机</strong>：第二次到店结账时（已有信任基础）</li><li><strong>次佳时机</strong>：消费金额较高时（4人以上聚餐，账单超200元）</li><li><strong>辅助时机</strong>：会员日/节假日储值加赠活动期间</li></ul><h3>储值目标（行业参考值）</h3><table><tr><th>指标</th><th>首月</th><th>第3个月</th><th>稳定期</th></tr><tr><td>月新增储值会员</td><td>20人</td><td>40人</td><td>30人/月</td></tr><tr><td>月储值金额</td><td>12,000元</td><td>25,000元</td><td>20,000元</td></tr><tr><td>储值顾客复购率</td><td>60%</td><td>70%</td><td>75%</td></tr></table><p><strong>核心逻辑</strong>：储值解决“锁客”，等级会员解决“养客”。两套体系互补——储值消费同样累积积分升等级，高等级享更优储值赠送比例，形成正循环。</p>`,
+    7: `<h3>营销活动规划（5-8月旺季版）</h3><p>5-10月是烧烤品类黄金旺季，围绕<strong>“啤酒+社交+夜宵”</strong>三大场景设计活动节奏。</p><h3>首月活动日历（启动月）</h3><table><tr><th>周次</th><th>活动</th><th>目标</th><th>预算</th></tr><tr><td>第1周</td><td>开业啤酒节：畅饮2小时+烤串套餐99元/人</td><td>拉新引爆</td><td>啤酒成本800元</td></tr><tr><td>第2周</td><td>撸串挑战赛：60分钟吃完50串免单</td><td>社交裂变</td><td>免单成本300元</td></tr><tr><td>第3周</td><td>烤串骰子：消费满150掷骰子赢菜品</td><td>客单提升</td><td>奖品400元</td></tr><tr><td>第4周</td><td>隐藏菜单：会员专属3道限定烤品</td><td>会员拉新</td><td>0元（正常食材）</td></tr></table><h3>重点活动详解</h3><h4>活动1：主题啤酒节（每月1次）</h4><ul><li><strong>形式</strong>：啤酒畅饮套餐（99元/人含烤串+啤酒无限畅饮2小时）</li><li>每晚设“干杯时刻”（21:00全场举杯倒计时），制造社交高潮</li><li><strong>成本</strong>：啤酒批发2-4元/瓶，畅饮人均啤酒成本约15-25元</li><li><strong>SaaS联动</strong>：扫码点餐上架畅饮套餐 + 会员系统打“酒神”标签</li></ul><h4>活动2：盲品挑战（每周五晚）</h4><ul><li><strong>形式</strong>：蒙眼盲品5种烤串，全部猜对免单该5串+获“烧烤大师”称号</li><li>天然产生短视频内容（同桌人拍摄），引导发抖音/点评</li><li><strong>成本</strong>：眼罩0.5元/个 + 免单约15-25元/组</li></ul><h4>活动3：看球之夜（赛事日）</h4><ul><li><strong>形式</strong>：重大赛事投屏直播+“看球套餐”，进球时刻啤酒半价</li><li>将非高峰时段变成引流时段，叠加社交氛围</li><li><strong>成本</strong>：套餐让利约10-15元/份</li></ul><h3>全季度营销节奏</h3><table><tr><th>月份</th><th>主题</th><th>核心活动</th></tr><tr><td>6月</td><td>夏夜啤酒季</td><td>啤酒节+端午烤粽串+618储值冲刺</td></tr><tr><td>7月</td><td>撸串狂欢月</td><td>百串挑战赛+深夜食堂主题夜+会员日加码</td></tr><tr><td>8月</td><td>七夕/开学季</td><td>七夕双人套餐+开学聚餐优惠+储值冲刺</td></tr></table><p><strong>活动铁律</strong>：每个活动必须有<strong>SaaS工具闭环</strong>（引流→注册会员→消费→复购触达），不做一次性活动。</p>`,
+    8: `<h3>投资回报测算</h3><p>以下测算基于行业参考值（未获得实际月流水数据，按烧烤品类社区店典型值假设月流水<strong>15万元</strong>，月均约1,765人次，日均约59人次）。</p><h3>投入明细</h3><table><tr><th>项目</th><th>金额</th><th>说明</th></tr><tr><td>会员旗舰版</td><td>4,888元/年</td><td>团购会员卡+潜客营销+6大活动</td></tr><tr><td>评价专家</td><td>1,500元/年（行业参考值）</td><td>自动好评引导+差评预警</td></tr><tr><td>活动物料预算</td><td>2,000元/月</td><td>啤酒、奖品、小物料</td></tr><tr><td>推广通（首月）</td><td>3,000元</td><td>大众点评搜索曝光</td></tr><tr><td><strong>首年总投入</strong></td><td><strong>约35,000元</strong></td><td>含SaaS年费+营销预算</td></tr></table><h3>预期月增收拆解（稳定期/第3个月起）</h3><table><tr><th>增收来源</th><th>逻辑</th><th>月增收</th></tr><tr><td>会员复购提升</td><td>800会员×15%增量复购率×85元客单</td><td>+10,200元</td></tr><tr><td>团购引流新客</td><td>月均核销60单×30%二次到店×85元</td><td>+1,530元</td></tr><tr><td>储值锁客消费</td><td>储值会员月均多消费1.5次×30人×85元</td><td>+3,825元</td></tr><tr><td>啤酒场景客单提升</td><td>月1,765人次×15%触达×25元增量</td><td>+6,620元</td></tr><tr><td><strong>合计月增收</strong></td><td></td><td><strong>+22,175元</strong></td></tr></table><h3>回本周期</h3><div class="highlight-box"><p>首年总投入35,000元 ÷ 月增收22,175元 = <strong>约1.6个月回本</strong></p><p>首年净增收：22,175元 × 12 - 35,000元 = <strong>231,100元</strong></p></div><h3>OKR量化目标</h3><table><tr><th>指标</th><th>当前（行业参考值）</th><th>3个月目标</th><th>6个月目标</th></tr><tr><td>月营收</td><td>15万元</td><td>17.2万元（+15%）</td><td>20万元（+33%）</td></tr><tr><td>大众点评评分</td><td>4.0分（假设）</td><td>4.3分</td><td>4.5分</td></tr><tr><td>会员总数</td><td>0</td><td>800人</td><td>1,500人</td></tr><tr><td>储值会员数</td><td>0</td><td>80人</td><td>180人</td></tr><tr><td>月复购率</td><td>25%</td><td>38%</td><td>45%</td></tr><tr><td>团购核销率</td><td>-</td><td>70%</td><td>80%</td></tr></table><p><strong>关键里程碑</strong>：第1个月完成系统搭建+首批会员积累；第2个月启动储值+活动裂变；第3个月进入稳定增长期，月增收稳定在2.2万元以上。</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
