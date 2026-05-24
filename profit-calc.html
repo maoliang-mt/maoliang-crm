@@ -183,9 +183,10 @@
 
 <!-- 导出操作栏 -->
 <div class="export-bar">
-  <div class="export-bar-tip">💡 填写门店数据 → 点「导出图片」→ 上传到方案提交表单</div>
+  <div class="export-bar-tip">💡 填写门店数据 → 测算完成后，点「出方案」直接带数据提交</div>
   <button class="btn btn-secondary" id="btn-reset" onclick="resetCalc()">🔄 重置</button>
-  <button class="btn btn-primary" id="btn-export" onclick="exportImage()">📸 导出图片</button>
+  <button class="btn btn-secondary" id="btn-export" onclick="exportImage()">📸 导出图片</button>
+  <button class="btn btn-primary" id="btn-to-plan" onclick="goToPlan()" disabled style="background:#e8001c;color:#fff;border-color:#e8001c;opacity:0.45;cursor:not-allowed">📋 出方案</button>
 </div>
 
 <!-- 计算器主体 -->
@@ -383,6 +384,45 @@ function buildExportHTML(result) {
 
 // ── 导出图片 ──
 let latestResult = null;
+
+// ── 以测算数据出方案 ──
+function goToPlan() {
+  const spc = document.getElementById('spc-main');
+  const result = spc?.getResult ? spc.getResult() : latestResult;
+  if (!result || result.totalRevenue === 0) {
+    showToast('⚠️ 请先填写门店数据并完成测算');
+    return;
+  }
+  // 把核心数据存入 localStorage，供方案提交页读取
+  const payload = {
+    ts: Date.now(),
+    // 核心指标
+    totalRevenue: result.totalRevenue,
+    monthProfit: result.monthProfit,
+    profitRate: +result.profitRate.toFixed(1),
+    rentRatio: +result.rentRatio.toFixed(1),
+    laborRatio: +result.laborRatio.toFixed(1),
+    foodCostRatio: +result.foodCostRatio.toFixed(1),
+    totalTables: result.totalTables,
+    turnoverActual: result.breakEvenTurnover > 0 ? result.breakEvenTurnover : undefined,
+    breakEvenTurnover: +result.breakEvenTurnover.toFixed(2),
+    totalMonthlyCustomers: result.totalMonthlyCustomers,
+    takeoutActualRatio: +result.takeoutActualRatio.toFixed(1),
+    // 方案工厂对接数据
+    proposalData: result.proposalData,
+    // 成本明细摘要（给大橘参考）
+    costBreakdown: result.costBreakdown.map(c => ({
+      name: c.name,
+      amount: Math.round(c.amount),
+      pct: c.pctOfRevenue
+    })),
+  };
+  localStorage.setItem('lionProfitCalcResult', JSON.stringify(payload));
+  showToast('✅ 测算数据已保存，正在跳转方案提交...');
+  setTimeout(() => {
+    window.location.href = 'https://lion-plan-factory.mynocode.host/#/submit';
+  }, 800);
+}
 let exportCanvas = null;
 
 // 监听计算结果变化
@@ -391,6 +431,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (spc) {
     spc.addEventListener('result', e => {
       latestResult = e.detail;
+      // 有结果就激活「出方案」按钮
+      const btnPlan = document.getElementById('btn-to-plan');
+      if (btnPlan && latestResult && latestResult.totalRevenue > 0) {
+        btnPlan.disabled = false;
+        btnPlan.style.opacity = '1';
+        btnPlan.style.cursor = 'pointer';
+      }
     });
   }
 });
