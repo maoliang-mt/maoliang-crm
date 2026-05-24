@@ -32,12 +32,14 @@ class StoreProfitCalculator extends HTMLElement {
   }
 
   connectedCallback() {
+    this._laborMode = 'detail';
     this.render();
     // 如果有预设，立即填充
     const preset = this.getAttribute('preset');
     if (preset && presets[preset]) {
       this.setData(presets[preset]);
     } else {
+      this._applyLaborMode();
       this._calc();
     }
   }
@@ -62,29 +64,60 @@ class StoreProfitCalculator extends HTMLElement {
   setData(data) {
     const fieldMap = {
       area: 'f_area', seatArea: 'f_seatArea', seatsPerTable: 'f_seatsPerTable',
-      turnover: 'f_turnover', openDays: 'f_openDays', takeoutPct: 'f_takeoutPct',
+      turnover: 'f_turnover', openDays: 'f_openDays', takeoutRevenuePct: 'f_takeoutRevenuePct',
       avgTableSpend: 'f_avgTableSpend', avgPerPerson: 'f_avgPerPerson',
       takeoutAvgPrice: 'f_takeoutAvgPrice', rent: 'f_rent',
+      totalLaborCost: 'f_totalLaborCost',
       chefCount: 'f_chefCount', chefSalary: 'f_chefSalary',
       waiterCount: 'f_waiterCount', waiterSalary: 'f_waiterSalary',
       mgrCount: 'f_mgrCount', mgrSalary: 'f_mgrSalary',
       foodCostRate: 'f_foodCostRate', utilities: 'f_utilities',
-      takeoutCommission: 'f_takeoutCommission', otherCost: 'f_otherCost'
+      takeoutCommission: 'f_takeoutCommission', otherCost: 'f_otherCost',
+      investDecor: 'f_investDecor', investEquip: 'f_investEquip', investDeposit: 'f_investDeposit',
     };
     const $ = s => this._shadow.getElementById(s);
     Object.entries(fieldMap).forEach(([key, id]) => {
       const el = $(id);
       if (el && data[key] !== undefined) el.value = data[key];
     });
+    // 同步 laborMode 切换按钮状态
+    if (data.laborMode) {
+      this._laborMode = data.laborMode;
+      this._applyLaborMode();
+    }
     this._calc();
   }
 
   reset() {
-    this.setData({ area: 0, seatArea: 1.8, seatsPerTable: 4, turnover: 0, openDays: 30, takeoutPct: 20,
+    this._laborMode = 'detail';
+    this.setData({
+      area: 0, seatArea: 1.8, seatsPerTable: 4, turnover: 0, openDays: 30, takeoutRevenuePct: 0,
       avgTableSpend: 0, avgPerPerson: 0, takeoutAvgPrice: 0, rent: 0,
+      laborMode: 'detail', totalLaborCost: 0,
       chefCount: 0, chefSalary: 0, waiterCount: 0, waiterSalary: 0, mgrCount: 0, mgrSalary: 0,
-      foodCostRate: 35, utilities: 0, takeoutCommission: 18, otherCost: 0
+      foodCostRate: 35, utilities: 0, takeoutCommission: 18, otherCost: 0,
+      investDecor: 0, investEquip: 0, investDeposit: 0,
     });
+  }
+
+  _applyLaborMode() {
+    const $ = s => this._shadow.getElementById(s);
+    const detailBlock = $('laborDetailBlock');
+    const totalBlock = $('laborTotalBlock');
+    const btnDetail = $('laborBtnDetail');
+    const btnTotal = $('laborBtnTotal');
+    if (!detailBlock) return;
+    if (this._laborMode === 'total') {
+      detailBlock.style.display = 'none';
+      totalBlock.style.display = '';
+      btnDetail && (btnDetail.classList.remove('active'));
+      btnTotal && (btnTotal.classList.add('active'));
+    } else {
+      detailBlock.style.display = '';
+      totalBlock.style.display = 'none';
+      btnDetail && (btnDetail.classList.add('active'));
+      btnTotal && (btnTotal.classList.remove('active'));
+    }
   }
 
   // ========== 内部方法 ==========
@@ -94,14 +127,17 @@ class StoreProfitCalculator extends HTMLElement {
     const v = id => { const el = $(id); return el && el.value ? parseFloat(el.value) : 0; };
     return {
       area: v('f_area'), seatArea: v('f_seatArea') || 1.8, seatsPerTable: v('f_seatsPerTable') || 4,
-      turnover: v('f_turnover'), openDays: v('f_openDays') || 30, takeoutPct: v('f_takeoutPct'),
+      turnover: v('f_turnover'), openDays: v('f_openDays') || 30, takeoutRevenuePct: v('f_takeoutRevenuePct'),
       avgTableSpend: v('f_avgTableSpend'), avgPerPerson: v('f_avgPerPerson'),
       takeoutAvgPrice: v('f_takeoutAvgPrice'), rent: v('f_rent'),
+      laborMode: this._laborMode || 'detail',
+      totalLaborCost: v('f_totalLaborCost'),
       chefCount: v('f_chefCount'), chefSalary: v('f_chefSalary'),
       waiterCount: v('f_waiterCount'), waiterSalary: v('f_waiterSalary'),
       mgrCount: v('f_mgrCount'), mgrSalary: v('f_mgrSalary'),
       foodCostRate: v('f_foodCostRate'), utilities: v('f_utilities'),
-      takeoutCommission: v('f_takeoutCommission'), otherCost: v('f_otherCost')
+      takeoutCommission: v('f_takeoutCommission'), otherCost: v('f_otherCost'),
+      investDecor: v('f_investDecor'), investEquip: v('f_investEquip'), investDeposit: v('f_investDeposit'),
     };
   }
 
@@ -177,6 +213,41 @@ class StoreProfitCalculator extends HTMLElement {
       }
     }
 
+    // Investment recovery
+    const investPanel = $('investPanel');
+    const investArea = $('investArea');
+    if (investPanel && investArea) {
+      if (r.totalInvestment > 0) {
+        investPanel.style.display = '';
+        const fmt = n => Math.abs(n) >= 10000 ? (n / 10000).toFixed(1) + '万' : n.toFixed(0);
+        if (r.investRecoveryMonths === null) {
+          // 亏损或无利润，无法测算
+          investArea.innerHTML = `
+            <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:12px">
+              <div class="spc-invest-item"><div class="spc-invest-label">总投入</div><div class="spc-invest-val" style="color:#1F4E79">${fmt(r.totalInvestment)} 元</div></div>
+              <div class="spc-invest-item"><div class="spc-invest-label">回收期</div><div class="spc-invest-val" style="color:#EF4444">无法测算</div><div class="spc-invest-sub">门店当前亏损</div></div>
+            </div>`;
+        } else {
+          const months = r.investRecoveryMonths;
+          const years = (months / 12).toFixed(1);
+          const color = months <= 18 ? '#10B981' : months <= 30 ? '#F59E0B' : '#EF4444';
+          const label = months <= 18 ? '回本较快 ✅' : months <= 30 ? '回本适中 ⚠️' : '回本较慢 🔴';
+          investArea.innerHTML = `
+            <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:12px">
+              <div class="spc-invest-item"><div class="spc-invest-label">总投入</div><div class="spc-invest-val" style="color:#1F4E79">${fmt(r.totalInvestment)} 元</div></div>
+              <div class="spc-invest-item">
+                <div class="spc-invest-label">预计回收期</div>
+                <div class="spc-invest-val" style="color:${color}">${months} 个月</div>
+                <div class="spc-invest-sub">约 ${years} 年 · ${label}</div>
+              </div>
+              <div class="spc-invest-item"><div class="spc-invest-label">月净利润</div><div class="spc-invest-val" style="color:#10B981">${fmt(r.monthProfit)} 元</div></div>
+            </div>`;
+        }
+      } else {
+        investPanel.style.display = 'none';
+      }
+    }
+
     // Sensitivity
     const sensArea = $('sensitivityArea');
     if (sensArea) {
@@ -243,6 +314,20 @@ ${showHeader ? `
     });
     const resetBtn = this._shadow.getElementById('resetBtn');
     if (resetBtn) resetBtn.addEventListener('click', () => this.reset());
+
+    // 人工模式切换
+    const btnDetail = this._shadow.getElementById('laborBtnDetail');
+    const btnTotal = this._shadow.getElementById('laborBtnTotal');
+    if (btnDetail) btnDetail.addEventListener('click', () => {
+      this._laborMode = 'detail';
+      this._applyLaborMode();
+      this._calc();
+    });
+    if (btnTotal) btnTotal.addEventListener('click', () => {
+      this._laborMode = 'total';
+      this._applyLaborMode();
+      this._calc();
+    });
   }
 
   _renderInputPanel() {
@@ -280,7 +365,7 @@ ${showHeader ? `
     </div>
     <div class="spc-row">
       ${f('f_openDays','营业天数','','天/月','30')}
-      ${f('f_takeoutPct','外卖占比','不做的填0','%','0')}
+      ${f('f_takeoutRevenuePct','外卖营收占比','不做的填0','%','0')}
     </div>
   </div>
 
@@ -300,17 +385,33 @@ ${showHeader ? `
     <div class="spc-row">
       ${f('f_rent','月租金','如 15000','元/月')}
     </div>
-    <div class="spc-row">
-      ${f('f_chefCount','厨师人数','如 2','人')}
-      ${f('f_chefSalary','厨师平均工资','如 8000','元/月')}
+
+    <div style="margin-bottom:12px">
+      <div style="font-size:12px;font-weight:500;color:#6B7280;margin-bottom:8px">人工填写方式</div>
+      <div style="display:flex;gap:0;border:1.5px solid #E5E7EB;border-radius:8px;overflow:hidden;width:fit-content">
+        <button id="laborBtnDetail" class="spc-tab-btn active" style="padding:6px 14px;font-size:12px;font-weight:600;border:none;cursor:pointer;background:#1F4E79;color:#fff">按岗位拆分</button>
+        <button id="laborBtnTotal" class="spc-tab-btn" style="padding:6px 14px;font-size:12px;font-weight:600;border:none;cursor:pointer;background:#F9FAFB;color:#6B7280">直接填总额</button>
+      </div>
     </div>
-    <div class="spc-row">
-      ${f('f_waiterCount','服务员人数','如 4','人')}
-      ${f('f_waiterSalary','服务员平均工资','如 4000','元/月')}
+
+    <div id="laborDetailBlock">
+      <div class="spc-row">
+        ${f('f_chefCount','厨师人数','如 2','人')}
+        ${f('f_chefSalary','厨师平均工资','如 8000','元/月')}
+      </div>
+      <div class="spc-row">
+        ${f('f_waiterCount','服务员人数','如 4','人')}
+        ${f('f_waiterSalary','服务员平均工资','如 4000','元/月')}
+      </div>
+      <div class="spc-row">
+        ${f('f_mgrCount','管理层人数','如 1','人')}
+        ${f('f_mgrSalary','管理层平均工资','如 10000','元/月')}
+      </div>
     </div>
-    <div class="spc-row">
-      ${f('f_mgrCount','管理层人数','如 1','人')}
-      ${f('f_mgrSalary','管理层平均工资','如 10000','元/月')}
+    <div id="laborTotalBlock" style="display:none">
+      <div class="spc-row">
+        ${f('f_totalLaborCost','月总人工费','含所有员工工资','元')}
+      </div>
     </div>
   </div>
 
@@ -323,6 +424,20 @@ ${showHeader ? `
     <div class="spc-row">
       ${f('f_takeoutCommission','外卖平台抽成','','%','18')}
       ${f('f_otherCost','其他月度支出','如 2000','元')}
+    </div>
+  </div>
+
+  <div class="spc-section">
+    <div class="spc-section-label">📈 投资回收期测算 <span style="font-weight:400;color:#9CA3AF">（选填）</span></div>
+    <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:10px 12px;font-size:12px;color:#92400E;margin-bottom:12px">
+      💡 填写开店投入，自动计算几个月回本
+    </div>
+    <div class="spc-row">
+      ${f('f_investDecor','装修费','如 200000','元')}
+      ${f('f_investEquip','设备购置费','如 80000','元')}
+    </div>
+    <div class="spc-row">
+      ${f('f_investDeposit','押金','如 60000','元')}
     </div>
   </div>
 
@@ -371,6 +486,11 @@ ${showHeader ? `
       <tr><td colspan="3" style="text-align:center;color:#6B7280;padding:24px">请填写左侧数据</td></tr>
     </tbody>
   </table>
+</div>
+
+<div class="spc-invest-panel" id="investPanel" style="display:none">
+  <div class="spc-panel-title">📈 投资回收期</div>
+  <div id="investArea"></div>
 </div>
 
 <div class="spc-sens-panel">
@@ -469,6 +589,12 @@ ${showHeader ? `
 .spc-total-row td { font-weight: 700; border-top: 2px solid ${border}; font-size: 14px; }
 .spc-total-row .spc-amount { color: #1F4E79; }
 .spc-cat-icon { width: 28px; height: 28px; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; margin-right: 8px; vertical-align: middle; }
+
+.spc-invest-panel { background: ${card}; border-radius: 16px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); margin-bottom: 24px; border-top: 3px solid #F59E0B; }
+.spc-invest-item { flex: 1; min-width: 100px; padding: 12px 14px; background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 10px; }
+.spc-invest-label { font-size: 11px; color: #92400E; margin-bottom: 4px; }
+.spc-invest-val { font-size: 22px; font-weight: 800; line-height: 1.2; }
+.spc-invest-sub { font-size: 11px; color: #92400E; margin-top: 3px; }
 
 .spc-sens-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; font-size: 13px; border-bottom: 1px solid #F3F4F6; }
 .spc-sens-row:last-child { border-bottom: none; }

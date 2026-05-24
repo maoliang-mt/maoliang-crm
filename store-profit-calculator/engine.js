@@ -12,34 +12,49 @@
 // ============================================================
 export const presets = {
   fastfood: {
-    name: '快餐小吃', area: 60, seatArea: 1.5, seatsPerTable: 4, turnover: 3.0, openDays: 30, takeoutPct: 35,
+    name: '快餐小吃', area: 60, seatArea: 1.5, seatsPerTable: 4, turnover: 3.0, openDays: 30,
+    takeoutRevenuePct: 35,
     avgTableSpend: 80, avgPerPerson: 22, takeoutAvgPrice: 25, rent: 8000,
+    laborMode: 'detail',
     chefCount: 1, chefSalary: 6000, waiterCount: 2, waiterSalary: 3500, mgrCount: 1, mgrSalary: 7000,
-    foodCostRate: 38, utilities: 2000, takeoutCommission: 18, otherCost: 1500
+    foodCostRate: 38, utilities: 2000, takeoutCommission: 18, otherCost: 1500,
+    investDecor: 0, investEquip: 0, investDeposit: 0
   },
   chinese: {
-    name: '中餐正餐', area: 180, seatArea: 2.0, seatsPerTable: 6, turnover: 1.5, openDays: 30, takeoutPct: 10,
+    name: '中餐正餐', area: 180, seatArea: 2.0, seatsPerTable: 6, turnover: 1.5, openDays: 30,
+    takeoutRevenuePct: 10,
     avgTableSpend: 360, avgPerPerson: 65, takeoutAvgPrice: 55, rent: 25000,
+    laborMode: 'detail',
     chefCount: 3, chefSalary: 8000, waiterCount: 6, waiterSalary: 4000, mgrCount: 1, mgrSalary: 10000,
-    foodCostRate: 35, utilities: 5000, takeoutCommission: 18, otherCost: 3000
+    foodCostRate: 35, utilities: 5000, takeoutCommission: 18, otherCost: 3000,
+    investDecor: 0, investEquip: 0, investDeposit: 0
   },
   hotpot: {
-    name: '火锅串串', area: 200, seatArea: 2.2, seatsPerTable: 4, turnover: 1.8, openDays: 30, takeoutPct: 8,
+    name: '火锅串串', area: 200, seatArea: 2.2, seatsPerTable: 4, turnover: 1.8, openDays: 30,
+    takeoutRevenuePct: 8,
     avgTableSpend: 320, avgPerPerson: 85, takeoutAvgPrice: 60, rent: 28000,
+    laborMode: 'detail',
     chefCount: 2, chefSalary: 7000, waiterCount: 8, waiterSalary: 4000, mgrCount: 1, mgrSalary: 10000,
-    foodCostRate: 40, utilities: 6000, takeoutCommission: 18, otherCost: 3500
+    foodCostRate: 40, utilities: 6000, takeoutCommission: 18, otherCost: 3500,
+    investDecor: 0, investEquip: 0, investDeposit: 0
   },
   bbq: {
-    name: '烧烤夜宵', area: 120, seatArea: 2.0, seatsPerTable: 4, turnover: 1.5, openDays: 30, takeoutPct: 15,
+    name: '烧烤夜宵', area: 120, seatArea: 2.0, seatsPerTable: 4, turnover: 1.5, openDays: 30,
+    takeoutRevenuePct: 15,
     avgTableSpend: 280, avgPerPerson: 75, takeoutAvgPrice: 55, rent: 15000,
+    laborMode: 'detail',
     chefCount: 2, chefSalary: 7500, waiterCount: 4, waiterSalary: 4000, mgrCount: 1, mgrSalary: 9000,
-    foodCostRate: 38, utilities: 4000, takeoutCommission: 18, otherCost: 2500
+    foodCostRate: 38, utilities: 4000, takeoutCommission: 18, otherCost: 2500,
+    investDecor: 0, investEquip: 0, investDeposit: 0
   },
   cafe: {
-    name: '咖啡茶饮', area: 50, seatArea: 2.5, seatsPerTable: 2, turnover: 2.5, openDays: 30, takeoutPct: 40,
+    name: '咖啡茶饮', area: 50, seatArea: 2.5, seatsPerTable: 2, turnover: 2.5, openDays: 30,
+    takeoutRevenuePct: 40,
     avgTableSpend: 60, avgPerPerson: 32, takeoutAvgPrice: 28, rent: 12000,
+    laborMode: 'detail',
     chefCount: 1, chefSalary: 5500, waiterCount: 2, waiterSalary: 3800, mgrCount: 1, mgrSalary: 8000,
-    foodCostRate: 28, utilities: 2500, takeoutCommission: 20, otherCost: 2000
+    foodCostRate: 28, utilities: 2500, takeoutCommission: 20, otherCost: 2000,
+    investDecor: 0, investEquip: 0, investDeposit: 0
   }
 };
 
@@ -85,7 +100,7 @@ export function diagnose(result) {
     strategies.push('房租压力大，建议做储值锁客+提客单，摊薄固定成本');
   if (result.profitRate < 10 && result.laborRatio > 25)
     strategies.push('人工成本高，建议优化排班或引入自助点单');
-  if (result.takeoutRatio < 15 && result.profitRate < 15)
+  if (result.takeoutActualRatio < 15 && result.profitRate < 15)
     strategies.push('外卖占比低，可拓展外卖渠道增加营收');
   if (result.profitRate >= 10)
     strategies.push('经营健康，可考虑储值锁客+会员运营提升复购');
@@ -103,40 +118,41 @@ export function diagnose(result) {
  * @returns {Object} 完整计算结果
  *
  * 输入参数:
- *   area            - 门店面积(㎡)
- *   seatArea        - 每座面积(㎡/座), 默认1.8
- *   seatsPerTable   - 每桌座位数, 默认4
- *   turnover        - 翻台率(次/天)
- *   openDays        - 营业天数(天/月), 默认30
- *   takeoutPct      - 外卖占比(%), 默认20
- *   avgTableSpend   - 桌均消费(元)
- *   avgPerPerson    - 客单价(元)
- *   takeoutAvgPrice - 外卖客单价(元), 默认取avgPerPerson
- *   rent            - 月租金(元)
- *   chefCount       - 厨师人数
- *   chefSalary      - 厨师月工资(元)
- *   waiterCount     - 服务员人数
- *   waiterSalary    - 服务员月工资(元)
- *   mgrCount        - 管理层人数
- *   mgrSalary       - 管理层月工资(元)
- *   foodCostRate    - 食材成本率(%), 默认35
- *   utilities       - 水电能耗(元/月)
+ *   area              - 门店面积(㎡)
+ *   seatArea          - 每座面积(㎡/座), 默认1.8
+ *   seatsPerTable     - 每桌座位数, 默认4
+ *   turnover          - 翻台率(次/天)
+ *   openDays          - 营业天数(天/月), 默认30
+ *   takeoutRevenuePct - 外卖营收占比(%), 默认0（占总营收的比例）
+ *   avgTableSpend     - 桌均消费(元)
+ *   avgPerPerson      - 客单价(元)
+ *   takeoutAvgPrice   - 外卖客单价(元), 默认取avgPerPerson
+ *   rent              - 月租金(元)
+ *   laborMode         - 人工填写模式: 'detail'(分项) | 'total'(直填总额)
+ *   totalLaborCost    - 月总人工费(元), laborMode='total'时使用
+ *   chefCount/chefSalary/waiterCount/waiterSalary/mgrCount/mgrSalary - laborMode='detail'时使用
+ *   foodCostRate      - 食材成本率(%), 默认35
+ *   utilities         - 水电能耗(元/月)
  *   takeoutCommission - 外卖平台抽成(%), 默认18
- *   otherCost       - 其他月度支出(元)
+ *   otherCost         - 其他月度支出(元)
+ *   investDecor       - 装修费(元), 可选，用于回收期测算
+ *   investEquip       - 设备购置费(元), 可选
+ *   investDeposit     - 押金(元), 可选
  */
 export function calcStoreProfit(input = {}) {
-  // 解构输入，设默认值
   const {
     area = 0,
     seatArea = 1.8,
     seatsPerTable = 4,
     turnover = 0,
     openDays = 30,
-    takeoutPct = 0,
+    takeoutRevenuePct = 0,  // 外卖占总营收的比例（%）
     avgTableSpend = 0,
     avgPerPerson = 0,
-    takeoutAvgPrice,  // 默认取avgPerPerson
+    takeoutAvgPrice,
     rent = 0,
+    laborMode = 'detail',   // 'detail' | 'total'
+    totalLaborCost = 0,
     chefCount = 0,
     chefSalary = 0,
     waiterCount = 0,
@@ -146,7 +162,10 @@ export function calcStoreProfit(input = {}) {
     foodCostRate = 35,
     utilities = 0,
     takeoutCommission = 18,
-    otherCost = 0
+    otherCost = 0,
+    investDecor = 0,
+    investEquip = 0,
+    investDeposit = 0,
   } = input;
 
   const _takeoutAvgPrice = takeoutAvgPrice || avgPerPerson;
@@ -156,39 +175,57 @@ export function calcStoreProfit(input = {}) {
   const totalTables = seatsPerTable > 0 ? Math.floor(totalSeats / seatsPerTable) : 0;
 
   // ========== 营收计算 ==========
-  // 日堂食
-  const dailyDineInCustomers = totalTables * turnover * seatsPerTable;
+  // 堂食营收（基准）
   const dailyDineInRevenue = totalTables * turnover * avgTableSpend;
   const monthlyDineInRevenue = dailyDineInRevenue * openDays;
+  const dailyDineInCustomers = totalTables * turnover * seatsPerTable;
+  const monthlyDineInCustomers = Math.round(dailyDineInCustomers * openDays);
 
-  // 月外卖
-  const takeoutRatio = takeoutPct / 100;
-  const dineInRatio = 1 - takeoutRatio;
-  let monthlyTakeoutCustomers = 0;
+  // 外卖营收：按「外卖占总营收比例」反推
+  // totalRevenue = dineInRevenue + takeoutRevenue
+  // takeoutRevenue = totalRevenue * (takeoutRevenuePct/100)
+  // => totalRevenue = dineInRevenue / (1 - takeoutRevenuePct/100)
+  const takeoutRatio = Math.min(takeoutRevenuePct / 100, 0.95); // 最多95%防除零
+  let totalRevenue = 0;
   let monthlyTakeoutRevenue = 0;
-  let monthlyTakeoutRevenueRaw = 0;
+  let monthlyTakeoutRevenueBefore = 0; // 扣抽成前
+  let monthlyTakeoutCustomers = 0;
 
-  if (dineInRatio > 0 && avgPerPerson > 0) {
-    const totalDailyCustomers = dailyDineInCustomers / dineInRatio;
-    const dailyTakeoutCustomers = totalDailyCustomers * takeoutRatio;
-    monthlyTakeoutCustomers = Math.round(dailyTakeoutCustomers * openDays);
-    monthlyTakeoutRevenue = dailyTakeoutCustomers * _takeoutAvgPrice * openDays;
-    monthlyTakeoutRevenueRaw = monthlyTakeoutRevenue; // 扣抽成前
+  if (monthlyDineInRevenue > 0) {
+    if (takeoutRatio > 0) {
+      totalRevenue = monthlyDineInRevenue / (1 - takeoutRatio);
+      monthlyTakeoutRevenue = totalRevenue * takeoutRatio;
+      // 外卖扣抽成后的实收（已经在 monthlyTakeoutRevenue 里，平台抽成作为成本单独列）
+      monthlyTakeoutRevenueBefore = monthlyTakeoutRevenue; // 扣抽成前的外卖营收
+      // 外卖客流估算
+      if (_takeoutAvgPrice > 0) {
+        monthlyTakeoutCustomers = Math.round(monthlyTakeoutRevenue / _takeoutAvgPrice);
+      }
+    } else {
+      totalRevenue = monthlyDineInRevenue;
+    }
   }
 
-  // 月总营收
-  const monthlyDineInCustomers = Math.round(dailyDineInCustomers * openDays);
   const totalMonthlyCustomers = monthlyDineInCustomers + monthlyTakeoutCustomers;
-  const totalRevenue = monthlyDineInRevenue + monthlyTakeoutRevenue;
+  const takeoutActualRatio = totalRevenue > 0 ? (monthlyTakeoutRevenue / totalRevenue * 100) : 0;
 
   // ========== 成本计算 ==========
-  const chefTotal = chefCount * chefSalary;
-  const waiterTotal = waiterCount * waiterSalary;
-  const mgrTotal = mgrCount * mgrSalary;
-  const laborCost = chefTotal + waiterTotal + mgrTotal;
+  // 人工成本
+  let chefTotal = 0, waiterTotal = 0, mgrTotal = 0;
+  let laborCost = 0;
+  if (laborMode === 'total') {
+    laborCost = totalLaborCost;
+    // detail 字段清零，避免展示混乱
+    chefTotal = waiterTotal = mgrTotal = 0;
+  } else {
+    chefTotal = chefCount * chefSalary;
+    waiterTotal = waiterCount * waiterSalary;
+    mgrTotal = mgrCount * mgrSalary;
+    laborCost = chefTotal + waiterTotal + mgrTotal;
+  }
 
   const foodCost = totalRevenue * (foodCostRate / 100);
-  const takeoutPlatformFee = monthlyTakeoutRevenueRaw * (takeoutCommission / 100);
+  const takeoutPlatformFee = monthlyTakeoutRevenueBefore * (takeoutCommission / 100);
   const totalCost = rent + laborCost + foodCost + utilities + takeoutPlatformFee + otherCost;
 
   // ========== 利润计算 ==========
@@ -200,7 +237,6 @@ export function calcStoreProfit(input = {}) {
   const rentRatio = totalRevenue > 0 ? (rent / totalRevenue * 100) : 0;
   const laborRatio = totalRevenue > 0 ? (laborCost / totalRevenue * 100) : 0;
   const foodCostRatio = totalRevenue > 0 ? (foodCost / totalRevenue * 100) : 0;
-  const takeoutActualRatio = totalRevenue > 0 ? (monthlyTakeoutRevenue / totalRevenue * 100) : 0;
 
   // ========== 盈亏平衡 ==========
   const dailyCost = openDays > 0 ? totalCost / openDays : 0;
@@ -209,17 +245,35 @@ export function calcStoreProfit(input = {}) {
     : 0;
   const breakEvenDailyRevenue = dailyCost;
 
+  // ========== 投资回收期 ==========
+  const totalInvestment = investDecor + investEquip + investDeposit;
+  // 回收期（月）：用月净利润，押金可退所以用净利润+押金作为分母（可选，这里保守用月净利润）
+  const investRecoveryMonths = (totalInvestment > 0 && monthProfit > 0)
+    ? +(totalInvestment / monthProfit).toFixed(1)
+    : null; // null = 无法测算（未填投入或亏损）
+
   // ========== 成本明细 ==========
-  const costBreakdown = [
-    { key: 'rent',          name: '房租',         amount: rent },
-    { key: 'chef',          name: '厨师工资',     amount: chefTotal,  detail: `${chefCount}人 × ${chefSalary.toLocaleString()}元` },
-    { key: 'waiter',        name: '服务员工资',   amount: waiterTotal, detail: `${waiterCount}人 × ${waiterSalary.toLocaleString()}元` },
-    { key: 'manager',       name: '管理层工资',   amount: mgrTotal,   detail: `${mgrCount}人 × ${mgrSalary.toLocaleString()}元` },
-    { key: 'food',          name: '食材成本',     amount: foodCost,   detail: `${foodCostRate}% 营收` },
-    { key: 'utilities',     name: '水电能耗',     amount: utilities },
-    { key: 'takeoutFee',    name: '外卖平台抽成', amount: takeoutPlatformFee, detail: `${takeoutCommission}% 外卖营收` },
-    { key: 'other',         name: '其他支出',     amount: otherCost },
-  ].map(item => ({
+  const costBreakdown = laborMode === 'total'
+    ? [
+        { key: 'rent',       name: '房租',       amount: rent },
+        { key: 'labor',      name: '人工合计',   amount: laborCost, detail: '（直接填写）' },
+        { key: 'food',       name: '食材成本',   amount: foodCost,  detail: `${foodCostRate}% 营收` },
+        { key: 'utilities',  name: '水电能耗',   amount: utilities },
+        { key: 'takeoutFee', name: '外卖平台抽成', amount: takeoutPlatformFee, detail: `${takeoutCommission}% 外卖营收` },
+        { key: 'other',      name: '其他支出',   amount: otherCost },
+      ]
+    : [
+        { key: 'rent',       name: '房租',         amount: rent },
+        { key: 'chef',       name: '厨师工资',     amount: chefTotal,   detail: `${chefCount}人 × ${chefSalary.toLocaleString()}元` },
+        { key: 'waiter',     name: '服务员工资',   amount: waiterTotal, detail: `${waiterCount}人 × ${waiterSalary.toLocaleString()}元` },
+        { key: 'manager',    name: '管理层工资',   amount: mgrTotal,    detail: `${mgrCount}人 × ${mgrSalary.toLocaleString()}元` },
+        { key: 'food',       name: '食材成本',     amount: foodCost,    detail: `${foodCostRate}% 营收` },
+        { key: 'utilities',  name: '水电能耗',     amount: utilities },
+        { key: 'takeoutFee', name: '外卖平台抽成', amount: takeoutPlatformFee, detail: `${takeoutCommission}% 外卖营收` },
+        { key: 'other',      name: '其他支出',     amount: otherCost },
+      ];
+
+  const costBreakdownFinal = costBreakdown.map(item => ({
     ...item,
     pctOfRevenue: totalRevenue > 0 ? +(item.amount / totalRevenue * 100).toFixed(1) : 0
   }));
@@ -240,15 +294,8 @@ export function calcStoreProfit(input = {}) {
   }));
 
   // ========== 方案工厂对接数据 ==========
-  // 这些字段可直接喂给策略引擎
   const proposalData = {
-    // 储值档位建议（基于客单价）
-    storageTiers: avgPerPerson > 0 ? [
-      { name: '体验档', amount: Math.round(avgPerPerson * 2 / 10) * 10, gift: Math.round(avgPerPerson * 0.3) },
-      { name: '主推档', amount: Math.round(avgPerPerson * 4.5 / 100) * 100, gift: Math.round(avgPerPerson * 1.2) },
-      { name: '尊享档', amount: Math.round(avgPerPerson * 8 / 100) * 100, gift: Math.round(avgPerPerson * 3) },
-    ] : [],
-    // 月储值目标
+    // 月储值目标（参考值，15%营收）
     monthlyStorageTarget: Math.round(totalRevenue * 0.15),
     // 盈亏平衡翻台率
     breakEvenTurnover: +breakEvenTurnover.toFixed(2),
@@ -258,7 +305,10 @@ export function calcStoreProfit(input = {}) {
       rentRatio > 20 ? '高租金' : '租金合理',
       laborRatio > 25 ? '高人工' : '人工合理',
       takeoutActualRatio > 30 ? '高外卖' : takeoutActualRatio < 10 ? '低外卖' : '外卖适中',
-    ].filter(t => t)
+    ].filter(t => t),
+    // 投资回收期（如有填写）
+    investRecoveryMonths,
+    totalInvestment,
   };
 
   // ========== 组装返回 ==========
@@ -274,13 +324,15 @@ export function calcStoreProfit(input = {}) {
     // 成本
     laborCost, chefTotal, waiterTotal, mgrTotal,
     foodCost, takeoutPlatformFee,
-    totalCost, costBreakdown,
+    totalCost, costBreakdown: costBreakdownFinal,
     // 利润
     monthProfit, yearProfit, profitRate,
     // 关键比率
     rentRatio, laborRatio, foodCostRatio,
     // 盈亏平衡
     breakEvenDailyRevenue, breakEvenTurnover,
+    // 投资回收期
+    totalInvestment, investRecoveryMonths,
     // 敏感性
     sensitivity,
     // 方案工厂对接
