@@ -818,6 +818,7 @@ body {
 <!-- ===== Tab 切换 ===== -->
 <div class="tabs">
   <div class="tab active" data-tab="generate">📝 生成方案</div>
+  <div class="tab" data-tab="profit">💰 盈利测算</div>
   <div class="tab" data-tab="library">📚 方案库</div>
   <div class="tab" data-tab="stats">📊 统计</div>
 </div>
@@ -985,7 +986,7 @@ body {
       <div class="form-section-title">⚙️ 输出设置</div>
       <div class="form-group">
         <label class="form-label">输出格式</label>
-        <select class="form-select" id="output-format">
+        <select class="form-select" id="output-format" onchange="handleFormatChange(this.value)">
           <option value="both">Word + 网页版</option>
           <option value="all">Word + 网页版 + PPT</option>
           <option value="word_only">仅Word</option>
@@ -993,6 +994,24 @@ body {
           <option value="ppt_only">仅PPT</option>
           <option value="word_ppt">Word + PPT</option>
         </select>
+      </div>
+
+      <!-- 密码设置（仅含网页版时显示） -->
+      <div class="form-group" id="password-setting" style="display:none">
+        <label class="form-label">网页版密码保护</label>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;padding:8px 14px;border:1.5px solid var(--border);border-radius:8px;transition:all .2s" id="pwd-lock-label">
+            <input type="radio" name="html-password" id="pwd-lock" value="lock" checked onchange="updatePasswordLabel()" style="accent-color:var(--primary)">
+            <span>🔒 启用密码</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;padding:8px 14px;border:1.5px solid var(--border);border-radius:8px;transition:all .2s" id="pwd-open-label">
+            <input type="radio" name="html-password" id="pwd-open" value="open" onchange="updatePasswordLabel()" style="accent-color:var(--primary)">
+            <span>🔓 不设密码</span>
+          </label>
+        </div>
+        <div style="margin-top:6px;font-size:12px;color:#888;line-height:1.6" id="pwd-hint">
+          密码默认 <strong>123456</strong>，客户签约后由 BD 口头告知，前4章免费可见，5-8章签约解锁。
+        </div>
       </div>
     </div>
 
@@ -1022,6 +1041,17 @@ body {
     <div class="chart-title">📉 最近7天生成趋势</div>
     <div class="trend-chart" id="trend-chart"></div>
     <div class="trend-labels" id="trend-labels"></div>
+  </div>
+</div>
+
+<!-- ===== Tab 4: 盈利测算 ===== -->
+<div class="tab-content" id="tab-profit">
+  <div style="padding:0;margin:0;min-height:600px;">
+    <store-profit-calculator mode="full" id="spc-main"></store-profit-calculator>
+  </div>
+  <div style="margin:16px 0 0 0;padding:16px 20px;background:linear-gradient(135deg,#EBF5FF,#F0F9FF);border:1px solid #BAE6FD;border-radius:12px;font-size:13px;color:#0369A1;line-height:1.7">
+    💡 <strong>用法提示：</strong>选择业态预设或手动填入门店数据，实时查看月利润/成本结构/盈亏平衡。
+    计算结果中的「储值档位建议」和「诊断标签」可直接用于生成运营方案。
   </div>
 </div>
 
@@ -1235,7 +1265,15 @@ function handleSubmit(e) {
     seagullImages: seagullImages.length > 0 ? seagullImages.map(img => img.data) : null,
     products: document.getElementById('shop-products').value.trim(),
     competitors: document.getElementById('shop-competitors').value.trim(),
-    notes: document.getElementById('shop-notes').value.trim(),
+    notes: (() => {
+      const base = document.getElementById('shop-notes').value.trim();
+      const fmt = document.getElementById('output-format').value;
+      const htmlFormats = ['both', 'all', 'html_only'];
+      if (!htmlFormats.includes(fmt)) return base;
+      const pwdLock = document.getElementById('pwd-lock');
+      const pwdTag = (pwdLock && pwdLock.checked) ? '[html_password:lock]' : '[html_password:open]';
+      return base ? `${base} ${pwdTag}` : pwdTag;
+    })(),
     outputFormat: document.getElementById('output-format').value,
     status: 'generating',
     createdAt: new Date().toISOString()
@@ -1874,11 +1912,39 @@ function showUploadExample() {
     [{ text: '知道了', action: closeModal, type: 'confirm' }]
   );
 }
+
+// ── 格式切换：含HTML时显示密码设置 ──────────────────────────────
+function handleFormatChange(val) {
+  const htmlFormats = ['both', 'all', 'html_only'];
+  const pwdBox = document.getElementById('password-setting');
+  if (pwdBox) pwdBox.style.display = htmlFormats.includes(val) ? 'block' : 'none';
+}
+
+// ── 更新密码选项样式 ──────────────────────────────────────────────
+function updatePasswordLabel() {
+  const isLock = document.getElementById('pwd-lock').checked;
+  const lockLabel = document.getElementById('pwd-lock-label');
+  const openLabel = document.getElementById('pwd-open-label');
+  const hint = document.getElementById('pwd-hint');
+  if (lockLabel) lockLabel.style.borderColor = isLock ? 'var(--primary)' : 'var(--border)';
+  if (openLabel) openLabel.style.borderColor = !isLock ? 'var(--primary)' : 'var(--border)';
+  if (hint) hint.style.display = isLock ? 'block' : 'none';
+}
+
+// 初始化时触发一次，处理默认格式
+document.addEventListener('DOMContentLoaded', () => {
+  const fmt = document.getElementById('output-format');
+  if (fmt) handleFormatChange(fmt.value);
+  updatePasswordLabel();
+});
 </script>
 
 <!--
   CRM入口：在index.html的tabs区域新增一个tab:
   <div class="tab" onclick="location.href='plan_factory.html'">🏭 方案工厂</div>
 -->
+
+<!-- ===== 门店盈利计算器 Web Component ===== -->
+<script type="module" src="./store-profit-calculator/component.js"></script>
 </body>
 </html>

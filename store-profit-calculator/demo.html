@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>门店盈利计算器 - 使用示例</title>
+<style>body{font-family:Inter,-apple-system,sans-serif;background:#F5F7FA;padding:24px;}</style>
+</head>
+<body>
+
+<h2 style="margin-bottom:8px">用法一：Web Component（推荐）</h2>
+<p style="color:#6B7280;margin-bottom:16px">直接在 HTML 中使用自定义标签，零配置</p>
+
+<!-- 完整模式 -->
+<store-profit-calculator mode="full"></store-profit-calculator>
+
+<script type="module">
+  import './component.js'
+
+  // 监听计算结果
+  document.querySelector('store-profit-calculator')
+    .addEventListener('result', (e) => {
+      console.log('实时计算结果:', e.detail)
+    })
+</script>
+
+</body>
+</html>
