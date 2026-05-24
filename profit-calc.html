@@ -420,7 +420,9 @@ function goToPlan() {
   localStorage.setItem('lionProfitCalcResult', JSON.stringify(payload));
   showToast('✅ 测算数据已保存，正在跳转方案提交...');
   setTimeout(() => {
-    window.location.href = 'https://lion-plan-factory.mynocode.host/#/submit';
+    // 同时把数据编码到 URL 参数，供跨域场景读取
+    const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+    window.location.href = 'https://lion-plan-factory.mynocode.host/?tab=quotation&profitData=' + encodeURIComponent(encoded);
   }, 800);
 }
 let exportCanvas = null;
