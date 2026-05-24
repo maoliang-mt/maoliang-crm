@@ -3,511 +3,703 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>门店盈利测算 · 雄狮方案工厂</title>
+<title>门店盈利计算器 - 方案工厂</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', sans-serif;
-    background: #F5F7FA;
-    min-height: 100vh;
-  }
-
-  /* ── Header ── */
-  .header {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-    padding: 16px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 12px rgba(0,0,0,.25);
-  }
-  .header-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .header-logo {
-    font-size: 22px;
-  }
-  .header-title {
-    font-size: 16px;
-    font-weight: 700;
-    color: #fff;
-  }
-  .header-sub {
-    font-size: 12px;
-    color: rgba(255,255,255,.55);
-    margin-top: 2px;
-  }
-
-  /* ── 导出按钮区 ── */
-  .export-bar {
-    background: #fff;
-    border-bottom: 1px solid #E5E7EB;
-    padding: 12px 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .export-bar-tip {
-    font-size: 13px;
-    color: #6B7280;
-    flex: 1;
-    min-width: 180px;
-  }
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-    transition: all .18s;
-  }
-  .btn-primary {
-    background: linear-gradient(135deg, #6366F1, #8B5CF6);
-    color: #fff;
-    box-shadow: 0 2px 8px rgba(99,102,241,.35);
-  }
-  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(99,102,241,.45); }
-  .btn-primary:active { transform: translateY(0); }
-  .btn-secondary {
-    background: #F3F4F6;
-    color: #374151;
-    border: 1px solid #E5E7EB;
-  }
-  .btn-secondary:hover { background: #E5E7EB; }
-  .btn:disabled { opacity: .5; cursor: not-allowed; transform: none !important; }
-
-  /* ── 计算器容器 ── */
-  .calc-wrapper {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 20px 16px 40px;
-  }
-
-  /* ── 导出预览卡片 ── */
-  #export-preview-container {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.65);
-    z-index: 200;
-    overflow-y: auto;
-    padding: 20px;
-  }
-  #export-preview-container.visible { display: flex; align-items: flex-start; justify-content: center; }
-  .export-preview-inner {
-    background: #fff;
-    border-radius: 16px;
-    overflow: hidden;
-    max-width: 860px;
-    width: 100%;
-    box-shadow: 0 20px 60px rgba(0,0,0,.4);
-  }
-  .export-preview-header {
-    background: linear-gradient(135deg, #1a1a2e, #16213e);
-    padding: 16px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .export-preview-title { color: #fff; font-size: 15px; font-weight: 700; }
-  .export-preview-actions { display: flex; gap: 8px; }
-  #export-canvas-wrap { padding: 16px; background: #F5F7FA; overflow: hidden; }
-  #export-canvas-wrap canvas { max-width: 100%; display: block; border-radius: 8px; }
-
-  /* ── 截图目标区（隐藏在屏幕外，用于生成图片） ── */
-  #screenshot-target {
-    position: fixed;
-    left: -9999px;
-    top: 0;
-    width: 820px;
-    background: #fff;
-    padding: 0;
-  }
-
-  /* ── toast ── */
-  .toast {
-    position: fixed;
-    bottom: 80px;
-    left: 50%;
-    transform: translateX(-50%) translateY(20px);
-    background: #1a1a2e;
-    color: #fff;
-    padding: 10px 20px;
-    border-radius: 24px;
-    font-size: 13px;
-    opacity: 0;
-    transition: all .3s;
-    pointer-events: none;
-    z-index: 999;
-    white-space: nowrap;
-  }
-  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-  /* ── 返回方案工厂提示 ── */
-  .back-hint {
-    margin: 0 0 16px 0;
-    padding: 12px 16px;
-    background: linear-gradient(135deg, #EEF2FF, #F5F3FF);
-    border: 1px solid #C7D2FE;
-    border-radius: 10px;
-    font-size: 13px;
-    color: #4338CA;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+:root{--primary:#1F4E79;--primary-light:#2D6DA3;--primary-dark:#163A5C;--accent:#ED7D31;--bg:#F5F7FA;--card:#FFFFFF;--text:#1A1A2E;--text-sec:#6B7280;--border:#E5E7EB;--success:#10B981;--danger:#EF4444;--warning:#F59E0B}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.app-header{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;padding:14px 28px;display:flex;align-items:center;gap:10px;box-shadow:0 2px 8px rgba(0,0,0,.12);position:sticky;top:0;z-index:100}
+.app-header .logo{width:32px;height:32px;background:var(--accent);border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px}
+.app-header h1{font-size:16px;font-weight:700;flex:1}
+.main{max-width:1400px;margin:0 auto;padding:20px;display:grid;grid-template-columns:400px 1fr;gap:20px}
+.panel{background:var(--card);border-radius:14px;padding:22px;box-shadow:0 1px 3px rgba(0,0,0,.05),0 4px 10px rgba(0,0,0,.03)}
+.panel-title{font-size:14px;font-weight:700;color:var(--primary);margin-bottom:16px;display:flex;align-items:center;gap:6px}
+.section{margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.section:last-of-type{border-bottom:none;margin-bottom:0}
+.section-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--text-sec);margin-bottom:10px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.row.full{grid-template-columns:1fr}
+.field{display:flex;flex-direction:column;gap:3px}
+.field label{font-size:11px;font-weight:500;color:var(--text-sec)}
+.field input{height:36px;border:1.5px solid var(--border);border-radius:7px;padding:0 10px;font-size:13px;font-weight:500;color:var(--text);background:#FAFBFC;outline:none;width:100%;transition:all .2s}
+.field input:focus{border-color:var(--primary-light);box-shadow:0 0 0 3px rgba(31,78,121,.08);background:white}
+.unit{position:relative}
+.unit input{padding-right:40px}
+.unit::after{content:attr(data-unit);position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--text-sec);pointer-events:none}
+.mode-switch{display:flex;gap:0;margin-bottom:12px;border:1.5px solid var(--border);border-radius:8px;overflow:hidden}
+.mode-btn{flex:1;padding:8px 0;text-align:center;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;background:#FAFBFC;color:var(--text-sec);border:none}
+.mode-btn.active{background:var(--primary);color:white}
+.mode-btn:hover:not(.active){background:#EBF5FF;color:var(--primary)}
+.table-type-card{display:flex;align-items:center;gap:10px;background:#F9FAFB;border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:8px;transition:all .2s}
+.table-type-card:hover{border-color:var(--primary-light)}
+.table-type-icon{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.table-type-info{flex:1;min-width:0}
+.table-type-info .name{font-size:13px;font-weight:600}
+.table-type-info .desc{font-size:10px;color:var(--text-sec)}
+.table-type-num{width:60px}
+.table-type-num input{width:100%;text-align:center;font-size:16px;font-weight:700;height:36px;padding:0 4px}
+.input-scroll{overflow-y:auto;max-height:calc(100vh - 60px);scrollbar-width:thin;scrollbar-color:#CBD5E1 transparent}
+.input-scroll::-webkit-scrollbar{width:3px}
+.input-scroll::-webkit-scrollbar-thumb{background:#CBD5E1;border-radius:2px}
+.result-scroll{overflow-y:auto;max-height:calc(100vh - 60px);scrollbar-width:thin;scrollbar-color:#CBD5E1 transparent}
+.result-scroll::-webkit-scrollbar{width:3px}
+.result-scroll::-webkit-scrollbar-thumb{background:#CBD5E1;border-radius:2px}
+.big-profit{background:var(--card);border-radius:14px;padding:24px;box-shadow:0 1px 3px rgba(0,0,0,.05);text-align:center;margin-bottom:20px;position:relative;overflow:hidden}
+.big-profit::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--danger),var(--warning),var(--success))}
+.big-profit .label{font-size:13px;font-weight:600;color:var(--text-sec);margin-bottom:6px}
+.big-profit .value{font-size:44px;font-weight:900;line-height:1.1}
+.big-profit .value.pos{color:var(--success)}
+.big-profit .value.neg{color:var(--danger)}
+.big-profit .value.zero{color:var(--text-sec)}
+.big-profit .sub{font-size:14px;font-weight:600;margin-top:4px}
+.big-profit .sub.pos{color:var(--success)}
+.big-profit .sub.neg{color:var(--danger)}
+.verdict{margin-top:10px;padding:7px 14px;border-radius:16px;display:inline-block;font-size:12px;font-weight:600}
+.verdict.good{background:#D1FAE5;color:#065F46}
+.verdict.ok{background:#FEF3C7;color:#92400E}
+.verdict.bad{background:#FEE2E2;color:#991B1B}
+.health-bar{height:6px;border-radius:3px;background:#E5E7EB;overflow:hidden;margin-top:8px}
+.health-bar .fill{height:100%;border-radius:3px;transition:width .5s,background .5s}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.05);position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.card.rev::before{background:var(--primary)}
+.card.cost::before{background:var(--danger)}
+.card.profit::before{background:var(--success)}
+.card.rate::before{background:var(--accent)}
+.card .cl{font-size:11px;font-weight:500;color:var(--text-sec);margin-bottom:3px}
+.card .cv{font-size:24px;font-weight:800;line-height:1.2}
+.card.rev .cv{color:var(--primary)}
+.card.cost .cv{color:var(--danger)}
+.card.profit .cv{color:var(--success)}
+.card.rate .cv{color:var(--accent)}
+.card .cs{font-size:11px;color:var(--text-sec);margin-top:3px}
+.bd-table{width:100%;border-collapse:collapse;font-size:12px}
+.bd-table th{text-align:left;font-weight:600;color:var(--text-sec);padding:7px 10px;border-bottom:2px solid var(--border);font-size:11px}
+.bd-table td{padding:8px 10px;border-bottom:1px solid #F3F4F6}
+.bd-table .amt{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.bd-table .pct{text-align:right;color:var(--text-sec);font-size:11px}
+.bd-table .total td{font-weight:700;border-top:2px solid var(--border);font-size:13px}
+.bd-table .total .amt{color:var(--primary)}
+.bd-table .icon-cell{width:26px;height:26px;border-radius:5px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;margin-right:6px;vertical-align:middle}
+.sens-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;font-size:12px;border-bottom:1px solid #F3F4F6}
+.sens-row:last-child{border-bottom:none}
+.sens-label{color:var(--text-sec)}
+.sens-val{font-weight:600;font-variant-numeric:tabular-nums}
+.sens-val.up{color:var(--success)}
+.sens-val.down{color:var(--danger)}
+.auto-calc{background:#F0FDF4;border:1px solid #BBF7D0;border-radius:7px;padding:8px 12px;font-size:11px;color:#166534;margin-top:8px}
+.auto-calc.blue{background:#EFF6FF;border-color:#BFDBFE;color:#1E40AF}
+.auto-calc .num{font-weight:700;font-size:13px}
+.roi-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.roi-card{background:#F9FAFB;border:1.5px solid var(--border);border-radius:10px;padding:14px;text-align:center}
+.roi-card .roi-label{font-size:11px;font-weight:500;color:var(--text-sec);margin-bottom:4px}
+.roi-card .roi-value{font-size:22px;font-weight:800;line-height:1.2}
+.roi-card .roi-sub{font-size:11px;color:var(--text-sec);margin-top:3px}
+.roi-card.hi{background:linear-gradient(135deg,#EFF6FF,#DBEAFE);border-color:#93C5FD}
+.roi-card.hi .roi-value{color:var(--primary)}
+.roi-card.good{background:linear-gradient(135deg,#F0FDF4,#D1FAE5);border-color:#86EFAC}
+.roi-card.good .roi-value{color:var(--success)}
+.roi-card.warn{background:linear-gradient(135deg,#FFFBEB,#FEF3C7);border-color:#FDE68A}
+.roi-card.warn .roi-value{color:var(--warning)}
+.roi-card.bad{background:linear-gradient(135deg,#FEF2F2,#FEE2E2);border-color:#FCA5A5}
+.roi-card.bad .roi-value{color:var(--danger)}
+.payback-bar-wrap{margin-top:12px}
+.payback-bar-label{font-size:11px;color:var(--text-sec);margin-bottom:4px;display:flex;justify-content:space-between}
+.payback-bar{height:12px;border-radius:6px;background:#E5E7EB;overflow:hidden;position:relative}
+.payback-bar .fill{height:100%;border-radius:6px;transition:width .5s}
+.payback-bar .marker{position:absolute;top:-2px;bottom:-2px;width:3px;background:var(--text);border-radius:2px}
+.invest-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:12px}
+.invest-table td{padding:6px 8px;border-bottom:1px solid #F3F4F6}
+.invest-table .it-label{color:var(--text-sec)}
+.invest-table .it-value{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.invest-table .it-total td{font-weight:700;border-top:2px solid var(--border);font-size:13px}
+.invest-table .it-total .it-value{color:var(--primary)}
+.preset-bar{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.preset-btn{padding:5px 12px;border-radius:16px;border:1.5px solid var(--border);background:white;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;color:var(--text-sec)}
+.preset-btn:hover{border-color:var(--primary-light);color:var(--primary);background:#EBF5FF}
+.preset-btn.active{border-color:var(--primary);background:var(--primary);color:white}
+.reset-btn{width:100%;padding:9px;border:1.5px dashed var(--border);border-radius:7px;background:transparent;color:var(--text-sec);font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;margin-top:10px}
+.reset-btn:hover{border-color:var(--danger);color:var(--danger);background:#FEF2F2}
+.tip{background:linear-gradient(135deg,#EBF5FF,#F0F9FF);border:1px solid #BAE6FD;border-radius:8px;padding:10px 14px;font-size:11px;color:#0369A1;margin-bottom:14px}
+.big-rev-input{background:#FFFBEB;border:2px solid #FDE68A;border-radius:12px;padding:16px;margin-bottom:12px}
+.big-rev-input label{font-size:13px;font-weight:700;color:#92400E;display:block;margin-bottom:8px}
+.big-rev-input input{height:48px;border:2px solid #FDE68A;border-radius:10px;padding:0 14px;font-size:22px;font-weight:800;color:#92400E;background:#FFFBEB;outline:none;width:100%;text-align:center}
+.big-rev-input input:focus{border-color:#F59E0B;background:white}
+.go-plan-btn{display:none;width:100%;padding:13px;border-radius:10px;border:none;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:14px;background:linear-gradient(135deg,#ED7D31,#C05C1A);color:white;box-shadow:0 3px 10px rgba(237,125,49,.35)}
+.go-plan-btn:hover{transform:translateY(-1px);box-shadow:0 5px 16px rgba(237,125,49,.4)}
+.export-btn{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:11px;border-radius:10px;border:1.5px solid var(--primary-light);background:white;color:var(--primary);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;margin-top:12px}
+.export-btn:hover{background:#EBF5FF}
+.export-btn:disabled{opacity:.5;cursor:not-allowed}
+@media(max-width:1024px){.main{grid-template-columns:1fr;padding:14px}.input-scroll,.result-scroll{max-height:none}}
 </style>
 </head>
 <body>
 
-<!-- Header -->
-<div class="header">
-  <div class="header-left">
-    <span class="header-logo">🦁</span>
-    <div>
-      <div class="header-title">门店盈利测算</div>
-      <div class="header-sub">雄狮方案工厂 · 辅助工具</div>
+<div class="app-header">
+  <div class="logo">厂</div>
+  <h1>门店盈利计算器</h1>
+  <span style="font-size:12px;opacity:.8;margin-left:6px">方案工厂 · 实时盈亏测算</span>
+</div>
+
+<div class="main">
+<!-- ===== 左侧输入 ===== -->
+<div class="input-scroll panel">
+  <div class="panel-title">📋 填写门店数据</div>
+  <div class="tip">💡 知道哪个填哪个，不知道的留空。右侧实时算盈亏。</div>
+
+  <div class="preset-bar">
+    <button class="preset-btn" onclick="applyPreset(this,'fastfood')">快餐小吃</button>
+    <button class="preset-btn" onclick="applyPreset(this,'chinese')">中餐正餐</button>
+    <button class="preset-btn" onclick="applyPreset(this,'hotpot')">火锅串串</button>
+    <button class="preset-btn" onclick="applyPreset(this,'bbq')">烧烤夜宵</button>
+    <button class="preset-btn" onclick="applyPreset(this,'cafe')">咖啡茶饮</button>
+  </div>
+
+  <!-- 营收模式 -->
+  <div class="section">
+    <div class="section-label">💰 营收怎么填？</div>
+    <div class="mode-switch">
+      <button class="mode-btn active" id="modeCalc" onclick="switchRevenueMode('calc')">🖥️ 我来推算</button>
+      <button class="mode-btn" id="modeDirect" onclick="switchRevenueMode('direct')">✍️ 我直接填</button>
     </div>
-  </div>
-</div>
 
-<!-- 导出操作栏 -->
-<div class="export-bar">
-  <div class="export-bar-tip">💡 填写门店数据 → 测算完成后，点「出方案」直接带数据提交</div>
-  <button class="btn btn-secondary" id="btn-reset" onclick="resetCalc()">🔄 重置</button>
-  <button class="btn btn-secondary" id="btn-export" onclick="exportImage()">📸 导出图片</button>
-  <button class="btn btn-primary" id="btn-to-plan" onclick="goToPlan()" disabled style="background:#e8001c;color:#fff;border-color:#e8001c;opacity:0.45;cursor:not-allowed">📋 出方案</button>
-</div>
-
-<!-- 计算器主体 -->
-<div class="calc-wrapper">
-  <div class="back-hint">
-    📌 测算完成后，点「导出图片」保存结果，然后返回方案工厂提交表单，上传该图片作为参考附件。
-  </div>
-  <div id="spc-host">
-    <store-profit-calculator mode="full" id="spc-main"></store-profit-calculator>
-  </div>
-</div>
-
-<!-- 导出预览弹窗 -->
-<div id="export-preview-container">
-  <div class="export-preview-inner">
-    <div class="export-preview-header">
-      <span class="export-preview-title">📸 导出预览</span>
-      <div class="export-preview-actions">
-        <button class="btn btn-primary" id="btn-download" onclick="downloadImage()">⬇️ 保存图片</button>
-        <button class="btn btn-secondary" onclick="closePreview()" style="color:#fff;background:rgba(255,255,255,.15);border-color:transparent">✕ 关闭</button>
+    <!-- 推算：桌型卡片 -->
+    <div id="calcMode">
+      <div class="section-label" style="margin-top:4px">🪑 桌型配置</div>
+      <div class="table-type-card">
+        <div class="table-type-icon" style="background:#DBEAFE">💑</div>
+        <div class="table-type-info"><div class="name">双人桌</div><div class="desc">2人位</div></div>
+        <div class="table-type-num"><div class="field"><div class="unit" data-unit="张"><input type="number" id="table2" placeholder="0" oninput="calculate()"></div></div></div>
+      </div>
+      <div class="table-type-card">
+        <div class="table-type-icon" style="background:#FEF3C7">🍽️</div>
+        <div class="table-type-info"><div class="name">四人桌</div><div class="desc">4人位</div></div>
+        <div class="table-type-num"><div class="field"><div class="unit" data-unit="张"><input type="number" id="table4" placeholder="0" oninput="calculate()"></div></div></div>
+      </div>
+      <div class="table-type-card">
+        <div class="table-type-icon" style="background:#FCE7F3">🎉</div>
+        <div class="table-type-info"><div class="name">多人桌</div><div class="desc">6-8人大桌（7座）</div></div>
+        <div class="table-type-num"><div class="field"><div class="unit" data-unit="张"><input type="number" id="table6" placeholder="0" oninput="calculate()"></div></div></div>
+      </div>
+      <div class="table-type-card">
+        <div class="table-type-icon" style="background:#E0E7FF">🏛️</div>
+        <div class="table-type-info"><div class="name">包厢</div><div class="desc">8-12人独立空间（10座）</div></div>
+        <div class="table-type-num"><div class="field"><div class="unit" data-unit="个"><input type="number" id="tableBox" placeholder="0" oninput="calculate()"></div></div></div>
+      </div>
+      <div class="auto-calc" id="seatSummary">填写桌型后自动算出总座位数</div>
+      <div class="row" style="margin-top:12px">
+        <div class="field">
+          <label>客单价（人均消费）</label>
+          <div class="unit" data-unit="元"><input type="number" id="avgPrice" placeholder="如 70" oninput="calculate()"></div>
+        </div>
+        <div class="field">
+          <label>翻台率</label>
+          <div class="unit" data-unit="次/天"><input type="number" id="turnover" placeholder="如 1.5" step="0.1" oninput="calculate()"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>营业天数</label>
+          <div class="unit" data-unit="天/月"><input type="number" id="openDays" value="30" oninput="calculate()"></div>
+        </div>
+        <div class="field">
+          <label>外卖占营收比</label>
+          <div class="unit" data-unit="%"><input type="number" id="takeoutRevenuePct" value="0" placeholder="如 20" oninput="calculate()"></div>
+        </div>
       </div>
     </div>
-    <div id="export-canvas-wrap">
-      <canvas id="export-canvas"></canvas>
+
+    <!-- 直填 -->
+    <div id="directMode" style="display:none">
+      <div class="big-rev-input">
+        <label>💵 日营业额（一天卖多少钱）</label>
+        <input type="number" id="dailyRevenue" placeholder="如 10000" oninput="calculate()">
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>月营业天数</label>
+          <div class="unit" data-unit="天"><input type="number" id="openDays2" value="30" oninput="calculate()"></div>
+        </div>
+        <div class="field">
+          <label>外卖占营收比</label>
+          <div class="unit" data-unit="%"><input type="number" id="takeoutRevenuePct2" value="0" oninput="calculate()"></div>
+        </div>
+      </div>
+      <div class="auto-calc blue" id="revenueSummary">填写日营业额后自动算月营收</div>
     </div>
   </div>
+
+  <!-- 固定成本 -->
+  <div class="section">
+    <div class="section-label">🏢 固定成本</div>
+    <div class="row full" style="margin-bottom:12px">
+      <div class="field">
+        <label>月租金</label>
+        <div class="unit" data-unit="元/月"><input type="number" id="rent" placeholder="如 15000" oninput="calculate()"></div>
+      </div>
+    </div>
+    <div class="section-label">👥 人工成本</div>
+    <div class="mode-switch" style="margin-bottom:10px">
+      <button class="mode-btn active" id="laborDetail" onclick="switchLaborMode('detail')">按岗位拆分</button>
+      <button class="mode-btn" id="laborTotal" onclick="switchLaborMode('total')">直填总额</button>
+    </div>
+    <div id="laborDetailBlock">
+      <div class="row">
+        <div class="field"><label>厨师人数</label><div class="unit" data-unit="人"><input type="number" id="chefCount" placeholder="如 2" oninput="calculate()"></div></div>
+        <div class="field"><label>厨师平均工资</label><div class="unit" data-unit="元"><input type="number" id="chefSalary" placeholder="如 8000" oninput="calculate()"></div></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>服务员人数</label><div class="unit" data-unit="人"><input type="number" id="waiterCount" placeholder="如 4" oninput="calculate()"></div></div>
+        <div class="field"><label>服务员平均工资</label><div class="unit" data-unit="元"><input type="number" id="waiterSalary" placeholder="如 4000" oninput="calculate()"></div></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>店长/管理层人数</label><div class="unit" data-unit="人"><input type="number" id="mgrCount" placeholder="如 1" oninput="calculate()"></div></div>
+        <div class="field"><label>管理层平均工资</label><div class="unit" data-unit="元"><input type="number" id="mgrSalary" placeholder="如 10000" oninput="calculate()"></div></div>
+      </div>
+    </div>
+    <div id="laborTotalBlock" style="display:none">
+      <div class="row full">
+        <div class="field"><label>月人工总支出</label><div class="unit" data-unit="元"><input type="number" id="totalLaborCost" placeholder="如 30000" oninput="calculate()"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 变动成本 -->
+  <div class="section">
+    <div class="section-label">📊 变动成本</div>
+    <div class="row">
+      <div class="field"><label>食材成本率</label><div class="unit" data-unit="%"><input type="number" id="foodCostRate" value="35" step="1" oninput="calculate()"></div></div>
+      <div class="field"><label>水电能耗</label><div class="unit" data-unit="元/月"><input type="number" id="utilities" placeholder="如 3000" oninput="calculate()"></div></div>
+    </div>
+    <div class="row">
+      <div class="field"><label>外卖平台抽成</label><div class="unit" data-unit="%"><input type="number" id="takeoutCommission" value="18" step="1" oninput="calculate()"></div></div>
+      <div class="field"><label>其他月度支出</label><div class="unit" data-unit="元"><input type="number" id="otherCost" placeholder="如 2000" oninput="calculate()"></div></div>
+    </div>
+  </div>
+
+  <!-- 前期投资（6项） -->
+  <div class="section">
+    <div class="section-label">🏗️ 前期投资（开店一次性投入）</div>
+    <div class="row">
+      <div class="field"><label>装修费用</label><div class="unit" data-unit="元"><input type="number" id="investDecor" placeholder="如 200000" oninput="calculate()"></div></div>
+      <div class="field"><label>设备采购</label><div class="unit" data-unit="元"><input type="number" id="investEquip" placeholder="如 80000" oninput="calculate()"></div></div>
+    </div>
+    <div class="row">
+      <div class="field"><label>押金/转让费</label><div class="unit" data-unit="元"><input type="number" id="investDeposit" placeholder="如 50000" oninput="calculate()"></div></div>
+      <div class="field"><label>加盟费/品牌费</label><div class="unit" data-unit="元"><input type="number" id="investFranchise" placeholder="没有填0" oninput="calculate()"></div></div>
+    </div>
+    <div class="row">
+      <div class="field"><label>开业营销费</label><div class="unit" data-unit="元"><input type="number" id="investMarketing" placeholder="如 20000" oninput="calculate()"></div></div>
+      <div class="field"><label>其他前期投入</label><div class="unit" data-unit="元"><input type="number" id="investOther" placeholder="如 30000" oninput="calculate()"></div></div>
+    </div>
+    <div class="auto-calc blue" id="investSummary">填写前期投资后自动算总投资和回本周期</div>
+  </div>
+
+  <button class="reset-btn" onclick="resetAll()">🔄 重置所有数据</button>
 </div>
 
-<!-- 截图目标（隐藏，用于生成干净的截图内容） -->
-<div id="screenshot-target"></div>
+<!-- ===== 右侧结果 ===== -->
+<div class="result-scroll">
+  <!-- 截图区域 -->
+  <div id="exportSnapshot">
+    <div class="big-profit">
+      <div class="label">月净利润</div>
+      <div class="value zero" id="bigProfit">--</div>
+      <div class="sub" id="bigProfitSub"></div>
+      <div id="verdictBadge" class="verdict" style="display:none"></div>
+      <div class="health-bar"><div class="fill" id="healthFill" style="width:0%;background:#E5E7EB"></div></div>
+    </div>
 
-<!-- Toast -->
-<div class="toast" id="toast"></div>
+    <div class="cards">
+      <div class="card rev"><div class="cl">月营收</div><div class="cv" id="cRevenue">--</div><div class="cs" id="cRevenueSub"></div></div>
+      <div class="card cost"><div class="cl">月总成本</div><div class="cv" id="cCost">--</div><div class="cs" id="cCostSub"></div></div>
+      <div class="card profit"><div class="cl">月净利润</div><div class="cv" id="cProfit">--</div><div class="cs" id="cProfitSub"></div></div>
+      <div class="card rate"><div class="cl">净利润率</div><div class="cv" id="cRate">--</div><div class="cs" id="cRateSub"></div></div>
+    </div>
 
-<!-- 引入计算器 Web Component -->
-<script type="module" src="./store-profit-calculator/component.js"></script>
+    <div class="panel" style="margin-bottom:20px">
+      <div class="panel-title">📋 成本明细</div>
+      <table class="bd-table">
+        <thead><tr><th>项目</th><th>月度金额</th><th>占营收</th></tr></thead>
+        <tbody id="breakdownBody"><tr><td colspan="3" style="text-align:center;color:var(--text-sec);padding:20px">请填写左侧数据</td></tr></tbody>
+      </table>
+    </div>
 
-<!-- 引入 html2canvas（CDN） -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <div class="panel" style="margin-bottom:20px">
+      <div class="panel-title">🏗️ 投资回报分析</div>
+      <div id="roiArea"><div style="text-align:center;color:var(--text-sec);padding:14px;font-size:12px">填写前期投资数据后自动计算</div></div>
+    </div>
+
+    <div class="panel" style="margin-bottom:20px">
+      <div class="panel-title">🔬 敏感性分析（各因素±10%对利润的影响）</div>
+      <div id="sensitivityArea"><div style="text-align:center;color:var(--text-sec);padding:14px;font-size:12px">填写数据后自动计算</div></div>
+    </div>
+  </div>
+
+  <!-- 操作按钮（不进快照） -->
+  <button id="goPlanBtn" class="go-plan-btn" onclick="goToPlan()" style="display:none">📋 以此数据出方案 →</button>
+  <button class="export-btn" id="exportBtn" onclick="exportImage()">📸 导出为图片</button>
+</div>
+</div>
 
 <script>
-// ── Toast ──
-function showToast(msg, ms = 2500) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), ms);
+// ============================================================
+// 数据层（行业预设 + 桌型配置）
+// ============================================================
+const TABLE_CFG = { table2:{seats:2}, table4:{seats:4}, table6:{seats:7}, tableBox:{seats:10} };
+
+const PRESETS = {
+  fastfood: { table2:8,table4:6,table6:0,tableBox:0, avgPrice:28,turnover:3.0,openDays:30,takeoutRevenuePct:35, rent:8000, laborMode:'detail', chefCount:1,chefSalary:6000,waiterCount:2,waiterSalary:3500,mgrCount:1,mgrSalary:7000, foodCostRate:38,utilities:2000,takeoutCommission:18,otherCost:1500, investDecor:80000,investEquip:30000,investDeposit:20000,investFranchise:0,investMarketing:10000,investOther:10000 },
+  chinese:  { table2:4,table4:12,table6:4,tableBox:3, avgPrice:70,turnover:1.5,openDays:30,takeoutRevenuePct:0, rent:25000, laborMode:'detail', chefCount:3,chefSalary:8000,waiterCount:6,waiterSalary:4000,mgrCount:1,mgrSalary:10000, foodCostRate:35,utilities:5000,takeoutCommission:18,otherCost:3000, investDecor:300000,investEquip:100000,investDeposit:60000,investFranchise:0,investMarketing:30000,investOther:40000 },
+  hotpot:   { table2:4,table4:14,table6:6,tableBox:4, avgPrice:85,turnover:1.8,openDays:30,takeoutRevenuePct:0, rent:28000, laborMode:'detail', chefCount:2,chefSalary:7000,waiterCount:8,waiterSalary:4000,mgrCount:1,mgrSalary:10000, foodCostRate:40,utilities:6000,takeoutCommission:18,otherCost:3500, investDecor:400000,investEquip:150000,investDeposit:70000,investFranchise:0,investMarketing:40000,investOther:50000 },
+  bbq:      { table2:4,table4:8,table6:3,tableBox:2, avgPrice:75,turnover:1.5,openDays:30,takeoutRevenuePct:0, rent:15000, laborMode:'detail', chefCount:2,chefSalary:7500,waiterCount:4,waiterSalary:4000,mgrCount:1,mgrSalary:9000, foodCostRate:38,utilities:4000,takeoutCommission:18,otherCost:2500, investDecor:150000,investEquip:60000,investDeposit:40000,investFranchise:0,investMarketing:20000,investOther:20000 },
+  cafe:     { table2:10,table4:4,table6:0,tableBox:0, avgPrice:32,turnover:2.5,openDays:30,takeoutRevenuePct:40, rent:12000, laborMode:'detail', chefCount:1,chefSalary:5500,waiterCount:2,waiterSalary:3800,mgrCount:1,mgrSalary:8000, foodCostRate:28,utilities:2500,takeoutCommission:20,otherCost:2000, investDecor:120000,investEquip:50000,investDeposit:30000,investFranchise:50000,investMarketing:15000,investOther:15000 },
+};
+
+let revenueMode = 'calc';  // 'calc' | 'direct'
+let laborMode   = 'detail'; // 'detail' | 'total'
+let lastResult  = null;
+
+// ============================================================
+// 工具
+// ============================================================
+function gv(id){ const e=document.getElementById(id); return e&&e.value?parseFloat(e.value):0; }
+function sv(id,v){ const e=document.getElementById(id); if(e) e.value=v; }
+function fmt(n){ if(n===0)return'0'; if(Math.abs(n)>=10000)return(n/10000).toFixed(2)+'万'; return n.toLocaleString('zh-CN',{maximumFractionDigits:0}); }
+function fmtFull(n){ return n.toLocaleString('zh-CN',{maximumFractionDigits:0}); }
+
+// ============================================================
+// 模式切换
+// ============================================================
+function switchRevenueMode(m){
+  revenueMode=m;
+  document.getElementById('modeCalc').classList.toggle('active',m==='calc');
+  document.getElementById('modeDirect').classList.toggle('active',m==='direct');
+  document.getElementById('calcMode').style.display=m==='calc'?'block':'none';
+  document.getElementById('directMode').style.display=m==='direct'?'block':'none';
+  calculate();
 }
 
-// ── 重置 ──
-function resetCalc() {
-  const spc = document.getElementById('spc-main');
-  if (spc && spc.reset) {
-    spc.reset();
-    showToast('已重置');
+function switchLaborMode(m){
+  laborMode=m;
+  document.getElementById('laborDetail').classList.toggle('active',m==='detail');
+  document.getElementById('laborTotal').classList.toggle('active',m==='total');
+  document.getElementById('laborDetailBlock').style.display=m==='detail'?'block':'none';
+  document.getElementById('laborTotalBlock').style.display=m==='total'?'block':'none';
+  calculate();
+}
+
+// ============================================================
+// 预设
+// ============================================================
+function applyPreset(btn, type){
+  const p=PRESETS[type]; if(!p)return;
+  document.querySelectorAll('.preset-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  switchRevenueMode('calc');
+  if(p.laborMode==='total') switchLaborMode('total'); else switchLaborMode('detail');
+  const flds={table2:p.table2,table4:p.table4,table6:p.table6,tableBox:p.tableBox,
+    avgPrice:p.avgPrice,turnover:p.turnover,openDays:p.openDays,takeoutRevenuePct:p.takeoutRevenuePct,
+    rent:p.rent,chefCount:p.chefCount,chefSalary:p.chefSalary,waiterCount:p.waiterCount,waiterSalary:p.waiterSalary,
+    mgrCount:p.mgrCount,mgrSalary:p.mgrSalary,foodCostRate:p.foodCostRate,utilities:p.utilities,
+    takeoutCommission:p.takeoutCommission,otherCost:p.otherCost,
+    investDecor:p.investDecor,investEquip:p.investEquip,investDeposit:p.investDeposit,
+    investFranchise:p.investFranchise,investMarketing:p.investMarketing,investOther:p.investOther};
+  Object.entries(flds).forEach(([id,val])=>{ const e=document.getElementById(id);if(e)e.value=val; });
+  calculate();
+}
+
+function resetAll(){
+  document.querySelectorAll('.preset-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('input[type=number]').forEach(inp=>{
+    const defaults={openDays:30,openDays2:30,foodCostRate:35,takeoutCommission:18};
+    inp.value=defaults[inp.id]!==undefined?defaults[inp.id]:'';
+  });
+  switchRevenueMode('calc');
+  switchLaborMode('detail');
+  calculate();
+}
+
+// ============================================================
+// 核心计算
+// ============================================================
+function calculate(){
+  let totalRevenue=0,monthlyDineInRevenue=0,monthlyTakeoutRevenue=0;
+  let monthlyDineInCustomers=0,monthlyTakeoutCustomers=0;
+  let totalSeats=0,totalTables=0;
+
+  if(revenueMode==='calc'){
+    const t2=gv('table2'),t4=gv('table4'),t6=gv('table6'),tBox=gv('tableBox');
+    totalTables=t2+t4+t6+tBox;
+    totalSeats=t2*TABLE_CFG.table2.seats+t4*TABLE_CFG.table4.seats+t6*TABLE_CFG.table6.seats+tBox*TABLE_CFG.tableBox.seats;
+    const el=document.getElementById('seatSummary');
+    if(totalTables===0){ el.innerHTML='填写桌型后自动算出总座位数'; }
+    else{
+      const tags=[];
+      if(t2>0)tags.push(t2+'张双人桌');
+      if(t4>0)tags.push(t4+'张四人桌');
+      if(t6>0)tags.push(t6+'张多人桌');
+      if(tBox>0)tags.push(tBox+'个包厢');
+      el.innerHTML=`<span class="num">${totalSeats}座</span> / ${totalTables}桌 — ${tags.join('、')}`;
+    }
+    const avgPrice=gv('avgPrice'),turnover=gv('turnover'),openDays=gv('openDays')||30;
+    const takeoutRatio=Math.min(gv('takeoutRevenuePct')/100,.95);
+    const dailyDineInC=totalSeats*turnover;
+    monthlyDineInRevenue=dailyDineInC*avgPrice*openDays;
+    monthlyDineInCustomers=Math.round(dailyDineInC*openDays);
+    if(monthlyDineInRevenue>0&&takeoutRatio>0){
+      totalRevenue=monthlyDineInRevenue/(1-takeoutRatio);
+      monthlyTakeoutRevenue=totalRevenue*takeoutRatio;
+      if(avgPrice>0) monthlyTakeoutCustomers=Math.round(monthlyTakeoutRevenue/avgPrice);
+    } else { totalRevenue=monthlyDineInRevenue; }
+  } else {
+    const dailyRev=gv('dailyRevenue'),openDays=gv('openDays2')||30,takeoutRatio=Math.min(gv('takeoutRevenuePct2')/100,.95);
+    totalRevenue=dailyRev*openDays;
+    monthlyDineInRevenue=totalRevenue*(1-takeoutRatio);
+    monthlyTakeoutRevenue=totalRevenue*takeoutRatio;
+    const el=document.getElementById('revenueSummary');
+    if(dailyRev===0){ el.innerHTML='填写日营业额后自动算月营收'; }
+    else{ el.innerHTML=`<span class="num">${fmt(Math.round(totalRevenue))}</span> 元/月（${openDays}天 × ${fmtFull(Math.round(dailyRev))}元/天）`; }
   }
-}
 
-// ── 构建导出内容 HTML ──
-function buildExportHTML(result) {
-  if (!result) return null;
-  const r = result;
-  const profitColor = r.monthProfit > 0 ? '#10B981' : r.monthProfit < 0 ? '#EF4444' : '#6B7280';
-  const rateColor = r.profitRate >= 15 ? '#10B981' : r.profitRate >= 5 ? '#F59E0B' : '#EF4444';
-  const verdict = r.profitRate >= 20 ? '利润优秀 🌟' : r.profitRate >= 15 ? '盈利健康 ✅' : r.profitRate >= 8 ? '盈利一般 ⚠️' : r.profitRate >= 0 ? '微利警戒 🔴' : '亏损 ❌';
-  const fmt = n => n >= 10000 ? (n / 10000).toFixed(1) + '万' : n.toFixed(0);
-  const fmtFull = n => Math.abs(n) >= 10000 ? (n / 10000).toFixed(2) + '万' : n.toFixed(0);
-
-  const costRows = (r.costBreakdown || []).map(item => `
-    <tr>
-      <td style="padding:7px 12px;color:#374151;font-size:13px">${item.name}</td>
-      <td style="padding:7px 12px;text-align:right;color:#111827;font-size:13px;font-weight:600">${fmtFull(item.amount)} 元</td>
-      <td style="padding:7px 12px;text-align:right;color:#6B7280;font-size:12px">${item.pctOfRevenue}%</td>
-    </tr>
-  `).join('');
-
-  const storageTiers = (r.proposalData?.storageTiers || []).map(t => `
-    <div style="flex:1;min-width:140px;padding:12px 14px;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:10px;text-align:center">
-      <div style="font-size:11px;color:#6B7280;margin-bottom:4px">${t.label}</div>
-      <div style="font-size:18px;font-weight:800;color:#1a1a2e">¥${t.amount}</div>
-      <div style="font-size:11px;color:#10B981;margin-top:3px">赠 ¥${t.gift}</div>
-    </div>
-  `).join('');
-
-  const diagTags = (r.proposalData?.diagnosisTags || []).map(tag =>
-    `<span style="display:inline-block;padding:4px 10px;background:#EEF2FF;color:#4338CA;border-radius:20px;font-size:12px;margin:3px 4px 3px 0">${tag}</span>`
-  ).join('');
-
-  const now = new Date().toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-
-  return `
-<div style="font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;background:#fff;width:820px;padding:0">
-  <!-- 标题栏 -->
-  <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);padding:20px 24px;display:flex;align-items:center;gap:12px">
-    <span style="font-size:26px">🦁</span>
-    <div>
-      <div style="font-size:17px;font-weight:800;color:#fff">门店盈利测算报告</div>
-      <div style="font-size:12px;color:rgba(255,255,255,.55);margin-top:2px">雄狮方案工厂 · ${now}</div>
-    </div>
-  </div>
-
-  <div style="padding:20px 24px">
-    <!-- 核心数据 4格 -->
-    <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap">
-      ${[
-        { label: '月营业收入', val: fmt(r.totalRevenue) + '元', sub: `堂食${fmt(r.monthlyDineInRevenue)} · 外卖${fmt(r.monthlyTakeoutRevenue)}`, color: '#6366F1' },
-        { label: '月总成本', val: fmt(r.totalCost) + '元', sub: `食材占比 ${r.totalRevenue > 0 ? r.foodCostRatio.toFixed(0) + '%' : '--'}`, color: '#F59E0B' },
-        { label: '月净利润', val: (r.monthProfit >= 0 ? '+' : '') + fmtFull(r.monthProfit) + '元', sub: `年利润 ${fmt(r.yearProfit)}元`, color: profitColor },
-        { label: '利润率', val: r.totalRevenue > 0 ? r.profitRate.toFixed(1) + '%' : '--', sub: verdict, color: rateColor },
-      ].map(c => `
-        <div style="flex:1;min-width:160px;padding:14px 16px;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:12px">
-          <div style="font-size:12px;color:#6B7280;margin-bottom:6px">${c.label}</div>
-          <div style="font-size:20px;font-weight:800;color:${c.color};line-height:1.2">${c.val}</div>
-          <div style="font-size:11px;color:#9CA3AF;margin-top:4px">${c.sub}</div>
-        </div>
-      `).join('')}
-    </div>
-
-    <!-- 成本明细 + 盈亏平衡 -->
-    <div style="display:flex;gap:14px;margin-bottom:16px;flex-wrap:wrap">
-      <!-- 成本明细表 -->
-      <div style="flex:3;min-width:280px">
-        <div style="font-size:14px;font-weight:700;color:#111827;margin-bottom:10px">📊 成本明细</div>
-        <table style="width:100%;border-collapse:collapse;background:#F9FAFB;border-radius:10px;overflow:hidden;border:1px solid #E5E7EB">
-          <thead>
-            <tr style="background:#F3F4F6">
-              <th style="padding:8px 12px;text-align:left;font-size:12px;color:#6B7280;font-weight:600">项目</th>
-              <th style="padding:8px 12px;text-align:right;font-size:12px;color:#6B7280;font-weight:600">金额</th>
-              <th style="padding:8px 12px;text-align:right;font-size:12px;color:#6B7280;font-weight:600">占收入%</th>
-            </tr>
-          </thead>
-          <tbody>${costRows}</tbody>
-          <tfoot>
-            <tr style="background:#EEF2FF">
-              <td style="padding:8px 12px;font-weight:700;font-size:13px;color:#4338CA">合计</td>
-              <td style="padding:8px 12px;text-align:right;font-weight:700;font-size:13px;color:#4338CA">${fmtFull(r.totalCost)} 元</td>
-              <td style="padding:8px 12px;text-align:right;font-weight:700;font-size:13px;color:#4338CA">${r.totalRevenue > 0 ? (r.totalCost / r.totalRevenue * 100).toFixed(1) : '--'}%</td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-
-      <!-- 盈亏平衡 + 敏感性 -->
-      <div style="flex:2;min-width:200px;display:flex;flex-direction:column;gap:12px">
-        <!-- 盈亏平衡 -->
-        <div style="padding:14px 16px;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:12px">
-          <div style="font-size:14px;font-weight:700;color:#111827;margin-bottom:10px">⚖️ 盈亏平衡</div>
-          ${r.breakEven ? `
-            <div style="margin-bottom:8px">
-              <div style="font-size:11px;color:#6B7280">盈亏平衡营收</div>
-              <div style="font-size:16px;font-weight:700;color:#1a1a2e">${fmt(r.breakEven.revenue)} 元/月</div>
-            </div>
-            <div style="margin-bottom:8px">
-              <div style="font-size:11px;color:#6B7280">盈亏平衡翻台率</div>
-              <div style="font-size:16px;font-weight:700;color:#6366F1">${r.breakEven.turnoverRate ? r.breakEven.turnoverRate.toFixed(2) : '--'} 次/天</div>
-            </div>
-          ` : '<div style="color:#9CA3AF;font-size:13px">请填写数据</div>'}
-        </div>
-
-        <!-- 月储值目标 -->
-        ${r.proposalData?.monthlyStorageTarget > 0 ? `
-        <div style="padding:14px 16px;background:linear-gradient(135deg,#EEF2FF,#F5F3FF);border:1px solid #C7D2FE;border-radius:12px">
-          <div style="font-size:14px;font-weight:700;color:#4338CA;margin-bottom:8px">💳 月储值目标</div>
-          <div style="font-size:22px;font-weight:800;color:#4338CA">${fmt(r.proposalData.monthlyStorageTarget)} 元</div>
-          <div style="font-size:11px;color:#6366F1;margin-top:4px">约占月营收 ${r.totalRevenue > 0 ? (r.proposalData.monthlyStorageTarget / r.totalRevenue * 100).toFixed(0) : '--'}%</div>
-        </div>
-        ` : ''}
-      </div>
-    </div>
-
-    <!-- 储值档位建议 -->
-    ${storageTiers ? `
-    <div style="margin-bottom:16px">
-      <div style="font-size:14px;font-weight:700;color:#111827;margin-bottom:10px">💰 储值档位建议</div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap">${storageTiers}</div>
-    </div>
-    ` : ''}
-
-    <!-- 诊断标签 -->
-    ${diagTags ? `
-    <div style="margin-bottom:16px">
-      <div style="font-size:14px;font-weight:700;color:#111827;margin-bottom:8px">🏷️ 诊断标签</div>
-      <div>${diagTags}</div>
-    </div>
-    ` : ''}
-
-    <!-- 底部水印 -->
-    <div style="margin-top:16px;padding-top:12px;border-top:1px solid #F3F4F6;text-align:right;font-size:11px;color:#D1D5DB">
-      由 雄狮方案工厂 生成 · lion-plan-factory.mynocode.host
-    </div>
-  </div>
-</div>
-  `;
-}
-
-// ── 导出图片 ──
-let latestResult = null;
-
-// ── 以测算数据出方案 ──
-function goToPlan() {
-  const spc = document.getElementById('spc-main');
-  const result = spc?.getResult ? spc.getResult() : latestResult;
-  if (!result || result.totalRevenue === 0) {
-    showToast('⚠️ 请先填写门店数据并完成测算');
-    return;
+  // 成本
+  const rent=gv('rent');
+  let chefTotal=0,waiterTotal=0,mgrTotal=0,laborCost=0;
+  if(laborMode==='total'){
+    laborCost=gv('totalLaborCost');
+  } else {
+    chefTotal=gv('chefCount')*gv('chefSalary');
+    waiterTotal=gv('waiterCount')*gv('waiterSalary');
+    mgrTotal=gv('mgrCount')*gv('mgrSalary');
+    laborCost=chefTotal+waiterTotal+mgrTotal;
   }
-  // 把核心数据存入 localStorage，供方案提交页读取
-  const payload = {
-    ts: Date.now(),
-    // 核心指标
-    totalRevenue: result.totalRevenue,
-    monthProfit: result.monthProfit,
-    profitRate: +result.profitRate.toFixed(1),
-    rentRatio: +result.rentRatio.toFixed(1),
-    laborRatio: +result.laborRatio.toFixed(1),
-    foodCostRatio: +result.foodCostRatio.toFixed(1),
-    totalTables: result.totalTables,
-    turnoverActual: result.breakEvenTurnover > 0 ? result.breakEvenTurnover : undefined,
-    breakEvenTurnover: +result.breakEvenTurnover.toFixed(2),
-    totalMonthlyCustomers: result.totalMonthlyCustomers,
-    takeoutActualRatio: +result.takeoutActualRatio.toFixed(1),
-    // 方案工厂对接数据
-    proposalData: result.proposalData,
-    // 成本明细摘要（给大橘参考）
-    costBreakdown: result.costBreakdown.map(c => ({
-      name: c.name,
-      amount: Math.round(c.amount),
-      pct: c.pctOfRevenue
-    })),
+  const foodCostRate=gv('foodCostRate')/100;
+  const foodCost=totalRevenue*foodCostRate;
+  const utilities=gv('utilities');
+  const takeoutPlatformFee=monthlyTakeoutRevenue*(gv('takeoutCommission')/100);
+  const otherCost=gv('otherCost');
+  const totalCost=rent+laborCost+foodCost+utilities+takeoutPlatformFee+otherCost;
+
+  // 利润
+  const monthProfit=totalRevenue-totalCost;
+  const profitRate=totalRevenue>0?(monthProfit/totalRevenue*100):0;
+  const yearProfit=monthProfit*12;
+  const rentRatio=totalRevenue>0?(rent/totalRevenue*100):0;
+  const laborRatio=totalRevenue>0?(laborCost/totalRevenue*100):0;
+
+  // 保存结果
+  lastResult={totalRevenue,monthlyDineInRevenue,monthlyTakeoutRevenue,
+    monthlyDineInCustomers,monthlyTakeoutCustomers,
+    rent,laborCost,chefTotal,waiterTotal,mgrTotal,foodCost,takeoutPlatformFee,utilities,otherCost,totalCost,
+    monthProfit,yearProfit,profitRate,rentRatio,laborRatio,
+    foodCostRate:foodCostRate*100,
+    totalSeats,totalTables};
+
+  // ===== 更新大数字 =====
+  const bigEl=document.getElementById('bigProfit');
+  if(totalRevenue===0){
+    bigEl.textContent='--'; bigEl.className='value zero';
+    document.getElementById('bigProfitSub').textContent='';
+    document.getElementById('verdictBadge').style.display='none';
+    document.getElementById('healthFill').style.cssText='width:0%;background:#E5E7EB';
+  } else {
+    bigEl.textContent=(monthProfit>=0?'+':'')+fmtFull(Math.round(monthProfit))+' 元';
+    bigEl.className='value '+(monthProfit>0?'pos':monthProfit<0?'neg':'zero');
+    const sub=document.getElementById('bigProfitSub');
+    sub.textContent='年利润 '+fmt(Math.round(yearProfit));
+    sub.className='sub '+(monthProfit>=0?'pos':'neg');
+    const badge=document.getElementById('verdictBadge');
+    badge.style.display='inline-block';
+    if(profitRate>=20){badge.textContent='🎉 优秀 — 利润率超20%';badge.className='verdict good';}
+    else if(profitRate>=10){badge.textContent='👍 良好 — 利润率10-20%';badge.className='verdict good';}
+    else if(profitRate>=0){badge.textContent='⚠️ 一般 — 利润率低于10%';badge.className='verdict ok';}
+    else{badge.textContent='🚨 亏损 — 入不敷出';badge.className='verdict bad';}
+    const fill=document.getElementById('healthFill');
+    fill.style.width=Math.max(0,Math.min(100,profitRate*2.5+25))+'%';
+    fill.style.background=profitRate>=15?'var(--success)':profitRate>=5?'var(--warning)':'var(--danger)';
+  }
+
+  // 四卡片
+  document.getElementById('cRevenue').textContent=fmt(Math.round(totalRevenue));
+  document.getElementById('cRevenueSub').textContent=`堂食 ${fmt(Math.round(monthlyDineInRevenue))} · 外卖 ${fmt(Math.round(monthlyTakeoutRevenue))}`;
+  document.getElementById('cCost').textContent=fmt(Math.round(totalCost));
+  document.getElementById('cCostSub').textContent=`食材${totalRevenue>0?(foodCostRate*100).toFixed(0)+'%':'--'} · 人工${fmt(Math.round(laborCost))}`;
+  document.getElementById('cProfit').textContent=fmt(Math.round(monthProfit));
+  document.getElementById('cProfitSub').textContent=`年利润 ${fmt(Math.round(yearProfit))}`;
+  document.getElementById('cRate').textContent=totalRevenue>0?profitRate.toFixed(1)+'%':'--';
+  document.getElementById('cRateSub').textContent=`房租${rentRatio.toFixed(1)}% · 人工${laborRatio.toFixed(1)}%`;
+
+  // 成本明细
+  const tbody=document.getElementById('breakdownBody');
+  if(totalRevenue===0){
+    tbody.innerHTML='<tr><td colspan="3" style="text-align:center;color:var(--text-sec);padding:20px">请填写左侧数据</td></tr>';
+  } else {
+    const laborRows = laborMode==='total'
+      ? [{icon:'👥',bg:'#FEF3C7',name:'人工合计',amount:laborCost,detail:'（直接填写）'}]
+      : [{icon:'👨‍🍳',bg:'#FEF3C7',name:'厨师工资',amount:chefTotal},
+         {icon:'🧑‍🍳',bg:'#FCE7F3',name:'服务员工资',amount:waiterTotal},
+         {icon:'👔',bg:'#E0E7FF',name:'管理层工资',amount:mgrTotal}];
+    const rows=[
+      {icon:'🏠',bg:'#DBEAFE',name:'房租',amount:rent},
+      ...laborRows,
+      {icon:'🥬',bg:'#D1FAE5',name:'食材成本',amount:foodCost,detail:(foodCostRate*100).toFixed(0)+'% 营收'},
+      {icon:'💡',bg:'#E9D5FF',name:'水电能耗',amount:utilities},
+      {icon:'📱',bg:'#FEE2E2',name:'外卖平台抽成',amount:takeoutPlatformFee},
+      {icon:'📦',bg:'#F3F4F6',name:'其他支出',amount:otherCost},
+    ];
+    let html='';
+    rows.forEach(r=>{
+      const pct=totalRevenue>0?(r.amount/totalRevenue*100).toFixed(1):'0';
+      html+=`<tr><td><span class="icon-cell" style="background:${r.bg}">${r.icon}</span>${r.name}${r.detail?`<br><span style="font-size:10px;color:var(--text-sec)">${r.detail}</span>`:''}</td><td class="amt">${fmtFull(Math.round(r.amount))} 元</td><td class="pct">${pct}%</td></tr>`;
+    });
+    html+=`<tr class="total"><td><strong>合计</strong></td><td class="amt">${fmtFull(Math.round(totalCost))} 元</td><td class="pct">100%</td></tr>`;
+    tbody.innerHTML=html;
+  }
+
+  // 投资回报
+  const investDecor=gv('investDecor'),investEquip=gv('investEquip'),investDeposit=gv('investDeposit');
+  const investFranchise=gv('investFranchise'),investMarketing=gv('investMarketing'),investOther=gv('investOther');
+  const totalInvest=investDecor+investEquip+investDeposit+investFranchise+investMarketing+investOther;
+
+  const invSumEl=document.getElementById('investSummary');
+  if(totalInvest===0){ invSumEl.innerHTML='填写前期投资后自动算总投资和回本周期'; }
+  else if(monthProfit>0){
+    const pm=totalInvest/monthProfit;
+    invSumEl.innerHTML=`总投资 <span class="num">${fmt(Math.round(totalInvest))}</span> 元 · 预计 <span class="num">${pm.toFixed(1)}个月</span> 回本`;
+  } else {
+    invSumEl.innerHTML=`总投资 <span class="num">${fmt(Math.round(totalInvest))}</span> 元 · ⚠️ 当前亏损无法回本`;
+  }
+
+  const roiArea=document.getElementById('roiArea');
+  if(totalInvest===0){
+    roiArea.innerHTML='<div style="text-align:center;color:var(--text-sec);padding:14px;font-size:12px">填写前期投资数据后自动计算</div>';
+  } else {
+    const paybackMonths=monthProfit>0?totalInvest/monthProfit:Infinity;
+    const yearROI=totalInvest>0?(yearProfit/totalInvest*100):0;
+    const totalReturn3Y=monthProfit*36-totalInvest;
+    let pbClass='hi',pbVerdict='';
+    if(paybackMonths<=6){pbClass='good';pbVerdict='⚡ 极速回本';}
+    else if(paybackMonths<=12){pbClass='good';pbVerdict='✅ 回本较快';}
+    else if(paybackMonths<=18){pbClass='hi';pbVerdict='👍 正常水平';}
+    else if(paybackMonths<=24){pbClass='warn';pbVerdict='⚠️ 回本偏慢';}
+    else if(paybackMonths<=36){pbClass='warn';pbVerdict='⚠️ 回本较慢';}
+    else if(paybackMonths!==Infinity){pbClass='bad';pbVerdict='🚨 回本困难';}
+    else{pbClass='bad';pbVerdict='🚨 持续亏损，无法回本';}
+
+    let html=`<div class="roi-grid">`;
+    html+=`<div class="roi-card ${pbClass}"><div class="roi-label">回本周期</div><div class="roi-value">${paybackMonths===Infinity?'无法回本':paybackMonths<12?paybackMonths.toFixed(1)+'个月':(paybackMonths/12).toFixed(1)+'年'}</div><div class="roi-sub">${pbVerdict}</div></div>`;
+    const roiClass=yearROI>=50?'good':yearROI>=20?'hi':yearROI>0?'warn':'bad';
+    html+=`<div class="roi-card ${roiClass}"><div class="roi-label">年化投资回报率</div><div class="roi-value">${yearROI.toFixed(1)}%</div><div class="roi-sub">${yearROI>=50?'优质投资':yearROI>=20?'回报可观':yearROI>0?'回报一般':'投资亏损'}</div></div>`;
+    html+=`<div class="roi-card hi"><div class="roi-label">总投资额</div><div class="roi-value">${fmt(Math.round(totalInvest))}</div><div class="roi-sub">元</div></div>`;
+    const r3class=totalReturn3Y>=0?'good':'bad';
+    html+=`<div class="roi-card ${r3class}"><div class="roi-label">3年净收益</div><div class="roi-value">${totalReturn3Y>=0?'+':''}${fmt(Math.round(totalReturn3Y))}</div><div class="roi-sub">= 3年利润 − 投资</div></div>`;
+    html+=`</div>`;
+
+    if(paybackMonths!==Infinity&&paybackMonths<=60){
+      const maxM=Math.max(paybackMonths*1.5,24);
+      const fillPct=Math.min(100,(paybackMonths/maxM)*100);
+      const m12=Math.min(98,(12/maxM)*100),m24=Math.min(98,(24/maxM)*100);
+      html+=`<div class="payback-bar-wrap"><div class="payback-bar-label"><span>0</span><span>回本进度</span><span>${Math.round(maxM)}个月</span></div><div class="payback-bar"><div class="fill" style="width:${fillPct}%;background:${paybackMonths<=12?'var(--success)':paybackMonths<=18?'var(--primary)':paybackMonths<=24?'var(--warning)':'var(--danger)'}"></div>${maxM>=12?`<div class="marker" style="left:${m12}%"></div>`:''} ${maxM>=24?`<div class="marker" style="left:${m24}%"></div>`:''}</div></div>`;
+    }
+
+    const investItems=[
+      {name:'装修费用',amount:investDecor},{name:'设备采购',amount:investEquip},
+      {name:'押金/转让费',amount:investDeposit},{name:'加盟费/品牌费',amount:investFranchise},
+      {name:'开业营销费',amount:investMarketing},{name:'其他前期投入',amount:investOther},
+    ].filter(i=>i.amount>0);
+    if(investItems.length>0){
+      html+=`<table class="invest-table">`;
+      investItems.forEach(i=>{
+        const pct=totalInvest>0?(i.amount/totalInvest*100).toFixed(1):'0';
+        html+=`<tr><td class="it-label">${i.name}</td><td class="it-value">${fmtFull(Math.round(i.amount))} 元</td><td style="text-align:right;font-size:11px;color:var(--text-sec)">${pct}%</td></tr>`;
+      });
+      html+=`<tr class="it-total"><td>总投资</td><td class="it-value">${fmtFull(Math.round(totalInvest))} 元</td><td></td></tr>`;
+      html+=`</table>`;
+    }
+    roiArea.innerHTML=html;
+  }
+
+  // 敏感性
+  const sensArea=document.getElementById('sensitivityArea');
+  if(totalRevenue===0){
+    sensArea.innerHTML='<div style="text-align:center;color:var(--text-sec);padding:14px;font-size:12px">填写数据后自动计算</div>';
+  } else {
+    const items=[
+      {label:'营业额 ±10%',delta:totalRevenue*0.1*(1-foodCostRate)},
+      {label:'食材成本率 ±10%',delta:-foodCost*0.1},
+      {label:'房租 ±10%',delta:-rent*0.1},
+      {label:'人工 ±10%',delta:-laborCost*0.1},
+    ];
+    let html='';
+    items.forEach(item=>{
+      const d=Math.round(item.delta);
+      const p=monthProfit!==0?(d/Math.abs(monthProfit)*100).toFixed(0):'--';
+      const isUp=d>0;
+      html+=`<div class="sens-row"><span class="sens-label">${item.label}</span><span><span class="sens-val ${isUp?'up':'down'}">${isUp?'+':''}${fmtFull(d)} 元</span> <span style="font-size:10px;color:var(--text-sec)">(利润${isUp?'增':'减'}${Math.abs(p)}%)</span></span></div>`;
+    });
+    sensArea.innerHTML=html;
+  }
+
+  // 出方案按钮
+  const goPlanBtn=document.getElementById('goPlanBtn');
+  goPlanBtn.style.display=totalRevenue>0?'block':'none';
+}
+
+// ============================================================
+// 出方案（localStorage → 跳转）
+// ============================================================
+function goToPlan(){
+  if(!lastResult||lastResult.totalRevenue===0)return;
+  const payload={
+    monthRevenue:Math.round(lastResult.totalRevenue),
+    monthProfit:Math.round(lastResult.monthProfit),
+    profitRate:+lastResult.profitRate.toFixed(1),
+    takeoutPct:+(lastResult.monthlyTakeoutRevenue/lastResult.totalRevenue*100).toFixed(1),
+    diagnosisTags:[
+      lastResult.profitRate<0?'亏损':lastResult.profitRate<10?'微利':'盈利',
+      lastResult.rentRatio>20?'高租金':'租金合理',
+      lastResult.laborRatio>25?'高人工':'人工合理',
+    ],
+    ts:Date.now()
   };
-  localStorage.setItem('lionProfitCalcResult', JSON.stringify(payload));
-  showToast('✅ 测算数据已保存，正在跳转方案提交...');
-  setTimeout(() => {
-    // 同时把数据编码到 URL 参数，供跨域场景读取
-    const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
-    window.location.href = 'https://lion-plan-factory.mynocode.host/?tab=quotation&profitData=' + encodeURIComponent(encoded);
-  }, 800);
+  localStorage.setItem('lionProfitCalcResult',JSON.stringify(payload));
+  setTimeout(()=>{ window.location.href='https://lion-plan-factory.mynocode.host/#/submit?from=profitCalc'; },300);
 }
-let exportCanvas = null;
 
-// 监听计算结果变化
-document.addEventListener('DOMContentLoaded', () => {
-  const spc = document.getElementById('spc-main');
-  if (spc) {
-    spc.addEventListener('result', e => {
-      latestResult = e.detail;
-      // 有结果就激活「出方案」按钮
-      const btnPlan = document.getElementById('btn-to-plan');
-      if (btnPlan && latestResult && latestResult.totalRevenue > 0) {
-        btnPlan.disabled = false;
-        btnPlan.style.opacity = '1';
-        btnPlan.style.cursor = 'pointer';
-      }
+// ============================================================
+// 导出图片
+// ============================================================
+async function exportImage(){
+  const btn=document.getElementById('exportBtn');
+  btn.disabled=true;
+  btn.textContent='⏳ 生成中...';
+  try{
+    const target=document.getElementById('exportSnapshot');
+    const canvas=await html2canvas(target,{
+      scale:2,
+      useCORS:true,
+      backgroundColor:'#F5F7FA',
+      logging:false,
+      windowWidth:target.scrollWidth,
+      windowHeight:target.scrollHeight
     });
-  }
-});
-
-async function exportImage() {
-  const spc = document.getElementById('spc-main');
-  const result = spc?.getResult ? spc.getResult() : latestResult;
-  
-  if (!result || result.totalRevenue === 0) {
-    showToast('⚠️ 请先填写门店数据再导出');
-    return;
-  }
-
-  const btn = document.getElementById('btn-export');
-  btn.disabled = true;
-  btn.textContent = '⏳ 生成中...';
-
-  try {
-    // 注入导出HTML到隐藏目标
-    const target = document.getElementById('screenshot-target');
-    target.innerHTML = buildExportHTML(result);
-
-    // 等待渲染
-    await new Promise(r => setTimeout(r, 300));
-
-    // html2canvas截图
-    const canvas = await html2canvas(target.firstElementChild, {
-      scale: 2,
-      useCORS: true,
-      backgroundColor: '#ffffff',
-      logging: false,
-      width: 820,
-    });
-
-    exportCanvas = canvas;
-
-    // 显示预览
-    const previewCanvas = document.getElementById('export-canvas');
-    const ctx = previewCanvas.getContext('2d');
-    previewCanvas.width = canvas.width;
-    previewCanvas.height = canvas.height;
-    ctx.drawImage(canvas, 0, 0);
-
-    document.getElementById('export-preview-container').classList.add('visible');
-    showToast('✅ 图片生成成功，点「保存图片」下载');
-  } catch (e) {
-    console.error(e);
-    showToast('❌ 生成失败: ' + e.message);
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = '📸 导出图片';
+    const link=document.createElement('a');
+    link.download='门店盈利测算_'+new Date().toLocaleDateString('zh-CN').replace(/\//g,'-')+'.png';
+    link.href=canvas.toDataURL('image/png');
+    link.click();
+  }catch(e){
+    alert('导出失败：'+e.message);
+  }finally{
+    btn.disabled=false;
+    btn.innerHTML='📸 导出为图片';
   }
 }
 
-function downloadImage() {
-  if (!exportCanvas) return;
-  const link = document.createElement('a');
-  const now = new Date();
-  const ts = `${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}`;
-  link.download = `盈利测算_${ts}.png`;
-  link.href = exportCanvas.toDataURL('image/png');
-  link.click();
-  showToast('✅ 已保存到下载文件夹');
-}
-
-function closePreview() {
-  document.getElementById('export-preview-container').classList.remove('visible');
-}
+// 初始计算
+calculate();
 </script>
 </body>
 </html>
