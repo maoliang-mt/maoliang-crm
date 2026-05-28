@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>杭帮面私房菜 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #8B0000;
+      --primary-light: #B22222;
+      --accent: #D4A574;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #8B000040;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">浙菜/杭帮菜（面馆+私房菜复合业态） · 运营提升方案</div>
+  <h1 class="hero-title">杭帮面私房菜</h1>
+  <p class="hero-subtitle">开门即口碑，用烟火气征服产业新城的每一张嘴</p>
+  <div class="hero-address">浙江省杭州市上城区笕桥街道首章新所</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥35</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">首章新所</span>
+      <div class="hero-stat-label">商圈定位</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">6月中下旬</span>
+      <div class="hero-stat-label">预计开业</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '商圈洞察', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">商圈洞察</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '开业冲刺方案', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">开业冲刺方案</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '菜单与定价策略', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">菜单与定价策略</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '点评口碑运营', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">点评口碑运营</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '会员储值体系', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">会员储值体系</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '外卖运营方案', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">外卖运营方案</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '营销活动日历', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">营销活动日历</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(9, '公私域联动方案', 9)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 09</div>
+      <div class="chapter-title">公私域联动方案</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(10, '投资回报测算', 10)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 10</div>
+      <div class="chapter-title">投资回报测算</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>首章新所：城东产业社区的新蓝海</h3><p>首章新所位于杭州上城区笕桥街道永敦北路1号，是杭州城东新兴产业社区园区，距杭州火车东站约2公里，定位为7×24小时活力社区，融合办公、艺术、运动、餐饮等多元场景，<strong>主力入驻客群为25-35岁年轻白领</strong>，整体入驻率正在快速提升中。</p><h3>目标客群画像</h3><ul><li><strong>主力客群（约65%）：</strong>园区白领，午餐刚需+工作日快餐消费，人均30-50元接受度高，需要出餐快、口味好、性价比高</li><li><strong>次要客群（约25%）：</strong>周边居民家庭，周末聚餐、家常私房菜需求，愿为有特色买单</li><li><strong>潜力客群（约10%）：</strong>园区企业小团建、简单商务宴请（5-8人），人均40-60元</li></ul><h3>品类机遇</h3><p>杭帮面+私房菜的复合业态，在首章新所属于<strong>差异化稀缺定位</strong>。午市卖杭帮面（高频快廉），晚市卖私房菜（低频有温度），两套逻辑共用一个厨房，实现坪效最大化。参考杭州马儿私房菜从面馆起家最终米其林必比登的成功路径——面馆与私房菜天然兼容，浇头即是炒菜。</p><h3>开业时机研判</h3><p>6月中下旬开业恰逢暑期前夕，园区白领基数持续增长。<strong>先入为主建立口碑至关重要</strong>——谁先在园区白领心里占位杭帮面私房菜首选，谁就建立了壁垒。开业后90天是最关键的口碑建立窗口期。</p></div>
+<div id="modal-content-2" style="display:none"><h3>周边竞争格局（3公里内）</h3><p>⚠️ 本门店尚未开业，以下竞品数据来源于大众点评公开数据，建议开业前实地踩点核实。</p><table><tr><th>竞品名称</th><th>人均</th><th>评分</th><th>核心弱点</th><th>切入机会</th></tr><tr><td>笕石面馆（浙商国际店）</td><td>¥27</td><td>口味4.5 / 817条</td><td>纯面馆无私房菜，无会员体系，高峰排队30分钟，服务评价偏低</td><td>复合业态+更好就餐体验+会员锁客</td></tr><tr><td>首章新所内标准化快餐</td><td>¥20-35</td><td>暂无</td><td>标准化品类，缺地方特色和烟火气</td><td>杭帮面地域文化属性+私房菜温度感抢占心智</td></tr><tr><td>外卖平台竞对</td><td>¥15-30</td><td>均值3.8-4.2</td><td>口味标准化无堂食体验，配送慢</td><td>堂食体验+出餐速度+本地特色</td></tr></table><h3>定价策略结论</h3><p>笕石面馆人均¥27是市场底价锚点。<strong>杭帮面私房菜人均¥35定价逻辑：比它贵8元，提供私房菜品类+更好就餐环境+会员权益</strong>。不打价格战，打品质烟火气差异化。<br><br>核心战略：<strong>开业前30天在园区白领中建立杭帮面首选心智</strong>，点评评分目标4.3分，冲击新店榜TOP5。</p></div>
+<div id="modal-content-3" style="display:none"><h3>装修期：无声蓄客，开门即排队</h3><p>门店目前处于装修期，大众点评当前曝光人数仅23人，转化率0%——<strong>说明已有潜在客户发现了这家店，但无法采取行动</strong>。这23次曝光是宝贵的预蓄水机会，必须立即激活。</p><h4>装修期3个必做动作（0成本）</h4><ul><li>🔧 <strong>立即完善大众点评门店信息</strong>：上传3张菜品效果图，填写营业时间（标注6月中下旬开业），设置品类标签杭帮菜+面馆</li><li>🔧 <strong>门店外墙开业倒计时海报</strong>：内容含扫码领开业福利，放美团收银会员注册二维码，提前蓄客</li><li>🔧 <strong>扫码点餐设备提前测试上线</strong>：开业当天直接用，不让第一批客人等后台配置</li></ul><h4>开业第一周爆破计划</h4><table><tr><th>时间</th><th>动作</th><th>预期效果</th></tr><tr><td>开业当天</td><td>前100位顾客扫码注册会员送¥10无门槛券（下次用）</td><td>获取100个真实会员手机号，建立私域池</td></tr><tr><td>开业第1-3天</td><td>午餐每桌赠一道小菜（成本小于3元），提升第一印象峰值体验</td><td>首批口碑奠基，自然产生好评意愿</td></tr><tr><td>开业第1周</td><td>杭帮面+私房菜套餐限时¥29（原价¥38），堂食专属</td><td>制造价值锚定感，引导客户感知物超所值</td></tr></table><h3>开业30天点评目标</h3><p>⚠️ 严格合规：2025年后高强度促评=评价不产生星级收益。所有建议基于提升真实体验→自然产生好评逻辑，严禁有偿邀评。</p><ul><li>扫码点餐结账后自动弹出体验引导页（合规，非强制评价）</li><li>前10条评价老板必须亲自回复（好评感谢+差评改进），展示经营温度</li><li><strong>目标：开业30天内大众点评积累20条真实好评，评分≥4.3分</strong></li></ul></div>
+<div id="modal-content-4" style="display:none"><h3>复合业态菜单设计逻辑</h3><p>杭帮面+私房菜是两套消费逻辑共用一个厨房。菜单必须<strong>让客人一看就懂</strong>：哪些是快餐（午市主力），哪些是私房菜（晚市主力）。⚠️ 以下价格为建议参考，实际应结合食材成本调整。</p><h3>菜单三层结构</h3><table><tr><th>层次</th><th>代表产品</th><th>定价区间</th><th>角色</th></tr><tr><td>引流款</td><td>招牌杭帮拌川、片儿川</td><td>¥18-22</td><td>抢占记忆，带动复购高频</td></tr><tr><td>利润款</td><td>浇头面（虾爆鳝/腰花/猪肝）+私房小炒3-4道</td><td>¥28-45</td><td>核心收入，毛利40%+</td></tr><tr><td>升客单款</td><td>私房招牌菜（梅干菜扣肉/酱鸭/鱼圆汤）+卤味拼盘</td><td>¥38-68</td><td>晚市/周末桌均提升</td></tr></table><h3>套餐锚定（定价心理学）</h3><ul><li><strong>工作日午餐套餐：</strong>任意面条+小菜+例汤 = ¥29（堂食11:00-14:00专享）— 主打白领午餐高频</li><li><strong>私房菜小聚套餐（2人）：</strong>招牌面×2 + 私房小炒×2 + 汤 = ¥88 — 主打下班聚餐</li><li><strong>家庭/团建套餐（4人）：</strong>私房菜4道+招牌面×2 = ¥168 — 主打周末家庭和小团建</li></ul><p>💡 套餐定价心理学：¥168的4人套餐不是为了高频卖，是让¥88显得划算。三档对比，中间档自然成主推。</p><h3>外卖菜单专项设计</h3><p>⚠️ 首章新所白领外卖下单比例预计达40%。参考笕石面馆外卖口碑案例：<strong>面条汤底分离+保温包装</strong>是外卖好评核心。外卖套餐定¥29/¥49/¥138三档，套餐转化率高于单品约30%。</p></div>
+<div id="modal-content-5" style="display:none"><h3>新店点评从0到4.5分的完整路径</h3><p>杭帮面私房菜目前点评评价数为0，评分暂无——这是新店必须经历的冷启动期。<strong>前50条评价决定未来3个月的自然搜索流量权重</strong>，必须系统运营。</p><h3>三阶段冲刺计划</h3><table><tr><th>阶段</th><th>时间节点</th><th>目标</th><th>关键动作</th></tr><tr><td>破冰期</td><td>开业第1-2周</td><td>10条好评，评分≥4.0</td><td>服务峰值体验+结账合规引导+老板亲自回复每条评价</td></tr><tr><td>成长期</td><td>开业第3-6周</td><td>50条评价，评分≥4.3，进新店榜</td><td>维护口味稳定+差评24小时内处理+上线团购套餐增加平台曝光</td></tr><tr><td>冲榜期</td><td>开业第2-3个月</td><td>评分≥4.5，进热门榜前20</td><td>团购核销率提升+复购客带新客+小红书/大众点评双渠道发力</td></tr></table><h3>大众点评新店榜机制</h3><p>新店开业90天内自动进入新店榜展示条件：近30天有效评价≥3条+评分≥3.5分。<strong>新店榜曝光量是普通搜索的3-5倍，是新店最重要的免费流量</strong>，必须在开业30天内达标进入。</p><h3>好评运营合规三动作</h3><ul><li>🔧 <strong>扫码点餐完成后自动推送体验引导</strong>：感谢光临，您的点评对我们很重要（系统设置，非强制）— 工具路径：美团收银 &gt; 评价管理 &gt; 自动消息</li><li>🔧 <strong>店员结账引导话术</strong>：扫这里可以看我们点评，觉得还不错留个评价就最好了！— 轻描淡写，不硬要</li><li>🔧 <strong>差评应对SOP</strong>：差评3小时内私信道歉+改进说明+邀请再次光临（绝不删评，展示给其他看客看）</li></ul><h3>小红书协同</h3><p>首章新所白领25-30岁为主，小红书使用率高。开业2周内发布菜品制作短视频（拌川浇头现炒锅气），带话题 #首章新所美食 #杭帮面 #笕桥美食。目标：开业1个月内小红书有3-5篇自然探店笔记，形成搜索曝光叠加效应。</p></div>
+<div id="modal-content-6" style="display:none"><h3>为什么开业第一天就要做会员</h3><p>首章新所白领消费频次高。按保守估计，一位园区白领每周到访1-2次，一年价值约¥35×2×50周=<strong>¥3,500/人/年</strong>。因此，<strong>每一个首次到访的白领都是值得锁定的长期资产</strong>，会员系统从第一天就必须跑起来。</p><h3>会员等级设计（⚠️假设已签约美团收银旗舰版含会员模块）</h3><table><tr><th>等级</th><th>升级条件</th><th>核心权益</th><th>运营目的</th></tr><tr><td>普通会员</td><td>扫码注册即得</td><td>消费积分+生日当月8折</td><td>降低门槛，快速建池</td></tr><tr><td>常客会员</td><td>累计消费满¥200</td><td>每月1张¥5券+点评好评抽奖</td><td>刺激复购，培养到访习惯</td></tr><tr><td>储值会员</td><td>储值¥300+</td><td>9折消费+优先叫号+专属私房菜预定</td><td>锁定现金流，提升粘性</td></tr></table><h3>储值卡三档设计</h3><p>人均¥35，8-10次消费是锁客甜蜜点：</p><ul><li><strong>体验档：充¥200送¥20</strong>（约6次消费）— 适合试探性充值的新客</li><li><strong>主推档：充¥300送¥50</strong>（等效约9折，17%回报）— 主推话术：充一张，一个月午饭不操心</li><li><strong>尊享档：充¥500送¥100</strong>（等效约8.3折，20%回报）— 适合确定成为常客的白领</li></ul><h3>开业储值特惠</h3><p><strong>充¥300送¥80（限开业30天内）</strong> — 比常规多送¥30，制造紧迫感<br>店员标准话术：我们开业优惠，充300现在能送80，只有开业这一个月，很多老客户开业当天就先充了一张。<br><strong>目标：开业首月储值客户100人，储值总额¥3万</strong> — 解决新店前期现金流压力，同时建立私域池。</p><h3>会员月度触达节奏</h3><ul><li>每月月初：推送本月新菜+会员专属打折日</li><li>每月中旬：沉睡客（15天未到访）触达：你的储值余额还有XX元，记得来</li><li>节假日前3天：推送节日限定菜品预告，刺激提前到访</li></ul></div>
+<div id="modal-content-7" style="display:none"><h3>外卖：第二个堂食，不是堂食的替代品</h3><p>首章新所园区白领特征决定外卖是强刚需——加班点外卖、雨天懒得出门点外卖。按行业参考值，产业社区餐厅外卖占比可达<strong>35%~50%</strong>（行业参考值）。按月流水¥6万（开业3个月后预计值）估算，外卖月收入有望达¥2-3万，不可忽视。</p><h3>外卖冷启动30天计划</h3><table><tr><th>动作</th><th>具体操作</th><th>预期效果</th></tr><tr><td>开业同步上线</td><td>开业当天同步上线美团外卖，前7天开启新店特惠满¥25减¥5</td><td>快速积累外卖订单数和评价</td></tr><tr><td>包装升级</td><td>面条汤底分离装，私房菜专属打包盒，加印品牌logo</td><td>外卖好评率提升，减少汤撒了差评</td></tr><tr><td>外卖专属套餐</td><td>三档套餐：面条套餐¥29 / 私房菜+面套餐¥49 / 家庭套餐¥138</td><td>提升客单价，套餐转化率高于单品30%</td></tr></table><h3>外卖评分维护</h3><p><strong>目标：外卖评分≥4.7，保持在周边同品类前10%</strong></p><ul><li>🔧 开通好评返券：外卖5星好评返¥3无门槛券 — 工具路径：美团商家后台 &gt; 营销活动 &gt; 好评返券</li><li>🔧 每周查一次差评关键词，等太久/汤撒了/分量少出现超3次必须当周整改</li><li>🔧 外卖和堂食同一套会员体系：外卖下单也能积分，促使外卖客转堂食</li></ul><h3>外卖时段策略</h3><p>白领节奏：12点午餐高峰+18-19点晚餐外卖高峰<br>→ <strong>午餐高峰（11:30-13:00）必须保证15分钟内出餐</strong>，超时是最大差评来源<br>→ 晚餐时段推私房菜外卖精选（3-4道适合打包的私房菜），提升晚市外卖客单价</p></div>
+<div id="modal-content-8" style="display:none"><h3>开业3个月营销节奏（6月下旬-9月）</h3><p>活动节奏核心：<strong>第一个月建口碑，第二个月锁常客，第三个月建体系</strong>。</p><table><tr><th>时间段</th><th>主题</th><th>活动内容</th><th>工具/成本</th></tr><tr><td>开业第1-2周</td><td>开业爆破</td><td>前100名会员送¥10体验券 + 午餐套餐限时¥29 + 储值¥300送¥80开业专享</td><td>美团收银会员系统 / 约¥1,500</td></tr><tr><td>第3-4周（7月初）</td><td>口碑沉淀</td><td>老带新：老客带新客，老客送¥10券，新客享8.5折首单</td><td>美团收银裂变功能 / 约¥800</td></tr><tr><td>7月中下旬</td><td>暑期活动</td><td>夏日杭帮冷面节：推出1-2款冷面/凉拌主食，外卖专享，限时7月</td><td>菜品研发 / 无额外推广费</td></tr><tr><td>8月份</td><td>常客锁定</td><td>月度会员日：每月8号全场会员9折+私房菜新品首发给会员</td><td>让利约5% / 长期固定活动</td></tr><tr><td>9月开学季</td><td>冲榜布局</td><td>工作日外卖月卡：充¥300外卖月卡，当月每单减¥8（限5单/天）</td><td>团购/储值 / 锁定整月外卖消费</td></tr></table><h3>大众点评团购（必做）</h3><p>开业2周内在大众点评上线至少1个团购套餐：<br><strong>杭帮招牌双人套餐 = 招牌面×2+私房小炒×1+汤 = 团购价¥58（原价¥76）</strong><br>团购核心价值：<strong>提升大众点评搜索展示权重</strong>，有团购的门店同品类搜索排名更靠前。</p><h3>峰终体验设计（零成本）</h3><ul><li><strong>峰值触点：</strong>浇头现炒开放式厨房让客人看到锅气；扫码点餐成功后弹出欢迎语</li><li><strong>终值触点：</strong>结账时POS自动显示本单已省X元（会员价）；每桌赠一颗杭州话梅/薄荷糖（成本＜0.2元）</li></ul></div>
+<div id="modal-content-9" style="display:none"><h3>流量闭环：公域引流 → 私域留存 → 私域激活公域</h3><p>首章新所是新兴园区，自然人流有限。<strong>公域（平台流量）是新客来源，私域（会员体系）是留存保障</strong>，两者形成闭环才能实现可持续增长。</p><h3>公域三平台分工</h3><table><tr><th>平台</th><th>定位</th><th>核心动作</th><th>预期效果</th></tr><tr><td>大众点评</td><td>口碑主阵地+搜索流量</td><td>完善店铺信息+上线团购套餐+持续维护评价回复</td><td>开业1个月进新店榜，月曝光破500人</td></tr><tr><td>美团外卖</td><td>工作日高频触达渠道</td><td>开业同步上线+好评返券+精选套餐</td><td>外卖月销100单，评分≥4.7</td></tr><tr><td>小红书</td><td>年轻白领种草渠道</td><td>菜品锅气视频+探店笔记引导+话题#首章新所美食</td><td>开业1个月内3-5篇自然笔记，带来首次到访新客</td></tr></table><h3>私域留存漏斗</h3><ul><li><strong>到访 → 扫码入会：</strong>结账流程中扫码注册，首次入会率目标≥60%</li><li><strong>入会 → 储值：</strong>结账时推送储值活动，开业首月储值转化率目标≥20%</li><li><strong>储值 → 复购：</strong>月度推送+沉睡客激活，储值客月均到访频次目标≥3次</li><li><strong>复购 → 传播：</strong>老带新裂变+好评引导，每个满意客户带来约0.3个新客（行业参考值）</li></ul><h3>联动闭环示例</h3><p>小红书探店笔记 → 新客首次到访 → 扫码入会+储值¥300 → 次月收到会员日推送回访 → 带朋友来吃 → 朋友发小红书/点评。这是最理想的裂变飞轮，在首章新所年轻白领群体中完全可以跑通。</p></div>
+<div id="modal-content-10" style="display:none"><h3>开业3个月营收爬坡预测（⚠️ 行业参考值，建议结合实际情况核实）</h3><table><tr><th>阶段</th><th>月营收预测</th><th>日均客流</th><th>翻台率</th></tr><tr><td>开业第1个月</td><td>¥2.5-3万</td><td>约25-35桌</td><td>约1.5次</td></tr><tr><td>开业第2个月</td><td>¥4-5万</td><td>约40-50桌</td><td>约2次</td></tr><tr><td>开业第3个月</td><td>¥6-8万</td><td>约55-75桌</td><td>约2.5次</td></tr></table><p>测算依据：80㎡门店约20-25个餐位，人均¥35，白领客群复购频次较高（每周1-2次）。</p><h3>月度成本结构（行业参考值）</h3><table><tr><th>成本项</th><th>占月营收比例</th><th>月均金额（以¥6万月流水计）</th></tr><tr><td>食材成本</td><td>33%-38%</td><td>¥2-2.3万</td></tr><tr><td>人力成本</td><td>20%-25%</td><td>¥1.2-1.5万</td></tr><tr><td>房租</td><td>10%-15%</td><td>¥6,000-9,000</td></tr><tr><td>水电+耗材</td><td>约5%</td><td>约¥3,000</td></tr><tr><td><strong>净利润（估算）</strong></td><td><strong>8%-15%</strong></td><td><strong>¥5,000-9,000</strong></td></tr></table><h3>SaaS投资回报</h3><p>美团收银旗舰版（¥4,888/年 = ¥407/月）核心增收来源：</p><ul><li><strong>储值现金流：</strong>开业首月目标储值¥3万，直接改善前期现金流压力</li><li><strong>外卖管理提效：</strong>避免漏单+多平台聚合，月节约人工折算约¥500-800</li><li><strong>团购套餐上线：</strong>进入新店榜后预计月增曝光300-500人次，按5%转化=15-25桌新客，增收约¥525-875</li></ul><p><strong>综合估算：SaaS系统每月额外带来增收¥1,500-3,000，回本周期约2-3个月。</strong></p><h3>量化OKR目标</h3><table><tr><th>维度</th><th>开业1个月</th><th>开业3个月</th><th>开业6个月</th></tr><tr><td>月营收</td><td>¥3万</td><td>¥6万</td><td>¥8万+</td></tr><tr><td>大众点评评分</td><td>≥4.0</td><td>≥4.3</td><td>≥4.5</td></tr><tr><td>评价条数</td><td>20条</td><td>80条</td><td>200条</td></tr><tr><td>储值会员数</td><td>100人</td><td>300人</td><td>600人</td></tr><tr><td>外卖月销单量</td><td>100单</td><td>300单</td><td>500单</td></tr></table></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>陈国庆</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>首章新所：城东产业社区的新蓝海</h3><p>首章新所位于杭州上城区笕桥街道永敦北路1号，是杭州城东新兴产业社区园区，距杭州火车东站约2公里，定位为7×24小时活力社区，融合办公、艺术、运动、餐饮等多元场景，<strong>主力入驻客群为25-35岁年轻白领</strong>，整体入驻率正在快速提升中。</p><h3>目标客群画像</h3><ul><li><strong>主力客群（约65%）：</strong>园区白领，午餐刚需+工作日快餐消费，人均30-50元接受度高，需要出餐快、口味好、性价比高</li><li><strong>次要客群（约25%）：</strong>周边居民家庭，周末聚餐、家常私房菜需求，愿为有特色买单</li><li><strong>潜力客群（约10%）：</strong>园区企业小团建、简单商务宴请（5-8人），人均40-60元</li></ul><h3>品类机遇</h3><p>杭帮面+私房菜的复合业态，在首章新所属于<strong>差异化稀缺定位</strong>。午市卖杭帮面（高频快廉），晚市卖私房菜（低频有温度），两套逻辑共用一个厨房，实现坪效最大化。参考杭州马儿私房菜从面馆起家最终米其林必比登的成功路径——面馆与私房菜天然兼容，浇头即是炒菜。</p><h3>开业时机研判</h3><p>6月中下旬开业恰逢暑期前夕，园区白领基数持续增长。<strong>先入为主建立口碑至关重要</strong>——谁先在园区白领心里占位杭帮面私房菜首选，谁就建立了壁垒。开业后90天是最关键的口碑建立窗口期。</p>`,
+    2: `<h3>周边竞争格局（3公里内）</h3><p>⚠️ 本门店尚未开业，以下竞品数据来源于大众点评公开数据，建议开业前实地踩点核实。</p><table><tr><th>竞品名称</th><th>人均</th><th>评分</th><th>核心弱点</th><th>切入机会</th></tr><tr><td>笕石面馆（浙商国际店）</td><td>¥27</td><td>口味4.5 / 817条</td><td>纯面馆无私房菜，无会员体系，高峰排队30分钟，服务评价偏低</td><td>复合业态+更好就餐体验+会员锁客</td></tr><tr><td>首章新所内标准化快餐</td><td>¥20-35</td><td>暂无</td><td>标准化品类，缺地方特色和烟火气</td><td>杭帮面地域文化属性+私房菜温度感抢占心智</td></tr><tr><td>外卖平台竞对</td><td>¥15-30</td><td>均值3.8-4.2</td><td>口味标准化无堂食体验，配送慢</td><td>堂食体验+出餐速度+本地特色</td></tr></table><h3>定价策略结论</h3><p>笕石面馆人均¥27是市场底价锚点。<strong>杭帮面私房菜人均¥35定价逻辑：比它贵8元，提供私房菜品类+更好就餐环境+会员权益</strong>。不打价格战，打品质烟火气差异化。<br><br>核心战略：<strong>开业前30天在园区白领中建立杭帮面首选心智</strong>，点评评分目标4.3分，冲击新店榜TOP5。</p>`,
+    3: `<h3>装修期：无声蓄客，开门即排队</h3><p>门店目前处于装修期，大众点评当前曝光人数仅23人，转化率0%——<strong>说明已有潜在客户发现了这家店，但无法采取行动</strong>。这23次曝光是宝贵的预蓄水机会，必须立即激活。</p><h4>装修期3个必做动作（0成本）</h4><ul><li>🔧 <strong>立即完善大众点评门店信息</strong>：上传3张菜品效果图，填写营业时间（标注6月中下旬开业），设置品类标签杭帮菜+面馆</li><li>🔧 <strong>门店外墙开业倒计时海报</strong>：内容含扫码领开业福利，放美团收银会员注册二维码，提前蓄客</li><li>🔧 <strong>扫码点餐设备提前测试上线</strong>：开业当天直接用，不让第一批客人等后台配置</li></ul><h4>开业第一周爆破计划</h4><table><tr><th>时间</th><th>动作</th><th>预期效果</th></tr><tr><td>开业当天</td><td>前100位顾客扫码注册会员送¥10无门槛券（下次用）</td><td>获取100个真实会员手机号，建立私域池</td></tr><tr><td>开业第1-3天</td><td>午餐每桌赠一道小菜（成本小于3元），提升第一印象峰值体验</td><td>首批口碑奠基，自然产生好评意愿</td></tr><tr><td>开业第1周</td><td>杭帮面+私房菜套餐限时¥29（原价¥38），堂食专属</td><td>制造价值锚定感，引导客户感知物超所值</td></tr></table><h3>开业30天点评目标</h3><p>⚠️ 严格合规：2025年后高强度促评=评价不产生星级收益。所有建议基于提升真实体验→自然产生好评逻辑，严禁有偿邀评。</p><ul><li>扫码点餐结账后自动弹出体验引导页（合规，非强制评价）</li><li>前10条评价老板必须亲自回复（好评感谢+差评改进），展示经营温度</li><li><strong>目标：开业30天内大众点评积累20条真实好评，评分≥4.3分</strong></li></ul>`,
+    4: `<h3>复合业态菜单设计逻辑</h3><p>杭帮面+私房菜是两套消费逻辑共用一个厨房。菜单必须<strong>让客人一看就懂</strong>：哪些是快餐（午市主力），哪些是私房菜（晚市主力）。⚠️ 以下价格为建议参考，实际应结合食材成本调整。</p><h3>菜单三层结构</h3><table><tr><th>层次</th><th>代表产品</th><th>定价区间</th><th>角色</th></tr><tr><td>引流款</td><td>招牌杭帮拌川、片儿川</td><td>¥18-22</td><td>抢占记忆，带动复购高频</td></tr><tr><td>利润款</td><td>浇头面（虾爆鳝/腰花/猪肝）+私房小炒3-4道</td><td>¥28-45</td><td>核心收入，毛利40%+</td></tr><tr><td>升客单款</td><td>私房招牌菜（梅干菜扣肉/酱鸭/鱼圆汤）+卤味拼盘</td><td>¥38-68</td><td>晚市/周末桌均提升</td></tr></table><h3>套餐锚定（定价心理学）</h3><ul><li><strong>工作日午餐套餐：</strong>任意面条+小菜+例汤 = ¥29（堂食11:00-14:00专享）— 主打白领午餐高频</li><li><strong>私房菜小聚套餐（2人）：</strong>招牌面×2 + 私房小炒×2 + 汤 = ¥88 — 主打下班聚餐</li><li><strong>家庭/团建套餐（4人）：</strong>私房菜4道+招牌面×2 = ¥168 — 主打周末家庭和小团建</li></ul><p>💡 套餐定价心理学：¥168的4人套餐不是为了高频卖，是让¥88显得划算。三档对比，中间档自然成主推。</p><h3>外卖菜单专项设计</h3><p>⚠️ 首章新所白领外卖下单比例预计达40%。参考笕石面馆外卖口碑案例：<strong>面条汤底分离+保温包装</strong>是外卖好评核心。外卖套餐定¥29/¥49/¥138三档，套餐转化率高于单品约30%。</p>`,
+    5: `<h3>新店点评从0到4.5分的完整路径</h3><p>杭帮面私房菜目前点评评价数为0，评分暂无——这是新店必须经历的冷启动期。<strong>前50条评价决定未来3个月的自然搜索流量权重</strong>，必须系统运营。</p><h3>三阶段冲刺计划</h3><table><tr><th>阶段</th><th>时间节点</th><th>目标</th><th>关键动作</th></tr><tr><td>破冰期</td><td>开业第1-2周</td><td>10条好评，评分≥4.0</td><td>服务峰值体验+结账合规引导+老板亲自回复每条评价</td></tr><tr><td>成长期</td><td>开业第3-6周</td><td>50条评价，评分≥4.3，进新店榜</td><td>维护口味稳定+差评24小时内处理+上线团购套餐增加平台曝光</td></tr><tr><td>冲榜期</td><td>开业第2-3个月</td><td>评分≥4.5，进热门榜前20</td><td>团购核销率提升+复购客带新客+小红书/大众点评双渠道发力</td></tr></table><h3>大众点评新店榜机制</h3><p>新店开业90天内自动进入新店榜展示条件：近30天有效评价≥3条+评分≥3.5分。<strong>新店榜曝光量是普通搜索的3-5倍，是新店最重要的免费流量</strong>，必须在开业30天内达标进入。</p><h3>好评运营合规三动作</h3><ul><li>🔧 <strong>扫码点餐完成后自动推送体验引导</strong>：感谢光临，您的点评对我们很重要（系统设置，非强制）— 工具路径：美团收银 &gt; 评价管理 &gt; 自动消息</li><li>🔧 <strong>店员结账引导话术</strong>：扫这里可以看我们点评，觉得还不错留个评价就最好了！— 轻描淡写，不硬要</li><li>🔧 <strong>差评应对SOP</strong>：差评3小时内私信道歉+改进说明+邀请再次光临（绝不删评，展示给其他看客看）</li></ul><h3>小红书协同</h3><p>首章新所白领25-30岁为主，小红书使用率高。开业2周内发布菜品制作短视频（拌川浇头现炒锅气），带话题 #首章新所美食 #杭帮面 #笕桥美食。目标：开业1个月内小红书有3-5篇自然探店笔记，形成搜索曝光叠加效应。</p>`,
+    6: `<h3>为什么开业第一天就要做会员</h3><p>首章新所白领消费频次高。按保守估计，一位园区白领每周到访1-2次，一年价值约¥35×2×50周=<strong>¥3,500/人/年</strong>。因此，<strong>每一个首次到访的白领都是值得锁定的长期资产</strong>，会员系统从第一天就必须跑起来。</p><h3>会员等级设计（⚠️假设已签约美团收银旗舰版含会员模块）</h3><table><tr><th>等级</th><th>升级条件</th><th>核心权益</th><th>运营目的</th></tr><tr><td>普通会员</td><td>扫码注册即得</td><td>消费积分+生日当月8折</td><td>降低门槛，快速建池</td></tr><tr><td>常客会员</td><td>累计消费满¥200</td><td>每月1张¥5券+点评好评抽奖</td><td>刺激复购，培养到访习惯</td></tr><tr><td>储值会员</td><td>储值¥300+</td><td>9折消费+优先叫号+专属私房菜预定</td><td>锁定现金流，提升粘性</td></tr></table><h3>储值卡三档设计</h3><p>人均¥35，8-10次消费是锁客甜蜜点：</p><ul><li><strong>体验档：充¥200送¥20</strong>（约6次消费）— 适合试探性充值的新客</li><li><strong>主推档：充¥300送¥50</strong>（等效约9折，17%回报）— 主推话术：充一张，一个月午饭不操心</li><li><strong>尊享档：充¥500送¥100</strong>（等效约8.3折，20%回报）— 适合确定成为常客的白领</li></ul><h3>开业储值特惠</h3><p><strong>充¥300送¥80（限开业30天内）</strong> — 比常规多送¥30，制造紧迫感<br>店员标准话术：我们开业优惠，充300现在能送80，只有开业这一个月，很多老客户开业当天就先充了一张。<br><strong>目标：开业首月储值客户100人，储值总额¥3万</strong> — 解决新店前期现金流压力，同时建立私域池。</p><h3>会员月度触达节奏</h3><ul><li>每月月初：推送本月新菜+会员专属打折日</li><li>每月中旬：沉睡客（15天未到访）触达：你的储值余额还有XX元，记得来</li><li>节假日前3天：推送节日限定菜品预告，刺激提前到访</li></ul>`,
+    7: `<h3>外卖：第二个堂食，不是堂食的替代品</h3><p>首章新所园区白领特征决定外卖是强刚需——加班点外卖、雨天懒得出门点外卖。按行业参考值，产业社区餐厅外卖占比可达<strong>35%~50%</strong>（行业参考值）。按月流水¥6万（开业3个月后预计值）估算，外卖月收入有望达¥2-3万，不可忽视。</p><h3>外卖冷启动30天计划</h3><table><tr><th>动作</th><th>具体操作</th><th>预期效果</th></tr><tr><td>开业同步上线</td><td>开业当天同步上线美团外卖，前7天开启新店特惠满¥25减¥5</td><td>快速积累外卖订单数和评价</td></tr><tr><td>包装升级</td><td>面条汤底分离装，私房菜专属打包盒，加印品牌logo</td><td>外卖好评率提升，减少汤撒了差评</td></tr><tr><td>外卖专属套餐</td><td>三档套餐：面条套餐¥29 / 私房菜+面套餐¥49 / 家庭套餐¥138</td><td>提升客单价，套餐转化率高于单品30%</td></tr></table><h3>外卖评分维护</h3><p><strong>目标：外卖评分≥4.7，保持在周边同品类前10%</strong></p><ul><li>🔧 开通好评返券：外卖5星好评返¥3无门槛券 — 工具路径：美团商家后台 &gt; 营销活动 &gt; 好评返券</li><li>🔧 每周查一次差评关键词，等太久/汤撒了/分量少出现超3次必须当周整改</li><li>🔧 外卖和堂食同一套会员体系：外卖下单也能积分，促使外卖客转堂食</li></ul><h3>外卖时段策略</h3><p>白领节奏：12点午餐高峰+18-19点晚餐外卖高峰<br>→ <strong>午餐高峰（11:30-13:00）必须保证15分钟内出餐</strong>，超时是最大差评来源<br>→ 晚餐时段推私房菜外卖精选（3-4道适合打包的私房菜），提升晚市外卖客单价</p>`,
+    8: `<h3>开业3个月营销节奏（6月下旬-9月）</h3><p>活动节奏核心：<strong>第一个月建口碑，第二个月锁常客，第三个月建体系</strong>。</p><table><tr><th>时间段</th><th>主题</th><th>活动内容</th><th>工具/成本</th></tr><tr><td>开业第1-2周</td><td>开业爆破</td><td>前100名会员送¥10体验券 + 午餐套餐限时¥29 + 储值¥300送¥80开业专享</td><td>美团收银会员系统 / 约¥1,500</td></tr><tr><td>第3-4周（7月初）</td><td>口碑沉淀</td><td>老带新：老客带新客，老客送¥10券，新客享8.5折首单</td><td>美团收银裂变功能 / 约¥800</td></tr><tr><td>7月中下旬</td><td>暑期活动</td><td>夏日杭帮冷面节：推出1-2款冷面/凉拌主食，外卖专享，限时7月</td><td>菜品研发 / 无额外推广费</td></tr><tr><td>8月份</td><td>常客锁定</td><td>月度会员日：每月8号全场会员9折+私房菜新品首发给会员</td><td>让利约5% / 长期固定活动</td></tr><tr><td>9月开学季</td><td>冲榜布局</td><td>工作日外卖月卡：充¥300外卖月卡，当月每单减¥8（限5单/天）</td><td>团购/储值 / 锁定整月外卖消费</td></tr></table><h3>大众点评团购（必做）</h3><p>开业2周内在大众点评上线至少1个团购套餐：<br><strong>杭帮招牌双人套餐 = 招牌面×2+私房小炒×1+汤 = 团购价¥58（原价¥76）</strong><br>团购核心价值：<strong>提升大众点评搜索展示权重</strong>，有团购的门店同品类搜索排名更靠前。</p><h3>峰终体验设计（零成本）</h3><ul><li><strong>峰值触点：</strong>浇头现炒开放式厨房让客人看到锅气；扫码点餐成功后弹出欢迎语</li><li><strong>终值触点：</strong>结账时POS自动显示本单已省X元（会员价）；每桌赠一颗杭州话梅/薄荷糖（成本＜0.2元）</li></ul>`,
+    9: `<h3>流量闭环：公域引流 → 私域留存 → 私域激活公域</h3><p>首章新所是新兴园区，自然人流有限。<strong>公域（平台流量）是新客来源，私域（会员体系）是留存保障</strong>，两者形成闭环才能实现可持续增长。</p><h3>公域三平台分工</h3><table><tr><th>平台</th><th>定位</th><th>核心动作</th><th>预期效果</th></tr><tr><td>大众点评</td><td>口碑主阵地+搜索流量</td><td>完善店铺信息+上线团购套餐+持续维护评价回复</td><td>开业1个月进新店榜，月曝光破500人</td></tr><tr><td>美团外卖</td><td>工作日高频触达渠道</td><td>开业同步上线+好评返券+精选套餐</td><td>外卖月销100单，评分≥4.7</td></tr><tr><td>小红书</td><td>年轻白领种草渠道</td><td>菜品锅气视频+探店笔记引导+话题#首章新所美食</td><td>开业1个月内3-5篇自然笔记，带来首次到访新客</td></tr></table><h3>私域留存漏斗</h3><ul><li><strong>到访 → 扫码入会：</strong>结账流程中扫码注册，首次入会率目标≥60%</li><li><strong>入会 → 储值：</strong>结账时推送储值活动，开业首月储值转化率目标≥20%</li><li><strong>储值 → 复购：</strong>月度推送+沉睡客激活，储值客月均到访频次目标≥3次</li><li><strong>复购 → 传播：</strong>老带新裂变+好评引导，每个满意客户带来约0.3个新客（行业参考值）</li></ul><h3>联动闭环示例</h3><p>小红书探店笔记 → 新客首次到访 → 扫码入会+储值¥300 → 次月收到会员日推送回访 → 带朋友来吃 → 朋友发小红书/点评。这是最理想的裂变飞轮，在首章新所年轻白领群体中完全可以跑通。</p>`,
+    10: `<h3>开业3个月营收爬坡预测（⚠️ 行业参考值，建议结合实际情况核实）</h3><table><tr><th>阶段</th><th>月营收预测</th><th>日均客流</th><th>翻台率</th></tr><tr><td>开业第1个月</td><td>¥2.5-3万</td><td>约25-35桌</td><td>约1.5次</td></tr><tr><td>开业第2个月</td><td>¥4-5万</td><td>约40-50桌</td><td>约2次</td></tr><tr><td>开业第3个月</td><td>¥6-8万</td><td>约55-75桌</td><td>约2.5次</td></tr></table><p>测算依据：80㎡门店约20-25个餐位，人均¥35，白领客群复购频次较高（每周1-2次）。</p><h3>月度成本结构（行业参考值）</h3><table><tr><th>成本项</th><th>占月营收比例</th><th>月均金额（以¥6万月流水计）</th></tr><tr><td>食材成本</td><td>33%-38%</td><td>¥2-2.3万</td></tr><tr><td>人力成本</td><td>20%-25%</td><td>¥1.2-1.5万</td></tr><tr><td>房租</td><td>10%-15%</td><td>¥6,000-9,000</td></tr><tr><td>水电+耗材</td><td>约5%</td><td>约¥3,000</td></tr><tr><td><strong>净利润（估算）</strong></td><td><strong>8%-15%</strong></td><td><strong>¥5,000-9,000</strong></td></tr></table><h3>SaaS投资回报</h3><p>美团收银旗舰版（¥4,888/年 = ¥407/月）核心增收来源：</p><ul><li><strong>储值现金流：</strong>开业首月目标储值¥3万，直接改善前期现金流压力</li><li><strong>外卖管理提效：</strong>避免漏单+多平台聚合，月节约人工折算约¥500-800</li><li><strong>团购套餐上线：</strong>进入新店榜后预计月增曝光300-500人次，按5%转化=15-25桌新客，增收约¥525-875</li></ul><p><strong>综合估算：SaaS系统每月额外带来增收¥1,500-3,000，回本周期约2-3个月。</strong></p><h3>量化OKR目标</h3><table><tr><th>维度</th><th>开业1个月</th><th>开业3个月</th><th>开业6个月</th></tr><tr><td>月营收</td><td>¥3万</td><td>¥6万</td><td>¥8万+</td></tr><tr><td>大众点评评分</td><td>≥4.0</td><td>≥4.3</td><td>≥4.5</td></tr><tr><td>评价条数</td><td>20条</td><td>80条</td><td>200条</td></tr><tr><td>储值会员数</td><td>100人</td><td>300人</td><td>600人</td></tr><tr><td>外卖月销单量</td><td>100单</td><td>300单</td><td>500单</td></tr></table>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
