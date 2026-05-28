@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>杨福记全牛馆 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #C62828;
+      --primary-light: #E53935;
+      --accent: #FF8A65;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #C6282840;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">火锅/全牛火锅 · 运营提升方案</div>
+  <h1 class="hero-title">杨福记全牛馆</h1>
+  <p class="hero-subtitle">现杀现吃全牛明档，让每一刀都看得见鲜</p>
+  <div class="hero-address">浙江省杭州市萧山区盈丰街道扬帆路1326号</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">⚠️新店</span>
+      <div class="hero-stat-label">刚开业阶段</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">6桌</span>
+      <div class="hero-stat-label">精品小馆规模</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">萧山区</span>
+      <div class="hero-stat-label">盈丰街道商圈</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察与商圈诊断', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察与商圈诊断</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '门店诊断与核心痛点', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">门店诊断与核心痛点</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '系统方案：收银如何带来盈利', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">系统方案：收银如何带来盈利</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评冷启动：新店口碑破零计划', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评冷启动：新店口碑破零计划</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '公私域联动：全牛馆流量作战图', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">公私域联动：全牛馆流量作战图</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '储值方案：把老客的钱提前锁进来', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">储值方案：把老客的钱提前锁进来</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '老店经验新店转化：余杭→萧山复制策略', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">老店经验新店转化：余杭→萧山复制策略</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '投资回报测算', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">投资回报测算</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>萧山区牛肉火锅市场格局</h3><p>萧山区作为杭州经济核心区，常住人口超220万，餐饮市场成熟。火锅赛道2025年竞争加剧：全国火锅门店开店率22% vs 关店率28.8%，市场进入存量竞争。但特色火锅细分赛道逆势增长，其中<strong>鲜切牛肉火锅/潮汕牛肉火锅在杭州集中涌现</strong>，成2025-2026年热门赛道之一。</p><h3>周边竞争（扬帆路3-5公里范围内）</h3><table><tr><th>竞品名称</th><th>人均</th><th>类型</th><th>核心弱点</th></tr><tr><td>小牛滚滚贵州黄牛肉火锅（博地中心店）</td><td>约80-90元</td><td>贵州黄牛肉火锅</td><td>商场内，停车+定位麻烦；贵州风味非全牛卖点</td></tr><tr><td>超火锅（萧山店）</td><td>约90-110元</td><td>连锁大牌</td><td>品牌化标准产品，缺乏现杀现吃明档稀缺感；中午排队时间长</td></tr><tr><td>313羊庄（杭州萧山店）</td><td>约96元</td><td>牛羊肉火锅</td><td>主打羊肉，牛肉非主角；热门榜排名靠流量堆砌，非产品壁垒</td></tr></table><h3>机会窗口判断</h3><p>⚠️ 假设：门店评分/评价数量尚未查询到（新店上线不足）。以行业参考值推算。</p><ul><li><strong>全牛明档稀缺性</strong>：周边3-5公里没有主打可视化全牛现杀的专项火锅，差异化空间极大</li><li><strong>盈丰街道新商区红利</strong>：盈丰路地铁2号线覆盖，周边高密度住宅和企业驱动工作日+周末双高峰需求</li><li><strong>小而精定位</strong>：6桌精品小馆天然具备紧张感和熟客社群运营土壤</li></ul></div>
+<div id="modal-content-2" style="display:none"><h3>当前阶段定性</h3><p>杨福记全牛馆目前处于<strong>新店冷启动阶段</strong>（评价数量待积累）。新店阶段最大的命题不是增收，而是<strong>先建口碑基础层</strong>——前30条评价决定了未来所有新顾客的第一印象。</p><h3>四大核心痛点（基于门店信息假设诊断）</h3><ul><li><strong>痛点一：无数字化管理，效率低</strong><br/>老店余杭手写单模式，新店60㎡6桌，手工记录在高峰期极易出错，且无法沉淀客户数据。⚠️ 假设：目前无会员体系，客人消费记录全靠记忆</li><li><strong>痛点二：新店口碑为零，流量冷启动困难</strong><br/>大众点评新店无评分、无评价，自然搜索排名靠后；消费者倾向选择有历史口碑的店铺，新店进店率显著低于成熟店</li><li><strong>痛点三：明档全牛是最大卖点，但不知道怎么讲故事</strong><br/>现杀现吃是核心差异点，但目前仅作为口头告知，缺乏可视化、可传播的内容表达</li><li><strong>痛点四：老板不清楚收银系统能带来哪些增量收益</strong><br/>明确提到想了解收银系统能够带来的盈利——这是核心诉求，方案必须正面回答这个问题</li></ul><h3>门店独特资产</h3><p>全牛馆最大的资产是<strong>可见的新鲜感</strong>——明档、现杀、现切，每一个环节都是传播素材。在抖音/小红书内容高度依赖视觉冲击的当下，这是绝大多数火锅店望尘莫及的天然内容优势。</p></div>
+<div id="modal-content-3" style="display:none"><h3>直接回答老板的问题：收银系统怎么赚钱？</h3><p>收银系统的价值不是替代手写单，而是通过4个杠杆把<strong>现有客流的价值最大化</strong>：</p><h3>杠杆一：扫码点餐 → 降人力 + 提翻台</h3><ul><li>60㎡6桌，满座时服务员同时应对点单+催菜+结账，极易出错</li><li>扫码点餐后：顾客自主点单，服务员专注出菜+体验，<strong>预估单桌服务时间缩短8-12分钟，翻台效率提升10%-15%</strong>（行业参考值）</li><li><strong>🔧 工具路径</strong>：美团扫码点餐 → 菜单同步更新（今日推荐/明档展示） → 无需纸质菜单</li></ul><h3>杠杆二：会员体系 → 锁客 + 建私域</h3><ul><li>⚠️ 假设：目前无会员体系，客人复购全靠老板个人人情维护</li><li>上线会员后：每桌消费自动录入，3个月内可累积<strong>100-200名会员数据</strong>（行业参考值）</li><li>生日提醒+节日触达→自动激活沉睡客户，<strong>老客复购频次从平均1.2次/月提升至1.8次/月</strong>（行业参考值）</li><li><strong>🔧 工具路径</strong>：扫码点餐 → 弹出会员注册 → 自动累积消费记录</li></ul><h3>杠杆三：储值方案 → 预收现金 + 制造黏性</h3><ul><li>全牛火锅人均约88元（⚠️假设），储值主推档：<strong>500元（赠50元）</strong>，约对应5-6次消费</li><li>储值的本质：让客人把未来10次消费的钱，现在就给你</li><li>目标：开业3个月内储值客人达50名，锁定<strong>预收金约25,000元</strong></li></ul><h3>杠杆四：大众点评评价专家 → 评分自动提升</h3><ul><li>新店最痛的事：客人吃完了，不知道去点评，满意度没有变成评分</li><li>结账时自动弹出点评引导，<strong>好评率比无引导门店高23%</strong>（行业参考值）</li><li>每一条好评都是永久的免费流量</li></ul></div>
+<div id="modal-content-4" style="display:none"><h3>新店阶段：口碑是最重要的资产</h3><p>杨福记全牛馆目前处于<strong>新店孵化期</strong>。根据大众点评新店评价规律：前50条真实评价决定了店铺的基础评分层，一旦奠定高分基础（4.5+），后续流量推荐权重将大幅提升。</p><h3>30天口碑破零路线图</h3><table><tr><th>时间节点</th><th>目标</th><th>关键动作</th></tr><tr><td>第1-7天</td><td>前10条评价</td><td>邀请老店余杭忠实客户来新店尝鲜，自然分享；老板自己发探店朋友圈，激活周边社交圈</td></tr><tr><td>第8-21天</td><td>评价数达30条</td><td>每桌结账后，POS自动弹点评引导页；明档现杀现吃视觉拍照点打造，引导自发传播</td></tr><tr><td>第22-30天</td><td>评价数达50条，评分稳定4.5+</td><td>持续保证食材新鲜度（明档可见是最好的品质背书）；每周处理1条差评，响应时间24小时内</td></tr></table><h3>榜单路径规划</h3><ul><li><strong>第1阶段（0-3个月）</strong>：冲新店必打卡榜——新店榜只看评价数量增速和好评率，不看绝对评分高低</li><li><strong>第2阶段（3-6个月）</strong>：评价数100+后，参与热门榜/口味榜竞争，目标进入萧山区牛肉火锅热门榜TOP10</li><li><strong>第3阶段（6个月+）</strong>：冲好评榜前列，配合小红书/抖音内容矩阵形成线上线下双流量</li></ul><h3>⚠️ 合规提示</h3><p>所有评价运营动作必须依托真实消费体验产生，<strong>严禁任何形式的刷评/促评行为</strong>——2025年10月后大众点评算法升级，高强度促评会导致新评价不产生星级收益，得不偿失。正道：把食材新鲜度和明档体验做好，好评是水到渠成的结果。</p></div>
+<div id="modal-content-5" style="display:none"><h3>公私域联动闭环设计</h3><p>全牛馆的流量逻辑：<strong>公域制造好奇心 → 私域沉淀忠诚度 → 口碑形成自传播</strong>，三环互相咬合。</p><h3>公域层：大众点评 + 小红书双引擎</h3><ul><li><strong>大众点评侧</strong>：<ul><li>团购套餐设计：推出招牌全牛双人套餐（人均约88元×2=176元，含锅底+牛里脊+牛腩+牛腱子+牛舌+时蔬），大众点评上线核销</li><li>套餐定价心理学：推两个档位——双人尝鲜套餐168元 vs 双人招牌套餐218元，让次贵套餐显得划算</li><li>照片管理：前20张商家主图重点突出明档、现杀切割、鲜红牛肉特写，视觉震撼是点击率的核心驱动</li></ul></li><li><strong>小红书侧（强推品类）</strong>：全牛明档是天然内容素材，非常适合小红书探店打卡流量<ul><li>拍摄点设计：明档正面角度（现切牛肉的特写）、锅中沸腾的牛肉片、整桌摆满牛肉各部位的全牛图</li><li>内容方向：杭州有家全牛馆，每一口都看得见鲜；萧山隐藏全牛火锅，老板亲自现切</li><li>⚠️ 假设：建议老板每周至少发1-2条小红书/抖音探店素材（老板出镜切牛肉的视频转化率最高）</li></ul></li></ul><h3>私域层：会员沉淀 + 定向触达</h3><ul><li><strong>会员入口</strong>：扫码点餐弹出入会福利（首次加入会员立减8元），降低入会门槛</li><li><strong>核心触达节奏</strong>：<ul><li>消费后3天：自动推送感谢光临+本周新鲜牛部位推荐</li><li>消费后15天未回访：推送思念唤醒券（凭此优惠享锅底费减半）</li><li>生日月：专属礼遇（赠一份牛百叶或牛舌）</li></ul></li><li><strong>储值会员专属</strong>：储值500元以上用户，进入全牛VIP群（每周老板亲自发今日新鲜牛部位图片），强化身份认同和口碑传播</li></ul><h3>联动数字目标</h3><ul><li>开业3个月：公域团购套餐月销50单，点评评价数破100条</li><li>开业3个月：私域会员入会100人，储值用户达30人</li><li>半年目标：新客进店转化率中，30%来自大众点评自然搜索/团购，15%来自小红书/抖音探店内容</li></ul></div>
+<div id="modal-content-6" style="display:none"><h3>为什么全牛馆适合做储值？</h3><p>⚠️ 假设人均88元。全牛火锅客单价偏高，属于有一定决策门槛的消费——储值的作用是：<strong>把每次都要重新决策变成已存钱理所当然再来</strong>。储值本质是降低每次消费的心理成本。</p><h3>储值档位设计（推旗舰版智能储值）</h3><table><tr><th>档位</th><th>储值金额</th><th>赠送</th><th>实际折扣</th><th>目标人群</th></tr><tr><td>体验档</td><td>200元</td><td>赠20元</td><td>9.1折</td><td>第一次来，愿意再来的新客</td></tr><tr><td>主推档 🔥</td><td>500元</td><td>赠60元</td><td>8.9折</td><td>吃过2-3次的回头客</td></tr><tr><td>尊享档</td><td>1000元</td><td>赠150元</td><td>8.7折</td><td>企业聚餐/宴请客/老板的朋友</td></tr></table><h3>推储值的时机与话术</h3><ul><li><strong>最佳时机</strong>：客人第2-3次来（吃顺口了，对品质有了判断）。不要第一次就推</li><li><strong>收银台话术</strong>：您今天消费了186元，充500元还剩314元可以用，下次2-3人聚餐基本不用补钱了，而且这次立即赠60元。→ 直接用这次消费做锚点</li><li><strong>POS弹窗</strong>：结账时自动弹储值推荐，显示本次消费186元，充500元后本次立省多少元</li></ul><h3>目标测算</h3><ul><li>⚠️ 以下为行业参考值推算</li><li>开业6个月内，目标储值用户50人，主推档500元×40人=20,000元，体验档200元×10人=2,000元，合计预收储值金约22,000元</li><li>储值金带来的复购效应：50名储值用户每人平均回访3次，创造消费流水约50×3×88=13,200元增量复购</li><li>综合评估：储值活动可为门店<strong>3个月内增加约3-4万元的锁定营收</strong>，同时提升翻台稳定性（储值客倾向避开高峰期，主动错峰消费）</li></ul></div>
+<div id="modal-content-7" style="display:none"><h3>老店的隐性资产要带过来</h3><p>余杭老店用手写单经营，但积累了一批真正爱吃全牛的忠实客户。<strong>这批人是新店最宝贵的种子流量</strong>——他们已经验证了全牛馆的产品力，他们的带客推荐可信度远超任何广告投入。</p><h3>老客户迁移三步走</h3><ul><li><strong>第一步：老客尝鲜邀请</strong>（开业前1周）<br/>通过老板个人微信/电话邀请余杭老客来萧山新店，可设老朋友专属优惠日（开业第一周，余杭老客凭老板微信截图享9折）</li><li><strong>第二步：口碑转化</strong>（开业1-2周）<br/>每位来新店的老客，重点引导在大众点评写一条评价——前10条评价质量决定新店基础口碑层，老客的真实感受最有说服力</li><li><strong>第三步：带新客机制</strong>（开业1个月起）<br/>老客带新客来店，两人各享锅底费减半——利用老客社交关系链做裂变，成本极低（1桌锅底通常38-48元，让利约19-24元，换来一个新客首次消费约88元，ROI约3.7倍）</li></ul><h3>从手写单到数字化：操作员适应指南</h3><ul><li>⚠️ 假设老店只有1-2名固定服务人员，且习惯手写流程</li><li>数字化切换核心原则：不是替代，是增强。扫码点餐是给客人用的，服务员专注于食材解说和服务品质</li><li>建议前2周并行（手写备用），让团队适应后全面切换</li><li>POS收银的价值：每天营业结束，系统自动生成销售报表（哪个牛部位卖得最好？哪天翻台率最高？），老板不再靠感觉管店</li></ul></div>
+<div id="modal-content-8" style="display:none"><h3>收银系统带来的增量收益（正面回答老板问题）</h3><p>⚠️ 以下测算基于行业参考值，实际数字请结合门店真实运营数据核实。</p><h3>基础假设</h3><table><tr><th>参数</th><th>假设值</th><th>说明</th></tr><tr><td>人均客单价</td><td>88元</td><td>⚠️假设，全牛火锅中档定位</td></tr><tr><td>每日桌数（满座）</td><td>6桌×1.5翻台</td><td>60㎡6桌，晚高峰1次，周末中午+1次</td></tr><tr><td>月流水（现状）</td><td>约47,520元</td><td>6桌×88元×1.5翻台×30天×0.6满座率</td></tr></table><h3>系统带来的增量收益拆解</h3><table><tr><th>增收来源</th><th>逻辑</th><th>月增收估算</th></tr><tr><td>翻台效率提升</td><td>扫码点餐缩短单桌停留10分钟，月均翻台+0.2次</td><td>约+1,900元</td></tr><tr><td>储值预收复购回报</td><td>储值金锁客复购增量</td><td>约+2,000~3,000元/月</td></tr><tr><td>老客沉睡唤醒</td><td>会员触达沉睡客，月均唤醒10-15人回访</td><td>约+1,056元</td></tr><tr><td>团购引流新客</td><td>大众点评团购套餐月销50单，其中20%是首次到访</td><td>约+880元</td></tr></table><h3>综合月增收约 5,836~6,836元</h3><p>即<strong>年增收约7-8万元</strong>。美团餐饮SaaS旗舰版年费4,888元，<strong>回本周期约8-10天</strong>（按月增收6,000元计算）。</p><h3>OKR量化目标</h3><table><tr><th>时间</th><th>目标项</th><th>量化指标</th></tr><tr><td>开业30天</td><td>口碑建立</td><td>大众点评评价数≥30条，评分≥4.3</td></tr><tr><td>开业60天</td><td>会员积累</td><td>会员注册数≥80人，储值用户≥20人</td></tr><tr><td>开业90天</td><td>营收提升</td><td>月流水较第1个月+20%，团购套餐月销≥30单</td></tr><tr><td>开业6个月</td><td>稳定盈利</td><td>月流水≥6万，储值会员≥50人，点评热门榜进入TOP15</td></tr></table></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>陈国庆</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>萧山区牛肉火锅市场格局</h3><p>萧山区作为杭州经济核心区，常住人口超220万，餐饮市场成熟。火锅赛道2025年竞争加剧：全国火锅门店开店率22% vs 关店率28.8%，市场进入存量竞争。但特色火锅细分赛道逆势增长，其中<strong>鲜切牛肉火锅/潮汕牛肉火锅在杭州集中涌现</strong>，成2025-2026年热门赛道之一。</p><h3>周边竞争（扬帆路3-5公里范围内）</h3><table><tr><th>竞品名称</th><th>人均</th><th>类型</th><th>核心弱点</th></tr><tr><td>小牛滚滚贵州黄牛肉火锅（博地中心店）</td><td>约80-90元</td><td>贵州黄牛肉火锅</td><td>商场内，停车+定位麻烦；贵州风味非全牛卖点</td></tr><tr><td>超火锅（萧山店）</td><td>约90-110元</td><td>连锁大牌</td><td>品牌化标准产品，缺乏现杀现吃明档稀缺感；中午排队时间长</td></tr><tr><td>313羊庄（杭州萧山店）</td><td>约96元</td><td>牛羊肉火锅</td><td>主打羊肉，牛肉非主角；热门榜排名靠流量堆砌，非产品壁垒</td></tr></table><h3>机会窗口判断</h3><p>⚠️ 假设：门店评分/评价数量尚未查询到（新店上线不足）。以行业参考值推算。</p><ul><li><strong>全牛明档稀缺性</strong>：周边3-5公里没有主打可视化全牛现杀的专项火锅，差异化空间极大</li><li><strong>盈丰街道新商区红利</strong>：盈丰路地铁2号线覆盖，周边高密度住宅和企业驱动工作日+周末双高峰需求</li><li><strong>小而精定位</strong>：6桌精品小馆天然具备紧张感和熟客社群运营土壤</li></ul>`,
+    2: `<h3>当前阶段定性</h3><p>杨福记全牛馆目前处于<strong>新店冷启动阶段</strong>（评价数量待积累）。新店阶段最大的命题不是增收，而是<strong>先建口碑基础层</strong>——前30条评价决定了未来所有新顾客的第一印象。</p><h3>四大核心痛点（基于门店信息假设诊断）</h3><ul><li><strong>痛点一：无数字化管理，效率低</strong><br/>老店余杭手写单模式，新店60㎡6桌，手工记录在高峰期极易出错，且无法沉淀客户数据。⚠️ 假设：目前无会员体系，客人消费记录全靠记忆</li><li><strong>痛点二：新店口碑为零，流量冷启动困难</strong><br/>大众点评新店无评分、无评价，自然搜索排名靠后；消费者倾向选择有历史口碑的店铺，新店进店率显著低于成熟店</li><li><strong>痛点三：明档全牛是最大卖点，但不知道怎么讲故事</strong><br/>现杀现吃是核心差异点，但目前仅作为口头告知，缺乏可视化、可传播的内容表达</li><li><strong>痛点四：老板不清楚收银系统能带来哪些增量收益</strong><br/>明确提到想了解收银系统能够带来的盈利——这是核心诉求，方案必须正面回答这个问题</li></ul><h3>门店独特资产</h3><p>全牛馆最大的资产是<strong>可见的新鲜感</strong>——明档、现杀、现切，每一个环节都是传播素材。在抖音/小红书内容高度依赖视觉冲击的当下，这是绝大多数火锅店望尘莫及的天然内容优势。</p>`,
+    3: `<h3>直接回答老板的问题：收银系统怎么赚钱？</h3><p>收银系统的价值不是替代手写单，而是通过4个杠杆把<strong>现有客流的价值最大化</strong>：</p><h3>杠杆一：扫码点餐 → 降人力 + 提翻台</h3><ul><li>60㎡6桌，满座时服务员同时应对点单+催菜+结账，极易出错</li><li>扫码点餐后：顾客自主点单，服务员专注出菜+体验，<strong>预估单桌服务时间缩短8-12分钟，翻台效率提升10%-15%</strong>（行业参考值）</li><li><strong>🔧 工具路径</strong>：美团扫码点餐 → 菜单同步更新（今日推荐/明档展示） → 无需纸质菜单</li></ul><h3>杠杆二：会员体系 → 锁客 + 建私域</h3><ul><li>⚠️ 假设：目前无会员体系，客人复购全靠老板个人人情维护</li><li>上线会员后：每桌消费自动录入，3个月内可累积<strong>100-200名会员数据</strong>（行业参考值）</li><li>生日提醒+节日触达→自动激活沉睡客户，<strong>老客复购频次从平均1.2次/月提升至1.8次/月</strong>（行业参考值）</li><li><strong>🔧 工具路径</strong>：扫码点餐 → 弹出会员注册 → 自动累积消费记录</li></ul><h3>杠杆三：储值方案 → 预收现金 + 制造黏性</h3><ul><li>全牛火锅人均约88元（⚠️假设），储值主推档：<strong>500元（赠50元）</strong>，约对应5-6次消费</li><li>储值的本质：让客人把未来10次消费的钱，现在就给你</li><li>目标：开业3个月内储值客人达50名，锁定<strong>预收金约25,000元</strong></li></ul><h3>杠杆四：大众点评评价专家 → 评分自动提升</h3><ul><li>新店最痛的事：客人吃完了，不知道去点评，满意度没有变成评分</li><li>结账时自动弹出点评引导，<strong>好评率比无引导门店高23%</strong>（行业参考值）</li><li>每一条好评都是永久的免费流量</li></ul>`,
+    4: `<h3>新店阶段：口碑是最重要的资产</h3><p>杨福记全牛馆目前处于<strong>新店孵化期</strong>。根据大众点评新店评价规律：前50条真实评价决定了店铺的基础评分层，一旦奠定高分基础（4.5+），后续流量推荐权重将大幅提升。</p><h3>30天口碑破零路线图</h3><table><tr><th>时间节点</th><th>目标</th><th>关键动作</th></tr><tr><td>第1-7天</td><td>前10条评价</td><td>邀请老店余杭忠实客户来新店尝鲜，自然分享；老板自己发探店朋友圈，激活周边社交圈</td></tr><tr><td>第8-21天</td><td>评价数达30条</td><td>每桌结账后，POS自动弹点评引导页；明档现杀现吃视觉拍照点打造，引导自发传播</td></tr><tr><td>第22-30天</td><td>评价数达50条，评分稳定4.5+</td><td>持续保证食材新鲜度（明档可见是最好的品质背书）；每周处理1条差评，响应时间24小时内</td></tr></table><h3>榜单路径规划</h3><ul><li><strong>第1阶段（0-3个月）</strong>：冲新店必打卡榜——新店榜只看评价数量增速和好评率，不看绝对评分高低</li><li><strong>第2阶段（3-6个月）</strong>：评价数100+后，参与热门榜/口味榜竞争，目标进入萧山区牛肉火锅热门榜TOP10</li><li><strong>第3阶段（6个月+）</strong>：冲好评榜前列，配合小红书/抖音内容矩阵形成线上线下双流量</li></ul><h3>⚠️ 合规提示</h3><p>所有评价运营动作必须依托真实消费体验产生，<strong>严禁任何形式的刷评/促评行为</strong>——2025年10月后大众点评算法升级，高强度促评会导致新评价不产生星级收益，得不偿失。正道：把食材新鲜度和明档体验做好，好评是水到渠成的结果。</p>`,
+    5: `<h3>公私域联动闭环设计</h3><p>全牛馆的流量逻辑：<strong>公域制造好奇心 → 私域沉淀忠诚度 → 口碑形成自传播</strong>，三环互相咬合。</p><h3>公域层：大众点评 + 小红书双引擎</h3><ul><li><strong>大众点评侧</strong>：<ul><li>团购套餐设计：推出招牌全牛双人套餐（人均约88元×2=176元，含锅底+牛里脊+牛腩+牛腱子+牛舌+时蔬），大众点评上线核销</li><li>套餐定价心理学：推两个档位——双人尝鲜套餐168元 vs 双人招牌套餐218元，让次贵套餐显得划算</li><li>照片管理：前20张商家主图重点突出明档、现杀切割、鲜红牛肉特写，视觉震撼是点击率的核心驱动</li></ul></li><li><strong>小红书侧（强推品类）</strong>：全牛明档是天然内容素材，非常适合小红书探店打卡流量<ul><li>拍摄点设计：明档正面角度（现切牛肉的特写）、锅中沸腾的牛肉片、整桌摆满牛肉各部位的全牛图</li><li>内容方向：杭州有家全牛馆，每一口都看得见鲜；萧山隐藏全牛火锅，老板亲自现切</li><li>⚠️ 假设：建议老板每周至少发1-2条小红书/抖音探店素材（老板出镜切牛肉的视频转化率最高）</li></ul></li></ul><h3>私域层：会员沉淀 + 定向触达</h3><ul><li><strong>会员入口</strong>：扫码点餐弹出入会福利（首次加入会员立减8元），降低入会门槛</li><li><strong>核心触达节奏</strong>：<ul><li>消费后3天：自动推送感谢光临+本周新鲜牛部位推荐</li><li>消费后15天未回访：推送思念唤醒券（凭此优惠享锅底费减半）</li><li>生日月：专属礼遇（赠一份牛百叶或牛舌）</li></ul></li><li><strong>储值会员专属</strong>：储值500元以上用户，进入全牛VIP群（每周老板亲自发今日新鲜牛部位图片），强化身份认同和口碑传播</li></ul><h3>联动数字目标</h3><ul><li>开业3个月：公域团购套餐月销50单，点评评价数破100条</li><li>开业3个月：私域会员入会100人，储值用户达30人</li><li>半年目标：新客进店转化率中，30%来自大众点评自然搜索/团购，15%来自小红书/抖音探店内容</li></ul>`,
+    6: `<h3>为什么全牛馆适合做储值？</h3><p>⚠️ 假设人均88元。全牛火锅客单价偏高，属于有一定决策门槛的消费——储值的作用是：<strong>把每次都要重新决策变成已存钱理所当然再来</strong>。储值本质是降低每次消费的心理成本。</p><h3>储值档位设计（推旗舰版智能储值）</h3><table><tr><th>档位</th><th>储值金额</th><th>赠送</th><th>实际折扣</th><th>目标人群</th></tr><tr><td>体验档</td><td>200元</td><td>赠20元</td><td>9.1折</td><td>第一次来，愿意再来的新客</td></tr><tr><td>主推档 🔥</td><td>500元</td><td>赠60元</td><td>8.9折</td><td>吃过2-3次的回头客</td></tr><tr><td>尊享档</td><td>1000元</td><td>赠150元</td><td>8.7折</td><td>企业聚餐/宴请客/老板的朋友</td></tr></table><h3>推储值的时机与话术</h3><ul><li><strong>最佳时机</strong>：客人第2-3次来（吃顺口了，对品质有了判断）。不要第一次就推</li><li><strong>收银台话术</strong>：您今天消费了186元，充500元还剩314元可以用，下次2-3人聚餐基本不用补钱了，而且这次立即赠60元。→ 直接用这次消费做锚点</li><li><strong>POS弹窗</strong>：结账时自动弹储值推荐，显示本次消费186元，充500元后本次立省多少元</li></ul><h3>目标测算</h3><ul><li>⚠️ 以下为行业参考值推算</li><li>开业6个月内，目标储值用户50人，主推档500元×40人=20,000元，体验档200元×10人=2,000元，合计预收储值金约22,000元</li><li>储值金带来的复购效应：50名储值用户每人平均回访3次，创造消费流水约50×3×88=13,200元增量复购</li><li>综合评估：储值活动可为门店<strong>3个月内增加约3-4万元的锁定营收</strong>，同时提升翻台稳定性（储值客倾向避开高峰期，主动错峰消费）</li></ul>`,
+    7: `<h3>老店的隐性资产要带过来</h3><p>余杭老店用手写单经营，但积累了一批真正爱吃全牛的忠实客户。<strong>这批人是新店最宝贵的种子流量</strong>——他们已经验证了全牛馆的产品力，他们的带客推荐可信度远超任何广告投入。</p><h3>老客户迁移三步走</h3><ul><li><strong>第一步：老客尝鲜邀请</strong>（开业前1周）<br/>通过老板个人微信/电话邀请余杭老客来萧山新店，可设老朋友专属优惠日（开业第一周，余杭老客凭老板微信截图享9折）</li><li><strong>第二步：口碑转化</strong>（开业1-2周）<br/>每位来新店的老客，重点引导在大众点评写一条评价——前10条评价质量决定新店基础口碑层，老客的真实感受最有说服力</li><li><strong>第三步：带新客机制</strong>（开业1个月起）<br/>老客带新客来店，两人各享锅底费减半——利用老客社交关系链做裂变，成本极低（1桌锅底通常38-48元，让利约19-24元，换来一个新客首次消费约88元，ROI约3.7倍）</li></ul><h3>从手写单到数字化：操作员适应指南</h3><ul><li>⚠️ 假设老店只有1-2名固定服务人员，且习惯手写流程</li><li>数字化切换核心原则：不是替代，是增强。扫码点餐是给客人用的，服务员专注于食材解说和服务品质</li><li>建议前2周并行（手写备用），让团队适应后全面切换</li><li>POS收银的价值：每天营业结束，系统自动生成销售报表（哪个牛部位卖得最好？哪天翻台率最高？），老板不再靠感觉管店</li></ul>`,
+    8: `<h3>收银系统带来的增量收益（正面回答老板问题）</h3><p>⚠️ 以下测算基于行业参考值，实际数字请结合门店真实运营数据核实。</p><h3>基础假设</h3><table><tr><th>参数</th><th>假设值</th><th>说明</th></tr><tr><td>人均客单价</td><td>88元</td><td>⚠️假设，全牛火锅中档定位</td></tr><tr><td>每日桌数（满座）</td><td>6桌×1.5翻台</td><td>60㎡6桌，晚高峰1次，周末中午+1次</td></tr><tr><td>月流水（现状）</td><td>约47,520元</td><td>6桌×88元×1.5翻台×30天×0.6满座率</td></tr></table><h3>系统带来的增量收益拆解</h3><table><tr><th>增收来源</th><th>逻辑</th><th>月增收估算</th></tr><tr><td>翻台效率提升</td><td>扫码点餐缩短单桌停留10分钟，月均翻台+0.2次</td><td>约+1,900元</td></tr><tr><td>储值预收复购回报</td><td>储值金锁客复购增量</td><td>约+2,000~3,000元/月</td></tr><tr><td>老客沉睡唤醒</td><td>会员触达沉睡客，月均唤醒10-15人回访</td><td>约+1,056元</td></tr><tr><td>团购引流新客</td><td>大众点评团购套餐月销50单，其中20%是首次到访</td><td>约+880元</td></tr></table><h3>综合月增收约 5,836~6,836元</h3><p>即<strong>年增收约7-8万元</strong>。美团餐饮SaaS旗舰版年费4,888元，<strong>回本周期约8-10天</strong>（按月增收6,000元计算）。</p><h3>OKR量化目标</h3><table><tr><th>时间</th><th>目标项</th><th>量化指标</th></tr><tr><td>开业30天</td><td>口碑建立</td><td>大众点评评价数≥30条，评分≥4.3</td></tr><tr><td>开业60天</td><td>会员积累</td><td>会员注册数≥80人，储值用户≥20人</td></tr><tr><td>开业90天</td><td>营收提升</td><td>月流水较第1个月+20%，团购套餐月销≥30单</td></tr><tr><td>开业6个月</td><td>稳定盈利</td><td>月流水≥6万，储值会员≥50人，点评热门榜进入TOP15</td></tr></table>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
