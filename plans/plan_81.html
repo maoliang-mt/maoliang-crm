@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>沙县小吃（保利中心店） · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">点心/小吃/快餐 · 运营提升方案</div>
+  <h1 class="hero-title">沙县小吃（保利中心店）</h1>
+  <p class="hero-subtitle">外卖为主、堂食为辅，用数字化系统抢占彭埠写字楼3公里外卖圈</p>
+  <div class="hero-address">浙江省杭州市上城区彭埠街道保利中心</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥15-20</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">上城区彭埠</span>
+      <div class="hero-stat-label">所在商圈</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '商圈竞争格局', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">商圈竞争格局</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '美团收银商户案例', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">美团收银商户案例</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '外卖核心优势', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">外卖核心优势</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '新店外卖冷启动30天', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">新店外卖冷启动30天</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '堂食+外卖双线联动', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">堂食+外卖双线联动</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '会员储值方案', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">会员储值方案</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '点评新店攻略', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">点评新店攻略</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '投资回报测算', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">投资回报测算</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>彭埠保利中心商圈概况</h3><p>保利中心位于上城区彭埠街道，紧邻杭州东站商圈，地铁4号线新塘站B口步行40米可达。商圈定位为<strong>城东新兴社区+商务配套</strong>，常住人口密集（周边彭埠社区、三花国际大厦、中豪国际等），日间办公人群约2万+，外卖需求极为旺盛。</p><h3>同商圈同品类竞争分析</h3><table><tr><th>竞品名称</th><th>品类</th><th>人均</th><th>核心弱点</th><th>切入机会</th></tr><tr><td>重庆小面（保利中心店）</td><td>面馆/小吃</td><td>¥15-22</td><td>品类单一（仅面食），配送品质不稳定</td><td>沙县品类丰富（饭+面+汤+蒸饺），一单满足多口味</td></tr><tr><td>老奶奶面馆</td><td>面馆</td><td>¥12-18</td><td>传统经营模式，无外卖平台深度运营，出餐慢</td><td>系统化出餐+外卖评分管理碾压</td></tr><tr><td>高奶奶馄饨铺（保利店）</td><td>馄饨/小吃</td><td>¥12-16</td><td>SKU少（仅馄饨类），午餐场景覆盖不足</td><td>沙县全品类覆盖早午晚三餐</td></tr><tr><td>港田面馆（东站店）</td><td>面馆</td><td>¥18-25</td><td>价格偏高，性价比不足</td><td>同品质更低价，外卖满减更有吸引力</td></tr><tr><td>壹口香大食堂</td><td>快餐</td><td>¥15-20</td><td>大食堂模式，外卖体验差，包装简陋</td><td>品牌标准化包装+精细外卖运营</td></tr></table><h3>竞争结论</h3><p>彭埠保利中心3公里内快餐小吃门店<strong>数量多但运营水平参差</strong>：多数竞品仍停留在「开店等客」模式，外卖运营粗放（主图差、无满减策略、差评不回复）。沙县小吃作为<strong>连锁品牌+CKA级门店</strong>，凭借标准化供应链和数字化系统优势，完全具备在外卖赛道快速起量的条件。</p><p><strong>关键洞察</strong>：周边5家主要竞品中，仅1家有系统化外卖运营意识。新店如果开业即用美团收银全套系统接入外卖，可在30天内建立<strong>出餐速度+评分+复购</strong>三重壁垒。</p></div>
+<div id="modal-content-2" style="display:none"><h3>沙县小吃品牌数字化现状</h3><p>据沙县区小吃文旅集团官方数据，全国已有<strong>超2,500家沙县小吃门店</strong>接入美团收银系统，实现了收银结算与供应配送软件的市场化应用。沙县小吃集团已与美团、京东、饿了么等电商合作，建立<strong>线上品牌运营管理模式</strong>，初步形成线上商城及外卖平台的统一管理。</p><h3>同商圈使用美团收银的商户</h3><table><tr><th>商户名称</th><th>品类</th><th>使用模块</th><th>效果</th></tr><tr><td>靠山Pizza（保利中心一楼）</td><td>西餐/披萨</td><td>收银+扫码点餐+会员</td><td>点评4.5分，评价2300+条，保利中心人气TOP1</td></tr><tr><td>老三小炒肉（彭埠店）</td><td>湘菜/小炒</td><td>收银+外卖接单+会员</td><td>点评评分高，外卖月销1000+，评价1600+条</td></tr><tr><td>鲜潑活跳·港式打边炉（东站总店）</td><td>火锅</td><td>收银+排队+扫码点餐</td><td>点评评价3900+条，城东火锅热门TOP</td></tr><tr><td>小关心牛腩煲</td><td>煲类/小吃</td><td>收银+外卖+会员</td><td>新店快速起量，社区口碑店</td></tr></table><h3>关键启示</h3><p>保利中心商圈内生意好的门店有一个共性：<strong>全部使用了数字化收银系统</strong>，尤其是外卖接单、团购核销、扫码点餐三大模块。</p><p>以靠山Pizza为例——同样位于保利中心一楼，使用美团收银+扫码点餐后，实现了<strong>日均处理订单200+单</strong>（含外卖+堂食+团购），人均102元客单价下，单月营收稳定在20万+。它的成功核心不是位置好（隔壁店倒了好几家），而是<strong>系统化运营+平台流量承接能力</strong>。</p><p>沙县小吃作为国民级连锁品牌，品类丰富度远超披萨店，客单更低意味着<strong>外卖复购频次更高</strong>，只要运营到位，月外卖单量破1000单完全可期。</p></div>
+<div id="modal-content-3" style="display:none"><h3>为什么沙县小吃必须「外卖优先」？</h3><p><strong>门店面积50平方米，堂食座位有限（预估8-12桌）</strong>，翻台率天花板明显。按人均18元、日翻3次计算，纯堂食日营收上限约<strong>1,944元</strong>。而外卖没有物理空间限制——同面积门店，外卖可以将日营收拉到<strong>堂食的2-3倍</strong>。</p><h3>美团收银带来的6大外卖优势</h3><table><tr><th>优势</th><th>具体能力</th><th>对门店的价值</th></tr><tr><td>一键接单</td><td>美团/点评外卖订单直达收银系统，无需手动切换多平台</td><td>高峰期不漏单不错单，出餐效率提升40%+</td></tr><tr><td>智能出餐排序</td><td>后厨KDS按时间+配送优先级自动排单</td><td>准时率提升→骑手好评→平台权重提升→曝光量增加</td></tr><tr><td>外卖中心</td><td>AI智能定价、差评风险预警、粉丝群自动发券</td><td>月省2-3小时运营时间，差评率降低50%</td></tr><tr><td>数据看板</td><td>实时查看外卖营收、单量、退单率、出餐时长</td><td>老板手机随时看数据，不用守店</td></tr><tr><td>评价管理</td><td>好评自动回复、差评即时提醒、评价分析</td><td>30天内外卖评分冲到4.5+</td></tr><tr><td>平台流量加持</td><td>新店30天流量扶持期+参加平台活动曝光翻倍</td><td>新店期日曝光5000+，稳定后8000+</td></tr></table><h3>外卖经营核心公式</h3><p><strong>外卖营业额 = 曝光量 × 点击率 × 转化率 × 客单价 × 复购率</strong></p><p>大多数老板只盯曝光量（花钱买流量），但美团收银系统帮你优化<strong>后面四个乘数</strong>——成本更低、效果更大：</p><ul><li><strong>点击率优化</strong>：美团收银后台可直接管理外卖主图、菜单排序，好的主图点击率提升40%+</li><li><strong>转化率优化</strong>：扫码点餐积累的菜品销量数据，反哺外卖菜单优化（爆款前置、滞销下架）</li><li><strong>客单价优化</strong>：智能搭配推荐（点拌面自动推荐+扁肉+饮品），客单从15元提升到22元</li><li><strong>复购率优化</strong>：会员系统自动触达（消费3天后推送老客专属券），复购率提升20%</li></ul><h3>实战对比：有系统 vs 无系统</h3><table><tr><th>场景</th><th>无系统（传统模式）</th><th>有美团收银</th></tr><tr><td>午高峰接单</td><td>手机响个不停，手忙脚乱抄单</td><td>订单自动打印，KDS排序出餐</td></tr><tr><td>差评处理</td><td>第二天才看到，已经影响评分</td><td>即时预警，4小时内处理完毕</td></tr><tr><td>新客获取</td><td>等平台自然推荐，毫无主动权</td><td>新客立减+粉丝群发券+满减策略组合拳</td></tr><tr><td>数据分析</td><td>月底算账才知道亏了</td><td>实时看每天/每单毛利，随时调整</td></tr></table></div>
+<div id="modal-content-4" style="display:none"><h3>开业前7天：蓄水期</h3><ul><li><strong>第1-3天</strong>：美团收银系统安装调试+外卖平台上线+菜单优化（SKU控制在35-45个，设置3个爆款引流品：拌面套餐9.9元/扁肉套餐11.9元/蒸饺套餐10.9元）</li><li><strong>第4-5天</strong>：外卖主图拍摄（食物特写+深色背景+高饱和度），上传平台</li><li><strong>第6-7天</strong>：设置新店活动（新客立减3元+满20减5+收藏店铺送饮品券），开启30天新店流量扶持</li></ul><h3>第1-2周：冲量期（日均目标30单到60单）</h3><ul><li><strong>满减策略</strong>：满15减3 + 满25减5 + 满35减8（覆盖1人餐/2人餐/家庭餐三档）</li><li><strong>出餐管理</strong>：KDS后厨系统保证出餐时间小于8分钟，准时率大于95%</li><li><strong>评价运营</strong>：前10条评价决定后续所有新客印象，主动服务好每一单，随餐附赠温馨小纸条</li><li><strong>数据监控</strong>：每天查看曝光到点击到转化漏斗，发现薄弱环节即时优化</li></ul><h3>第3-4周：起飞期（日均目标60单到100单）</h3><ul><li><strong>会员锁客</strong>：外卖订单自动弹窗加入会员享9折，沉淀私域</li><li><strong>复购激活</strong>：3天未复购自动推送3元无门槛券；7天未复购推送老客回归礼包</li><li><strong>爆品打造</strong>：根据前2周销量数据，锁定TOP3菜品做专项推广</li><li><strong>目标校验</strong>：月底外卖评分大于等于4.5，月单量大于等于1500单，外卖营收占比大于等于60%</li></ul><h3>新店蓄水期核心原则</h3><p><strong>「头30天的任务是积累算法权重，不是赚钱。」</strong></p><p>新店期毛利薄是正常的——每一单的让利都是在「买」平台权重。错过这30天窗口期，后面花10倍广告费也补不回来。美团收银系统的价值在于：<strong>让你在这30天里每一分钱的投入都有数据反馈，知道哪里在起效、哪里需要调整</strong>，而不是盲目烧钱。</p></div>
+<div id="modal-content-5" style="display:none"><h3>50平米门店的最优坪效模型</h3><p>沙县小吃保利中心店面积50平米，物理空间有限。最优经营模型是<strong>「6:4外卖堂食比」</strong>——外卖贡献60%营收，堂食贡献40%。这样既不浪费门面曝光价值（堂食带来自然口碑），又突破了空间天花板（外卖无上限）。</p><h3>美团收银如何实现双线联动</h3><table><tr><th>场景</th><th>系统支撑</th><th>效果</th></tr><tr><td>堂食顾客转外卖复购</td><td>扫码点餐自动入会，离店后推送「下次点外卖立减3元」</td><td>堂食客转外卖客，复购率+25%</td></tr><tr><td>外卖顾客转堂食拉新</td><td>外卖订单附带「到店消费享专属折扣」卡片</td><td>线上口碑反哺线下客流</td></tr><tr><td>高峰期分流</td><td>午高峰堂食满座时，外卖接单量自动调控</td><td>避免出餐崩溃，保证双线体验</td></tr><tr><td>统一会员体系</td><td>堂食+外卖消费均累积积分，储值余额通用</td><td>锁定客户在两个渠道的消费</td></tr></table><h3>收银系统统一管理的价值</h3><p>传统模式下，外卖用手机接单、堂食用计算器算账，两套账对不上，老板根本不知道哪个渠道赚钱。美团收银<strong>一台机器管所有</strong>：</p><ul><li>外卖订单+堂食订单统一汇总，日结/月结一目了然</li><li>菜品毛利分渠道统计——哪个菜外卖赚、哪个菜堂食赚，清清楚楚</li><li>库存联动：外卖爆单导致某菜品售罄，堂食菜单自动沽清，避免接单后没货的差评</li><li>高峰时段分析：数据告诉你11:00-13:00外卖占80%，17:00-19:00堂食占60%，据此安排人力</li></ul><p><strong>一句话总结</strong>：50平米的店，用系统做到100平米的营收。这就是数字化的核心价值——<strong>突破物理空间限制</strong>。</p></div>
+<div id="modal-content-6" style="display:none"><h3>低客单高频品类的储值策略</h3><p>沙县小吃人均15-20元，属于<strong>低客单高频消费</strong>品类。这类门店储值的核心逻辑不是「一次充大钱」，而是「轻充值高频次」——让客户养成习惯性消费。</p><h3>储值档位设计（首次消费即可推）</h3><table><tr><th>档位</th><th>充值金额</th><th>赠送</th><th>实际折扣</th><th>锁定次数</th></tr><tr><td>体验档</td><td>100元</td><td>送15元</td><td>8.7折</td><td>约6-7次消费</td></tr><tr><td>主推档</td><td>200元</td><td>送40元</td><td>8.3折</td><td>约12-14次消费</td></tr><tr><td>尊享档</td><td>300元</td><td>送70元</td><td>8.1折</td><td>约18-20次消费</td></tr></table><h3>储值推广节奏</h3><ul><li><strong>开业前3天</strong>：「开业储值100送30」限时加码活动（仅限堂食，制造稀缺感）</li><li><strong>日常推广</strong>：扫码点餐结账页自动弹窗「储值立享8.3折」，店员配合一句话话术：「充200送40，相当于每次吃饭白送一碗扁肉」</li><li><strong>外卖复购联动</strong>：储值会员下外卖单自动减2元（额外权益），引导线上消费也走储值余额</li></ul><h3>目标测算</h3><p>按月到店客户500人（堂食300+外卖复购转堂食200），储值转化率15%计算：</p><ul><li>月新增储值会员：75人</li><li>月储值入账：75人 × 200元（主推档）= <strong>15,000元</strong></li><li>锁定未来消费：15,000 × 1.2（含赠送消耗）= <strong>18,000元</strong></li></ul><p><strong>储值的本质不是打折，是提前锁定客户未来12-14次消费</strong>——竞品再怎么降价，储值余额没花完，客户就不会流失。</p></div>
+<div id="modal-content-7" style="display:none"><h3>新店出星路径（合规运营）</h3><p>沙县小吃保利中心店为<strong>新店尚未开业</strong>状态，开业后需尽快在大众点评建立口碑。2025年10月起，平台对高强度促评行为已收紧——<strong>新评价若被判定为促评，将不产生星级收益</strong>。因此必须走合规路径：</p><h3>阶段一：攒基础评价（开业30天内）</h3><ul><li><strong>目标</strong>：30天内积累30-50条真实评价，评分大于等于4.3</li><li><strong>路径</strong>：美团收银「支付后评价引流」功能，堂食结账自动弹出点评页，自然引导（不强制、不返利）</li><li><strong>关键</strong>：出餐品质稳定+服务态度好=自然好评率80%+</li><li><strong>工具</strong>：评价专家模块，差评即时提醒，4小时内回复处理，将1星差评控制在5%以内</li></ul><h3>阶段二：冲新店榜（开业30-60天）</h3><ul><li><strong>目标</strong>：进入彭埠/城东「新店热门榜」TOP10</li><li><strong>路径</strong>：评价数大于等于50 + 评分大于等于4.3 + 近7天有新增评价 + 团购上架</li><li><strong>团购设计</strong>：9.9元拌面+扁肉套餐（堂食到店核销），用低价引流型团购拉动自然到店评价</li></ul><h3>阶段三：稳定维护（60天后）</h3><ul><li><strong>目标</strong>：评分稳定4.5+，进入区域「好评榜」</li><li><strong>路径</strong>：保持每周有新评价产生（自然流量即可）+差评48小时内闭环处理+定期更新团购套餐保持活跃度</li></ul><h3>严禁行为（2025年10月后高风险）</h3><ul><li>送小礼品/返现换好评</li><li>店员口头要求顾客给5星好评</li><li>第三方刷评/买评价</li><li>桌贴/台卡写好评送XXX</li></ul><p><strong>正确做法</strong>：把精力放在出品和服务上，用美团收银的「支付后评价引流」功能自然引导——顾客满意了自己会写，不满意了系统帮你第一时间拦截。</p></div>
+<div id="modal-content-8" style="display:none"><h3>营收目标（开业3个月后稳定期）</h3><table><tr><th>渠道</th><th>日均单量</th><th>客单价</th><th>日营收</th><th>月营收</th></tr><tr><td>外卖</td><td>100单</td><td>22元</td><td>2,200元</td><td>66,000元</td></tr><tr><td>堂食</td><td>80单</td><td>18元</td><td>1,440元</td><td>43,200元</td></tr><tr><td>团购核销</td><td>15单</td><td>15元</td><td>225元</td><td>6,750元</td></tr><tr><td><strong>合计</strong></td><td><strong>195单</strong></td><td>—</td><td><strong>3,865元</strong></td><td><strong>115,950元</strong></td></tr></table><h3>系统投入 vs 增收回报</h3><table><tr><th>投入项</th><th>费用</th><th>说明</th></tr><tr><td>美团收银系统（含外卖接单）</td><td>约5,888元/年</td><td>标准套餐，含收银+扫码点餐+多平台经营专家</td></tr><tr><td>会员旗舰版</td><td>4,888元/年</td><td>默认入会+储值+潜客营销+团购会员卡</td></tr><tr><td>外卖运营活动预算（月）</td><td>约1,500元/月</td><td>满减补贴+新客立减+推广通基础投放</td></tr></table><h3>ROI测算</h3><ul><li><strong>无系统预估月营收</strong>：纯堂食43,200元 + 自然外卖（无运营）约20,000元 = <strong>63,200元/月</strong></li><li><strong>有系统预估月营收</strong>：堂食43,200元 + 系统化外卖66,000元 + 团购6,750元 = <strong>115,950元/月</strong></li><li><strong>月增收</strong>：115,950 - 63,200 = <strong>52,750元/月</strong></li><li><strong>系统年费摊月</strong>：（5,888 + 4,888）÷ 12 = <strong>898元/月</strong></li><li><strong>投入产出比</strong>：月增收52,750元 ÷ 月投入（系统898 + 活动1,500）= <strong>1:22</strong></li></ul><h3>OKR目标（月度）</h3><table><tr><th>指标</th><th>开业首月</th><th>第2个月</th><th>第3个月（稳定期）</th></tr><tr><td>月营收</td><td>60,000元</td><td>90,000元</td><td>115,000元+</td></tr><tr><td>外卖日均单量</td><td>40单</td><td>70单</td><td>100单</td></tr><tr><td>大众点评评分</td><td>4.3分</td><td>4.4分</td><td>4.5分</td></tr><tr><td>会员数</td><td>150人</td><td>350人</td><td>600人</td></tr><tr><td>储值会员</td><td>30人</td><td>60人</td><td>100人</td></tr><tr><td>外卖评分</td><td>4.5分</td><td>4.6分</td><td>4.7分</td></tr></table><p><strong>核心结论</strong>：每月多投入2,398元（系统+活动），换来月增收52,750元。投入产出比1:22，意味着<strong>花1块钱赚22块钱</strong>。这不是成本，是投资。</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>陈国庆</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>彭埠保利中心商圈概况</h3><p>保利中心位于上城区彭埠街道，紧邻杭州东站商圈，地铁4号线新塘站B口步行40米可达。商圈定位为<strong>城东新兴社区+商务配套</strong>，常住人口密集（周边彭埠社区、三花国际大厦、中豪国际等），日间办公人群约2万+，外卖需求极为旺盛。</p><h3>同商圈同品类竞争分析</h3><table><tr><th>竞品名称</th><th>品类</th><th>人均</th><th>核心弱点</th><th>切入机会</th></tr><tr><td>重庆小面（保利中心店）</td><td>面馆/小吃</td><td>¥15-22</td><td>品类单一（仅面食），配送品质不稳定</td><td>沙县品类丰富（饭+面+汤+蒸饺），一单满足多口味</td></tr><tr><td>老奶奶面馆</td><td>面馆</td><td>¥12-18</td><td>传统经营模式，无外卖平台深度运营，出餐慢</td><td>系统化出餐+外卖评分管理碾压</td></tr><tr><td>高奶奶馄饨铺（保利店）</td><td>馄饨/小吃</td><td>¥12-16</td><td>SKU少（仅馄饨类），午餐场景覆盖不足</td><td>沙县全品类覆盖早午晚三餐</td></tr><tr><td>港田面馆（东站店）</td><td>面馆</td><td>¥18-25</td><td>价格偏高，性价比不足</td><td>同品质更低价，外卖满减更有吸引力</td></tr><tr><td>壹口香大食堂</td><td>快餐</td><td>¥15-20</td><td>大食堂模式，外卖体验差，包装简陋</td><td>品牌标准化包装+精细外卖运营</td></tr></table><h3>竞争结论</h3><p>彭埠保利中心3公里内快餐小吃门店<strong>数量多但运营水平参差</strong>：多数竞品仍停留在「开店等客」模式，外卖运营粗放（主图差、无满减策略、差评不回复）。沙县小吃作为<strong>连锁品牌+CKA级门店</strong>，凭借标准化供应链和数字化系统优势，完全具备在外卖赛道快速起量的条件。</p><p><strong>关键洞察</strong>：周边5家主要竞品中，仅1家有系统化外卖运营意识。新店如果开业即用美团收银全套系统接入外卖，可在30天内建立<strong>出餐速度+评分+复购</strong>三重壁垒。</p>`,
+    2: `<h3>沙县小吃品牌数字化现状</h3><p>据沙县区小吃文旅集团官方数据，全国已有<strong>超2,500家沙县小吃门店</strong>接入美团收银系统，实现了收银结算与供应配送软件的市场化应用。沙县小吃集团已与美团、京东、饿了么等电商合作，建立<strong>线上品牌运营管理模式</strong>，初步形成线上商城及外卖平台的统一管理。</p><h3>同商圈使用美团收银的商户</h3><table><tr><th>商户名称</th><th>品类</th><th>使用模块</th><th>效果</th></tr><tr><td>靠山Pizza（保利中心一楼）</td><td>西餐/披萨</td><td>收银+扫码点餐+会员</td><td>点评4.5分，评价2300+条，保利中心人气TOP1</td></tr><tr><td>老三小炒肉（彭埠店）</td><td>湘菜/小炒</td><td>收银+外卖接单+会员</td><td>点评评分高，外卖月销1000+，评价1600+条</td></tr><tr><td>鲜潑活跳·港式打边炉（东站总店）</td><td>火锅</td><td>收银+排队+扫码点餐</td><td>点评评价3900+条，城东火锅热门TOP</td></tr><tr><td>小关心牛腩煲</td><td>煲类/小吃</td><td>收银+外卖+会员</td><td>新店快速起量，社区口碑店</td></tr></table><h3>关键启示</h3><p>保利中心商圈内生意好的门店有一个共性：<strong>全部使用了数字化收银系统</strong>，尤其是外卖接单、团购核销、扫码点餐三大模块。</p><p>以靠山Pizza为例——同样位于保利中心一楼，使用美团收银+扫码点餐后，实现了<strong>日均处理订单200+单</strong>（含外卖+堂食+团购），人均102元客单价下，单月营收稳定在20万+。它的成功核心不是位置好（隔壁店倒了好几家），而是<strong>系统化运营+平台流量承接能力</strong>。</p><p>沙县小吃作为国民级连锁品牌，品类丰富度远超披萨店，客单更低意味着<strong>外卖复购频次更高</strong>，只要运营到位，月外卖单量破1000单完全可期。</p>`,
+    3: `<h3>为什么沙县小吃必须「外卖优先」？</h3><p><strong>门店面积50平方米，堂食座位有限（预估8-12桌）</strong>，翻台率天花板明显。按人均18元、日翻3次计算，纯堂食日营收上限约<strong>1,944元</strong>。而外卖没有物理空间限制——同面积门店，外卖可以将日营收拉到<strong>堂食的2-3倍</strong>。</p><h3>美团收银带来的6大外卖优势</h3><table><tr><th>优势</th><th>具体能力</th><th>对门店的价值</th></tr><tr><td>一键接单</td><td>美团/点评外卖订单直达收银系统，无需手动切换多平台</td><td>高峰期不漏单不错单，出餐效率提升40%+</td></tr><tr><td>智能出餐排序</td><td>后厨KDS按时间+配送优先级自动排单</td><td>准时率提升→骑手好评→平台权重提升→曝光量增加</td></tr><tr><td>外卖中心</td><td>AI智能定价、差评风险预警、粉丝群自动发券</td><td>月省2-3小时运营时间，差评率降低50%</td></tr><tr><td>数据看板</td><td>实时查看外卖营收、单量、退单率、出餐时长</td><td>老板手机随时看数据，不用守店</td></tr><tr><td>评价管理</td><td>好评自动回复、差评即时提醒、评价分析</td><td>30天内外卖评分冲到4.5+</td></tr><tr><td>平台流量加持</td><td>新店30天流量扶持期+参加平台活动曝光翻倍</td><td>新店期日曝光5000+，稳定后8000+</td></tr></table><h3>外卖经营核心公式</h3><p><strong>外卖营业额 = 曝光量 × 点击率 × 转化率 × 客单价 × 复购率</strong></p><p>大多数老板只盯曝光量（花钱买流量），但美团收银系统帮你优化<strong>后面四个乘数</strong>——成本更低、效果更大：</p><ul><li><strong>点击率优化</strong>：美团收银后台可直接管理外卖主图、菜单排序，好的主图点击率提升40%+</li><li><strong>转化率优化</strong>：扫码点餐积累的菜品销量数据，反哺外卖菜单优化（爆款前置、滞销下架）</li><li><strong>客单价优化</strong>：智能搭配推荐（点拌面自动推荐+扁肉+饮品），客单从15元提升到22元</li><li><strong>复购率优化</strong>：会员系统自动触达（消费3天后推送老客专属券），复购率提升20%</li></ul><h3>实战对比：有系统 vs 无系统</h3><table><tr><th>场景</th><th>无系统（传统模式）</th><th>有美团收银</th></tr><tr><td>午高峰接单</td><td>手机响个不停，手忙脚乱抄单</td><td>订单自动打印，KDS排序出餐</td></tr><tr><td>差评处理</td><td>第二天才看到，已经影响评分</td><td>即时预警，4小时内处理完毕</td></tr><tr><td>新客获取</td><td>等平台自然推荐，毫无主动权</td><td>新客立减+粉丝群发券+满减策略组合拳</td></tr><tr><td>数据分析</td><td>月底算账才知道亏了</td><td>实时看每天/每单毛利，随时调整</td></tr></table>`,
+    4: `<h3>开业前7天：蓄水期</h3><ul><li><strong>第1-3天</strong>：美团收银系统安装调试+外卖平台上线+菜单优化（SKU控制在35-45个，设置3个爆款引流品：拌面套餐9.9元/扁肉套餐11.9元/蒸饺套餐10.9元）</li><li><strong>第4-5天</strong>：外卖主图拍摄（食物特写+深色背景+高饱和度），上传平台</li><li><strong>第6-7天</strong>：设置新店活动（新客立减3元+满20减5+收藏店铺送饮品券），开启30天新店流量扶持</li></ul><h3>第1-2周：冲量期（日均目标30单到60单）</h3><ul><li><strong>满减策略</strong>：满15减3 + 满25减5 + 满35减8（覆盖1人餐/2人餐/家庭餐三档）</li><li><strong>出餐管理</strong>：KDS后厨系统保证出餐时间小于8分钟，准时率大于95%</li><li><strong>评价运营</strong>：前10条评价决定后续所有新客印象，主动服务好每一单，随餐附赠温馨小纸条</li><li><strong>数据监控</strong>：每天查看曝光到点击到转化漏斗，发现薄弱环节即时优化</li></ul><h3>第3-4周：起飞期（日均目标60单到100单）</h3><ul><li><strong>会员锁客</strong>：外卖订单自动弹窗加入会员享9折，沉淀私域</li><li><strong>复购激活</strong>：3天未复购自动推送3元无门槛券；7天未复购推送老客回归礼包</li><li><strong>爆品打造</strong>：根据前2周销量数据，锁定TOP3菜品做专项推广</li><li><strong>目标校验</strong>：月底外卖评分大于等于4.5，月单量大于等于1500单，外卖营收占比大于等于60%</li></ul><h3>新店蓄水期核心原则</h3><p><strong>「头30天的任务是积累算法权重，不是赚钱。」</strong></p><p>新店期毛利薄是正常的——每一单的让利都是在「买」平台权重。错过这30天窗口期，后面花10倍广告费也补不回来。美团收银系统的价值在于：<strong>让你在这30天里每一分钱的投入都有数据反馈，知道哪里在起效、哪里需要调整</strong>，而不是盲目烧钱。</p>`,
+    5: `<h3>50平米门店的最优坪效模型</h3><p>沙县小吃保利中心店面积50平米，物理空间有限。最优经营模型是<strong>「6:4外卖堂食比」</strong>——外卖贡献60%营收，堂食贡献40%。这样既不浪费门面曝光价值（堂食带来自然口碑），又突破了空间天花板（外卖无上限）。</p><h3>美团收银如何实现双线联动</h3><table><tr><th>场景</th><th>系统支撑</th><th>效果</th></tr><tr><td>堂食顾客转外卖复购</td><td>扫码点餐自动入会，离店后推送「下次点外卖立减3元」</td><td>堂食客转外卖客，复购率+25%</td></tr><tr><td>外卖顾客转堂食拉新</td><td>外卖订单附带「到店消费享专属折扣」卡片</td><td>线上口碑反哺线下客流</td></tr><tr><td>高峰期分流</td><td>午高峰堂食满座时，外卖接单量自动调控</td><td>避免出餐崩溃，保证双线体验</td></tr><tr><td>统一会员体系</td><td>堂食+外卖消费均累积积分，储值余额通用</td><td>锁定客户在两个渠道的消费</td></tr></table><h3>收银系统统一管理的价值</h3><p>传统模式下，外卖用手机接单、堂食用计算器算账，两套账对不上，老板根本不知道哪个渠道赚钱。美团收银<strong>一台机器管所有</strong>：</p><ul><li>外卖订单+堂食订单统一汇总，日结/月结一目了然</li><li>菜品毛利分渠道统计——哪个菜外卖赚、哪个菜堂食赚，清清楚楚</li><li>库存联动：外卖爆单导致某菜品售罄，堂食菜单自动沽清，避免接单后没货的差评</li><li>高峰时段分析：数据告诉你11:00-13:00外卖占80%，17:00-19:00堂食占60%，据此安排人力</li></ul><p><strong>一句话总结</strong>：50平米的店，用系统做到100平米的营收。这就是数字化的核心价值——<strong>突破物理空间限制</strong>。</p>`,
+    6: `<h3>低客单高频品类的储值策略</h3><p>沙县小吃人均15-20元，属于<strong>低客单高频消费</strong>品类。这类门店储值的核心逻辑不是「一次充大钱」，而是「轻充值高频次」——让客户养成习惯性消费。</p><h3>储值档位设计（首次消费即可推）</h3><table><tr><th>档位</th><th>充值金额</th><th>赠送</th><th>实际折扣</th><th>锁定次数</th></tr><tr><td>体验档</td><td>100元</td><td>送15元</td><td>8.7折</td><td>约6-7次消费</td></tr><tr><td>主推档</td><td>200元</td><td>送40元</td><td>8.3折</td><td>约12-14次消费</td></tr><tr><td>尊享档</td><td>300元</td><td>送70元</td><td>8.1折</td><td>约18-20次消费</td></tr></table><h3>储值推广节奏</h3><ul><li><strong>开业前3天</strong>：「开业储值100送30」限时加码活动（仅限堂食，制造稀缺感）</li><li><strong>日常推广</strong>：扫码点餐结账页自动弹窗「储值立享8.3折」，店员配合一句话话术：「充200送40，相当于每次吃饭白送一碗扁肉」</li><li><strong>外卖复购联动</strong>：储值会员下外卖单自动减2元（额外权益），引导线上消费也走储值余额</li></ul><h3>目标测算</h3><p>按月到店客户500人（堂食300+外卖复购转堂食200），储值转化率15%计算：</p><ul><li>月新增储值会员：75人</li><li>月储值入账：75人 × 200元（主推档）= <strong>15,000元</strong></li><li>锁定未来消费：15,000 × 1.2（含赠送消耗）= <strong>18,000元</strong></li></ul><p><strong>储值的本质不是打折，是提前锁定客户未来12-14次消费</strong>——竞品再怎么降价，储值余额没花完，客户就不会流失。</p>`,
+    7: `<h3>新店出星路径（合规运营）</h3><p>沙县小吃保利中心店为<strong>新店尚未开业</strong>状态，开业后需尽快在大众点评建立口碑。2025年10月起，平台对高强度促评行为已收紧——<strong>新评价若被判定为促评，将不产生星级收益</strong>。因此必须走合规路径：</p><h3>阶段一：攒基础评价（开业30天内）</h3><ul><li><strong>目标</strong>：30天内积累30-50条真实评价，评分大于等于4.3</li><li><strong>路径</strong>：美团收银「支付后评价引流」功能，堂食结账自动弹出点评页，自然引导（不强制、不返利）</li><li><strong>关键</strong>：出餐品质稳定+服务态度好=自然好评率80%+</li><li><strong>工具</strong>：评价专家模块，差评即时提醒，4小时内回复处理，将1星差评控制在5%以内</li></ul><h3>阶段二：冲新店榜（开业30-60天）</h3><ul><li><strong>目标</strong>：进入彭埠/城东「新店热门榜」TOP10</li><li><strong>路径</strong>：评价数大于等于50 + 评分大于等于4.3 + 近7天有新增评价 + 团购上架</li><li><strong>团购设计</strong>：9.9元拌面+扁肉套餐（堂食到店核销），用低价引流型团购拉动自然到店评价</li></ul><h3>阶段三：稳定维护（60天后）</h3><ul><li><strong>目标</strong>：评分稳定4.5+，进入区域「好评榜」</li><li><strong>路径</strong>：保持每周有新评价产生（自然流量即可）+差评48小时内闭环处理+定期更新团购套餐保持活跃度</li></ul><h3>严禁行为（2025年10月后高风险）</h3><ul><li>送小礼品/返现换好评</li><li>店员口头要求顾客给5星好评</li><li>第三方刷评/买评价</li><li>桌贴/台卡写好评送XXX</li></ul><p><strong>正确做法</strong>：把精力放在出品和服务上，用美团收银的「支付后评价引流」功能自然引导——顾客满意了自己会写，不满意了系统帮你第一时间拦截。</p>`,
+    8: `<h3>营收目标（开业3个月后稳定期）</h3><table><tr><th>渠道</th><th>日均单量</th><th>客单价</th><th>日营收</th><th>月营收</th></tr><tr><td>外卖</td><td>100单</td><td>22元</td><td>2,200元</td><td>66,000元</td></tr><tr><td>堂食</td><td>80单</td><td>18元</td><td>1,440元</td><td>43,200元</td></tr><tr><td>团购核销</td><td>15单</td><td>15元</td><td>225元</td><td>6,750元</td></tr><tr><td><strong>合计</strong></td><td><strong>195单</strong></td><td>—</td><td><strong>3,865元</strong></td><td><strong>115,950元</strong></td></tr></table><h3>系统投入 vs 增收回报</h3><table><tr><th>投入项</th><th>费用</th><th>说明</th></tr><tr><td>美团收银系统（含外卖接单）</td><td>约5,888元/年</td><td>标准套餐，含收银+扫码点餐+多平台经营专家</td></tr><tr><td>会员旗舰版</td><td>4,888元/年</td><td>默认入会+储值+潜客营销+团购会员卡</td></tr><tr><td>外卖运营活动预算（月）</td><td>约1,500元/月</td><td>满减补贴+新客立减+推广通基础投放</td></tr></table><h3>ROI测算</h3><ul><li><strong>无系统预估月营收</strong>：纯堂食43,200元 + 自然外卖（无运营）约20,000元 = <strong>63,200元/月</strong></li><li><strong>有系统预估月营收</strong>：堂食43,200元 + 系统化外卖66,000元 + 团购6,750元 = <strong>115,950元/月</strong></li><li><strong>月增收</strong>：115,950 - 63,200 = <strong>52,750元/月</strong></li><li><strong>系统年费摊月</strong>：（5,888 + 4,888）÷ 12 = <strong>898元/月</strong></li><li><strong>投入产出比</strong>：月增收52,750元 ÷ 月投入（系统898 + 活动1,500）= <strong>1:22</strong></li></ul><h3>OKR目标（月度）</h3><table><tr><th>指标</th><th>开业首月</th><th>第2个月</th><th>第3个月（稳定期）</th></tr><tr><td>月营收</td><td>60,000元</td><td>90,000元</td><td>115,000元+</td></tr><tr><td>外卖日均单量</td><td>40单</td><td>70单</td><td>100单</td></tr><tr><td>大众点评评分</td><td>4.3分</td><td>4.4分</td><td>4.5分</td></tr><tr><td>会员数</td><td>150人</td><td>350人</td><td>600人</td></tr><tr><td>储值会员</td><td>30人</td><td>60人</td><td>100人</td></tr><tr><td>外卖评分</td><td>4.5分</td><td>4.6分</td><td>4.7分</td></tr></table><p><strong>核心结论</strong>：每月多投入2,398元（系统+活动），换来月增收52,750元。投入产出比1:22，意味着<strong>花1块钱赚22块钱</strong>。这不是成本，是投资。</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
