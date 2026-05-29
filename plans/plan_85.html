@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>建德土菜馆 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2E7D32;
+      --primary-light: #388E3C;
+      --accent: #81C784;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #2E7D3240;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">建德土菜/农家菜 · 运营提升方案</div>
+  <h1 class="hero-title">建德土菜馆</h1>
+  <p class="hero-subtitle">把建德烟火气搬进杭州，用抖音流量激活私域回头客</p>
+  <div class="hero-address">浙江省杭州市上城区彭埠街道环站东路与天城路交叉口东120米</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥50-60</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">彭埠·天城路</span>
+      <div class="hero-stat-label">所在商圈</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '门店诊断', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">门店诊断</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '抖音×私域联动方案', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">抖音×私域联动方案</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '收银系统切换方案', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">收银系统切换方案</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '储值会员体系', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">储值会员体系</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '点评运营专项', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">点评运营专项</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '营销活动方案', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">营销活动方案</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '数据驾驶舱', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">数据驾驶舱</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '投资回报与OKR', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">投资回报与OKR</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>📊 基础数据画像（⚠️ 核心数据未提供，以下为行业参考假设值）</h3><p>建德土菜馆位于上城区彭埠街道，地处天城路与环站东路交叉口东侧，紧邻杭州东站辐射商圈。门店面积100㎡，明档点餐形式，烟火气十足。</p><ul><li><strong>预估人均：</strong>55元（⚠️ 假设值，建德土菜品类区间50-70元，建议核实）</li><li><strong>预估月流水：</strong>约8-12万元（⚠️ 假设值，基于100㎡门店、翻台率2-2.5次/天×50座估算）</li><li><strong>已签约SaaS：</strong>⚠️ 假设基础版会员+扫码点餐（以下方案均基于此假设，请BD核实）</li><li><strong>抖音团购：</strong>已有，是当前主要公域流量来源</li></ul><h3>⚠️ 三大核心痛点诊断</h3><ul><li><strong>痛点1：手写单造成效率瓶颈</strong><br/>老板目前手写单操作，高峰期出错率高、账目难核对、菜品销量数据无沉淀。100㎡门店午晚高峰期，估算每桌因传单沟通多耗时3-5分钟，直接影响翻台效率。且手写单无法精确统计抖音团购核销情况，渠道ROI无从判断。</li><li><strong>痛点2：抖音有流量、私域沉淀为零</strong><br/>老板已重视抖音，团购单引来不少客人。但抖音消费者「买券吃完就走」，没有会员数据沉淀。下次消费90%概率还需要重新经由抖音获客——每次都要付出流量成本，没有复利效应。⚠️ 假设月抖音团购核销100单，每单获客成本5-10元，月获客成本约500-1000元（行业参考值）。</li><li><strong>痛点3：忽视大众点评，竞对在悄悄积累评分</strong><br/>彭埠3公里内，「老灶房四川土菜（港龙城店）」已积累大量评价。大众点评评分直接影响美团团购搜索排名权重——即便老板不投放点评，美团团购买家的决策路径仍会经过点评页面。</li></ul><h3>🏘️ 周边竞争格局（彭埠3公里内，来源：大众点评公开数据）</h3><table><tr><th>竞品名称</th><th>预估人均</th><th>核心弱点</th><th>建德土菜馆的机会</th></tr><tr><td>老灶房·四川土菜（港龙城店）</td><td>约55元</td><td>川菜口味偏辣，覆盖不了全客群</td><td>建德土菜鲜香不燥辣，家庭聚餐更宽容</td></tr><tr><td>看浙里土菜馆·石锅鱼（天城路沿线）</td><td>约50元</td><td>品类单一，以石锅鱼为主，场景受限</td><td>建德菜系丰富，适合家庭/宴请多场景</td></tr><tr><td>周边普通家常菜馆</td><td>40-50元</td><td>无地域IP差异化，缺乏记忆点</td><td>「建德」二字自带地域品牌背书，差异明显</td></tr></table><p><strong>综合判断：</strong>建德土菜在彭埠有明显品类差异化优势，核心竞争力是「地域IP+明档新鲜+烟火气」。当前主要缺口是数字化运营能力：<strong>无收银系统→数据盲区，无会员体系→客户流失，点评被动→流量浪费</strong>。</p></div>
+<div id="modal-content-2" style="display:none"><h3>🎯 核心逻辑：把抖音流量「接住」并转化为私域资产</h3><p>老板目前的抖音团购模式：抖音引流→顾客到店→结束。每一桌客人都是「一次性」——没有留存，下次还需要重新花抖音费用获客。我们的目标是：<strong>把每个抖音到店顾客，变成门店永久的「会员资产」。</strong></p><h3>📱 公域层：抖音团购优化策略</h3><ul><li><strong>爆品锚点设计：</strong>以「建德土烧鱼头豆腐」或「红烧肉馒头」作为抖音团购主打套餐锚点。明档拍摄出品过程，做成15-30秒短视频，重点突出「建德直运食材+现烧锅气」。这类内容在同类赛道（新安大院等建德土菜馆）已有验证，单条评价2000+点赞。</li><li><strong>套餐定价策略（心理学定价）：</strong><br/>体验款：2人套餐68元（引流，获取客源）<br/>主推款：4人套餐158元（主力转化，含招牌鱼头+两荤一素+米饭）<br/>宴请款：6-8人套餐298元（利润款，含优先座位/包厢权益）<br/>——最贵的宴请款让主推款显得更划算。套餐内不放低毛利菜品。</li><li><strong>内容频率：</strong>每周1-2条短视频，拍明档点菜场景、食材现捞、锅气出镜——「真实感」是建德土菜类门店最大的抖音素材，成本几乎为零。</li><li><strong>预期效果：</strong>保持并提升现有抖音团购，月团购核销目标150单+（⚠️行业参考值，请核实现有数据）。</li></ul><h3>🏠 私域层：会员体系建立</h3><p>⚠️ 假设已签约基础版会员+扫码点餐</p><ul><li><strong>扫码点餐即入会（零摩擦）：</strong>顾客扫码点餐时，自动弹窗「关注会员享首次消费立减5元」，一键加入。<strong>无需老板额外操作，不改变任何现有流程</strong>——专门为抗拒系统的老板设计的最低门槛方式。</li><li><strong>储值推荐时机：</strong>结账时POS弹储值提示：「存300送30，下次来相当于多吃了半道菜」——满意度最高的时刻推，当场转化成功率高。</li><li><strong>沉睡唤醒：</strong>30天未消费会员自动推送「好久不见，这周来店享8折」——系统自动触发，老板完全不用管。</li></ul><h3>🔗 公私域联动闭环</h3><p>抖音团购到店 → 扫码点餐自动入会 → 储值锁定下次消费 → 系统自动沉睡唤醒 → 回店消费 → 老顾客拍视频发抖音（UGC内容）→ 新流量进入闭环</p><p><strong>核心指标：</strong>目标30天内会员注册率达到到店客户的60%（每10桌有6桌成为会员），建立门店可持续增长的「私域底座」。</p></div>
+<div id="modal-content-3" style="display:none"><h3>🤔 读懂老板的顾虑</h3><p>老板目前用手写单，对收银系统有抗拒——这很正常。手写单用了多年，已经形成肌肉记忆；收银系统在他眼里是「添麻烦」的东西，而不是「解决麻烦」的工具。<strong>方案切入点不是「功能有多强」，而是「切换代价有多低+立竿见影解决什么问题」。</strong></p><h3>✅ 切换后立刻解决的3个痛点</h3><ul><li><strong>账目清晰：</strong>手写单漏单、算错、对不上，每月少则数百多则数千损失。扫码点餐+POS自动汇总，每天一键结账，账目精确到每道菜。</li><li><strong>抖音团购核销：</strong>目前手工验券，高峰期容易出错。SaaS系统直接对接抖音团购，扫码核销，自动扣减，老板最关心的抖音数据可以精确统计。</li><li><strong>出餐效率：</strong>明档点餐环境下，顾客自助扫码下单，厨房实时出单，减少传菜沟通成本，高峰期估算效率提升10-15%（行业参考值），有效支撑翻台率提升。</li></ul><h3>📋 切换执行计划（低摩擦3周版）</h3><table><tr><th>阶段</th><th>时间</th><th>动作</th><th>老板工作量</th></tr><tr><td>第1周</td><td>第1-3天</td><td>设备安装+菜单录入（商务协助完成）</td><td>核对菜单即可</td></tr><tr><td>第1周</td><td>第4-7天</td><td>扫码点餐上线，手写单作为备用并行</td><td>正常营业，习惯不变</td></tr><tr><td>第2周</td><td>全周</td><td>并行运行：扫码+手写双轨</td><td>观察数据，感受差异</td></tr><tr><td>第3周起</td><td>全面切换</td><td>全面使用系统，手写单紧急备用</td><td>每天10分钟看报表</td></tr></table><h3>🎁 给老板的「零风险承诺」框架</h3><ul><li>安装调试全程协助，菜单录入商务帮忙，老板无需自己配置</li><li>老板只需会「看今日流水」一个功能，其他都是系统自动完成</li><li>前30天遇到问题1小时内响应</li></ul><p><strong>关键一句话：「老板，收银系统不是让您学新东西的，是让系统替您做您现在手写做的事，而且做得更准。」</strong></p></div>
+<div id="modal-content-4" style="display:none"><h3>💰 储值方案设计原则</h3><p>建德土菜馆预估人均55元（⚠️假设值）。根据品类差异化思维表，中客单（50-100元）门店储值策略：<strong>二次消费后推储值，主推档=客单×5-8次消费金额</strong>。55元×8≈440元，主推档定500元合理。</p><h3>📊 储值方案三档设计</h3><table><tr><th>档位</th><th>充值金额</th><th>赠送</th><th>实际折扣</th><th>适用客群</th></tr><tr><td>体验档</td><td>200元</td><td>赠20元</td><td>9折</td><td>新客、试水储值</td></tr><tr><td>主推档 ⭐</td><td>500元</td><td>赠80元</td><td>8.6折</td><td>常来吃饭的熟客</td></tr><tr><td>尊享档</td><td>1000元</td><td>赠200元</td><td>8.3折</td><td>企业客/请客达人</td></tr></table><p><strong>主推逻辑：</strong>500元约等于客人9次消费（55×9=495），符合「锁定未来9顿饭」的心理锚定。话术：「存500送80，相当于多送了1顿半，方便下次来直接刷卡，不用带现金，好多老顾客都这样存。」</p><h3>⏰ 储值推进时机（关键）</h3><ul><li><strong>黄金时机1：顾客买单时</strong> → 收银台弹出储值提醒，店员一句话推荐 → 此刻顾客满意度最高，转化率最高</li><li><strong>黄金时机2：抖音团购顾客二次到店</strong> → 「上次团购来的吧，这次存个卡更省」 → 把团购一次性客转为会员</li><li><strong>黄金时机3：宴请买单时</strong> → 「常来请客的话，存1000相当于送了2顿菜钱，很多老板都这么做」</li></ul><h3>📈 储值OKR目标</h3><ul><li>第1个月：开卡50张，入账10,000元</li><li>第3个月：开卡150张累计，月新增储值5,000元，余额沉淀20,000+元</li><li><strong>核心意义：</strong>储值余额就是「锁定的未来流水」——每沉淀1万元储值余额，意味着1万元已确定会在这家店消费。</li></ul></div>
+<div id="modal-content-5" style="display:none"><h3>🎯 为什么点评不能忽视——给不看点评的老板的数据逻辑</h3><p>老板重视抖音、不看大众点评。但有一个关键逻辑需要说清楚：<strong>美团团购的流量分发权重，与大众点评评分强相关。</strong>同等出价下，点评评分4.8的店比评分4.2的店在美团团购搜索结果中排名更靠前。</p><p>更重要的是：彭埠消费者「刷抖音种草→去大众点评看评价→决定下单」的行为链，决策末端仍然是点评。老板不投放点评广告，但顾客会自己去看。⚠️ 目前未查询到「建德土菜馆」的具体大众点评数据，建议BD核实实际评分和评价数量。</p><h3>📍 点评阶段判断</h3><p>基于门店信息（假设新店/评价数较少），当前处于「<strong>新店成长期</strong>」：</p><ul><li>目标：30天内累积真实评价50条+（系统评分正式生效节点）</li><li>前50条评价决定大众点评「第一印象」，奠定口碑基调</li></ul><h3>✅ 合规的点评口碑建设方法</h3><p>⚠️ 以下所有方式均为合规操作，严禁任何主动邀评/促评行为（2025年10月后高强度促评=新评价不产生星级收益）</p><ul><li><strong>方法1：扫码点餐结束后自动引导</strong> → 系统自动推送「就餐体验」引导入口，顾客主动选择 → 零人工干预，完全合规</li><li><strong>方法2：评价专家功能监控与回复</strong> → 监控每一条评价，24小时内回复差评，展示「用心」态度 → 差评被妥善处理后对评分影响降低60%（行业参考值）</li><li><strong>方法3：完善门店信息</strong> → 在点评后台补全：营业时间/停车/WiFi/包厢/明档点菜特色 → 信息完整度影响搜索展示权重</li><li><strong>方法4：爆品拉动自发打卡</strong> → 「建德鱼头豆腐」视觉冲击力强，顾客自发拍照发点评/小红书的概率高 → 做好菜品呈现=最好的内容运营</li></ul><h3>🏆 榜单升级路径</h3><table><tr><th>阶段</th><th>条件</th><th>目标榜单</th><th>时间</th></tr><tr><td>新店出星</td><td>真实评价50条+，评分≥4.0</td><td>彭埠新店榜</td><td>30-45天</td></tr><tr><td>热门榜</td><td>评价100条+，评分≥4.3</td><td>彭埠商圈热门榜</td><td>2-3个月</td></tr><tr><td>特色榜</td><td>特色菜标签积累，评价200条+</td><td>特色土菜/农家菜榜</td><td>4-6个月</td></tr></table></div>
+<div id="modal-content-6" style="display:none"><h3>🎯 活动设计原则</h3><p>建德土菜馆客群：周边居民家庭聚餐、商务宴请、抖音慕名食客。活动围绕「提频次」（让熟客来得更勤）和「拉新转老」（把抖音一次性客变会员）两条主线。<strong>所有活动均通过SaaS系统自动化执行，不增加老板工作量。</strong></p><h3>📅 近期活动安排（未来30天）</h3><ul><li><strong>活动1：「建德家宴套餐」抖音团购新品（第1-2周）</strong><br/>上线4人家宴套餐138元（原价约160元），含：招牌鱼头豆腐+两荤一素+米饭+小菜，主打「家庭聚餐专享」。明档拍摄食材展示短视频配合上线。<br/>🔧 工具路径：美团收银后台→团购管理→新建套餐→设置核销时间段<br/>预期效果：月新增团购核销30单，引流新客约90人次</li><li><strong>活动2：「首次储值礼」（第2周起）</strong><br/>扫码点餐新会员首次储值200元：额外赠送一份「建德萝卜干」（成本约2-3元）+20元到账。<br/>设计逻辑：萝卜干是建德特色配菜，成本极低但记忆点强，体现门店特色。<br/>🔧 工具路径：会员后台→储值活动→新建→设置赠品规则<br/>预期效果：月新增储值会员20-30张</li><li><strong>活动3：「老顾客唤醒」（第3周起）</strong><br/>针对14天未消费会员，自动推送「好久不见，本周到店享9折」（有效期72小时）。<br/>🔧 工具路径：会员→营销→沉睡唤醒→设置间隔14天<br/>预期效果：唤醒率约10-15%（行业参考值），每月带回10+桌老顾客</li></ul><h3>🏮 6月节日营销节点</h3><table><tr><th>节点</th><th>时间</th><th>活动方向</th><th>预估效果</th></tr><tr><td>端午节</td><td>5月31-6月2日</td><td>「建德端午家宴」套餐，配合短视频</td><td>节假日流水增加20%</td></tr><tr><td>父亲节</td><td>6月15日</td><td>「带爸爸吃顿建德土菜」主题抖音视频+家宴套餐</td><td>家庭客提升客单价</td></tr></table><p>⚠️ 所有活动均依托SaaS系统自动化，老板不需要额外操作——这是对抗拒系统的老板最重要的说服点：<strong>「系统替您工作，您只需要看结果。」</strong></p></div>
+<div id="modal-content-7" style="display:none"><h3>📊 老板每天只需看3个数字</h3><p>老板抗拒系统，往往因为觉得「我不会用」。其实SaaS系统每天需要老板做的只有一件事：<strong>打开APP看今天的3个数字，10分钟搞定。</strong></p><ul><li><strong>今日流水：</strong>今天收了多少钱？（手机APP首页即显示）</li><li><strong>新增会员：</strong>今天有几桌加入会员？（是不是在增长）</li><li><strong>抖音核销单数：</strong>今天团购卖了几单？（渠道效果一目了然）</li></ul><h3>🔍 系统能帮老板发现的「隐藏秘密」</h3><ul><li><strong>菜品销量排名：</strong>哪道菜点单率最高、哪道一直没人点。不动的菜考虑替换，节省食材损耗。假设每月因此优化2-3道菜，月节约成本500-1000元（行业参考值）。</li><li><strong>高峰/低谷时段：</strong>精确到小时的客流热力图。低谷时段可推「今日特惠套餐」，拉动非高峰流水5-10%。</li><li><strong>新客老客比例：</strong>新客高→引流好但留存差；老客高→口碑好但缺新鲜血液。两个数字直接告诉老板下一步重心。</li><li><strong>抖音团购ROI：</strong>团购核销单数×客单价，对比团购优惠金额，精确算出抖音引流成本，帮助老板判断是否要调整套餐定价。</li></ul><h3>📈 每周10分钟数据回顾节奏</h3><table><tr><th>时间</th><th>动作</th><th>目的</th></tr><tr><td>每周一早上</td><td>看上周流水+会员新增趋势</td><td>判断经营趋势</td></tr><tr><td>每周一早上</td><td>看抖音团购核销单数</td><td>判断公域引流效果</td></tr><tr><td>每月初</td><td>看菜品销量TOP10/BOTTOM5</td><td>优化菜单，减少损耗</td></tr></table><p>系统把所有计算全做完，老板只需「看结果做决策」——<strong>这才是收银系统真正帮老板省时间的方式，而不是增加负担。</strong></p></div>
+<div id="modal-content-8" style="display:none"><h3>💰 投入产出总览</h3><p>⚠️ 以下测算基于假设数据（月流水/客单价未提供），均为行业参考值估算，请结合实际数据调整。</p><h3>📊 成本估算（第一年）</h3><table><tr><th>项目</th><th>金额</th><th>说明</th></tr><tr><td>基础版会员系统</td><td>2,688元/年</td><td>⚠️ 假设基础版；强烈建议升级旗舰版4,888元/年，独有团购会员卡+潜客营销功能</td></tr><tr><td>扫码点餐</td><td>已签约</td><td>无额外成本</td></tr><tr><td>贴码等耗材</td><td>约500元</td><td>一次性成本</td></tr><tr><td><strong>合计第一年</strong></td><td><strong>约3,200元</strong></td><td>日均不到9元</td></tr></table><h3>📈 月增收测算（4条来源）</h3><table><tr><th>增收来源</th><th>预计月增收</th><th>测算逻辑</th></tr><tr><td>储值资金锁定</td><td>+5,000元/月</td><td>月新增储值30张×均值150元，形成未来预收款</td></tr><tr><td>老顾客复购频次提升</td><td>+3,000元/月</td><td>沉睡唤醒10%回店率，15桌×两人消费约110元</td></tr><tr><td>抖音团购效率优化</td><td>+2,000元/月</td><td>系统精确核销，减少漏单，优化套餐配置（行业参考值）</td></tr><tr><td>菜品结构优化</td><td>+1,000元/月</td><td>菜品数据报表，减少慢销菜食材损耗</td></tr><tr><td><strong>合计月增收</strong></td><td><strong>+11,000元</strong></td><td>保守估算</td></tr></table><h3>⏰ 回本周期</h3><p>年投入3,200元 ÷ 月增收11,000元 ≈ <strong>约0.3个月回本（约9天）</strong>。此后每月净增收约11,000元。</p><h3>🎯 量化OKR目标</h3><table><tr><th>指标</th><th>1个月目标</th><th>3个月目标</th><th>6个月目标</th></tr><tr><td>月营收（⚠️假设基准10万）</td><td>+5%（约10.5万）</td><td>+15%（约11.5万）</td><td>+25%（约12.5万）</td></tr><tr><td>大众点评评分</td><td>出星（≥4.0）</td><td>≥4.3</td><td>≥4.5，上热门榜</td></tr><tr><td>会员总数</td><td>50人</td><td>200人</td><td>500人</td></tr><tr><td>储值余额沉淀</td><td>10,000元</td><td>30,000元</td><td>60,000元</td></tr><tr><td>抖音月核销单数</td><td>150单</td><td>200单</td><td>250单</td></tr></table></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>陈国庆</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>📊 基础数据画像（⚠️ 核心数据未提供，以下为行业参考假设值）</h3><p>建德土菜馆位于上城区彭埠街道，地处天城路与环站东路交叉口东侧，紧邻杭州东站辐射商圈。门店面积100㎡，明档点餐形式，烟火气十足。</p><ul><li><strong>预估人均：</strong>55元（⚠️ 假设值，建德土菜品类区间50-70元，建议核实）</li><li><strong>预估月流水：</strong>约8-12万元（⚠️ 假设值，基于100㎡门店、翻台率2-2.5次/天×50座估算）</li><li><strong>已签约SaaS：</strong>⚠️ 假设基础版会员+扫码点餐（以下方案均基于此假设，请BD核实）</li><li><strong>抖音团购：</strong>已有，是当前主要公域流量来源</li></ul><h3>⚠️ 三大核心痛点诊断</h3><ul><li><strong>痛点1：手写单造成效率瓶颈</strong><br/>老板目前手写单操作，高峰期出错率高、账目难核对、菜品销量数据无沉淀。100㎡门店午晚高峰期，估算每桌因传单沟通多耗时3-5分钟，直接影响翻台效率。且手写单无法精确统计抖音团购核销情况，渠道ROI无从判断。</li><li><strong>痛点2：抖音有流量、私域沉淀为零</strong><br/>老板已重视抖音，团购单引来不少客人。但抖音消费者「买券吃完就走」，没有会员数据沉淀。下次消费90%概率还需要重新经由抖音获客——每次都要付出流量成本，没有复利效应。⚠️ 假设月抖音团购核销100单，每单获客成本5-10元，月获客成本约500-1000元（行业参考值）。</li><li><strong>痛点3：忽视大众点评，竞对在悄悄积累评分</strong><br/>彭埠3公里内，「老灶房四川土菜（港龙城店）」已积累大量评价。大众点评评分直接影响美团团购搜索排名权重——即便老板不投放点评，美团团购买家的决策路径仍会经过点评页面。</li></ul><h3>🏘️ 周边竞争格局（彭埠3公里内，来源：大众点评公开数据）</h3><table><tr><th>竞品名称</th><th>预估人均</th><th>核心弱点</th><th>建德土菜馆的机会</th></tr><tr><td>老灶房·四川土菜（港龙城店）</td><td>约55元</td><td>川菜口味偏辣，覆盖不了全客群</td><td>建德土菜鲜香不燥辣，家庭聚餐更宽容</td></tr><tr><td>看浙里土菜馆·石锅鱼（天城路沿线）</td><td>约50元</td><td>品类单一，以石锅鱼为主，场景受限</td><td>建德菜系丰富，适合家庭/宴请多场景</td></tr><tr><td>周边普通家常菜馆</td><td>40-50元</td><td>无地域IP差异化，缺乏记忆点</td><td>「建德」二字自带地域品牌背书，差异明显</td></tr></table><p><strong>综合判断：</strong>建德土菜在彭埠有明显品类差异化优势，核心竞争力是「地域IP+明档新鲜+烟火气」。当前主要缺口是数字化运营能力：<strong>无收银系统→数据盲区，无会员体系→客户流失，点评被动→流量浪费</strong>。</p>`,
+    2: `<h3>🎯 核心逻辑：把抖音流量「接住」并转化为私域资产</h3><p>老板目前的抖音团购模式：抖音引流→顾客到店→结束。每一桌客人都是「一次性」——没有留存，下次还需要重新花抖音费用获客。我们的目标是：<strong>把每个抖音到店顾客，变成门店永久的「会员资产」。</strong></p><h3>📱 公域层：抖音团购优化策略</h3><ul><li><strong>爆品锚点设计：</strong>以「建德土烧鱼头豆腐」或「红烧肉馒头」作为抖音团购主打套餐锚点。明档拍摄出品过程，做成15-30秒短视频，重点突出「建德直运食材+现烧锅气」。这类内容在同类赛道（新安大院等建德土菜馆）已有验证，单条评价2000+点赞。</li><li><strong>套餐定价策略（心理学定价）：</strong><br/>体验款：2人套餐68元（引流，获取客源）<br/>主推款：4人套餐158元（主力转化，含招牌鱼头+两荤一素+米饭）<br/>宴请款：6-8人套餐298元（利润款，含优先座位/包厢权益）<br/>——最贵的宴请款让主推款显得更划算。套餐内不放低毛利菜品。</li><li><strong>内容频率：</strong>每周1-2条短视频，拍明档点菜场景、食材现捞、锅气出镜——「真实感」是建德土菜类门店最大的抖音素材，成本几乎为零。</li><li><strong>预期效果：</strong>保持并提升现有抖音团购，月团购核销目标150单+（⚠️行业参考值，请核实现有数据）。</li></ul><h3>🏠 私域层：会员体系建立</h3><p>⚠️ 假设已签约基础版会员+扫码点餐</p><ul><li><strong>扫码点餐即入会（零摩擦）：</strong>顾客扫码点餐时，自动弹窗「关注会员享首次消费立减5元」，一键加入。<strong>无需老板额外操作，不改变任何现有流程</strong>——专门为抗拒系统的老板设计的最低门槛方式。</li><li><strong>储值推荐时机：</strong>结账时POS弹储值提示：「存300送30，下次来相当于多吃了半道菜」——满意度最高的时刻推，当场转化成功率高。</li><li><strong>沉睡唤醒：</strong>30天未消费会员自动推送「好久不见，这周来店享8折」——系统自动触发，老板完全不用管。</li></ul><h3>🔗 公私域联动闭环</h3><p>抖音团购到店 → 扫码点餐自动入会 → 储值锁定下次消费 → 系统自动沉睡唤醒 → 回店消费 → 老顾客拍视频发抖音（UGC内容）→ 新流量进入闭环</p><p><strong>核心指标：</strong>目标30天内会员注册率达到到店客户的60%（每10桌有6桌成为会员），建立门店可持续增长的「私域底座」。</p>`,
+    3: `<h3>🤔 读懂老板的顾虑</h3><p>老板目前用手写单，对收银系统有抗拒——这很正常。手写单用了多年，已经形成肌肉记忆；收银系统在他眼里是「添麻烦」的东西，而不是「解决麻烦」的工具。<strong>方案切入点不是「功能有多强」，而是「切换代价有多低+立竿见影解决什么问题」。</strong></p><h3>✅ 切换后立刻解决的3个痛点</h3><ul><li><strong>账目清晰：</strong>手写单漏单、算错、对不上，每月少则数百多则数千损失。扫码点餐+POS自动汇总，每天一键结账，账目精确到每道菜。</li><li><strong>抖音团购核销：</strong>目前手工验券，高峰期容易出错。SaaS系统直接对接抖音团购，扫码核销，自动扣减，老板最关心的抖音数据可以精确统计。</li><li><strong>出餐效率：</strong>明档点餐环境下，顾客自助扫码下单，厨房实时出单，减少传菜沟通成本，高峰期估算效率提升10-15%（行业参考值），有效支撑翻台率提升。</li></ul><h3>📋 切换执行计划（低摩擦3周版）</h3><table><tr><th>阶段</th><th>时间</th><th>动作</th><th>老板工作量</th></tr><tr><td>第1周</td><td>第1-3天</td><td>设备安装+菜单录入（商务协助完成）</td><td>核对菜单即可</td></tr><tr><td>第1周</td><td>第4-7天</td><td>扫码点餐上线，手写单作为备用并行</td><td>正常营业，习惯不变</td></tr><tr><td>第2周</td><td>全周</td><td>并行运行：扫码+手写双轨</td><td>观察数据，感受差异</td></tr><tr><td>第3周起</td><td>全面切换</td><td>全面使用系统，手写单紧急备用</td><td>每天10分钟看报表</td></tr></table><h3>🎁 给老板的「零风险承诺」框架</h3><ul><li>安装调试全程协助，菜单录入商务帮忙，老板无需自己配置</li><li>老板只需会「看今日流水」一个功能，其他都是系统自动完成</li><li>前30天遇到问题1小时内响应</li></ul><p><strong>关键一句话：「老板，收银系统不是让您学新东西的，是让系统替您做您现在手写做的事，而且做得更准。」</strong></p>`,
+    4: `<h3>💰 储值方案设计原则</h3><p>建德土菜馆预估人均55元（⚠️假设值）。根据品类差异化思维表，中客单（50-100元）门店储值策略：<strong>二次消费后推储值，主推档=客单×5-8次消费金额</strong>。55元×8≈440元，主推档定500元合理。</p><h3>📊 储值方案三档设计</h3><table><tr><th>档位</th><th>充值金额</th><th>赠送</th><th>实际折扣</th><th>适用客群</th></tr><tr><td>体验档</td><td>200元</td><td>赠20元</td><td>9折</td><td>新客、试水储值</td></tr><tr><td>主推档 ⭐</td><td>500元</td><td>赠80元</td><td>8.6折</td><td>常来吃饭的熟客</td></tr><tr><td>尊享档</td><td>1000元</td><td>赠200元</td><td>8.3折</td><td>企业客/请客达人</td></tr></table><p><strong>主推逻辑：</strong>500元约等于客人9次消费（55×9=495），符合「锁定未来9顿饭」的心理锚定。话术：「存500送80，相当于多送了1顿半，方便下次来直接刷卡，不用带现金，好多老顾客都这样存。」</p><h3>⏰ 储值推进时机（关键）</h3><ul><li><strong>黄金时机1：顾客买单时</strong> → 收银台弹出储值提醒，店员一句话推荐 → 此刻顾客满意度最高，转化率最高</li><li><strong>黄金时机2：抖音团购顾客二次到店</strong> → 「上次团购来的吧，这次存个卡更省」 → 把团购一次性客转为会员</li><li><strong>黄金时机3：宴请买单时</strong> → 「常来请客的话，存1000相当于送了2顿菜钱，很多老板都这么做」</li></ul><h3>📈 储值OKR目标</h3><ul><li>第1个月：开卡50张，入账10,000元</li><li>第3个月：开卡150张累计，月新增储值5,000元，余额沉淀20,000+元</li><li><strong>核心意义：</strong>储值余额就是「锁定的未来流水」——每沉淀1万元储值余额，意味着1万元已确定会在这家店消费。</li></ul>`,
+    5: `<h3>🎯 为什么点评不能忽视——给不看点评的老板的数据逻辑</h3><p>老板重视抖音、不看大众点评。但有一个关键逻辑需要说清楚：<strong>美团团购的流量分发权重，与大众点评评分强相关。</strong>同等出价下，点评评分4.8的店比评分4.2的店在美团团购搜索结果中排名更靠前。</p><p>更重要的是：彭埠消费者「刷抖音种草→去大众点评看评价→决定下单」的行为链，决策末端仍然是点评。老板不投放点评广告，但顾客会自己去看。⚠️ 目前未查询到「建德土菜馆」的具体大众点评数据，建议BD核实实际评分和评价数量。</p><h3>📍 点评阶段判断</h3><p>基于门店信息（假设新店/评价数较少），当前处于「<strong>新店成长期</strong>」：</p><ul><li>目标：30天内累积真实评价50条+（系统评分正式生效节点）</li><li>前50条评价决定大众点评「第一印象」，奠定口碑基调</li></ul><h3>✅ 合规的点评口碑建设方法</h3><p>⚠️ 以下所有方式均为合规操作，严禁任何主动邀评/促评行为（2025年10月后高强度促评=新评价不产生星级收益）</p><ul><li><strong>方法1：扫码点餐结束后自动引导</strong> → 系统自动推送「就餐体验」引导入口，顾客主动选择 → 零人工干预，完全合规</li><li><strong>方法2：评价专家功能监控与回复</strong> → 监控每一条评价，24小时内回复差评，展示「用心」态度 → 差评被妥善处理后对评分影响降低60%（行业参考值）</li><li><strong>方法3：完善门店信息</strong> → 在点评后台补全：营业时间/停车/WiFi/包厢/明档点菜特色 → 信息完整度影响搜索展示权重</li><li><strong>方法4：爆品拉动自发打卡</strong> → 「建德鱼头豆腐」视觉冲击力强，顾客自发拍照发点评/小红书的概率高 → 做好菜品呈现=最好的内容运营</li></ul><h3>🏆 榜单升级路径</h3><table><tr><th>阶段</th><th>条件</th><th>目标榜单</th><th>时间</th></tr><tr><td>新店出星</td><td>真实评价50条+，评分≥4.0</td><td>彭埠新店榜</td><td>30-45天</td></tr><tr><td>热门榜</td><td>评价100条+，评分≥4.3</td><td>彭埠商圈热门榜</td><td>2-3个月</td></tr><tr><td>特色榜</td><td>特色菜标签积累，评价200条+</td><td>特色土菜/农家菜榜</td><td>4-6个月</td></tr></table>`,
+    6: `<h3>🎯 活动设计原则</h3><p>建德土菜馆客群：周边居民家庭聚餐、商务宴请、抖音慕名食客。活动围绕「提频次」（让熟客来得更勤）和「拉新转老」（把抖音一次性客变会员）两条主线。<strong>所有活动均通过SaaS系统自动化执行，不增加老板工作量。</strong></p><h3>📅 近期活动安排（未来30天）</h3><ul><li><strong>活动1：「建德家宴套餐」抖音团购新品（第1-2周）</strong><br/>上线4人家宴套餐138元（原价约160元），含：招牌鱼头豆腐+两荤一素+米饭+小菜，主打「家庭聚餐专享」。明档拍摄食材展示短视频配合上线。<br/>🔧 工具路径：美团收银后台→团购管理→新建套餐→设置核销时间段<br/>预期效果：月新增团购核销30单，引流新客约90人次</li><li><strong>活动2：「首次储值礼」（第2周起）</strong><br/>扫码点餐新会员首次储值200元：额外赠送一份「建德萝卜干」（成本约2-3元）+20元到账。<br/>设计逻辑：萝卜干是建德特色配菜，成本极低但记忆点强，体现门店特色。<br/>🔧 工具路径：会员后台→储值活动→新建→设置赠品规则<br/>预期效果：月新增储值会员20-30张</li><li><strong>活动3：「老顾客唤醒」（第3周起）</strong><br/>针对14天未消费会员，自动推送「好久不见，本周到店享9折」（有效期72小时）。<br/>🔧 工具路径：会员→营销→沉睡唤醒→设置间隔14天<br/>预期效果：唤醒率约10-15%（行业参考值），每月带回10+桌老顾客</li></ul><h3>🏮 6月节日营销节点</h3><table><tr><th>节点</th><th>时间</th><th>活动方向</th><th>预估效果</th></tr><tr><td>端午节</td><td>5月31-6月2日</td><td>「建德端午家宴」套餐，配合短视频</td><td>节假日流水增加20%</td></tr><tr><td>父亲节</td><td>6月15日</td><td>「带爸爸吃顿建德土菜」主题抖音视频+家宴套餐</td><td>家庭客提升客单价</td></tr></table><p>⚠️ 所有活动均依托SaaS系统自动化，老板不需要额外操作——这是对抗拒系统的老板最重要的说服点：<strong>「系统替您工作，您只需要看结果。」</strong></p>`,
+    7: `<h3>📊 老板每天只需看3个数字</h3><p>老板抗拒系统，往往因为觉得「我不会用」。其实SaaS系统每天需要老板做的只有一件事：<strong>打开APP看今天的3个数字，10分钟搞定。</strong></p><ul><li><strong>今日流水：</strong>今天收了多少钱？（手机APP首页即显示）</li><li><strong>新增会员：</strong>今天有几桌加入会员？（是不是在增长）</li><li><strong>抖音核销单数：</strong>今天团购卖了几单？（渠道效果一目了然）</li></ul><h3>🔍 系统能帮老板发现的「隐藏秘密」</h3><ul><li><strong>菜品销量排名：</strong>哪道菜点单率最高、哪道一直没人点。不动的菜考虑替换，节省食材损耗。假设每月因此优化2-3道菜，月节约成本500-1000元（行业参考值）。</li><li><strong>高峰/低谷时段：</strong>精确到小时的客流热力图。低谷时段可推「今日特惠套餐」，拉动非高峰流水5-10%。</li><li><strong>新客老客比例：</strong>新客高→引流好但留存差；老客高→口碑好但缺新鲜血液。两个数字直接告诉老板下一步重心。</li><li><strong>抖音团购ROI：</strong>团购核销单数×客单价，对比团购优惠金额，精确算出抖音引流成本，帮助老板判断是否要调整套餐定价。</li></ul><h3>📈 每周10分钟数据回顾节奏</h3><table><tr><th>时间</th><th>动作</th><th>目的</th></tr><tr><td>每周一早上</td><td>看上周流水+会员新增趋势</td><td>判断经营趋势</td></tr><tr><td>每周一早上</td><td>看抖音团购核销单数</td><td>判断公域引流效果</td></tr><tr><td>每月初</td><td>看菜品销量TOP10/BOTTOM5</td><td>优化菜单，减少损耗</td></tr></table><p>系统把所有计算全做完，老板只需「看结果做决策」——<strong>这才是收银系统真正帮老板省时间的方式，而不是增加负担。</strong></p>`,
+    8: `<h3>💰 投入产出总览</h3><p>⚠️ 以下测算基于假设数据（月流水/客单价未提供），均为行业参考值估算，请结合实际数据调整。</p><h3>📊 成本估算（第一年）</h3><table><tr><th>项目</th><th>金额</th><th>说明</th></tr><tr><td>基础版会员系统</td><td>2,688元/年</td><td>⚠️ 假设基础版；强烈建议升级旗舰版4,888元/年，独有团购会员卡+潜客营销功能</td></tr><tr><td>扫码点餐</td><td>已签约</td><td>无额外成本</td></tr><tr><td>贴码等耗材</td><td>约500元</td><td>一次性成本</td></tr><tr><td><strong>合计第一年</strong></td><td><strong>约3,200元</strong></td><td>日均不到9元</td></tr></table><h3>📈 月增收测算（4条来源）</h3><table><tr><th>增收来源</th><th>预计月增收</th><th>测算逻辑</th></tr><tr><td>储值资金锁定</td><td>+5,000元/月</td><td>月新增储值30张×均值150元，形成未来预收款</td></tr><tr><td>老顾客复购频次提升</td><td>+3,000元/月</td><td>沉睡唤醒10%回店率，15桌×两人消费约110元</td></tr><tr><td>抖音团购效率优化</td><td>+2,000元/月</td><td>系统精确核销，减少漏单，优化套餐配置（行业参考值）</td></tr><tr><td>菜品结构优化</td><td>+1,000元/月</td><td>菜品数据报表，减少慢销菜食材损耗</td></tr><tr><td><strong>合计月增收</strong></td><td><strong>+11,000元</strong></td><td>保守估算</td></tr></table><h3>⏰ 回本周期</h3><p>年投入3,200元 ÷ 月增收11,000元 ≈ <strong>约0.3个月回本（约9天）</strong>。此后每月净增收约11,000元。</p><h3>🎯 量化OKR目标</h3><table><tr><th>指标</th><th>1个月目标</th><th>3个月目标</th><th>6个月目标</th></tr><tr><td>月营收（⚠️假设基准10万）</td><td>+5%（约10.5万）</td><td>+15%（约11.5万）</td><td>+25%（约12.5万）</td></tr><tr><td>大众点评评分</td><td>出星（≥4.0）</td><td>≥4.3</td><td>≥4.5，上热门榜</td></tr><tr><td>会员总数</td><td>50人</td><td>200人</td><td>500人</td></tr><tr><td>储值余额沉淀</td><td>10,000元</td><td>30,000元</td><td>60,000元</td></tr><tr><td>抖音月核销单数</td><td>150单</td><td>200单</td><td>250单</td></tr></table>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
