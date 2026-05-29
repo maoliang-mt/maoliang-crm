@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>堡贝汉堡 BéBé Burger · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">西式快餐/汉堡 · 运营提升方案</div>
+  <h1 class="hero-title">堡贝汉堡 BéBé Burger</h1>
+  <p class="hero-subtitle">滨江新店·从第一口建立口碑，让回头客成为你最大的竞争壁垒</p>
+  <div class="hero-address">杭州市滨江区浦沿街道东冠路430号一层107室</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥25</span>
+      <div class="hero-stat-label">人均客单</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">新开业</span>
+      <div class="hero-stat-label">门店状态</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">滨江区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '门店诊断 · 新店开局怎么赢', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">门店诊断 · 新店开局怎么赢</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解 · 滨江汉堡谁在抢你的客', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解 · 滨江汉堡谁在抢你的客</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '系统方案 · 美团收银从0到1落地路径', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">系统方案 · 美团收银从0到1落地路径</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评赋能 · 新店出评从零到榜', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评赋能 · 新店出评从零到榜</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '外卖运营 · 堂食之外再造一个营收来源', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">外卖运营 · 堂食之外再造一个营收来源</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '公私域联动 · 线上线下一体化引流闭环', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">公私域联动 · 线上线下一体化引流闭环</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '会员储值方案 · 用¥300锁定12次消费', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">会员储值方案 · 用¥300锁定12次消费</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '开业30天冲刺营销节奏', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">开业30天冲刺营销节奏</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(9, '投资回报 · 一笔账算清楚', 9)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 09</div>
+      <div class="chapter-title">投资回报 · 一笔账算清楚</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>📍 门店基本画像</h3><p>堡贝汉堡 BéBé Burger，位于杭州滨江区浦沿街道东冠路430号一层107室，门店面积约30㎡，人均¥25，属于<strong>平价西式汉堡快餐</strong>赛道。当前状态：<strong>尚未开业（5-7天新店）</strong>，本方案为开业冲刺期量身定制。</p><h3>📊 新店数据测算（⚠️ 假设值，开业后请核实）</h3><table><tr><th>指标</th><th>假设值</th><th>推算逻辑</th></tr><tr><td>人均客单价</td><td>¥25</td><td>门店提供数据</td></tr><tr><td>日均出餐人次目标</td><td>40-60单</td><td>30㎡快餐行业参考值（行业参考值）</td></tr><tr><td>月营收目标（开业第1月）</td><td>¥3-4.5万</td><td>日均40-60单×¥25×30天</td></tr><tr><td>月营收目标（稳定期）</td><td>¥6-7.5万</td><td>日均80-100单×¥25×30天</td></tr></table><h3>⚠️ 新店三大死穴（必须第一个月解决）</h3><ul><li><strong>死穴一：没有评价积累</strong>——新店无评分，消费者不信任，外卖排名靠后，流量获取成本极高</li><li><strong>死穴二：没有回头客机制</strong>——没有会员系统，每次进店都是新客，复购全靠路过，流量漏斗底部漏水</li><li><strong>死穴三：收钱吧只记账不沉淀客户</strong>——每笔交易只有流水，无法识别老客/新客，营销完全是盲发</li></ul><p>以上三点，是从「开业热闹」变成「持续赚钱」的核心差距。美团收银+会员系统是解决这三个问题的最短路径。</p></div>
+<div id="modal-content-2" style="display:none"><h3>🏘️ 周边3-5公里竞争格局（东冠路/浦沿街道）</h3><table><tr><th>竞品名称</th><th>人均</th><th>核心弱点</th><th>BéBé的切入机会</th></tr><tr><td>汉堡王（滨康路聚才大厦）</td><td>¥35-45</td><td>价格高、连锁标准化、无本地温度</td><td>同等品质低¥10-20，性价比碾压</td></tr><tr><td>肯德基（滨江浦沿附近）</td><td>¥30-40</td><td>菜单固定、排队等位体验差</td><td>扫码点餐更快，出餐更高效</td></tr><tr><td>屠夫汉堡（外卖为主）</td><td>¥30-40</td><td>出品不稳定、无实体堂食体验</td><td>实体店堂食+扫码点餐，体验感更强</td></tr><tr><td>比奇欢乐堡（宝龙城）</td><td>¥25-35</td><td>位置偏（滨盛路），不覆盖东冠路</td><td>地理位置优势，直接覆盖东冠路商办人群</td></tr></table><h3>🎯 BéBé Burger差异化定位</h3><ul><li><strong>价格定位</strong>：人均¥25，比汉堡王/肯德基低¥10-20，同等价位内品质感更强</li><li><strong>客群定位</strong>：东冠路/谷丰科技园周边互联网/科技公司白领（午餐刚需）+附近住宅区家庭</li><li><strong>记忆点</strong>：小而精的独立汉堡店，有温度有故事，比连锁大品牌更有记忆点</li></ul><h3>💡 收钱吧 vs 美团收银——经营工具层面的真正差距</h3><p>收钱吧只能收款记账；美团收银还能同步会员、打通外卖、沉淀复购数据。你对面那家汉堡店用收钱吧，每天进店100人，一个都不认识。你用美团收银，第50个进店的人已经是你的会员了。<strong>这才是真正拉开差距的地方。</strong></p></div>
+<div id="modal-content-3" style="display:none"><h3>🔧 已签约模块（⚠️ 假设：基础版会员+扫码点餐，请国庆确认）</h3><h3>✅ 扫码点餐（开业第一天必须开启）</h3><p>30㎡空间，高峰期用纸质菜单+人工点餐，收银台将成瓶颈。扫码点餐解决三个问题：</p><ul><li>🔧 <strong>操作路径</strong>：美团收银后台 → 扫码点餐管理 → 上传菜单+价格 → 生成二维码贴在桌面/收银台</li><li>客户自助下单，减少传单错误，高峰期出餐速度提升约30%（行业参考值）</li><li>首次扫码时自动弹出「新客专享福利」，引导注册会员——这是私域流量积累的第一步</li><li>每单数据自动沉淀，开业第1个月结束就能看到热销品/时段分析</li></ul><h3>✅ 会员系统（开业当天必须开！）</h3><p><strong>新店最容易拿到会员的时间窗口就是开业前30天</strong>。开业期顾客新鲜感最强、愿意参与活动，这个窗口一旦过去，拉新成本至少翻3倍。</p><ul><li>🔧 操作路径：收银后台 → 会员管理 → 新建会员活动 → 设置「扫码入会得优惠」</li><li>目标：开业30天内注册会员≥200人</li><li>执行动作：「首次扫码点餐注册会员，赠薯条一份（价值¥5）」</li></ul><h3>🚀 升级推荐：会员旗舰版（¥4,888/年）</h3><p>基础版已能解决新店冷启动问题。旗舰版独有「团购会员卡」功能，可直接在大众点评平台公域推团购，将平台流量直接转化为私域会员，基础版做不到这一点。建议稳定运营2个月后升级。</p></div>
+<div id="modal-content-4" style="display:none"><h3>📊 新店点评现状</h3><p>BéBé Burger当前尚未开业，点评评分为零。这是最佳机遇期——<strong>从第一条评价开始，你就可以主动定调。</strong></p><h3>🎯 按阶段的点评提升路径</h3><table><tr><th>阶段</th><th>时间</th><th>目标</th><th>关键动作</th></tr><tr><td>冷启动期</td><td>开业第1-2周</td><td>积累15-20条真实好评</td><td>每桌出餐后提醒顾客扫码点评，见下方话术</td></tr><tr><td>成长期</td><td>开业第3-4周</td><td>评价数突破50条，出现3.5星+</td><td>优化差评关键词，保持出品稳定</td></tr><tr><td>冲榜期</td><td>第2个月</td><td>冲「新店榜」前10</td><td>好评率≥90%，主动回复每条差评</td></tr><tr><td>维护期</td><td>第3个月起</td><td>进入「热门榜」</td><td>爆品套餐上线，配合推广通引流</td></tr></table><h3>💬 合规出评话术（无任何诱导）</h3><blockquote><p>「谢谢您今天来，希望这份汉堡让您满意！如果觉得还不错，帮我们在大众点评随手留个评价吧，我们刚开业，每一条评价对我们都很重要。」</p></blockquote><p>⚠️ 严禁「好评返现」「评价换优惠」等促评行为——2025年10月后大众点评已严格打击，高强度促评会导致新评价不计入星级，得不偿失。</p><h3>📸 点评页面优化（开业前必做，零成本）</h3><ul><li>上传门店实拍图5张以上（含门头、招牌产品、店内环境）</li><li>设置招牌菜标签（如「招牌牛肉堡」「香脆薯条」）</li><li>填写营业时间、人均消费（精确到¥25）</li><li>设置大众点评团购套餐（开业期主推：双人餐¥45）</li></ul></div>
+<div id="modal-content-5" style="display:none"><h3>🛵 外卖战场分析</h3><p>东冠路/浦沿街道是杭州滨江典型的<strong>产业园区+住宅混合区</strong>，外卖需求极强。周边写字楼午餐外卖渗透率约45%-60%（行业参考值）。BéBé Burger人均¥25，天然符合「工作日午餐首选」的外卖场景——这是你第二个营收来源，必须第一天就开。</p><h3>📱 外卖冷启动三板斧</h3><ul><li><strong>第一斧：开业当天同步上线外卖（不能等）</strong><br/>新店外卖有「新店流量扶持期」约7天，过了就没了。目标第1周外卖单数≥每日30单。</li><li><strong>第二斧：外卖专项套餐（提升客单价）</strong><br/>推荐设计：「工作日活力套：招牌牛肉堡+薯条+可乐 ¥32」→ 外卖客单从¥25提升到¥32，外卖客单高于堂食是正确方向。</li><li><strong>第三斧：外卖评分保卫战</strong><br/>差评关键词预警：「等太久」「包装漏了」「少配料」。开业初期：锡纸+纸袋双层包装，控制配送距离3公里内，确保出餐≤8分钟。</li></ul><h3>📊 外卖目标（开业前3个月）</h3><table><tr><th>时间</th><th>日均外卖单数</th><th>外卖月营收</th><th>外卖评分目标</th></tr><tr><td>第1个月</td><td>20-30单/天</td><td>约¥1.5-2.2万</td><td>≥4.5分</td></tr><tr><td>第2个月</td><td>40-60单/天</td><td>约¥3-4.5万</td><td>≥4.7分</td></tr><tr><td>第3个月</td><td>60-80单/天</td><td>约¥4.5-6万</td><td>≥4.8分</td></tr></table><p>⚠️ 数据为行业参考值，以实际经营数据为准。</p></div>
+<div id="modal-content-6" style="display:none"><h3>🔄 公私域联动闭环逻辑</h3><p>核心链路：<strong>公域引流（大众点评+抖音）带人进门 → 扫码点餐触发会员注册 → 会员系统完成留存+复购 → 会员复购产生新评价 → 新评价提升公域排名</strong>。这是一个自我强化的闭环，不是三个平台各自为战。</p><h3>📢 公域：大众点评（主战场）</h3><ul><li><strong>团购套餐设计</strong>：上线2款——①「单人套：招牌堡+薯条 ¥28」②「双人派对套：2堡+2薯条+2饮料 ¥48」，比到店价低¥2-5，引导线上预购</li><li><strong>推广通投放</strong>：开业第2周起，每天¥30-50投「附近推」，定向3公里内，用「新店开业·今日特惠」素材。预计每¥100带来5-8个新顾客（行业参考值）。</li><li><strong>标签运营</strong>：在后台设置「高性价比」「汉堡达人」「打工人必选」标签，提升搜索曝光</li></ul><h3>📱 公域：抖音/小红书（内容助攻）</h3><ul><li><strong>开业前3天</strong>：老板自拍「新店开业探店」vlog，发抖音本地生活（#杭州汉堡 #滨江美食），添加附近POI定位。不需要KOL，真实感比精致感更重要。</li><li><strong>每周1条内容</strong>：汉堡制作特写，配「¥25吃到这！」「滨江打工人的救星」等共鸣文案</li><li><strong>小红书</strong>：发布「东冠路新开·平价汉堡测评」，邀请顾客晒图打卡赠辣条（成本¥0.3/人）</li></ul><h3>🔒 私域：美团会员系统（沉淀复购）</h3><ul><li>每个扫码点餐的顾客 → 自动提示「注册会员，首次赠薯条」→ 进入会员数据库</li><li>每月2次会员定向推送：「本月生日会员双倍积分」「周五汉堡会员专享买一送一」</li><li>顾客第2次到店时，收银员识别老客：「您是我们会员，今天有积分到期」——体验感立刻不一样</li></ul></div>
+<div id="modal-content-7" style="display:none"><h3>💳 储值方案设计（基于¥25客单价）</h3><p>人均¥25，按「低客单高频」策略：储值主推档 = 客单×10-12次 = <strong>¥250-300</strong>。三档设计如下：</p><table><tr><th>档位</th><th>充值金额</th><th>赠送</th><th>实际折扣</th><th>对应消费次数</th></tr><tr><td>体验档</td><td>¥100</td><td>赠¥10</td><td>约9.1折</td><td>约4次</td></tr><tr><td>主推档⭐</td><td>¥300</td><td>赠¥45</td><td>约8.7折</td><td>约14次</td></tr><tr><td>尊享档</td><td>¥500</td><td>赠¥100+专属双人套</td><td>约8.3折</td><td>约24次</td></tr></table><p>⚠️ 储值金额以实际经营数据调整，以上为假设值。</p><h3>🎯 推储值的最佳时机（四个场景）</h3><ul><li><strong>场景一：结账时POS屏弹提示（零成本）</strong>：「您本单¥25，储值¥300享8.7折，常来的话一个月能省¥15+」</li><li><strong>场景二：外卖好评触达</strong>：好评后自动发「感谢评价！首次储值额外赠¥5」</li><li><strong>场景三：开业活动期</strong>：「开业特惠：储值¥300额外多送¥20，限50个名额」，制造紧迫感</li><li><strong>场景四：沉睡会员唤醒</strong>：30天未消费，推送「好久没来，专属¥5优惠券，7天有效」</li></ul><h3>📊 储值收益测算（开业第2个月目标）</h3><ul><li>目标：储值会员100人，主推档(¥300)占60% = 60人×¥300 = <strong>储值流水¥1.8万</strong></li><li>储值资金提前锁定，淡季也有保障</li><li>储值客复购频次是非储值客的<strong>2.3倍</strong>（行业参考值）</li></ul></div>
+<div id="modal-content-8" style="display:none"><h3>📅 开业30天节奏（按周拆解）</h3><table><tr><th>时间</th><th>主题</th><th>核心动作</th><th>预算</th></tr><tr><td>开业第1-3天</td><td>爆破引流</td><td>①全门口附近500米发小卡片 ②全单8.8折开业特惠 ③抖音发开业打卡视频</td><td>¥300（小卡片印刷）</td></tr><tr><td>第1周</td><td>口碑冷启动</td><td>①争取15条真实点评 ②扫码点餐赠薯条拉会员 ③外卖同步上线</td><td>¥150（薯条成本¥2/份×75份）</td></tr><tr><td>第2周</td><td>复购激活</td><td>①推储值活动（开业特惠版） ②会员专享周五「工作日续命套」买一送一 ③小红书发打卡笔记</td><td>¥500（储值赠额成本）</td></tr><tr><td>第3-4周</td><td>口碑稳固</td><td>①冲大众点评新店榜 ②推广通启动¥30/天 ③按销量数据优化外卖菜单</td><td>¥900（推广费）</td></tr></table><h3>🎉 峰终定律：低成本制造记忆点</h3><ul><li><strong>峰值</strong>：出餐袋上贴贴纸「✌️这份堡是今天第X单，感谢支持BéBé！」（成本¥0.1/张）→ 顾客自发拍照发朋友圈</li><li><strong>终值</strong>：结账时POS屏显示「今日已服务XX位顾客」+自动弹出好评引导 → 离店时还记得「这家小店挺用心的」</li><li><strong>小概率惊喜</strong>：随机每10单额外赠韩式海苔（成本¥0.5），不提前告知，惊喜比预期更有传播力</li></ul><h3>📊 月度营销预算汇总</h3><table><tr><th>项目</th><th>月预算</th></tr><tr><td>大众点评推广通</td><td>¥900</td></tr><tr><td>外卖平台活动（满减/红包）</td><td>¥500</td></tr><tr><td>峰终体验（贴纸+小礼品）</td><td>¥150</td></tr><tr><td>会员赠品（薯条/优惠券）</td><td>¥300</td></tr><tr><td><strong>合计</strong></td><td><strong>¥1,850/月</strong></td></tr></table></div>
+<div id="modal-content-9" style="display:none"><h3>💰 投入成本（月度运营）</h3><table><tr><th>项目</th><th>费用</th><th>说明</th></tr><tr><td>美团收银系统年费</td><td>⚠️ 请国庆确认最终报价</td><td>含扫码点餐+基础版会员，折月约¥XXX/月</td></tr><tr><td>月度营销预算</td><td>¥1,850/月</td><td>推广通+外卖活动+体验成本+会员赠品</td></tr></table><h3>📈 月增收来源拆解（稳定期，第3个月起）</h3><table><tr><th>来源</th><th>推算逻辑</th><th>月增收贡献</th></tr><tr><td>外卖渠道（增量）</td><td>外卖日均60单×¥25×30天=¥4.5万（⚠️假设值）</td><td>+¥4.5万</td></tr><tr><td>堂食口碑新客增量</td><td>点评新店榜曝光+20%新客，月+¥1.5万（假设值）</td><td>+¥1.5万</td></tr><tr><td>储值会员锁定消费</td><td>100名储值会员×月均2次×¥25=¥5,000</td><td>+¥0.5万</td></tr><tr><td>外卖套餐客单提升</td><td>套餐均价从¥25提至¥32，日均多¥7×60单×30天</td><td>+¥1.26万</td></tr><tr><td><strong>月增收合计</strong></td><td></td><td><strong>约+¥7.76万</strong></td></tr></table><p>⚠️ 以上均为行业参考假设值，实际以门店经营数据为准。</p><h3>📊 OKR 量化目标（三阶段）</h3><table><tr><th>目标维度</th><th>第1个月（冲刺期）</th><th>第3个月（成长期）</th><th>第6个月（稳定期）</th></tr><tr><td>月营收</td><td>¥3-4.5万</td><td>¥6-7.5万</td><td>¥8-10万</td></tr><tr><td>大众点评评分</td><td>3.5分以上（出星）</td><td>4.2分以上</td><td>4.5分以上</td></tr><tr><td>累计会员数</td><td>200人</td><td>500人</td><td>1,000人</td></tr><tr><td>外卖月营收占比</td><td>30%（¥1-1.5万）</td><td>40%（¥2.5-3万）</td><td>45%（¥3.5-4.5万）</td></tr><tr><td>储值流水</td><td>¥0.5万（试跑）</td><td>¥1.8万</td><td>¥3万</td></tr></table></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>陈国庆</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>📍 门店基本画像</h3><p>堡贝汉堡 BéBé Burger，位于杭州滨江区浦沿街道东冠路430号一层107室，门店面积约30㎡，人均¥25，属于<strong>平价西式汉堡快餐</strong>赛道。当前状态：<strong>尚未开业（5-7天新店）</strong>，本方案为开业冲刺期量身定制。</p><h3>📊 新店数据测算（⚠️ 假设值，开业后请核实）</h3><table><tr><th>指标</th><th>假设值</th><th>推算逻辑</th></tr><tr><td>人均客单价</td><td>¥25</td><td>门店提供数据</td></tr><tr><td>日均出餐人次目标</td><td>40-60单</td><td>30㎡快餐行业参考值（行业参考值）</td></tr><tr><td>月营收目标（开业第1月）</td><td>¥3-4.5万</td><td>日均40-60单×¥25×30天</td></tr><tr><td>月营收目标（稳定期）</td><td>¥6-7.5万</td><td>日均80-100单×¥25×30天</td></tr></table><h3>⚠️ 新店三大死穴（必须第一个月解决）</h3><ul><li><strong>死穴一：没有评价积累</strong>——新店无评分，消费者不信任，外卖排名靠后，流量获取成本极高</li><li><strong>死穴二：没有回头客机制</strong>——没有会员系统，每次进店都是新客，复购全靠路过，流量漏斗底部漏水</li><li><strong>死穴三：收钱吧只记账不沉淀客户</strong>——每笔交易只有流水，无法识别老客/新客，营销完全是盲发</li></ul><p>以上三点，是从「开业热闹」变成「持续赚钱」的核心差距。美团收银+会员系统是解决这三个问题的最短路径。</p>`,
+    2: `<h3>🏘️ 周边3-5公里竞争格局（东冠路/浦沿街道）</h3><table><tr><th>竞品名称</th><th>人均</th><th>核心弱点</th><th>BéBé的切入机会</th></tr><tr><td>汉堡王（滨康路聚才大厦）</td><td>¥35-45</td><td>价格高、连锁标准化、无本地温度</td><td>同等品质低¥10-20，性价比碾压</td></tr><tr><td>肯德基（滨江浦沿附近）</td><td>¥30-40</td><td>菜单固定、排队等位体验差</td><td>扫码点餐更快，出餐更高效</td></tr><tr><td>屠夫汉堡（外卖为主）</td><td>¥30-40</td><td>出品不稳定、无实体堂食体验</td><td>实体店堂食+扫码点餐，体验感更强</td></tr><tr><td>比奇欢乐堡（宝龙城）</td><td>¥25-35</td><td>位置偏（滨盛路），不覆盖东冠路</td><td>地理位置优势，直接覆盖东冠路商办人群</td></tr></table><h3>🎯 BéBé Burger差异化定位</h3><ul><li><strong>价格定位</strong>：人均¥25，比汉堡王/肯德基低¥10-20，同等价位内品质感更强</li><li><strong>客群定位</strong>：东冠路/谷丰科技园周边互联网/科技公司白领（午餐刚需）+附近住宅区家庭</li><li><strong>记忆点</strong>：小而精的独立汉堡店，有温度有故事，比连锁大品牌更有记忆点</li></ul><h3>💡 收钱吧 vs 美团收银——经营工具层面的真正差距</h3><p>收钱吧只能收款记账；美团收银还能同步会员、打通外卖、沉淀复购数据。你对面那家汉堡店用收钱吧，每天进店100人，一个都不认识。你用美团收银，第50个进店的人已经是你的会员了。<strong>这才是真正拉开差距的地方。</strong></p>`,
+    3: `<h3>🔧 已签约模块（⚠️ 假设：基础版会员+扫码点餐，请国庆确认）</h3><h3>✅ 扫码点餐（开业第一天必须开启）</h3><p>30㎡空间，高峰期用纸质菜单+人工点餐，收银台将成瓶颈。扫码点餐解决三个问题：</p><ul><li>🔧 <strong>操作路径</strong>：美团收银后台 → 扫码点餐管理 → 上传菜单+价格 → 生成二维码贴在桌面/收银台</li><li>客户自助下单，减少传单错误，高峰期出餐速度提升约30%（行业参考值）</li><li>首次扫码时自动弹出「新客专享福利」，引导注册会员——这是私域流量积累的第一步</li><li>每单数据自动沉淀，开业第1个月结束就能看到热销品/时段分析</li></ul><h3>✅ 会员系统（开业当天必须开！）</h3><p><strong>新店最容易拿到会员的时间窗口就是开业前30天</strong>。开业期顾客新鲜感最强、愿意参与活动，这个窗口一旦过去，拉新成本至少翻3倍。</p><ul><li>🔧 操作路径：收银后台 → 会员管理 → 新建会员活动 → 设置「扫码入会得优惠」</li><li>目标：开业30天内注册会员≥200人</li><li>执行动作：「首次扫码点餐注册会员，赠薯条一份（价值¥5）」</li></ul><h3>🚀 升级推荐：会员旗舰版（¥4,888/年）</h3><p>基础版已能解决新店冷启动问题。旗舰版独有「团购会员卡」功能，可直接在大众点评平台公域推团购，将平台流量直接转化为私域会员，基础版做不到这一点。建议稳定运营2个月后升级。</p>`,
+    4: `<h3>📊 新店点评现状</h3><p>BéBé Burger当前尚未开业，点评评分为零。这是最佳机遇期——<strong>从第一条评价开始，你就可以主动定调。</strong></p><h3>🎯 按阶段的点评提升路径</h3><table><tr><th>阶段</th><th>时间</th><th>目标</th><th>关键动作</th></tr><tr><td>冷启动期</td><td>开业第1-2周</td><td>积累15-20条真实好评</td><td>每桌出餐后提醒顾客扫码点评，见下方话术</td></tr><tr><td>成长期</td><td>开业第3-4周</td><td>评价数突破50条，出现3.5星+</td><td>优化差评关键词，保持出品稳定</td></tr><tr><td>冲榜期</td><td>第2个月</td><td>冲「新店榜」前10</td><td>好评率≥90%，主动回复每条差评</td></tr><tr><td>维护期</td><td>第3个月起</td><td>进入「热门榜」</td><td>爆品套餐上线，配合推广通引流</td></tr></table><h3>💬 合规出评话术（无任何诱导）</h3><blockquote><p>「谢谢您今天来，希望这份汉堡让您满意！如果觉得还不错，帮我们在大众点评随手留个评价吧，我们刚开业，每一条评价对我们都很重要。」</p></blockquote><p>⚠️ 严禁「好评返现」「评价换优惠」等促评行为——2025年10月后大众点评已严格打击，高强度促评会导致新评价不计入星级，得不偿失。</p><h3>📸 点评页面优化（开业前必做，零成本）</h3><ul><li>上传门店实拍图5张以上（含门头、招牌产品、店内环境）</li><li>设置招牌菜标签（如「招牌牛肉堡」「香脆薯条」）</li><li>填写营业时间、人均消费（精确到¥25）</li><li>设置大众点评团购套餐（开业期主推：双人餐¥45）</li></ul>`,
+    5: `<h3>🛵 外卖战场分析</h3><p>东冠路/浦沿街道是杭州滨江典型的<strong>产业园区+住宅混合区</strong>，外卖需求极强。周边写字楼午餐外卖渗透率约45%-60%（行业参考值）。BéBé Burger人均¥25，天然符合「工作日午餐首选」的外卖场景——这是你第二个营收来源，必须第一天就开。</p><h3>📱 外卖冷启动三板斧</h3><ul><li><strong>第一斧：开业当天同步上线外卖（不能等）</strong><br/>新店外卖有「新店流量扶持期」约7天，过了就没了。目标第1周外卖单数≥每日30单。</li><li><strong>第二斧：外卖专项套餐（提升客单价）</strong><br/>推荐设计：「工作日活力套：招牌牛肉堡+薯条+可乐 ¥32」→ 外卖客单从¥25提升到¥32，外卖客单高于堂食是正确方向。</li><li><strong>第三斧：外卖评分保卫战</strong><br/>差评关键词预警：「等太久」「包装漏了」「少配料」。开业初期：锡纸+纸袋双层包装，控制配送距离3公里内，确保出餐≤8分钟。</li></ul><h3>📊 外卖目标（开业前3个月）</h3><table><tr><th>时间</th><th>日均外卖单数</th><th>外卖月营收</th><th>外卖评分目标</th></tr><tr><td>第1个月</td><td>20-30单/天</td><td>约¥1.5-2.2万</td><td>≥4.5分</td></tr><tr><td>第2个月</td><td>40-60单/天</td><td>约¥3-4.5万</td><td>≥4.7分</td></tr><tr><td>第3个月</td><td>60-80单/天</td><td>约¥4.5-6万</td><td>≥4.8分</td></tr></table><p>⚠️ 数据为行业参考值，以实际经营数据为准。</p>`,
+    6: `<h3>🔄 公私域联动闭环逻辑</h3><p>核心链路：<strong>公域引流（大众点评+抖音）带人进门 → 扫码点餐触发会员注册 → 会员系统完成留存+复购 → 会员复购产生新评价 → 新评价提升公域排名</strong>。这是一个自我强化的闭环，不是三个平台各自为战。</p><h3>📢 公域：大众点评（主战场）</h3><ul><li><strong>团购套餐设计</strong>：上线2款——①「单人套：招牌堡+薯条 ¥28」②「双人派对套：2堡+2薯条+2饮料 ¥48」，比到店价低¥2-5，引导线上预购</li><li><strong>推广通投放</strong>：开业第2周起，每天¥30-50投「附近推」，定向3公里内，用「新店开业·今日特惠」素材。预计每¥100带来5-8个新顾客（行业参考值）。</li><li><strong>标签运营</strong>：在后台设置「高性价比」「汉堡达人」「打工人必选」标签，提升搜索曝光</li></ul><h3>📱 公域：抖音/小红书（内容助攻）</h3><ul><li><strong>开业前3天</strong>：老板自拍「新店开业探店」vlog，发抖音本地生活（#杭州汉堡 #滨江美食），添加附近POI定位。不需要KOL，真实感比精致感更重要。</li><li><strong>每周1条内容</strong>：汉堡制作特写，配「¥25吃到这！」「滨江打工人的救星」等共鸣文案</li><li><strong>小红书</strong>：发布「东冠路新开·平价汉堡测评」，邀请顾客晒图打卡赠辣条（成本¥0.3/人）</li></ul><h3>🔒 私域：美团会员系统（沉淀复购）</h3><ul><li>每个扫码点餐的顾客 → 自动提示「注册会员，首次赠薯条」→ 进入会员数据库</li><li>每月2次会员定向推送：「本月生日会员双倍积分」「周五汉堡会员专享买一送一」</li><li>顾客第2次到店时，收银员识别老客：「您是我们会员，今天有积分到期」——体验感立刻不一样</li></ul>`,
+    7: `<h3>💳 储值方案设计（基于¥25客单价）</h3><p>人均¥25，按「低客单高频」策略：储值主推档 = 客单×10-12次 = <strong>¥250-300</strong>。三档设计如下：</p><table><tr><th>档位</th><th>充值金额</th><th>赠送</th><th>实际折扣</th><th>对应消费次数</th></tr><tr><td>体验档</td><td>¥100</td><td>赠¥10</td><td>约9.1折</td><td>约4次</td></tr><tr><td>主推档⭐</td><td>¥300</td><td>赠¥45</td><td>约8.7折</td><td>约14次</td></tr><tr><td>尊享档</td><td>¥500</td><td>赠¥100+专属双人套</td><td>约8.3折</td><td>约24次</td></tr></table><p>⚠️ 储值金额以实际经营数据调整，以上为假设值。</p><h3>🎯 推储值的最佳时机（四个场景）</h3><ul><li><strong>场景一：结账时POS屏弹提示（零成本）</strong>：「您本单¥25，储值¥300享8.7折，常来的话一个月能省¥15+」</li><li><strong>场景二：外卖好评触达</strong>：好评后自动发「感谢评价！首次储值额外赠¥5」</li><li><strong>场景三：开业活动期</strong>：「开业特惠：储值¥300额外多送¥20，限50个名额」，制造紧迫感</li><li><strong>场景四：沉睡会员唤醒</strong>：30天未消费，推送「好久没来，专属¥5优惠券，7天有效」</li></ul><h3>📊 储值收益测算（开业第2个月目标）</h3><ul><li>目标：储值会员100人，主推档(¥300)占60% = 60人×¥300 = <strong>储值流水¥1.8万</strong></li><li>储值资金提前锁定，淡季也有保障</li><li>储值客复购频次是非储值客的<strong>2.3倍</strong>（行业参考值）</li></ul>`,
+    8: `<h3>📅 开业30天节奏（按周拆解）</h3><table><tr><th>时间</th><th>主题</th><th>核心动作</th><th>预算</th></tr><tr><td>开业第1-3天</td><td>爆破引流</td><td>①全门口附近500米发小卡片 ②全单8.8折开业特惠 ③抖音发开业打卡视频</td><td>¥300（小卡片印刷）</td></tr><tr><td>第1周</td><td>口碑冷启动</td><td>①争取15条真实点评 ②扫码点餐赠薯条拉会员 ③外卖同步上线</td><td>¥150（薯条成本¥2/份×75份）</td></tr><tr><td>第2周</td><td>复购激活</td><td>①推储值活动（开业特惠版） ②会员专享周五「工作日续命套」买一送一 ③小红书发打卡笔记</td><td>¥500（储值赠额成本）</td></tr><tr><td>第3-4周</td><td>口碑稳固</td><td>①冲大众点评新店榜 ②推广通启动¥30/天 ③按销量数据优化外卖菜单</td><td>¥900（推广费）</td></tr></table><h3>🎉 峰终定律：低成本制造记忆点</h3><ul><li><strong>峰值</strong>：出餐袋上贴贴纸「✌️这份堡是今天第X单，感谢支持BéBé！」（成本¥0.1/张）→ 顾客自发拍照发朋友圈</li><li><strong>终值</strong>：结账时POS屏显示「今日已服务XX位顾客」+自动弹出好评引导 → 离店时还记得「这家小店挺用心的」</li><li><strong>小概率惊喜</strong>：随机每10单额外赠韩式海苔（成本¥0.5），不提前告知，惊喜比预期更有传播力</li></ul><h3>📊 月度营销预算汇总</h3><table><tr><th>项目</th><th>月预算</th></tr><tr><td>大众点评推广通</td><td>¥900</td></tr><tr><td>外卖平台活动（满减/红包）</td><td>¥500</td></tr><tr><td>峰终体验（贴纸+小礼品）</td><td>¥150</td></tr><tr><td>会员赠品（薯条/优惠券）</td><td>¥300</td></tr><tr><td><strong>合计</strong></td><td><strong>¥1,850/月</strong></td></tr></table>`,
+    9: `<h3>💰 投入成本（月度运营）</h3><table><tr><th>项目</th><th>费用</th><th>说明</th></tr><tr><td>美团收银系统年费</td><td>⚠️ 请国庆确认最终报价</td><td>含扫码点餐+基础版会员，折月约¥XXX/月</td></tr><tr><td>月度营销预算</td><td>¥1,850/月</td><td>推广通+外卖活动+体验成本+会员赠品</td></tr></table><h3>📈 月增收来源拆解（稳定期，第3个月起）</h3><table><tr><th>来源</th><th>推算逻辑</th><th>月增收贡献</th></tr><tr><td>外卖渠道（增量）</td><td>外卖日均60单×¥25×30天=¥4.5万（⚠️假设值）</td><td>+¥4.5万</td></tr><tr><td>堂食口碑新客增量</td><td>点评新店榜曝光+20%新客，月+¥1.5万（假设值）</td><td>+¥1.5万</td></tr><tr><td>储值会员锁定消费</td><td>100名储值会员×月均2次×¥25=¥5,000</td><td>+¥0.5万</td></tr><tr><td>外卖套餐客单提升</td><td>套餐均价从¥25提至¥32，日均多¥7×60单×30天</td><td>+¥1.26万</td></tr><tr><td><strong>月增收合计</strong></td><td></td><td><strong>约+¥7.76万</strong></td></tr></table><p>⚠️ 以上均为行业参考假设值，实际以门店经营数据为准。</p><h3>📊 OKR 量化目标（三阶段）</h3><table><tr><th>目标维度</th><th>第1个月（冲刺期）</th><th>第3个月（成长期）</th><th>第6个月（稳定期）</th></tr><tr><td>月营收</td><td>¥3-4.5万</td><td>¥6-7.5万</td><td>¥8-10万</td></tr><tr><td>大众点评评分</td><td>3.5分以上（出星）</td><td>4.2分以上</td><td>4.5分以上</td></tr><tr><td>累计会员数</td><td>200人</td><td>500人</td><td>1,000人</td></tr><tr><td>外卖月营收占比</td><td>30%（¥1-1.5万）</td><td>40%（¥2.5-3万）</td><td>45%（¥3.5-4.5万）</td></tr><tr><td>储值流水</td><td>¥0.5万（试跑）</td><td>¥1.8万</td><td>¥3万</td></tr></table>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
