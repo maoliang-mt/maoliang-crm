@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>花语茶咖 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">点心/小吃（茶咖复合店） · 运营提升方案</div>
+  <h1 class="hero-title">花语茶咖</h1>
+  <p class="hero-subtitle">云龙镇文旅流量入口，用私域锁住每一位路过的客人</p>
+  <div class="hero-address">浙江省宁波市鄞州区云龙镇云达路1220号</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥35</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">云龙镇</span>
+      <div class="hero-stat-label">文旅热门区</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '商圈洞察·云龙文旅流量红利', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">商圈洞察·云龙文旅流量红利</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解·周边3公里格局', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解·周边3公里格局</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '点评赋能·从0到1口碑建设', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">点评赋能·从0到1口碑建设</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '公域引流·小红书+点评双平台', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">公域引流·小红书+点评双平台</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '会员体系·旗舰版私域锁客', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">会员体系·旗舰版私域锁客</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '储值方案·小额高频锁客设计', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">储值方案·小额高频锁客设计</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '营销节奏·6-8月夏季攻势', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">营销节奏·6-8月夏季攻势</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '峰终体验·让顾客主动发圈', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">峰终体验·让顾客主动发圈</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(9, '投资回报·ROI测算与OKR', 9)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 09</div>
+      <div class="chapter-title">投资回报·ROI测算与OKR</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>云龙镇——宁波新晋文旅打卡地</h3><p>云龙镇近两年凭借<strong>牧云小镇文创园</strong>迅速走红，被称为“宁波的阿那亚”。区域内聚集了多家网红茶咖、美术馆、花海打卡点，周末自驾客流爆发式增长。大众点评宁波鄞州区“咖啡/茶饮”搜索量中，云龙镇相关关键词热度同比增长超40%（行业参考值）。</p><h3>目标客群画像</h3><ul><li><strong>主力客群（60%）：</strong>25-40岁女性，周末自驾打卡、闺蜜下午茶、亲子休闲</li><li><strong>次要客群（25%）：</strong>亲子家庭，带娃遛弯+轻食需求</li><li><strong>潜力客群（15%）：</strong>云龙镇本地居民日常消费（工作日）</li></ul><h3>消费场景分析</h3><p>云龙镇客流有明显的<strong>周末高峰、工作日低谷</strong>特征。周末日均客流可达工作日的3-5倍（行业参考值）。花语茶咖位于云达路，靠近云龙古镇核心区域，具备承接文旅溢出流量的地理优势。</p><h3>关键洞察</h3><p>当前云龙镇茶咖市场正从“网红打卡一次游”向“高频复购本地化”过渡。<strong>谁先建立会员体系、锁住回头客，谁就能跑赢周期。</strong>纯靠颜值引流的模式正面临复购率不足（行业均复购率仅18%-25%）的挑战。</p></div>
+<div id="modal-content-2" style="display:none"><h3>核心竞品分析（云龙镇3公里范围）</h3><table><tr><th>竞品名称</th><th>人均</th><th>点评数据</th><th>核心优势</th><th>弱点/切入机会</th></tr><tr><td>好事偶成茶咖·在花海</td><td>¥40-56</td><td>1891条评价</td><td>阿那亚风独栋建筑+花海+窑烤面包，小红书爆款</td><td>①人均偏高(56-80元含简餐) ②周末排队严重等位久 ③无明显会员体系/储值锁客</td></tr><tr><td>Chillin Park</td><td>¥45-60</td><td>粉色建筑网红店</td><td>高颜值蛋糕+预约制营造稀缺感</td><td>①必须预约，流失大量随机客 ②产品线单一（蛋糕为主） ③位置稍偏</td></tr><tr><td>蜜雪冰城(云龙店)</td><td>¥8-15</td><td>茶饮连锁</td><td>价格极致便宜，品牌认知度高</td><td>①无堂食空间 ②无点心/轻食 ③无氛围体验</td></tr><tr><td>龙舟拾捌碗</td><td>¥60-80</td><td>古风客栈餐厅</td><td>宁波本地菜+古镇氛围</td><td>①正餐定位，不做下午茶 ②客单较高 ③不适合轻食需求</td></tr></table><h3>花语茶咖的差异化机会</h3><p>基于竞品格局分析，花语茶咖应锁定<strong>“人均25-40元·茶咖+点心·高性价比休闲空间”</strong>的定位空位：</p><ul><li><strong>vs 好事偶成：</strong>人均低30%-40%，不排队、随到随坐，主打“日常轻松”而非“一次性打卡”</li><li><strong>vs Chillin Park：</strong>无需预约、产品线更丰富（茶+咖+点心），降低消费门槛</li><li><strong>vs 蜜雪冰城：</strong>有空间、有氛围、有点心搭配，提供完整的“坐下来”体验</li></ul><p><strong>核心定位：云龙镇性价比最高的“日常第三空间”——不是打卡一次就走，而是每周都想来坐坐。</strong></p></div>
+<div id="modal-content-3" style="display:none"><h3>当前阶段判断</h3><p>花语茶咖当前处于<strong>新店起步期</strong>（⚠️ 假设开业不久、评价数较少，建议核实）。根据大众点评算法规则，新店需在<strong>开业30天内积累50条以上真实有效评价</strong>方可获得稳定星级展示和推荐流量。</p><h3>点评提升路径（新店→成长期）</h3><ul><li><strong>第一阶段（0-30天）：</strong>攒够50条真实评价，目标出星4.5+</li><li><strong>第二阶段（30-90天）：</strong>冲新店榜/热门榜前10，评价数破150条</li><li><strong>第三阶段（90-180天）：</strong>稳定热门榜TOP5，冲好评榜，评价数破300条</li></ul><h3>口碑运营策略（合规优先）</h3><p><strong>⚠️ 2025年10月起大众点评严禁高强度邀评/促评，以下策略100%合规：</strong></p><ul><li><strong>产品体验驱动：</strong>打造1-2款“必拍必发”的高颜值出品（如花型拉花咖啡、造型点心），让顾客自发分享</li><li><strong>评价专家系统：</strong>🔧 结账后自动弹出好评引导页面（非强制），自然转化率可达8%-12%</li><li><strong>差评24小时响应：</strong>每条差评必须在24小时内用官方号真诚回复，展示改进诚意</li><li><strong>关键词布局：</strong>引导评价自然包含“云龙镇”“下午茶”“亲子”“拍照”等搜索高频词</li></ul><h3>星级目标与时间节点</h3><table><tr><th>时间</th><th>评价数目标</th><th>星级目标</th><th>榜单目标</th></tr><tr><td>第1个月</td><td>50条+</td><td>4.5分出星</td><td>新店榜上榜</td></tr><tr><td>第3个月</td><td>150条+</td><td>4.5-4.7分</td><td>热门榜前10</td></tr><tr><td>第6个月</td><td>300条+</td><td>4.7分+</td><td>好评榜冲刺</td></tr></table><p><strong>数据锚定：</strong>云龙镇头部竞品好事偶成已有1891条评价，花语茶咖需要在6个月内至少达到其评价量的15%-20%（约300条）才能在搜索排名中获得稳定曝光。</p></div>
+<div id="modal-content-4" style="display:none"><h3>为什么茶咖店必须做小红书？</h3><p>云龙镇的客流中，<strong>超过60%是通过小红书/大众点评种草后自驾前来</strong>（基于竞品好事偶成的流量来源分析）。茶咖+点心品类天然适合小红书的“高颜值+打卡”内容生态，是公域获客ROI最高的平台。</p><h3>小红书运营策略</h3><ul><li><strong>账号定位：</strong>“花语茶咖｜云龙镇的花园小憩地”，内容聚焦：产品美图+空间氛围+周边玩法攻略</li><li><strong>发布节奏：</strong>每周3-4条笔记（产品2条+空间1条+探店合集1条）</li><li><strong>爆款模板：</strong>“宁波云龙镇｜XX元就能拥有的下午茶时光”“带娃周末去哪？云龙镇这家茶咖太适合了”</li><li><strong>KOC合作：</strong>邀请宁波本地生活博主（粉丝1000-10000）到店体验，以产品置换方式（免单约35-50元/人），预算极低效果好</li></ul><h3>大众点评运营策略</h3><ul><li><strong>店铺装修：</strong>首图必须是最高颜值出品+空间照，标题含“云龙镇”“下午茶”“亲子”关键词</li><li><strong>团购套餐设计：</strong>设置1款引流套餐（如“双人下午茶”原价78折后58元），降低首次到店门槛</li><li><strong>推广通投放：</strong>🔧 初期投入500-800元/月，锁定“鄞州区+咖啡+下午茶”关键词，CPC约1.5-2.5元，预计月曝光8000-15000次</li></ul><h3>公域→私域转化闭环</h3><p><strong>关键动作：</strong>顾客通过小红书/点评到店 → 扫码点餐自动注册会员 → 首单赠5元优惠券（7天有效）→ 二次到店触发储值推荐。目标：公域到店客户的<strong>会员转化率≥70%</strong>，二次复购率≥30%。</p></div>
+<div id="modal-content-5" style="display:none"><h3>会员产品方案：美团餐饮SaaS会员旗舰版（4,888元/年）</h3><p>花语茶咖作为茶咖复合店，客群以年轻女性和亲子家庭为主，复购频次中高（每周1-2次），<strong>会员体系是从“一次打卡”转化为“长期锁客”的核心武器。</strong></p><h3>会员等级设计</h3><table><tr><th>等级</th><th>入会条件</th><th>核心权益</th><th>设计逻辑</th></tr><tr><td>普通会员</td><td>扫码即注册</td><td>积分1:1累积 + 生日月双倍积分</td><td>零门槛入会，快速沉淀用户数据</td></tr><tr><td>银卡会员</td><td>累计消费满300元</td><td>全场9.5折 + 每月1张饮品5元券</td><td>约消费8-10次升级，锁定中频客户</td></tr><tr><td>金卡会员</td><td>累计消费满800元</td><td>全场9折 + 新品免费尝鲜 + 专属座位预留</td><td>约消费22-25次，高价值VIP客户</td></tr></table><h3>旗舰版独有能力——公域→私域收割器</h3><ul><li><strong>团购会员卡：</strong>在大众点评上架“花语茶咖会员卡”（售价9.9元含1杯招牌饮品），顾客在平台购买即自动成为门店会员——<strong>把平台流量变成自己的私域资产</strong></li><li><strong>潜客营销：</strong>系统自动识别“到店未消费”“浏览未下单”的潜在客户，精准推送首单优惠券，转化率比全量推送高3-5倍</li><li><strong>裂变拉新活动：</strong>老客邀请新客到店，双方各得1杯饮品券——利用云龙镇“闺蜜/亲子”场景天然裂变</li></ul><h3>会员运营节奏</h3><p><strong>每周：</strong>周三推送“会员日专属特调”（仅会员可点），制造专属感<br/><strong>每月：</strong>月末推送“积分兑换提醒”，激活沉睡会员<br/><strong>每季：</strong>季度新品会员抢先体验活动，增强VIP身份感</p><h3>量化目标</h3><p>⚠️ 以下基于日均客流40-60人次假设（行业参考值，需核实）：</p><ul><li>首月会员注册数：≥500人（日均注册15-20人）</li><li>3个月会员复购率：≥35%（行业均值18-25%，旗舰版活动加持下可提升至35%）</li><li>团购会员卡月销售：≥100张（月增100个精准私域用户）</li></ul></div>
+<div id="modal-content-6" style="display:none"><h3>储值策略定位</h3><p>花语茶咖属于<strong>低客单高频品类</strong>（预估人均约35元），根据品类差异化储值规则：储值主推档=客单×10-15次消费金额。因此储值档位设计如下：</p><h3>三档储值方案</h3><table><tr><th>档位</th><th>充值金额</th><th>赠送</th><th>实际折扣</th><th>锁定消费次数</th><th>推荐话术</th></tr><tr><td>体验档</td><td>200元</td><td>送30元</td><td>8.7折</td><td>约6-7次</td><td>“一个月的下午茶就够了，还多送您一杯”</td></tr><tr><td>主推档⭐</td><td>500元</td><td>送100元</td><td>8.3折</td><td>约15-17次</td><td>“三个月不用带钱包，每次都省5-6块”</td></tr><tr><td>尊享档</td><td>1000元</td><td>送250元</td><td>8折</td><td>约30-35次</td><td>“半年的花语时光，每次省8块钱”</td></tr></table><h3>储值推荐时机（峰终定律应用）</h3><p><strong>终值触点设计：</strong>顾客结账时，POS系统自动弹出储值推荐：“您本次消费38元，充200元立省30元，本单直接抵扣哦~”</p><ul><li>🔧 系统路径：美团收银→储值设置→结账弹窗推荐→自动计算当单节省金额</li><li>店员配合话术（一句话）：“姐/先生，充200送30，这次直接少付8块，下次来也不用排队付款~”</li><li>⚠️ 切忌强推！如顾客犹豫，一句“下次来也可以”即止</li></ul><h3>储值目标量化</h3><p>⚠️ 假设日均客流50人次（行业参考值，建议核实）：</p><ul><li>月储值入账目标：1.5-2万元（每天转化3-4人，主推档500元占60%）</li><li>储值客户月均到店：4.2次（vs 非储值客户2.1次，复购率翻倍）</li><li>储值会员占总会员比：目标3个月达到15%-20%</li></ul><p><strong>数据锚定：</strong>低客单茶咖品类储值转化率行业均值约8%-12%，通过结账弹窗+店员一句话配合，可提升至15%-18%。按日均50人×15%转化=日均7-8人储值，月储值入账约2万元，锁定未来45天消费。</p></div>
+<div id="modal-content-7" style="display:none"><h3>当前时间节点（2026年6月）营销机会</h3><p>6月进入<strong>梅雨季+端午+618+暑期前奏</strong>，是茶咖品类发力的黄金窗口：冷饮需求暴增、亲子出行高峰、618消费心智可借力。</p><h3>6-8月营销日历</h3><table><tr><th>时间</th><th>主题</th><th>活动内容</th><th>目标</th></tr><tr><td>6月1-7日</td><td>端午限定</td><td>推出“粽香拿铁”“艾草奶绿”端午特调，到店消费赠迷你艾草香囊</td><td>节日话题引流，提升客单</td></tr><tr><td>6月16-20日</td><td>618储值狂欢</td><td>限时5天：充500送120（加赠20），制造紧迫感</td><td>月储值入账冲刺2万+</td></tr><tr><td>7月1日-8月31日</td><td>夏日冰饮季</td><td>上线6-8款夏季限定冰饮+水果点心，每周更新1款“本周限定”</td><td>拉升夏季客单+到店频次</td></tr><tr><td>7月中旬</td><td>亲子手作日</td><td>周末开设“亲子饼干DIY”（收费48元/组含饮品1杯），限8组/场</td><td>亲子客群锁定+小红书传播素材</td></tr><tr><td>8月上旬</td><td>会员日升级</td><td>每周三会员专属：指定饮品第二杯半价</td><td>提升会员到店频次至每周1次</td></tr></table><h3>活动执行四要素示例（端午特调）</h3><ul><li><strong>精确时间：</strong>5月28日-6月2日（端午前后5天）</li><li><strong>具体金额：</strong>特调定价28元/杯，香囊成本1.5元/个，预计活动期总成本<300元</li><li><strong>工具路径：</strong>🔧 扫码点餐→“端午限定”分类置顶 → 会员系统push“端午专属”消息</li><li><strong>预期效果：</strong>活动期间日均客流提升20%（50→60人次），特调单品日售15-20杯</li></ul><h3>梅雨季外卖策略</h3><p>6月中旬-7月上旬宁波进入梅雨季，堂食到店率下降20-30%，但外卖订单可补回。建议：上线美团外卖，主推“下午茶双人套餐”（咖啡×2+点心×2，定价58元），配送范围3-5公里，覆盖周边小区。预计外卖可贡献月营收的15%-20%。</p></div>
+<div id="modal-content-8" style="display:none"><h3>峰终定律在茶咖店的应用</h3><p>顾客只记住两个瞬间：<strong>最爽的瞬间（峰值）</strong>和<strong>离开时的感受（终值）</strong>。花语茶咖要做的不是处处完美，而是把资源集中在这两个点，让顾客“忍不住发朋友圈”。</p><h3>峰值触点设计（选2个执行）</h3><table><tr><th>触点</th><th>具体做法</th><th>成本</th><th>传播效果</th></tr><tr><td>🌸 花语拉花</td><td>招牌咖啡做花朵造型拉花（玫瑰/樱花），杯身贴当日花语小卡片</td><td>花语卡片0.3元/张</td><td>★★★★★ 高颜值=自发拍照分享</td></tr><tr><td>🎁 隐藏菜单彩蛋</td><td>扫码点餐页面藏一个“今日幸运款”（随机出现限3杯/天），中奖者买一送一</td><td>饮品成本约8元×3=24元/天</td><td>★★★★ 社交话题+到店期待感</td></tr><tr><td>📸 出品仪式感</td><td>点心用花瓣托盘出餐，配小干花装饰，打造“不拍照对不起自己”的出品</td><td>干花装饰约0.5元/份</td><td>★★★★★ 小红书/朋友圈素材天然制造机</td></tr></table><h3>终值触点设计（选2个执行）</h3><table><tr><th>触点</th><th>具体做法</th><th>成本</th><th>效果</th></tr><tr><td>💐 离店小花</td><td>收银台放一小篮干花/永生花小支，结账时说“送您一朵花，下次再来”</td><td>干花0.8-1.5元/支</td><td>终值惊喜+品牌记忆点</td></tr><tr><td>🎫 下次见券</td><td>结账后系统自动发放“7天内回来享第二杯半价”券</td><td>第二杯成本约8元（仅对回头客）</td><td>直接拉升7天复购率</td></tr><tr><td>📝 好评自动引导</td><td>🔧 评价专家系统：结账完成3秒后弹出好评引导（非强制），附“写评价送积分”</td><td>零额外成本</td><td>自然转化率8-12%</td></tr></table><h3>执行优先级</h3><p>先做<strong>零成本/极低成本</strong>的：花语拉花卡片（0.3元）+ 好评自动引导（0元）+ 下次见券（系统自动）。验证效果后再加“离店小花”和“隐藏菜单”。<strong>单次峰终触点总成本控制在客单价的3%以内（约1元/人）。</strong></p></div>
+<div id="modal-content-9" style="display:none"><h3>投入成本估算</h3><table><tr><th>项目</th><th>金额</th><th>说明</th></tr><tr><td>会员旗舰版</td><td>4,888元/年</td><td>团购会员卡+潜客营销+裂变活动+储值系统</td></tr><tr><td>评价专家</td><td>⚠️ 待确认（假设已含在套餐中）</td><td>好评引导+差评预警</td></tr><tr><td>点评推广通</td><td>600-800元/月</td><td>前3个月集中投放，后续按效果调整</td></tr><tr><td>营销物料</td><td>约500元/月</td><td>花语卡片+干花+香囊等峰终体验物料</td></tr><tr><td>KOC合作</td><td>约400元/月（产品置换）</td><td>每月邀请3-4位本地博主体验（免单即可）</td></tr></table><p><strong>首年总投入估算：约4,888 + 800×12 + 500×12 + 400×12 = 约25,288元</strong>（⚠️ 行业参考值，精确数字需确认已签约模块）</p><h3>预期月增收来源</h3><table><tr><th>增收来源</th><th>月增收估算</th><th>计算逻辑</th></tr><tr><td>储值锁客复购</td><td>+8,000元</td><td>月储值入账2万×复购消耗率40%=月净增消费8000元</td></tr><tr><td>会员复购提升</td><td>+5,500元</td><td>500会员×复购率从18%提升至35%=月多回85人次×客单35元×增量系数</td></tr><tr><td>点评/小红书新客</td><td>+4,500元</td><td>推广通月曝光1万+×点击率3%×到店转化20%×客单35元</td></tr><tr><td>外卖增量</td><td>+3,000元</td><td>梅雨季/高温天外卖日均8-10单×35元×30天×增量部分</td></tr></table><p><strong>月总增收预估：约21,000元</strong></p><h3>回本周期</h3><p>首年投入25,288元 ÷ 月净增收21,000元 = <strong>约1.2个月回本</strong>（首月即可覆盖全年SaaS投入）</p><h3>月度/季度OKR量化目标</h3><table><tr><th>指标</th><th>第1个月</th><th>第3个月</th><th>第6个月</th></tr><tr><td>月营收</td><td>5万元（⚠️假设基准）</td><td>6.5万元（+30%）</td><td>7.5万元（+50%）</td></tr><tr><td>点评评分</td><td>4.5分出星</td><td>4.6分+</td><td>4.7分+</td></tr><tr><td>会员总数</td><td>500人</td><td>1,200人</td><td>2,000人</td></tr><tr><td>储值会员数</td><td>50人</td><td>150人</td><td>300人</td></tr><tr><td>月储值入账</td><td>1.5万</td><td>2万</td><td>2.5万</td></tr><tr><td>团购会员卡月销</td><td>80张</td><td>120张</td><td>150张</td></tr></table><p><strong>30天复盘节点：</strong>第30天检查——评价数是否达50条？会员注册是否达500人？储值入账是否达1.5万？任一指标未达80%需调整策略。</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>陈国庆</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>云龙镇——宁波新晋文旅打卡地</h3><p>云龙镇近两年凭借<strong>牧云小镇文创园</strong>迅速走红，被称为“宁波的阿那亚”。区域内聚集了多家网红茶咖、美术馆、花海打卡点，周末自驾客流爆发式增长。大众点评宁波鄞州区“咖啡/茶饮”搜索量中，云龙镇相关关键词热度同比增长超40%（行业参考值）。</p><h3>目标客群画像</h3><ul><li><strong>主力客群（60%）：</strong>25-40岁女性，周末自驾打卡、闺蜜下午茶、亲子休闲</li><li><strong>次要客群（25%）：</strong>亲子家庭，带娃遛弯+轻食需求</li><li><strong>潜力客群（15%）：</strong>云龙镇本地居民日常消费（工作日）</li></ul><h3>消费场景分析</h3><p>云龙镇客流有明显的<strong>周末高峰、工作日低谷</strong>特征。周末日均客流可达工作日的3-5倍（行业参考值）。花语茶咖位于云达路，靠近云龙古镇核心区域，具备承接文旅溢出流量的地理优势。</p><h3>关键洞察</h3><p>当前云龙镇茶咖市场正从“网红打卡一次游”向“高频复购本地化”过渡。<strong>谁先建立会员体系、锁住回头客，谁就能跑赢周期。</strong>纯靠颜值引流的模式正面临复购率不足（行业均复购率仅18%-25%）的挑战。</p>`,
+    2: `<h3>核心竞品分析（云龙镇3公里范围）</h3><table><tr><th>竞品名称</th><th>人均</th><th>点评数据</th><th>核心优势</th><th>弱点/切入机会</th></tr><tr><td>好事偶成茶咖·在花海</td><td>¥40-56</td><td>1891条评价</td><td>阿那亚风独栋建筑+花海+窑烤面包，小红书爆款</td><td>①人均偏高(56-80元含简餐) ②周末排队严重等位久 ③无明显会员体系/储值锁客</td></tr><tr><td>Chillin Park</td><td>¥45-60</td><td>粉色建筑网红店</td><td>高颜值蛋糕+预约制营造稀缺感</td><td>①必须预约，流失大量随机客 ②产品线单一（蛋糕为主） ③位置稍偏</td></tr><tr><td>蜜雪冰城(云龙店)</td><td>¥8-15</td><td>茶饮连锁</td><td>价格极致便宜，品牌认知度高</td><td>①无堂食空间 ②无点心/轻食 ③无氛围体验</td></tr><tr><td>龙舟拾捌碗</td><td>¥60-80</td><td>古风客栈餐厅</td><td>宁波本地菜+古镇氛围</td><td>①正餐定位，不做下午茶 ②客单较高 ③不适合轻食需求</td></tr></table><h3>花语茶咖的差异化机会</h3><p>基于竞品格局分析，花语茶咖应锁定<strong>“人均25-40元·茶咖+点心·高性价比休闲空间”</strong>的定位空位：</p><ul><li><strong>vs 好事偶成：</strong>人均低30%-40%，不排队、随到随坐，主打“日常轻松”而非“一次性打卡”</li><li><strong>vs Chillin Park：</strong>无需预约、产品线更丰富（茶+咖+点心），降低消费门槛</li><li><strong>vs 蜜雪冰城：</strong>有空间、有氛围、有点心搭配，提供完整的“坐下来”体验</li></ul><p><strong>核心定位：云龙镇性价比最高的“日常第三空间”——不是打卡一次就走，而是每周都想来坐坐。</strong></p>`,
+    3: `<h3>当前阶段判断</h3><p>花语茶咖当前处于<strong>新店起步期</strong>（⚠️ 假设开业不久、评价数较少，建议核实）。根据大众点评算法规则，新店需在<strong>开业30天内积累50条以上真实有效评价</strong>方可获得稳定星级展示和推荐流量。</p><h3>点评提升路径（新店→成长期）</h3><ul><li><strong>第一阶段（0-30天）：</strong>攒够50条真实评价，目标出星4.5+</li><li><strong>第二阶段（30-90天）：</strong>冲新店榜/热门榜前10，评价数破150条</li><li><strong>第三阶段（90-180天）：</strong>稳定热门榜TOP5，冲好评榜，评价数破300条</li></ul><h3>口碑运营策略（合规优先）</h3><p><strong>⚠️ 2025年10月起大众点评严禁高强度邀评/促评，以下策略100%合规：</strong></p><ul><li><strong>产品体验驱动：</strong>打造1-2款“必拍必发”的高颜值出品（如花型拉花咖啡、造型点心），让顾客自发分享</li><li><strong>评价专家系统：</strong>🔧 结账后自动弹出好评引导页面（非强制），自然转化率可达8%-12%</li><li><strong>差评24小时响应：</strong>每条差评必须在24小时内用官方号真诚回复，展示改进诚意</li><li><strong>关键词布局：</strong>引导评价自然包含“云龙镇”“下午茶”“亲子”“拍照”等搜索高频词</li></ul><h3>星级目标与时间节点</h3><table><tr><th>时间</th><th>评价数目标</th><th>星级目标</th><th>榜单目标</th></tr><tr><td>第1个月</td><td>50条+</td><td>4.5分出星</td><td>新店榜上榜</td></tr><tr><td>第3个月</td><td>150条+</td><td>4.5-4.7分</td><td>热门榜前10</td></tr><tr><td>第6个月</td><td>300条+</td><td>4.7分+</td><td>好评榜冲刺</td></tr></table><p><strong>数据锚定：</strong>云龙镇头部竞品好事偶成已有1891条评价，花语茶咖需要在6个月内至少达到其评价量的15%-20%（约300条）才能在搜索排名中获得稳定曝光。</p>`,
+    4: `<h3>为什么茶咖店必须做小红书？</h3><p>云龙镇的客流中，<strong>超过60%是通过小红书/大众点评种草后自驾前来</strong>（基于竞品好事偶成的流量来源分析）。茶咖+点心品类天然适合小红书的“高颜值+打卡”内容生态，是公域获客ROI最高的平台。</p><h3>小红书运营策略</h3><ul><li><strong>账号定位：</strong>“花语茶咖｜云龙镇的花园小憩地”，内容聚焦：产品美图+空间氛围+周边玩法攻略</li><li><strong>发布节奏：</strong>每周3-4条笔记（产品2条+空间1条+探店合集1条）</li><li><strong>爆款模板：</strong>“宁波云龙镇｜XX元就能拥有的下午茶时光”“带娃周末去哪？云龙镇这家茶咖太适合了”</li><li><strong>KOC合作：</strong>邀请宁波本地生活博主（粉丝1000-10000）到店体验，以产品置换方式（免单约35-50元/人），预算极低效果好</li></ul><h3>大众点评运营策略</h3><ul><li><strong>店铺装修：</strong>首图必须是最高颜值出品+空间照，标题含“云龙镇”“下午茶”“亲子”关键词</li><li><strong>团购套餐设计：</strong>设置1款引流套餐（如“双人下午茶”原价78折后58元），降低首次到店门槛</li><li><strong>推广通投放：</strong>🔧 初期投入500-800元/月，锁定“鄞州区+咖啡+下午茶”关键词，CPC约1.5-2.5元，预计月曝光8000-15000次</li></ul><h3>公域→私域转化闭环</h3><p><strong>关键动作：</strong>顾客通过小红书/点评到店 → 扫码点餐自动注册会员 → 首单赠5元优惠券（7天有效）→ 二次到店触发储值推荐。目标：公域到店客户的<strong>会员转化率≥70%</strong>，二次复购率≥30%。</p>`,
+    5: `<h3>会员产品方案：美团餐饮SaaS会员旗舰版（4,888元/年）</h3><p>花语茶咖作为茶咖复合店，客群以年轻女性和亲子家庭为主，复购频次中高（每周1-2次），<strong>会员体系是从“一次打卡”转化为“长期锁客”的核心武器。</strong></p><h3>会员等级设计</h3><table><tr><th>等级</th><th>入会条件</th><th>核心权益</th><th>设计逻辑</th></tr><tr><td>普通会员</td><td>扫码即注册</td><td>积分1:1累积 + 生日月双倍积分</td><td>零门槛入会，快速沉淀用户数据</td></tr><tr><td>银卡会员</td><td>累计消费满300元</td><td>全场9.5折 + 每月1张饮品5元券</td><td>约消费8-10次升级，锁定中频客户</td></tr><tr><td>金卡会员</td><td>累计消费满800元</td><td>全场9折 + 新品免费尝鲜 + 专属座位预留</td><td>约消费22-25次，高价值VIP客户</td></tr></table><h3>旗舰版独有能力——公域→私域收割器</h3><ul><li><strong>团购会员卡：</strong>在大众点评上架“花语茶咖会员卡”（售价9.9元含1杯招牌饮品），顾客在平台购买即自动成为门店会员——<strong>把平台流量变成自己的私域资产</strong></li><li><strong>潜客营销：</strong>系统自动识别“到店未消费”“浏览未下单”的潜在客户，精准推送首单优惠券，转化率比全量推送高3-5倍</li><li><strong>裂变拉新活动：</strong>老客邀请新客到店，双方各得1杯饮品券——利用云龙镇“闺蜜/亲子”场景天然裂变</li></ul><h3>会员运营节奏</h3><p><strong>每周：</strong>周三推送“会员日专属特调”（仅会员可点），制造专属感<br/><strong>每月：</strong>月末推送“积分兑换提醒”，激活沉睡会员<br/><strong>每季：</strong>季度新品会员抢先体验活动，增强VIP身份感</p><h3>量化目标</h3><p>⚠️ 以下基于日均客流40-60人次假设（行业参考值，需核实）：</p><ul><li>首月会员注册数：≥500人（日均注册15-20人）</li><li>3个月会员复购率：≥35%（行业均值18-25%，旗舰版活动加持下可提升至35%）</li><li>团购会员卡月销售：≥100张（月增100个精准私域用户）</li></ul>`,
+    6: `<h3>储值策略定位</h3><p>花语茶咖属于<strong>低客单高频品类</strong>（预估人均约35元），根据品类差异化储值规则：储值主推档=客单×10-15次消费金额。因此储值档位设计如下：</p><h3>三档储值方案</h3><table><tr><th>档位</th><th>充值金额</th><th>赠送</th><th>实际折扣</th><th>锁定消费次数</th><th>推荐话术</th></tr><tr><td>体验档</td><td>200元</td><td>送30元</td><td>8.7折</td><td>约6-7次</td><td>“一个月的下午茶就够了，还多送您一杯”</td></tr><tr><td>主推档⭐</td><td>500元</td><td>送100元</td><td>8.3折</td><td>约15-17次</td><td>“三个月不用带钱包，每次都省5-6块”</td></tr><tr><td>尊享档</td><td>1000元</td><td>送250元</td><td>8折</td><td>约30-35次</td><td>“半年的花语时光，每次省8块钱”</td></tr></table><h3>储值推荐时机（峰终定律应用）</h3><p><strong>终值触点设计：</strong>顾客结账时，POS系统自动弹出储值推荐：“您本次消费38元，充200元立省30元，本单直接抵扣哦~”</p><ul><li>🔧 系统路径：美团收银→储值设置→结账弹窗推荐→自动计算当单节省金额</li><li>店员配合话术（一句话）：“姐/先生，充200送30，这次直接少付8块，下次来也不用排队付款~”</li><li>⚠️ 切忌强推！如顾客犹豫，一句“下次来也可以”即止</li></ul><h3>储值目标量化</h3><p>⚠️ 假设日均客流50人次（行业参考值，建议核实）：</p><ul><li>月储值入账目标：1.5-2万元（每天转化3-4人，主推档500元占60%）</li><li>储值客户月均到店：4.2次（vs 非储值客户2.1次，复购率翻倍）</li><li>储值会员占总会员比：目标3个月达到15%-20%</li></ul><p><strong>数据锚定：</strong>低客单茶咖品类储值转化率行业均值约8%-12%，通过结账弹窗+店员一句话配合，可提升至15%-18%。按日均50人×15%转化=日均7-8人储值，月储值入账约2万元，锁定未来45天消费。</p>`,
+    7: `<h3>当前时间节点（2026年6月）营销机会</h3><p>6月进入<strong>梅雨季+端午+618+暑期前奏</strong>，是茶咖品类发力的黄金窗口：冷饮需求暴增、亲子出行高峰、618消费心智可借力。</p><h3>6-8月营销日历</h3><table><tr><th>时间</th><th>主题</th><th>活动内容</th><th>目标</th></tr><tr><td>6月1-7日</td><td>端午限定</td><td>推出“粽香拿铁”“艾草奶绿”端午特调，到店消费赠迷你艾草香囊</td><td>节日话题引流，提升客单</td></tr><tr><td>6月16-20日</td><td>618储值狂欢</td><td>限时5天：充500送120（加赠20），制造紧迫感</td><td>月储值入账冲刺2万+</td></tr><tr><td>7月1日-8月31日</td><td>夏日冰饮季</td><td>上线6-8款夏季限定冰饮+水果点心，每周更新1款“本周限定”</td><td>拉升夏季客单+到店频次</td></tr><tr><td>7月中旬</td><td>亲子手作日</td><td>周末开设“亲子饼干DIY”（收费48元/组含饮品1杯），限8组/场</td><td>亲子客群锁定+小红书传播素材</td></tr><tr><td>8月上旬</td><td>会员日升级</td><td>每周三会员专属：指定饮品第二杯半价</td><td>提升会员到店频次至每周1次</td></tr></table><h3>活动执行四要素示例（端午特调）</h3><ul><li><strong>精确时间：</strong>5月28日-6月2日（端午前后5天）</li><li><strong>具体金额：</strong>特调定价28元/杯，香囊成本1.5元/个，预计活动期总成本<300元</li><li><strong>工具路径：</strong>🔧 扫码点餐→“端午限定”分类置顶 → 会员系统push“端午专属”消息</li><li><strong>预期效果：</strong>活动期间日均客流提升20%（50→60人次），特调单品日售15-20杯</li></ul><h3>梅雨季外卖策略</h3><p>6月中旬-7月上旬宁波进入梅雨季，堂食到店率下降20-30%，但外卖订单可补回。建议：上线美团外卖，主推“下午茶双人套餐”（咖啡×2+点心×2，定价58元），配送范围3-5公里，覆盖周边小区。预计外卖可贡献月营收的15%-20%。</p>`,
+    8: `<h3>峰终定律在茶咖店的应用</h3><p>顾客只记住两个瞬间：<strong>最爽的瞬间（峰值）</strong>和<strong>离开时的感受（终值）</strong>。花语茶咖要做的不是处处完美，而是把资源集中在这两个点，让顾客“忍不住发朋友圈”。</p><h3>峰值触点设计（选2个执行）</h3><table><tr><th>触点</th><th>具体做法</th><th>成本</th><th>传播效果</th></tr><tr><td>🌸 花语拉花</td><td>招牌咖啡做花朵造型拉花（玫瑰/樱花），杯身贴当日花语小卡片</td><td>花语卡片0.3元/张</td><td>★★★★★ 高颜值=自发拍照分享</td></tr><tr><td>🎁 隐藏菜单彩蛋</td><td>扫码点餐页面藏一个“今日幸运款”（随机出现限3杯/天），中奖者买一送一</td><td>饮品成本约8元×3=24元/天</td><td>★★★★ 社交话题+到店期待感</td></tr><tr><td>📸 出品仪式感</td><td>点心用花瓣托盘出餐，配小干花装饰，打造“不拍照对不起自己”的出品</td><td>干花装饰约0.5元/份</td><td>★★★★★ 小红书/朋友圈素材天然制造机</td></tr></table><h3>终值触点设计（选2个执行）</h3><table><tr><th>触点</th><th>具体做法</th><th>成本</th><th>效果</th></tr><tr><td>💐 离店小花</td><td>收银台放一小篮干花/永生花小支，结账时说“送您一朵花，下次再来”</td><td>干花0.8-1.5元/支</td><td>终值惊喜+品牌记忆点</td></tr><tr><td>🎫 下次见券</td><td>结账后系统自动发放“7天内回来享第二杯半价”券</td><td>第二杯成本约8元（仅对回头客）</td><td>直接拉升7天复购率</td></tr><tr><td>📝 好评自动引导</td><td>🔧 评价专家系统：结账完成3秒后弹出好评引导（非强制），附“写评价送积分”</td><td>零额外成本</td><td>自然转化率8-12%</td></tr></table><h3>执行优先级</h3><p>先做<strong>零成本/极低成本</strong>的：花语拉花卡片（0.3元）+ 好评自动引导（0元）+ 下次见券（系统自动）。验证效果后再加“离店小花”和“隐藏菜单”。<strong>单次峰终触点总成本控制在客单价的3%以内（约1元/人）。</strong></p>`,
+    9: `<h3>投入成本估算</h3><table><tr><th>项目</th><th>金额</th><th>说明</th></tr><tr><td>会员旗舰版</td><td>4,888元/年</td><td>团购会员卡+潜客营销+裂变活动+储值系统</td></tr><tr><td>评价专家</td><td>⚠️ 待确认（假设已含在套餐中）</td><td>好评引导+差评预警</td></tr><tr><td>点评推广通</td><td>600-800元/月</td><td>前3个月集中投放，后续按效果调整</td></tr><tr><td>营销物料</td><td>约500元/月</td><td>花语卡片+干花+香囊等峰终体验物料</td></tr><tr><td>KOC合作</td><td>约400元/月（产品置换）</td><td>每月邀请3-4位本地博主体验（免单即可）</td></tr></table><p><strong>首年总投入估算：约4,888 + 800×12 + 500×12 + 400×12 = 约25,288元</strong>（⚠️ 行业参考值，精确数字需确认已签约模块）</p><h3>预期月增收来源</h3><table><tr><th>增收来源</th><th>月增收估算</th><th>计算逻辑</th></tr><tr><td>储值锁客复购</td><td>+8,000元</td><td>月储值入账2万×复购消耗率40%=月净增消费8000元</td></tr><tr><td>会员复购提升</td><td>+5,500元</td><td>500会员×复购率从18%提升至35%=月多回85人次×客单35元×增量系数</td></tr><tr><td>点评/小红书新客</td><td>+4,500元</td><td>推广通月曝光1万+×点击率3%×到店转化20%×客单35元</td></tr><tr><td>外卖增量</td><td>+3,000元</td><td>梅雨季/高温天外卖日均8-10单×35元×30天×增量部分</td></tr></table><p><strong>月总增收预估：约21,000元</strong></p><h3>回本周期</h3><p>首年投入25,288元 ÷ 月净增收21,000元 = <strong>约1.2个月回本</strong>（首月即可覆盖全年SaaS投入）</p><h3>月度/季度OKR量化目标</h3><table><tr><th>指标</th><th>第1个月</th><th>第3个月</th><th>第6个月</th></tr><tr><td>月营收</td><td>5万元（⚠️假设基准）</td><td>6.5万元（+30%）</td><td>7.5万元（+50%）</td></tr><tr><td>点评评分</td><td>4.5分出星</td><td>4.6分+</td><td>4.7分+</td></tr><tr><td>会员总数</td><td>500人</td><td>1,200人</td><td>2,000人</td></tr><tr><td>储值会员数</td><td>50人</td><td>150人</td><td>300人</td></tr><tr><td>月储值入账</td><td>1.5万</td><td>2万</td><td>2.5万</td></tr><tr><td>团购会员卡月销</td><td>80张</td><td>120张</td><td>150张</td></tr></table><p><strong>30天复盘节点：</strong>第30天检查——评价数是否达50条？会员注册是否达500人？储值入账是否达1.5万？任一指标未达80%需调整策略。</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
