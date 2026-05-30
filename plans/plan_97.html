@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>浙闽姐姐食坊 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">浙闽风味点心/小吃 · 运营提升方案</div>
+  <h1 class="hero-title">浙闽姐姐食坊</h1>
+  <p class="hero-subtitle">火车东站旁的浙闽味道，用会员锁住每一个回头客</p>
+  <div class="hero-address">浙江省杭州市上城区笕桥街道全福桥路386号</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥28</span>
+      <div class="hero-stat-label">预估人均（⚠️假设）</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">开业目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">火车东站</span>
+      <div class="hero-stat-label">所在商圈</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '门店诊断', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">门店诊断</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '品牌定位', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">品牌定位</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评冷启动', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评冷启动</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '会员储值体系', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">会员储值体系</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '外卖突围', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">外卖突围</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '公私域联动', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">公私域联动</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '开业营销节奏', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">开业营销节奏</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(9, 'SaaS系统方案', 9)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 09</div>
+      <div class="chapter-title">SaaS系统方案</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(10, '投资回报', 10)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 10</div>
+      <div class="chapter-title">投资回报</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>📊 商圈环境解读</h3><p>浙闽姐姐食坊位于杭州上城区笕桥街道全福桥路386号，紧邻杭州<strong>火车东站/高铁站商圈</strong>。这是典型的<strong>交通枢纽型餐饮场景</strong>：常住人口以外来务工人员、租房青年为主，叠加每日数万旅客和商务客群的过路流量，餐饮消费高频但偏平价。</p><p>⚠️ 以下数据为行业参考值+合理假设，门店尚未开业，建议国庆确认后更新：</p><ul><li><strong>预估人均</strong>：20-35元（低客单高频定位，与浙闽风味小吃市场匹配）</li><li><strong>门店面积</strong>：50㎡，小巧灵活，翻台空间有限，外卖是重要增量渠道</li><li><strong>月流水潜力</strong>：按日均堂食55桌×人均28元+外卖日均30单×30元，月流水目标约6.6万元（行业参考值）</li></ul><h3>🔴 新店冷启动三大挑战</h3><ol><li><strong>无评价基础</strong>：尚未开业，大众点评零评价，消费者信任度从零建立——前30天评价定调，决定此后所有顾客的第一印象，是最危险的窗口期</li><li><strong>无会员沉淀</strong>：没有私域流量池，每天来的都是陌生面孔，复购全靠口味和运气，缺乏系统锁客手段</li><li><strong>竞争密集</strong>：全福桥路/笕桥商圈餐饮密度高，沙二代隆江猪脚饭、面总管、彬旋面馆等老牌店已建立口碑，新店需要明确差异化</li></ol><h3>✅ 核心优势</h3><ul><li><strong>品类差异化</strong>：「浙闽风味」在笕桥商圈具备稀缺性——闽南肉燕、鱼丸、浙式炸物不是周边所有小吃店都有的品类，且对浙闽籍务工人员有天然情感共鸣</li><li><strong>地段红利</strong>：紧邻东方尚城南区、天阳文晖商业带，3公里内常住人口约1.4万+，外来务工人员对家乡味道有天然亲近感</li><li><strong>开业时机好</strong>：2026年5月底入市，6月端午节（浙闽传统节日氛围浓）是第一个营销爆发点，可借节日快速建立口碑</li></ul></div>
+<div id="modal-content-2" style="display:none"><h3>🏘️ 周边3公里竞品分析</h3><p>以下竞品均位于笕桥街道全福桥路及周边区域（来源：大众点评+360地图公开数据，建议国庆实地核实）：</p><table><tr><th>竞品名称</th><th>品类</th><th>人均</th><th>核心弱点</th><th>切入机会</th></tr><tr><td>沙二代隆江猪脚饭</td><td>卤味盖饭</td><td>约22元</td><td>品类单一，场景固定（午餐为主），无小吃组合拳，晚餐客流弱</td><td>浙闽多品类（鱼丸+炸物+汤）覆盖三餐，延伸消费场景</td></tr><tr><td>面总管全福桥店</td><td>面馆/粉干</td><td>约24元</td><td>主打粉干面条，评价量偏少，品类较固定，无系统会员体系</td><td>差异化品类+扫码点餐体验升级，建立会员私域</td></tr><tr><td>彬旋面馆</td><td>面馆</td><td>约20元</td><td>传统面馆模式，无会员体系，价格竞争容易陷入恶性循环，复购靠习惯不靠运营</td><td>会员积分储值体系，将偶发消费变成锁定复购</td></tr><tr><td>叫了只炸鸡(机场路店)</td><td>炸鸡小吃</td><td>约28元</td><td>连锁标准化产品，缺乏本地特色和温度感，新品牌知名度竞争弱</td><td>浙闽手作小吃的「人情味」，姐姐品牌调性形成情感连接</td></tr><tr><td>久旦·鲜串烧鸟(滨河汇店)</td><td>烧鸟/日式串食</td><td>约101元</td><td>人均偏高，更偏夜宵聚餐场景，日常快餐刚需场景覆盖不足</td><td>填补低客单日常快餐空档（20-35元档），形成互补而非正面竞争</td></tr></table><h3>🎯 差异化定位</h3><p>竞品多为<strong>单一品类</strong>（米饭/面条/炸鸡），而浙闽风味天然具备「多品类组合」优势：一份鱼丸汤+一碟炸物+一碗拌面，人均28元轻松构建，不用东跑西跑，一站解决。</p><p>这是笕桥商圈目前的空白点：<strong>「既有家乡味又能一站解决一餐」的浙闽风味综合小吃店</strong>。</p><p>建议核心差异化口号：「浙闽一锅端，从早吃到晚」</p></div>
+<div id="modal-content-3" style="display:none"><h3>🎨 品牌资产盘点</h3><p>「浙闽姐姐食坊」这个名字本身是重要的品牌资产，每个字都有价值：</p><ul><li><strong>「浙闽」</strong>：明确地域来源，对在杭州打拼的浙闽两省老乡有强烈情感共鸣；对其他地方消费者有「好奇+探索」的新鲜感</li><li><strong>「姐姐」</strong>：亲切、有温度的人设，暗示家常手作、用心烹饪，与流水线连锁品牌形成反差；社交媒体上「姐姐店」话题感强，容易引发打卡分享</li><li><strong>「食坊」</strong>：不叫「快餐」而叫「食坊」，定位比普通快餐高半档，暗示品质感和多品类经营</li></ul><h3>📌 目标客群画像（⚠️假设，建议核实）</h3><table><tr><th>客群</th><th>占比估算</th><th>消费场景</th><th>核心触达方式</th></tr><tr><td>周边租房年轻人（25-35岁）</td><td>约40%</td><td>工作日午/晚餐，追求快速解决+口味好</td><td>美团外卖+大众点评附近推</td></tr><tr><td>浙闽籍务工人员</td><td>约25%</td><td>思念家乡味道，周末带朋友来，情感消费高</td><td>口碑传播+小红书「老乡探店」</td></tr><tr><td>东站过路旅客</td><td>约20%</td><td>候车期间快餐，偶发性高但客单有增量</td><td>大众点评附近推/外卖</td></tr><tr><td>周边社区家庭</td><td>约15%</td><td>晚餐外卖，全家套餐需求稳定</td><td>美团外卖+会员复购激活</td></tr></table><h3>🏆 品牌差异化主张</h3><p><strong>核心定位：「火车东站旁，一碗浙闽味，治好所有思乡病」</strong></p><p>这个定位精准命中浙闽务工人员的情感需求，同时对好奇心强的年轻人有探店吸引力。50㎡的小店不需要大排场，靠的是味道和情感连接。</p><p>建议开业时在小红书发布「浙闽姐姐来杭州了」系列内容，讲述食坊创业故事——真实人设往往比广告更有传播力，且零成本。</p></div>
+<div id="modal-content-4" style="display:none"><h3>⭐ 新店点评阶段判断</h3><p>浙闽姐姐食坊处于<strong>「新店冷启动期」</strong>（尚未开业，0评价），对应点评提升路径第一阶段：</p><div class='highlight-box'><strong>第一阶段（开业第1-30天）：积累基础评价，争取首次出星4.0+</strong><br/>目标：30天内积累≥50条真实优质评价 → 系统自动分配星级 → 首次出星直接冲4.0+</div><h3>📋 30天评价冲刺计划</h3><ol><li><strong>第1-7天：制造峰值体验</strong><ul><li>前100名进店顾客提供「开业礼」：消费即赠小份招牌鱼丸一份（成本约3元），制造惊喜感</li><li>出餐时附手写小卡片「感谢您成为姐姐食坊的第X位客人」，情感峰值→顾客主动拍照→自然分享</li><li>扫码点餐系统设置新客首次弹窗「新客专享，欢迎来到浙闽姐姐家」，引导关注</li></ul></li><li><strong>第8-20天：自然评价沉淀</strong><ul><li>评价专家功能开启「好评引导」：结账后自动弹出好评提示页，顺势引导顾客点评</li><li>店员话术：收银时自然一句「您觉得味道怎么样？如果满意的话帮我们点个好评，对小店很重要」</li><li>⚠️ 严禁任何形式有偿邀评：2025年10月后高强度促评会导致新评价不产生星级收益，得不偿失</li></ul></li><li><strong>第21-30天：差评预防与处理</strong><ul><li>中差评24小时内必须商家回复，展示态度，弱化负面影响</li><li>排查差评高频词（如「等太久」「分量少」「汤凉了」），立即调整出餐流程和包装</li></ul></li></ol><h3>🗺️ 点评榜单升级路线</h3><table><tr><th>时间节点</th><th>目标</th><th>关键动作</th></tr><tr><td>开业1个月</td><td>出星4.0+，评价≥50条</td><td>优质出餐体验+自然好评引导</td></tr><tr><td>开业3个月</td><td>冲笕桥小吃热门榜Top20</td><td>外卖销量提升+差评清零+评价量持续增加</td></tr><tr><td>开业6个月</td><td>笕桥小吃好评榜Top10</td><td>会员复购评价+小红书内容持续种草</td></tr></table></div>
+<div id="modal-content-5" style="display:none"><h3>💳 储值体系设计逻辑</h3><p>浙闽姐姐食坊客单约28元，属于<strong>低客单高频</strong>品类——储值策略核心是「首次消费即推，门槛极低，赠送比例感知高」，让顾客觉得「今天充了明天就用上了」。</p><h3>📦 储值主推方案</h3><table><tr><th>档位</th><th>储值金额</th><th>赠送</th><th>等效折扣</th><th>推荐说明</th></tr><tr><td>体验档</td><td>50元</td><td>赠8元（≈1份小食）</td><td>86折</td><td>门槛极低，用于首次转化，让顾客「踏进来」</td></tr><tr><td><strong>主推档</strong></td><td><strong>100元</strong></td><td><strong>赠20元（≈4份小食）</strong></td><td><strong>83折</strong></td><td>约3-4次消费，性价比最优，大多数顾客选这档；100元=客单28元×3.6次，符合低客单3-5次原则</td></tr><tr><td>锁客档</td><td>200元</td><td>赠50元</td><td>80折</td><td>约7次消费，锁定高频客群，目标老顾客和务工人员群体</td></tr></table><h3>🎯 会员转化三触点</h3><ol><li><strong>进店触点</strong>：扫码点餐首页弹窗「新客专享：充50送8，首单立享」</li><li><strong>结账触点</strong>：POS显示「本单消费28元，充100送20，相当于省20元，今天充今天用」</li><li><strong>离店触点</strong>：会员系统自动推送「欢迎加入姐姐家族，您的余额已入账」+7天后复访提醒</li></ol><h3>📊 储值目标与测算（⚠️假设）</h3><ul><li>开业首月目标：储值会员≥80人，储值入账金额≥8,000元</li><li>按主推档100元×80人=8,000元，赠送成本=80×20元×40%（餐饮成本率）=640元，净回笼资金≈7,360元</li><li>储值资金可有效缓解开业期间流动资金压力，且锁定客户80%概率在90天内复购完</li></ul><h3>🔑 储值话术（店员培训用）</h3><p>「姐，您今天吃了28元，我们现在有个活动，充100块送20，相当于今天这顿免费了，下次来直接用——要不要试试？」</p><p>（关键：不说「储值卡」，说「充了下次省钱」；不强迫，自然一句话抛出来即可）</p></div>
+<div id="modal-content-6" style="display:none"><h3>🛵 外卖的战略价值</h3><p>50㎡小店翻台能力有限，堂食高峰期最多同时服务20-25人。外卖是打破空间束缚、实现营收翻倍的核心渠道。笕桥商圈租房年轻人多，外卖刚需强，预计外卖应占总营收的<strong>40-50%</strong>（⚠️行业参考值，开业后监测调整）。</p><h3>📱 外卖冷启动三步走</h3><ol><li><strong>第一步：精准选品（开业前完成）</strong><ul><li>主推3-5款「出片+好吃+出餐快」组合套餐，如：<br/>「浙闽双拼套餐」鱼丸汤+炸物，定价28元<br/>「姐姐全家福套餐」鱼丸汤+拌面+炸物，定价35元</li><li>外卖菜单控制在≤15个SKU，聚焦爆品——SKU越少出餐越快，评分越高</li><li>套餐名要有记忆点：「姐姐的鱼丸套餐」比「套餐A」有吸引力10倍</li></ul></li><li><strong>第二步：流量撬动（开业前2周）</strong><ul><li>申请美团外卖新店期优惠政策（BD协助），争取蜜月期低佣金</li><li>设置「新店开业特惠」：前100单立减5元，制造爆单效应快速刷排名</li><li>外卖主图必须「食物特写+高饱和度」，主图是外卖点击率的第一变量</li></ul></li><li><strong>第三步：口碑持续（开业后每周）</strong><ul><li>外卖包装里放手写感谢卡「谢谢您选择姐姐，下次扫码到店享优惠」，引导线上→线下转化</li><li>外卖差评24小时内必须回复，高频差评词（「汤少」「凉了」）立即改进包装</li><li>目标30天内外卖评分维持4.7+</li></ul></li></ol><h3>📊 外卖月营收测算（⚠️假设）</h3><ul><li>日均外卖30单×客单价30元×30天=27,000元/月</li><li>堂食日均55桌×人均28元×30天=46,200元/月</li><li><strong>合计月流水目标约7.3万元</strong>（行业参考值，供规划参考）</li></ul></div>
+<div id="modal-content-7" style="display:none"><h3>🔄 公私域联动闭环设计</h3><p>公私域联动不是「大众点评+小红书+会员」三个清单的堆砌，而是一个<strong>流量获取→转化→留存→裂变</strong>的完整闭环。</p><h3>🌐 公域引流层（让陌生人发现你）</h3><table><tr><th>平台</th><th>策略重心</th><th>具体动作</th><th>成本</th></tr><tr><td><strong>大众点评</strong></td><td>核心阵地，搜索流量</td><td>①完善门店信息（地址/招牌菜/营业时间）②开业前上传5张精修食物照片③申请团购套餐（28/35元档）④积累自然好评冲热门榜</td><td>免费+团购抽佣约6%</td></tr><tr><td><strong>美团外卖</strong></td><td>增量渠道，刚需触达</td><td>①开业特惠立减活动②外卖专属套餐③新店蜜月期充分利用</td><td>佣金约6-8%</td></tr><tr><td><strong>小红书</strong></td><td>种草渠道，情感共鸣</td><td>①发布「浙闽姐姐来杭州了」创业故事帖②每周1篇「今日份浙闽小吃」探店风内容③带话题#杭州笕桥美食 #浙闽风味 #火车东站附近</td><td>零成本（自运营）</td></tr></table><h3>🔐 私域留存层（让来过的人不断回来）</h3><ol><li><strong>会员系统激活</strong>：每位顾客（堂食+外卖）引导扫码注册会员→建立私域数据库</li><li><strong>精准触达节奏</strong>：<ul><li>新会员注册后24小时内自动发「欢迎礼」优惠券（5元/次，有效期7天，触发二次到店）</li><li>沉睡会员（15天未到店）：自动推送「姐姐想你了」唤醒券（满30减5元）</li><li>活跃会员（月消费3次+）：生日当月专属礼遇（赠一份招牌小食）</li></ul></li></ol><h3>🔁 裂变放大层（让老客带来新客）</h3><ul><li><strong>集章活动</strong>：扫码消费累积5次换一份免费招牌小食（成本约3-5元），驱动高频复购，5次消费周期约为2周（按每次消费28元估算），节奏紧凑不让顾客遗忘</li><li><strong>分享裂变</strong>：转发门店小红书/点评给好友并截图，到店展示领5元代金券</li><li><strong>完整飞轮逻辑</strong>：公域吸引新客→扫码点餐转化会员→私域触达拉复购→老客推荐裂变→点评好评增多→公域排名提升→吸引更多新客（正向增长飞轮）</li></ul></div>
+<div id="modal-content-8" style="display:none"><h3>📅 开业90天作战计划（2026年6月起）</h3><p>⚠️ 以下方案基于「2026年6月初开业」假设，具体日期请国庆确认后微调。</p><h3>第一期：开业造势（第1-7天）</h3><div class='highlight-box'><strong>目标：制造话题，快速在周边建立存在感，冲首批评价</strong></div><ul><li>🎯 <strong>大众点评新店特惠</strong>：开业第1周设置「开业立减」团购套餐（原价35元→优惠价29元），牺牲部分毛利换取首批评价流量</li><li>📸 <strong>小红书开业预告</strong>：开业前3天发布「浙闽姐姐在杭州安家啦」图文，附地址和招牌菜，目标在附近的浙闽老乡圈子扩散</li><li>🎁 <strong>开业礼当锚点</strong>：前100名顾客每人赠一份「鱼丸小食」（成本约3元），低成本制造开业话题，引导顾客发圈</li></ul><h3>第二期：端午借势（6月1日~6月30日）</h3><div class='highlight-box'><strong>目标：借端午节点冲评价量，建立品牌认知</strong></div><ul><li>🏮 <strong>端午浙闽限定</strong>：推出「浙闽端午三拼套餐」（鱼丸汤+闽南炸物+应景小食），定价32元，外卖平台打「端午限定」标签，借节日流量</li><li>📱 <strong>外卖端午特惠</strong>：端午假期3天外卖满25减3，拉高外卖评分和销量排名</li><li>📊 <strong>第1次数据复盘</strong>：端午假期结束后统计评价数/差评关键词/外卖热销SKU，立即调整菜单</li></ul><h3>第三期：稳定成长（第31-90天）</h3><ul><li>🔄 <strong>暑期储值专项</strong>：7月推出「暑期囤券」活动，充100送20+赠1份特色小食，趁暑期人流活跃冲储值规模，目标新增储值会员60+</li><li>📈 <strong>外卖冲销量榜</strong>：7月起每周五设置1款限量1分钱换购引流菜（控量10份），维持外卖排名</li><li>🌟 <strong>点评冲热门榜</strong>：30天评价≥50条后，向点评申请新店推荐位资源，力争笕桥小吃热门榜入榜</li></ul><h3>⚠️ 严禁事项</h3><ul><li>❌ 不做有偿换评（违规被封号损失更大）</li><li>❌ 不推超出承受范围的大额储值（新店先靠口碑，储值只做留客不做大额锁定）</li><li>❌ 不做低于成本线的优惠（保持毛利≥50%红线）</li></ul></div>
+<div id="modal-content-9" style="display:none"><h3>⚙️ 推荐配置（⚠️基于假设：基础版会员+扫码点餐）</h3><p>国庆确认实际签约产品后请微调。以下方案针对50㎡浙闽风味小吃店的实际经营场景进行配置。</p><h3>🔧 核心模块使用方案</h3><table><tr><th>模块</th><th>解决什么问题</th><th>具体使用场景</th></tr><tr><td><strong>扫码点餐</strong></td><td>高峰期减少服务员压力，50㎡小店人手有限</td><td>顾客扫桌上二维码自主点单→厨房直接出票，节省1名服务员人力（约3000元/月人力成本）；首次扫码弹窗推送会员注册和储值活动</td></tr><tr><td><strong>基础版会员</strong></td><td>将一次性顾客变成回头客，建立私域</td><td>储值卡设置（50/100/200三档）；消费积分累积兑换；会员专属优惠推送；沉睡会员唤醒功能</td></tr><tr><td><strong>外卖管理</strong>（如有）</td><td>多平台聚合接单，不漏单</td><td>美团+饿了么统一管理，外卖评价统一回复</td></tr></table><h3>💡 升级建议（签约后3个月评估）</h3><p>如果开业后月流水稳定超过5万，强烈建议升级<strong>旗舰版会员</strong>（4,888元/年）解锁：</p><ul><li><strong>团购会员卡</strong>：让大众点评公域流量直接转化为私域会员（公域→私域最短路径）</li><li><strong>潜客营销</strong>：精准向周边500米内有过点评浏览行为的潜在客户发放优惠券（新客拉新利器）</li><li><strong>智能储值分析</strong>：自动分析哪些会员快花完了，定向推充值提醒，回笼现金流</li></ul><h3>📊 SaaS投入产出简算（⚠️假设）</h3><ul><li>基础版会员+扫码点餐年费约2,000-3,000元（待国庆确认实际报价）</li><li>节省人力：1名服务员×3,000元/月×12月=36,000元/年</li><li>储值锁客：月储值入账8,000元×12月=96,000元（可用于再营销）</li><li>ROI测算：投入约3,000元，节省+带来增收约10万+/年</li></ul></div>
+<div id="modal-content-10" style="display:none"><h3>💰 开业投资回报测算（⚠️全部为假设值，请国庆核实）</h3><p>浙闽姐姐食坊尚未开业，以下数据基于50㎡浙闽风味小吃店行业基准值估算：</p><h3>📊 月度营收预测（稳定期）</h3><table><tr><th>营收来源</th><th>测算逻辑</th><th>月度金额</th></tr><tr><td>堂食营收</td><td>日均55桌×人均28元×30天</td><td>46,200元</td></tr><tr><td>外卖营收</td><td>日均30单×30元×30天</td><td>27,000元</td></tr><tr><td>储值回笼（新增）</td><td>月新增储值会员30人×100元/人</td><td>3,000元</td></tr><tr><td><strong>合计月流水</strong></td><td></td><td><strong>约7.6万元</strong></td></tr></table><h3>📉 月度成本结构</h3><table><tr><th>成本项</th><th>占比（行业参考）</th><th>月度金额（估算）</th></tr><tr><td>食材原材料</td><td>35%</td><td>约26,600元</td></tr><tr><td>人力成本</td><td>22%</td><td>约16,720元（含节省1人后）</td></tr><tr><td>房租</td><td>15%</td><td>约11,400元</td></tr><tr><td>外卖平台佣金</td><td>7%（外卖部分）</td><td>约1,890元</td></tr><tr><td>营销/会员成本</td><td>3%</td><td>约2,280元</td></tr><tr><td><strong>月净利润</strong></td><td><strong>约18%</strong></td><td><strong>约1.37万元</strong></td></tr></table><h3>🎯 量化OKR目标</h3><table><tr><th>指标</th><th>开业1个月</th><th>开业3个月</th><th>开业6个月</th></tr><tr><td>月流水</td><td>≥4万元（爬坡期）</td><td>≥6万元（稳定期）</td><td>≥7.5万元（成熟期）</td></tr><tr><td>大众点评评分</td><td>出星4.0+</td><td>4.3+</td><td>4.5+</td></tr><tr><td>点评评价数</td><td>≥50条</td><td>≥150条</td><td>≥300条</td></tr><tr><td>储值会员数</td><td>≥80人</td><td>≥200人</td><td>≥350人</td></tr><tr><td>外卖评分</td><td>4.6+</td><td>4.7+</td><td>4.8+</td></tr></table><h3>💡 ROI关键结论</h3><p>签约基础版SaaS（约3,000元/年）→节省人力+储值锁客+外卖提效，预计<strong>月均增收约1.5万元</strong>（含效率提升和复购增量），回本周期<strong>约2-3个月</strong>。浙闽风味小吃店的核心变量是「首月评价定调+外卖流量建立」，两项做好，月流水从4万冲7万是合理路径。</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>陈国庆</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>📊 商圈环境解读</h3><p>浙闽姐姐食坊位于杭州上城区笕桥街道全福桥路386号，紧邻杭州<strong>火车东站/高铁站商圈</strong>。这是典型的<strong>交通枢纽型餐饮场景</strong>：常住人口以外来务工人员、租房青年为主，叠加每日数万旅客和商务客群的过路流量，餐饮消费高频但偏平价。</p><p>⚠️ 以下数据为行业参考值+合理假设，门店尚未开业，建议国庆确认后更新：</p><ul><li><strong>预估人均</strong>：20-35元（低客单高频定位，与浙闽风味小吃市场匹配）</li><li><strong>门店面积</strong>：50㎡，小巧灵活，翻台空间有限，外卖是重要增量渠道</li><li><strong>月流水潜力</strong>：按日均堂食55桌×人均28元+外卖日均30单×30元，月流水目标约6.6万元（行业参考值）</li></ul><h3>🔴 新店冷启动三大挑战</h3><ol><li><strong>无评价基础</strong>：尚未开业，大众点评零评价，消费者信任度从零建立——前30天评价定调，决定此后所有顾客的第一印象，是最危险的窗口期</li><li><strong>无会员沉淀</strong>：没有私域流量池，每天来的都是陌生面孔，复购全靠口味和运气，缺乏系统锁客手段</li><li><strong>竞争密集</strong>：全福桥路/笕桥商圈餐饮密度高，沙二代隆江猪脚饭、面总管、彬旋面馆等老牌店已建立口碑，新店需要明确差异化</li></ol><h3>✅ 核心优势</h3><ul><li><strong>品类差异化</strong>：「浙闽风味」在笕桥商圈具备稀缺性——闽南肉燕、鱼丸、浙式炸物不是周边所有小吃店都有的品类，且对浙闽籍务工人员有天然情感共鸣</li><li><strong>地段红利</strong>：紧邻东方尚城南区、天阳文晖商业带，3公里内常住人口约1.4万+，外来务工人员对家乡味道有天然亲近感</li><li><strong>开业时机好</strong>：2026年5月底入市，6月端午节（浙闽传统节日氛围浓）是第一个营销爆发点，可借节日快速建立口碑</li></ul>`,
+    2: `<h3>🏘️ 周边3公里竞品分析</h3><p>以下竞品均位于笕桥街道全福桥路及周边区域（来源：大众点评+360地图公开数据，建议国庆实地核实）：</p><table><tr><th>竞品名称</th><th>品类</th><th>人均</th><th>核心弱点</th><th>切入机会</th></tr><tr><td>沙二代隆江猪脚饭</td><td>卤味盖饭</td><td>约22元</td><td>品类单一，场景固定（午餐为主），无小吃组合拳，晚餐客流弱</td><td>浙闽多品类（鱼丸+炸物+汤）覆盖三餐，延伸消费场景</td></tr><tr><td>面总管全福桥店</td><td>面馆/粉干</td><td>约24元</td><td>主打粉干面条，评价量偏少，品类较固定，无系统会员体系</td><td>差异化品类+扫码点餐体验升级，建立会员私域</td></tr><tr><td>彬旋面馆</td><td>面馆</td><td>约20元</td><td>传统面馆模式，无会员体系，价格竞争容易陷入恶性循环，复购靠习惯不靠运营</td><td>会员积分储值体系，将偶发消费变成锁定复购</td></tr><tr><td>叫了只炸鸡(机场路店)</td><td>炸鸡小吃</td><td>约28元</td><td>连锁标准化产品，缺乏本地特色和温度感，新品牌知名度竞争弱</td><td>浙闽手作小吃的「人情味」，姐姐品牌调性形成情感连接</td></tr><tr><td>久旦·鲜串烧鸟(滨河汇店)</td><td>烧鸟/日式串食</td><td>约101元</td><td>人均偏高，更偏夜宵聚餐场景，日常快餐刚需场景覆盖不足</td><td>填补低客单日常快餐空档（20-35元档），形成互补而非正面竞争</td></tr></table><h3>🎯 差异化定位</h3><p>竞品多为<strong>单一品类</strong>（米饭/面条/炸鸡），而浙闽风味天然具备「多品类组合」优势：一份鱼丸汤+一碟炸物+一碗拌面，人均28元轻松构建，不用东跑西跑，一站解决。</p><p>这是笕桥商圈目前的空白点：<strong>「既有家乡味又能一站解决一餐」的浙闽风味综合小吃店</strong>。</p><p>建议核心差异化口号：「浙闽一锅端，从早吃到晚」</p>`,
+    3: `<h3>🎨 品牌资产盘点</h3><p>「浙闽姐姐食坊」这个名字本身是重要的品牌资产，每个字都有价值：</p><ul><li><strong>「浙闽」</strong>：明确地域来源，对在杭州打拼的浙闽两省老乡有强烈情感共鸣；对其他地方消费者有「好奇+探索」的新鲜感</li><li><strong>「姐姐」</strong>：亲切、有温度的人设，暗示家常手作、用心烹饪，与流水线连锁品牌形成反差；社交媒体上「姐姐店」话题感强，容易引发打卡分享</li><li><strong>「食坊」</strong>：不叫「快餐」而叫「食坊」，定位比普通快餐高半档，暗示品质感和多品类经营</li></ul><h3>📌 目标客群画像（⚠️假设，建议核实）</h3><table><tr><th>客群</th><th>占比估算</th><th>消费场景</th><th>核心触达方式</th></tr><tr><td>周边租房年轻人（25-35岁）</td><td>约40%</td><td>工作日午/晚餐，追求快速解决+口味好</td><td>美团外卖+大众点评附近推</td></tr><tr><td>浙闽籍务工人员</td><td>约25%</td><td>思念家乡味道，周末带朋友来，情感消费高</td><td>口碑传播+小红书「老乡探店」</td></tr><tr><td>东站过路旅客</td><td>约20%</td><td>候车期间快餐，偶发性高但客单有增量</td><td>大众点评附近推/外卖</td></tr><tr><td>周边社区家庭</td><td>约15%</td><td>晚餐外卖，全家套餐需求稳定</td><td>美团外卖+会员复购激活</td></tr></table><h3>🏆 品牌差异化主张</h3><p><strong>核心定位：「火车东站旁，一碗浙闽味，治好所有思乡病」</strong></p><p>这个定位精准命中浙闽务工人员的情感需求，同时对好奇心强的年轻人有探店吸引力。50㎡的小店不需要大排场，靠的是味道和情感连接。</p><p>建议开业时在小红书发布「浙闽姐姐来杭州了」系列内容，讲述食坊创业故事——真实人设往往比广告更有传播力，且零成本。</p>`,
+    4: `<h3>⭐ 新店点评阶段判断</h3><p>浙闽姐姐食坊处于<strong>「新店冷启动期」</strong>（尚未开业，0评价），对应点评提升路径第一阶段：</p><div class='highlight-box'><strong>第一阶段（开业第1-30天）：积累基础评价，争取首次出星4.0+</strong><br/>目标：30天内积累≥50条真实优质评价 → 系统自动分配星级 → 首次出星直接冲4.0+</div><h3>📋 30天评价冲刺计划</h3><ol><li><strong>第1-7天：制造峰值体验</strong><ul><li>前100名进店顾客提供「开业礼」：消费即赠小份招牌鱼丸一份（成本约3元），制造惊喜感</li><li>出餐时附手写小卡片「感谢您成为姐姐食坊的第X位客人」，情感峰值→顾客主动拍照→自然分享</li><li>扫码点餐系统设置新客首次弹窗「新客专享，欢迎来到浙闽姐姐家」，引导关注</li></ul></li><li><strong>第8-20天：自然评价沉淀</strong><ul><li>评价专家功能开启「好评引导」：结账后自动弹出好评提示页，顺势引导顾客点评</li><li>店员话术：收银时自然一句「您觉得味道怎么样？如果满意的话帮我们点个好评，对小店很重要」</li><li>⚠️ 严禁任何形式有偿邀评：2025年10月后高强度促评会导致新评价不产生星级收益，得不偿失</li></ul></li><li><strong>第21-30天：差评预防与处理</strong><ul><li>中差评24小时内必须商家回复，展示态度，弱化负面影响</li><li>排查差评高频词（如「等太久」「分量少」「汤凉了」），立即调整出餐流程和包装</li></ul></li></ol><h3>🗺️ 点评榜单升级路线</h3><table><tr><th>时间节点</th><th>目标</th><th>关键动作</th></tr><tr><td>开业1个月</td><td>出星4.0+，评价≥50条</td><td>优质出餐体验+自然好评引导</td></tr><tr><td>开业3个月</td><td>冲笕桥小吃热门榜Top20</td><td>外卖销量提升+差评清零+评价量持续增加</td></tr><tr><td>开业6个月</td><td>笕桥小吃好评榜Top10</td><td>会员复购评价+小红书内容持续种草</td></tr></table>`,
+    5: `<h3>💳 储值体系设计逻辑</h3><p>浙闽姐姐食坊客单约28元，属于<strong>低客单高频</strong>品类——储值策略核心是「首次消费即推，门槛极低，赠送比例感知高」，让顾客觉得「今天充了明天就用上了」。</p><h3>📦 储值主推方案</h3><table><tr><th>档位</th><th>储值金额</th><th>赠送</th><th>等效折扣</th><th>推荐说明</th></tr><tr><td>体验档</td><td>50元</td><td>赠8元（≈1份小食）</td><td>86折</td><td>门槛极低，用于首次转化，让顾客「踏进来」</td></tr><tr><td><strong>主推档</strong></td><td><strong>100元</strong></td><td><strong>赠20元（≈4份小食）</strong></td><td><strong>83折</strong></td><td>约3-4次消费，性价比最优，大多数顾客选这档；100元=客单28元×3.6次，符合低客单3-5次原则</td></tr><tr><td>锁客档</td><td>200元</td><td>赠50元</td><td>80折</td><td>约7次消费，锁定高频客群，目标老顾客和务工人员群体</td></tr></table><h3>🎯 会员转化三触点</h3><ol><li><strong>进店触点</strong>：扫码点餐首页弹窗「新客专享：充50送8，首单立享」</li><li><strong>结账触点</strong>：POS显示「本单消费28元，充100送20，相当于省20元，今天充今天用」</li><li><strong>离店触点</strong>：会员系统自动推送「欢迎加入姐姐家族，您的余额已入账」+7天后复访提醒</li></ol><h3>📊 储值目标与测算（⚠️假设）</h3><ul><li>开业首月目标：储值会员≥80人，储值入账金额≥8,000元</li><li>按主推档100元×80人=8,000元，赠送成本=80×20元×40%（餐饮成本率）=640元，净回笼资金≈7,360元</li><li>储值资金可有效缓解开业期间流动资金压力，且锁定客户80%概率在90天内复购完</li></ul><h3>🔑 储值话术（店员培训用）</h3><p>「姐，您今天吃了28元，我们现在有个活动，充100块送20，相当于今天这顿免费了，下次来直接用——要不要试试？」</p><p>（关键：不说「储值卡」，说「充了下次省钱」；不强迫，自然一句话抛出来即可）</p>`,
+    6: `<h3>🛵 外卖的战略价值</h3><p>50㎡小店翻台能力有限，堂食高峰期最多同时服务20-25人。外卖是打破空间束缚、实现营收翻倍的核心渠道。笕桥商圈租房年轻人多，外卖刚需强，预计外卖应占总营收的<strong>40-50%</strong>（⚠️行业参考值，开业后监测调整）。</p><h3>📱 外卖冷启动三步走</h3><ol><li><strong>第一步：精准选品（开业前完成）</strong><ul><li>主推3-5款「出片+好吃+出餐快」组合套餐，如：<br/>「浙闽双拼套餐」鱼丸汤+炸物，定价28元<br/>「姐姐全家福套餐」鱼丸汤+拌面+炸物，定价35元</li><li>外卖菜单控制在≤15个SKU，聚焦爆品——SKU越少出餐越快，评分越高</li><li>套餐名要有记忆点：「姐姐的鱼丸套餐」比「套餐A」有吸引力10倍</li></ul></li><li><strong>第二步：流量撬动（开业前2周）</strong><ul><li>申请美团外卖新店期优惠政策（BD协助），争取蜜月期低佣金</li><li>设置「新店开业特惠」：前100单立减5元，制造爆单效应快速刷排名</li><li>外卖主图必须「食物特写+高饱和度」，主图是外卖点击率的第一变量</li></ul></li><li><strong>第三步：口碑持续（开业后每周）</strong><ul><li>外卖包装里放手写感谢卡「谢谢您选择姐姐，下次扫码到店享优惠」，引导线上→线下转化</li><li>外卖差评24小时内必须回复，高频差评词（「汤少」「凉了」）立即改进包装</li><li>目标30天内外卖评分维持4.7+</li></ul></li></ol><h3>📊 外卖月营收测算（⚠️假设）</h3><ul><li>日均外卖30单×客单价30元×30天=27,000元/月</li><li>堂食日均55桌×人均28元×30天=46,200元/月</li><li><strong>合计月流水目标约7.3万元</strong>（行业参考值，供规划参考）</li></ul>`,
+    7: `<h3>🔄 公私域联动闭环设计</h3><p>公私域联动不是「大众点评+小红书+会员」三个清单的堆砌，而是一个<strong>流量获取→转化→留存→裂变</strong>的完整闭环。</p><h3>🌐 公域引流层（让陌生人发现你）</h3><table><tr><th>平台</th><th>策略重心</th><th>具体动作</th><th>成本</th></tr><tr><td><strong>大众点评</strong></td><td>核心阵地，搜索流量</td><td>①完善门店信息（地址/招牌菜/营业时间）②开业前上传5张精修食物照片③申请团购套餐（28/35元档）④积累自然好评冲热门榜</td><td>免费+团购抽佣约6%</td></tr><tr><td><strong>美团外卖</strong></td><td>增量渠道，刚需触达</td><td>①开业特惠立减活动②外卖专属套餐③新店蜜月期充分利用</td><td>佣金约6-8%</td></tr><tr><td><strong>小红书</strong></td><td>种草渠道，情感共鸣</td><td>①发布「浙闽姐姐来杭州了」创业故事帖②每周1篇「今日份浙闽小吃」探店风内容③带话题#杭州笕桥美食 #浙闽风味 #火车东站附近</td><td>零成本（自运营）</td></tr></table><h3>🔐 私域留存层（让来过的人不断回来）</h3><ol><li><strong>会员系统激活</strong>：每位顾客（堂食+外卖）引导扫码注册会员→建立私域数据库</li><li><strong>精准触达节奏</strong>：<ul><li>新会员注册后24小时内自动发「欢迎礼」优惠券（5元/次，有效期7天，触发二次到店）</li><li>沉睡会员（15天未到店）：自动推送「姐姐想你了」唤醒券（满30减5元）</li><li>活跃会员（月消费3次+）：生日当月专属礼遇（赠一份招牌小食）</li></ul></li></ol><h3>🔁 裂变放大层（让老客带来新客）</h3><ul><li><strong>集章活动</strong>：扫码消费累积5次换一份免费招牌小食（成本约3-5元），驱动高频复购，5次消费周期约为2周（按每次消费28元估算），节奏紧凑不让顾客遗忘</li><li><strong>分享裂变</strong>：转发门店小红书/点评给好友并截图，到店展示领5元代金券</li><li><strong>完整飞轮逻辑</strong>：公域吸引新客→扫码点餐转化会员→私域触达拉复购→老客推荐裂变→点评好评增多→公域排名提升→吸引更多新客（正向增长飞轮）</li></ul>`,
+    8: `<h3>📅 开业90天作战计划（2026年6月起）</h3><p>⚠️ 以下方案基于「2026年6月初开业」假设，具体日期请国庆确认后微调。</p><h3>第一期：开业造势（第1-7天）</h3><div class='highlight-box'><strong>目标：制造话题，快速在周边建立存在感，冲首批评价</strong></div><ul><li>🎯 <strong>大众点评新店特惠</strong>：开业第1周设置「开业立减」团购套餐（原价35元→优惠价29元），牺牲部分毛利换取首批评价流量</li><li>📸 <strong>小红书开业预告</strong>：开业前3天发布「浙闽姐姐在杭州安家啦」图文，附地址和招牌菜，目标在附近的浙闽老乡圈子扩散</li><li>🎁 <strong>开业礼当锚点</strong>：前100名顾客每人赠一份「鱼丸小食」（成本约3元），低成本制造开业话题，引导顾客发圈</li></ul><h3>第二期：端午借势（6月1日~6月30日）</h3><div class='highlight-box'><strong>目标：借端午节点冲评价量，建立品牌认知</strong></div><ul><li>🏮 <strong>端午浙闽限定</strong>：推出「浙闽端午三拼套餐」（鱼丸汤+闽南炸物+应景小食），定价32元，外卖平台打「端午限定」标签，借节日流量</li><li>📱 <strong>外卖端午特惠</strong>：端午假期3天外卖满25减3，拉高外卖评分和销量排名</li><li>📊 <strong>第1次数据复盘</strong>：端午假期结束后统计评价数/差评关键词/外卖热销SKU，立即调整菜单</li></ul><h3>第三期：稳定成长（第31-90天）</h3><ul><li>🔄 <strong>暑期储值专项</strong>：7月推出「暑期囤券」活动，充100送20+赠1份特色小食，趁暑期人流活跃冲储值规模，目标新增储值会员60+</li><li>📈 <strong>外卖冲销量榜</strong>：7月起每周五设置1款限量1分钱换购引流菜（控量10份），维持外卖排名</li><li>🌟 <strong>点评冲热门榜</strong>：30天评价≥50条后，向点评申请新店推荐位资源，力争笕桥小吃热门榜入榜</li></ul><h3>⚠️ 严禁事项</h3><ul><li>❌ 不做有偿换评（违规被封号损失更大）</li><li>❌ 不推超出承受范围的大额储值（新店先靠口碑，储值只做留客不做大额锁定）</li><li>❌ 不做低于成本线的优惠（保持毛利≥50%红线）</li></ul>`,
+    9: `<h3>⚙️ 推荐配置（⚠️基于假设：基础版会员+扫码点餐）</h3><p>国庆确认实际签约产品后请微调。以下方案针对50㎡浙闽风味小吃店的实际经营场景进行配置。</p><h3>🔧 核心模块使用方案</h3><table><tr><th>模块</th><th>解决什么问题</th><th>具体使用场景</th></tr><tr><td><strong>扫码点餐</strong></td><td>高峰期减少服务员压力，50㎡小店人手有限</td><td>顾客扫桌上二维码自主点单→厨房直接出票，节省1名服务员人力（约3000元/月人力成本）；首次扫码弹窗推送会员注册和储值活动</td></tr><tr><td><strong>基础版会员</strong></td><td>将一次性顾客变成回头客，建立私域</td><td>储值卡设置（50/100/200三档）；消费积分累积兑换；会员专属优惠推送；沉睡会员唤醒功能</td></tr><tr><td><strong>外卖管理</strong>（如有）</td><td>多平台聚合接单，不漏单</td><td>美团+饿了么统一管理，外卖评价统一回复</td></tr></table><h3>💡 升级建议（签约后3个月评估）</h3><p>如果开业后月流水稳定超过5万，强烈建议升级<strong>旗舰版会员</strong>（4,888元/年）解锁：</p><ul><li><strong>团购会员卡</strong>：让大众点评公域流量直接转化为私域会员（公域→私域最短路径）</li><li><strong>潜客营销</strong>：精准向周边500米内有过点评浏览行为的潜在客户发放优惠券（新客拉新利器）</li><li><strong>智能储值分析</strong>：自动分析哪些会员快花完了，定向推充值提醒，回笼现金流</li></ul><h3>📊 SaaS投入产出简算（⚠️假设）</h3><ul><li>基础版会员+扫码点餐年费约2,000-3,000元（待国庆确认实际报价）</li><li>节省人力：1名服务员×3,000元/月×12月=36,000元/年</li><li>储值锁客：月储值入账8,000元×12月=96,000元（可用于再营销）</li><li>ROI测算：投入约3,000元，节省+带来增收约10万+/年</li></ul>`,
+    10: `<h3>💰 开业投资回报测算（⚠️全部为假设值，请国庆核实）</h3><p>浙闽姐姐食坊尚未开业，以下数据基于50㎡浙闽风味小吃店行业基准值估算：</p><h3>📊 月度营收预测（稳定期）</h3><table><tr><th>营收来源</th><th>测算逻辑</th><th>月度金额</th></tr><tr><td>堂食营收</td><td>日均55桌×人均28元×30天</td><td>46,200元</td></tr><tr><td>外卖营收</td><td>日均30单×30元×30天</td><td>27,000元</td></tr><tr><td>储值回笼（新增）</td><td>月新增储值会员30人×100元/人</td><td>3,000元</td></tr><tr><td><strong>合计月流水</strong></td><td></td><td><strong>约7.6万元</strong></td></tr></table><h3>📉 月度成本结构</h3><table><tr><th>成本项</th><th>占比（行业参考）</th><th>月度金额（估算）</th></tr><tr><td>食材原材料</td><td>35%</td><td>约26,600元</td></tr><tr><td>人力成本</td><td>22%</td><td>约16,720元（含节省1人后）</td></tr><tr><td>房租</td><td>15%</td><td>约11,400元</td></tr><tr><td>外卖平台佣金</td><td>7%（外卖部分）</td><td>约1,890元</td></tr><tr><td>营销/会员成本</td><td>3%</td><td>约2,280元</td></tr><tr><td><strong>月净利润</strong></td><td><strong>约18%</strong></td><td><strong>约1.37万元</strong></td></tr></table><h3>🎯 量化OKR目标</h3><table><tr><th>指标</th><th>开业1个月</th><th>开业3个月</th><th>开业6个月</th></tr><tr><td>月流水</td><td>≥4万元（爬坡期）</td><td>≥6万元（稳定期）</td><td>≥7.5万元（成熟期）</td></tr><tr><td>大众点评评分</td><td>出星4.0+</td><td>4.3+</td><td>4.5+</td></tr><tr><td>点评评价数</td><td>≥50条</td><td>≥150条</td><td>≥300条</td></tr><tr><td>储值会员数</td><td>≥80人</td><td>≥200人</td><td>≥350人</td></tr><tr><td>外卖评分</td><td>4.6+</td><td>4.7+</td><td>4.8+</td></tr></table><h3>💡 ROI关键结论</h3><p>签约基础版SaaS（约3,000元/年）→节省人力+储值锁客+外卖提效，预计<strong>月均增收约1.5万元</strong>（含效率提升和复购增量），回本周期<strong>约2-3个月</strong>。浙闽风味小吃店的核心变量是「首月评价定调+外卖流量建立」，两项做好，月流水从4万冲7万是合理路径。</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
