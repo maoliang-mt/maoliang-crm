@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>雄狮方案工厂</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+:root {
+  --gold: #C8922A; --gold-light: #F0C060; --dark: #1A1A2E;
+  --card-bg: #F8F5EF; --success: #52C41A; --error: #FF4D4F;
+  --blue: #1890FF; --text: #333; --text-secondary: #888;
+  --border: #E5DDD0; --white: #fff;
+  --shadow: 0 2px 12px rgba(200,146,42,0.10);
+}
+html, body { height: 100%; background: #F5F0E8; font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', Arial, sans-serif; color: var(--text); overscroll-behavior: none; }
+#app { display: flex; flex-direction: column; height: 100vh; max-width: 480px; margin: 0 auto; background: #F5F0E8; position: relative; }
+.header { background: linear-gradient(135deg, var(--dark) 0%, #2D2B55 100%); padding: 16px 20px 12px; display: flex; align-items: center; gap: 10px; box-shadow: 0 2px 8px rgba(26,26,46,0.3); flex-shrink: 0; z-index: 10; }
+.header-logo { width: 36px; height: 36px; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 900; color: var(--dark); box-shadow: 0 2px 8px rgba(200,146,42,0.4); }
+.header-title { flex: 1; }
+.header-title h1 { font-size: 17px; font-weight: 700; color: var(--white); letter-spacing: 0.5px; }
+.header-title p { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 1px; }
+.header-user { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.1); padding: 5px 10px; border-radius: 20px; cursor: pointer; }
+.header-user span { font-size: 12px; color: rgba(255,255,255,0.9); max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.header-user .avatar { width: 24px; height: 24px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--dark); flex-shrink: 0; }
+.tab-content { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 70px; }
+.tab-content::-webkit-scrollbar { display: none; }
+.tab-pane { display: none; padding: 16px; }
+.tab-pane.active { display: block; }
+.bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: var(--white); display: flex; border-top: 1px solid var(--border); box-shadow: 0 -2px 12px rgba(0,0,0,0.08); z-index: 100; padding-bottom: env(safe-area-inset-bottom, 0); }
+.nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 4px 6px; cursor: pointer; color: var(--text-secondary); font-size: 10px; gap: 3px; min-height: 50px; }
+.nav-item.active { color: var(--gold); }
+.nav-item .nav-icon { font-size: 22px; line-height: 1; }
+.card { background: var(--white); border-radius: 14px; padding: 16px; box-shadow: var(--shadow); margin-bottom: 12px; }
+.card-title { font-size: 15px; font-weight: 600; color: var(--dark); margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
+.card-title::before { content: ''; width: 3px; height: 16px; background: linear-gradient(to bottom, var(--gold), var(--gold-light)); border-radius: 2px; display: inline-block; }
+.form-group { margin-bottom: 14px; }
+.form-label { font-size: 13px; color: var(--text); margin-bottom: 6px; display: flex; align-items: center; gap: 4px; }
+.required { color: var(--error); }
+.form-control { width: 100%; border: 1.5px solid var(--border); border-radius: 10px; padding: 11px 13px; font-size: 14px; color: var(--text); background: var(--card-bg); outline: none; transition: border-color 0.2s; -webkit-appearance: none; font-family: inherit; min-height: 44px; }
+.form-control:focus { border-color: var(--gold); background: var(--white); }
+.form-control::placeholder { color: #C0B9AE; }
+select.form-control { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 34px; }
+textarea.form-control { min-height: 80px; resize: vertical; }
+.form-hint { font-size: 11px; color: var(--text-secondary); margin-top: 4px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.btn { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; min-height: 44px; padding: 12px 16px; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; }
+.btn-primary { background: linear-gradient(135deg, var(--gold) 0%, #E8A84A 100%); color: var(--white); box-shadow: 0 4px 14px rgba(200,146,42,0.4); }
+.btn-primary:active { transform: scale(0.97); }
+.btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+.btn-secondary { background: var(--card-bg); color: var(--gold); border: 1.5px solid var(--gold); }
+.btn-secondary:active { background: rgba(200,146,42,0.1); }
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; gap: 4px; }
+.badge-blue { background: #E6F4FF; color: var(--blue); }
+.badge-green { background: #F6FFED; color: var(--success); }
+.badge-red { background: #FFF2F0; color: var(--error); }
+.badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.plan-card { background: var(--white); border-radius: 14px; padding: 14px 16px; box-shadow: var(--shadow); margin-bottom: 10px; cursor: pointer; border: 1.5px solid transparent; transition: transform 0.15s; }
+.plan-card:active { transform: scale(0.98); border-color: var(--gold-light); }
+.plan-card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 8px; }
+.plan-card-name { font-size: 15px; font-weight: 600; color: var(--dark); flex: 1; margin-right: 8px; }
+.plan-card-meta { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-top: 6px; }
+.meta-tag { font-size: 11px; color: var(--text-secondary); background: var(--card-bg); padding: 2px 8px; border-radius: 6px; }
+.plan-card-time { font-size: 11px; color: var(--text-secondary); margin-top: 8px; }
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.section-title { font-size: 16px; font-weight: 700; color: var(--dark); }
+.empty-state { display: flex; flex-direction: column; align-items: center; padding: 40px 20px; color: var(--text-secondary); text-align: center; }
+.empty-icon { font-size: 48px; margin-bottom: 12px; }
+.empty-text { font-size: 14px; }
+.empty-hint { font-size: 12px; margin-top: 6px; color: #BBB; }
+#toast-container { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 8px; align-items: center; pointer-events: none; width: 90%; max-width: 340px; }
+.toast { background: rgba(26,26,46,0.92); color: var(--white); padding: 12px 18px; border-radius: 12px; font-size: 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.2); text-align: center; animation: toastIn 0.3s ease; max-width: 100%; }
+.toast.success { background: rgba(82,196,26,0.92); }
+.toast.error { background: rgba(255,77,79,0.92); }
+@keyframes toastIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: flex-end; justify-content: center; }
+.modal-overlay.active { display: flex; }
+.modal { background: var(--white); border-radius: 20px 20px 0 0; width: 100%; max-width: 480px; max-height: 88vh; overflow-y: auto; padding: 20px 20px calc(20px + env(safe-area-inset-bottom, 0)); animation: slideUp 0.3s ease; }
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.modal-handle { width: 40px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 16px; }
+.modal-title { font-size: 17px; font-weight: 700; color: var(--dark); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.modal-close { margin-left: auto; width: 28px; height: 28px; background: var(--card-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; color: var(--text-secondary); border: none; flex-shrink: 0; }
+.detail-row { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid var(--card-bg); }
+.detail-row:last-child { border-bottom: none; }
+.detail-label { font-size: 13px; color: var(--text-secondary); }
+.detail-value { font-size: 13px; color: var(--text); font-weight: 500; text-align: right; max-width: 60%; word-break: break-all; }
+.modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+.spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.upload-zone { border: 2px dashed var(--border); border-radius: 12px; padding: 28px 20px; text-align: center; background: var(--card-bg); cursor: pointer; position: relative; }
+.upload-zone.dragover { border-color: var(--gold); background: rgba(200,146,42,0.05); }
+.upload-zone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+.upload-icon { font-size: 36px; margin-bottom: 8px; }
+.upload-text { font-size: 14px; color: var(--text-secondary); }
+.upload-hint { font-size: 12px; color: #BBB; margin-top: 4px; }
+.upload-preview { display: flex; align-items: center; gap: 10px; background: var(--card-bg); border-radius: 10px; padding: 10px 12px; margin-top: 10px; }
+.upload-preview-name { font-size: 13px; color: var(--text); flex: 1; word-break: break-all; }
+.upload-preview-size { font-size: 11px; color: var(--text-secondary); white-space: nowrap; }
+.upload-remove { color: var(--error); cursor: pointer; padding: 4px; font-size: 16px; border: none; background: none; }
+.progress-bar { width: 100%; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin-top: 10px; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: 3px; transition: width 0.3s ease; }
+.user-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; padding: 20px; }
+.user-modal-overlay.active { display: flex; }
+.user-modal { background: var(--white); border-radius: 20px; width: 100%; max-width: 340px; padding: 24px 20px; animation: zoomIn 0.25s ease; }
+@keyframes zoomIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+.user-modal-title { font-size: 17px; font-weight: 700; color: var(--dark); margin-bottom: 6px; text-align: center; }
+.user-modal-desc { font-size: 13px; color: var(--text-secondary); text-align: center; margin-bottom: 20px; }
+.refresh-btn { background: none; border: none; cursor: pointer; color: var(--gold); font-size: 22px; padding: 4px; }
+.refresh-btn.spinning { animation: spin 1s linear infinite; }
+.tip-banner { background: linear-gradient(135deg, rgba(200,146,42,0.08), rgba(240,192,96,0.08)); border: 1px solid rgba(200,146,42,0.2); border-radius: 10px; padding: 10px 12px; font-size: 12px; color: #A07020; display: flex; align-items: flex-start; gap: 8px; margin-bottom: 14px; }
+.summary-box { background: var(--card-bg); border-radius: 10px; padding: 12px; font-size: 13px; color: var(--text); line-height: 1.7; margin-top: 8px; }
+</style>
+</head>
+<body>
+<div id="app">
+  <!-- Header -->
+  <div class="header">
+    <div class="header-logo">狮</div>
+    <div class="header-title">
+      <h1>雄狮方案工厂</h1>
+      <p>智能生成餐饮运营方案</p>
+    </div>
+    <div class="header-user" id="headerUser" onclick="showUserModal()">
+      <div class="avatar" id="headerAvatar">?</div>
+      <span id="headerUserName">未登录</span>
+    </div>
+  </div>
+
+  <!-- Tab Content -->
+  <div class="tab-content" id="tabContent">
+
+    <!-- Tab 1: 生成方案 -->
+    <div class="tab-pane active" id="pane-submit">
+      <div id="autofillBanner" class="tip-banner" style="display:none">
+        ✨ <span>已从利润计算器自动填入门店信息，请确认后提交。</span>
+      </div>
+      <div class="card">
+        <div class="card-title">基本信息</div>
+        <div class="form-group">
+          <div class="form-label"><span class="required">*</span> 门店名称</div>
+          <input type="text" id="shopName" class="form-control" placeholder="请输入门店名称">
+        </div>
+        <div class="form-group">
+          <div class="form-label"><span class="required">*</span> 品类</div>
+          <input type="text" id="category" class="form-control" placeholder="如：火锅、奶茶、烧烤">
+        </div>
+        <div class="form-row">
+          <div class="form-group" style="margin-bottom:0">
+            <div class="form-label">人均消费</div>
+            <input type="number" id="avgPrice" class="form-control" placeholder="元" min="0">
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <div class="form-label">月营业额</div>
+            <input type="number" id="monthlyRevenue" class="form-control" placeholder="元" min="0">
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:14px">
+          <div class="form-label">门店面积</div>
+          <input type="number" id="areaSqm" class="form-control" placeholder="㎡" min="0">
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">方案配置</div>
+        <div class="form-group">
+          <div class="form-label"><span class="required">*</span> 方案类型</div>
+          <select id="planType" class="form-control">
+            <option value="new_store">🎉 新店开业方案</option>
+            <option value="old_store">📈 老店提升方案</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <div class="form-label"><span class="required">*</span> 输出格式</div>
+          <select id="outputFormat" class="form-control">
+            <option value="pdf">📄 PDF 文件</option>
+            <option value="pptx">📊 PowerPoint (PPTX)</option>
+            <option value="html">🌐 HTML 网页</option>
+            <option value="docx">📝 Word 文档</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <div class="form-label">大众点评链接</div>
+          <input type="url" id="dianpingUrl" class="form-control" placeholder="https://www.dianping.com/...">
+          <div class="form-hint">填写后可获取门店评价分析，提升方案精准度</div>
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <div class="form-label">补充说明</div>
+          <textarea id="notes" class="form-control" placeholder="可补充门店特色、客群特征、核心痛点等，越详细方案越精准..."></textarea>
+        </div>
+      </div>
+      <button class="btn btn-primary" id="submitBtn" onclick="submitPlan()">
+        🚀 立即生成方案
+      </button>
+      <div style="height:8px"></div>
+    </div>
+
+    <!-- Tab 2: 我的方案 -->
+    <div class="tab-pane" id="pane-mine">
+      <div class="section-header">
+        <span class="section-title">我的方案</span>
+        <button class="refresh-btn" id="refreshBtn" onclick="loadMyPlans()" title="刷新">↻</button>
+      </div>
+      <div id="myPlansContainer">
+        <div class="empty-state">
+          <div class="empty-icon">📋</div>
+          <div class="empty-text">暂无方案记录</div>
+          <div class="empty-hint">前往「生成方案」提交您的第一个方案</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 3: 上传方案 -->
+    <div class="tab-pane" id="pane-upload">
+      <div class="card">
+        <div class="card-title">上传已有方案</div>
+        <div class="form-group">
+          <div class="form-label"><span class="required">*</span> 门店名称</div>
+          <input type="text" id="uploadShopName" class="form-control" placeholder="请输入门店名称">
+        </div>
+        <div class="form-group">
+          <div class="form-label">品类</div>
+          <input type="text" id="uploadCategory" class="form-control" placeholder="如：火锅、奶茶">
+        </div>
+        <div class="form-group">
+          <div class="form-label"><span class="required">*</span> 方案文件</div>
+          <div class="upload-zone" id="uploadZone">
+            <input type="file" id="fileInput" accept=".pdf,.ppt,.pptx,.doc,.docx,.jpg,.jpeg,.png,.gif,.webp" onchange="handleFileSelect(event)">
+            <div class="upload-icon">📁</div>
+            <div class="upload-text">点击选择文件或拖拽至此</div>
+            <div class="upload-hint">支持 PDF / PPT / Word / 图片，最大 20MB</div>
+          </div>
+          <div id="filePreview" style="display:none" class="upload-preview">
+            <span id="fileIconEl" style="font-size:24px">📄</span>
+            <span id="fileNameEl" style="font-size:13px;color:var(--text);flex:1;word-break:break-all">-</span>
+            <span id="fileSizeEl" style="font-size:11px;color:var(--text-secondary);white-space:nowrap">-</span>
+            <button class="upload-remove" onclick="clearFile()">✕</button>
+          </div>
+          <div id="uploadProgress" style="display:none">
+            <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+            <div id="progressText" style="font-size:12px;color:var(--text-secondary);margin-top:4px;text-align:center">上传中...</div>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <div class="form-label">备注说明</div>
+          <textarea id="uploadNotes" class="form-control" placeholder="可填写方案适用场景、使用说明等..."></textarea>
+        </div>
+      </div>
+      <button class="btn btn-primary" id="uploadBtn" onclick="uploadPlan()">
+        ⬆️ 上传方案
+      </button>
+      <div style="height:8px"></div>
+    </div>
+  </div>
+
+  <!-- Bottom Nav -->
+  <nav class="bottom-nav">
+    <div class="nav-item active" id="nav-submit" onclick="switchTab('submit')">
+      <span class="nav-icon">✨</span>
+      <span>生成方案</span>
+    </div>
+    <div class="nav-item" id="nav-mine" onclick="switchTab('mine')">
+      <span class="nav-icon">📋</span>
+      <span>我的方案</span>
+    </div>
+    <div class="nav-item" id="nav-upload" onclick="switchTab('upload')">
+      <span class="nav-icon">⬆️</span>
+      <span>上传方案</span>
+    </div>
+  </nav>
+</div>
+
+<!-- Toast -->
+<div id="toast-container"></div>
+
+<!-- Detail Modal -->
+<div class="modal-overlay" id="detailModal" onclick="closeDetailModalOutside(event)">
+  <div class="modal" id="detailModalContent">
+    <div class="modal-handle"></div>
+    <div class="modal-title">
+      <span id="detailTitle">方案详情</span>
+      <button class="modal-close" onclick="closeDetailModal()">✕</button>
+    </div>
+    <div id="detailBody"></div>
+    <div class="modal-actions" id="detailActions"></div>
+  </div>
+</div>
+
+<!-- User Info Modal -->
+<div class="user-modal-overlay" id="userModal">
+  <div class="user-modal">
+    <div class="user-modal-title">👤 设置用户信息</div>
+    <div class="user-modal-desc">请填写您的姓名和 MIS 号，用于标记方案归属</div>
+    <div class="form-group">
+      <div class="form-label"><span class="required">*</span> 姓名</div>
+      <input type="text" id="inputName" class="form-control" placeholder="请输入您的姓名">
+    </div>
+    <div class="form-group">
+      <div class="form-label"><span class="required">*</span> MIS 号</div>
+      <input type="text" id="inputMis" class="form-control" placeholder="请输入您的 MIS 号">
+    </div>
+    <div class="form-group" style="margin-bottom:0">
+      <div class="form-label">团队/组织</div>
+      <input type="text" id="inputGroup" class="form-control" placeholder="如：华南BD团队（选填）">
+    </div>
+    <div style="display:flex;gap:10px;margin-top:20px">
+      <button class="btn btn-secondary" id="userModalCancelBtn" onclick="cancelUserModal()" style="flex:1">取消</button>
+      <button class="btn btn-primary" onclick="saveUserInfo()" style="flex:2">保存</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const BASE_URL = 'https://dbcli-fa5jbg9a51h059rr.database.sankuai.com';
+const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlzcyI6InN1cGFiYXNlIiwiaWF0IjoxNzQ2OTc5MjAwLCJleHAiOjE5MDQ3NDU2MDB9.P3fFwg7kzoH-CAIRee90cjq26uHvqb6PFc9y6FUC5wo';
+const HEADERS = { 'apikey': ANON_KEY, 'Authorization': 'Bearer ' + ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+
+let currentTab = 'submit';
+let selectedFile = null;
+let userInfo = null;
+let pendingAction = null; // 'submit' or 'upload'
+
+// ===== Init =====
+window.addEventListener('DOMContentLoaded', () => {
+  loadUserInfo();
+  handleURLParams();
+});
+
+function handleURLParams() {
+  const params = new URLSearchParams(window.location.search);
+  const tab = params.get('tab');
+  if (tab && ['submit','mine','upload'].includes(tab)) {
+    switchTab(tab, false);
+  }
+  if (params.get('from') === 'profitCalc' || tab === 'submit') {
+    tryAutofill();
+  }
+}
+
+function tryAutofill() {
+  try {
+    const raw = localStorage.getItem('lionProfitCalcResult');
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    let filled = false;
+    if (data.shop_name) { document.getElementById('shopName').value = data.shop_name; filled = true; }
+    if (data.avg_price) { document.getElementById('avgPrice').value = data.avg_price; filled = true; }
+    if (data.monthly_revenue) { document.getElementById('monthlyRevenue').value = data.monthly_revenue; filled = true; }
+    if (filled) document.getElementById('autofillBanner').style.display = 'flex';
+  } catch(e) {}
+}
+
+// ===== User =====
+function loadUserInfo() {
+  try {
+    const raw = localStorage.getItem('lionUserInfo');
+    if (raw) {
+      userInfo = JSON.parse(raw);
+      updateHeaderUser();
+    }
+  } catch(e) {}
+}
+
+function updateHeaderUser() {
+  if (!userInfo || !userInfo.mis) {
+    document.getElementById('headerUserName').textContent = '未登录';
+    document.getElementById('headerAvatar').textContent = '?';
+    return;
+  }
+  document.getElementById('headerUserName').textContent = userInfo.name || userInfo.mis;
+  document.getElementById('headerAvatar').textContent = (userInfo.name || userInfo.mis).charAt(0).toUpperCase();
+}
+
+function showUserModal(action) {
+  if (action) pendingAction = action;
+  if (userInfo) {
+    document.getElementById('inputName').value = userInfo.name || '';
+    document.getElementById('inputMis').value = userInfo.mis || '';
+    document.getElementById('inputGroup').value = userInfo.group_name || '';
+  }
+  document.getElementById('userModalCancelBtn').style.display = (pendingAction ? 'none' : 'flex');
+  document.getElementById('userModal').classList.add('active');
+}
+
+function cancelUserModal() {
+  document.getElementById('userModal').classList.remove('active');
+  pendingAction = null;
+}
+
+function saveUserInfo() {
+  const name = document.getElementById('inputName').value.trim();
+  const mis = document.getElementById('inputMis').value.trim();
+  const group_name = document.getElementById('inputGroup').value.trim();
+  if (!name) { showToast('请输入姓名', 'error'); return; }
+  if (!mis) { showToast('请输入 MIS 号', 'error'); return; }
+  userInfo = { name, mis, group_name };
+  localStorage.setItem('lionUserInfo', JSON.stringify(userInfo));
+  document.getElementById('userModal').classList.remove('active');
+  updateHeaderUser();
+  showToast('用户信息已保存 ✓', 'success');
+  if (pendingAction === 'submit') { pendingAction = null; submitPlan(); }
+  else if (pendingAction === 'upload') { pendingAction = null; uploadPlan(); }
+  else pendingAction = null;
+}
+
+// ===== Tab Switch =====
+function switchTab(tab, scroll) {
+  if (scroll !== false && currentTab !== tab) {
+    document.getElementById('tabContent').scrollTop = 0;
+  }
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('pane-' + tab).classList.add('active');
+  document.getElementById('nav-' + tab).classList.add('active');
+  currentTab = tab;
+  if (tab === 'mine') loadMyPlans();
+}
+
+// ===== Submit Plan =====
+async function submitPlan() {
+  const shopName = document.getElementById('shopName').value.trim();
+  const category = document.getElementById('category').value.trim();
+  if (!shopName) { showToast('请填写门店名称', 'error'); document.getElementById('shopName').focus(); return; }
+  if (!category) { showToast('请填写品类', 'error'); document.getElementById('category').focus(); return; }
+
+  if (!userInfo || !userInfo.mis) {
+    showUserModal('submit');
+    return;
+  }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> 提交中...';
+
+  const payload = {
+    shop_name: shopName,
+    category: category,
+    avg_price: parseFloat(document.getElementById('avgPrice').value) || null,
+    monthly_revenue: parseFloat(document.getElementById('monthlyRevenue').value) || null,
+    area_sqm: parseFloat(document.getElementById('areaSqm').value) || null,
+    plan_type: document.getElementById('planType').value,
+    output_format: document.getElementById('outputFormat').value,
+    dianping_url: document.getElementById('dianpingUrl').value.trim() || null,
+    notes: document.getElementById('notes').value.trim() || null,
+    mis: userInfo.mis,
+    name: userInfo.name,
+    group_name: userInfo.group_name || null,
+    status: 'pending'
+  };
+
+  try {
+    const res = await fetch(BASE_URL + '/rest/v1/plans', {
+      method: 'POST',
+      headers: HEADERS,
+      body: JSON.stringify(payload)
+    });
+    if (res.ok || res.status === 201) {
+      showToast('✅ 已提交！预计5~15分钟生成完成，机器人会发给你', 'success');
+      clearForm();
+    } else {
+      const err = await res.text();
+      console.error('Submit error:', res.status, err);
+      showToast('提交失败：' + res.status, 'error');
+    }
+  } catch(e) {
+    console.error(e);
+    showToast('网络错误，请检查连接后重试', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '🚀 立即生成方案';
+  }
+}
+
+function clearForm() {
+  ['shopName','category','avgPrice','monthlyRevenue','areaSqm','dianpingUrl','notes'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('planType').value = 'new_store';
+  document.getElementById('outputFormat').value = 'pdf';
+  document.getElementById('autofillBanner').style.display = 'none';
+}
+
+// ===== My Plans =====
+async function loadMyPlans() {
+  if (!userInfo || !userInfo.mis) {
+    document.getElementById('myPlansContainer').innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">👤</div>
+        <div class="empty-text">请先设置用户信息</div>
+        <div class="empty-hint" style="margin-top:12px">
+          <button class="btn btn-primary btn-sm" style="width:auto;padding:8px 20px" onclick="showUserModal()">设置用户信息</button>
+        </div>
+      </div>`;
+    return;
+  }
+  const btn = document.getElementById('refreshBtn');
+  btn.classList.add('spinning');
+  try {
+    const res = await fetch(BASE_URL + '/rest/v1/plans?mis=eq.' + encodeURIComponent(userInfo.mis) + '&order=id.desc', {
+      headers: { 'apikey': ANON_KEY, 'Authorization': 'Bearer ' + ANON_KEY }
+    });
+    if (!res.ok) throw new Error(res.status);
+    const plans = await res.json();
+    renderPlans(plans);
+  } catch(e) {
+    console.error(e);
+    document.getElementById('myPlansContainer').innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">⚠️</div>
+        <div class="empty-text">加载失败</div>
+        <div class="empty-hint">请检查网络后重试</div>
+      </div>`;
+  } finally {
+    btn.classList.remove('spinning');
+  }
+}
+
+function renderPlans(plans) {
+  const container = document.getElementById('myPlansContainer');
+  if (!plans || plans.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">📋</div>
+        <div class="empty-text">暂无方案记录</div>
+        <div class="empty-hint">前往「生成方案」提交您的第一个方案</div>
+      </div>`;
+    return;
+  }
+  container.innerHTML = plans.map(p => planCardHTML(p)).join('');
+}
+
+function planCardHTML(p) {
+  const badge = statusBadge(p.status);
+  const typeLabel = p.plan_type === 'new_store' ? '新店开业' : p.plan_type === 'old_store' ? '老店提升' : (p.plan_type || '');
+  const fmtLabel = { pdf:'PDF', pptx:'PPTX', html:'HTML', docx:'Word' }[p.output_format] || (p.output_format || '');
+  const time = p.created_at ? formatTime(p.created_at) : '';
+  return `<div class="plan-card" onclick="showPlanDetail(${JSON.stringify(JSON.stringify(p))})">
+    <div class="plan-card-header">
+      <div class="plan-card-name">${escHtml(p.shop_name || '未命名')}</div>
+      ${badge}
+    </div>
+    <div class="plan-card-meta">
+      ${p.category ? `<span class="meta-tag">${escHtml(p.category)}</span>` : ''}
+      ${typeLabel ? `<span class="meta-tag">${typeLabel}</span>` : ''}
+      ${fmtLabel ? `<span class="meta-tag">${fmtLabel}</span>` : ''}
+    </div>
+    <div class="plan-card-time">${time}</div>
+  </div>`;
+}
+
+function statusBadge(status) {
+  if (!status || status === 'pending' || status === 'generating') return '<span class="badge badge-blue">生成中</span>';
+  if (status === 'published') return '<span class="badge badge-green">已完成</span>';
+  if (status === 'error' || status === 'failed') return '<span class="badge badge-red">失败</span>';
+  return `<span class="badge">${escHtml(status)}</span>`;
+}
+
+function showPlanDetail(jsonStr) {
+  const p = JSON.parse(jsonStr);
+  document.getElementById('detailTitle').textContent = escHtml(p.shop_name || '方案详情');
+
+  const typeLabel = p.plan_type === 'new_store' ? '新店开业' : p.plan_type === 'old_store' ? '老店提升' : (p.plan_type || '-');
+  const fmtLabel = { pdf:'PDF', pptx:'PPTX', html:'HTML', docx:'Word' }[p.output_format] || (p.output_format || '-');
+
+  let rows = [
+    ['状态', statusBadge(p.status)],
+    ['品类', escHtml(p.category || '-')],
+    ['方案类型', typeLabel],
+    ['输出格式', fmtLabel],
+  ];
+  if (p.avg_price) rows.push(['人均消费', p.avg_price + ' 元']);
+  if (p.monthly_revenue) rows.push(['月营业额', p.monthly_revenue + ' 元']);
+  if (p.area_sqm) rows.push(['门店面积', p.area_sqm + ' ㎡']);
+  if (p.created_at) rows.push(['提交时间', formatTime(p.created_at)]);
+
+  let html = rows.map(([l,v]) => `<div class="detail-row"><span class="detail-label">${l}</span><span class="detail-value">${v}</span></div>`).join('');
+
+  if (p.summary) {
+    html += `<div style="margin-top:12px"><div class="detail-label" style="margin-bottom:6px">方案摘要</div><div class="summary-box">${escHtml(p.summary)}</div></div>`;
+  }
+  if (p.reject_reason && (p.status === 'error' || p.status === 'failed')) {
+    html += `<div style="margin-top:12px"><div class="detail-label" style="margin-bottom:6px;color:var(--error)">失败原因</div><div class="summary-box" style="background:#FFF2F0;color:var(--error)">${escHtml(p.reject_reason)}</div></div>`;
+  }
+  if (p.notes) {
+    html += `<div style="margin-top:12px"><div class="detail-label" style="margin-bottom:6px">补充说明</div><div class="summary-box">${escHtml(p.notes)}</div></div>`;
+  }
+
+  document.getElementById('detailBody').innerHTML = html;
+
+  // Actions
+  let actions = '';
+  if (p.file_url || p.download_url) {
+    const url = p.file_url || p.download_url;
+    actions += `<a href="${escAttr(url)}" target="_blank" rel="noopener" class="btn btn-primary" style="text-decoration:none;flex:1">⬇️ 下载方案</a>`;
+  }
+  if (p.plan_share_url) {
+    actions += `<a href="${escAttr(p.plan_share_url)}" target="_blank" rel="noopener" class="btn btn-secondary" style="text-decoration:none;flex:1">🔗 在线查看</a>`;
+  }
+  document.getElementById('detailActions').innerHTML = actions;
+
+  document.getElementById('detailModal').classList.add('active');
+}
+
+function closeDetailModal() {
+  document.getElementById('detailModal').classList.remove('active');
+}
+function closeDetailModalOutside(e) {
+  if (e.target === document.getElementById('detailModal')) closeDetailModal();
+}
+
+// ===== Upload Plan =====
+function handleFileSelect(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  if (file.size > 20 * 1024 * 1024) {
+    showToast('文件不能超过 20MB', 'error');
+    e.target.value = '';
+    return;
+  }
+  selectedFile = file;
+  const icons = { pdf:'📄', ppt:'📊', pptx:'📊', doc:'📝', docx:'📝', jpg:'🖼️', jpeg:'🖼️', png:'🖼️', gif:'🖼️', webp:'🖼️' };
+  const ext = file.name.split('.').pop().toLowerCase();
+  document.getElementById('fileIconEl').textContent = icons[ext] || '📎';
+  document.getElementById('fileNameEl').textContent = file.name;
+  document.getElementById('fileSizeEl').textContent = formatSize(file.size);
+  document.getElementById('filePreview').style.display = 'flex';
+  document.getElementById('uploadZone').style.display = 'none';
+}
+
+function clearFile() {
+  selectedFile = null;
+  document.getElementById('fileInput').value = '';
+  document.getElementById('filePreview').style.display = 'none';
+  document.getElementById('uploadZone').style.display = 'block';
+}
+
+async function uploadPlan() {
+  const shopName = document.getElementById('uploadShopName').value.trim();
+  if (!shopName) { showToast('请填写门店名称', 'error'); return; }
+  if (!selectedFile) { showToast('请选择要上传的文件', 'error'); return; }
+
+  if (!userInfo || !userInfo.mis) {
+    showUserModal('upload');
+    return;
+  }
+
+  const btn = document.getElementById('uploadBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> 上传中...';
+
+  const progress = document.getElementById('uploadProgress');
+  const fill = document.getElementById('progressFill');
+  const progText = document.getElementById('progressText');
+  progress.style.display = 'block';
+  fill.style.width = '10%';
+  progText.textContent = '正在上传文件...';
+
+  try {
+    // Generate unique filename
+    const ts = Date.now();
+    const safeName = selectedFile.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const filename = `${userInfo.mis}_${ts}_${safeName}`;
+    const storageUrl = `${BASE_URL}/storage/v1/object/plan-files/${encodeURIComponent(filename)}`;
+
+    fill.style.width = '30%';
+
+    const uploadRes = await fetch(storageUrl, {
+      method: 'POST',
+      headers: {
+        'apikey': ANON_KEY,
+        'Authorization': 'Bearer ' + ANON_KEY,
+        'Content-Type': selectedFile.type || 'application/octet-stream',
+        'x-upsert': 'true'
+      },
+      body: selectedFile
+    });
+
+    fill.style.width = '70%';
+    progText.textContent = '正在保存记录...';
+
+    let fileUrl = null;
+    if (uploadRes.ok) {
+      const uploadData = await uploadRes.json().catch(() => ({}));
+      fileUrl = uploadData.Key
+        ? `${BASE_URL}/storage/v1/object/public/plan-files/${encodeURIComponent(filename)}`
+        : `${BASE_URL}/storage/v1/object/public/plan-files/${encodeURIComponent(filename)}`;
+    } else {
+      const errText = await uploadRes.text();
+      console.error('Upload error:', uploadRes.status, errText);
+      // Continue to save record even if storage fails
+    }
+
+    fill.style.width = '85%';
+
+    const category = document.getElementById('uploadCategory').value.trim();
+    const notes = document.getElementById('uploadNotes').value.trim();
+    const payload = {
+      shop_name: shopName,
+      category: category || null,
+      notes: notes || null,
+      mis: userInfo.mis,
+      name: userInfo.name,
+      group_name: userInfo.group_name || null,
+      status: 'published',
+      is_public: true,
+      file_url: fileUrl,
+      output_format: selectedFile.name.split('.').pop().toLowerCase()
+    };
+
+    const recRes = await fetch(BASE_URL + '/rest/v1/plans', {
+      method: 'POST',
+      headers: HEADERS,
+      body: JSON.stringify(payload)
+    });
+
+    fill.style.width = '100%';
+
+    if (recRes.ok || recRes.status === 201) {
+      showToast('✅ 方案上传成功！', 'success');
+      clearFile();
+      document.getElementById('uploadShopName').value = '';
+      document.getElementById('uploadCategory').value = '';
+      document.getElementById('uploadNotes').value = '';
+    } else {
+      showToast('记录保存失败：' + recRes.status, 'error');
+    }
+  } catch(e) {
+    console.error(e);
+    showToast('上传失败，请检查网络后重试', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '⬆️ 上传方案';
+    setTimeout(() => { progress.style.display = 'none'; fill.style.width = '0%'; }, 1500);
+  }
+}
+
+// ===== Drag and Drop =====
+const uploadZone = document.getElementById('uploadZone');
+if (uploadZone) {
+  uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('dragover'); });
+  uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+  uploadZone.addEventListener('drop', e => {
+    e.preventDefault();
+    uploadZone.classList.remove('dragover');
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      const fakeEvent = { target: { files: [file], value: '' } };
+      handleFileSelect(fakeEvent);
+    }
+  });
+}
+
+// ===== Toast =====
+function showToast(msg, type) {
+  const container = document.getElementById('toast-container');
+  const el = document.createElement('div');
+  el.className = 'toast' + (type ? ' ' + type : '');
+  el.textContent = msg;
+  container.appendChild(el);
+  setTimeout(() => {
+    el.style.opacity = '0';
+    el.style.transition = 'opacity 0.3s';
+    setTimeout(() => el.remove(), 300);
+  }, type === 'success' ? 3000 : 2500);
+}
+
+// ===== Helpers =====
+function formatTime(iso) {
+  try {
+    const d = new Date(iso);
+    const pad = n => String(n).padStart(2,'0');
+    return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  } catch(e) { return iso; }
+}
+
+function formatSize(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1024*1024) return (bytes/1024).toFixed(1) + ' KB';
+  return (bytes/1024/1024).toFixed(1) + ' MB';
+}
+
+function escHtml(s) {
+  if (typeof s !== 'string') return String(s);
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function escAttr(s) {
+  if (typeof s !== 'string') return '';
+  return s.replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+</script>
+</body>
+</html>
