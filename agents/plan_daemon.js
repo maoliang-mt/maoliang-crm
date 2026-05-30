@@ -293,25 +293,22 @@ async function getDxToken(audience = DX_MIS_AUDIENCE) {
 
 async function sendSubmitConfirm(plan) {
   if (!plan.mis) return;
-  // 先查静态映射表，没有就调 xopen 查
-  let empId = MIS_UID_MAP[plan.mis] || null;
-  if (!empId) {
-    log(`[${plan.id}] 提交通知：mis(${plan.mis})不在映射表，尝试动态查询`);
-    try {
-      const token = await getDxToken();
-      const r = await fetch('https://xopen.sankuai.com/open-apis/dx/queryEmpIdentityByMisList', {
-        method: 'POST',
-        headers: { 'Authorization': token, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ misList: [plan.mis] }),
-        signal: AbortSignal.timeout(8000),
-      });
-      const d = await r.json();
-      empId = d?.data?.data?.[plan.mis]?.empId ? String(d.data.data[plan.mis].empId) : null;
-    } catch (e) {
-      log(`[${plan.id}] 提交通知：动态查询UID失败: ${e.message}`);
-    }
+  // 查 uid（receiverIds 需要 uid，不是 empId）
+  let uid = null;
+  try {
+    const token = await getDxToken();
+    const r = await fetch('https://xopen.sankuai.com/open-apis/dx/queryEmpIdentityByMisList', {
+      method: 'POST',
+      headers: { 'Authorization': token, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ misList: [plan.mis] }),
+      signal: AbortSignal.timeout(8000),
+    });
+    const d = await r.json();
+    uid = d?.data?.data?.[plan.mis]?.uid ? String(d.data.data[plan.mis].uid) : null;
+  } catch (e) {
+    log(`[${plan.id}] 提交通知：查询UID失败: ${e.message}`);
   }
-  if (!empId) {
+  if (!uid) {
     log(`[${plan.id}] 提交通知：无法解析 mis(${plan.mis}) 对应 UID，跳过`);
     return;
   }
@@ -320,7 +317,7 @@ async function sendSubmitConfirm(plan) {
   try {
     const token = await getDxToken();
     const payload = {
-      receiverIds: [Number(empId)],
+      receiverIds: [Number(uid)],
       sendMsgInfo: { type: 'text', body: JSON.stringify({ text: msg }) },
     };
     const res = await fetch(DX_TEXT_ENDPOINT, {
@@ -331,7 +328,7 @@ async function sendSubmitConfirm(plan) {
     });
     const data = await res.json().catch(() => ({}));
     if (data?.status?.code === 0) {
-      log(`[${plan.id}] ✅ 提交确认通知已发 → ${plan.mis}(${empId})`);
+      log(`[${plan.id}] ✅ 提交确认通知已发 → ${plan.mis}(uid:${uid})`);
     } else {
       log(`[${plan.id}] ⚠️ 提交确认通知发送失败: ${JSON.stringify(data?.status || data).slice(0, 100)}`);
     }

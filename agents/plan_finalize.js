@@ -498,8 +498,11 @@ async function sendFileByRobot(empId, fileUrl, fileName, fileExt) {
   return true;
 }
 
-/** 根据 MIS 查询 empId（用于卡片推送）*/
-async function getEmpIdByMis(mis) {
+/** 根据 MIS 查询身份信息（返回 { empId, uid }）
+ *  - empId：用于卡片推送（sendExclusionCard 的 empIds 字段）
+ *  - uid：用于消息直发（sendChatMsgByRobot 的 receiverIds 字段）
+ */
+async function getIdentityByMis(mis) {
   try {
     const token = await getDxAccessToken(DX_MIS_AUDIENCE);
     const resp = await fetch(DX_UID_QUERY_ENDPOINT, {
@@ -508,15 +511,22 @@ async function getEmpIdByMis(mis) {
       body: JSON.stringify({ misList: [mis] }),
     });
     const data = await resp.json();
-    if (data?.status?.code === 0 && data?.data?.data?.[mis]?.empId) {
-      return data.data.data[mis].empId; // Long number
+    if (data?.status?.code === 0 && data?.data?.data?.[mis]) {
+      const info = data.data.data[mis];
+      return { empId: info.empId, uid: info.uid };
     }
-    console.log(`[mis→empId] 查询失败: ${JSON.stringify(data?.status)}`);
+    console.log(`[mis→identity] 查询失败: ${JSON.stringify(data?.status)}`);
     return null;
   } catch (e) {
-    console.log(`[mis→empId] 异常: ${e.message}`);
+    console.log(`[mis→identity] 异常: ${e.message}`);
     return null;
   }
+}
+
+/** 兼容旧调用：只返回 empId */
+async function getEmpIdByMis(mis) {
+  const identity = await getIdentityByMis(mis);
+  return identity?.empId || null;
 }
 
 /** MIS → 大象UID 映射表（持久化文件，找不到时降级文字通知）*/
@@ -884,9 +894,11 @@ async function main() {
 
   // ── 文件直发（通过机器人API直接发大象文件消息）────────────────────
   // 优先级：plan_file_url(PDF) > plan_pptx_url > plan_html_url
+  // 注意：sendChatMsgByRobot 的 receiverIds 用 uid，不是 empId
   try {
-    const empId = await getEmpIdByMis(plan.mis);
-    if (empId) {
+    const identity = await getIdentityByMis(plan.mis);
+    if (identity?.uid) {
+      const uid = identity.uid;
       // 选文件：有啥发啥，不做格式转换
       let sendFileUrl = planFileUrl || planPptxUrl || extraFields.plan_html_url;
       let sendFileExt = planFileUrl ? path.extname(planFileUrl).slice(1).toLowerCase()
@@ -895,13 +907,13 @@ async function main() {
       let sendFileName = `${shopName}_运营方案.${sendFileExt}`;
 
       if (sendFileUrl) {
-        await sendFileByRobot(empId, sendFileUrl, sendFileName, sendFileExt);
-        console.log(`[${planId}] ✅ 文件直发成功 → empId=${empId} url=${sendFileUrl}`);
+        await sendFileByRobot(uid, sendFileUrl, sendFileName, sendFileExt);
+        console.log(`[${planId}] ✅ 文件直发成功 → uid=${uid} url=${sendFileUrl}`);
       } else {
         console.log(`[${planId}] ⚠️ 无可发送的文件URL，跳过文件直发`);
       }
     } else {
-      console.log(`[${planId}] ⚠️ 无法解析 empId，跳过文件直发`);
+      console.log(`[${planId}] ⚠️ 无法解析 uid，跳过文件直发`);
     }
   } catch (e) {
     console.log(`[${planId}] ⚠️ 文件直发失败（不影响主流程）: ${e.message}`);
