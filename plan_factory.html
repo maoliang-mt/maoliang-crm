@@ -818,6 +818,7 @@ body {
 <!-- ===== Tab 切换 ===== -->
 <div class="tabs">
   <div class="tab active" data-tab="generate">📝 生成方案</div>
+  <div class="tab" data-tab="upload">📤 上传方案</div>
   <div class="tab" data-tab="profit">💰 盈利测算</div>
   <div class="tab" data-tab="library">📚 方案库</div>
   <div class="tab" data-tab="stats">📊 统计</div>
@@ -1038,7 +1039,74 @@ body {
   </form>
 </div>
 
-<!-- ===== Tab 2: 方案库 ===== -->
+<!-- ===== Tab 2: 上传方案 ===== -->
+<div class="tab-content" id="tab-upload">
+  <form id="upload-form">
+    <div class="form-section">
+      <div class="form-section-title">📤 分享你的方案</div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;line-height:1.6">
+        把你在其他地方做好的方案上传到这里，让全组同事都能学习参考 💪
+      </p>
+      <div class="form-group">
+        <label class="form-label">方案标题 <span class="required">*</span></label>
+        <input type="text" class="form-input" id="upload-title" placeholder="如：老友鱼汤面 · 新店运营方案" required>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">业态</label>
+          <select class="form-select" id="upload-category">
+            <option value="">选填</option>
+            <option value="中餐">中餐</option>
+            <option value="火锅">火锅</option>
+            <option value="烧烤">烧烤</option>
+            <option value="茶饮">茶饮</option>
+            <option value="烘焙">烘焙</option>
+            <option value="酒馆">酒馆</option>
+            <option value="快餐">快餐</option>
+            <option value="小吃">小吃</option>
+            <option value="咖啡">咖啡</option>
+            <option value="其他">其他</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">方案类型</label>
+          <select class="form-select" id="upload-type">
+            <option value="general">通用方案</option>
+            <option value="new_store">新店方案</option>
+            <option value="old_store">老店方案</option>
+            <option value="opening">开业全案</option>
+            <option value="ops_only">纯运营方案</option>
+            <option value="proxy_ops">代运营方案</option>
+            <option value="other">其他</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">上传文件 <span class="required">*</span></label>
+        <div class="upload-area" id="plan-file-upload" onclick="document.getElementById('plan-file-input').click()">
+          <input type="file" id="plan-file-input" accept=".doc,.docx,.ppt,.pptx,.pdf,.jpg,.jpeg,.png,.html,.htm" multiple style="display:none" onchange="handlePlanFileUpload(event)">
+          <div class="upload-placeholder" id="plan-file-placeholder">
+            <span style="font-size:32px">📁</span>
+            <span style="font-size:13px;color:var(--text-secondary)">点击上传方案文件</span>
+            <span style="font-size:11px;color:var(--text-secondary)">支持 Word / PPT / PDF / 图片 / HTML，可多选</span>
+          </div>
+          <div id="plan-file-list" style="display:none;text-align:left;width:100%"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">方案简介（选填）</label>
+        <textarea class="form-textarea" id="upload-desc" placeholder="简单介绍一下这个方案的亮点，方便其他同事快速了解"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">上传者</label>
+        <input type="text" class="form-input" id="upload-author" placeholder="你的名字（选填，默认匿名）">
+      </div>
+    </div>
+    <button type="submit" class="submit-btn" style="background:linear-gradient(135deg, var(--blue), #1565c0);box-shadow:0 4px 16px rgba(25,118,210,0.3)">📤 上传分享</button>
+  </form>
+</div>
+
+<!-- ===== Tab 3: 方案库 ===== -->
 <div class="tab-content" id="tab-library">
   <div id="plans-list"></div>
 </div>
@@ -1220,6 +1288,10 @@ function initForm() {
 
   const form = document.getElementById('plan-form');
   form.addEventListener('submit', handleSubmit);
+
+  // 上传方案表单
+  const uploadForm = document.getElementById('upload-form');
+  if (uploadForm) uploadForm.addEventListener('submit', handleUploadSubmit);
 }
 
 // 方案类型切换 → 条件显示
@@ -1557,6 +1629,14 @@ async function loadPlansData() {
     }
   });
 
+  // 合并 localStorage 中上传的方案
+  const uploaded = JSON.parse(localStorage.getItem('plan_factory_uploaded') || '[]');
+  uploaded.forEach(item => {
+    if (!plansData.plans.find(p => p.id === item.id)) {
+      plansData.plans.unshift(item);
+    }
+  });
+
   // 重新计算统计
   recalcStats();
   updateStatsDisplay();
@@ -1591,7 +1671,11 @@ function renderPlansList() {
   const typeLabels = {
     'new_store': '新店方案',
     'old_store': '老店方案',
-    'ops_only': '纯运营方案'
+    'ops_only': '纯运营方案',
+    'opening': '开业全案',
+    'proxy_ops': '代运营方案',
+    'general': '通用方案',
+    'other': '其他'
   };
 
   const statusLabels = {
@@ -1624,6 +1708,11 @@ function renderPlansList() {
       actionsHtml = `<button class="action-btn" onclick="previewPlan('${plan.id}')">👀 预览</button>`;
     }
 
+    const sourceTag = plan.source === 'manual_upload' ? '<span class="badge" style="background:rgba(156,39,176,.12);color:#9c27b0;border:1px solid rgba(156,39,176,.3)">📤 人工上传</span>' : '';
+    const authorInfo = plan.author ? ` · 👤 ${plan.author}` : '';
+    const descInfo = plan.description ? `<div style="font-size:12px;color:var(--text-secondary);margin:6px 0;line-height:1.5">${plan.description}</div>` : '';
+    const filesInfo = plan.files && plan.files.length > 0 ? `<div style="font-size:11px;color:var(--text-secondary);margin-top:4px">📎 ${plan.files.map(f=>f.name).join('、')}</div>` : '';
+
     return `
       <div class="plan-card">
         <div class="plan-card-header">
@@ -1631,10 +1720,13 @@ function renderPlansList() {
           <span class="badge badge-category">${plan.category || '未知'}</span>
           <span class="badge badge-type">${typeLabels[plan.type] || plan.type}</span>
           <span class="badge ${statusClass}">${statusLabels[plan.status] || plan.status}</span>
+          ${sourceTag}
         </div>
+        ${descInfo}
         <div class="plan-card-meta">
-          📍 ${plan.location || '-'} · 🕐 ${timeStr}
+          ${plan.location ? '📍 ' + plan.location + ' · ' : ''}🕐 ${timeStr}${authorInfo}
         </div>
+        ${filesInfo}
         <div class="plan-card-actions">${actionsHtml}</div>
       </div>
     `;
@@ -1940,6 +2032,180 @@ function removeProfitCalcImg(event) {
   profitCalcImage = null;
   document.getElementById('profit-calc-file').value = '';
   renderProfitCalcPreview();
+}
+
+// ===== 上传方案逻辑 =====
+let planUploadFiles = [];
+
+function handlePlanFileUpload(event) {
+  const files = Array.from(event.target.files);
+  files.forEach(file => {
+    if (file.size > 20 * 1024 * 1024) {
+      showToast('⚠️ 文件过大（超过20MB）：' + file.name);
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      planUploadFiles.push({ name: file.name, size: file.size, data: e.target.result, type: file.type });
+      renderPlanFileList();
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderPlanFileList() {
+  const listEl = document.getElementById('plan-file-list');
+  const placeholder = document.getElementById('plan-file-placeholder');
+  if (planUploadFiles.length === 0) {
+    listEl.style.display = 'none';
+    placeholder.style.display = 'flex';
+    return;
+  }
+  placeholder.style.display = 'none';
+  listEl.style.display = 'block';
+
+  const iconMap = { 'pdf': '📕', 'doc': '📘', 'docx': '📘', 'ppt': '📙', 'pptx': '📙', 'jpg': '🖼️', 'jpeg': '🖼️', 'png': '🖼️', 'html': '🌐', 'htm': '🌐' };
+  listEl.innerHTML = planUploadFiles.map((f, i) => {
+    const ext = f.name.split('.').pop().toLowerCase();
+    const icon = iconMap[ext] || '📄';
+    const sizeStr = f.size > 1024*1024 ? (f.size/1024/1024).toFixed(1)+'MB' : (f.size/1024).toFixed(0)+'KB';
+    return `
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:rgba(0,0,0,.02);border:1px solid var(--border);border-radius:8px;margin-bottom:6px">
+        <span style="font-size:13px;color:var(--text);display:flex;align-items:center;gap:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:70%">
+          ${icon} ${f.name}
+        </span>
+        <span style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:11px;color:var(--text-secondary)">${sizeStr}</span>
+          <button type="button" onclick="removePlanFile(event,${i})" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:16px;padding:0 4px">×</button>
+        </span>
+      </div>
+    `;
+  }).join('') + `
+    <div style="text-align:center;margin-top:8px">
+      <span style="font-size:12px;color:var(--blue);cursor:pointer" onclick="document.getElementById('plan-file-input').click()">+ 继续添加文件</span>
+    </div>
+  `;
+}
+
+function removePlanFile(event, index) {
+  event.stopPropagation();
+  planUploadFiles.splice(index, 1);
+  renderPlanFileList();
+}
+
+async function handleUploadSubmit(e) {
+  e.preventDefault();
+  const title = document.getElementById('upload-title').value.trim();
+  const category = document.getElementById('upload-category').value;
+  const type = document.getElementById('upload-type').value;
+  const desc = document.getElementById('upload-desc').value.trim();
+  const author = document.getElementById('upload-author').value.trim();
+
+  if (!title) { showToast('❌ 请填写方案标题'); return; }
+  if (planUploadFiles.length === 0) { showToast('❌ 请上传至少一个文件'); return; }
+
+  const uploadBtn = document.querySelector('#upload-form .submit-btn');
+  uploadBtn.disabled = true;
+  uploadBtn.innerHTML = '<span class="btn-spinner"></span> 上传中...';
+
+  const data = {
+    id: 'upload_' + Date.now().toString(),
+    type: type,
+    shopName: title,
+    category: category || '未分类',
+    location: '',
+    description: desc,
+    author: author || '匿名',
+    source: 'manual_upload',
+    files: planUploadFiles.map(f => ({ name: f.name, size: f.size, type: f.type })),
+    fileData: planUploadFiles.map(f => ({ name: f.name, data: f.data })),
+    status: 'published',
+    createdAt: new Date().toISOString()
+  };
+
+  try {
+    // 保存到 localStorage
+    const uploaded = JSON.parse(localStorage.getItem('plan_factory_uploaded') || '[]');
+    uploaded.push(data);
+    localStorage.setItem('plan_factory_uploaded', JSON.stringify(uploaded));
+
+    // 也尝试提交到 GitHub（不含 fileData 以减小体积）
+    const gitData = { ...data };
+    delete gitData.fileData;
+    await submitUploadToGitHub(gitData);
+
+    // 加入方案库展示
+    plansData.plans.unshift(data);
+    plansData.stats.total++;
+    plansData.stats.published++;
+    updateStatsDisplay();
+
+    showToast('✅ 方案上传成功，已加入方案库！');
+
+    // 重置表单
+    document.getElementById('upload-form').reset();
+    planUploadFiles = [];
+    renderPlanFileList();
+
+    // 切到方案库
+    setTimeout(() => {
+      const libraryTab = document.querySelector('.tab[data-tab="library"]');
+      if (libraryTab) libraryTab.click();
+    }, 800);
+  } catch (err) {
+    console.error('[上传方案] 失败:', err);
+    // 即使GitHub失败，本地已保存
+    plansData.plans.unshift(data);
+    plansData.stats.total++;
+    plansData.stats.published++;
+    updateStatsDisplay();
+    showToast('✅ 方案已保存到本地方案库（云端同步稍后自动重试）');
+    document.getElementById('upload-form').reset();
+    planUploadFiles = [];
+    renderPlanFileList();
+  } finally {
+    uploadBtn.disabled = false;
+    uploadBtn.innerHTML = '📤 上传分享';
+  }
+}
+
+async function submitUploadToGitHub(data) {
+  const headers = {
+    'Authorization': `Bearer ${GH_TOKEN}`,
+    'Content-Type': 'application/json',
+    'Accept': 'application/vnd.github.v3+json'
+  };
+
+  const UPLOAD_FILE = 'plan_uploads.json';
+  const uploadApiBase = `https://api.github.com/repos/${GH_REPO}/contents/${UPLOAD_FILE}`;
+
+  let currentContent = { uploads: [] };
+  let sha = null;
+
+  try {
+    const getResp = await fetch(uploadApiBase, { headers });
+    if (getResp.ok) {
+      const fileData = await getResp.json();
+      sha = fileData.sha;
+      const decoded = atob(fileData.content.replace(/\n/g, ''));
+      currentContent = JSON.parse(decoded);
+    } else if (getResp.status !== 404) {
+      throw new Error(`GitHub GET failed: ${getResp.status}`);
+    }
+  } catch (err) {
+    if (err.message.includes('GitHub GET failed')) throw err;
+    throw new Error(`Network error: ${err.message}`);
+  }
+
+  if (!Array.isArray(currentContent.uploads)) currentContent.uploads = [];
+  currentContent.uploads.push(data);
+
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(currentContent, null, 2))));
+  const putBody = { message: `[方案工厂] 上传方案: ${data.shopName}`, content };
+  if (sha) putBody.sha = sha;
+
+  const putResp = await fetch(uploadApiBase, { method: 'PUT', headers, body: JSON.stringify(putBody) });
+  if (!putResp.ok) throw new Error(`GitHub PUT failed: ${putResp.status}`);
 }
 
 // ===== 上传示例弹窗 =====
