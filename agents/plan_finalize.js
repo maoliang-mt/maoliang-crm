@@ -101,7 +101,7 @@ async function updatePlan(id, fields) {
 }
 
 async function getPlan(id) {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/plans?id=eq.${id}&select=mis,shop_name,output_format,avg_price,monthly_revenue,area_sqm,category,notified_at,plan_abstract,summary,plan_share_url`, {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/plans?id=eq.${id}&select=mis,shop_name,output_format,avg_price,monthly_revenue,area_sqm,category,notified_at,plan_abstract,summary,plan_share_url,plan_html_url,plan_file_url,plan_pptx_url`, {
     headers: { 'apikey': ANON_KEY, 'Authorization': `Bearer ${ANON_KEY}` }
   });
   const rows = res.ok ? await res.json() : [];

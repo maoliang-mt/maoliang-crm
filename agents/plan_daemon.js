@@ -259,33 +259,84 @@ ${outputExt === 'html' ? `4. 生成完整运营方案内容，输出为 JSON 文
 `;
 }
 
+// ── SSO Token 获取（复用 finalize 同款逻辑） ─────────────────────────
+
+const DX_TOKEN_ENDPOINT = 'https://ssosv.sankuai.com/sson/auth/oidc/v1/token';
+const DX_TEXT_ENDPOINT  = 'https://xopen.sankuai.com/open-apis/dx-msg/sendChatMsgByRobot';
+const DX_MIS_AUDIENCE   = 'xm-xai';
+const DX_CLIENT_SECRET  = '4294bffbd10b41c3a1057501794077e4';
+const _tokenCache = {};
+
+async function getDxToken(audience = DX_MIS_AUDIENCE) {
+  const now = Date.now();
+  if (_tokenCache[audience]?.expireAt > now + 60000) return _tokenCache[audience].token;
+  const body = new URLSearchParams({
+    grant_type: 'client_credentials',
+    client_id: DX_CLIENT_ID,
+    client_secret: DX_CLIENT_SECRET,
+    scope: `client_id:${audience}`,
+    client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
+  });
+  const resp = await fetch(DX_TOKEN_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: body.toString(),
+    signal: AbortSignal.timeout(10000),
+  });
+  const data = await resp.json();
+  if (!data.access_token) throw new Error(`Token失败: ${JSON.stringify(data)}`);
+  _tokenCache[audience] = { token: data.access_token, expireAt: now + (data.expires_in || 10800) * 1000 };
+  return data.access_token;
+}
+
 // ── 提交确认通知 ──────────────────────────────────────────────────────
 
 async function sendSubmitConfirm(plan) {
   if (!plan.mis) return;
-  const empId = MIS_UID_MAP[plan.mis];
+  // 先查静态映射表，没有就调 xopen 查
+  let empId = MIS_UID_MAP[plan.mis] || null;
   if (!empId) {
-    log(`[${plan.id}] 提交通知：mis(${plan.mis})未找到UID，跳过`);
+    log(`[${plan.id}] 提交通知：mis(${plan.mis})不在映射表，尝试动态查询`);
+    try {
+      const token = await getDxToken();
+      const r = await fetch('https://xopen.sankuai.com/open-apis/dx/queryEmpIdentityByMisList', {
+        method: 'POST',
+        headers: { 'Authorization': token, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ misList: [plan.mis] }),
+        signal: AbortSignal.timeout(8000),
+      });
+      const d = await r.json();
+      empId = d?.data?.data?.[plan.mis]?.empId ? String(d.data.data[plan.mis].empId) : null;
+    } catch (e) {
+      log(`[${plan.id}] 提交通知：动态查询UID失败: ${e.message}`);
+    }
+  }
+  if (!empId) {
+    log(`[${plan.id}] 提交通知：无法解析 mis(${plan.mis}) 对应 UID，跳过`);
     return;
   }
+
   const msg = `✅ 【雄狮方案工厂】\n「${plan.shop_name}」的运营方案已收到，正在生成中，预计需要 5~15 分钟，完成后会自动发给你 🍊`;
-  const body = {
-    client_id: DX_CLIENT_ID,
-    to_employee_id: [String(empId)],
-    body: { content: msg },
-    msg_type: 'text',
-  };
-  const res = await fetch('https://daxiang.sankuai.com/api/message/send', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-    signal: AbortSignal.timeout(8000),
-  });
-  const data = await res.json().catch(() => ({}));
-  if (res.ok && (data?.code === 0 || data?.status?.code === 0)) {
-    log(`[${plan.id}] ✅ 提交确认通知已发 → ${plan.mis}(${empId})`);
-  } else {
-    log(`[${plan.id}] ⚠️ 提交确认通知发送失败: ${JSON.stringify(data).slice(0, 100)}`);
+  try {
+    const token = await getDxToken();
+    const payload = {
+      receiverIds: [Number(empId)],
+      sendMsgInfo: { type: 'text', body: JSON.stringify({ content: msg }) },
+    };
+    const res = await fetch(DX_TEXT_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Authorization': token, 'Content-Type': 'application/json; charset=utf-8' },
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(8000),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (data?.status?.code === 0) {
+      log(`[${plan.id}] ✅ 提交确认通知已发 → ${plan.mis}(${empId})`);
+    } else {
+      log(`[${plan.id}] ⚠️ 提交确认通知发送失败: ${JSON.stringify(data?.status || data).slice(0, 100)}`);
+    }
+  } catch (e) {
+    log(`[${plan.id}] 提交确认通知异常: ${e.message}`);
   }
 }
 
