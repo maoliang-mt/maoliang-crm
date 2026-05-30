@@ -321,7 +321,7 @@ async function sendSubmitConfirm(plan) {
     const token = await getDxToken();
     const payload = {
       receiverIds: [Number(empId)],
-      sendMsgInfo: { type: 'text', body: JSON.stringify({ content: msg }) },
+      sendMsgInfo: { type: 'text', body: JSON.stringify({ text: msg }) },
     };
     const res = await fetch(DX_TEXT_ENDPOINT, {
       method: 'POST',
