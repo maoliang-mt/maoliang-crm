@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>测试 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">北京菜/烤鸭 · 运营提升方案</div>
+  <h1 class="hero-title">测试</h1>
+  <p class="hero-subtitle">用地道京味留住每一桌，让烤鸭成为这条街的记忆坐标</p>
+  <div class="hero-address">⚠️ 假设：城市未提供，以北京菜外省门店行业参考值为基准</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥120</span>
+      <div class="hero-stat-label">预估人均（行业参考值）</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.6分</span>
+      <div class="hero-stat-label">目标点评评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">北京菜</span>
+      <div class="hero-stat-label">品类定位</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '门店诊断', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">门店诊断</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '竞品拆解', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">竞品拆解</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '大众点评赋能', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">大众点评赋能</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '公私域联动策略', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">公私域联动策略</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '营销活动方案', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">营销活动方案</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '会员储值体系', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">会员储值体系</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '峰终体验设计', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">峰终体验设计</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(9, '投资回报与OKR', 9)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 09</div>
+      <div class="chapter-title">投资回报与OKR</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>北京菜/烤鸭品类市场背景</h3><p>北京烤鸭是中国最具辨识度的饮食名片，全国消费者认知度极高，自带话题性。大众点评数据显示，外省城市「正宗北京烤鸭」门店普遍拥有更高的搜索热度和溢价空间——「异地正宗」标签天然产生差异化竞争力。</p><h3>目标客群三层画像</h3><ul><li><strong>主力客群（约55%）：</strong>25-45岁家庭聚餐，节假日/周末高峰，重体验仪式感，对片鸭、卷饼、蘸酱全流程有明确期待，客单120-160元/桌</li><li><strong>次力客群（约30%）：</strong>商务宴请/公司聚餐，人均接受度高，重点评评分和包厢体验，决策前必查大众点评</li><li><strong>潜力客群（约15%）：</strong>25岁以下探店消费者，受小红书/抖音影响，追颜值和仪式感，有主动传播意愿</li></ul><h3>行业趋势三大关键词</h3><ul><li>🔥 <strong>「一鸭多吃」套餐化</strong>：烤鸭+鸭架汤+鸭油炒饭全家福，人均拉升30-50元；火刻、局气等品牌验证该模式可将翻台率提升20%以上</li><li>🔥 <strong>小红书/抖音探店是最大获客渠道</strong>：「片鸭仪式感」短视频在全平台算法中有天然高完播率，多家烤鸭店靠一条视频引爆排队</li><li>🔥 <strong>中端价格带（人均80-150元）竞争最激烈但需求最旺盛</strong>：全国连锁（局气119元、大鸭梨107元）vs 本地品牌，差异化是生死线</li></ul><p><em>⚠️ 假设：以上行业数据为全国北京菜/烤鸭品类参考值；门店城市/商圈具体竞争格局建议国庆确认后补充。</em></p></div>
+<div id="modal-content-2" style="display:none"><h3>📊 数据基石（⚠️ 均为行业假设值，请国庆核实实际数据）</h3><table><tr><th>指标</th><th>假设值</th><th>行业基准</th><th>诊断结论</th></tr><tr><td>人均客单</td><td>⚠️ 假设120元</td><td>北京菜中端80-150元</td><td>定位合理，有提升空间</td></tr><tr><td>月流水</td><td>⚠️ 假设15万/月</td><td>北京菜门店均值12-20万</td><td>处于行业中位</td></tr><tr><td>日均接待桌数</td><td>推算：15万÷120÷30天÷2.5人均/桌≈17桌/天</td><td>中型门店25-40桌/天</td><td>🔴 引流不足，翻台偏低</td></tr><tr><td>点评评分</td><td>⚠️ 假设4.2分</td><td>北京菜均值4.2-4.5分</td><td>与均值持平，冲榜空间大</td></tr><tr><td>私域会员数</td><td>⚠️ 假设200人以内</td><td>成熟同规模门店300-500人</td><td>🔴 私域严重不足</td></tr></table><h3>三大核心痛点</h3><p><strong>🔴 痛点1：公域流量激活不足</strong><br/>你的月流水假设15万、日均17桌，说明门店当前主要靠「附近自然流量+老客复购」，缺乏主动拉新机制。北京烤鸭片鸭仪式感天然适合小红书/抖音传播，但假设门店目前没有系统运营内容——每天保守估计流失潜在新客10-15桌，折算月营收损失约3-4万元。</p><p><strong>🔴 痛点2：私域沉淀薄弱，回头客靠缘分</strong><br/>假设当前会员不足200人，意味着月流水15万中，大部分来自无法追踪的陌生客。北京烤鸭属于中低频品类（家庭1-2次/月），没有储值锁客，客人下次聚餐可能随机选择竞品。每增加1个600元储值会员，等于锁定未来4-5次消费，价值约2400元。</p><p><strong>🟡 痛点3：套餐结构未优化，客单价损失明显</strong><br/>仅卖整鸭 vs 推「一鸭多吃全家宴套餐」，人均差距可达30-50元。假设门店目前套餐带单率不足30%，若提升至60%，按17桌/天×30天×30元/桌提升，月营收可增加1.5万元。</p></div>
+<div id="modal-content-3" style="display:none"><h3>周边竞品分析（⚠️ 以下为行业通用假设，需国庆补充真实商圈数据）</h3><p>北京菜/烤鸭门店通常面临三类竞争形态：</p><table><tr><th>竞品类型</th><th>代表品牌（行业参考）</th><th>人均</th><th>核心弱点</th><th>我的切入机会</th></tr><tr><td>全国连锁分店</td><td>局气·烤鸭北京菜（人均119元）</td><td>100-130元</td><td>标准化强但缺人情味；本地化弱；部分客人反馈「量少价高」</td><td>主打手工现烤+真材实料+本地老板的温度感</td></tr><tr><td>本地北京菜馆</td><td>⚠️ 假设：周边某北京菜馆A（人均80元，评分4.1）</td><td>70-90元</td><td>评分低、装修老旧、无会员体系、不懂点评运营</td><td>用更高评分+完善会员权益拉开档次差距</td></tr><tr><td>聚餐替代竞品</td><td>当地粤菜/川菜馆（宴请场景竞争）</td><td>100-200元</td><td>缺乏北京烤鸭的仪式感和辨识度</td><td>「带烤鸭的宴请更有面子、更有记忆点」定位</td></tr></table><h3>差异化定位：三个抓手</h3><ul><li>🔧 <strong>大众点评冲榜</strong>：目标本地北京菜类别排名前3，让「搜同品类」时必然被看见</li><li>🔧 <strong>内容传播占位</strong>：小红书/抖音探店内容聚焦「片鸭仪式感+一鸭多吃」，先发占位同城话题</li><li>🔧 <strong>套餐差异化</strong>：设计「烤鸭全家宴套餐」（整鸭+鸭架汤+两荤两素，198元/2人），客单价高于低端竞品但体验价值感更强</li></ul></div>
+<div id="modal-content-4" style="display:none"><h3>点评阶段判断：成长期 → 冲榜期</h3><p>⚠️ 假设当前门店评分4.2分、评价数量一般，处于成长期。目标：60天内评分提升至4.5+，进入「本地北京菜热门榜前5名」。</p><h3>四步执行路径（全程合规）</h3><p><strong>第一步：基础信息优化（第1-7天，零成本）</strong></p><ul><li>🔧 更新门店主图：必须有出炉烤鸭特写+片鸭操作图，高饱和度食物图点击率提升约40%（行业参考值）</li><li>🔧 补全门店标签：「北京烤鸭」「挂炉烤鸭」「聚餐首选」「老北京风味」，提升关键词搜索匹配度</li><li>🔧 更新菜单图，突出「烤鸭全家宴套餐」和「一鸭多吃」标签</li><li>🔧 完善营业时间/停车信息/预订方式——完整信息可提升搜索排名约15%</li></ul><p><strong>第二步：好评自然生成（第8-30天）</strong></p><ul><li>🔧 扫码点餐结账页自动弹出评价引导（现有功能），每10桌自然带动2-3条新评价，不催促、完全合规</li><li>🔧 设计「片鸭峰值时刻」：烤鸭上桌时服务员说一句「这只鸭烤了40分钟，请您拍照留念」——触发客人自发拍照发评价，零成本</li><li>🔧 目标：每月自然新增评价30条+，保证口味/环境/服务三维度关键词覆盖</li></ul><p><strong>第三步：差评48小时响应机制（持续执行）</strong></p><ul><li>🔧 所有差评必须在48小时内回复：感谢反馈 + 具体改进措施 + 诚意补救</li><li>🔧 差评高频关键词（如「等位久」「出菜慢」）立即转化为SOP改进点</li><li>⚠️ 严禁任何促评/邀评行为——2025年10月后平台对高强度促评有严格识别，违规可能导致评价不计入星级</li></ul><p><strong>第四步：团购套餐上架（第15-30天）</strong></p><ul><li>🔧 大众点评上架「烤鸭全家宴2-3人套餐」（定价198-268元），比单点低10%，制造「团购更划算」感知</li><li>🔧 团购核销率目标：首月20%，三个月内达到35%——核销率每提升10%对应点评权重提升</li></ul><p><strong>榜单升级路径：</strong>当前假设4.2分 → 30天内4.4分 → 60天内进热门榜前5 → 90天冲好评榜</p></div>
+<div id="modal-content-5" style="display:none"><h3>公私域联动闭环：从「路人」到「家人」</h3><p>⚠️ 假设：当前已签约基础版会员+扫码点餐，以下方案在现有产品基础上设计。</p><h3>🌐 公域三板斧</h3><p><strong>大众点评（稳根基）：</strong>北京菜/烤鸭属于强决策品类（聚餐前必搜评分），大众点评是第一触点。目标：保持评分4.5+，进入本地榜单。详见「大众点评赋能」章节。</p><p><strong>小红书（拉新主阵地）：</strong>烤鸭天然内容素材包括：①「一鸭多吃」开箱记录（整鸭出炉→片鸭→卷饼→鸭架汤全流程）②「北京烤鸭吃法解密」图文（蘸白糖vs甜面酱派系之争，制造讨论）③「带家人吃正式北京烤鸭」情感向内容。执行节奏：每月2-3篇门店素材，鼓励客人「晒图享甜品」（成本不超过5元/次）。</p><p><strong>抖音（引爆节点）：</strong>每季度邀请1-2位本地探店达人，核心诉求：拍「片鸭过程」——食物制作类视频算法天然推流，完播率高。单次预算500-1000元（含探店费+赠菜），可带来300-2000人次精准曝光。预计每次探店内容带动到店新客30-80人次，获客成本约10-20元/人，远低于付费推广。</p><h3>🔒 私域沉淀：会员+储值</h3><p><strong>会员入口建设（扫码即入会）：</strong><br/>🔧 扫码点餐落座页弹出「扫码领5元券」，目标每桌注册转化率50%，按17桌/天×30天=510次机会，月新增会员约250人，3个月内私域池突破500人</p><p><strong>储值转化（结账时机最佳）：</strong><br/>推荐储值档位设计：体验档300元赠30元（10%赠送）+ 主推档600元赠80元+烤鸭半份券（合计赠约25%）+ 尊享档1500元赠200元+包间优先权。⚠️ 假设月储值目标2.5万元（约42人次，均值600元/人）。</p><p><strong>精准触达节奏：</strong></p><ul><li>📩 沉睡21天后推「专属烤鸭券」（核销率约15-20%）</li><li>📩 节日前7天推「聚餐预订提醒」（端午/国庆/春节是烤鸭消费旺季）</li><li>📩 每月1次新菜/活动通知（避免频繁打扰）</li></ul><h3>联动飞轮示意</h3><p>小红书/抖音视频→新客发现（公域）→到店扫码点餐（触点）→注册会员（私域入口）→结账推储值（沉淀）→21天触达（唤醒）→复购到店→晒图发评价（反哺公域）→飞轮循环</p></div>
+<div id="modal-content-6" style="display:none"><h3>全年营销节奏（北京菜/烤鸭特化版）</h3><p>⚠️ 假设：以2026年下半年为执行周期，月均活动预算控制在2000元以内（不含赠送食材成本）。</p><h3>常规月度活动</h3><table><tr><th>时期</th><th>活动主题</th><th>核心动作</th><th>预算</th></tr><tr><td>6-7月（暑期）</td><td>「带娃来学卷饼」</td><td>消费整鸭可参与「亲子自卷烤鸭」体验，拍照发朋友圈享甜品一份，成本约800元/月</td><td>食材约800元</td></tr><tr><td>8月（七夕）</td><td>「双人烤鸭情人宴」</td><td>双人套餐+专属小礼品（梨汤+甜品），定价198元在大众点评团购上架，情感消费钩子</td><td>0额外成本（组合定价）</td></tr><tr><td>9-10月（国庆）</td><td>「国庆全家烤鸭宴」</td><td>4人以上桌推「烤鸭全家宴套餐」（整鸭+鸭架汤+两荤两素+主食），定价368元，国庆期间额外赠老北京酸奶</td><td>食材约1200元/月</td></tr><tr><td>11-12月（冬季）</td><td>「暖冬储值季」</td><td>储值主推档由赠80元升为赠100元，限时15天制造稀缺感，快速回笼现金流</td><td>让利约3000元（预计50人储值）</td></tr></table><h3>季度大活动：「北京味道探店季」</h3><p>每季度邀请本地1-2位小红书/抖音探店达人，全程记录「一鸭多吃」完整仪式。要求：发带门店定位的图文/视频，预估触达1000-5000人次。费用：仅赠300-500元套餐，零现金投入。</p><p><strong>爆品锚点策略（全年执行）：</strong><br/>选定「烤鸭全家宴套餐」（198元/2人，含整鸭+鸭架汤+配菜）作为全年唯一主推爆品，大众点评团购排首位，小红书/抖音内容全部围绕这个套餐拍摄。品牌记忆靠重复一个点——全年只主推这一款，客单自然带动其他点单。</p><h3>会员专属活动</h3><ul><li>🔧 生日当月推「专属烤鸭半份免费券」，成本60-80元/人，触发情感峰值</li><li>🔧 每月1号「老客新菜品鉴」：邀请储值300元+会员试吃新菜，赠菜成本≤200元/场，换取口碑传播和朋友圈晒图</li><li>🔧 「带朋友来」裂变：老会员带新客到店消费，双方各享8折，获客成本约20-30元/人，远低于广告投放</li></ul></div>
+<div id="modal-content-7" style="display:none"><h3>储值+等级双轨制会员体系</h3><p>⚠️ 假设：当前已签约基础版会员+扫码点餐；旗舰版（4888元/年）升级后可解锁团购会员卡、潜客营销等更强能力，ROI更高。</p><h3>储值会员（钱包型，锁客核心）</h3><table><tr><th>档位</th><th>储值金额</th><th>赠送权益</th><th>对应客次</th><th>推荐客群</th></tr><tr><td>体验档</td><td>300元</td><td>赠30元（10%赠）</td><td>约2-3次聚餐</td><td>首次到店，低门槛入会</td></tr><tr><td>主推档🔥</td><td>600元</td><td>赠80元+烤鸭半份券×1（合计赠约25%）</td><td>约4-5次聚餐</td><td>家庭聚餐主力，重点推介</td></tr><tr><td>尊享档</td><td>1500元</td><td>赠200元+包间优先预订权+年度生日整鸭一份</td><td>约10-12次聚餐</td><td>商务宴请/高净值老客</td></tr></table><p><strong>数据测算（⚠️ 假设，建议国庆核实）：</strong><br/>月接待约510人次（17桌×30天×2.5人/桌）→ 注册会员转化率50%=255会员/月 → 其中7%选择储值=约18人/月 → 均值储值600元 → 月新增储值约1.1万元<br/>运营成熟后（储值转化率提升至10-15%）→ 月储值可达1.5-2.5万元 → 六个月累计储值池8-15万元，形成抗风险安全垫。</p><h3>等级会员（成长型，养客核心）</h3><table><tr><th>等级</th><th>入会门槛</th><th>核心权益</th></tr><tr><td>铜牌</td><td>扫码注册</td><td>专属优惠券+消费积分</td></tr><tr><td>银牌</td><td>累计消费满300元</td><td>9折+生日礼遇（烤鸭半份券）</td></tr><tr><td>金牌</td><td>累计消费满1000元</td><td>8.8折+包间优先预订+新品试吃邀请</td></tr></table><h3>两套体系联动</h3><p>储值解决「锁客」——钱在门店，有动力回来<br/>等级解决「养客」——等级越高权益越好，消费有正反馈<br/>双轨共同作用，将「偶尔来一次的路人」变成「重要聚餐首选这里的忠实客」。</p><p><strong>扫码点餐配合：</strong>结账前POS弹窗提示「您本单消费118元，储值600元可赠150元权益，下次相当于7.7折」——用数字说话，让储值决策变简单。</p></div>
+<div id="modal-content-8" style="display:none"><h3>峰终定律应用：顾客只记「最爽瞬间」和「走时感觉」</h3><p>北京烤鸭天然有2个绝佳的峰终设计机会——出炉上桌和结账离店。把资源集中在这两个点，总成本不超过客单价的3%，但效果是顾客主动传播的关键驱动力。</p><h3>🎯 峰值触点设计（出餐时刻）</h3><table><tr><th>触发方式</th><th>落地方法</th><th>成本</th><th>SaaS工具</th></tr><tr><td>片鸭仪式感话术</td><td>烤鸭出炉上桌时服务员说：「这只鸭烤了40分钟，外皮是传统挂炉烤制，请您拍照留念」——触发客人自发拍照发朋友圈/小红书</td><td>零</td><td>—</td></tr><tr><td>扫码弹窗惊喜</td><td>新客首次扫码弹出「新客专享：首单烤鸭套餐立减20元」弹窗，第一时间制造惊喜</td><td>让利约20元/新客</td><td>扫码点餐</td></tr><tr><td>结账即时反馈</td><td>收银结账时自动弹出「本单已省XX元（会员折扣/优惠券）」——让省钱看得见</td><td>零</td><td>会员+POS</td></tr><tr><td>小概率惊喜</td><td>每20桌随机1桌赠「老北京酸奶」一杯，由服务员在结账时送上，说「今天您是我们的幸运客人」</td><td>约3元/次</td><td>—</td></tr></table><h3>🎯 终值触点设计（离店时刻）</h3><table><tr><th>触发方式</th><th>落地方法</th><th>成本</th><th>SaaS工具</th></tr><tr><td>评价自动引导</td><td>结账后自动弹出大众点评评价页二维码，文案「您的评价对我们很重要，扫码分享您的烤鸭体验」</td><td>零</td><td>评价专家</td></tr><tr><td>储值结账话术</td><td>POS弹储值推荐「下次多省150元」，店员一句话轻推：「您常来吃的话储一下超划算」</td><td>零</td><td>会员储值</td></tr><tr><td>离店关怀消息</td><td>消费后24小时发「感谢光临+下次专属福利」通知，保持温度感</td><td>零</td><td>会员触达</td></tr><tr><td>低成本小物</td><td>收银台摆放「老北京薄荷糖」自取，成本0.3元/颗，每人取一颗，走出去嘴里还有门店的味道</td><td>约0.3元/人</td><td>—</td></tr></table><p><strong>执行铁律：</strong>以上动作全部嵌入现有服务流程，不需要额外培训，不增加人力成本——服务员只需要记住2句话（片鸭开场白+结账储值话术），其余全靠系统自动触发。</p></div>
+<div id="modal-content-9" style="display:none"><h3>方案投入测算（⚠️ 基于假设数据，请国庆核实后调整）</h3><table><tr><th>投入项目</th><th>月费用</th><th>说明</th></tr><tr><td>美团餐饮SaaS旗舰版</td><td>约407元/月（4888元/年）</td><td>会员+储值+扫码点餐+评价专家全模块</td></tr><tr><td>探店达人邀约</td><td>约250元/月（季度1次×1000元÷4）</td><td>以赠菜替代现金，实际现金支出≤500元/季度</td></tr><tr><td>会员活动赠品成本</td><td>约500元/月</td><td>生日券+老客品鉴+小概率惊喜合计</td></tr><tr><td>大众点评团购套餐上架</td><td>0（自主上架）</td><td>零佣金自运营团购</td></tr><tr><td><strong>月总投入合计</strong></td><td><strong>约1157元/月</strong></td><td>不含食材赠送成本（已含在活动预算内）</td></tr></table><h3>月增收测算</h3><table><tr><th>增收来源</th><th>测算逻辑</th><th>预计月增收</th></tr><tr><td>公域获客提升</td><td>小红书/抖音探店+点评冲榜，新增5桌/天×120元×30天</td><td>+1.8万元</td></tr><tr><td>套餐客单提升</td><td>套餐带单率从30%→60%，日均17桌×50%×30元×30天</td><td>+0.77万元</td></tr><tr><td>储值会员复购</td><td>储值会员每月消费，假设运营3个月后储值池2万元/月核销</td><td>+0.6万元（已在流水内，锁定贡献）</td></tr><tr><td>会员沉睡唤醒</td><td>21天沉睡推送，每月唤醒50人次×120元×20%核销率</td><td>+0.12万元</td></tr><tr><td><strong>月净增收合计</strong></td><td>—</td><td><strong>约+2.7万元/月</strong></td></tr></table><p><strong>ROI计算：</strong>月投入约0.12万元（SaaS年费摊销+活动预算），月增收约2.7万元，ROI约22.5倍。回本周期：约2个月（仅计算SaaS年费回收）。</p><h3>📊 季度OKR目标（⚠️ 假设当前月流水15万为基准）</h3><table><tr><th>指标</th><th>当前假设</th><th>第1个月目标</th><th>第3个月目标</th><th>第6个月目标</th></tr><tr><td>月营收</td><td>⚠️ 假设15万</td><td>16.5万</td><td>18万</td><td>22万</td></tr><tr><td>大众点评评分</td><td>⚠️ 假设4.2</td><td>4.3分</td><td>4.5分</td><td>4.6分（进热门榜）</td></tr><tr><td>私域会员数</td><td>⚠️ 假设200人</td><td>400人</td><td>600人</td><td>1000人</td></tr><tr><td>月储值入账</td><td>⚠️ 假设0.5万</td><td>1万</td><td>1.5万</td><td>2.5万</td></tr><tr><td>大众点评评价数/月</td><td>⚠️ 假设5条</td><td>20条</td><td>30条</td><td>40条</td></tr></table><p><strong>关键复盘节点：</strong></p><ul><li>📅 第15天：检查点评基础信息优化是否完成，团购套餐是否上架</li><li>📅 第30天：统计新增会员数、储值人数、月评价数——是否达到中期目标</li><li>📅 第60天：评分是否到4.4+？是否进榜？如否，检查差评关键词和高峰期服务问题</li><li>📅 第90天：储值池规模是否达到1.5万+？整体ROI是否超过10倍？</li></ul></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>陈国庆</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>北京菜/烤鸭品类市场背景</h3><p>北京烤鸭是中国最具辨识度的饮食名片，全国消费者认知度极高，自带话题性。大众点评数据显示，外省城市「正宗北京烤鸭」门店普遍拥有更高的搜索热度和溢价空间——「异地正宗」标签天然产生差异化竞争力。</p><h3>目标客群三层画像</h3><ul><li><strong>主力客群（约55%）：</strong>25-45岁家庭聚餐，节假日/周末高峰，重体验仪式感，对片鸭、卷饼、蘸酱全流程有明确期待，客单120-160元/桌</li><li><strong>次力客群（约30%）：</strong>商务宴请/公司聚餐，人均接受度高，重点评评分和包厢体验，决策前必查大众点评</li><li><strong>潜力客群（约15%）：</strong>25岁以下探店消费者，受小红书/抖音影响，追颜值和仪式感，有主动传播意愿</li></ul><h3>行业趋势三大关键词</h3><ul><li>🔥 <strong>「一鸭多吃」套餐化</strong>：烤鸭+鸭架汤+鸭油炒饭全家福，人均拉升30-50元；火刻、局气等品牌验证该模式可将翻台率提升20%以上</li><li>🔥 <strong>小红书/抖音探店是最大获客渠道</strong>：「片鸭仪式感」短视频在全平台算法中有天然高完播率，多家烤鸭店靠一条视频引爆排队</li><li>🔥 <strong>中端价格带（人均80-150元）竞争最激烈但需求最旺盛</strong>：全国连锁（局气119元、大鸭梨107元）vs 本地品牌，差异化是生死线</li></ul><p><em>⚠️ 假设：以上行业数据为全国北京菜/烤鸭品类参考值；门店城市/商圈具体竞争格局建议国庆确认后补充。</em></p>`,
+    2: `<h3>📊 数据基石（⚠️ 均为行业假设值，请国庆核实实际数据）</h3><table><tr><th>指标</th><th>假设值</th><th>行业基准</th><th>诊断结论</th></tr><tr><td>人均客单</td><td>⚠️ 假设120元</td><td>北京菜中端80-150元</td><td>定位合理，有提升空间</td></tr><tr><td>月流水</td><td>⚠️ 假设15万/月</td><td>北京菜门店均值12-20万</td><td>处于行业中位</td></tr><tr><td>日均接待桌数</td><td>推算：15万÷120÷30天÷2.5人均/桌≈17桌/天</td><td>中型门店25-40桌/天</td><td>🔴 引流不足，翻台偏低</td></tr><tr><td>点评评分</td><td>⚠️ 假设4.2分</td><td>北京菜均值4.2-4.5分</td><td>与均值持平，冲榜空间大</td></tr><tr><td>私域会员数</td><td>⚠️ 假设200人以内</td><td>成熟同规模门店300-500人</td><td>🔴 私域严重不足</td></tr></table><h3>三大核心痛点</h3><p><strong>🔴 痛点1：公域流量激活不足</strong><br/>你的月流水假设15万、日均17桌，说明门店当前主要靠「附近自然流量+老客复购」，缺乏主动拉新机制。北京烤鸭片鸭仪式感天然适合小红书/抖音传播，但假设门店目前没有系统运营内容——每天保守估计流失潜在新客10-15桌，折算月营收损失约3-4万元。</p><p><strong>🔴 痛点2：私域沉淀薄弱，回头客靠缘分</strong><br/>假设当前会员不足200人，意味着月流水15万中，大部分来自无法追踪的陌生客。北京烤鸭属于中低频品类（家庭1-2次/月），没有储值锁客，客人下次聚餐可能随机选择竞品。每增加1个600元储值会员，等于锁定未来4-5次消费，价值约2400元。</p><p><strong>🟡 痛点3：套餐结构未优化，客单价损失明显</strong><br/>仅卖整鸭 vs 推「一鸭多吃全家宴套餐」，人均差距可达30-50元。假设门店目前套餐带单率不足30%，若提升至60%，按17桌/天×30天×30元/桌提升，月营收可增加1.5万元。</p>`,
+    3: `<h3>周边竞品分析（⚠️ 以下为行业通用假设，需国庆补充真实商圈数据）</h3><p>北京菜/烤鸭门店通常面临三类竞争形态：</p><table><tr><th>竞品类型</th><th>代表品牌（行业参考）</th><th>人均</th><th>核心弱点</th><th>我的切入机会</th></tr><tr><td>全国连锁分店</td><td>局气·烤鸭北京菜（人均119元）</td><td>100-130元</td><td>标准化强但缺人情味；本地化弱；部分客人反馈「量少价高」</td><td>主打手工现烤+真材实料+本地老板的温度感</td></tr><tr><td>本地北京菜馆</td><td>⚠️ 假设：周边某北京菜馆A（人均80元，评分4.1）</td><td>70-90元</td><td>评分低、装修老旧、无会员体系、不懂点评运营</td><td>用更高评分+完善会员权益拉开档次差距</td></tr><tr><td>聚餐替代竞品</td><td>当地粤菜/川菜馆（宴请场景竞争）</td><td>100-200元</td><td>缺乏北京烤鸭的仪式感和辨识度</td><td>「带烤鸭的宴请更有面子、更有记忆点」定位</td></tr></table><h3>差异化定位：三个抓手</h3><ul><li>🔧 <strong>大众点评冲榜</strong>：目标本地北京菜类别排名前3，让「搜同品类」时必然被看见</li><li>🔧 <strong>内容传播占位</strong>：小红书/抖音探店内容聚焦「片鸭仪式感+一鸭多吃」，先发占位同城话题</li><li>🔧 <strong>套餐差异化</strong>：设计「烤鸭全家宴套餐」（整鸭+鸭架汤+两荤两素，198元/2人），客单价高于低端竞品但体验价值感更强</li></ul>`,
+    4: `<h3>点评阶段判断：成长期 → 冲榜期</h3><p>⚠️ 假设当前门店评分4.2分、评价数量一般，处于成长期。目标：60天内评分提升至4.5+，进入「本地北京菜热门榜前5名」。</p><h3>四步执行路径（全程合规）</h3><p><strong>第一步：基础信息优化（第1-7天，零成本）</strong></p><ul><li>🔧 更新门店主图：必须有出炉烤鸭特写+片鸭操作图，高饱和度食物图点击率提升约40%（行业参考值）</li><li>🔧 补全门店标签：「北京烤鸭」「挂炉烤鸭」「聚餐首选」「老北京风味」，提升关键词搜索匹配度</li><li>🔧 更新菜单图，突出「烤鸭全家宴套餐」和「一鸭多吃」标签</li><li>🔧 完善营业时间/停车信息/预订方式——完整信息可提升搜索排名约15%</li></ul><p><strong>第二步：好评自然生成（第8-30天）</strong></p><ul><li>🔧 扫码点餐结账页自动弹出评价引导（现有功能），每10桌自然带动2-3条新评价，不催促、完全合规</li><li>🔧 设计「片鸭峰值时刻」：烤鸭上桌时服务员说一句「这只鸭烤了40分钟，请您拍照留念」——触发客人自发拍照发评价，零成本</li><li>🔧 目标：每月自然新增评价30条+，保证口味/环境/服务三维度关键词覆盖</li></ul><p><strong>第三步：差评48小时响应机制（持续执行）</strong></p><ul><li>🔧 所有差评必须在48小时内回复：感谢反馈 + 具体改进措施 + 诚意补救</li><li>🔧 差评高频关键词（如「等位久」「出菜慢」）立即转化为SOP改进点</li><li>⚠️ 严禁任何促评/邀评行为——2025年10月后平台对高强度促评有严格识别，违规可能导致评价不计入星级</li></ul><p><strong>第四步：团购套餐上架（第15-30天）</strong></p><ul><li>🔧 大众点评上架「烤鸭全家宴2-3人套餐」（定价198-268元），比单点低10%，制造「团购更划算」感知</li><li>🔧 团购核销率目标：首月20%，三个月内达到35%——核销率每提升10%对应点评权重提升</li></ul><p><strong>榜单升级路径：</strong>当前假设4.2分 → 30天内4.4分 → 60天内进热门榜前5 → 90天冲好评榜</p>`,
+    5: `<h3>公私域联动闭环：从「路人」到「家人」</h3><p>⚠️ 假设：当前已签约基础版会员+扫码点餐，以下方案在现有产品基础上设计。</p><h3>🌐 公域三板斧</h3><p><strong>大众点评（稳根基）：</strong>北京菜/烤鸭属于强决策品类（聚餐前必搜评分），大众点评是第一触点。目标：保持评分4.5+，进入本地榜单。详见「大众点评赋能」章节。</p><p><strong>小红书（拉新主阵地）：</strong>烤鸭天然内容素材包括：①「一鸭多吃」开箱记录（整鸭出炉→片鸭→卷饼→鸭架汤全流程）②「北京烤鸭吃法解密」图文（蘸白糖vs甜面酱派系之争，制造讨论）③「带家人吃正式北京烤鸭」情感向内容。执行节奏：每月2-3篇门店素材，鼓励客人「晒图享甜品」（成本不超过5元/次）。</p><p><strong>抖音（引爆节点）：</strong>每季度邀请1-2位本地探店达人，核心诉求：拍「片鸭过程」——食物制作类视频算法天然推流，完播率高。单次预算500-1000元（含探店费+赠菜），可带来300-2000人次精准曝光。预计每次探店内容带动到店新客30-80人次，获客成本约10-20元/人，远低于付费推广。</p><h3>🔒 私域沉淀：会员+储值</h3><p><strong>会员入口建设（扫码即入会）：</strong><br/>🔧 扫码点餐落座页弹出「扫码领5元券」，目标每桌注册转化率50%，按17桌/天×30天=510次机会，月新增会员约250人，3个月内私域池突破500人</p><p><strong>储值转化（结账时机最佳）：</strong><br/>推荐储值档位设计：体验档300元赠30元（10%赠送）+ 主推档600元赠80元+烤鸭半份券（合计赠约25%）+ 尊享档1500元赠200元+包间优先权。⚠️ 假设月储值目标2.5万元（约42人次，均值600元/人）。</p><p><strong>精准触达节奏：</strong></p><ul><li>📩 沉睡21天后推「专属烤鸭券」（核销率约15-20%）</li><li>📩 节日前7天推「聚餐预订提醒」（端午/国庆/春节是烤鸭消费旺季）</li><li>📩 每月1次新菜/活动通知（避免频繁打扰）</li></ul><h3>联动飞轮示意</h3><p>小红书/抖音视频→新客发现（公域）→到店扫码点餐（触点）→注册会员（私域入口）→结账推储值（沉淀）→21天触达（唤醒）→复购到店→晒图发评价（反哺公域）→飞轮循环</p>`,
+    6: `<h3>全年营销节奏（北京菜/烤鸭特化版）</h3><p>⚠️ 假设：以2026年下半年为执行周期，月均活动预算控制在2000元以内（不含赠送食材成本）。</p><h3>常规月度活动</h3><table><tr><th>时期</th><th>活动主题</th><th>核心动作</th><th>预算</th></tr><tr><td>6-7月（暑期）</td><td>「带娃来学卷饼」</td><td>消费整鸭可参与「亲子自卷烤鸭」体验，拍照发朋友圈享甜品一份，成本约800元/月</td><td>食材约800元</td></tr><tr><td>8月（七夕）</td><td>「双人烤鸭情人宴」</td><td>双人套餐+专属小礼品（梨汤+甜品），定价198元在大众点评团购上架，情感消费钩子</td><td>0额外成本（组合定价）</td></tr><tr><td>9-10月（国庆）</td><td>「国庆全家烤鸭宴」</td><td>4人以上桌推「烤鸭全家宴套餐」（整鸭+鸭架汤+两荤两素+主食），定价368元，国庆期间额外赠老北京酸奶</td><td>食材约1200元/月</td></tr><tr><td>11-12月（冬季）</td><td>「暖冬储值季」</td><td>储值主推档由赠80元升为赠100元，限时15天制造稀缺感，快速回笼现金流</td><td>让利约3000元（预计50人储值）</td></tr></table><h3>季度大活动：「北京味道探店季」</h3><p>每季度邀请本地1-2位小红书/抖音探店达人，全程记录「一鸭多吃」完整仪式。要求：发带门店定位的图文/视频，预估触达1000-5000人次。费用：仅赠300-500元套餐，零现金投入。</p><p><strong>爆品锚点策略（全年执行）：</strong><br/>选定「烤鸭全家宴套餐」（198元/2人，含整鸭+鸭架汤+配菜）作为全年唯一主推爆品，大众点评团购排首位，小红书/抖音内容全部围绕这个套餐拍摄。品牌记忆靠重复一个点——全年只主推这一款，客单自然带动其他点单。</p><h3>会员专属活动</h3><ul><li>🔧 生日当月推「专属烤鸭半份免费券」，成本60-80元/人，触发情感峰值</li><li>🔧 每月1号「老客新菜品鉴」：邀请储值300元+会员试吃新菜，赠菜成本≤200元/场，换取口碑传播和朋友圈晒图</li><li>🔧 「带朋友来」裂变：老会员带新客到店消费，双方各享8折，获客成本约20-30元/人，远低于广告投放</li></ul>`,
+    7: `<h3>储值+等级双轨制会员体系</h3><p>⚠️ 假设：当前已签约基础版会员+扫码点餐；旗舰版（4888元/年）升级后可解锁团购会员卡、潜客营销等更强能力，ROI更高。</p><h3>储值会员（钱包型，锁客核心）</h3><table><tr><th>档位</th><th>储值金额</th><th>赠送权益</th><th>对应客次</th><th>推荐客群</th></tr><tr><td>体验档</td><td>300元</td><td>赠30元（10%赠）</td><td>约2-3次聚餐</td><td>首次到店，低门槛入会</td></tr><tr><td>主推档🔥</td><td>600元</td><td>赠80元+烤鸭半份券×1（合计赠约25%）</td><td>约4-5次聚餐</td><td>家庭聚餐主力，重点推介</td></tr><tr><td>尊享档</td><td>1500元</td><td>赠200元+包间优先预订权+年度生日整鸭一份</td><td>约10-12次聚餐</td><td>商务宴请/高净值老客</td></tr></table><p><strong>数据测算（⚠️ 假设，建议国庆核实）：</strong><br/>月接待约510人次（17桌×30天×2.5人/桌）→ 注册会员转化率50%=255会员/月 → 其中7%选择储值=约18人/月 → 均值储值600元 → 月新增储值约1.1万元<br/>运营成熟后（储值转化率提升至10-15%）→ 月储值可达1.5-2.5万元 → 六个月累计储值池8-15万元，形成抗风险安全垫。</p><h3>等级会员（成长型，养客核心）</h3><table><tr><th>等级</th><th>入会门槛</th><th>核心权益</th></tr><tr><td>铜牌</td><td>扫码注册</td><td>专属优惠券+消费积分</td></tr><tr><td>银牌</td><td>累计消费满300元</td><td>9折+生日礼遇（烤鸭半份券）</td></tr><tr><td>金牌</td><td>累计消费满1000元</td><td>8.8折+包间优先预订+新品试吃邀请</td></tr></table><h3>两套体系联动</h3><p>储值解决「锁客」——钱在门店，有动力回来<br/>等级解决「养客」——等级越高权益越好，消费有正反馈<br/>双轨共同作用，将「偶尔来一次的路人」变成「重要聚餐首选这里的忠实客」。</p><p><strong>扫码点餐配合：</strong>结账前POS弹窗提示「您本单消费118元，储值600元可赠150元权益，下次相当于7.7折」——用数字说话，让储值决策变简单。</p>`,
+    8: `<h3>峰终定律应用：顾客只记「最爽瞬间」和「走时感觉」</h3><p>北京烤鸭天然有2个绝佳的峰终设计机会——出炉上桌和结账离店。把资源集中在这两个点，总成本不超过客单价的3%，但效果是顾客主动传播的关键驱动力。</p><h3>🎯 峰值触点设计（出餐时刻）</h3><table><tr><th>触发方式</th><th>落地方法</th><th>成本</th><th>SaaS工具</th></tr><tr><td>片鸭仪式感话术</td><td>烤鸭出炉上桌时服务员说：「这只鸭烤了40分钟，外皮是传统挂炉烤制，请您拍照留念」——触发客人自发拍照发朋友圈/小红书</td><td>零</td><td>—</td></tr><tr><td>扫码弹窗惊喜</td><td>新客首次扫码弹出「新客专享：首单烤鸭套餐立减20元」弹窗，第一时间制造惊喜</td><td>让利约20元/新客</td><td>扫码点餐</td></tr><tr><td>结账即时反馈</td><td>收银结账时自动弹出「本单已省XX元（会员折扣/优惠券）」——让省钱看得见</td><td>零</td><td>会员+POS</td></tr><tr><td>小概率惊喜</td><td>每20桌随机1桌赠「老北京酸奶」一杯，由服务员在结账时送上，说「今天您是我们的幸运客人」</td><td>约3元/次</td><td>—</td></tr></table><h3>🎯 终值触点设计（离店时刻）</h3><table><tr><th>触发方式</th><th>落地方法</th><th>成本</th><th>SaaS工具</th></tr><tr><td>评价自动引导</td><td>结账后自动弹出大众点评评价页二维码，文案「您的评价对我们很重要，扫码分享您的烤鸭体验」</td><td>零</td><td>评价专家</td></tr><tr><td>储值结账话术</td><td>POS弹储值推荐「下次多省150元」，店员一句话轻推：「您常来吃的话储一下超划算」</td><td>零</td><td>会员储值</td></tr><tr><td>离店关怀消息</td><td>消费后24小时发「感谢光临+下次专属福利」通知，保持温度感</td><td>零</td><td>会员触达</td></tr><tr><td>低成本小物</td><td>收银台摆放「老北京薄荷糖」自取，成本0.3元/颗，每人取一颗，走出去嘴里还有门店的味道</td><td>约0.3元/人</td><td>—</td></tr></table><p><strong>执行铁律：</strong>以上动作全部嵌入现有服务流程，不需要额外培训，不增加人力成本——服务员只需要记住2句话（片鸭开场白+结账储值话术），其余全靠系统自动触发。</p>`,
+    9: `<h3>方案投入测算（⚠️ 基于假设数据，请国庆核实后调整）</h3><table><tr><th>投入项目</th><th>月费用</th><th>说明</th></tr><tr><td>美团餐饮SaaS旗舰版</td><td>约407元/月（4888元/年）</td><td>会员+储值+扫码点餐+评价专家全模块</td></tr><tr><td>探店达人邀约</td><td>约250元/月（季度1次×1000元÷4）</td><td>以赠菜替代现金，实际现金支出≤500元/季度</td></tr><tr><td>会员活动赠品成本</td><td>约500元/月</td><td>生日券+老客品鉴+小概率惊喜合计</td></tr><tr><td>大众点评团购套餐上架</td><td>0（自主上架）</td><td>零佣金自运营团购</td></tr><tr><td><strong>月总投入合计</strong></td><td><strong>约1157元/月</strong></td><td>不含食材赠送成本（已含在活动预算内）</td></tr></table><h3>月增收测算</h3><table><tr><th>增收来源</th><th>测算逻辑</th><th>预计月增收</th></tr><tr><td>公域获客提升</td><td>小红书/抖音探店+点评冲榜，新增5桌/天×120元×30天</td><td>+1.8万元</td></tr><tr><td>套餐客单提升</td><td>套餐带单率从30%→60%，日均17桌×50%×30元×30天</td><td>+0.77万元</td></tr><tr><td>储值会员复购</td><td>储值会员每月消费，假设运营3个月后储值池2万元/月核销</td><td>+0.6万元（已在流水内，锁定贡献）</td></tr><tr><td>会员沉睡唤醒</td><td>21天沉睡推送，每月唤醒50人次×120元×20%核销率</td><td>+0.12万元</td></tr><tr><td><strong>月净增收合计</strong></td><td>—</td><td><strong>约+2.7万元/月</strong></td></tr></table><p><strong>ROI计算：</strong>月投入约0.12万元（SaaS年费摊销+活动预算），月增收约2.7万元，ROI约22.5倍。回本周期：约2个月（仅计算SaaS年费回收）。</p><h3>📊 季度OKR目标（⚠️ 假设当前月流水15万为基准）</h3><table><tr><th>指标</th><th>当前假设</th><th>第1个月目标</th><th>第3个月目标</th><th>第6个月目标</th></tr><tr><td>月营收</td><td>⚠️ 假设15万</td><td>16.5万</td><td>18万</td><td>22万</td></tr><tr><td>大众点评评分</td><td>⚠️ 假设4.2</td><td>4.3分</td><td>4.5分</td><td>4.6分（进热门榜）</td></tr><tr><td>私域会员数</td><td>⚠️ 假设200人</td><td>400人</td><td>600人</td><td>1000人</td></tr><tr><td>月储值入账</td><td>⚠️ 假设0.5万</td><td>1万</td><td>1.5万</td><td>2.5万</td></tr><tr><td>大众点评评价数/月</td><td>⚠️ 假设5条</td><td>20条</td><td>30条</td><td>40条</td></tr></table><p><strong>关键复盘节点：</strong></p><ul><li>📅 第15天：检查点评基础信息优化是否完成，团购套餐是否上架</li><li>📅 第30天：统计新增会员数、储值人数、月评价数——是否达到中期目标</li><li>📅 第60天：评分是否到4.4+？是否进榜？如否，检查差评关键词和高峰期服务问题</li><li>📅 第90天：储值池规模是否达到1.5万+？整体ROI是否超过10倍？</li></ul>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
