@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>浙里煮小龙虾大排档火锅 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #8B4513;
+      --primary-light: #A0522D;
+      --accent: #D2B48C;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #8B451340;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">烧烤/大排档/火锅 · 运营提升方案</div>
+  <h1 class="hero-title">浙里煮小龙虾大排档火锅</h1>
+  <p class="hero-subtitle">21条评价撬动2118个流失客，用数据把过路客变回头客</p>
+  <div class="hero-address">浙江省杭州市钱塘区白杨街道宝龙商业中心B-2号B1-34</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">3.7分</span>
+      <div class="hero-stat-label">当前点评评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥51</span>
+      <div class="hero-stat-label">人均消费</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">0.89%</span>
+      <div class="hero-stat-label">访问转化率</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '数据诊断·门店体检报告', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">数据诊断·门店体检报告</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解·宝龙商圈作战地图', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解·宝龙商圈作战地图</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '点评评分攻坚·30天从3.7冲4.0', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">点评评分攻坚·30天从3.7冲4.0</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '转化率攻坚·把2118个流失客拉回来', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">转化率攻坚·把2118个流失客拉回来</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '夏季爆品策略·小龙虾打透一个记忆点', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">夏季爆品策略·小龙虾打透一个记忆点</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '公域三平台联动·大众点评+抖音+小红书', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">公域三平台联动·大众点评+抖音+小红书</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '私域锁客·会员储值体系', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">私域锁客·会员储值体系</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '夜宵场景运营·21点后黄金时段', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">夜宵场景运营·21点后黄金时段</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(9, '投资回报·OKR量化目标', 9)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 09</div>
+      <div class="chapter-title">投资回报·OKR量化目标</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>核心经营数据（来源：美团平台近30天）</h3><table><tr><th>指标</th><th>当前值</th><th>同商圈均值</th><th>差距</th></tr><tr><td>点评评分</td><td>3.7分</td><td>4.0-4.2分</td><td>低于均值0.3-0.5分</td></tr><tr><td>评价数量</td><td>21条</td><td>50-80条</td><td>不足均值一半</td></tr><tr><td>曝光人数</td><td>11,054人</td><td>—</td><td>曝光量尚可</td></tr><tr><td>曝光转化率</td><td>19.33%</td><td>19.33%</td><td>持平</td></tr><tr><td>访问转化率</td><td>0.89%</td><td>0.89%</td><td>绝对值极低</td></tr><tr><td>月消费人数</td><td>19人</td><td>—</td><td>严重不足</td></tr><tr><td>流失人数</td><td>2,118人</td><td>—</td><td>99%访客未转化</td></tr><tr><td>老客占比</td><td>5.26%（1人）</td><td>20-30%</td><td>几乎无复购</td></tr><tr><td>月到店消费金额</td><td>2,000-2,500元</td><td>—</td><td>远低于盈亏平衡</td></tr></table><h3>核心问题诊断</h3><p><strong>问题一：评分过低导致「看了不敢来」</strong></p><p>你目前3.7分在下沙宝龙商圈火锅/大排档品类中处于底部。消费者搜索时，4.0以下的门店会被大部分用户自动过滤。2,137人访问了你的店铺页面，但只有19人最终到店——0.89%的转化率意味着每100个看到你的人里，99个选择了别家。</p><p><strong>问题二：评价量太少，新客信任度不足</strong></p><p>仅21条评价，消费者无法判断菜品质量和服务水平。对比同商圈竞品佰萬大排档有165条评价，你在「可信度」上天然吃亏。开业2.5个月（2026-03-17开业），本应利用新店期红利冲到30-50条评价，但目前严重滞后。</p><p><strong>问题三：老客几乎为零，获客全靠「撒网」</strong></p><p>30天内仅1位老客回头（5.26%），说明首次到店体验未形成记忆锚点，没有任何锁客手段。获客完全依赖平台新客，成本极高且不可持续。</p><h3>诊断结论</h3><p>门店处于<strong>「有曝光、无转化、零复购」</strong>的危险状态。核心卡点不是没人看到你，而是<strong>看到了不敢来、来了不想再来</strong>。方案围绕「提评分→促转化→锁回头客」三步展开。</p></div>
+<div id="modal-content-2" style="display:none"><h3>周边3公里同业态竞品分析</h3><p>下沙宝龙广场B1层及周边大排档/火锅/烧烤业态竞品：</p><table><tr><th>竞品名称</th><th>品类</th><th>人均</th><th>评价数</th><th>核心优势</th><th>弱点与切入机会</th></tr><tr><td>佰萬大排档·江湖川菜·鲜肉烧烤(宝龙店)</td><td>川菜/烧烤/闽菜</td><td>55-65元</td><td>165条</td><td>菜品丰富（精品烤鱼/泡椒蛙/毛血旺），多品类融合吸引力强</td><td>品类杂不聚焦，难建品牌记忆；无明确爆品</td></tr><tr><td>锅佳佳转转锅(下沙宝龙店)</td><td>小火锅/自助</td><td>34元</td><td>较多</td><td>价格极低、传送带模式有趣味性</td><td>自助模式无服务溢价，品质感不足</td></tr><tr><td>赵美丽·重庆社区火锅(下沙旗舰店)</td><td>重庆火锅</td><td>70-90元</td><td>较多</td><td>品牌连锁、口味标准化、社区粘性</td><td>价格比你高40%，非同价位竞争</td></tr><tr><td>肉本家(下沙宝龙)</td><td>韩式烤肉</td><td>130+元</td><td>口碑好</td><td>排队网红店、烤肉品质高</td><td>高客单不同客群，非直接竞争</td></tr><tr><td>戒指龙虾(高沙店)</td><td>小龙虾</td><td>100元</td><td>口碑好</td><td>龙虾肉饱满、老店口碑、需预约</td><td>季节性强、价格是你2倍</td></tr></table><h3>竞争格局判断</h3><p><strong>你的定位空间：人均50元档「小龙虾+火锅+大排档」复合业态。</strong></p><p>在宝龙B1层，佰萬大排档是最直接竞品——同为大排档定位、客单相近、品类重叠。但佰萬已有165条评价，你目前21条，差距8倍。好消息是佰萬偏川菜/闽菜方向，你的小龙虾+火锅双主线有差异化空间。</p><p><strong>差异化机会：</strong></p><ul><li>「浙里煮」名字暗示本地风味+煮法特色，可强化「鲜煮」概念</li><li>小龙虾+火锅「一锅两吃」在宝龙B1唯一，打夏季场景差异化</li><li>人均51元在火锅品类中有极强性价比优势（赵美丽70-90、戒指龙虾100）</li></ul><h3>核心竞争策略</h3><p>不跟佰萬比菜品数量（它有161道推荐菜），而是聚焦<strong>1-2道爆品</strong>（小龙虾/牛肉火锅）做到极致，配合夏季夜宵场景打透「下沙宝龙最划算的龙虾火锅局」这个心智定位。</p></div>
+<div id="modal-content-3" style="display:none"><h3>目标：30天内评分3.7→4.0，评价21条→40条</h3><p>你目前处于<strong>「成长期」（3.5-3.9星，50条以下评价）</strong>，距离热门榜门槛（50条+4.0分）还差19条评价和0.3分星级。评分不到4.0，后续所有运营投入的回报都打折扣。</p><h3>第一周：店铺基础信息优化（0成本）</h3><ul><li><strong>封面图更换</strong>：用手机拍摄小龙虾出锅/牛肉火锅翻滚的动态感照片，暖色调+热气腾腾</li><li><strong>招牌菜设置</strong>：商家后台设置3-5道招牌菜（小龙虾、鲜切牛肉、特色锅底），每道配高清实拍图</li><li><strong>信息完善</strong>：营业时间/电话/招牌菜/环境照100%填写完整→搜索权重+20%</li><li><strong>引流团购上线</strong>：「2人小龙虾尝鲜锅」原价128→团购价88元（不赚钱，只为拉人到店）</li></ul><h3>第二周：评价自然增长机制</h3><ul><li><strong>扫码点餐</strong>：顾客扫码→点餐→支付后自动弹出点评评价入口（支付即触达，自然转化）</li><li><strong>出餐仪式感</strong>：小龙虾上桌配专属摆盘+一次性手套+湿巾套装，制造「出片瞬间」让顾客自发拍照</li><li><strong>差评48h响应</strong>：评价专家实时推送差评→即时回复+赠补偿券邀请再次体验</li><li><strong>好评回复</strong>：每条好评当天回复，展示老板「有温度有态度」的形象</li></ul><h3>第三/四周：流量引爆+评价冲刺</h3><ul><li><strong>达人探店</strong>：邀请1-2位下沙本地美食达人到店，产出图文内容（费用约200-500元/人）</li><li><strong>小红书/抖音</strong>：老板自拍「龙虾出锅」短视频3-5条，挂团购链接引流</li><li><strong>平台活动</strong>：参与大众点评「免费试吃」官方活动，获取高质量真实评价</li></ul><h3>红线提醒</h3><p><strong>严禁任何形式的促评/刷评</strong>。2025年10月后平台规则升级：高强度促评→新评价不产生星级收益。所有评价必须来自真实消费体验。</p><h3>预期效果</h3><p>30天后：评价数21→40条（日均新增0.6条），星级3.7→4.0（差评处理+新增好评稀释），曝光转化率19.33%→22%以上。</p></div>
+<div id="modal-content-4" style="display:none"><h3>核心问题：0.89%的访问转化率</h3><p>每月2,137人点进你的店铺页面，但只有19人最终到店消费。<strong>2,118人看了你的页面后选择了别家。</strong>转化率低的原因链：评分3.7不够有吸引力→评价只有21条缺乏说服力→没有引流团购缺少「立刻下单」的冲动→菜品图/环境图食欲感不够。</p><h3>转化率提升四板斧</h3><h4>第一斧：引流团购（让犹豫者下单）</h4><ul><li><strong>尝鲜套餐</strong>：「2人龙虾火锅尝鲜局」团购价88元（原价128），含1斤十三香小龙虾+牛肉拼盘+2份蔬菜+锅底</li><li><strong>夜宵套餐</strong>：「深夜3人撸虾局」团购价138元（原价198），含2斤龙虾+烤串拼盘+3瓶啤酒</li><li>定价逻辑：团购不赚钱（毛利10%），核心是把浏览者拉到店，靠加菜和酒水盈利</li></ul><h4>第二斧：视觉升级（让页面有食欲感）</h4><ul><li>门店封面重拍：小龙虾堆满桌的丰盛感场景照（晚间暖光拍摄）</li><li>菜品图标准：招牌菜45度俯拍+热气腾腾出锅瞬间</li><li>环境图补充：展示大排档氛围感——啤酒、三五好友、烟火气</li></ul><h4>第三斧：套餐锚定效应</h4><ul><li>三档定价：88元尝鲜档/138元主推档/198元豪华档</li><li>最贵档不是为了卖，是让138元显得划算——消费者天然选中间档</li><li>每档标注「已省XX元」，强化占便宜心理</li></ul><h4>第四斧：好评前置展示</h4><ul><li>精选3条带图好评置顶（选「龙虾新鲜」「性价比高」「老板实在」类关键词）</li><li>商家回复每条评价，展示老板有温度的人设</li></ul><h3>预期效果</h3><p>访问转化率目标：0.89%→2.5%（行业优秀水平3-5%）。月消费人数19人→55人（2137×2.5%）。月消费金额2000-2500元→约2800-3000元（平台端）。实际到店含非平台渠道，月流水目标突破3万。</p></div>
+<div id="modal-content-5" style="display:none"><h3>为什么聚焦小龙虾？</h3><p>店名「浙里煮小龙虾大排档火锅」——小龙虾是名字里第一个词，是消费者第一印象。6-9月是小龙虾黄金季，下沙宝龙周边学生+白领对夜宵龙虾有天然需求。竞品戒指龙虾人均100元，你人均51元有极强价格优势。你目前月消费金额仅2000-2500元，必须用爆品快速放大到店客流。</p><h3>爆品打造方案</h3><h4>1. 确定1道超级爆品</h4><ul><li>选定「招牌十三香小龙虾」作为核心爆品，全渠道主推</li><li>口味标准化：固定配方+出品SOP，确保每一锅品质稳定</li><li>命名升级：「浙里煮·招牌十三香龙虾」（品牌名嵌入菜名，强化记忆）</li></ul><h4>2. 围绕爆品设计全套营销</h4><ul><li><strong>团购主图</strong>：封面就是满盆红彤彤小龙虾，标题「下沙51元吃到饱的龙虾火锅局」</li><li><strong>短视频</strong>：拍「现场挑虾→清洗→下锅→出锅」全流程，强调新鲜现做</li><li><strong>小红书</strong>：标题模板「下沙宝龙51块的龙虾火锅 学生党狂喜」</li><li><strong>打卡道具</strong>：桌上放龙虾造型拍照道具+品牌水牌，鼓励自发分享</li></ul><h4>3.「一锅两吃」场景打造</h4><p>你同时有火锅和小龙虾，这是独特优势——先吃龙虾，吃完用龙虾汤底涮火锅。「一锅两吃」在宝龙B1是独一份的差异化卖点：</p><ul><li>宣传话术：「先嗦虾再涮肉，一顿吃出两种快乐」</li><li>套餐命名：「龙虾火锅两吃套餐」，强调超值感</li><li>啤酒加购：夏季标配，套餐+9.9元得3瓶啤酒（啤酒毛利65%以上）</li></ul><h3>预期效果</h3><p>6-8月龙虾季，以爆品为核心引流，月到店客从19人→80+人。小龙虾套餐贡献50%以上营业额，利用龙虾高毛利（食材成本约35%）支撑盈利。月流水目标：日均流水3000元（已达标签标准）→目标5000元。</p></div>
+<div id="modal-content-6" style="display:none"><h3>三平台定位与分工</h3><table><tr><th>平台</th><th>定位</th><th>内容方向</th><th>预算/月</th></tr><tr><td>大众点评</td><td>核心转化阵地</td><td>团购套餐+好评积累+达人探店</td><td>推广通已开（月预算500-800元）</td></tr><tr><td>抖音</td><td>曝光引爆</td><td>「龙虾出锅」短视频+团购挂车</td><td>0成本（老板自拍）</td></tr><tr><td>小红书</td><td>种草口碑</td><td>「学生党/打工人夜宵」场景笔记</td><td>达人合作200-500元/次</td></tr></table><h3>大众点评运营（核心）</h3><ul><li><strong>推广通优化</strong>：已开通且在线。聚焦「小龙虾」「下沙火锅」「宝龙美食」三个关键词竞价</li><li><strong>商户通开通</strong>：目前未开通——开通后可自定义店铺首页、置顶精选评价、上传视频，对转化率提升显著</li><li><strong>团购矩阵</strong>：保持3款在线（88/138/198元三档），每月更新保持新鲜感</li><li><strong>达人探店</strong>：每月1-2位本地达人（500-1000粉即可），产出真实图文评价</li></ul><h3>抖音运营（免费流量）</h3><ul><li><strong>内容模板</strong>：「下沙51块的龙虾火锅有多离谱」「宝龙B1的宝藏大排档」「下班后的快乐=一盆小龙虾」</li><li><strong>发布频率</strong>：每周2-3条，晚间18-20点发布（夜宵决策时段）</li><li><strong>挂车策略</strong>：抖音团购到店核销，打通线上→到店链路</li></ul><h3>小红书运营（口碑种草）</h3><ul><li><strong>笔记关键词</strong>：#下沙美食 #宝龙美食 #杭州夜宵 #学生党聚餐 #小龙虾季</li><li><strong>合作方式</strong>：邀请2-3位素人达人免单体验出笔记（成本100-200元/人）</li><li><strong>特别说明</strong>：下沙周边大学生群体活跃在小红书，「学生党夜宵」场景天然适配</li></ul><h3>公域引流目标</h3><p>三平台联动，月曝光11,054→20,000+，访问人数2,137→4,000+，到店消费人数19→80+。</p></div>
+<div id="modal-content-7" style="display:none"><h3>当前最大问题：老客占比5.26%</h3><p>30天内19位消费者中只有1人回头。客单51元的大排档品类，正常老客占比应在25-40%——你的差距是5-8倍。没有私域锁客手段，所有营销投入都在给平台打工。月消费金额仅2000-2500元，如果能把老客占比提到25%，仅靠回头客就能每月贡献额外营收。</p><h3>会员体系设计（扫码即会员，零门槛）</h3><table><tr><th>等级</th><th>入会条件</th><th>核心权益</th></tr><tr><td>普通会员</td><td>扫码点餐自动注册</td><td>积分1元=1分、生日8折券、新品尝鲜价</td></tr><tr><td>银卡</td><td>累计消费满300元</td><td>9.5折+每月满100减10券+优先留位</td></tr><tr><td>金卡</td><td>累计消费满800元</td><td>9折+每月2张券+免费加菜1份+专属价</td></tr></table><h3>储值方案（客单51×10-15次=主推档500元）</h3><table><tr><th>档位</th><th>金额</th><th>赠送</th><th>实际折扣</th><th>目标人群</th></tr><tr><td>体验档</td><td>充200元</td><td>送20元</td><td>9.1折</td><td>首次尝试型</td></tr><tr><td>主推档</td><td>充500元</td><td>送80元</td><td>8.6折</td><td>核心目标，锁10次消费</td></tr><tr><td>尊享档</td><td>充1000元</td><td>送200元</td><td>8.3折</td><td>高频常客/附近上班族</td></tr></table><p><strong>储值推荐时机</strong>：大排档中频消费（每1-2周），首次体验满意后即推。店员话术：「今天消费51块，充500送80相当于8.6折，下次带朋友来还能用，划算的。」</p><h3>私域沉淀路径</h3><p>扫码点餐→自动注册会员→消费后推送「3天内到店」优惠券→7天未复购自动唤醒→形成「到店→注册→复购→储值→高频」完整漏斗。</p><h3>预期效果</h3><p>60天后老客占比：5.26%→20%以上。月储值目标：首月锁定10位×500元=入账5000元现金流。储值会员月均消费频次3-4次，远高于普通客1次。</p></div>
+<div id="modal-content-8" style="display:none"><h3>为什么做夜宵？</h3><p>下沙白杨街道周边有杭州电子科大、浙江传媒、中国计量等多所高校，加上宝龙商圈产业园白领，夜宵需求旺盛。「小龙虾+火锅+大排档」天然就是夜宵黄金业态。行业数据：烧烤/大排档品类21:00-凌晨1:00的营业额占全天40-50%。目前你的日均流水3000+元，如果能抓住夜宵时段，月营收直接翻倍不是空话。</p><h3>夜宵时段运营策略</h3><h4>1. 时段定价策略</h4><ul><li>21:00后到店享「深夜特惠」：啤酒买2送1、小龙虾+9.9元加半斤</li><li>逻辑：晚间食材边际成本极低（当天备货不清则浪费），促销拉人比浪费划算</li></ul><h4>2. 氛围感营造（0成本）</h4><ul><li>晚间播放动感BGM（经典摇滚/夏日氛围歌单）</li><li>桌面标配：龙虾壳专用桶+手套+湿巾，仪式感拉满</li><li>门口摆1-2张露天桌（夏季限定），打造「路边摊氛围」</li></ul><h4>3. 夜宵专属套餐</h4><ul><li>「深夜双人局」：1斤龙虾+4串烤肉+2瓶啤酒 = 99元</li><li>「宵夜四人团」：2斤龙虾+烤串拼盘+火锅涮菜+4瓶啤酒 = 199元</li><li>凌晨特价：23:00后小龙虾买2斤送1斤（清货+制造口碑传播）</li></ul><h4>4. 夜宵内容营销</h4><ul><li>抖音/小红书发布时间改为20:00-22:00（种草→当晚转化）</li><li>内容关键词：「下班了去哪嗦虾」「下沙深夜食堂」「凌晨还在营业的龙虾店」</li></ul><h3>预期效果</h3><p>夜宵时段（21:00-1:00）贡献目标：日均营收1500-2000元，占全天45%。月流水从约9万（日均3000）→目标15万（日均5000），增量主要来自夜宵场景客群。</p></div>
+<div id="modal-content-9" style="display:none"><h3>整体投入预算</h3><table><tr><th>投入项目</th><th>月预算</th><th>说明</th></tr><tr><td>推广通竞价</td><td>500-800元</td><td>已开通，聚焦3个核心词</td></tr><tr><td>商户通开通</td><td>约600元/年（月均50）</td><td>自定义店铺+评价管理</td></tr><tr><td>达人探店</td><td>500-1000元</td><td>每月1-2位本地达人</td></tr><tr><td>小红书素人</td><td>400-600元</td><td>2-3位素人免单出笔记</td></tr><tr><td>团购让利</td><td>约800-1200元</td><td>套餐让利成本（按月30单计）</td></tr><tr><td>SaaS产品（年费分摊）</td><td>约400-500元/月</td><td>会员旗舰版+扫码点餐+评价专家</td></tr><tr><td><strong>月总投入</strong></td><td><strong>2,800-4,200元</strong></td><td>—</td></tr></table><h3>预期收益（3个月后月度稳态）</h3><table><tr><th>增收来源</th><th>月增收</th><th>逻辑</th></tr><tr><td>团购引流新客</td><td>+3,000-5,000元</td><td>评分4.0+转化率2.5%→月新增35-50人×客单51</td></tr><tr><td>储值锁客</td><td>+5,000元现金流</td><td>月10位×平均500元储值</td></tr><tr><td>老客复购</td><td>+3,000-4,000元</td><td>老客占比提至20%→月复购客15人×客单51×频次1.5</td></tr><tr><td>夜宵增量</td><td>+8,000-12,000元</td><td>夜宵时段日增500-800元×15天有效日</td></tr><tr><td><strong>月总增收</strong></td><td><strong>+19,000-26,000元</strong></td><td>—</td></tr></table><h3>ROI计算</h3><p>月投入约3,500元，月增收约22,000元，<strong>投入产出比1:6.3</strong>。回本周期：首月即正向。</p><h3>90天OKR目标</h3><table><tr><th>维度</th><th>当前值</th><th>30天目标</th><th>60天目标</th><th>90天目标</th></tr><tr><td>点评评分</td><td>3.7分</td><td>3.9分</td><td>4.0分</td><td>4.2分</td></tr><tr><td>评价数</td><td>21条</td><td>35条</td><td>50条</td><td>70条</td></tr><tr><td>月消费人数</td><td>19人</td><td>50人</td><td>80人</td><td>120人</td></tr><tr><td>老客占比</td><td>5.26%</td><td>10%</td><td>20%</td><td>25%</td></tr><tr><td>月流水（估）</td><td>约9万</td><td>10万</td><td>12万</td><td>15万</td></tr><tr><td>储值会员数</td><td>0</td><td>10人</td><td>25人</td><td>40人</td></tr><tr><td>访问转化率</td><td>0.89%</td><td>1.5%</td><td>2.5%</td><td>3.5%</td></tr></table><h3>关键里程碑</h3><ul><li><strong>第7天</strong>：团购套餐上线+封面优化完成</li><li><strong>第14天</strong>：扫码点餐+会员系统上线运行</li><li><strong>第21天</strong>：首轮达人探店内容发布</li><li><strong>第30天</strong>：首次数据复盘，评估评分和转化率变化</li><li><strong>第60天</strong>：评分破4.0，启动冲热门榜</li><li><strong>第90天</strong>：全面复盘，调整下一季度策略</li></ul></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>陈国庆</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>核心经营数据（来源：美团平台近30天）</h3><table><tr><th>指标</th><th>当前值</th><th>同商圈均值</th><th>差距</th></tr><tr><td>点评评分</td><td>3.7分</td><td>4.0-4.2分</td><td>低于均值0.3-0.5分</td></tr><tr><td>评价数量</td><td>21条</td><td>50-80条</td><td>不足均值一半</td></tr><tr><td>曝光人数</td><td>11,054人</td><td>—</td><td>曝光量尚可</td></tr><tr><td>曝光转化率</td><td>19.33%</td><td>19.33%</td><td>持平</td></tr><tr><td>访问转化率</td><td>0.89%</td><td>0.89%</td><td>绝对值极低</td></tr><tr><td>月消费人数</td><td>19人</td><td>—</td><td>严重不足</td></tr><tr><td>流失人数</td><td>2,118人</td><td>—</td><td>99%访客未转化</td></tr><tr><td>老客占比</td><td>5.26%（1人）</td><td>20-30%</td><td>几乎无复购</td></tr><tr><td>月到店消费金额</td><td>2,000-2,500元</td><td>—</td><td>远低于盈亏平衡</td></tr></table><h3>核心问题诊断</h3><p><strong>问题一：评分过低导致「看了不敢来」</strong></p><p>你目前3.7分在下沙宝龙商圈火锅/大排档品类中处于底部。消费者搜索时，4.0以下的门店会被大部分用户自动过滤。2,137人访问了你的店铺页面，但只有19人最终到店——0.89%的转化率意味着每100个看到你的人里，99个选择了别家。</p><p><strong>问题二：评价量太少，新客信任度不足</strong></p><p>仅21条评价，消费者无法判断菜品质量和服务水平。对比同商圈竞品佰萬大排档有165条评价，你在「可信度」上天然吃亏。开业2.5个月（2026-03-17开业），本应利用新店期红利冲到30-50条评价，但目前严重滞后。</p><p><strong>问题三：老客几乎为零，获客全靠「撒网」</strong></p><p>30天内仅1位老客回头（5.26%），说明首次到店体验未形成记忆锚点，没有任何锁客手段。获客完全依赖平台新客，成本极高且不可持续。</p><h3>诊断结论</h3><p>门店处于<strong>「有曝光、无转化、零复购」</strong>的危险状态。核心卡点不是没人看到你，而是<strong>看到了不敢来、来了不想再来</strong>。方案围绕「提评分→促转化→锁回头客」三步展开。</p>`,
+    2: `<h3>周边3公里同业态竞品分析</h3><p>下沙宝龙广场B1层及周边大排档/火锅/烧烤业态竞品：</p><table><tr><th>竞品名称</th><th>品类</th><th>人均</th><th>评价数</th><th>核心优势</th><th>弱点与切入机会</th></tr><tr><td>佰萬大排档·江湖川菜·鲜肉烧烤(宝龙店)</td><td>川菜/烧烤/闽菜</td><td>55-65元</td><td>165条</td><td>菜品丰富（精品烤鱼/泡椒蛙/毛血旺），多品类融合吸引力强</td><td>品类杂不聚焦，难建品牌记忆；无明确爆品</td></tr><tr><td>锅佳佳转转锅(下沙宝龙店)</td><td>小火锅/自助</td><td>34元</td><td>较多</td><td>价格极低、传送带模式有趣味性</td><td>自助模式无服务溢价，品质感不足</td></tr><tr><td>赵美丽·重庆社区火锅(下沙旗舰店)</td><td>重庆火锅</td><td>70-90元</td><td>较多</td><td>品牌连锁、口味标准化、社区粘性</td><td>价格比你高40%，非同价位竞争</td></tr><tr><td>肉本家(下沙宝龙)</td><td>韩式烤肉</td><td>130+元</td><td>口碑好</td><td>排队网红店、烤肉品质高</td><td>高客单不同客群，非直接竞争</td></tr><tr><td>戒指龙虾(高沙店)</td><td>小龙虾</td><td>100元</td><td>口碑好</td><td>龙虾肉饱满、老店口碑、需预约</td><td>季节性强、价格是你2倍</td></tr></table><h3>竞争格局判断</h3><p><strong>你的定位空间：人均50元档「小龙虾+火锅+大排档」复合业态。</strong></p><p>在宝龙B1层，佰萬大排档是最直接竞品——同为大排档定位、客单相近、品类重叠。但佰萬已有165条评价，你目前21条，差距8倍。好消息是佰萬偏川菜/闽菜方向，你的小龙虾+火锅双主线有差异化空间。</p><p><strong>差异化机会：</strong></p><ul><li>「浙里煮」名字暗示本地风味+煮法特色，可强化「鲜煮」概念</li><li>小龙虾+火锅「一锅两吃」在宝龙B1唯一，打夏季场景差异化</li><li>人均51元在火锅品类中有极强性价比优势（赵美丽70-90、戒指龙虾100）</li></ul><h3>核心竞争策略</h3><p>不跟佰萬比菜品数量（它有161道推荐菜），而是聚焦<strong>1-2道爆品</strong>（小龙虾/牛肉火锅）做到极致，配合夏季夜宵场景打透「下沙宝龙最划算的龙虾火锅局」这个心智定位。</p>`,
+    3: `<h3>目标：30天内评分3.7→4.0，评价21条→40条</h3><p>你目前处于<strong>「成长期」（3.5-3.9星，50条以下评价）</strong>，距离热门榜门槛（50条+4.0分）还差19条评价和0.3分星级。评分不到4.0，后续所有运营投入的回报都打折扣。</p><h3>第一周：店铺基础信息优化（0成本）</h3><ul><li><strong>封面图更换</strong>：用手机拍摄小龙虾出锅/牛肉火锅翻滚的动态感照片，暖色调+热气腾腾</li><li><strong>招牌菜设置</strong>：商家后台设置3-5道招牌菜（小龙虾、鲜切牛肉、特色锅底），每道配高清实拍图</li><li><strong>信息完善</strong>：营业时间/电话/招牌菜/环境照100%填写完整→搜索权重+20%</li><li><strong>引流团购上线</strong>：「2人小龙虾尝鲜锅」原价128→团购价88元（不赚钱，只为拉人到店）</li></ul><h3>第二周：评价自然增长机制</h3><ul><li><strong>扫码点餐</strong>：顾客扫码→点餐→支付后自动弹出点评评价入口（支付即触达，自然转化）</li><li><strong>出餐仪式感</strong>：小龙虾上桌配专属摆盘+一次性手套+湿巾套装，制造「出片瞬间」让顾客自发拍照</li><li><strong>差评48h响应</strong>：评价专家实时推送差评→即时回复+赠补偿券邀请再次体验</li><li><strong>好评回复</strong>：每条好评当天回复，展示老板「有温度有态度」的形象</li></ul><h3>第三/四周：流量引爆+评价冲刺</h3><ul><li><strong>达人探店</strong>：邀请1-2位下沙本地美食达人到店，产出图文内容（费用约200-500元/人）</li><li><strong>小红书/抖音</strong>：老板自拍「龙虾出锅」短视频3-5条，挂团购链接引流</li><li><strong>平台活动</strong>：参与大众点评「免费试吃」官方活动，获取高质量真实评价</li></ul><h3>红线提醒</h3><p><strong>严禁任何形式的促评/刷评</strong>。2025年10月后平台规则升级：高强度促评→新评价不产生星级收益。所有评价必须来自真实消费体验。</p><h3>预期效果</h3><p>30天后：评价数21→40条（日均新增0.6条），星级3.7→4.0（差评处理+新增好评稀释），曝光转化率19.33%→22%以上。</p>`,
+    4: `<h3>核心问题：0.89%的访问转化率</h3><p>每月2,137人点进你的店铺页面，但只有19人最终到店消费。<strong>2,118人看了你的页面后选择了别家。</strong>转化率低的原因链：评分3.7不够有吸引力→评价只有21条缺乏说服力→没有引流团购缺少「立刻下单」的冲动→菜品图/环境图食欲感不够。</p><h3>转化率提升四板斧</h3><h4>第一斧：引流团购（让犹豫者下单）</h4><ul><li><strong>尝鲜套餐</strong>：「2人龙虾火锅尝鲜局」团购价88元（原价128），含1斤十三香小龙虾+牛肉拼盘+2份蔬菜+锅底</li><li><strong>夜宵套餐</strong>：「深夜3人撸虾局」团购价138元（原价198），含2斤龙虾+烤串拼盘+3瓶啤酒</li><li>定价逻辑：团购不赚钱（毛利10%），核心是把浏览者拉到店，靠加菜和酒水盈利</li></ul><h4>第二斧：视觉升级（让页面有食欲感）</h4><ul><li>门店封面重拍：小龙虾堆满桌的丰盛感场景照（晚间暖光拍摄）</li><li>菜品图标准：招牌菜45度俯拍+热气腾腾出锅瞬间</li><li>环境图补充：展示大排档氛围感——啤酒、三五好友、烟火气</li></ul><h4>第三斧：套餐锚定效应</h4><ul><li>三档定价：88元尝鲜档/138元主推档/198元豪华档</li><li>最贵档不是为了卖，是让138元显得划算——消费者天然选中间档</li><li>每档标注「已省XX元」，强化占便宜心理</li></ul><h4>第四斧：好评前置展示</h4><ul><li>精选3条带图好评置顶（选「龙虾新鲜」「性价比高」「老板实在」类关键词）</li><li>商家回复每条评价，展示老板有温度的人设</li></ul><h3>预期效果</h3><p>访问转化率目标：0.89%→2.5%（行业优秀水平3-5%）。月消费人数19人→55人（2137×2.5%）。月消费金额2000-2500元→约2800-3000元（平台端）。实际到店含非平台渠道，月流水目标突破3万。</p>`,
+    5: `<h3>为什么聚焦小龙虾？</h3><p>店名「浙里煮小龙虾大排档火锅」——小龙虾是名字里第一个词，是消费者第一印象。6-9月是小龙虾黄金季，下沙宝龙周边学生+白领对夜宵龙虾有天然需求。竞品戒指龙虾人均100元，你人均51元有极强价格优势。你目前月消费金额仅2000-2500元，必须用爆品快速放大到店客流。</p><h3>爆品打造方案</h3><h4>1. 确定1道超级爆品</h4><ul><li>选定「招牌十三香小龙虾」作为核心爆品，全渠道主推</li><li>口味标准化：固定配方+出品SOP，确保每一锅品质稳定</li><li>命名升级：「浙里煮·招牌十三香龙虾」（品牌名嵌入菜名，强化记忆）</li></ul><h4>2. 围绕爆品设计全套营销</h4><ul><li><strong>团购主图</strong>：封面就是满盆红彤彤小龙虾，标题「下沙51元吃到饱的龙虾火锅局」</li><li><strong>短视频</strong>：拍「现场挑虾→清洗→下锅→出锅」全流程，强调新鲜现做</li><li><strong>小红书</strong>：标题模板「下沙宝龙51块的龙虾火锅 学生党狂喜」</li><li><strong>打卡道具</strong>：桌上放龙虾造型拍照道具+品牌水牌，鼓励自发分享</li></ul><h4>3.「一锅两吃」场景打造</h4><p>你同时有火锅和小龙虾，这是独特优势——先吃龙虾，吃完用龙虾汤底涮火锅。「一锅两吃」在宝龙B1是独一份的差异化卖点：</p><ul><li>宣传话术：「先嗦虾再涮肉，一顿吃出两种快乐」</li><li>套餐命名：「龙虾火锅两吃套餐」，强调超值感</li><li>啤酒加购：夏季标配，套餐+9.9元得3瓶啤酒（啤酒毛利65%以上）</li></ul><h3>预期效果</h3><p>6-8月龙虾季，以爆品为核心引流，月到店客从19人→80+人。小龙虾套餐贡献50%以上营业额，利用龙虾高毛利（食材成本约35%）支撑盈利。月流水目标：日均流水3000元（已达标签标准）→目标5000元。</p>`,
+    6: `<h3>三平台定位与分工</h3><table><tr><th>平台</th><th>定位</th><th>内容方向</th><th>预算/月</th></tr><tr><td>大众点评</td><td>核心转化阵地</td><td>团购套餐+好评积累+达人探店</td><td>推广通已开（月预算500-800元）</td></tr><tr><td>抖音</td><td>曝光引爆</td><td>「龙虾出锅」短视频+团购挂车</td><td>0成本（老板自拍）</td></tr><tr><td>小红书</td><td>种草口碑</td><td>「学生党/打工人夜宵」场景笔记</td><td>达人合作200-500元/次</td></tr></table><h3>大众点评运营（核心）</h3><ul><li><strong>推广通优化</strong>：已开通且在线。聚焦「小龙虾」「下沙火锅」「宝龙美食」三个关键词竞价</li><li><strong>商户通开通</strong>：目前未开通——开通后可自定义店铺首页、置顶精选评价、上传视频，对转化率提升显著</li><li><strong>团购矩阵</strong>：保持3款在线（88/138/198元三档），每月更新保持新鲜感</li><li><strong>达人探店</strong>：每月1-2位本地达人（500-1000粉即可），产出真实图文评价</li></ul><h3>抖音运营（免费流量）</h3><ul><li><strong>内容模板</strong>：「下沙51块的龙虾火锅有多离谱」「宝龙B1的宝藏大排档」「下班后的快乐=一盆小龙虾」</li><li><strong>发布频率</strong>：每周2-3条，晚间18-20点发布（夜宵决策时段）</li><li><strong>挂车策略</strong>：抖音团购到店核销，打通线上→到店链路</li></ul><h3>小红书运营（口碑种草）</h3><ul><li><strong>笔记关键词</strong>：#下沙美食 #宝龙美食 #杭州夜宵 #学生党聚餐 #小龙虾季</li><li><strong>合作方式</strong>：邀请2-3位素人达人免单体验出笔记（成本100-200元/人）</li><li><strong>特别说明</strong>：下沙周边大学生群体活跃在小红书，「学生党夜宵」场景天然适配</li></ul><h3>公域引流目标</h3><p>三平台联动，月曝光11,054→20,000+，访问人数2,137→4,000+，到店消费人数19→80+。</p>`,
+    7: `<h3>当前最大问题：老客占比5.26%</h3><p>30天内19位消费者中只有1人回头。客单51元的大排档品类，正常老客占比应在25-40%——你的差距是5-8倍。没有私域锁客手段，所有营销投入都在给平台打工。月消费金额仅2000-2500元，如果能把老客占比提到25%，仅靠回头客就能每月贡献额外营收。</p><h3>会员体系设计（扫码即会员，零门槛）</h3><table><tr><th>等级</th><th>入会条件</th><th>核心权益</th></tr><tr><td>普通会员</td><td>扫码点餐自动注册</td><td>积分1元=1分、生日8折券、新品尝鲜价</td></tr><tr><td>银卡</td><td>累计消费满300元</td><td>9.5折+每月满100减10券+优先留位</td></tr><tr><td>金卡</td><td>累计消费满800元</td><td>9折+每月2张券+免费加菜1份+专属价</td></tr></table><h3>储值方案（客单51×10-15次=主推档500元）</h3><table><tr><th>档位</th><th>金额</th><th>赠送</th><th>实际折扣</th><th>目标人群</th></tr><tr><td>体验档</td><td>充200元</td><td>送20元</td><td>9.1折</td><td>首次尝试型</td></tr><tr><td>主推档</td><td>充500元</td><td>送80元</td><td>8.6折</td><td>核心目标，锁10次消费</td></tr><tr><td>尊享档</td><td>充1000元</td><td>送200元</td><td>8.3折</td><td>高频常客/附近上班族</td></tr></table><p><strong>储值推荐时机</strong>：大排档中频消费（每1-2周），首次体验满意后即推。店员话术：「今天消费51块，充500送80相当于8.6折，下次带朋友来还能用，划算的。」</p><h3>私域沉淀路径</h3><p>扫码点餐→自动注册会员→消费后推送「3天内到店」优惠券→7天未复购自动唤醒→形成「到店→注册→复购→储值→高频」完整漏斗。</p><h3>预期效果</h3><p>60天后老客占比：5.26%→20%以上。月储值目标：首月锁定10位×500元=入账5000元现金流。储值会员月均消费频次3-4次，远高于普通客1次。</p>`,
+    8: `<h3>为什么做夜宵？</h3><p>下沙白杨街道周边有杭州电子科大、浙江传媒、中国计量等多所高校，加上宝龙商圈产业园白领，夜宵需求旺盛。「小龙虾+火锅+大排档」天然就是夜宵黄金业态。行业数据：烧烤/大排档品类21:00-凌晨1:00的营业额占全天40-50%。目前你的日均流水3000+元，如果能抓住夜宵时段，月营收直接翻倍不是空话。</p><h3>夜宵时段运营策略</h3><h4>1. 时段定价策略</h4><ul><li>21:00后到店享「深夜特惠」：啤酒买2送1、小龙虾+9.9元加半斤</li><li>逻辑：晚间食材边际成本极低（当天备货不清则浪费），促销拉人比浪费划算</li></ul><h4>2. 氛围感营造（0成本）</h4><ul><li>晚间播放动感BGM（经典摇滚/夏日氛围歌单）</li><li>桌面标配：龙虾壳专用桶+手套+湿巾，仪式感拉满</li><li>门口摆1-2张露天桌（夏季限定），打造「路边摊氛围」</li></ul><h4>3. 夜宵专属套餐</h4><ul><li>「深夜双人局」：1斤龙虾+4串烤肉+2瓶啤酒 = 99元</li><li>「宵夜四人团」：2斤龙虾+烤串拼盘+火锅涮菜+4瓶啤酒 = 199元</li><li>凌晨特价：23:00后小龙虾买2斤送1斤（清货+制造口碑传播）</li></ul><h4>4. 夜宵内容营销</h4><ul><li>抖音/小红书发布时间改为20:00-22:00（种草→当晚转化）</li><li>内容关键词：「下班了去哪嗦虾」「下沙深夜食堂」「凌晨还在营业的龙虾店」</li></ul><h3>预期效果</h3><p>夜宵时段（21:00-1:00）贡献目标：日均营收1500-2000元，占全天45%。月流水从约9万（日均3000）→目标15万（日均5000），增量主要来自夜宵场景客群。</p>`,
+    9: `<h3>整体投入预算</h3><table><tr><th>投入项目</th><th>月预算</th><th>说明</th></tr><tr><td>推广通竞价</td><td>500-800元</td><td>已开通，聚焦3个核心词</td></tr><tr><td>商户通开通</td><td>约600元/年（月均50）</td><td>自定义店铺+评价管理</td></tr><tr><td>达人探店</td><td>500-1000元</td><td>每月1-2位本地达人</td></tr><tr><td>小红书素人</td><td>400-600元</td><td>2-3位素人免单出笔记</td></tr><tr><td>团购让利</td><td>约800-1200元</td><td>套餐让利成本（按月30单计）</td></tr><tr><td>SaaS产品（年费分摊）</td><td>约400-500元/月</td><td>会员旗舰版+扫码点餐+评价专家</td></tr><tr><td><strong>月总投入</strong></td><td><strong>2,800-4,200元</strong></td><td>—</td></tr></table><h3>预期收益（3个月后月度稳态）</h3><table><tr><th>增收来源</th><th>月增收</th><th>逻辑</th></tr><tr><td>团购引流新客</td><td>+3,000-5,000元</td><td>评分4.0+转化率2.5%→月新增35-50人×客单51</td></tr><tr><td>储值锁客</td><td>+5,000元现金流</td><td>月10位×平均500元储值</td></tr><tr><td>老客复购</td><td>+3,000-4,000元</td><td>老客占比提至20%→月复购客15人×客单51×频次1.5</td></tr><tr><td>夜宵增量</td><td>+8,000-12,000元</td><td>夜宵时段日增500-800元×15天有效日</td></tr><tr><td><strong>月总增收</strong></td><td><strong>+19,000-26,000元</strong></td><td>—</td></tr></table><h3>ROI计算</h3><p>月投入约3,500元，月增收约22,000元，<strong>投入产出比1:6.3</strong>。回本周期：首月即正向。</p><h3>90天OKR目标</h3><table><tr><th>维度</th><th>当前值</th><th>30天目标</th><th>60天目标</th><th>90天目标</th></tr><tr><td>点评评分</td><td>3.7分</td><td>3.9分</td><td>4.0分</td><td>4.2分</td></tr><tr><td>评价数</td><td>21条</td><td>35条</td><td>50条</td><td>70条</td></tr><tr><td>月消费人数</td><td>19人</td><td>50人</td><td>80人</td><td>120人</td></tr><tr><td>老客占比</td><td>5.26%</td><td>10%</td><td>20%</td><td>25%</td></tr><tr><td>月流水（估）</td><td>约9万</td><td>10万</td><td>12万</td><td>15万</td></tr><tr><td>储值会员数</td><td>0</td><td>10人</td><td>25人</td><td>40人</td></tr><tr><td>访问转化率</td><td>0.89%</td><td>1.5%</td><td>2.5%</td><td>3.5%</td></tr></table><h3>关键里程碑</h3><ul><li><strong>第7天</strong>：团购套餐上线+封面优化完成</li><li><strong>第14天</strong>：扫码点餐+会员系统上线运行</li><li><strong>第21天</strong>：首轮达人探店内容发布</li><li><strong>第30天</strong>：首次数据复盘，评估评分和转化率变化</li><li><strong>第60天</strong>：评分破4.0，启动冲热门榜</li><li><strong>第90天</strong>：全面复盘，调整下一季度策略</li></ul>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
