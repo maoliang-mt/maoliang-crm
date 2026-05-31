@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>吃货天下（衍印中心店） · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #C47A3A;
+      --primary-light: #D4894A;
+      --accent: #E8A87C;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #C47A3A40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">饮品/酸奶鲜奶 · 运营提升方案</div>
+  <h1 class="hero-title">吃货天下（衍印中心店）</h1>
+  <p class="hero-subtitle">新店冷启动：30天建立口碑壁垒，锁住严家路的年轻客流</p>
+  <div class="hero-address">浙江省杭州市上城区彭埠街道严家路338号</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥38</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">新塘商圈</span>
+      <div class="hero-stat-label">所在商圈</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '商圈洞察与客群画像', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">商圈洞察与客群画像</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '开业冷启动30天作战计划', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">开业冷启动30天作战计划</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '大众点评运营专项', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">大众点评运营专项</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '会员体系与储值方案', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">会员体系与储值方案</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '公私域联动闭环', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">公私域联动闭环</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '产品结构与爆品策略', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">产品结构与爆品策略</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '峰终体验设计', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">峰终体验设计</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(9, '投资回报与OKR目标', 9)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 09</div>
+      <div class="chapter-title">投资回报与OKR目标</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>新塘路/秋涛路沿线商圈概况</h3><p>门店位于彭埠街道严家路338号（衍印中心），紧邻地铁4号线新塘站B口（步行约170米），周边以<strong>产业园区写字楼+新建住宅小区</strong>为主。日间人群以上班族为主（25-35岁），傍晚及周末家庭客群增加。</p><h3>流量数据实况（海鸥后台近30天）</h3><ul><li><strong>线上曝光人数：54人</strong>——门店已被平台收录但尚未开业，自然曝光有限</li><li><strong>访问人数：6人</strong>，曝光转化率11.11%——<em>远超同商圈同品类均值0.78%（14倍）</em></li><li><strong>消费人数：0</strong>——门店尚未开业，无法产生交易</li><li><strong>流失人数：6人</strong>——6个访客全部流失，原因：无菜单/无团购/无评价</li></ul><p><strong>核心洞察：</strong>品牌名和品类自带流量吸引力（转化率14倍于均值），开业后只要补齐承接内容（团购+评价+营业状态），访问到消费转化率拉到30%以上完全可期。</p><h3>目标客群画像</h3><table><tr><th>客群类型</th><th>占比预估</th><th>消费场景</th><th>客单价</th></tr><tr><td>产业园白领</td><td>50%</td><td>午后下午茶/外卖</td><td>25-35元</td></tr><tr><td>周边小区居民</td><td>30%</td><td>饭后甜品/亲子</td><td>30-45元</td></tr><tr><td>地铁过路客</td><td>20%</td><td>路过尝鲜</td><td>20-30元</td></tr></table><p>人均38元定位属于<strong>中高端健康饮品</strong>（高于古茗/霸王茶姬15-25元），需以品质感和健康概念做差异化。</p></div>
+<div id="modal-content-2" style="display:none"><h3>500米内核心竞品分析</h3><table><tr><th>竞品名称</th><th>距离</th><th>人均</th><th>核心弱点</th><th>我方切入点</th></tr><tr><td><strong>幸运小筑(新塘店)</strong></td><td>隔壁336号</td><td>88元(畅饮)</td><td>客单高/非日常消费/甜品为主</td><td>日常健康饮品+低门槛复购</td></tr><tr><td><strong>古茗(三花国际)</strong></td><td>约800米</td><td>15-20元</td><td>产品同质化/无健康壁垒</td><td>鲜酿酸奶差异化/0添加</td></tr><tr><td><strong>霸王茶姬(普大福地)</strong></td><td>约1.2公里</td><td>18-25元</td><td>纯茶路线/无酸奶覆盖</td><td>品类差异：酸奶不等于茶饮</td></tr></table><h3>竞争定位策略</h3><ul><li><strong>隔壁幸运小筑</strong>：走高端下午茶路线（88元），消费频次低。吃货天下做「每天都能来」的健康日常饮品，互补而非正面竞争</li><li><strong>古茗/霸王茶姬</strong>：标准化茶饮连锁，健康概念弱。吃货天下打「0添加鲜酿酸奶」vs「科技与狠活奶茶」的认知差</li></ul><p><strong>差异化定位：</strong>「别人卖奶茶，我们卖健康——鲜酿酸奶+超级水果，每天一杯无负担。」</p><h3>价格带占位</h3><p>商圈价格带：蜜雪5-10元 → 古茗15-20元 → 霸王茶姬18-25元 → <strong>吃货天下38元（健康轻食空白带）</strong> → 幸运小筑88元。38元精准卡位「品质健康饮品」档，避开价格战红海。</p></div>
+<div id="modal-content-3" style="display:none"><h3>开业前7天：蓄水期（当前阶段）</h3><ul><li><strong>Day -7到-3：完善大众点评商户页</strong>——上传15张高清产品图+完整菜单+门头照，让54个曝光用户不再白白流失</li><li><strong>Day -7到-1：发布开业团购</strong>——9.9元抵30元尝鲜券（限200份）+ 58元双人酸奶套餐（原价86元）</li><li><strong>Day -3到-1：朋友圈预热</strong>——老板+员工每人发3条短视频（产品制作过程），附门店定位</li></ul><h3>开业第1-7天：爆发期</h3><ul><li><strong>开业当天</strong>：全场第二杯半价（限堂食）+ 拍照发圈送小料加倍</li><li><strong>Day 1-3</strong>：评价破冰，目标3天内积累10条带图评价（结账扫码弹出分享页，自然引导不强制）</li><li><strong>Day 4-7</strong>：团购核销冲量，日均核销20单，7天累计140单到店</li></ul><h3>开业第8-30天：口碑建设期</h3><ul><li><strong>Week 2</strong>：上线会员体系——扫码即注册+充5送1储值卡（190元送38元）</li><li><strong>Week 3</strong>：启动外卖——满30减5，主推单人酸奶套餐28元</li><li><strong>Week 4</strong>：数据复盘+策略调整</li></ul><h3>30天关键里程碑</h3><table><tr><th>节点</th><th>目标</th><th>验证指标</th></tr><tr><td>第7天</td><td>评价破10条</td><td>点评评价数</td></tr><tr><td>第14天</td><td>会员注册破100</td><td>会员系统</td></tr><tr><td>第21天</td><td>日均流水破2000</td><td>POS日报</td></tr><tr><td>第30天</td><td>出星4.3+</td><td>点评星级</td></tr></table></div>
+<div id="modal-content-4" style="display:none"><h3>当前状态诊断</h3><p>门店已被平台收录（POI审核通过），但处于<strong>空壳状态</strong>：</p><ul><li>无评价/无评分/无菜单/无团购——访客看到后100%流失（数据验证：6访客全部流失）</li><li>品类标签「餐饮/饮品/酸奶鲜奶」搜索权重正常</li><li>曝光转化率11.11%是均值14倍——品牌名自带吸引力，开业后内容补齐即可爆发</li></ul><h3>新店出星路径</h3><p>点评规则：第1条非折叠评价通过审核后4天出星。路径：</p><ol><li>开业前：完善商户页（15张图+菜单+营业时间）</li><li>Day 1-3：积累前10条评价（新鲜度高自然好评率最高）</li><li>Day 4：出星（预计4.5+）</li><li>Day 7-14：评价冲到20条，稳星</li><li>Day 30：评价30条以上，稳定4.3+，冲新店榜</li></ol><h3>评价质量管理</h3><ul><li>优质标准：100字+3图=权重最高</li><li>扫码点餐页嵌入「晒图模板」，提供拍照角度建议（产品特写+环境+打卡墙）</li><li>结账自动弹「分享体验」页（评价专家功能），路径顺畅不强制</li><li><strong>严禁高强度邀评/好评返现</strong>——2025年10月后高强度促评=评价不计星级</li></ul><h3>团购套餐设计</h3><table><tr><th>套餐</th><th>内容</th><th>价格</th><th>目的</th></tr><tr><td>开业尝鲜券</td><td>9.9抵30</td><td>9.9元</td><td>引流（限200份）</td></tr><tr><td>招牌双人组合</td><td>2杯酸奶+1小食</td><td>58元</td><td>提客单+分享场景</td></tr><tr><td>健康轻食套餐</td><td>1杯酸奶+水果碗</td><td>38元</td><td>日常复购款</td></tr></table><p>团购核销后自动弹会员注册引导 = 公域（点评）到私域（会员）转化闭环。</p></div>
+<div id="modal-content-5" style="display:none"><h3>会员体系设计（旗舰版）</h3><p>人均38元+饮品高频场景，适合「扫码即会员+低门槛储值」双轨并行：</p><h4>等级会员</h4><table><tr><th>等级</th><th>门槛</th><th>权益</th></tr><tr><td>普通会员</td><td>扫码即注册</td><td>积分1元=1分/生日双倍</td></tr><tr><td>银卡</td><td>累计消费300元</td><td>周三会员日9折/新品优先</td></tr><tr><td>金卡</td><td>累计消费800元</td><td>8.8折/月1张免费升杯券</td></tr></table><h4>储值方案</h4><p>客单38元x10次=380元为主推档：</p><table><tr><th>档位</th><th>充值</th><th>赠送</th><th>折扣</th><th>锁定次数</th></tr><tr><td>体验档</td><td>200元</td><td>送30元</td><td>8.7折</td><td>约6次</td></tr><tr><td>主推档</td><td>380元</td><td>送80元</td><td>8.3折</td><td>约12次</td></tr><tr><td>尊享档</td><td>600元</td><td>送150元</td><td>8折</td><td>约20次</td></tr></table><p><strong>储值时机</strong>：饮品低客单高频，首次消费即可推（结账POS弹窗「充380送80，本单立省XX元」）。</p><h4>私域运营节奏</h4><ul><li>每周：会员日推送（周三9折提醒）</li><li>每2周：新品通知</li><li>沉睡唤醒：7天未到店推「想你了」5元券</li><li>生日月：免费升杯+限定推荐</li></ul><p><strong>目标：开业30天储值会员50人以上，入账19,000元+</strong></p></div>
+<div id="modal-content-6" style="display:none"><h3>公域矩阵布局</h3><p>酸奶鲜奶=高颜值+健康概念+年轻女性为主，公域必须覆盖：</p><h4>大众点评（核心战场）</h4><ul><li>商户页完善度100%：15张产品图+完整菜单+3个团购套餐</li><li>目标：30天新店榜上榜，评价30条以上</li><li>团购核销自动引导注册会员，转化私域</li></ul><h4>小红书（种草打卡）</h4><ul><li>酸奶鲜奶天生适合小红书（高颜值+健康概念）</li><li>开业前邀3-5位千粉博主免费体验出笔记</li><li>内容方向：产品颜值特写/制作过程/健康成分表/打卡墙</li><li>预算：0-500元（免费体验换笔记）</li></ul><h4>美团外卖（流量补充）</h4><ul><li>Week 3上线，单人酸奶套餐28元+满30减5</li><li>外卖评分目标4.8+（密封杯+保温袋保口感）</li></ul><h3>私域承接</h3><ul><li>入口：扫码点餐即注册（0门槛）</li><li>蓄水：会员池+企微社群（开业当天建群，群发新品+限时优惠）</li><li>转化：储值锁客（380送80）</li><li>裂变：「带新人各得1杯」老带新双方获免费小杯券（旗舰版裂变活动）</li></ul><h3>闭环逻辑</h3><p><strong>小红书种草 → 点评搜索 → 团购到店 → 扫码注册会员 → 储值锁客 → 社群复购 → 老带新裂变 → 更多UGC</strong></p><div class="highlight-box"><p>关键数字：曝光转化率已达11.11%（14倍均值），补齐团购+评价后，预计月新增到店客流200-300人。</p></div></div>
+<div id="modal-content-7" style="display:none"><h3>产品矩阵规划（4:3:2:1黄金比例）</h3><table><tr><th>产品层</th><th>占比</th><th>价格带</th><th>代表产品</th><th>角色</th></tr><tr><td>招牌爆品</td><td>40%</td><td>28-38元</td><td>鲜酿酸奶系列</td><td>引流+口碑+复购</td></tr><tr><td>利润款</td><td>30%</td><td>38-48元</td><td>超级水果碗/燕窝酸奶</td><td>提客单+利润</td></tr><tr><td>尝鲜款</td><td>20%</td><td>18-25元</td><td>鲜奶茶/果汁</td><td>低门槛引流</td></tr><tr><td>限定款</td><td>10%</td><td>38-58元</td><td>季节限定（杨梅/桂花）</td><td>新鲜感+传播</td></tr></table><h3>爆品锚点：招牌鲜酿酸奶</h3><p>一杯酸奶串联全部营销：</p><ul><li><strong>团购引流</strong>：9.9元体验价（限量）</li><li><strong>小红书打卡</strong>：高颜值杯身+打卡墙=自带传播力</li><li><strong>储值话术锚点</strong>：「招牌酸奶原价32元，充380送80后折合26.6元，每天来一杯一个月才800」</li><li><strong>搜索关键词</strong>：让「鲜酿酸奶」成为搜索高频词，抢品类入口</li></ul><h3>上新节奏</h3><p>饮品品类需月均上新2-3款保持新鲜感：</p><ul><li>每月1号固定上新日（会员优先尝鲜）</li><li>季节限定：春草莓/夏杨梅芒果/秋桂花栗子/冬红枣姜汁</li><li>节日款：情人节双人杯、圣诞限定等</li></ul><p><strong>产品创新是茶饮品类护城河</strong>——月均上新2-3款，让顾客有持续到店理由。</p></div>
+<div id="modal-content-8" style="display:none"><h3>峰值触点（让顾客记住最爽瞬间）</h3><p>成本控制在客单3%以内（小于1.14元/次）：</p><table><tr><th>触点</th><th>执行方式</th><th>成本</th><th>效果</th></tr><tr><td>现场制作可视化</td><td>透明吧台，顾客看到酸奶现酿/水果切配</td><td>零</td><td>信任感+拍照素材</td></tr><tr><td>随机惊喜</td><td>每10单随机1单免费升杯（POS自动弹窗）</td><td>0.3元/单</td><td>社交传播+复购心理</td></tr></table><h3>终值触点（让走时感觉好）</h3><table><tr><th>触点</th><th>执行方式</th><th>成本</th><th>效果</th></tr><tr><td>结账即时反馈</td><td>支付成功页显示「本单已省XX元」+下次优惠预告</td><td>零</td><td>获得感+复购引导</td></tr><tr><td>离店小物</td><td>吧台薄荷糖自取篮「吃货天下今日份小确幸」</td><td>0.3元/人</td><td>温暖收尾+品牌记忆</td></tr></table><h3>打卡墙（零成本社交裂变）</h3><ul><li>100平中划1面墙（约3平）做打卡背景</li><li>风格：ins风绿植+霓虹灯logo+「每天一杯 无负担」</li><li>投入：霓虹灯200元+绿植100元=一次性300元</li><li>效果：顾客自发拍照发圈/小红书=免费UGC</li></ul><p><strong>所有触点零/极低成本，嵌入现有流程，不增加员工负担。</strong></p></div>
+<div id="modal-content-9" style="display:none"><h3>投入预算明细</h3><table><tr><th>投入项</th><th>金额</th><th>说明</th></tr><tr><td>SaaS年费（旗舰版会员+扫码点餐）</td><td>4,888元/年</td><td>月均408元</td></tr><tr><td>开业团购补贴（9.9抵30x200份）</td><td>约4,000元</td><td>单份补贴20元</td></tr><tr><td>小红书博主体验</td><td>500元</td><td>3-5位千粉博主</td></tr><tr><td>打卡墙布置</td><td>300元</td><td>一次性</td></tr><tr><td>离店小物（月）</td><td>270元</td><td>0.3元x30人/天x30天</td></tr></table><p><strong>首月总投入：约9,958元</strong>（SaaS为年费分摊）</p><h3>月营收测算（第2个月起稳态）</h3><ul><li>日均客流目标：<strong>60人/天</strong>（堂食40+外卖20）</li><li>客单价：38元</li><li>月营收：60人x38元x30天=<strong>68,400元/月</strong></li><li>月净利润（按净利率18%）：约<strong>12,312元/月</strong></li></ul><h3>增收来源拆解</h3><table><tr><th>来源</th><th>月增收</th><th>逻辑</th></tr><tr><td>团购引流新客</td><td>+15,200元</td><td>团购核销日均400元x38天周期</td></tr><tr><td>会员复购提升</td><td>+8,200元</td><td>100名会员月均多来1次x38元+储值沉淀</td></tr><tr><td>外卖增量</td><td>+12,600元</td><td>日均15单x28元x30天</td></tr><tr><td>小红书/种草引流</td><td>+5,700元</td><td>月新增到店50人x38元（种草转化）</td></tr></table><p><strong>SaaS+营销组合拳预计月增收：41,700元</strong></p><h3>回本周期</h3><p>首月投入9,958元 / 月增收41,700元 = <strong>约7天即可回本</strong>（首月即覆盖全部投入）</p><h3>量化OKR目标</h3><table><tr><th>指标</th><th>30天目标</th><th>90天目标</th></tr><tr><td>月营收</td><td>45,000元</td><td>68,400元</td></tr><tr><td>大众点评评分</td><td>4.3分+</td><td>4.5分+</td></tr><tr><td>会员注册数</td><td>100人</td><td>350人</td></tr><tr><td>储值会员数</td><td>50人</td><td>150人</td></tr><tr><td>储值入账</td><td>19,000元</td><td>57,000元</td></tr><tr><td>外卖日均单量</td><td>10单</td><td>20单</td></tr><tr><td>团购核销率</td><td>60%+</td><td>70%+</td></tr></table><p><strong>投入产出比（ROI）：首年SaaS投入4,888元 → 预计年增收50万元 → ROI超100倍</strong></p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>陈国庆</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>新塘路/秋涛路沿线商圈概况</h3><p>门店位于彭埠街道严家路338号（衍印中心），紧邻地铁4号线新塘站B口（步行约170米），周边以<strong>产业园区写字楼+新建住宅小区</strong>为主。日间人群以上班族为主（25-35岁），傍晚及周末家庭客群增加。</p><h3>流量数据实况（海鸥后台近30天）</h3><ul><li><strong>线上曝光人数：54人</strong>——门店已被平台收录但尚未开业，自然曝光有限</li><li><strong>访问人数：6人</strong>，曝光转化率11.11%——<em>远超同商圈同品类均值0.78%（14倍）</em></li><li><strong>消费人数：0</strong>——门店尚未开业，无法产生交易</li><li><strong>流失人数：6人</strong>——6个访客全部流失，原因：无菜单/无团购/无评价</li></ul><p><strong>核心洞察：</strong>品牌名和品类自带流量吸引力（转化率14倍于均值），开业后只要补齐承接内容（团购+评价+营业状态），访问到消费转化率拉到30%以上完全可期。</p><h3>目标客群画像</h3><table><tr><th>客群类型</th><th>占比预估</th><th>消费场景</th><th>客单价</th></tr><tr><td>产业园白领</td><td>50%</td><td>午后下午茶/外卖</td><td>25-35元</td></tr><tr><td>周边小区居民</td><td>30%</td><td>饭后甜品/亲子</td><td>30-45元</td></tr><tr><td>地铁过路客</td><td>20%</td><td>路过尝鲜</td><td>20-30元</td></tr></table><p>人均38元定位属于<strong>中高端健康饮品</strong>（高于古茗/霸王茶姬15-25元），需以品质感和健康概念做差异化。</p>`,
+    2: `<h3>500米内核心竞品分析</h3><table><tr><th>竞品名称</th><th>距离</th><th>人均</th><th>核心弱点</th><th>我方切入点</th></tr><tr><td><strong>幸运小筑(新塘店)</strong></td><td>隔壁336号</td><td>88元(畅饮)</td><td>客单高/非日常消费/甜品为主</td><td>日常健康饮品+低门槛复购</td></tr><tr><td><strong>古茗(三花国际)</strong></td><td>约800米</td><td>15-20元</td><td>产品同质化/无健康壁垒</td><td>鲜酿酸奶差异化/0添加</td></tr><tr><td><strong>霸王茶姬(普大福地)</strong></td><td>约1.2公里</td><td>18-25元</td><td>纯茶路线/无酸奶覆盖</td><td>品类差异：酸奶不等于茶饮</td></tr></table><h3>竞争定位策略</h3><ul><li><strong>隔壁幸运小筑</strong>：走高端下午茶路线（88元），消费频次低。吃货天下做「每天都能来」的健康日常饮品，互补而非正面竞争</li><li><strong>古茗/霸王茶姬</strong>：标准化茶饮连锁，健康概念弱。吃货天下打「0添加鲜酿酸奶」vs「科技与狠活奶茶」的认知差</li></ul><p><strong>差异化定位：</strong>「别人卖奶茶，我们卖健康——鲜酿酸奶+超级水果，每天一杯无负担。」</p><h3>价格带占位</h3><p>商圈价格带：蜜雪5-10元 → 古茗15-20元 → 霸王茶姬18-25元 → <strong>吃货天下38元（健康轻食空白带）</strong> → 幸运小筑88元。38元精准卡位「品质健康饮品」档，避开价格战红海。</p>`,
+    3: `<h3>开业前7天：蓄水期（当前阶段）</h3><ul><li><strong>Day -7到-3：完善大众点评商户页</strong>——上传15张高清产品图+完整菜单+门头照，让54个曝光用户不再白白流失</li><li><strong>Day -7到-1：发布开业团购</strong>——9.9元抵30元尝鲜券（限200份）+ 58元双人酸奶套餐（原价86元）</li><li><strong>Day -3到-1：朋友圈预热</strong>——老板+员工每人发3条短视频（产品制作过程），附门店定位</li></ul><h3>开业第1-7天：爆发期</h3><ul><li><strong>开业当天</strong>：全场第二杯半价（限堂食）+ 拍照发圈送小料加倍</li><li><strong>Day 1-3</strong>：评价破冰，目标3天内积累10条带图评价（结账扫码弹出分享页，自然引导不强制）</li><li><strong>Day 4-7</strong>：团购核销冲量，日均核销20单，7天累计140单到店</li></ul><h3>开业第8-30天：口碑建设期</h3><ul><li><strong>Week 2</strong>：上线会员体系——扫码即注册+充5送1储值卡（190元送38元）</li><li><strong>Week 3</strong>：启动外卖——满30减5，主推单人酸奶套餐28元</li><li><strong>Week 4</strong>：数据复盘+策略调整</li></ul><h3>30天关键里程碑</h3><table><tr><th>节点</th><th>目标</th><th>验证指标</th></tr><tr><td>第7天</td><td>评价破10条</td><td>点评评价数</td></tr><tr><td>第14天</td><td>会员注册破100</td><td>会员系统</td></tr><tr><td>第21天</td><td>日均流水破2000</td><td>POS日报</td></tr><tr><td>第30天</td><td>出星4.3+</td><td>点评星级</td></tr></table>`,
+    4: `<h3>当前状态诊断</h3><p>门店已被平台收录（POI审核通过），但处于<strong>空壳状态</strong>：</p><ul><li>无评价/无评分/无菜单/无团购——访客看到后100%流失（数据验证：6访客全部流失）</li><li>品类标签「餐饮/饮品/酸奶鲜奶」搜索权重正常</li><li>曝光转化率11.11%是均值14倍——品牌名自带吸引力，开业后内容补齐即可爆发</li></ul><h3>新店出星路径</h3><p>点评规则：第1条非折叠评价通过审核后4天出星。路径：</p><ol><li>开业前：完善商户页（15张图+菜单+营业时间）</li><li>Day 1-3：积累前10条评价（新鲜度高自然好评率最高）</li><li>Day 4：出星（预计4.5+）</li><li>Day 7-14：评价冲到20条，稳星</li><li>Day 30：评价30条以上，稳定4.3+，冲新店榜</li></ol><h3>评价质量管理</h3><ul><li>优质标准：100字+3图=权重最高</li><li>扫码点餐页嵌入「晒图模板」，提供拍照角度建议（产品特写+环境+打卡墙）</li><li>结账自动弹「分享体验」页（评价专家功能），路径顺畅不强制</li><li><strong>严禁高强度邀评/好评返现</strong>——2025年10月后高强度促评=评价不计星级</li></ul><h3>团购套餐设计</h3><table><tr><th>套餐</th><th>内容</th><th>价格</th><th>目的</th></tr><tr><td>开业尝鲜券</td><td>9.9抵30</td><td>9.9元</td><td>引流（限200份）</td></tr><tr><td>招牌双人组合</td><td>2杯酸奶+1小食</td><td>58元</td><td>提客单+分享场景</td></tr><tr><td>健康轻食套餐</td><td>1杯酸奶+水果碗</td><td>38元</td><td>日常复购款</td></tr></table><p>团购核销后自动弹会员注册引导 = 公域（点评）到私域（会员）转化闭环。</p>`,
+    5: `<h3>会员体系设计（旗舰版）</h3><p>人均38元+饮品高频场景，适合「扫码即会员+低门槛储值」双轨并行：</p><h4>等级会员</h4><table><tr><th>等级</th><th>门槛</th><th>权益</th></tr><tr><td>普通会员</td><td>扫码即注册</td><td>积分1元=1分/生日双倍</td></tr><tr><td>银卡</td><td>累计消费300元</td><td>周三会员日9折/新品优先</td></tr><tr><td>金卡</td><td>累计消费800元</td><td>8.8折/月1张免费升杯券</td></tr></table><h4>储值方案</h4><p>客单38元x10次=380元为主推档：</p><table><tr><th>档位</th><th>充值</th><th>赠送</th><th>折扣</th><th>锁定次数</th></tr><tr><td>体验档</td><td>200元</td><td>送30元</td><td>8.7折</td><td>约6次</td></tr><tr><td>主推档</td><td>380元</td><td>送80元</td><td>8.3折</td><td>约12次</td></tr><tr><td>尊享档</td><td>600元</td><td>送150元</td><td>8折</td><td>约20次</td></tr></table><p><strong>储值时机</strong>：饮品低客单高频，首次消费即可推（结账POS弹窗「充380送80，本单立省XX元」）。</p><h4>私域运营节奏</h4><ul><li>每周：会员日推送（周三9折提醒）</li><li>每2周：新品通知</li><li>沉睡唤醒：7天未到店推「想你了」5元券</li><li>生日月：免费升杯+限定推荐</li></ul><p><strong>目标：开业30天储值会员50人以上，入账19,000元+</strong></p>`,
+    6: `<h3>公域矩阵布局</h3><p>酸奶鲜奶=高颜值+健康概念+年轻女性为主，公域必须覆盖：</p><h4>大众点评（核心战场）</h4><ul><li>商户页完善度100%：15张产品图+完整菜单+3个团购套餐</li><li>目标：30天新店榜上榜，评价30条以上</li><li>团购核销自动引导注册会员，转化私域</li></ul><h4>小红书（种草打卡）</h4><ul><li>酸奶鲜奶天生适合小红书（高颜值+健康概念）</li><li>开业前邀3-5位千粉博主免费体验出笔记</li><li>内容方向：产品颜值特写/制作过程/健康成分表/打卡墙</li><li>预算：0-500元（免费体验换笔记）</li></ul><h4>美团外卖（流量补充）</h4><ul><li>Week 3上线，单人酸奶套餐28元+满30减5</li><li>外卖评分目标4.8+（密封杯+保温袋保口感）</li></ul><h3>私域承接</h3><ul><li>入口：扫码点餐即注册（0门槛）</li><li>蓄水：会员池+企微社群（开业当天建群，群发新品+限时优惠）</li><li>转化：储值锁客（380送80）</li><li>裂变：「带新人各得1杯」老带新双方获免费小杯券（旗舰版裂变活动）</li></ul><h3>闭环逻辑</h3><p><strong>小红书种草 → 点评搜索 → 团购到店 → 扫码注册会员 → 储值锁客 → 社群复购 → 老带新裂变 → 更多UGC</strong></p><div class="highlight-box"><p>关键数字：曝光转化率已达11.11%（14倍均值），补齐团购+评价后，预计月新增到店客流200-300人。</p></div>`,
+    7: `<h3>产品矩阵规划（4:3:2:1黄金比例）</h3><table><tr><th>产品层</th><th>占比</th><th>价格带</th><th>代表产品</th><th>角色</th></tr><tr><td>招牌爆品</td><td>40%</td><td>28-38元</td><td>鲜酿酸奶系列</td><td>引流+口碑+复购</td></tr><tr><td>利润款</td><td>30%</td><td>38-48元</td><td>超级水果碗/燕窝酸奶</td><td>提客单+利润</td></tr><tr><td>尝鲜款</td><td>20%</td><td>18-25元</td><td>鲜奶茶/果汁</td><td>低门槛引流</td></tr><tr><td>限定款</td><td>10%</td><td>38-58元</td><td>季节限定（杨梅/桂花）</td><td>新鲜感+传播</td></tr></table><h3>爆品锚点：招牌鲜酿酸奶</h3><p>一杯酸奶串联全部营销：</p><ul><li><strong>团购引流</strong>：9.9元体验价（限量）</li><li><strong>小红书打卡</strong>：高颜值杯身+打卡墙=自带传播力</li><li><strong>储值话术锚点</strong>：「招牌酸奶原价32元，充380送80后折合26.6元，每天来一杯一个月才800」</li><li><strong>搜索关键词</strong>：让「鲜酿酸奶」成为搜索高频词，抢品类入口</li></ul><h3>上新节奏</h3><p>饮品品类需月均上新2-3款保持新鲜感：</p><ul><li>每月1号固定上新日（会员优先尝鲜）</li><li>季节限定：春草莓/夏杨梅芒果/秋桂花栗子/冬红枣姜汁</li><li>节日款：情人节双人杯、圣诞限定等</li></ul><p><strong>产品创新是茶饮品类护城河</strong>——月均上新2-3款，让顾客有持续到店理由。</p>`,
+    8: `<h3>峰值触点（让顾客记住最爽瞬间）</h3><p>成本控制在客单3%以内（小于1.14元/次）：</p><table><tr><th>触点</th><th>执行方式</th><th>成本</th><th>效果</th></tr><tr><td>现场制作可视化</td><td>透明吧台，顾客看到酸奶现酿/水果切配</td><td>零</td><td>信任感+拍照素材</td></tr><tr><td>随机惊喜</td><td>每10单随机1单免费升杯（POS自动弹窗）</td><td>0.3元/单</td><td>社交传播+复购心理</td></tr></table><h3>终值触点（让走时感觉好）</h3><table><tr><th>触点</th><th>执行方式</th><th>成本</th><th>效果</th></tr><tr><td>结账即时反馈</td><td>支付成功页显示「本单已省XX元」+下次优惠预告</td><td>零</td><td>获得感+复购引导</td></tr><tr><td>离店小物</td><td>吧台薄荷糖自取篮「吃货天下今日份小确幸」</td><td>0.3元/人</td><td>温暖收尾+品牌记忆</td></tr></table><h3>打卡墙（零成本社交裂变）</h3><ul><li>100平中划1面墙（约3平）做打卡背景</li><li>风格：ins风绿植+霓虹灯logo+「每天一杯 无负担」</li><li>投入：霓虹灯200元+绿植100元=一次性300元</li><li>效果：顾客自发拍照发圈/小红书=免费UGC</li></ul><p><strong>所有触点零/极低成本，嵌入现有流程，不增加员工负担。</strong></p>`,
+    9: `<h3>投入预算明细</h3><table><tr><th>投入项</th><th>金额</th><th>说明</th></tr><tr><td>SaaS年费（旗舰版会员+扫码点餐）</td><td>4,888元/年</td><td>月均408元</td></tr><tr><td>开业团购补贴（9.9抵30x200份）</td><td>约4,000元</td><td>单份补贴20元</td></tr><tr><td>小红书博主体验</td><td>500元</td><td>3-5位千粉博主</td></tr><tr><td>打卡墙布置</td><td>300元</td><td>一次性</td></tr><tr><td>离店小物（月）</td><td>270元</td><td>0.3元x30人/天x30天</td></tr></table><p><strong>首月总投入：约9,958元</strong>（SaaS为年费分摊）</p><h3>月营收测算（第2个月起稳态）</h3><ul><li>日均客流目标：<strong>60人/天</strong>（堂食40+外卖20）</li><li>客单价：38元</li><li>月营收：60人x38元x30天=<strong>68,400元/月</strong></li><li>月净利润（按净利率18%）：约<strong>12,312元/月</strong></li></ul><h3>增收来源拆解</h3><table><tr><th>来源</th><th>月增收</th><th>逻辑</th></tr><tr><td>团购引流新客</td><td>+15,200元</td><td>团购核销日均400元x38天周期</td></tr><tr><td>会员复购提升</td><td>+8,200元</td><td>100名会员月均多来1次x38元+储值沉淀</td></tr><tr><td>外卖增量</td><td>+12,600元</td><td>日均15单x28元x30天</td></tr><tr><td>小红书/种草引流</td><td>+5,700元</td><td>月新增到店50人x38元（种草转化）</td></tr></table><p><strong>SaaS+营销组合拳预计月增收：41,700元</strong></p><h3>回本周期</h3><p>首月投入9,958元 / 月增收41,700元 = <strong>约7天即可回本</strong>（首月即覆盖全部投入）</p><h3>量化OKR目标</h3><table><tr><th>指标</th><th>30天目标</th><th>90天目标</th></tr><tr><td>月营收</td><td>45,000元</td><td>68,400元</td></tr><tr><td>大众点评评分</td><td>4.3分+</td><td>4.5分+</td></tr><tr><td>会员注册数</td><td>100人</td><td>350人</td></tr><tr><td>储值会员数</td><td>50人</td><td>150人</td></tr><tr><td>储值入账</td><td>19,000元</td><td>57,000元</td></tr><tr><td>外卖日均单量</td><td>10单</td><td>20单</td></tr><tr><td>团购核销率</td><td>60%+</td><td>70%+</td></tr></table><p><strong>投入产出比（ROI）：首年SaaS投入4,888元 → 预计年增收50万元 → ROI超100倍</strong></p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
