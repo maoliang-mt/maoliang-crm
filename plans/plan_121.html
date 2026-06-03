@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>门店 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">休闲酒吧/清吧 · 运营提升方案</div>
+  <h1 class="hero-title">门店</h1>
+  <p class="hero-subtitle">专属运营提升方案，助力门店持续增长</p>
+  <div class="hero-address">杭州上城区凯旋街道绿地商业中心</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">—</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">—</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">—</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(undefined, '门店诊断：新店冷启动的核心命题', undefined)">
+      
+      <div class="chapter-num">CHAPTER undefined</div>
+      <div class="chapter-title">门店诊断：新店冷启动的核心命题</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(undefined, '竞品格局：凯旋商圈酒饮赛道在哪里', undefined)">
+      
+      <div class="chapter-num">CHAPTER undefined</div>
+      <div class="chapter-title">竞品格局：凯旋商圈酒饮赛道在哪里</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(undefined, '开业冷启动：前30天打法', undefined)">
+      
+      <div class="chapter-num">CHAPTER undefined</div>
+      <div class="chapter-title">开业冷启动：前30天打法</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(undefined, '大众点评公域运营：从0评到4.5分', undefined)">
+      
+      <div class="chapter-num">CHAPTER undefined</div>
+      <div class="chapter-title">大众点评公域运营：从0评到4.5分</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(undefined, '私域会员体系：储值与复购闭环', undefined)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER undefined</div>
+      <div class="chapter-title">私域会员体系：储值与复购闭环</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(undefined, '小红书/抖音内容破局：低成本引爆流量', undefined)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER undefined</div>
+      <div class="chapter-title">小红书/抖音内容破局：低成本引爆流量</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(undefined, '扫码点餐与系统工具：降本增效怎么用', undefined)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER undefined</div>
+      <div class="chapter-title">扫码点餐与系统工具：降本增效怎么用</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(undefined, '量化目标（OKR）：开业3个月里程碑', undefined)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER undefined</div>
+      <div class="chapter-title">量化目标（OKR）：开业3个月里程碑</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-undefined" style="display:none"><p>Never fold是一家<strong>尚未开业的休闲酒吧/清吧</strong>，位于杭州上城区凯旋街道绿地商业中心1商铺号楼301室，面积90㎡。品牌名「Never fold」（永不弃牌）自带扑克/博弈气质，天然适合打造<strong>社交局文化</strong>：不认输的精神内核+朋友局/商务局场景，是区别于湖滨商圈大酒吧的差异化定位。</p><p><strong>商圈画像：</strong>凯旋街道是上城区成熟居住区，常住人口约7.95万，紧邻四季青服装批发市场（从业者及采购客群大量集中），步行圈内有浙大华家池校区、亚朵酒店等，<strong>客群以25-40岁本地居民、服装商圈从业者、商务宴请人群为主</strong>，有稳定的夜间消费需求。</p><p><strong>核心命题：</strong>零评价、零口碑、零私域积累——新店前3个月的唯一目标是<strong>快速建立口碑、积累私域会员底盘</strong>，而非盲目追求营收最大化。大众点评评分从0到4.5+，会员从0到300+，是开业季最关键的两个战役。</p><p><strong>商家关注费率问题：</strong>已签约会员旗舰版（年费4,888元），核心要解决的是<strong>让这笔投入快速产出ROI</strong>——通过储值会员、团购会员卡等功能把平台公域流量转化为私域复购，降低单次获客成本，这才是旗舰版真正值钱的地方。</p></div>
+<div id="modal-content-undefined" style="display:none"><p>通过公开信息梳理，凯旋街道绿地商业中心及周边3公里酒饮/休闲赛道竞品如下：</p><table style='width:100%;border-collapse:collapse;font-size:14px'><tr style='background:#f5f5f5'><th style='padding:8px;border:1px solid #ddd;text-align:left'>竞品</th><th style='padding:8px;border:1px solid #ddd'>人均</th><th style='padding:8px;border:1px solid #ddd'>核心弱点</th></tr><tr><td style='padding:8px;border:1px solid #ddd'>后花园私房菜（绿地商业中心店）</td><td style='padding:8px;border:1px solid #ddd;text-align:center'>~100元</td><td style='padding:8px;border:1px solid #ddd'>餐饮为主，无专业调酒，无娱乐社交氛围</td></tr><tr><td style='padding:8px;border:1px solid #ddd'>秋涛北路宵夜摊群</td><td style='padding:8px;border:1px solid #ddd;text-align:center'>~50元</td><td style='padding:8px;border:1px solid #ddd'>室外/低端，无法满足商务局/精致社交需求</td></tr><tr><td style='padding:8px;border:1px solid #ddd'>湖滨路酒吧街（4公里外）</td><td style='padding:8px;border:1px solid #ddd;text-align:center'>200-300元</td><td style='padding:8px;border:1px solid #ddd'>偏远、消费高、适合打卡不适合日常聚</td></tr><tr><td style='padding:8px;border:1px solid #ddd'>略头白LittleBay（杭州清吧）</td><td style='padding:8px;border:1px solid #ddd;text-align:center'>~50元</td><td style='padding:8px;border:1px solid #ddd'>超低价策略，客群年龄偏低，非商务定位</td></tr></table><p style='margin-top:12px'><strong>机会窗口：</strong>凯旋商圈<strong>缺乏一家中档（人均80-150元）、有设计感、可日常聚、可商务局的清吧</strong>。Never fold的定位空间是：比宵夜摊精致，比湖滨酒吧实惠，比纯餐饮多一份情绪价值——这个空间目前是空白。</p></div>
+<div id="modal-content-undefined" style="display:none"><p>新店最怕的不是没生意，是<strong>有顾客来了但没留下来</strong>。前30天，每一单都要做两件事：产生评价+进会员群。</p><h4 style='color:#e64040;margin:10px 0 6px'>第一周：种子用户招募（0→100人）</h4><p>①<strong>扫码入群福利</strong>：到店扫码关注小程序 → 自动推送「开业特权券」（首单立减30元，有效期30天），话术：「你是我们第XXX位会员，Never fold记住你了」</p><p>②<strong>老板朋友圈预热</strong>：提前7天发3条内容——布置现场工艺图、调酒师后厨日常、开业倒计时，每条@5-10位朋友，要求评论区互动，形成真实口碑预热。</p><p>③<strong>周边门店B2B合作</strong>：绿地商业中心内其他商家（服装档口、美容店等）换名片合作——对方员工凭门店名片首单9折，对方朋友圈推一次你，成本极低。</p><h4 style='color:#e64040;margin:10px 0 6px'>第2-4周：集中冲评价（目标50条）</h4><p>①每单结账后，收银员说：「您点的这杯是我们调酒师的得意之作，如果觉得还不错，能不能在大众点评帮我们拍张照片？我给您送一份小零食/下次到店减10元。」这叫<strong>峰值触点引导</strong>，在体验最好的那一刻开口，成功率最高。</p><p>②前30天内不做任何涨价动作，保持「比预期便宜」的感知，让每一条评价都是真实好评。</p></div>
+<div id="modal-content-undefined" style="display:none"><p>Never fold大众点评目前尚未开业上线，评分为空白——这既是挑战也是机会：<strong>没有差评包袱，完全可以靠策略设计一步到位建立高口碑</strong>。</p><h4 style='color:#e64040;margin:10px 0 6px'>点评破冰三步走</h4><p><strong>第一步：选品牌菜</strong>。开业前确定2-3款「必点品」——不是最贵的，是最容易被拍照发点评的（颜值高、有故事、名字特别）。例：「Never fold特调」「全场最后一张牌（调酒名）」。顾客写评价时自然会提到菜名，形成搜索关键词。</p><p><strong>第二步：团购套餐上线</strong>。开业第1天就在大众点评上线1-2个团购套餐（双人套餐168元/3人套餐248元），定价比到店均价低10-15%。团购引流的本质是<strong>让不了解你的人愿意「赌一把」来消费</strong>——对应Never fold的品牌精神。</p><p><strong>第三步：利用旗舰版「团购会员卡」功能</strong>。这是旗舰版独有功能：在大众点评展示会员卡入口，平台公域用户浏览时可以直接购买会员卡/储值——<strong>这是把陌生流量直接转化为私域忠实用户的最短路径</strong>，一般清吧没有这个能力，Never fold有，要用起来。</p><p><strong>第四步：搜索关键词布局</strong>。店名、地址、品类词在大众点评的「商家说」中每周更新1条，内容围绕：「杭州凯旋街道酒吧」「上城区清吧」「绿地商业中心约酒」等高频词，帮助系统识别推荐。</p></div>
+<div id="modal-content-undefined" style="display:none"><p>已签约<strong>会员旗舰版</strong>，具备完整的私域工具链。针对商家关注「费率」问题，核心逻辑是：<strong>会员储值越多，单次成本越低，费率越合算</strong>。</p><h4 style='color:#e64040;margin:10px 0 6px'>储值方案设计（适合清吧品类）</h4><table style='width:100%;border-collapse:collapse;font-size:14px'><tr style='background:#f5f5f5'><th style='padding:8px;border:1px solid #ddd'>档位</th><th style='padding:8px;border:1px solid #ddd'>储值金额</th><th style='padding:8px;border:1px solid #ddd'>赠送权益</th><th style='padding:8px;border:1px solid #ddd'>适合人群</th></tr><tr><td style='padding:8px;border:1px solid #ddd'>入门款</td><td style='padding:8px;border:1px solid #ddd;text-align:center'>200元</td><td style='padding:8px;border:1px solid #ddd'>赠20元余额（相当于9折）</td><td style='padding:8px;border:1px solid #ddd'>试探性首储</td></tr><tr><td style='padding:8px;border:1px solid #ddd'>主力款</td><td style='padding:8px;border:1px solid #ddd;text-align:center'>500元</td><td style='padding:8px;border:1px solid #ddd'>赠75元余额+1次免费特调（约定期内）</td><td style='padding:8px;border:1px solid #ddd'>常客/商务局</td></tr><tr><td style='padding:8px;border:1px solid #ddd'>高价值款</td><td style='padding:8px;border:1px solid #ddd;text-align:center'>1000元</td><td style='padding:8px;border:1px solid #ddd'>赠200元余额+专属会员徽章+优先订座</td><td style='padding:8px;border:1px solid #ddd'>核心粉丝/商圈老板</td></tr></table><p style='margin-top:12px'><strong>储值推动话术（结账时）：</strong>「今天消费XX元，如果您储500块，相当于这次消费八折，以后还随时用，要不要帮您存一下？」——在峰值体验时提储值，转化率能到30-40%（行业参考值）。</p><h4 style='color:#e64040;margin:10px 0 6px'>会员触达节奏</h4><p>小程序消息推送（无额外费用）：每月2次，时间固定在<strong>周五17:00</strong>（夜间计划时段）：①月初：「本月会员专属活动预告」②月中：「[姓名]，你的专属折扣还剩X天」。不要高频打扰，保持「被想起」而非「被骚扰」的感知。</p></div>
+<div id="modal-content-undefined" style="display:none"><p>清吧品类在小红书/抖音的内容逻辑与餐饮不同——<strong>卖的不是菜，是情绪和场景</strong>。Never fold品牌名天然自带内容基因。</p><h4 style='color:#e64040;margin:10px 0 6px'>小红书：种草笔记矩阵</h4><p><strong>内容方向（开业前2周开始发）：</strong></p><p>①<strong>品牌故事笔记</strong>（1篇）：「为什么开了一家叫&#39;Never fold&#39;的酒吧？」——老板创业故事+选址上城区的理由+「永不弃牌」精神内核。自然感强，容易被收藏转发。</p><p>②<strong>场景笔记</strong>（每月2-3篇）：「杭州上城区藏了一个宝藏约酒地」「工作日下班后最值得去的地方」「凯旋路这个酒吧适合带客户」——直击精准搜索词，配高颜值实景图。</p><p>③<strong>调酒过程短视频</strong>（抖音/小红书通发）：30秒，展示一杯招牌酒的调制过程，最后打上「Never fold」logo出杯，配文「永不弃牌，永不将就」。这类内容算法最爱，完播率高。</p><h4 style='color:#e64040;margin:10px 0 6px'>公私域联动闭环</h4><p>小红书/抖音评论区钉住回复：「杭州凯旋这边的朋友可以来找我们，进店出示这条评论享8折」→到店扫码关注小程序 → 进会员群 → 私域运营起来。<strong>这是完整的公→私域转化路径</strong>，每一步都有行动指令，不靠自然流量等待。</p></div>
+<div id="modal-content-undefined" style="display:none"><p>Never fold已配备扫码点餐+收银POS+小程序，这套组合在酒吧场景有几个<strong>非常具体的用法</strong>，直接影响翻台效率和顾客体验。</p><h4 style='color:#e64040;margin:10px 0 6px'>扫码点餐在酒吧场景的核心价值</h4><p>①<strong>自助续单</strong>：顾客喝完第一杯，扫码自己下单，不用等服务员——这在酒吧很重要，等待时间长容易影响消费体验和评价。</p><p>②<strong>酒单数字化</strong>：菜单更新（换季特调、节日限定）只需后台改，不用重新印刷。酒单上可以加每款酒的「故事简介」，提升点单意愿。</p><p>③<strong>消费数据追踪</strong>：系统自动记录哪款酒销量最高、哪个时段客单最高——3个月后就有真实数据支撑菜单优化，不靠感觉。</p><h4 style='color:#e64040;margin:10px 0 6px'>关于费率问题的具体建议</h4><p>商家关注费率，本质是关注<strong>系统投入是否值得</strong>。当前已签约产品，建议用以下方式量化ROI：</p><p>假设月营收（行业参考值）：客单价120元 × 日均20单 × 30天 = <strong>月流水约7.2万元</strong>。若通过储值会员让复购率提升20%（行业参考值），相当于每月多创造约1.4万元营收。会员旗舰版年费4,888元，月均407元。<strong>增收÷月费 = 1.4万÷407 ≈ 34倍ROI</strong>——只要把工具用起来，费率不是问题。</p></div>
+<div id="modal-content-undefined" style="display:none"><p>Never fold作为新店，制定分阶段目标，确保每个里程碑都可追踪、可复盘。</p><table style='width:100%;border-collapse:collapse;font-size:14px'><tr style='background:#e64040;color:white'><th style='padding:10px;border:1px solid #ddd'>阶段</th><th style='padding:10px;border:1px solid #ddd'>时间</th><th style='padding:10px;border:1px solid #ddd'>核心目标（KR）</th></tr><tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>启动期</td><td style='padding:8px;border:1px solid #ddd;text-align:center'>开业前2周</td><td style='padding:8px;border:1px solid #ddd'>小程序上线+储值产品设计完成；种子用户群100人；大众点评页面完善（图片/菜单/团购上线）</td></tr><tr style='background:#fafafa'><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>破冰期</td><td style='padding:8px;border:1px solid #ddd;text-align:center'>开业第1个月</td><td style='padding:8px;border:1px solid #ddd'><strong>大众点评评价数≥50条，目标评分4.3+；会员数≥150人；月流水目标5万元（行业参考值）；储值用户≥30人</strong></td></tr><tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>稳定期</td><td style='padding:8px;border:1px solid #ddd;text-align:center'>开业第2个月</td><td style='padding:8px;border:1px solid #ddd'>大众点评评分稳定4.5+；会员数≥300人；月流水目标7万元；小红书/抖音内容发布≥8条</td></tr><tr style='background:#fafafa'><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>增长期</td><td style='padding:8px;border:1px solid #ddd;text-align:center'>开业第3个月</td><td style='padding:8px;border:1px solid #ddd'>月流水目标9-10万元；会员占总消费比≥40%；储值余额池≥3万元；主动转介绍用户≥20人</td></tr></table><p style='margin-top:12px;font-size:13px;color:#666'>注：月流水目标基于客单价120元×日均20-28单×30天估算，属行业参考值，实际以系统数据为准。</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>BD顾问</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        undefined: `<p>Never fold是一家<strong>尚未开业的休闲酒吧/清吧</strong>，位于杭州上城区凯旋街道绿地商业中心1商铺号楼301室，面积90㎡。品牌名「Never fold」（永不弃牌）自带扑克/博弈气质，天然适合打造<strong>社交局文化</strong>：不认输的精神内核+朋友局/商务局场景，是区别于湖滨商圈大酒吧的差异化定位。</p><p><strong>商圈画像：</strong>凯旋街道是上城区成熟居住区，常住人口约7.95万，紧邻四季青服装批发市场（从业者及采购客群大量集中），步行圈内有浙大华家池校区、亚朵酒店等，<strong>客群以25-40岁本地居民、服装商圈从业者、商务宴请人群为主</strong>，有稳定的夜间消费需求。</p><p><strong>核心命题：</strong>零评价、零口碑、零私域积累——新店前3个月的唯一目标是<strong>快速建立口碑、积累私域会员底盘</strong>，而非盲目追求营收最大化。大众点评评分从0到4.5+，会员从0到300+，是开业季最关键的两个战役。</p><p><strong>商家关注费率问题：</strong>已签约会员旗舰版（年费4,888元），核心要解决的是<strong>让这笔投入快速产出ROI</strong>——通过储值会员、团购会员卡等功能把平台公域流量转化为私域复购，降低单次获客成本，这才是旗舰版真正值钱的地方。</p>`,
+    undefined: `<p>通过公开信息梳理，凯旋街道绿地商业中心及周边3公里酒饮/休闲赛道竞品如下：</p><table style='width:100%;border-collapse:collapse;font-size:14px'><tr style='background:#f5f5f5'><th style='padding:8px;border:1px solid #ddd;text-align:left'>竞品</th><th style='padding:8px;border:1px solid #ddd'>人均</th><th style='padding:8px;border:1px solid #ddd'>核心弱点</th></tr><tr><td style='padding:8px;border:1px solid #ddd'>后花园私房菜（绿地商业中心店）</td><td style='padding:8px;border:1px solid #ddd;text-align:center'>~100元</td><td style='padding:8px;border:1px solid #ddd'>餐饮为主，无专业调酒，无娱乐社交氛围</td></tr><tr><td style='padding:8px;border:1px solid #ddd'>秋涛北路宵夜摊群</td><td style='padding:8px;border:1px solid #ddd;text-align:center'>~50元</td><td style='padding:8px;border:1px solid #ddd'>室外/低端，无法满足商务局/精致社交需求</td></tr><tr><td style='padding:8px;border:1px solid #ddd'>湖滨路酒吧街（4公里外）</td><td style='padding:8px;border:1px solid #ddd;text-align:center'>200-300元</td><td style='padding:8px;border:1px solid #ddd'>偏远、消费高、适合打卡不适合日常聚</td></tr><tr><td style='padding:8px;border:1px solid #ddd'>略头白LittleBay（杭州清吧）</td><td style='padding:8px;border:1px solid #ddd;text-align:center'>~50元</td><td style='padding:8px;border:1px solid #ddd'>超低价策略，客群年龄偏低，非商务定位</td></tr></table><p style='margin-top:12px'><strong>机会窗口：</strong>凯旋商圈<strong>缺乏一家中档（人均80-150元）、有设计感、可日常聚、可商务局的清吧</strong>。Never fold的定位空间是：比宵夜摊精致，比湖滨酒吧实惠，比纯餐饮多一份情绪价值——这个空间目前是空白。</p>`,
+    undefined: `<p>新店最怕的不是没生意，是<strong>有顾客来了但没留下来</strong>。前30天，每一单都要做两件事：产生评价+进会员群。</p><h4 style='color:#e64040;margin:10px 0 6px'>第一周：种子用户招募（0→100人）</h4><p>①<strong>扫码入群福利</strong>：到店扫码关注小程序 → 自动推送「开业特权券」（首单立减30元，有效期30天），话术：「你是我们第XXX位会员，Never fold记住你了」</p><p>②<strong>老板朋友圈预热</strong>：提前7天发3条内容——布置现场工艺图、调酒师后厨日常、开业倒计时，每条@5-10位朋友，要求评论区互动，形成真实口碑预热。</p><p>③<strong>周边门店B2B合作</strong>：绿地商业中心内其他商家（服装档口、美容店等）换名片合作——对方员工凭门店名片首单9折，对方朋友圈推一次你，成本极低。</p><h4 style='color:#e64040;margin:10px 0 6px'>第2-4周：集中冲评价（目标50条）</h4><p>①每单结账后，收银员说：「您点的这杯是我们调酒师的得意之作，如果觉得还不错，能不能在大众点评帮我们拍张照片？我给您送一份小零食/下次到店减10元。」这叫<strong>峰值触点引导</strong>，在体验最好的那一刻开口，成功率最高。</p><p>②前30天内不做任何涨价动作，保持「比预期便宜」的感知，让每一条评价都是真实好评。</p>`,
+    undefined: `<p>Never fold大众点评目前尚未开业上线，评分为空白——这既是挑战也是机会：<strong>没有差评包袱，完全可以靠策略设计一步到位建立高口碑</strong>。</p><h4 style='color:#e64040;margin:10px 0 6px'>点评破冰三步走</h4><p><strong>第一步：选品牌菜</strong>。开业前确定2-3款「必点品」——不是最贵的，是最容易被拍照发点评的（颜值高、有故事、名字特别）。例：「Never fold特调」「全场最后一张牌（调酒名）」。顾客写评价时自然会提到菜名，形成搜索关键词。</p><p><strong>第二步：团购套餐上线</strong>。开业第1天就在大众点评上线1-2个团购套餐（双人套餐168元/3人套餐248元），定价比到店均价低10-15%。团购引流的本质是<strong>让不了解你的人愿意「赌一把」来消费</strong>——对应Never fold的品牌精神。</p><p><strong>第三步：利用旗舰版「团购会员卡」功能</strong>。这是旗舰版独有功能：在大众点评展示会员卡入口，平台公域用户浏览时可以直接购买会员卡/储值——<strong>这是把陌生流量直接转化为私域忠实用户的最短路径</strong>，一般清吧没有这个能力，Never fold有，要用起来。</p><p><strong>第四步：搜索关键词布局</strong>。店名、地址、品类词在大众点评的「商家说」中每周更新1条，内容围绕：「杭州凯旋街道酒吧」「上城区清吧」「绿地商业中心约酒」等高频词，帮助系统识别推荐。</p>`,
+    undefined: `<p>已签约<strong>会员旗舰版</strong>，具备完整的私域工具链。针对商家关注「费率」问题，核心逻辑是：<strong>会员储值越多，单次成本越低，费率越合算</strong>。</p><h4 style='color:#e64040;margin:10px 0 6px'>储值方案设计（适合清吧品类）</h4><table style='width:100%;border-collapse:collapse;font-size:14px'><tr style='background:#f5f5f5'><th style='padding:8px;border:1px solid #ddd'>档位</th><th style='padding:8px;border:1px solid #ddd'>储值金额</th><th style='padding:8px;border:1px solid #ddd'>赠送权益</th><th style='padding:8px;border:1px solid #ddd'>适合人群</th></tr><tr><td style='padding:8px;border:1px solid #ddd'>入门款</td><td style='padding:8px;border:1px solid #ddd;text-align:center'>200元</td><td style='padding:8px;border:1px solid #ddd'>赠20元余额（相当于9折）</td><td style='padding:8px;border:1px solid #ddd'>试探性首储</td></tr><tr><td style='padding:8px;border:1px solid #ddd'>主力款</td><td style='padding:8px;border:1px solid #ddd;text-align:center'>500元</td><td style='padding:8px;border:1px solid #ddd'>赠75元余额+1次免费特调（约定期内）</td><td style='padding:8px;border:1px solid #ddd'>常客/商务局</td></tr><tr><td style='padding:8px;border:1px solid #ddd'>高价值款</td><td style='padding:8px;border:1px solid #ddd;text-align:center'>1000元</td><td style='padding:8px;border:1px solid #ddd'>赠200元余额+专属会员徽章+优先订座</td><td style='padding:8px;border:1px solid #ddd'>核心粉丝/商圈老板</td></tr></table><p style='margin-top:12px'><strong>储值推动话术（结账时）：</strong>「今天消费XX元，如果您储500块，相当于这次消费八折，以后还随时用，要不要帮您存一下？」——在峰值体验时提储值，转化率能到30-40%（行业参考值）。</p><h4 style='color:#e64040;margin:10px 0 6px'>会员触达节奏</h4><p>小程序消息推送（无额外费用）：每月2次，时间固定在<strong>周五17:00</strong>（夜间计划时段）：①月初：「本月会员专属活动预告」②月中：「[姓名]，你的专属折扣还剩X天」。不要高频打扰，保持「被想起」而非「被骚扰」的感知。</p>`,
+    undefined: `<p>清吧品类在小红书/抖音的内容逻辑与餐饮不同——<strong>卖的不是菜，是情绪和场景</strong>。Never fold品牌名天然自带内容基因。</p><h4 style='color:#e64040;margin:10px 0 6px'>小红书：种草笔记矩阵</h4><p><strong>内容方向（开业前2周开始发）：</strong></p><p>①<strong>品牌故事笔记</strong>（1篇）：「为什么开了一家叫&#39;Never fold&#39;的酒吧？」——老板创业故事+选址上城区的理由+「永不弃牌」精神内核。自然感强，容易被收藏转发。</p><p>②<strong>场景笔记</strong>（每月2-3篇）：「杭州上城区藏了一个宝藏约酒地」「工作日下班后最值得去的地方」「凯旋路这个酒吧适合带客户」——直击精准搜索词，配高颜值实景图。</p><p>③<strong>调酒过程短视频</strong>（抖音/小红书通发）：30秒，展示一杯招牌酒的调制过程，最后打上「Never fold」logo出杯，配文「永不弃牌，永不将就」。这类内容算法最爱，完播率高。</p><h4 style='color:#e64040;margin:10px 0 6px'>公私域联动闭环</h4><p>小红书/抖音评论区钉住回复：「杭州凯旋这边的朋友可以来找我们，进店出示这条评论享8折」→到店扫码关注小程序 → 进会员群 → 私域运营起来。<strong>这是完整的公→私域转化路径</strong>，每一步都有行动指令，不靠自然流量等待。</p>`,
+    undefined: `<p>Never fold已配备扫码点餐+收银POS+小程序，这套组合在酒吧场景有几个<strong>非常具体的用法</strong>，直接影响翻台效率和顾客体验。</p><h4 style='color:#e64040;margin:10px 0 6px'>扫码点餐在酒吧场景的核心价值</h4><p>①<strong>自助续单</strong>：顾客喝完第一杯，扫码自己下单，不用等服务员——这在酒吧很重要，等待时间长容易影响消费体验和评价。</p><p>②<strong>酒单数字化</strong>：菜单更新（换季特调、节日限定）只需后台改，不用重新印刷。酒单上可以加每款酒的「故事简介」，提升点单意愿。</p><p>③<strong>消费数据追踪</strong>：系统自动记录哪款酒销量最高、哪个时段客单最高——3个月后就有真实数据支撑菜单优化，不靠感觉。</p><h4 style='color:#e64040;margin:10px 0 6px'>关于费率问题的具体建议</h4><p>商家关注费率，本质是关注<strong>系统投入是否值得</strong>。当前已签约产品，建议用以下方式量化ROI：</p><p>假设月营收（行业参考值）：客单价120元 × 日均20单 × 30天 = <strong>月流水约7.2万元</strong>。若通过储值会员让复购率提升20%（行业参考值），相当于每月多创造约1.4万元营收。会员旗舰版年费4,888元，月均407元。<strong>增收÷月费 = 1.4万÷407 ≈ 34倍ROI</strong>——只要把工具用起来，费率不是问题。</p>`,
+    undefined: `<p>Never fold作为新店，制定分阶段目标，确保每个里程碑都可追踪、可复盘。</p><table style='width:100%;border-collapse:collapse;font-size:14px'><tr style='background:#e64040;color:white'><th style='padding:10px;border:1px solid #ddd'>阶段</th><th style='padding:10px;border:1px solid #ddd'>时间</th><th style='padding:10px;border:1px solid #ddd'>核心目标（KR）</th></tr><tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>启动期</td><td style='padding:8px;border:1px solid #ddd;text-align:center'>开业前2周</td><td style='padding:8px;border:1px solid #ddd'>小程序上线+储值产品设计完成；种子用户群100人；大众点评页面完善（图片/菜单/团购上线）</td></tr><tr style='background:#fafafa'><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>破冰期</td><td style='padding:8px;border:1px solid #ddd;text-align:center'>开业第1个月</td><td style='padding:8px;border:1px solid #ddd'><strong>大众点评评价数≥50条，目标评分4.3+；会员数≥150人；月流水目标5万元（行业参考值）；储值用户≥30人</strong></td></tr><tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>稳定期</td><td style='padding:8px;border:1px solid #ddd;text-align:center'>开业第2个月</td><td style='padding:8px;border:1px solid #ddd'>大众点评评分稳定4.5+；会员数≥300人；月流水目标7万元；小红书/抖音内容发布≥8条</td></tr><tr style='background:#fafafa'><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>增长期</td><td style='padding:8px;border:1px solid #ddd;text-align:center'>开业第3个月</td><td style='padding:8px;border:1px solid #ddd'>月流水目标9-10万元；会员占总消费比≥40%；储值余额池≥3万元；主动转介绍用户≥20人</td></tr></table><p style='margin-top:12px;font-size:13px;color:#666'>注：月流水目标基于客单价120元×日均20-28单×30天估算，属行业参考值，实际以系统数据为准。</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
