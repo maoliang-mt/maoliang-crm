@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Never Fold · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">德扑主题酒吧/休闲娱乐 · 运营提升方案</div>
+  <h1 class="hero-title">Never Fold</h1>
+  <p class="hero-subtitle">牌局之外，赢的是每一个走进来的人</p>
+  <div class="hero-address">浙江省杭州市上城区凯旋街道绿地商业中心1商铺号楼301室</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">新店</span>
+      <div class="hero-stat-label">开业冷启动阶段</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">90㎡</span>
+      <div class="hero-stat-label">精品德扑空间</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.8分</span>
+      <div class="hero-stat-label">30天目标评分</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '门店诊断', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">门店诊断</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '商圈洞察', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">商圈洞察</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '系统方案', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">系统方案</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评口碑', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评口碑</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '开业冲刺', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">开业冲刺</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '公域引流', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">公域引流</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '私域留客', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">私域留客</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '营销活动', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">营销活动</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(9, '投资回报', 9)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 09</div>
+      <div class="chapter-title">投资回报</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>📊 Never Fold 现状快照</h3><p>Never Fold 是一家定位于<strong>德州扑克主题休闲酒吧</strong>的新店，位于杭州上城区凯旋街道绿地商业中心。店内配置2张专业德扑桌+6张小圆桌，总面积90㎡。目前处于开业冷启动阶段，日均流水1,000元以下（⚠️ 新店开业30天内正常区间）。</p><h3>核心三大痛点</h3><ul><li><strong>痛点① 圈子还没形成</strong>——德扑文化圈子属性极强，新店打响口碑的关键是先让10-20个核心牌友成为「铁杆回头客」，他们会自带客源，但目前0评价、0口碑积累，圈子还没建起来。</li><li><strong>痛点② 新客不知道「能来干什么」</strong>——「德扑酒吧」在杭州上城是小众品类，潜在客群（对德扑感兴趣但没有固定牌局的人）不清楚这里能提供什么体验，进门门槛认知模糊。</li><li><strong>痛点③ 复购留存没有抓手</strong>——没有会员体系，牌友打完一局就走，下次去哪随心情。圈子留不住等于白赚了一次客流。</li></ul><h3>已有优势资产（杠杆点）</h3><ul><li><strong>德扑桌专属体验</strong>：2张专业德扑桌是核心差异化，上城区同类竞品稀少</li><li><strong>灵活场景设计</strong>：6张小圆桌适合小酌社交，不打牌也能待，拓宽了客群宽度</li><li><strong>老板线上运营思维</strong>：主动规划小程序，意识超前，是后续内容引流的关键基础</li><li><strong>完整SaaS配置</strong>：已签收银+会员旗舰+扫码点餐+小程序+供应链，武器库齐全，关键是会用</li></ul><h3>数据基石（⚠️ 开业前假设，建议核实）</h3><table><tr><th>指标</th><th>当前状态</th><th>30天目标</th></tr><tr><td>日均流水</td><td>1,000元以下</td><td>3,000-5,000元</td></tr><tr><td>大众点评评价数</td><td>0条</td><td>≥50条真实评价</td></tr><tr><td>会员数</td><td>0人</td><td>≥80人</td></tr><tr><td>德扑桌利用率</td><td>约20%以下</td><td>≥60%（周末）</td></tr></table></div>
+<div id="modal-content-2" style="display:none"><h3>🗺️ 绿地商业中心商圈画像</h3><p>凯旋街道绿地商业中心位于杭州上城区，周边3公里覆盖<strong>成熟居住社区+写字楼集群</strong>，是「职住混合商圈」。工作日白领下班后休闲需求强烈，周末家庭与朋友聚会频繁，客群消费能力中高。</p><h3>目标客群画像（三类）</h3><ul><li><strong>主力客群① 25-40岁白领/互联网从业者</strong>：有消费能力，对德扑感兴趣但缺少高质量固定牌场，寻找有格调的社交空间。人均消费100-200元，周五六日聚会频次高。</li><li><strong>主力客群② 德扑深度爱好者</strong>：已有牌技，主动寻找固定牌场，圈子社交属性极强，一个核心玩家可稳定带动3-5人反复到访。</li><li><strong>潜力客群③ 德扑入门者</strong>：被朋友带来体验，「够好玩、够好看、不尴尬」即可转化为回头客，是长期复购的蓄水池。</li></ul><h3>周边竞品分析（行业参考值，建议国庆实地核实）</h3><table><tr><th>竞品类型</th><th>人均</th><th>核心弱点</th><th>Never Fold切入机会</th></tr><tr><td>普通酒吧（商圈内）</td><td>¥80-150</td><td>只能喝酒，无互动项目，复购率低</td><td>德扑桌提供「有理由再来」的核心钩子</td></tr><tr><td>传统棋牌室</td><td>¥30-60/台</td><td>环境差、无餐饮、老龄化客群</td><td>精品空间+酒水+轻餐，体验完胜</td></tr><tr><td>桌游咖啡店</td><td>¥40-80</td><td>项目老化，社交黏性弱于德扑</td><td>德扑作为「社交货币」，圈子黏性比桌游强10倍</td></tr></table><h3>时段规律（⚠️ 行业参考值）</h3><ul><li><strong>周一至周四</strong>：有效时段18:00-24:00，以2-4人小组为主，是核心牌友培育期</li><li><strong>周五至周日</strong>：晚高峰延伸至凌晨，是营收主力时段，占全周营收约65%</li><li><strong>节假日</strong>：全天候旺季，德扑赛事/主题牌局可作为节假日流量引爆器</li></ul></div>
+<div id="modal-content-3" style="display:none"><h3>🔧 5大产品·场景化用法</h3><p>Never Fold 已签约收银POS + 会员旗舰版 + 扫码点餐 + 小程序 + 供应链，这是完整武器库，关键是每个产品都要「用在刀刃上」。</p><h3>① 美团小程序 vs 第三方小程序（老板最关心的核心问题）</h3><p>老板正在自研第三方小程序，我们来算这笔账：</p><table><tr><th>对比维度</th><th>美团小程序</th><th>第三方自研小程序</th></tr><tr><td>开发成本</td><td>✅ 0元，模板直接配置</td><td>❌ 开发费3-10万元</td></tr><tr><td>年维护成本</td><td>✅ 平台托管，0运维</td><td>❌ 服务器+维护费约1-3万/年</td></tr><tr><td>自然流量</td><td>✅ 美团/大众点评搜索流量，新客发现成本为0</td><td>❌ 无自然流量，需自行引流</td></tr><tr><td>会员数据</td><td>✅ 与收银/点餐/营销系统打通，一体化</td><td>❌ 数据孤岛，需二次开发</td></tr><tr><td>营销工具</td><td>✅ 内置储值/优惠券/会员积分，即开即用</td><td>❌ 需额外开发，周期长</td></tr></table><p><strong>建议策略：两者并行，分工明确</strong>——美团小程序作为「获客+支付+会员」主战场；第三方小程序如果坚持开发，专注承接<strong>德扑特有功能</strong>（在线积分排行榜、牌局预约系统、赛事报名），这是美团小程序没有的差异化功能。不冲突，互补。</p><h3>② 扫码点餐——德扑桌专属价值</h3><p>德扑对局时玩家注意力高度集中，<strong>不希望被服务员打断</strong>。扫码点餐完美解决：</p><ul><li>🔧 操作路径：收银后台→扫码点餐→桌台管理→为德扑桌1/德扑桌2分别设置独立桌码（区别于小圆桌）</li><li>玩家直接扫桌码点酒水+小食，静默下单，不打断牌局节奏</li><li>预计减少服务员穿插频次60%，牌局沉浸感大幅提升</li></ul><h3>③ 会员旗舰版——圈子留存的核心武器</h3><ul><li><strong>潜客营销</strong>🔧（后台→潜客营销）：周边有德扑兴趣的用户，还没进店就可以触达，适合新手体验日活动拉新</li><li><strong>团购会员卡</strong>：在大众点评发布「德扑月卡/季卡」，圈子用户主动找来，BD不用挨个找人</li><li><strong>消息推送</strong>：每次赛事/牌局活动，一键通知所有会员，成本为0</li></ul><h3>④ 供应链——酒水成本控制</h3><ul><li>酒吧核心利润来自酒水（毛利60-80%），供应链采购可节省散买成本15-25%</li><li>🔧 路径：供应链后台→选品→精酿啤酒/威士忌基础款/调酒基酒批量采购</li><li>建议优先品类：精酿啤酒（差异化+高毛利）+花生/薯片等小食套餐</li></ul></div>
+<div id="modal-content-4" style="display:none"><h3>🌟 新店口碑冷启动·前50条评价是生死线</h3><p>Never Fold 目前0条评价、0颗星，处于「新店出星期」。前50条评价决定了这家店在大众点评上的初始口碑画像，也决定了后续千百个潜在客户对它的第一印象。<strong>这是开业后最优先级的任务。</strong></p><h3>当前阶段：出星冲刺（0 → 4.5分+）</h3><p>大众点评出星逻辑：积累足够数量的真实评价后系统自动计算星级。目标：<strong>开业30天内拿到50条真实好评，目标冲4.5分+</strong>。</p><h3>✅ 合规工具（仅用这两个）</h3><ul><li><strong>免费试体验</strong>🔧：大众点评商家后台→营销中心→免费试，设置「德扑新手体验位2个」，消费者申请→到店体验→自愿写真实评价。每周投放10个名额，成本可控，评价真实有效且计入星级。</li><li><strong>团购套餐引流</strong>：发布99元「德扑入场+2杯饮品」团购券，团购客到店后服务员自然引导——「麻烦您用完在大众点评写一句真实感受」，不强制好评，引导评价本身。</li></ul><h3>⛔ 必须停止的行为</h3><ul><li>❌ 好评返现/好评送礼——2025年10月后平台严查，高频促评=新评价不计入星级收益</li><li>❌ 员工/朋友刷好评——平台识别率极高，无效还有账号降权风险</li></ul><h3>分享动机设计（让客人自愿发）</h3><ul><li><strong>「今晚最强玩家」打卡板</strong>：在德扑桌旁放一块拍照打卡板，玩家拿着筹码摆造型，天然想发圈，带店名曝光</li><li><strong>引导话术</strong>：服务员在客人准备离开时说：「今晚您玩得不错！如果方便的话，帮我们在大众点评写一句真实感受，下次来送您一杯特调。」——说的是「真实感受」不是「好评」，合规且真诚</li><li><strong>牌局战绩卡</strong>：通过扫码点餐系统为每桌生成当晚筹码战绩小卡，玩家扫码获取，有成就感自然想分享</li></ul><h3>30天口碑里程碑</h3><table><tr><th>时间节点</th><th>评价数目标</th><th>评分目标</th><th>关键动作</th></tr><tr><td>开业第1-2周</td><td>≥15条</td><td>出星（暂无→有星）</td><td>免费试+创始会员邀评</td></tr><tr><td>第3-4周</td><td>≥50条</td><td>4.5分+</td><td>团购引流+评价自然积累</td></tr><tr><td>第2-3个月</td><td>≥100条</td><td>4.6-4.8分</td><td>冲热门榜/好评榜</td></tr></table></div>
+<div id="modal-content-5" style="display:none"><h3>🚀 开业前7天·每天1件事</h3><p>新店标签在大众点评有额外曝光加持，但只有30天窗口期，每天的动作都要精准。</p><table><tr><th>倒计时</th><th>具体动作</th><th>谁来做</th><th>工具路径🔧</th></tr><tr><td>D-7</td><td>大众点评门店资料完善：上传10张高质量图（德扑桌/氛围灯光/调酒/门头），填写营业时间/人均/菜单</td><td>老板</td><td>大众点评商家后台→基础信息→上传图片</td></tr><tr><td>D-6</td><td>美团小程序上线：配置酒水菜单+预约入口；测试扫码点餐全流程，确保德扑桌1/2桌码可用</td><td>老板+美团BD</td><td>美团商家后台→小程序→菜单配置→桌台设置</td></tr><tr><td>D-5</td><td>上线开业特惠团购：「德扑体验+2杯饮品」定价99元（市场价约150元），发布大众点评</td><td>老板+美团BD</td><td>大众点评商家后台→套餐管理→新建套餐</td></tr><tr><td>D-4</td><td>邀请20位「创始会员」：向朋友圈德扑爱好者发私信，开业前内测免费体验，成为创始会员享永久9.5折</td><td>老板本人</td><td>微信私信+线下邀请，入会走美团会员通道</td></tr><tr><td>D-3</td><td>小红书/抖音发「牌局征集令」：「杭州上城有家德扑吧，招第一批牌友，懂的来」——简洁神秘引好奇</td><td>老板/运营</td><td>小红书发帖+@杭州生活类号；抖音同步</td></tr><tr><td>D-2</td><td>创始会员内测牌局：邀20人来一场内测局，拍摄氛围素材，引导开业当天发小红书/朋友圈</td><td>老板主持</td><td>线下执行+手机拍摄素材备用</td></tr><tr><td>D-1</td><td>配置开业储值活动：充500送80/充1000送200，确认收银台可完成储值全流程</td><td>老板+美团BD</td><td>会员后台→储值活动→新建活动→配置档位→测试</td></tr></table><h3>开业当天时间表</h3><ul><li>🕔 16:00 门店布置就位：德扑桌开台/桌牌/万能码桌贴/酒水陈列</li><li>🕕 17:30 全员到位，服务员背熟3条话术（引导评价/储值推荐/扫码点餐说明）</li><li>🕖 18:00 正式开业，老板发朋友圈「#NeverFold·杭州德扑圈」+门店视频</li><li>🕗 19:00 第一场德扑开局，创始会员优先入桌，记录现场</li><li>🕙 21:00 对第一桌客人引导评价：「今天是我们开业第一天，麻烦帮我们在大众点评写一句真实感受，下次来送您一杯特调」</li></ul><h3>常见异议应对</h3><ul><li><strong>「我不会玩德扑」</strong>→ 「没事，6张小圆桌喝酒聊天完全OK，不一定上牌桌，新手可以先旁观学」</li><li><strong>「店里人少，感觉冷清」</strong>→ 「新店嘛，我们现在开业优惠是最大的，您是最早来的那批人，以后可以说是老牌友了」</li><li><strong>「周边哪里还能打牌」</strong>→ 「棋牌室环境跟我们完全不同，我们是精品德扑空间，您体验过就知道区别了」</li></ul></div>
+<div id="modal-content-6" style="display:none"><h3>📱 三平台公域矩阵·Never Fold的线上主战场</h3><p>Never Fold 颜值高、圈子属性强、体验场景独特，天然适合社交媒体传播。老板有线上运营思维，这是最大优势。</p><h3>平台① 大众点评（评分阵地+本地搜索入口）</h3><ul><li><strong>关键词卡位</strong>：门店标签设置「德州扑克、休闲娱乐、酒吧、牌局聚会、上城区夜生活」，让搜索「杭州德扑」的人第一时间找到Never Fold</li><li><strong>套餐设计</strong>：发布「德扑体验套餐」99-129元区间，低于到店实际消费，打新客；团购核销后引导写评价</li><li><strong>保持内容新鲜</strong>：每月至少上传3张新图（活动照/牌局现场/新特调），提升搜索排名权重</li><li>🔧 操作：大众点评商家后台→内容管理→上传图片+更新标签</li></ul><h3>平台② 小红书（种草主阵地，最应押注）</h3><p>「德扑+酒吧+杭州」是小红书高热度话题组合，<strong>这是Never Fold最应该重点投入的平台。</strong></p><ul><li><strong>发帖节奏</strong>：开业第一个月每周3篇，之后每周2篇</li><li><strong>3种内容模板循环发</strong>：<br/>①「杭州终于有家好看的德扑吧了」——环境探店向，展示灯光/筹码/调酒视觉<br/>②「今晚在Never Fold赢了XX盲注」——牌局战绩向，晒筹码和战果，强炫耀属性<br/>③「不会德扑也能来的夜生活指南」——破门槛向，针对普通用户降低心理距离</li><li><strong>必带话题标签</strong>：#杭州夜生活 #杭州好去处 #德州扑克 #杭州酒吧 #上城区 #杭州周末去哪</li><li>🔧 How：老板本人发或指定1名员工专职拍+发；每篇发布后看前3小时互动数据，如果点赞超过50，追投小红书信息流广告50-100元/篇，可覆盖5,000+精准本地用户</li></ul><h3>平台③ 抖音（扩散次阵地）</h3><ul><li><strong>内容类型</strong>：牌局精彩片段（全IN瞬间/River反杀）+门店氛围视频，竖版15-30秒</li><li><strong>发布频次</strong>：每周1-2条，与小红书内容错开发布节奏</li><li>🔧 本地推投放：抖音→创作者中心→DOU+→选「周边3公里+25-45岁+男性为主」定向投放，50-100元/天，可覆盖约2,000-5,000人次精准曝光</li></ul><h3>三平台协作闭环</h3><p>小红书发现（种草）→ 大众点评确认评分（背书）→ 美团小程序预约/购买套餐（转化）→ 到店体验（履约）→ 发小红书/朋友圈（再传播）</p><h3>月度执行预算</h3><table><tr><th>平台</th><th>负责人</th><th>发布频次</th><th>月预算参考</th></tr><tr><td>大众点评</td><td>老板+美团BD协助配置</td><td>随时更新图片和套餐</td><td>0元（自然流量）</td></tr><tr><td>小红书</td><td>老板本人或运营专员</td><td>每周2-3篇</td><td>200-400元（投流）</td></tr><tr><td>抖音</td><td>老板本人或运营专员</td><td>每周1-2条</td><td>200-400元（DOU+）</td></tr></table></div>
+<div id="modal-content-7" style="display:none"><h3>🎯 私域体系·帮牌友「制造下次来的理由」</h3><p>德扑酒吧的复购逻辑跟餐厅不同——来的人不是「饿了才来」，而是「有牌局才来」。私域的核心不是发优惠券，而是<strong>帮玩家持续制造有高质量牌局的理由</strong>。</p><h3>第一层：会员体系（旗舰版即开即用）</h3><ul><li><strong>入会设计</strong>：到店扫万能码自动入会，入会即送「首局免费观战体验」资格，降低第一次进门心理门槛</li><li><strong>三档会员权益</strong>：<br/>🃏 <strong>牌友（免费入会）</strong>：消费1元得1积分，积分兑换酒水；享会员专属定价<br/>🏆 <strong>老炮（充值500元）</strong>：赠80元餐饮券+专属「老炮桌牌」标识+优先订桌权<br/>👑 <strong>主理人（充值1,500元）</strong>：赠300元+每月1次免费包桌权益（2小时德扑桌专属使用，酒水另算）</li></ul><h3>第二层：社群运营（最重要的私域工具）</h3><p>⚠️ 对德扑酒吧来说，微信群/大象群的圈子运营比任何储值活动都重要。</p><ul><li><strong>建群时机</strong>：开业当天建「Never Fold | 杭州德扑圈」，邀请前30位到店客人入群</li><li><strong>群内运营节奏（每周3次活跃，老板/店长执行，每次15分钟）</strong>：<br/>周一：「本周赛程预告」——本周哪天有位置，几点开，几人局，直接在群里接龙报名<br/>周四：「本周英雄榜」——晒前3名当周积分，第一名下次来免费升级一杯饮品<br/>周日：「下周活动预告」——新手教学场/主题之夜/特别赛事预告</li><li><strong>群规则</strong>：禁止广告，只发牌局相关内容，保持群的纯净性和专属感</li></ul><h3>第三层：储值（有稳定客流后再推）</h3><p>⚠️ 储值不是开业第一周的优先事项。等日均流水稳定在3,000元以上，再重点推储值转化。</p><ul><li>充500得580（含1次新手教学局资格，解决「我不会玩」的破冰问题）</li><li>充1,000得1,200（含1次包桌权益：2小时德扑桌专属使用+1壶精酿）</li><li>🔧 操作路径：会员后台→储值活动→新建→设置档位金额和赠品，开启后收银台一键操作</li><li>推荐话术：「充1,000送200，相当于打几场牌的酒水钱省出来了，还有一次包桌机会可以带朋友来开私局」</li></ul></div>
+<div id="modal-content-8" style="display:none"><h3>🗓️ 开业90天营销节奏</h3><p>Never Fold 是新店，开业90天是口碑和客群建立的黄金窗口。活动设计原则：<strong>每个活动有且只有一个核心目标，不贪多。</strong></p><h3>第一阶段（开业第1-30天）：建圈子</h3><p>目标：让第一批铁杆牌友认可这里是他们的「主场」</p><ul><li><strong>「创始牌友」认证活动</strong>（第1-2周）：前50名到店消费的客人自动获得「创始牌友」身份，专属会员卡号001-050，卡号永久展示在店内荣誉墙（A4纸打印即可）——成本几乎为零，仪式感极强<br/>🔧 Who：老板负责 | When：开业当天起 | Where：美团会员后台创建「创始会员」标签，收银台为每位顾客手动添加</li><li><strong>「新手德扑教学日」</strong>（每周六下午14:00-16:00）：免费开放2小时德扑入门教学（老板/资深牌友教），参与者到店扫码入会，教学后留下来喝酒消费转化率约50%<br/>🔧 Who：老板主教 | When：每周六固定场次 | 宣传：提前3天发小红书「本周六教你德扑」</li></ul><h3>第二阶段（31-60天）：做赛事</h3><p>目标：通过赛事活动引爆单日流量，带动新一轮口碑传播</p><ul><li><strong>「Never Fold月度积分赛」</strong>：每月举办1次积分赛，参赛费50-100元/人（含酒水消费），积分TOP3赢得奖品（精酿礼盒/下月包桌权），所有参赛者发朋友圈/小红书带#NeverFold标签<br/>🔧 Who：老板策划+运营执行 | When：每月最后一个周末 | 报名：微信群接龙+大众点评预约</li><li><strong>「六月国庆主题牌局」</strong>（6月）：德扑+本地啤酒节联动，推出特色精酿套餐+德扑对决，吸引周边精酿爱好者破圈入场</li></ul><h3>第三阶段（61-90天）：拓边界</h3><p>目标：拓展非德扑客群，让店铺不只是「打牌的地方」</p><ul><li><strong>「周三微醺夜」</strong>（每周三）：6张小圆桌区域推出「3杯特调套餐」108元，配背景轻音乐，定位「杭州上城的安静角落」，用小红书种草引入非德扑客群</li><li><strong>「生日包场局」产品化</strong>：推出「生日德扑包场」套餐——2小时专属德扑桌+定制欢呼板+指定酒水套餐，定价799-1,299元；在大众点评上线「生日聚会套餐」，被动获客</li></ul></div>
+<div id="modal-content-9" style="display:none"><h3>💰 投入产出测算（⚠️ 基于开业假设，建议运营1个月后用真实数据复盘）</h3><h3>当前成本基础</h3><table><tr><th>成本项</th><th>月预估金额</th><th>说明</th></tr><tr><td>门店租金</td><td>约¥8,000-15,000</td><td>上城区绿地商业中心，⚠️ 行业参考值</td></tr><tr><td>人工</td><td>约¥8,000-12,000</td><td>2-3人（含服务+收银），新店精简</td></tr><tr><td>酒水食材采购</td><td>约¥12,000-18,000</td><td>按月流水3万元×40-60%成本率估算</td></tr><tr><td>营销（小红书+抖音）</td><td>约¥600-1,000</td><td>投流预算，可灵活调整</td></tr><tr><td><strong>月总成本合计</strong></td><td>约¥30,000-46,000</td><td>⚠️ 需核实实际数字</td></tr></table><h3>营收增长路径</h3><table><tr><th>阶段</th><th>时间</th><th>日均流水目标</th><th>月流水目标</th><th>关键驱动力</th></tr><tr><td>冷启动期</td><td>第1-4周</td><td>1,000-3,000元</td><td>约3-6万元</td><td>创始会员+开业团购</td></tr><tr><td>成长期</td><td>第2-3月</td><td>3,000-5,000元</td><td>约9-15万元</td><td>赛事引爆+小红书种草</td></tr><tr><td>稳定期</td><td>第4月起</td><td>5,000-8,000元</td><td>约15-24万元</td><td>圈子口碑+会员复购</td></tr></table><h3>增收来源拆解（月稳定期15万元营收估算）</h3><ul><li>🍺 <strong>酒水消费</strong>（占70%）：约¥10.5万——核心利润来源，毛利约60-70%</li><li>🃏 <strong>桌台费/入场费</strong>（占15%）：约¥2.25万——德扑桌按小时或按局收费</li><li>🎫 <strong>赛事报名+套餐</strong>（占10%）：约¥1.5万——月度积分赛+生日包场</li><li>🍟 <strong>轻食小食</strong>（占5%）：约¥0.75万——辅助消费，毛利约50%</li></ul><h3>量化OKR目标</h3><table><tr><th>维度</th><th>30天目标</th><th>90天目标</th><th>6个月目标</th></tr><tr><td>月营收</td><td>¥3-6万</td><td>¥9-15万</td><td>¥15-24万</td></tr><tr><td>大众点评评分</td><td>出星（暂无→有星）</td><td>4.5分+</td><td>4.7分+</td></tr><tr><td>点评评价数</td><td>≥50条</td><td>≥150条</td><td>≥300条</td></tr><tr><td>会员数</td><td>≥80人</td><td>≥300人</td><td>≥600人</td></tr><tr><td>日均桌台利用率</td><td>≥30%</td><td>≥50%（周末）</td><td>≥70%（周末）</td></tr><tr><td>月储值入账</td><td>—（暂不主推）</td><td>≥¥15,000</td><td>≥¥30,000</td></tr></table><h3>SaaS年投入成本</h3><p>会员旗舰版年费¥4,888元，分摊到每月约¥407元。按月稳定营收15万元计算，SaaS成本占比约0.3%，<strong>远低于行业平均营销成本（通常5-10%）</strong>，ROI极高。</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>陈国庆</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>📊 Never Fold 现状快照</h3><p>Never Fold 是一家定位于<strong>德州扑克主题休闲酒吧</strong>的新店，位于杭州上城区凯旋街道绿地商业中心。店内配置2张专业德扑桌+6张小圆桌，总面积90㎡。目前处于开业冷启动阶段，日均流水1,000元以下（⚠️ 新店开业30天内正常区间）。</p><h3>核心三大痛点</h3><ul><li><strong>痛点① 圈子还没形成</strong>——德扑文化圈子属性极强，新店打响口碑的关键是先让10-20个核心牌友成为「铁杆回头客」，他们会自带客源，但目前0评价、0口碑积累，圈子还没建起来。</li><li><strong>痛点② 新客不知道「能来干什么」</strong>——「德扑酒吧」在杭州上城是小众品类，潜在客群（对德扑感兴趣但没有固定牌局的人）不清楚这里能提供什么体验，进门门槛认知模糊。</li><li><strong>痛点③ 复购留存没有抓手</strong>——没有会员体系，牌友打完一局就走，下次去哪随心情。圈子留不住等于白赚了一次客流。</li></ul><h3>已有优势资产（杠杆点）</h3><ul><li><strong>德扑桌专属体验</strong>：2张专业德扑桌是核心差异化，上城区同类竞品稀少</li><li><strong>灵活场景设计</strong>：6张小圆桌适合小酌社交，不打牌也能待，拓宽了客群宽度</li><li><strong>老板线上运营思维</strong>：主动规划小程序，意识超前，是后续内容引流的关键基础</li><li><strong>完整SaaS配置</strong>：已签收银+会员旗舰+扫码点餐+小程序+供应链，武器库齐全，关键是会用</li></ul><h3>数据基石（⚠️ 开业前假设，建议核实）</h3><table><tr><th>指标</th><th>当前状态</th><th>30天目标</th></tr><tr><td>日均流水</td><td>1,000元以下</td><td>3,000-5,000元</td></tr><tr><td>大众点评评价数</td><td>0条</td><td>≥50条真实评价</td></tr><tr><td>会员数</td><td>0人</td><td>≥80人</td></tr><tr><td>德扑桌利用率</td><td>约20%以下</td><td>≥60%（周末）</td></tr></table>`,
+    2: `<h3>🗺️ 绿地商业中心商圈画像</h3><p>凯旋街道绿地商业中心位于杭州上城区，周边3公里覆盖<strong>成熟居住社区+写字楼集群</strong>，是「职住混合商圈」。工作日白领下班后休闲需求强烈，周末家庭与朋友聚会频繁，客群消费能力中高。</p><h3>目标客群画像（三类）</h3><ul><li><strong>主力客群① 25-40岁白领/互联网从业者</strong>：有消费能力，对德扑感兴趣但缺少高质量固定牌场，寻找有格调的社交空间。人均消费100-200元，周五六日聚会频次高。</li><li><strong>主力客群② 德扑深度爱好者</strong>：已有牌技，主动寻找固定牌场，圈子社交属性极强，一个核心玩家可稳定带动3-5人反复到访。</li><li><strong>潜力客群③ 德扑入门者</strong>：被朋友带来体验，「够好玩、够好看、不尴尬」即可转化为回头客，是长期复购的蓄水池。</li></ul><h3>周边竞品分析（行业参考值，建议国庆实地核实）</h3><table><tr><th>竞品类型</th><th>人均</th><th>核心弱点</th><th>Never Fold切入机会</th></tr><tr><td>普通酒吧（商圈内）</td><td>¥80-150</td><td>只能喝酒，无互动项目，复购率低</td><td>德扑桌提供「有理由再来」的核心钩子</td></tr><tr><td>传统棋牌室</td><td>¥30-60/台</td><td>环境差、无餐饮、老龄化客群</td><td>精品空间+酒水+轻餐，体验完胜</td></tr><tr><td>桌游咖啡店</td><td>¥40-80</td><td>项目老化，社交黏性弱于德扑</td><td>德扑作为「社交货币」，圈子黏性比桌游强10倍</td></tr></table><h3>时段规律（⚠️ 行业参考值）</h3><ul><li><strong>周一至周四</strong>：有效时段18:00-24:00，以2-4人小组为主，是核心牌友培育期</li><li><strong>周五至周日</strong>：晚高峰延伸至凌晨，是营收主力时段，占全周营收约65%</li><li><strong>节假日</strong>：全天候旺季，德扑赛事/主题牌局可作为节假日流量引爆器</li></ul>`,
+    3: `<h3>🔧 5大产品·场景化用法</h3><p>Never Fold 已签约收银POS + 会员旗舰版 + 扫码点餐 + 小程序 + 供应链，这是完整武器库，关键是每个产品都要「用在刀刃上」。</p><h3>① 美团小程序 vs 第三方小程序（老板最关心的核心问题）</h3><p>老板正在自研第三方小程序，我们来算这笔账：</p><table><tr><th>对比维度</th><th>美团小程序</th><th>第三方自研小程序</th></tr><tr><td>开发成本</td><td>✅ 0元，模板直接配置</td><td>❌ 开发费3-10万元</td></tr><tr><td>年维护成本</td><td>✅ 平台托管，0运维</td><td>❌ 服务器+维护费约1-3万/年</td></tr><tr><td>自然流量</td><td>✅ 美团/大众点评搜索流量，新客发现成本为0</td><td>❌ 无自然流量，需自行引流</td></tr><tr><td>会员数据</td><td>✅ 与收银/点餐/营销系统打通，一体化</td><td>❌ 数据孤岛，需二次开发</td></tr><tr><td>营销工具</td><td>✅ 内置储值/优惠券/会员积分，即开即用</td><td>❌ 需额外开发，周期长</td></tr></table><p><strong>建议策略：两者并行，分工明确</strong>——美团小程序作为「获客+支付+会员」主战场；第三方小程序如果坚持开发，专注承接<strong>德扑特有功能</strong>（在线积分排行榜、牌局预约系统、赛事报名），这是美团小程序没有的差异化功能。不冲突，互补。</p><h3>② 扫码点餐——德扑桌专属价值</h3><p>德扑对局时玩家注意力高度集中，<strong>不希望被服务员打断</strong>。扫码点餐完美解决：</p><ul><li>🔧 操作路径：收银后台→扫码点餐→桌台管理→为德扑桌1/德扑桌2分别设置独立桌码（区别于小圆桌）</li><li>玩家直接扫桌码点酒水+小食，静默下单，不打断牌局节奏</li><li>预计减少服务员穿插频次60%，牌局沉浸感大幅提升</li></ul><h3>③ 会员旗舰版——圈子留存的核心武器</h3><ul><li><strong>潜客营销</strong>🔧（后台→潜客营销）：周边有德扑兴趣的用户，还没进店就可以触达，适合新手体验日活动拉新</li><li><strong>团购会员卡</strong>：在大众点评发布「德扑月卡/季卡」，圈子用户主动找来，BD不用挨个找人</li><li><strong>消息推送</strong>：每次赛事/牌局活动，一键通知所有会员，成本为0</li></ul><h3>④ 供应链——酒水成本控制</h3><ul><li>酒吧核心利润来自酒水（毛利60-80%），供应链采购可节省散买成本15-25%</li><li>🔧 路径：供应链后台→选品→精酿啤酒/威士忌基础款/调酒基酒批量采购</li><li>建议优先品类：精酿啤酒（差异化+高毛利）+花生/薯片等小食套餐</li></ul>`,
+    4: `<h3>🌟 新店口碑冷启动·前50条评价是生死线</h3><p>Never Fold 目前0条评价、0颗星，处于「新店出星期」。前50条评价决定了这家店在大众点评上的初始口碑画像，也决定了后续千百个潜在客户对它的第一印象。<strong>这是开业后最优先级的任务。</strong></p><h3>当前阶段：出星冲刺（0 → 4.5分+）</h3><p>大众点评出星逻辑：积累足够数量的真实评价后系统自动计算星级。目标：<strong>开业30天内拿到50条真实好评，目标冲4.5分+</strong>。</p><h3>✅ 合规工具（仅用这两个）</h3><ul><li><strong>免费试体验</strong>🔧：大众点评商家后台→营销中心→免费试，设置「德扑新手体验位2个」，消费者申请→到店体验→自愿写真实评价。每周投放10个名额，成本可控，评价真实有效且计入星级。</li><li><strong>团购套餐引流</strong>：发布99元「德扑入场+2杯饮品」团购券，团购客到店后服务员自然引导——「麻烦您用完在大众点评写一句真实感受」，不强制好评，引导评价本身。</li></ul><h3>⛔ 必须停止的行为</h3><ul><li>❌ 好评返现/好评送礼——2025年10月后平台严查，高频促评=新评价不计入星级收益</li><li>❌ 员工/朋友刷好评——平台识别率极高，无效还有账号降权风险</li></ul><h3>分享动机设计（让客人自愿发）</h3><ul><li><strong>「今晚最强玩家」打卡板</strong>：在德扑桌旁放一块拍照打卡板，玩家拿着筹码摆造型，天然想发圈，带店名曝光</li><li><strong>引导话术</strong>：服务员在客人准备离开时说：「今晚您玩得不错！如果方便的话，帮我们在大众点评写一句真实感受，下次来送您一杯特调。」——说的是「真实感受」不是「好评」，合规且真诚</li><li><strong>牌局战绩卡</strong>：通过扫码点餐系统为每桌生成当晚筹码战绩小卡，玩家扫码获取，有成就感自然想分享</li></ul><h3>30天口碑里程碑</h3><table><tr><th>时间节点</th><th>评价数目标</th><th>评分目标</th><th>关键动作</th></tr><tr><td>开业第1-2周</td><td>≥15条</td><td>出星（暂无→有星）</td><td>免费试+创始会员邀评</td></tr><tr><td>第3-4周</td><td>≥50条</td><td>4.5分+</td><td>团购引流+评价自然积累</td></tr><tr><td>第2-3个月</td><td>≥100条</td><td>4.6-4.8分</td><td>冲热门榜/好评榜</td></tr></table>`,
+    5: `<h3>🚀 开业前7天·每天1件事</h3><p>新店标签在大众点评有额外曝光加持，但只有30天窗口期，每天的动作都要精准。</p><table><tr><th>倒计时</th><th>具体动作</th><th>谁来做</th><th>工具路径🔧</th></tr><tr><td>D-7</td><td>大众点评门店资料完善：上传10张高质量图（德扑桌/氛围灯光/调酒/门头），填写营业时间/人均/菜单</td><td>老板</td><td>大众点评商家后台→基础信息→上传图片</td></tr><tr><td>D-6</td><td>美团小程序上线：配置酒水菜单+预约入口；测试扫码点餐全流程，确保德扑桌1/2桌码可用</td><td>老板+美团BD</td><td>美团商家后台→小程序→菜单配置→桌台设置</td></tr><tr><td>D-5</td><td>上线开业特惠团购：「德扑体验+2杯饮品」定价99元（市场价约150元），发布大众点评</td><td>老板+美团BD</td><td>大众点评商家后台→套餐管理→新建套餐</td></tr><tr><td>D-4</td><td>邀请20位「创始会员」：向朋友圈德扑爱好者发私信，开业前内测免费体验，成为创始会员享永久9.5折</td><td>老板本人</td><td>微信私信+线下邀请，入会走美团会员通道</td></tr><tr><td>D-3</td><td>小红书/抖音发「牌局征集令」：「杭州上城有家德扑吧，招第一批牌友，懂的来」——简洁神秘引好奇</td><td>老板/运营</td><td>小红书发帖+@杭州生活类号；抖音同步</td></tr><tr><td>D-2</td><td>创始会员内测牌局：邀20人来一场内测局，拍摄氛围素材，引导开业当天发小红书/朋友圈</td><td>老板主持</td><td>线下执行+手机拍摄素材备用</td></tr><tr><td>D-1</td><td>配置开业储值活动：充500送80/充1000送200，确认收银台可完成储值全流程</td><td>老板+美团BD</td><td>会员后台→储值活动→新建活动→配置档位→测试</td></tr></table><h3>开业当天时间表</h3><ul><li>🕔 16:00 门店布置就位：德扑桌开台/桌牌/万能码桌贴/酒水陈列</li><li>🕕 17:30 全员到位，服务员背熟3条话术（引导评价/储值推荐/扫码点餐说明）</li><li>🕖 18:00 正式开业，老板发朋友圈「#NeverFold·杭州德扑圈」+门店视频</li><li>🕗 19:00 第一场德扑开局，创始会员优先入桌，记录现场</li><li>🕙 21:00 对第一桌客人引导评价：「今天是我们开业第一天，麻烦帮我们在大众点评写一句真实感受，下次来送您一杯特调」</li></ul><h3>常见异议应对</h3><ul><li><strong>「我不会玩德扑」</strong>→ 「没事，6张小圆桌喝酒聊天完全OK，不一定上牌桌，新手可以先旁观学」</li><li><strong>「店里人少，感觉冷清」</strong>→ 「新店嘛，我们现在开业优惠是最大的，您是最早来的那批人，以后可以说是老牌友了」</li><li><strong>「周边哪里还能打牌」</strong>→ 「棋牌室环境跟我们完全不同，我们是精品德扑空间，您体验过就知道区别了」</li></ul>`,
+    6: `<h3>📱 三平台公域矩阵·Never Fold的线上主战场</h3><p>Never Fold 颜值高、圈子属性强、体验场景独特，天然适合社交媒体传播。老板有线上运营思维，这是最大优势。</p><h3>平台① 大众点评（评分阵地+本地搜索入口）</h3><ul><li><strong>关键词卡位</strong>：门店标签设置「德州扑克、休闲娱乐、酒吧、牌局聚会、上城区夜生活」，让搜索「杭州德扑」的人第一时间找到Never Fold</li><li><strong>套餐设计</strong>：发布「德扑体验套餐」99-129元区间，低于到店实际消费，打新客；团购核销后引导写评价</li><li><strong>保持内容新鲜</strong>：每月至少上传3张新图（活动照/牌局现场/新特调），提升搜索排名权重</li><li>🔧 操作：大众点评商家后台→内容管理→上传图片+更新标签</li></ul><h3>平台② 小红书（种草主阵地，最应押注）</h3><p>「德扑+酒吧+杭州」是小红书高热度话题组合，<strong>这是Never Fold最应该重点投入的平台。</strong></p><ul><li><strong>发帖节奏</strong>：开业第一个月每周3篇，之后每周2篇</li><li><strong>3种内容模板循环发</strong>：<br/>①「杭州终于有家好看的德扑吧了」——环境探店向，展示灯光/筹码/调酒视觉<br/>②「今晚在Never Fold赢了XX盲注」——牌局战绩向，晒筹码和战果，强炫耀属性<br/>③「不会德扑也能来的夜生活指南」——破门槛向，针对普通用户降低心理距离</li><li><strong>必带话题标签</strong>：#杭州夜生活 #杭州好去处 #德州扑克 #杭州酒吧 #上城区 #杭州周末去哪</li><li>🔧 How：老板本人发或指定1名员工专职拍+发；每篇发布后看前3小时互动数据，如果点赞超过50，追投小红书信息流广告50-100元/篇，可覆盖5,000+精准本地用户</li></ul><h3>平台③ 抖音（扩散次阵地）</h3><ul><li><strong>内容类型</strong>：牌局精彩片段（全IN瞬间/River反杀）+门店氛围视频，竖版15-30秒</li><li><strong>发布频次</strong>：每周1-2条，与小红书内容错开发布节奏</li><li>🔧 本地推投放：抖音→创作者中心→DOU+→选「周边3公里+25-45岁+男性为主」定向投放，50-100元/天，可覆盖约2,000-5,000人次精准曝光</li></ul><h3>三平台协作闭环</h3><p>小红书发现（种草）→ 大众点评确认评分（背书）→ 美团小程序预约/购买套餐（转化）→ 到店体验（履约）→ 发小红书/朋友圈（再传播）</p><h3>月度执行预算</h3><table><tr><th>平台</th><th>负责人</th><th>发布频次</th><th>月预算参考</th></tr><tr><td>大众点评</td><td>老板+美团BD协助配置</td><td>随时更新图片和套餐</td><td>0元（自然流量）</td></tr><tr><td>小红书</td><td>老板本人或运营专员</td><td>每周2-3篇</td><td>200-400元（投流）</td></tr><tr><td>抖音</td><td>老板本人或运营专员</td><td>每周1-2条</td><td>200-400元（DOU+）</td></tr></table>`,
+    7: `<h3>🎯 私域体系·帮牌友「制造下次来的理由」</h3><p>德扑酒吧的复购逻辑跟餐厅不同——来的人不是「饿了才来」，而是「有牌局才来」。私域的核心不是发优惠券，而是<strong>帮玩家持续制造有高质量牌局的理由</strong>。</p><h3>第一层：会员体系（旗舰版即开即用）</h3><ul><li><strong>入会设计</strong>：到店扫万能码自动入会，入会即送「首局免费观战体验」资格，降低第一次进门心理门槛</li><li><strong>三档会员权益</strong>：<br/>🃏 <strong>牌友（免费入会）</strong>：消费1元得1积分，积分兑换酒水；享会员专属定价<br/>🏆 <strong>老炮（充值500元）</strong>：赠80元餐饮券+专属「老炮桌牌」标识+优先订桌权<br/>👑 <strong>主理人（充值1,500元）</strong>：赠300元+每月1次免费包桌权益（2小时德扑桌专属使用，酒水另算）</li></ul><h3>第二层：社群运营（最重要的私域工具）</h3><p>⚠️ 对德扑酒吧来说，微信群/大象群的圈子运营比任何储值活动都重要。</p><ul><li><strong>建群时机</strong>：开业当天建「Never Fold | 杭州德扑圈」，邀请前30位到店客人入群</li><li><strong>群内运营节奏（每周3次活跃，老板/店长执行，每次15分钟）</strong>：<br/>周一：「本周赛程预告」——本周哪天有位置，几点开，几人局，直接在群里接龙报名<br/>周四：「本周英雄榜」——晒前3名当周积分，第一名下次来免费升级一杯饮品<br/>周日：「下周活动预告」——新手教学场/主题之夜/特别赛事预告</li><li><strong>群规则</strong>：禁止广告，只发牌局相关内容，保持群的纯净性和专属感</li></ul><h3>第三层：储值（有稳定客流后再推）</h3><p>⚠️ 储值不是开业第一周的优先事项。等日均流水稳定在3,000元以上，再重点推储值转化。</p><ul><li>充500得580（含1次新手教学局资格，解决「我不会玩」的破冰问题）</li><li>充1,000得1,200（含1次包桌权益：2小时德扑桌专属使用+1壶精酿）</li><li>🔧 操作路径：会员后台→储值活动→新建→设置档位金额和赠品，开启后收银台一键操作</li><li>推荐话术：「充1,000送200，相当于打几场牌的酒水钱省出来了，还有一次包桌机会可以带朋友来开私局」</li></ul>`,
+    8: `<h3>🗓️ 开业90天营销节奏</h3><p>Never Fold 是新店，开业90天是口碑和客群建立的黄金窗口。活动设计原则：<strong>每个活动有且只有一个核心目标，不贪多。</strong></p><h3>第一阶段（开业第1-30天）：建圈子</h3><p>目标：让第一批铁杆牌友认可这里是他们的「主场」</p><ul><li><strong>「创始牌友」认证活动</strong>（第1-2周）：前50名到店消费的客人自动获得「创始牌友」身份，专属会员卡号001-050，卡号永久展示在店内荣誉墙（A4纸打印即可）——成本几乎为零，仪式感极强<br/>🔧 Who：老板负责 | When：开业当天起 | Where：美团会员后台创建「创始会员」标签，收银台为每位顾客手动添加</li><li><strong>「新手德扑教学日」</strong>（每周六下午14:00-16:00）：免费开放2小时德扑入门教学（老板/资深牌友教），参与者到店扫码入会，教学后留下来喝酒消费转化率约50%<br/>🔧 Who：老板主教 | When：每周六固定场次 | 宣传：提前3天发小红书「本周六教你德扑」</li></ul><h3>第二阶段（31-60天）：做赛事</h3><p>目标：通过赛事活动引爆单日流量，带动新一轮口碑传播</p><ul><li><strong>「Never Fold月度积分赛」</strong>：每月举办1次积分赛，参赛费50-100元/人（含酒水消费），积分TOP3赢得奖品（精酿礼盒/下月包桌权），所有参赛者发朋友圈/小红书带#NeverFold标签<br/>🔧 Who：老板策划+运营执行 | When：每月最后一个周末 | 报名：微信群接龙+大众点评预约</li><li><strong>「六月国庆主题牌局」</strong>（6月）：德扑+本地啤酒节联动，推出特色精酿套餐+德扑对决，吸引周边精酿爱好者破圈入场</li></ul><h3>第三阶段（61-90天）：拓边界</h3><p>目标：拓展非德扑客群，让店铺不只是「打牌的地方」</p><ul><li><strong>「周三微醺夜」</strong>（每周三）：6张小圆桌区域推出「3杯特调套餐」108元，配背景轻音乐，定位「杭州上城的安静角落」，用小红书种草引入非德扑客群</li><li><strong>「生日包场局」产品化</strong>：推出「生日德扑包场」套餐——2小时专属德扑桌+定制欢呼板+指定酒水套餐，定价799-1,299元；在大众点评上线「生日聚会套餐」，被动获客</li></ul>`,
+    9: `<h3>💰 投入产出测算（⚠️ 基于开业假设，建议运营1个月后用真实数据复盘）</h3><h3>当前成本基础</h3><table><tr><th>成本项</th><th>月预估金额</th><th>说明</th></tr><tr><td>门店租金</td><td>约¥8,000-15,000</td><td>上城区绿地商业中心，⚠️ 行业参考值</td></tr><tr><td>人工</td><td>约¥8,000-12,000</td><td>2-3人（含服务+收银），新店精简</td></tr><tr><td>酒水食材采购</td><td>约¥12,000-18,000</td><td>按月流水3万元×40-60%成本率估算</td></tr><tr><td>营销（小红书+抖音）</td><td>约¥600-1,000</td><td>投流预算，可灵活调整</td></tr><tr><td><strong>月总成本合计</strong></td><td>约¥30,000-46,000</td><td>⚠️ 需核实实际数字</td></tr></table><h3>营收增长路径</h3><table><tr><th>阶段</th><th>时间</th><th>日均流水目标</th><th>月流水目标</th><th>关键驱动力</th></tr><tr><td>冷启动期</td><td>第1-4周</td><td>1,000-3,000元</td><td>约3-6万元</td><td>创始会员+开业团购</td></tr><tr><td>成长期</td><td>第2-3月</td><td>3,000-5,000元</td><td>约9-15万元</td><td>赛事引爆+小红书种草</td></tr><tr><td>稳定期</td><td>第4月起</td><td>5,000-8,000元</td><td>约15-24万元</td><td>圈子口碑+会员复购</td></tr></table><h3>增收来源拆解（月稳定期15万元营收估算）</h3><ul><li>🍺 <strong>酒水消费</strong>（占70%）：约¥10.5万——核心利润来源，毛利约60-70%</li><li>🃏 <strong>桌台费/入场费</strong>（占15%）：约¥2.25万——德扑桌按小时或按局收费</li><li>🎫 <strong>赛事报名+套餐</strong>（占10%）：约¥1.5万——月度积分赛+生日包场</li><li>🍟 <strong>轻食小食</strong>（占5%）：约¥0.75万——辅助消费，毛利约50%</li></ul><h3>量化OKR目标</h3><table><tr><th>维度</th><th>30天目标</th><th>90天目标</th><th>6个月目标</th></tr><tr><td>月营收</td><td>¥3-6万</td><td>¥9-15万</td><td>¥15-24万</td></tr><tr><td>大众点评评分</td><td>出星（暂无→有星）</td><td>4.5分+</td><td>4.7分+</td></tr><tr><td>点评评价数</td><td>≥50条</td><td>≥150条</td><td>≥300条</td></tr><tr><td>会员数</td><td>≥80人</td><td>≥300人</td><td>≥600人</td></tr><tr><td>日均桌台利用率</td><td>≥30%</td><td>≥50%（周末）</td><td>≥70%（周末）</td></tr><tr><td>月储值入账</td><td>—（暂不主推）</td><td>≥¥15,000</td><td>≥¥30,000</td></tr></table><h3>SaaS年投入成本</h3><p>会员旗舰版年费¥4,888元，分摊到每月约¥407元。按月稳定营收15万元计算，SaaS成本占比约0.3%，<strong>远低于行业平均营销成本（通常5-10%）</strong>，ROI极高。</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
