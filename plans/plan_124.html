@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>see you · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #C47A3A;
+      --primary-light: #D4894A;
+      --accent: #E8A87C;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #C47A3A40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">休闲饮品/轻餐（横店旅游地标品类） · 运营提升方案</div>
+  <h1 class="hero-title">see you</h1>
+  <p class="hero-subtitle">横店打卡必来，把旅途中的「see you」变成「一来再来」</p>
+  <div class="hero-address">浙江金华横店镇兴富路8号</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥30</span>
+      <div class="hero-stat-label">人均消费</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">160㎡</span>
+      <div class="hero-stat-label">门店面积</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">横店景区</span>
+      <div class="hero-stat-label">地理位置</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '门店诊断', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">门店诊断</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '商圈竞品', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">商圈竞品</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '点评冷启动', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">点评冷启动</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '旅游流量打法', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">旅游流量打法</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '进店理由打造', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">进店理由打造</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '私域与留客', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">私域与留客</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, 'SaaS工具用好', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">SaaS工具用好</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '季节营销日历', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">季节营销日历</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(9, '投资回报测算', 9)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 09</div>
+      <div class="chapter-title">投资回报测算</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>📊 数据基石（经过交叉验证）</h3><table><tr><th>指标</th><th>当前数值</th><th>说明</th></tr><tr><td>月流水</td><td>¥30,000</td><td>门店提供</td></tr><tr><td>客单价</td><td>¥30</td><td>门店提供</td></tr><tr><td>日均流水</td><td>约¥1,000</td><td>30,000÷30天</td></tr><tr><td>日均消费人次</td><td>约33人</td><td>1,000÷30元</td></tr><tr><td>月均消费人次</td><td>约1,000人</td><td>33×30天</td></tr><tr><td>大众点评评分</td><td>3.7分（1条评价）</td><td>近乎白纸状态</td></tr></table><p><strong>⚠️ 数据健康度警示</strong>：160㎡的店面仅日均33人，坪效极低（约6元/㎡/天），远低于同类门店均值（行业参考值：休闲餐饮坪效20-40元/㎡/天）。核心症结不是产品问题，而是<strong>没有被更多过路游客「看见」</strong>。</p><h3>🔍 三大核心痛点</h3><ul><li><strong>痛点①：点评近乎透明</strong> — 3.7分仅1条评价，在大众点评搜索横店餐厅时基本不显示，游客刷到机率为零。横店每年游客超500万，但这家店从未被「算法推荐」过。</li><li><strong>痛点②：流量漏斗极浅</strong> — 日均33单意味着每天从兴富路经过的数百游客中，仅有极少数走进来。缺乏视觉吸引力或进店理由，路过≠进门。</li><li><strong>痛点③：无私域沉淀</strong> — 目前无会员体系，每个进店顾客消费后就「消失」，无法触达唤回，尤其是横店本地回头客和民宿住客这两类可重复消费人群。</li></ul><h3>🌟 横店独特资产（被低估的核心优势）</h3><p>横店年接待游客<strong>超500万人次</strong>（行业参考值），兴富路属横店核心商业带。「see you」这个名字本身自带<strong>影视感+打卡感</strong>，非常适合在旅游场景下种草传播。160㎡的空间也具备做「旅途打卡地」的物理条件。这些是竞争对手复制不了的地理和品牌资产。</p></div>
+<div id="modal-content-2" style="display:none"><h3>📍 横店商圈餐饮格局</h3><p>横店镇核心商业区以影视旅游消费为主，消费者结构特殊：<strong>70%以上为外地游客</strong>，停留时间1-3天，决策依赖大众点评/小红书等平台推荐，人均30-80元是主流消费区间。</p><h3>🥊 周边竞品分析（⚠️ 基于横店餐饮行业参考，建议国庆实地核实）</h3><table><tr><th>竞品类型</th><th>人均</th><th>核心弱点</th><th>see you切入机会</th></tr><tr><td>横店景区内快餐摊</td><td>¥15-25</td><td>用餐环境差，无堂食体验</td><td>160㎡有舒适空间，游客愿意为「歇脚+出片」多付10元</td></tr><tr><td>周边中餐馆</td><td>¥40-60</td><td>价格偏高，翻台快无氛围</td><td>人均30元定价有价格竞争力，轻餐下午茶更灵活</td></tr><tr><td>连锁奶茶品牌（如蜜雪冰城）</td><td>¥8-15</td><td>无堂食空间，体验感低</td><td>空间+拍照打卡+饮品，客单价可做到其2倍</td></tr><tr><td>民宿自带轻食</td><td>无明确价格</td><td>仅对住客开放，非公开营业</td><td>可与周边民宿合作导流，成为「民宿推荐打卡地」</td></tr></table><h3>💡 差异化定位</h3><p><strong>「see you = 横店旅途中的情绪出口」</strong>：不和快餐比价格，不和中餐比菜品丰富度——主打「打卡感+舒适歇脚+人均30元的小确幸」，成为游客行程中「必须拍一张」的地方。</p><p>游客选餐逻辑：先看点评分数和图片 → 被打卡照吸引 → 进门消费。只要点评分数做起来，「see you」这个名字+旅游场景天然自带传播力。</p></div>
+<div id="modal-content-3" style="display:none"><h3>🎯 当前阶段判断：新店冷启动期</h3><p>仅1条3.7分评价，属于大众点评「无评分基础」阶段。好消息是：只要积累到<strong>20条以上真实好评</strong>，算法就会开始推荐，而游客型门店天然容易写评价（拍照记录旅行是游客习惯）。</p><h3>📋 30天口碑建立路线图</h3><table><tr><th>阶段</th><th>时间</th><th>目标</th><th>核心动作</th></tr><tr><td>止血期</td><td>第1-3天</td><td>搞清楚3.7分从哪来</td><td>仔细研究那1条评价，找出问题根源，立刻改善</td></tr><tr><td>打底期</td><td>第4-14天</td><td>积累10-15条真实好评</td><td>上线「免费试」活动（详见下方），让愿意写评价的顾客自然留言</td></tr><tr><td>冲榜期</td><td>第15-30天</td><td>积累20-30条评价，评分争取到4.3+</td><td>外卖评分同步提升，店长每天早上查昨日评价并回复</td></tr><tr><td>维护期</td><td>30天后</td><td>目标4.5分，进入热门榜</td><td>持续保障出品质量，评价数量自然增长</td></tr></table><h3>🔧 合规工具：大众点评「免费试」</h3><p><strong>操作步骤（店长执行，第4天启动）：</strong></p><ol><li>登录大众点评商家后台🔧「营销中心→免费试」，设置2-3个免费体验名额（选门店人气单品，成本控制在¥8-12之间）</li><li>上线后系统自动推送给周边用户，体验用户自愿写评价</li><li>⚠️ 严禁主动要求用户写好评，让用户自然表达感受</li><li>每条新评价店长必须在24小时内专业回复（即使差评）</li></ol><h3>📢 门店自然引导（合规范围内）</h3><p><strong>场景话术（服务员上餐时，自然说，不强迫）：</strong></p><p>「我们在横店刚开业不久，您今天是我们的贵客，如果觉得还不错，欢迎在大众点评或小红书分享一下，我们会非常感谢！」</p><p>⚠️ 说一次即可，不追问、不要求、不诱导给好评。分享动机来自真实体验，而不是奖励。</p><h3>📊 量化口碑目标</h3><ul><li><strong>30天目标</strong>：评价数≥20条，评分≥4.3分</li><li><strong>60天目标</strong>：评价数≥50条，评分≥4.5分，进入横店「热门餐厅」列表</li><li><strong>90天目标</strong>：评分稳定4.6+，冲击「好评榜」前10名</li></ul></div>
+<div id="modal-content-4" style="display:none"><h3>🗺️ 横店游客消费路径分析</h3><p>横店游客决策链：<strong>出发前刷小红书/抖音「横店必打卡」→ 到达后打开大众点评找「附近吃喝」→ 景区内疲惫时走进「看起来有感觉的店」→ 拍照发圈/写游记</strong>。</p><p>「see you」目前在这条路径中<strong>完全缺席</strong>：点评无评分无法被发现，社交平台无内容无法被种草，门店缺乏视觉吸引力无法被「走进」。</p><h3>🎯 公域流量三步走</h3><h4>① 大众点评：从隐形到可见（最优先）</h4><p>你目前月流水¥30,000，日均33人，说明大众点评对这家店几乎没有导流。先把第三章「点评冷启动」做完，分数涨到4.3+后，在商家后台🔧开通「推广通-附近推」，投放预算设¥10-20/天，覆盖横店周边3公里游客，预计点击转化率5-8%，每月额外带来50-100新客。</p><h4>② 小红书：种草「横店打卡地」</h4><p><strong>谁来做：</strong>老板/店长，每周发2-3条内容<br><strong>内容方向：</strong>「横店旅行不只有景点，还有这家see you」「在横店拍了100张照片，最好看的在这里」「横店旅途必打卡，就在兴富路」<br><strong>执行节点：</strong>第3天起，每周三和周六下午发布，连续发4周，建立内容基础<br><strong>拍摄重点：</strong>门店最美角落+产品特写+旅行感氛围，不需要专业摄影，手机竖版即可</p><h4>③ 抖音本地生活：横店旅游博主合作</h4><p>横店是抖音探店热门地，搜索「横店探店」相关视频播放量可达数十万。<strong>操作步骤：</strong></p><ol><li>在抖音搜索「横店探店」，找粉丝5000-50000的本地生活类小博主（报价合理，性价比高）</li><li>提供免费用餐+少量费用（¥200-500/条），邀请探店</li><li>一条好的视频带来的曝光 = 1-2个月推广通费用</li></ol><p><strong>时间节点：</strong>点评分数做到4.0+之后再邀请（确保被种草的用户到大众点评看到好评加持）</p><h3>📊 流量目标</h3><ul><li><strong>60天</strong>：小红书笔记累积曝光5000+，大众点评每月新进店游客+30人</li><li><strong>90天</strong>：完成1次抖音探店合作，当月流水目标冲刺¥45,000</li></ul></div>
+<div id="modal-content-5" style="display:none"><h3>🚪 关键问题：路过的游客为什么要走进来？</h3><p>你目前日均33人，160㎡店面在横店核心商圈，说明每天从门口经过的人远不止33人——但他们没有进来。解决「进店率」比什么都重要，这是当前最紧迫的经营动作。</p><h3>💡 低成本高效进店吸引方案</h3><h4>方案A：「旅途中的see you」打卡位打造（成本：¥200-500）</h4><p><strong>谁来做：</strong>老板负责，在签约后第1-2天完成布置<br><strong>怎么做：</strong></p><ol><li>在门店最显眼位置（靠近入口的区域）设计一个「打卡角」——用道具布置一个有故事感的场景（影视元素/旅行感装饰/「see you in 横店」字样装饰墙）</li><li>材料：彩色KT板字母牌+小道具（可淘宝采购，总成本¥200-400）</li><li>旁边放小牌子：「免费拍照，扫码分享」——引导游客扫万能码关注后拍照</li><li>服务员主动说：「这是我们的打卡位，很多客人都会在这里拍照留念，要帮您拍一张吗？」</li></ol><p><strong>预期效果：</strong>横店游客爱打卡，一个好的打卡位每天可以自然吸引进店5-10人，且会在小红书/朋友圈传播，带来二次曝光。</p><h4>方案B：「横店旅途补给站」进店钩子（成本：¥50-100/天）</h4><p><strong>谁来做：</strong>店长在每天开门前完成<br><strong>怎么做：</strong>门口放置「今日横店天气：XX°C，进来喝杯冷饮/热饮歇个脚」的小黑板（成本¥30，可手写），配合门口陈列一两款主推饮品实物（带价签），让游客一眼知道「这家卖什么+多少钱」。很多游客不进门是因为「不知道里面卖什么，怕贵」，透明化陈列直接解决这个顾虑。</p><h4>方案C：早鸟引流套餐（成本：让利约¥5/单）</h4><p>设置「横店旅游特供价」：任意消费满¥25送指定小食/饮品，每天限量50份，在扫码点餐弹窗🔧和门口立牌同步展示。游客看到「限量」两个字会加快决策速度。</p><h3>🔧 SaaS工具用法（扫码点餐）</h3><p>在扫码点餐后台🔧「活动中心→弹窗设置」配置进店欢迎弹窗，内容：「欢迎来到see you！旅途中的你，值得一杯好饮品」+ 显示当日特供套餐。这个设置全程不需要额外成本，只需5分钟配置。</p><p><strong>执行时间轴：</strong>Day1：布置打卡位 → Day2：门口小黑板上线 → Day3：扫码弹窗活动配置 → Day7：检查进店率变化（目标：日均从33人→50人）</p></div>
+<div id="modal-content-6" style="display:none"><h3>🤔 私域适合这家店吗？先判断再行动。</h3><p>横店门店的消费者结构特殊：<strong>约70%是外地一次性过路游客，约30%是横店本地人/民宿住客/回头客</strong>。对过路游客建立私域ROI较低（他们短期内不会再来），但对本地人群和高频游客，私域价值极高。</p><p><strong>结论：不建议大规模推储值</strong>（外地游客充值¥300很难消耗完，会产生纠纷），重点是<strong>建立「轻量私域」</strong>：关注社交账号 + 简单会员积分，留住可能回来的人。</p><h3>📱 私域方案设计（轻量、适合旅游客群）</h3><h4>① 社交媒体关注沉淀（最高优先级）</h4><p><strong>谁来做：</strong>服务员，每桌都引导<br><strong>怎么做：</strong>「我们在小红书上有横店旅行攻略和新品预告，扫码关注下次来横店可以提前看看」——不强迫，用内容价值引导关注<br><strong>目标：</strong>3个月内小红书粉丝突破500人，建立内容传播基地</p><h4>② 会员积分（针对本地人群）</h4><p><strong>谁来做：</strong>收银员在结账时引导本地顾客<br><strong>怎么做：</strong>通过已签约的收银POS🔧「会员管理→创建会员」功能，引导顾客扫码注册成会员，每消费¥1积1积分，积满100分兑换指定饮品1份。只针对<strong>识别为本地顾客</strong>的推荐（问一句：「您是横店本地人还是游客？」）<br><strong>目标：</strong>3个月内沉淀本地会员100人，这100人每月消费1-2次，可贡献月流水¥3,000-6,000的稳定复购</p><h4>③ 游客「二次传播」机制</h4><p>游客虽然不会再来，但他们的传播价值极高。核心动作：</p><ul><li>备好「see you in 横店」明信片（成本¥0.3/张，淘宝定制），付款后随餐赠送1张，游客带走就是品牌传播</li><li>明信片背面印小红书号+「下次来横店，see you again」</li><li>不需要引导写评价，仅仅是给游客一个带走记忆的理由</li></ul><h3>📊 私域目标</h3><ul><li><strong>1个月</strong>：本地会员注册≥30人，小红书粉丝≥100人</li><li><strong>3个月</strong>：本地会员≥100人，每月复购贡献流水¥3,000+</li></ul></div>
+<div id="modal-content-7" style="display:none"><h3>🔧 已签约产品：扫码点餐 + 收银POS</h3><p>这两个工具目前是否在「真正用好」？很多门店签了工具但只用了10%的功能，等于把钱放在口袋里没花。</p><h3>📌 扫码点餐——当前能直接带来流水的功能</h3><table><tr><th>功能</th><th>当前状态</th><th>建议动作</th><th>预期效果</th></tr><tr><td>进店欢迎弹窗</td><td>⚠️ 可能未配置</td><td>在🔧「活动中心→弹窗设置」配置横店主题欢迎语+今日推荐</td><td>提升客单价5-10%（让游客看到更多产品）</td></tr><tr><td>推荐菜标签</td><td>⚠️ 未知</td><td>在🔧「菜品管理」给3-5款主推产品加「招牌」「必点」标签</td><td>提升热门单品点单率20-30%</td></tr><tr><td>加购推荐</td><td>⚠️ 未知</td><td>设置「买X送Y」或「加¥5升级套餐」组合，在点单最后一步弹出</td><td>客单价从¥30→¥35+，每日额外收入¥165</td></tr><tr><td>评价引导</td><td>⚠️ 未配置</td><td>在🔧「评价管理」开启结账后自动发送评价引导短信/弹窗</td><td>每10个消费者中有1-2个主动去写评价（自然转化）</td></tr></table><h3>📌 收银POS——数据资产挖掘</h3><p><strong>谁来做：</strong>老板，每周一查看上周报表（15分钟/次）<br><strong>怎么看：</strong>在POS后台🔧「经营报表→商品销量」查看：哪3款产品卖得最好？哪3款卖得最差？</p><ul><li><strong>卖得最好的</strong>：在菜单上置顶+加「招牌必点」标签，在门口展示，主动推荐给每桌</li><li><strong>卖得最差的</strong>：连续2周销量垫底则下架，减少备货复杂度</li></ul><p>这个动作每周15分钟，但能让月营收提升5-8%——因为资源集中在真正受欢迎的产品上。</p><h3>⏱️ 工具启用30天行动计划</h3><ul><li><strong>Day1（今天）</strong>：检查扫码点餐弹窗是否配置，未配置立刻操作</li><li><strong>Day3</strong>：给所有菜品设置「招牌」「推荐」等标签，优化菜单展示顺序</li><li><strong>Day7</strong>：设置「加购升级」组合，测试客单价变化</li><li><strong>每周一</strong>：查看POS销售报表，调整菜品策略</li></ul></div>
+<div id="modal-content-8" style="display:none"><h3>📅 6月-8月（当前阶段）营销重点</h3><p>当前处于暑期旅游旺季，横店游客量处于全年高峰（暑假学生游客+家庭亲子游）。这是做口碑冷启动的最佳时机：<strong>客流最大的时候，是积累评价最快的时候</strong>。</p><h4>🎯 近期关键营销节点</h4><table><tr><th>时间</th><th>节点</th><th>活动建议</th><th>成本</th></tr><tr><td>6月（当下）</td><td>端午前后</td><td>推出「横店旅途·端午特饮」限定款（粽香奶茶/青梅茶等），门口小黑板写「端午限定」</td><td>食材成本≈¥3-5/杯</td></tr><tr><td>7月</td><td>暑期高峰</td><td>「暑假横店游·打卡see you」活动，游客发小红书带话题「横店see you」，当天第二杯半价</td><td>让利约¥5-8/杯</td></tr><tr><td>7月-8月</td><td>家庭亲子游旺季</td><td>推出「亲子套餐」（大人+小朋友组合），小朋友免费送亲子饮品1份</td><td>饮品成本约¥3/杯</td></tr><tr><td>8月</td><td>七夕节</td><td>「see you again·七夕特调」限定饮品+双人套餐，主题：「在横店遇见你」</td><td>装饰成本约¥50</td></tr></table><h4>🍂 9月-10月（黄金旺季）提前规划</h4><p>国庆是横店全年最大旺季，游客量可能是平时的3-5倍。关键准备动作：</p><ol><li><strong>9月15日前</strong>：点评评分必须做到4.3+（否则国庆大流量来了也接不住）</li><li><strong>9月20日前</strong>：国庆限定套餐在美团/点评上线，提前锁定游客搜索</li><li><strong>10月1日</strong>：备货量上浮100%，排班加强，确保出餐速度不拖后腿</li></ol><p>⚠️ 国庆最大的坑：旺季客流激增但出餐慢→等待抱怨→1星差评→把平时做好的分数打回原形。出餐速度管理比营销策略更重要。</p><h3>🎯 全年节点总表（简版）</h3><ul><li>端午→粽香特调</li><li>暑假→学生打卡价</li><li>七夕→情侣限定</li><li>国庆→横店旅游限定</li><li>元旦/春节→年味限定</li></ul></div>
+<div id="modal-content-9" style="display:none"><h3>💰 当前经营基准</h3><table><tr><th>指标</th><th>当前值</th></tr><tr><td>月流水</td><td>¥30,000</td></tr><tr><td>日均人次</td><td>约33人</td></tr><tr><td>客单价</td><td>¥30</td></tr><tr><td>大众点评评分</td><td>3.7分（1条评价）</td></tr></table><h3>📈 实施方案后的增收测算</h3><table><tr><th>增收来源</th><th>实现路径</th><th>月增收估算</th></tr><tr><td>点评优化带来新客</td><td>评分从3.7→4.5+，算法推荐开始导流，月新增50-80人</td><td>+¥1,500-2,400</td></tr><tr><td>进店率提升</td><td>打卡位+门口引导，日均从33人→50人（+17人/天）</td><td>+¥15,300</td></tr><tr><td>客单价提升</td><td>加购推荐+套餐设计，客单从¥30→¥35</td><td>+¥4,500（基于当前人流）</td></tr><tr><td>本地回头客私域复购</td><td>100名本地会员，每月到店1-2次</td><td>+¥3,000-6,000</td></tr><tr><td>抖音/小红书种草间接带来</td><td>内容曝光带来长尾流量</td><td>+¥2,000-5,000（3个月后显现）</td></tr></table><p><strong>合理预期（3个月后）：</strong></p><ul><li>月流水目标：<strong>¥45,000-55,000</strong>（提升50%-80%）</li><li>日均人次目标：<strong>50-65人</strong></li><li>大众点评评分目标：<strong>4.5分，评价数50条+</strong></li><li>本地会员数：<strong>100人+</strong></li></ul><h3>🎯 量化OKR目标</h3><table><tr><th>周期</th><th>关键结果</th></tr><tr><td>第1个月</td><td>月流水¥35,000 / 点评评价≥15条 / 评分≥4.0 / 进店日均≥40人</td></tr><tr><td>第2个月</td><td>月流水¥42,000 / 点评评价≥35条 / 评分≥4.3 / 小红书粉丝≥200人</td></tr><tr><td>第3个月</td><td>月流水¥50,000 / 点评评价≥50条 / 评分≥4.5 / 本地会员≥80人</td></tr></table><h3>⚠️ 本方案不建议的投入</h3><ul><li>❌ 大额装修改造（现阶段不必要）</li><li>❌ 大范围储值推广（游客客群不适合）</li><li>❌ 购买高价广告位（先把自然流量基础做好）</li></ul><p><strong>总结：这份方案的核心逻辑是「先让更多人看见你，再让看见你的人走进来，再让走进来的人告诉更多人」。横店的流量本来就在那里，see you需要的不是大投入，而是把门打开、把分数做出来。</strong></p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>陈国庆</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>📊 数据基石（经过交叉验证）</h3><table><tr><th>指标</th><th>当前数值</th><th>说明</th></tr><tr><td>月流水</td><td>¥30,000</td><td>门店提供</td></tr><tr><td>客单价</td><td>¥30</td><td>门店提供</td></tr><tr><td>日均流水</td><td>约¥1,000</td><td>30,000÷30天</td></tr><tr><td>日均消费人次</td><td>约33人</td><td>1,000÷30元</td></tr><tr><td>月均消费人次</td><td>约1,000人</td><td>33×30天</td></tr><tr><td>大众点评评分</td><td>3.7分（1条评价）</td><td>近乎白纸状态</td></tr></table><p><strong>⚠️ 数据健康度警示</strong>：160㎡的店面仅日均33人，坪效极低（约6元/㎡/天），远低于同类门店均值（行业参考值：休闲餐饮坪效20-40元/㎡/天）。核心症结不是产品问题，而是<strong>没有被更多过路游客「看见」</strong>。</p><h3>🔍 三大核心痛点</h3><ul><li><strong>痛点①：点评近乎透明</strong> — 3.7分仅1条评价，在大众点评搜索横店餐厅时基本不显示，游客刷到机率为零。横店每年游客超500万，但这家店从未被「算法推荐」过。</li><li><strong>痛点②：流量漏斗极浅</strong> — 日均33单意味着每天从兴富路经过的数百游客中，仅有极少数走进来。缺乏视觉吸引力或进店理由，路过≠进门。</li><li><strong>痛点③：无私域沉淀</strong> — 目前无会员体系，每个进店顾客消费后就「消失」，无法触达唤回，尤其是横店本地回头客和民宿住客这两类可重复消费人群。</li></ul><h3>🌟 横店独特资产（被低估的核心优势）</h3><p>横店年接待游客<strong>超500万人次</strong>（行业参考值），兴富路属横店核心商业带。「see you」这个名字本身自带<strong>影视感+打卡感</strong>，非常适合在旅游场景下种草传播。160㎡的空间也具备做「旅途打卡地」的物理条件。这些是竞争对手复制不了的地理和品牌资产。</p>`,
+    2: `<h3>📍 横店商圈餐饮格局</h3><p>横店镇核心商业区以影视旅游消费为主，消费者结构特殊：<strong>70%以上为外地游客</strong>，停留时间1-3天，决策依赖大众点评/小红书等平台推荐，人均30-80元是主流消费区间。</p><h3>🥊 周边竞品分析（⚠️ 基于横店餐饮行业参考，建议国庆实地核实）</h3><table><tr><th>竞品类型</th><th>人均</th><th>核心弱点</th><th>see you切入机会</th></tr><tr><td>横店景区内快餐摊</td><td>¥15-25</td><td>用餐环境差，无堂食体验</td><td>160㎡有舒适空间，游客愿意为「歇脚+出片」多付10元</td></tr><tr><td>周边中餐馆</td><td>¥40-60</td><td>价格偏高，翻台快无氛围</td><td>人均30元定价有价格竞争力，轻餐下午茶更灵活</td></tr><tr><td>连锁奶茶品牌（如蜜雪冰城）</td><td>¥8-15</td><td>无堂食空间，体验感低</td><td>空间+拍照打卡+饮品，客单价可做到其2倍</td></tr><tr><td>民宿自带轻食</td><td>无明确价格</td><td>仅对住客开放，非公开营业</td><td>可与周边民宿合作导流，成为「民宿推荐打卡地」</td></tr></table><h3>💡 差异化定位</h3><p><strong>「see you = 横店旅途中的情绪出口」</strong>：不和快餐比价格，不和中餐比菜品丰富度——主打「打卡感+舒适歇脚+人均30元的小确幸」，成为游客行程中「必须拍一张」的地方。</p><p>游客选餐逻辑：先看点评分数和图片 → 被打卡照吸引 → 进门消费。只要点评分数做起来，「see you」这个名字+旅游场景天然自带传播力。</p>`,
+    3: `<h3>🎯 当前阶段判断：新店冷启动期</h3><p>仅1条3.7分评价，属于大众点评「无评分基础」阶段。好消息是：只要积累到<strong>20条以上真实好评</strong>，算法就会开始推荐，而游客型门店天然容易写评价（拍照记录旅行是游客习惯）。</p><h3>📋 30天口碑建立路线图</h3><table><tr><th>阶段</th><th>时间</th><th>目标</th><th>核心动作</th></tr><tr><td>止血期</td><td>第1-3天</td><td>搞清楚3.7分从哪来</td><td>仔细研究那1条评价，找出问题根源，立刻改善</td></tr><tr><td>打底期</td><td>第4-14天</td><td>积累10-15条真实好评</td><td>上线「免费试」活动（详见下方），让愿意写评价的顾客自然留言</td></tr><tr><td>冲榜期</td><td>第15-30天</td><td>积累20-30条评价，评分争取到4.3+</td><td>外卖评分同步提升，店长每天早上查昨日评价并回复</td></tr><tr><td>维护期</td><td>30天后</td><td>目标4.5分，进入热门榜</td><td>持续保障出品质量，评价数量自然增长</td></tr></table><h3>🔧 合规工具：大众点评「免费试」</h3><p><strong>操作步骤（店长执行，第4天启动）：</strong></p><ol><li>登录大众点评商家后台🔧「营销中心→免费试」，设置2-3个免费体验名额（选门店人气单品，成本控制在¥8-12之间）</li><li>上线后系统自动推送给周边用户，体验用户自愿写评价</li><li>⚠️ 严禁主动要求用户写好评，让用户自然表达感受</li><li>每条新评价店长必须在24小时内专业回复（即使差评）</li></ol><h3>📢 门店自然引导（合规范围内）</h3><p><strong>场景话术（服务员上餐时，自然说，不强迫）：</strong></p><p>「我们在横店刚开业不久，您今天是我们的贵客，如果觉得还不错，欢迎在大众点评或小红书分享一下，我们会非常感谢！」</p><p>⚠️ 说一次即可，不追问、不要求、不诱导给好评。分享动机来自真实体验，而不是奖励。</p><h3>📊 量化口碑目标</h3><ul><li><strong>30天目标</strong>：评价数≥20条，评分≥4.3分</li><li><strong>60天目标</strong>：评价数≥50条，评分≥4.5分，进入横店「热门餐厅」列表</li><li><strong>90天目标</strong>：评分稳定4.6+，冲击「好评榜」前10名</li></ul>`,
+    4: `<h3>🗺️ 横店游客消费路径分析</h3><p>横店游客决策链：<strong>出发前刷小红书/抖音「横店必打卡」→ 到达后打开大众点评找「附近吃喝」→ 景区内疲惫时走进「看起来有感觉的店」→ 拍照发圈/写游记</strong>。</p><p>「see you」目前在这条路径中<strong>完全缺席</strong>：点评无评分无法被发现，社交平台无内容无法被种草，门店缺乏视觉吸引力无法被「走进」。</p><h3>🎯 公域流量三步走</h3><h4>① 大众点评：从隐形到可见（最优先）</h4><p>你目前月流水¥30,000，日均33人，说明大众点评对这家店几乎没有导流。先把第三章「点评冷启动」做完，分数涨到4.3+后，在商家后台🔧开通「推广通-附近推」，投放预算设¥10-20/天，覆盖横店周边3公里游客，预计点击转化率5-8%，每月额外带来50-100新客。</p><h4>② 小红书：种草「横店打卡地」</h4><p><strong>谁来做：</strong>老板/店长，每周发2-3条内容<br><strong>内容方向：</strong>「横店旅行不只有景点，还有这家see you」「在横店拍了100张照片，最好看的在这里」「横店旅途必打卡，就在兴富路」<br><strong>执行节点：</strong>第3天起，每周三和周六下午发布，连续发4周，建立内容基础<br><strong>拍摄重点：</strong>门店最美角落+产品特写+旅行感氛围，不需要专业摄影，手机竖版即可</p><h4>③ 抖音本地生活：横店旅游博主合作</h4><p>横店是抖音探店热门地，搜索「横店探店」相关视频播放量可达数十万。<strong>操作步骤：</strong></p><ol><li>在抖音搜索「横店探店」，找粉丝5000-50000的本地生活类小博主（报价合理，性价比高）</li><li>提供免费用餐+少量费用（¥200-500/条），邀请探店</li><li>一条好的视频带来的曝光 = 1-2个月推广通费用</li></ol><p><strong>时间节点：</strong>点评分数做到4.0+之后再邀请（确保被种草的用户到大众点评看到好评加持）</p><h3>📊 流量目标</h3><ul><li><strong>60天</strong>：小红书笔记累积曝光5000+，大众点评每月新进店游客+30人</li><li><strong>90天</strong>：完成1次抖音探店合作，当月流水目标冲刺¥45,000</li></ul>`,
+    5: `<h3>🚪 关键问题：路过的游客为什么要走进来？</h3><p>你目前日均33人，160㎡店面在横店核心商圈，说明每天从门口经过的人远不止33人——但他们没有进来。解决「进店率」比什么都重要，这是当前最紧迫的经营动作。</p><h3>💡 低成本高效进店吸引方案</h3><h4>方案A：「旅途中的see you」打卡位打造（成本：¥200-500）</h4><p><strong>谁来做：</strong>老板负责，在签约后第1-2天完成布置<br><strong>怎么做：</strong></p><ol><li>在门店最显眼位置（靠近入口的区域）设计一个「打卡角」——用道具布置一个有故事感的场景（影视元素/旅行感装饰/「see you in 横店」字样装饰墙）</li><li>材料：彩色KT板字母牌+小道具（可淘宝采购，总成本¥200-400）</li><li>旁边放小牌子：「免费拍照，扫码分享」——引导游客扫万能码关注后拍照</li><li>服务员主动说：「这是我们的打卡位，很多客人都会在这里拍照留念，要帮您拍一张吗？」</li></ol><p><strong>预期效果：</strong>横店游客爱打卡，一个好的打卡位每天可以自然吸引进店5-10人，且会在小红书/朋友圈传播，带来二次曝光。</p><h4>方案B：「横店旅途补给站」进店钩子（成本：¥50-100/天）</h4><p><strong>谁来做：</strong>店长在每天开门前完成<br><strong>怎么做：</strong>门口放置「今日横店天气：XX°C，进来喝杯冷饮/热饮歇个脚」的小黑板（成本¥30，可手写），配合门口陈列一两款主推饮品实物（带价签），让游客一眼知道「这家卖什么+多少钱」。很多游客不进门是因为「不知道里面卖什么，怕贵」，透明化陈列直接解决这个顾虑。</p><h4>方案C：早鸟引流套餐（成本：让利约¥5/单）</h4><p>设置「横店旅游特供价」：任意消费满¥25送指定小食/饮品，每天限量50份，在扫码点餐弹窗🔧和门口立牌同步展示。游客看到「限量」两个字会加快决策速度。</p><h3>🔧 SaaS工具用法（扫码点餐）</h3><p>在扫码点餐后台🔧「活动中心→弹窗设置」配置进店欢迎弹窗，内容：「欢迎来到see you！旅途中的你，值得一杯好饮品」+ 显示当日特供套餐。这个设置全程不需要额外成本，只需5分钟配置。</p><p><strong>执行时间轴：</strong>Day1：布置打卡位 → Day2：门口小黑板上线 → Day3：扫码弹窗活动配置 → Day7：检查进店率变化（目标：日均从33人→50人）</p>`,
+    6: `<h3>🤔 私域适合这家店吗？先判断再行动。</h3><p>横店门店的消费者结构特殊：<strong>约70%是外地一次性过路游客，约30%是横店本地人/民宿住客/回头客</strong>。对过路游客建立私域ROI较低（他们短期内不会再来），但对本地人群和高频游客，私域价值极高。</p><p><strong>结论：不建议大规模推储值</strong>（外地游客充值¥300很难消耗完，会产生纠纷），重点是<strong>建立「轻量私域」</strong>：关注社交账号 + 简单会员积分，留住可能回来的人。</p><h3>📱 私域方案设计（轻量、适合旅游客群）</h3><h4>① 社交媒体关注沉淀（最高优先级）</h4><p><strong>谁来做：</strong>服务员，每桌都引导<br><strong>怎么做：</strong>「我们在小红书上有横店旅行攻略和新品预告，扫码关注下次来横店可以提前看看」——不强迫，用内容价值引导关注<br><strong>目标：</strong>3个月内小红书粉丝突破500人，建立内容传播基地</p><h4>② 会员积分（针对本地人群）</h4><p><strong>谁来做：</strong>收银员在结账时引导本地顾客<br><strong>怎么做：</strong>通过已签约的收银POS🔧「会员管理→创建会员」功能，引导顾客扫码注册成会员，每消费¥1积1积分，积满100分兑换指定饮品1份。只针对<strong>识别为本地顾客</strong>的推荐（问一句：「您是横店本地人还是游客？」）<br><strong>目标：</strong>3个月内沉淀本地会员100人，这100人每月消费1-2次，可贡献月流水¥3,000-6,000的稳定复购</p><h4>③ 游客「二次传播」机制</h4><p>游客虽然不会再来，但他们的传播价值极高。核心动作：</p><ul><li>备好「see you in 横店」明信片（成本¥0.3/张，淘宝定制），付款后随餐赠送1张，游客带走就是品牌传播</li><li>明信片背面印小红书号+「下次来横店，see you again」</li><li>不需要引导写评价，仅仅是给游客一个带走记忆的理由</li></ul><h3>📊 私域目标</h3><ul><li><strong>1个月</strong>：本地会员注册≥30人，小红书粉丝≥100人</li><li><strong>3个月</strong>：本地会员≥100人，每月复购贡献流水¥3,000+</li></ul>`,
+    7: `<h3>🔧 已签约产品：扫码点餐 + 收银POS</h3><p>这两个工具目前是否在「真正用好」？很多门店签了工具但只用了10%的功能，等于把钱放在口袋里没花。</p><h3>📌 扫码点餐——当前能直接带来流水的功能</h3><table><tr><th>功能</th><th>当前状态</th><th>建议动作</th><th>预期效果</th></tr><tr><td>进店欢迎弹窗</td><td>⚠️ 可能未配置</td><td>在🔧「活动中心→弹窗设置」配置横店主题欢迎语+今日推荐</td><td>提升客单价5-10%（让游客看到更多产品）</td></tr><tr><td>推荐菜标签</td><td>⚠️ 未知</td><td>在🔧「菜品管理」给3-5款主推产品加「招牌」「必点」标签</td><td>提升热门单品点单率20-30%</td></tr><tr><td>加购推荐</td><td>⚠️ 未知</td><td>设置「买X送Y」或「加¥5升级套餐」组合，在点单最后一步弹出</td><td>客单价从¥30→¥35+，每日额外收入¥165</td></tr><tr><td>评价引导</td><td>⚠️ 未配置</td><td>在🔧「评价管理」开启结账后自动发送评价引导短信/弹窗</td><td>每10个消费者中有1-2个主动去写评价（自然转化）</td></tr></table><h3>📌 收银POS——数据资产挖掘</h3><p><strong>谁来做：</strong>老板，每周一查看上周报表（15分钟/次）<br><strong>怎么看：</strong>在POS后台🔧「经营报表→商品销量」查看：哪3款产品卖得最好？哪3款卖得最差？</p><ul><li><strong>卖得最好的</strong>：在菜单上置顶+加「招牌必点」标签，在门口展示，主动推荐给每桌</li><li><strong>卖得最差的</strong>：连续2周销量垫底则下架，减少备货复杂度</li></ul><p>这个动作每周15分钟，但能让月营收提升5-8%——因为资源集中在真正受欢迎的产品上。</p><h3>⏱️ 工具启用30天行动计划</h3><ul><li><strong>Day1（今天）</strong>：检查扫码点餐弹窗是否配置，未配置立刻操作</li><li><strong>Day3</strong>：给所有菜品设置「招牌」「推荐」等标签，优化菜单展示顺序</li><li><strong>Day7</strong>：设置「加购升级」组合，测试客单价变化</li><li><strong>每周一</strong>：查看POS销售报表，调整菜品策略</li></ul>`,
+    8: `<h3>📅 6月-8月（当前阶段）营销重点</h3><p>当前处于暑期旅游旺季，横店游客量处于全年高峰（暑假学生游客+家庭亲子游）。这是做口碑冷启动的最佳时机：<strong>客流最大的时候，是积累评价最快的时候</strong>。</p><h4>🎯 近期关键营销节点</h4><table><tr><th>时间</th><th>节点</th><th>活动建议</th><th>成本</th></tr><tr><td>6月（当下）</td><td>端午前后</td><td>推出「横店旅途·端午特饮」限定款（粽香奶茶/青梅茶等），门口小黑板写「端午限定」</td><td>食材成本≈¥3-5/杯</td></tr><tr><td>7月</td><td>暑期高峰</td><td>「暑假横店游·打卡see you」活动，游客发小红书带话题「横店see you」，当天第二杯半价</td><td>让利约¥5-8/杯</td></tr><tr><td>7月-8月</td><td>家庭亲子游旺季</td><td>推出「亲子套餐」（大人+小朋友组合），小朋友免费送亲子饮品1份</td><td>饮品成本约¥3/杯</td></tr><tr><td>8月</td><td>七夕节</td><td>「see you again·七夕特调」限定饮品+双人套餐，主题：「在横店遇见你」</td><td>装饰成本约¥50</td></tr></table><h4>🍂 9月-10月（黄金旺季）提前规划</h4><p>国庆是横店全年最大旺季，游客量可能是平时的3-5倍。关键准备动作：</p><ol><li><strong>9月15日前</strong>：点评评分必须做到4.3+（否则国庆大流量来了也接不住）</li><li><strong>9月20日前</strong>：国庆限定套餐在美团/点评上线，提前锁定游客搜索</li><li><strong>10月1日</strong>：备货量上浮100%，排班加强，确保出餐速度不拖后腿</li></ol><p>⚠️ 国庆最大的坑：旺季客流激增但出餐慢→等待抱怨→1星差评→把平时做好的分数打回原形。出餐速度管理比营销策略更重要。</p><h3>🎯 全年节点总表（简版）</h3><ul><li>端午→粽香特调</li><li>暑假→学生打卡价</li><li>七夕→情侣限定</li><li>国庆→横店旅游限定</li><li>元旦/春节→年味限定</li></ul>`,
+    9: `<h3>💰 当前经营基准</h3><table><tr><th>指标</th><th>当前值</th></tr><tr><td>月流水</td><td>¥30,000</td></tr><tr><td>日均人次</td><td>约33人</td></tr><tr><td>客单价</td><td>¥30</td></tr><tr><td>大众点评评分</td><td>3.7分（1条评价）</td></tr></table><h3>📈 实施方案后的增收测算</h3><table><tr><th>增收来源</th><th>实现路径</th><th>月增收估算</th></tr><tr><td>点评优化带来新客</td><td>评分从3.7→4.5+，算法推荐开始导流，月新增50-80人</td><td>+¥1,500-2,400</td></tr><tr><td>进店率提升</td><td>打卡位+门口引导，日均从33人→50人（+17人/天）</td><td>+¥15,300</td></tr><tr><td>客单价提升</td><td>加购推荐+套餐设计，客单从¥30→¥35</td><td>+¥4,500（基于当前人流）</td></tr><tr><td>本地回头客私域复购</td><td>100名本地会员，每月到店1-2次</td><td>+¥3,000-6,000</td></tr><tr><td>抖音/小红书种草间接带来</td><td>内容曝光带来长尾流量</td><td>+¥2,000-5,000（3个月后显现）</td></tr></table><p><strong>合理预期（3个月后）：</strong></p><ul><li>月流水目标：<strong>¥45,000-55,000</strong>（提升50%-80%）</li><li>日均人次目标：<strong>50-65人</strong></li><li>大众点评评分目标：<strong>4.5分，评价数50条+</strong></li><li>本地会员数：<strong>100人+</strong></li></ul><h3>🎯 量化OKR目标</h3><table><tr><th>周期</th><th>关键结果</th></tr><tr><td>第1个月</td><td>月流水¥35,000 / 点评评价≥15条 / 评分≥4.0 / 进店日均≥40人</td></tr><tr><td>第2个月</td><td>月流水¥42,000 / 点评评价≥35条 / 评分≥4.3 / 小红书粉丝≥200人</td></tr><tr><td>第3个月</td><td>月流水¥50,000 / 点评评价≥50条 / 评分≥4.5 / 本地会员≥80人</td></tr></table><h3>⚠️ 本方案不建议的投入</h3><ul><li>❌ 大额装修改造（现阶段不必要）</li><li>❌ 大范围储值推广（游客客群不适合）</li><li>❌ 购买高价广告位（先把自然流量基础做好）</li></ul><p><strong>总结：这份方案的核心逻辑是「先让更多人看见你，再让看见你的人走进来，再让走进来的人告诉更多人」。横店的流量本来就在那里，see you需要的不是大投入，而是把门打开、把分数做出来。</strong></p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
