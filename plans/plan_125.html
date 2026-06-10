@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>赣湘虾当道 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #8B0000;
+      --primary-light: #B22222;
+      --accent: #D4A574;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #8B000040;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">湘菜/赣湘融合 · 运营提升方案</div>
+  <h1 class="hero-title">赣湘虾当道</h1>
+  <p class="hero-subtitle">赣湘 fusion 虾当道，用一锅鲜虾炸开坂田商圈</p>
+  <div class="hero-address">广东省深圳市龙岗区坂田街道五和社区新安路</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥65</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">140㎡</span>
+      <div class="hero-stat-label">门店面积</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">坂田商圈</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '品牌定位', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">品牌定位</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '系统方案', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">系统方案</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评口碑', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评口碑</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '开业冲刺', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">开业冲刺</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '会员储值', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">会员储值</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '公私域联动', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">公私域联动</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '投资回报', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">投资回报</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>湘菜市场：正餐赛道增速第一</h3><p>2024年湘菜市场规模达<strong>1,080亿元</strong>，同比增速<strong>8.9%</strong>，位居中式正餐各菜系增速榜首（行业参考值）。湘味小炒门店同比增长27.8%，'现炒现做'成为消费者最关注的卖点。深圳作为移民城市，湘菜受众基础极广，但品牌化程度远低于川菜和粤菜，存在<strong>品牌化升级窗口期</strong>。</p><h3>坂田商圈：科技白领+社区家庭双客群</h3><p>坂田街道是深圳龙岗区人口密度最高的区域之一，华为总部及周边科技园区聚集大量<strong>25-40岁白领</strong>，午餐刚需旺盛；五和社区及周边住宅小区密集，<strong>家庭晚餐</strong>消费稳定。⚠️ 假设：周边3公里常驻人口约15万，日均有湘菜消费意愿的人群约3,000人次（行业参考值）。</p><h3>竞品格局与切入机会</h3><table><tr><th>竞品类型</th><th>代表品牌</th><th>人均</th><th>弱点</th><th>切入机会</th></tr><tr><td>连锁湘菜</td><td>费大厨辣椒炒肉</td><td>¥75</td><td>排队久、价格偏高、辣度过高不适配广东口味</td><td>用赣湘融合（减辣增鲜）切'怕辣但想吃香'客群</td></tr><tr><td>连锁湘菜</td><td>农耕记</td><td>¥70</td><td>湖南乡土风格重，年轻化不足</td><td>用'虾当道'爆品+年轻化视觉差异化</td></tr><tr><td>社区小店</td><td>周边无名湘菜馆</td><td>¥50</td><td>无品牌感、无会员体系、无线上运营</td><td>用SaaS数字化+会员储值建立壁垒</td></tr></table><p><strong>核心判断</strong>：坂田湘菜市场呈'两头大中间小'格局——高端连锁价高排队，低端小店无体验。人均60-70元、有爆品记忆点、有数字化运营的<strong>品质湘菜小炒</strong>是空白地带。</p></div>
+<div id="modal-content-2" style="display:none"><h3>赣湘 Fusion：比纯湘菜更适合深圳</h3><p>店名'赣湘虾当道'天然蕴含<strong>差异化基因</strong>。江西菜讲究'鲜辣香'，湖南菜讲究'香辣油'，两者融合可实现'香而不燥、辣而不冲'——恰好击中深圳广东本地客群和北方移民客群的<strong>最大公约数</strong>。</p><h3>爆品锚点：虾当道</h3><p>一道菜串联全部营销。建议以<strong>口味虾/油焖大虾</strong>为招牌爆品，理由有三：① 虾类自带'高价值感'，客单价接受度高；② 视觉冲击强，适合抖音/小红书传播；③ 赣湘两地均有吃虾传统，与品牌名呼应。⚠️ 假设：招牌虾定价¥88/份（小份¥58），作为引流+利润双担当，目标点单率≥40%。</p><h3>客群定位与场景</h3><ul><li><strong>主力客群</strong>：坂田科技园区白领（25-35岁），午餐工作餐+周末小聚，人均预算50-80元</li><li><strong>次要客群</strong>：周边社区家庭（30-45岁），晚餐外食，注重口味+卫生+性价比</li><li><strong>场景拆分</strong>：午市主打'快炒工作餐'（20分钟出餐），晚市主打'小聚下馆子'（虾当道+小炒组合）</li></ul><h3>门店调性建议</h3><p>140㎡空间建议采用<strong>'市井烟火+年轻化'</strong>视觉：明档厨房展示现炒过程（信任感），墙面用江西+湖南方言标语（文化感），桌号用虾造型（记忆点）。⚠️ 此为视觉建议，不涉及装修改造投入。</p></div>
+<div id="modal-content-3" style="display:none"><h3>已签约9大SaaS模块落地规划</h3><p>您已签约收银POS、扫码点餐、会员旗舰版、会员高级版、小程序、供应链、KDS、外卖中心、电子发票。以下是<strong>新店场景</strong>下的落地优先级和操作路径：</p><h4>🔧 第一阶段（开业前7天）：基础系统跑通</h4><ul><li><strong>KDS后厨显示系统</strong>：在🔧「商家后台→门店管理→KDS配置」绑定厨打机和显示屏幕，设置'口味虾'等爆品为'紧急标红'菜品。效果：出餐时间从预估25分钟压缩到15分钟以内。谁来做：店长+厨师长，开业前5天完成调试。</li><li><strong>扫码点餐</strong>：在🔧「商家后台→扫码点餐→菜单配置」上传菜品图（每张≤500KB），设置'虾当道'为首页Banner推荐。效果：午市高峰期减少1名点餐服务员。谁来做：店长，开业前3天完成。</li><li><strong>外卖中心</strong>：在🔧「商家后台→外卖中心→平台绑定」同步美团外卖+饿了么菜单，设置'虾当道外卖专享价'（比堂食低5-8元引流）。谁来做：店长，开业前2天完成。</li></ul><h4>🔧 第二阶段（开业后1-30天）：会员与供应链激活</h4><ul><li><strong>会员旗舰版</strong>：在🔧「商家后台→会员→潜客营销」开启'新客7天内二次消费送券'（满50减10元）。旗舰版独有'团购会员卡'功能，在🔧「会员→团购会员卡」创建'虾当道会员卡'，设置开卡礼（送招牌凉菜）。谁来做：店长配置，收银员引导话术：'扫码加入会员，今天送您一份凉拌木耳'。</li><li><strong>供应链系统</strong>：在🔧「供应链→采购管理」建立'口味虾'标准BOM（基围虾500g+底料+配菜），设置食材成本红线预警（超过35%自动提醒）。谁来做：厨师长+店长，开业第1周完成录入。</li><li><strong>电子发票</strong>：在🔧「商家后台→发票管理」开通自动开票，顾客扫码自助开票。减少收银员30%开票工作量。</li></ul><h4>🔧 第三阶段（开业30天后）：数据驱动优化</h4><ul><li>在🔧「商家后台→数据报表」每周查看'菜品销量TOP10'和'菜品毛利排行'，淘汰毛利<15%且销量后10%的菜品。</li><li>在🔧「会员→消费分析」查看会员复购周期，针对'30天未消费'会员自动发召回券。</li></ul><p><strong>不配合怎么办</strong>：若厨师长抵触KDS，先只装1台屏幕在炒锅区试运行3天，用'少了多少退菜单'的数据说服。</p></div>
+<div id="modal-content-4" style="display:none"><h3>新店点评冷启动：前10条评价决定生死</h3><p>大众点评对新店有<strong>'新店保护期'</strong>（收录后30天内流量加权），前10条评价的质量直接决定后续顾客的第一印象。⚠️ 假设：当前暂无评分和评价，处于'新店未收录'状态。</p><h3>阶段判断：新店出星期（0-30天）</h3><p>根据门店阶段，当前处于<strong>'新店出星期'</strong>。核心目标：在收录后30天内积累<strong>50条以上真实评价</strong>，争取出星（达到4.0+）。</p><h3>合规运营路径：止血→工具→分享动机</h3><p><strong>① 止血：严禁促评/邀评</strong></p><p>2025年10月后，大众点评官方明确：高强度邀评、促评行为会导致新评价<strong>不计入星级收益</strong>，甚至触发风控降权。方案中所有口碑动作必须合规。</p><p><strong>② 合规工具：免费试 + 免费菜</strong></p><ul><li><strong>免费试（霸王餐）</strong>：开业前3天，在🔧「大众点评商家后台→营销中心→免费试」申请开通，设置20个霸王餐名额（价值约¥80/人）。参与者必须写真实评价。谁来做：店长，开业前7天申请。话术：'今天您是我们的品鉴官，吃完麻烦花1分钟写写真实感受，好坏都行'。不配合：改为'扫码写满15字送一份红糖糍粑'。</li><li><strong>免费菜</strong>：在🔧「商家后台→营销→免费菜」设置'收藏+打卡送凉菜'，引导顾客在点评APP完成'收藏门店'和'打卡'动作，增加门店曝光权重。</li></ul><p><strong>③ 分享动机打造</strong></p><ul><li><strong>视觉钩子</strong>：虾当道出餐时配'虾塔'摆盘（虾头朝上堆叠），顾客自发拍照率提升。谁来做：厨师长培训摆盘，开业第1天执行。</li><li><strong>服务钩子</strong>：服务员上虾时说'这是咱们招牌口味虾，每天活虾现做，拍照发圈送酸梅汤'。成本约2元/杯。</li><li><strong>情感钩子</strong>：在桌面放置'我是第__位虾粉'计数立牌（手写黑板），营造'新店人气火爆'氛围。</li></ul><h3>差评应对</h3><p>设置🔧「商家后台→评价管理」消息提醒，差评<strong>2小时内</strong>必须回复。回复模板：'非常抱歉让您有不好的体验，我们是新店，您的反馈特别重要。我是店长XX，电话XXX，希望有机会当面跟您道歉并改进。'</p><h3>口碑OKR</h3><table><tr><th>时间</th><th>评价数目标</th><th>评分目标</th><th>关键动作</th></tr><tr><td>开业7天</td><td>≥10条</td><td>暂无</td><td>霸王餐上线+免费菜启动</td></tr><tr><td>开业30天</td><td>≥50条</td><td>≥4.3</td><td>收藏打卡+分享动机</td></tr><tr><td>开业90天</td><td>≥150条</td><td>≥4.5</td><td>持续服务优化+差评0超时</td></tr></table></div>
+<div id="modal-content-5" style="display:none"><h3>开业前7天倒计时（关键动作清单）</h3><p>新店冷启动的成败在开业前7天已经决定70%。以下是<strong>每一天必须完成</strong>的动作：</p><table><tr><th>倒计时</th><th>动作</th><th>谁来做</th><th>在哪操作🔧</th></tr><tr><td>D-7</td><td>全员系统培训：收银POS+扫码点餐+KDS流程演练，每人实操3遍</td><td>店长</td><td>店内模拟</td></tr><tr><td>D-6</td><td>菜单最终定稿：招牌菜/利润菜/引流菜分类，上传扫码点餐系统</td><td>店长+厨师长</td><td>🔧商家后台→扫码点餐→菜单配置</td></tr><tr><td>D-5</td><td>KDS调试完成：绑定厨打机，测试口味虾等爆品标红显示</td><td>店长+厨师长</td><td>🔧商家后台→KDS配置</td></tr><tr><td>D-4</td><td>霸王餐报名开放：在大众点评申请20个免费试名额</td><td>店长</td><td>🔧大众点评商家后台→营销中心→免费试</td></tr><tr><td>D-3</td><td>会员活动配置：储值档位+新客券+开卡礼录入系统</td><td>店长</td><td>🔧商家后台→会员→储值/优惠券</td></tr><tr><td>D-2</td><td>社群预热：建'虾当道粉丝群'（微信群），发朋友圈集赞换菜</td><td>老板/店长</td><td>微信</td></tr><tr><td>D-1</td><td>试营业：邀请亲友试吃，收集反馈，修正出品</td><td>全员</td><td>门店</td></tr></table><h3>开业1-3天：引爆人气</h3><ul><li><strong>开业折扣</strong>：全场8.8折（仅限堂食，不与其他优惠同享），门口放置大幅海报。谁来做：老板决定，店长执行。话怎么说：'开业三天全场8.8折，口味虾今天已经卖了30份了'（制造热销氛围）。</li><li><strong>储值锁客</strong>：开业期储值加赠上浮一档——充300送40（日常送30）、充500送100（日常送80）。谁来做：收银员，结账时主动推荐。话怎么说：'今天开业特别划算，充500送100，相当于这桌白送您一份虾'。不配合：'那您先加个会员，下次来直接减10元'。</li><li><strong>抖音/小红书同步</strong>：开业当天拍摄'第一锅虾出锅'短视频发抖音，带话题#坂田美食 #深圳湘菜。谁来做：店长或指定员工，每天1条。</li></ul><h3>开业4-30天：留存与复购</h3><ul><li><strong>第7天</strong>：复盘首周数据——日均流水、客单价、TOP3菜品、差评内容。在🔧「商家后台→数据报表」导出。</li><li><strong>第14天</strong>：会员二次触达。在🔧「会员系统→消息推送」给开业7天内到店但未储值的顾客发'回店礼'（满60减15）。</li><li><strong>第21天</strong>：调整菜单。根据销量数据，淘汰后20%菜品，新增1款时令菜。</li><li><strong>第30天</strong>：首次月度复盘。对比OKR目标：营收/评分/会员数/复购率。</li></ul><h3>不配合预案</h3><p>若员工对'推荐储值'抵触，设置<strong>'储值推荐奖励'</strong>：每成功推荐1位储值顾客，奖励推荐人2元/单（从储值营销预算出）。执行3天后，员工积极性通常显著提升。</p></div>
+<div id="modal-content-6" style="display:none"><h3>第一性原理：这家店需要储值吗？</h3><p>湘菜正餐的<strong>自然复购周期约25-35天</strong>（行业参考值），低于火锅（15-20天）但高于烧烤（35-45天）。对于140㎡、人均65元的湘菜店，储值的核心价值不是'锁客'（复购本身不差），而是<strong>'提升客单价'</strong>和<strong>'加速复购'</strong>。建议<strong>开业30天后</strong>再主推储值（先让顾客吃满意），但开业期可设低门槛体验档。</p><h3>储值档位设计</h3><table><tr><th>档位</th><th>充值</th><th>赠送</th><th>折合折扣</th><th>适用场景</th></tr><tr><td>体验档</td><td>¥200</td><td>¥15</td><td>93折</td><td>新客尝鲜，降低决策门槛</td></tr><tr><td>主推档</td><td>¥500</td><td>¥80</td><td>86折</td><td>家庭常客，约8次消费</td></tr><tr><td>尊享档</td><td>¥1000</td><td>¥200</td><td>83折</td><td>商务小聚/高频客群</td></tr></table><p>⚠️ 以上档位基于湘菜正餐复购频率设计，实际执行需根据首月客单价调整。</p><h3>旗舰版会员独有功能落地</h3><p>您已签约<strong>会员旗舰版（¥4,888/年）</strong>，以下功能是高级版没有的，必须用起来：</p><ul><li><strong>团购会员卡</strong>：在🔧「商家后台→会员→团购会员卡」创建'虾当道VIP卡'，顾客在美团/点评购买虚拟会员卡（如¥9.9购卡享全年88折），既引流又锁客。谁来做：店长，开业第15天配置。预期：月售卡50张，引流新客约80人。</li><li><strong>潜客营销</strong>：在🔧「会员→潜客营销」开启'新客7天召回'（自动给首次到店但未二次消费的顾客发券）。预期：新客复购率提升15%。</li><li><strong>生日营销</strong>：在🔧「会员→自动营销」设置生日前3天自动发送'生日专享券'（满100减30+赠长寿面）。预期：生日当月到店率提升40%。</li></ul><h3>储值落地话术与动作</h3><ul><li><strong>谁来做</strong>：收银员（主）+ 服务员（辅）</li><li><strong>第几天做</strong>：开业第15天起正式推广（先让口碑沉淀）</li><li><strong>在哪操作🔧</strong>：收银POS机→会员→储值充值</li><li><strong>话怎么说</strong>：'您今天消费¥186，充500送80，这单直接省30元，卡上还剩394，下次来直接刷。'</li><li><strong>不配合怎么办</strong>：顾客说'不用了'→改推'先加个会员吧，送您一份凉粉，下次来减10元'（降低门槛）；顾客说'充太多怕你们倒闭'→'我们 backed by 美团，储值资金是第三方监管的，您随时可退'（旗舰版储值有资金保障）。</li></ul><h3>储值OKR</h3><table><tr><th>时间</th><th>储值会员数</th><th>储值金额</th><th>储值消费占比</th></tr><tr><td>开业30天</td><td>≥50人</td><td>≥¥2.5万</td><td>≥15%</td></tr><tr><td>开业90天</td><td>≥200人</td><td>≥¥10万</td><td>≥25%</td></tr></table></div>
+<div id="modal-content-7" style="display:none"><h3>公域引流：三大平台组合打法</h3><p>湘菜属于<strong>中客单正餐</strong>，最适合的公域组合是<strong>大众点评（口碑基建）+ 抖音（流量爆发）+ 小红书（种草沉淀）</strong>。三个平台不是'都发一样内容'，而是各司其职。</p><h4>① 大众点评：口碑地基（必须做好）</h4><ul><li><strong>团购套餐</strong>：上线'虾当道双人餐'（¥128，含口味虾小份+2道小炒+米饭）和'家庭欢聚4人餐'（¥238），比单点省15%。在🔧「大众点评商家后台→团购→新建套餐」配置。</li><li><strong>推广通</strong>：开业第15天起，每日预算¥80-120，定向投放'坂田'+'湘菜'关键词。谁来做：店长每天花5分钟在🔧「推广通」调整出价。预期：日均带来3-5个新客点击。</li><li><strong>榜单冲刺</strong>：目标开业90天内冲击'坂田湘菜热门榜'前10。路径：保持评分4.5+、月新增评价≥50条、团购核销率≥60%。</li></ul><h4>② 抖音：短视频引流（爆发型）</h4><ul><li><strong>内容方向</strong>：'虾当道出餐全过程'（活虾→清洗→下锅→成品，15秒）、'厨师长教你挑活虾'（知识型）、'深圳打工人午餐吃什么'（场景型）。</li><li><strong>发布频率</strong>：开业前1周每天1条，开业后每周3条。谁来做：店长或指定员工（无需专业设备，手机拍摄即可）。</li><li><strong>抖音团购</strong>：在🔧「抖音来客→团购」上线'¥58口味虾秒杀券'（限量每天10张），引流到店后升单。</li></ul><h4>③ 小红书：种草沉淀（长期型）</h4><ul><li><strong>内容方向</strong>：'坂田这家新店虾塔太绝了'（图片+打卡）、'深圳人均60的湘菜找到了'（攻略型）。</li><li><strong>执行方式</strong>：开业期邀请5-10位周边小红书素人（粉丝500-5000）探店，赠送套餐换笔记。成本约¥500-800。谁来做：老板或店长联系本地探店群。</li></ul><h3>私域锁客：会员+社群+小程序</h3><ul><li><strong>扫码入会</strong>：每桌必推，在🔧「会员→新客有礼」设置'扫码领¥5无门槛券'。目标：入会率≥60%。</li><li><strong>社群运营</strong>：建'虾当道坂田粉丝群'，每周三发'周三会员日'专属券（满80减15），每周五发'周末聚餐预告'（新菜预告+预订接龙）。谁来做：店长，每天花10分钟维护。</li><li><strong>小程序</strong>：在🔧「小程序→装修」设置首页Banner轮换（周一到周日不同主题），激活沉默用户。</li></ul><h3>公私域联动闭环</h3><p><strong>公域引流→到店体验→扫码入会→储值锁客→社群维护→二次到店→评价反哺公域</strong></p><p>示例闭环：抖音用户看到'¥58口味虾秒杀券'→到店消费¥130（升单）→扫码加入会员→被推荐储值500送80→入群→周三收到会员日券→7天后二次到店→在点评写好评→好评提升点评排名→带来更多新客。</p></div>
+<div id="modal-content-8" style="display:none"><h3>数据基石（⚠️ 基于行业参考值假设）</h3><table><tr><th>指标</th><th>数值</th><th>来源/假设</th></tr><tr><td>门店面积</td><td>140㎡</td><td>门店提供</td></tr><tr><td>预估座位数</td><td>约75座</td><td>含大厅+包间（行业参考值）</td></tr><tr><td>预估人均客单价</td><td>¥65</td><td>深圳坂田湘菜市场参考</td></tr><tr><td>预估日均人次</td><td>约130人次</td><td>75座×加权翻台率（行业参考值）</td></tr><tr><td>月营收目标（稳定期）</td><td>约¥25万</td><td>130人次×¥65×30天</td></tr><tr><td>食材成本率目标</td><td>35%</td><td>供应链优化后（行业均值33-40%取优）</td></tr><tr><td>人力成本率</td><td>25%</td><td>KDS+扫码点餐省1人/班</td></tr><tr><td>房租成本率</td><td>12%</td><td>深圳坂田140㎡预估月租（行业参考值）</td></tr><tr><td>其他成本率</td><td>10%</td><td>水电燃气+平台佣金+杂费</td></tr><tr><td>目标净利润率</td><td>约18%</td><td>湘菜正餐优秀水平</td></tr><tr><td>月净利目标</td><td>约¥4.5万</td><td>¥25万×18%</td></tr></table><h3>增收测算：从0到25万的路径</h3><p>当前月流水极低（新店未开业），方案目标是帮助门店在<strong>6个月内达到月营收25万</strong>的稳定状态。以下是增收来源拆解：</p><table><tr><th>增收来源</th><th>预期效果</th><th>测算逻辑</th></tr><tr><td>点评口碑+团购引流</td><td>+¥5万/月</td><td>评分4.5+带动自然流量提升30%，团购套餐核销日均8单</td></tr><tr><td>会员储值提升复购</td><td>+¥3万/月</td><td>复购频次从1.5次/月提升至2.0次，储值会员消费占比25%</td></tr><tr><td>外卖中心多平台运营</td><td>+¥2.5万/月</td><td>外卖占比从0提升至15%，客单价¥55</td></tr><tr><td>供应链降本</td><td>+¥0.75万/月</td><td>食材成本率从38%压至35%，BOM标准化减少浪费</td></tr><tr><td><strong>合计</strong></td><td><strong>+¥11.25万/月</strong></td><td>从开业到稳定期的综合增长空间</td></tr></table><h3>投入与ROI</h3><table><tr><th>投入项</th><th>金额</th><th>说明</th></tr><tr><td>SaaS年费（已签约）</td><td>约¥2万/年</td><td>已投入，不计新增</td></tr><tr><td>点评推广通</td><td>¥2,500/月</td><td>开业第15天起投放</td></tr><tr><td>抖音/小红书营销</td><td>¥1,500/月</td><td>素人探店+内容制作</td></tr><tr><td>开业物料/培训</td><td>¥2,000（一次性）</td><td>桌卡/海报/员工培训</td></tr><tr><td><strong>月均新增投入</strong></td><td><strong>约¥4,000</strong></td><td>不含已签约SaaS</td></tr></table><p><strong>ROI测算</strong>：月均投入¥4,000，月增收空间¥11.25万，投入产出比约为<strong>1:28</strong>。即使只实现50%的增收目标（¥5.6万/月），ROI仍达1:14。</p><h3>量化OKR目标表</h3><table><tr><th>时间</th><th>月营收</th><th>点评评分</th><th>会员数</th><th>评价数</th><th>储值金额</th><th>外卖占比</th></tr><tr><td>开业1个月</td><td>¥8万</td><td>4.2</td><td>100</td><td>20</td><td>¥0.5万</td><td>5%</td></tr><tr><td>开业3个月</td><td>¥18万</td><td>4.4</td><td>350</td><td>100</td><td>¥5万</td><td>12%</td></tr><tr><td>开业6个月</td><td>¥25万</td><td>4.5</td><td>600</td><td>200</td><td>¥15万</td><td>15%</td></tr></table><p><strong>关键里程碑</strong>：开业30天内完成系统落地+口碑冷启动，开业90天内验证单店盈利模型（月净利≥3万）。</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>姜晴朗</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>湘菜市场：正餐赛道增速第一</h3><p>2024年湘菜市场规模达<strong>1,080亿元</strong>，同比增速<strong>8.9%</strong>，位居中式正餐各菜系增速榜首（行业参考值）。湘味小炒门店同比增长27.8%，'现炒现做'成为消费者最关注的卖点。深圳作为移民城市，湘菜受众基础极广，但品牌化程度远低于川菜和粤菜，存在<strong>品牌化升级窗口期</strong>。</p><h3>坂田商圈：科技白领+社区家庭双客群</h3><p>坂田街道是深圳龙岗区人口密度最高的区域之一，华为总部及周边科技园区聚集大量<strong>25-40岁白领</strong>，午餐刚需旺盛；五和社区及周边住宅小区密集，<strong>家庭晚餐</strong>消费稳定。⚠️ 假设：周边3公里常驻人口约15万，日均有湘菜消费意愿的人群约3,000人次（行业参考值）。</p><h3>竞品格局与切入机会</h3><table><tr><th>竞品类型</th><th>代表品牌</th><th>人均</th><th>弱点</th><th>切入机会</th></tr><tr><td>连锁湘菜</td><td>费大厨辣椒炒肉</td><td>¥75</td><td>排队久、价格偏高、辣度过高不适配广东口味</td><td>用赣湘融合（减辣增鲜）切'怕辣但想吃香'客群</td></tr><tr><td>连锁湘菜</td><td>农耕记</td><td>¥70</td><td>湖南乡土风格重，年轻化不足</td><td>用'虾当道'爆品+年轻化视觉差异化</td></tr><tr><td>社区小店</td><td>周边无名湘菜馆</td><td>¥50</td><td>无品牌感、无会员体系、无线上运营</td><td>用SaaS数字化+会员储值建立壁垒</td></tr></table><p><strong>核心判断</strong>：坂田湘菜市场呈'两头大中间小'格局——高端连锁价高排队，低端小店无体验。人均60-70元、有爆品记忆点、有数字化运营的<strong>品质湘菜小炒</strong>是空白地带。</p>`,
+    2: `<h3>赣湘 Fusion：比纯湘菜更适合深圳</h3><p>店名'赣湘虾当道'天然蕴含<strong>差异化基因</strong>。江西菜讲究'鲜辣香'，湖南菜讲究'香辣油'，两者融合可实现'香而不燥、辣而不冲'——恰好击中深圳广东本地客群和北方移民客群的<strong>最大公约数</strong>。</p><h3>爆品锚点：虾当道</h3><p>一道菜串联全部营销。建议以<strong>口味虾/油焖大虾</strong>为招牌爆品，理由有三：① 虾类自带'高价值感'，客单价接受度高；② 视觉冲击强，适合抖音/小红书传播；③ 赣湘两地均有吃虾传统，与品牌名呼应。⚠️ 假设：招牌虾定价¥88/份（小份¥58），作为引流+利润双担当，目标点单率≥40%。</p><h3>客群定位与场景</h3><ul><li><strong>主力客群</strong>：坂田科技园区白领（25-35岁），午餐工作餐+周末小聚，人均预算50-80元</li><li><strong>次要客群</strong>：周边社区家庭（30-45岁），晚餐外食，注重口味+卫生+性价比</li><li><strong>场景拆分</strong>：午市主打'快炒工作餐'（20分钟出餐），晚市主打'小聚下馆子'（虾当道+小炒组合）</li></ul><h3>门店调性建议</h3><p>140㎡空间建议采用<strong>'市井烟火+年轻化'</strong>视觉：明档厨房展示现炒过程（信任感），墙面用江西+湖南方言标语（文化感），桌号用虾造型（记忆点）。⚠️ 此为视觉建议，不涉及装修改造投入。</p>`,
+    3: `<h3>已签约9大SaaS模块落地规划</h3><p>您已签约收银POS、扫码点餐、会员旗舰版、会员高级版、小程序、供应链、KDS、外卖中心、电子发票。以下是<strong>新店场景</strong>下的落地优先级和操作路径：</p><h4>🔧 第一阶段（开业前7天）：基础系统跑通</h4><ul><li><strong>KDS后厨显示系统</strong>：在🔧「商家后台→门店管理→KDS配置」绑定厨打机和显示屏幕，设置'口味虾'等爆品为'紧急标红'菜品。效果：出餐时间从预估25分钟压缩到15分钟以内。谁来做：店长+厨师长，开业前5天完成调试。</li><li><strong>扫码点餐</strong>：在🔧「商家后台→扫码点餐→菜单配置」上传菜品图（每张≤500KB），设置'虾当道'为首页Banner推荐。效果：午市高峰期减少1名点餐服务员。谁来做：店长，开业前3天完成。</li><li><strong>外卖中心</strong>：在🔧「商家后台→外卖中心→平台绑定」同步美团外卖+饿了么菜单，设置'虾当道外卖专享价'（比堂食低5-8元引流）。谁来做：店长，开业前2天完成。</li></ul><h4>🔧 第二阶段（开业后1-30天）：会员与供应链激活</h4><ul><li><strong>会员旗舰版</strong>：在🔧「商家后台→会员→潜客营销」开启'新客7天内二次消费送券'（满50减10元）。旗舰版独有'团购会员卡'功能，在🔧「会员→团购会员卡」创建'虾当道会员卡'，设置开卡礼（送招牌凉菜）。谁来做：店长配置，收银员引导话术：'扫码加入会员，今天送您一份凉拌木耳'。</li><li><strong>供应链系统</strong>：在🔧「供应链→采购管理」建立'口味虾'标准BOM（基围虾500g+底料+配菜），设置食材成本红线预警（超过35%自动提醒）。谁来做：厨师长+店长，开业第1周完成录入。</li><li><strong>电子发票</strong>：在🔧「商家后台→发票管理」开通自动开票，顾客扫码自助开票。减少收银员30%开票工作量。</li></ul><h4>🔧 第三阶段（开业30天后）：数据驱动优化</h4><ul><li>在🔧「商家后台→数据报表」每周查看'菜品销量TOP10'和'菜品毛利排行'，淘汰毛利<15%且销量后10%的菜品。</li><li>在🔧「会员→消费分析」查看会员复购周期，针对'30天未消费'会员自动发召回券。</li></ul><p><strong>不配合怎么办</strong>：若厨师长抵触KDS，先只装1台屏幕在炒锅区试运行3天，用'少了多少退菜单'的数据说服。</p>`,
+    4: `<h3>新店点评冷启动：前10条评价决定生死</h3><p>大众点评对新店有<strong>'新店保护期'</strong>（收录后30天内流量加权），前10条评价的质量直接决定后续顾客的第一印象。⚠️ 假设：当前暂无评分和评价，处于'新店未收录'状态。</p><h3>阶段判断：新店出星期（0-30天）</h3><p>根据门店阶段，当前处于<strong>'新店出星期'</strong>。核心目标：在收录后30天内积累<strong>50条以上真实评价</strong>，争取出星（达到4.0+）。</p><h3>合规运营路径：止血→工具→分享动机</h3><p><strong>① 止血：严禁促评/邀评</strong></p><p>2025年10月后，大众点评官方明确：高强度邀评、促评行为会导致新评价<strong>不计入星级收益</strong>，甚至触发风控降权。方案中所有口碑动作必须合规。</p><p><strong>② 合规工具：免费试 + 免费菜</strong></p><ul><li><strong>免费试（霸王餐）</strong>：开业前3天，在🔧「大众点评商家后台→营销中心→免费试」申请开通，设置20个霸王餐名额（价值约¥80/人）。参与者必须写真实评价。谁来做：店长，开业前7天申请。话术：'今天您是我们的品鉴官，吃完麻烦花1分钟写写真实感受，好坏都行'。不配合：改为'扫码写满15字送一份红糖糍粑'。</li><li><strong>免费菜</strong>：在🔧「商家后台→营销→免费菜」设置'收藏+打卡送凉菜'，引导顾客在点评APP完成'收藏门店'和'打卡'动作，增加门店曝光权重。</li></ul><p><strong>③ 分享动机打造</strong></p><ul><li><strong>视觉钩子</strong>：虾当道出餐时配'虾塔'摆盘（虾头朝上堆叠），顾客自发拍照率提升。谁来做：厨师长培训摆盘，开业第1天执行。</li><li><strong>服务钩子</strong>：服务员上虾时说'这是咱们招牌口味虾，每天活虾现做，拍照发圈送酸梅汤'。成本约2元/杯。</li><li><strong>情感钩子</strong>：在桌面放置'我是第__位虾粉'计数立牌（手写黑板），营造'新店人气火爆'氛围。</li></ul><h3>差评应对</h3><p>设置🔧「商家后台→评价管理」消息提醒，差评<strong>2小时内</strong>必须回复。回复模板：'非常抱歉让您有不好的体验，我们是新店，您的反馈特别重要。我是店长XX，电话XXX，希望有机会当面跟您道歉并改进。'</p><h3>口碑OKR</h3><table><tr><th>时间</th><th>评价数目标</th><th>评分目标</th><th>关键动作</th></tr><tr><td>开业7天</td><td>≥10条</td><td>暂无</td><td>霸王餐上线+免费菜启动</td></tr><tr><td>开业30天</td><td>≥50条</td><td>≥4.3</td><td>收藏打卡+分享动机</td></tr><tr><td>开业90天</td><td>≥150条</td><td>≥4.5</td><td>持续服务优化+差评0超时</td></tr></table>`,
+    5: `<h3>开业前7天倒计时（关键动作清单）</h3><p>新店冷启动的成败在开业前7天已经决定70%。以下是<strong>每一天必须完成</strong>的动作：</p><table><tr><th>倒计时</th><th>动作</th><th>谁来做</th><th>在哪操作🔧</th></tr><tr><td>D-7</td><td>全员系统培训：收银POS+扫码点餐+KDS流程演练，每人实操3遍</td><td>店长</td><td>店内模拟</td></tr><tr><td>D-6</td><td>菜单最终定稿：招牌菜/利润菜/引流菜分类，上传扫码点餐系统</td><td>店长+厨师长</td><td>🔧商家后台→扫码点餐→菜单配置</td></tr><tr><td>D-5</td><td>KDS调试完成：绑定厨打机，测试口味虾等爆品标红显示</td><td>店长+厨师长</td><td>🔧商家后台→KDS配置</td></tr><tr><td>D-4</td><td>霸王餐报名开放：在大众点评申请20个免费试名额</td><td>店长</td><td>🔧大众点评商家后台→营销中心→免费试</td></tr><tr><td>D-3</td><td>会员活动配置：储值档位+新客券+开卡礼录入系统</td><td>店长</td><td>🔧商家后台→会员→储值/优惠券</td></tr><tr><td>D-2</td><td>社群预热：建'虾当道粉丝群'（微信群），发朋友圈集赞换菜</td><td>老板/店长</td><td>微信</td></tr><tr><td>D-1</td><td>试营业：邀请亲友试吃，收集反馈，修正出品</td><td>全员</td><td>门店</td></tr></table><h3>开业1-3天：引爆人气</h3><ul><li><strong>开业折扣</strong>：全场8.8折（仅限堂食，不与其他优惠同享），门口放置大幅海报。谁来做：老板决定，店长执行。话怎么说：'开业三天全场8.8折，口味虾今天已经卖了30份了'（制造热销氛围）。</li><li><strong>储值锁客</strong>：开业期储值加赠上浮一档——充300送40（日常送30）、充500送100（日常送80）。谁来做：收银员，结账时主动推荐。话怎么说：'今天开业特别划算，充500送100，相当于这桌白送您一份虾'。不配合：'那您先加个会员，下次来直接减10元'。</li><li><strong>抖音/小红书同步</strong>：开业当天拍摄'第一锅虾出锅'短视频发抖音，带话题#坂田美食 #深圳湘菜。谁来做：店长或指定员工，每天1条。</li></ul><h3>开业4-30天：留存与复购</h3><ul><li><strong>第7天</strong>：复盘首周数据——日均流水、客单价、TOP3菜品、差评内容。在🔧「商家后台→数据报表」导出。</li><li><strong>第14天</strong>：会员二次触达。在🔧「会员系统→消息推送」给开业7天内到店但未储值的顾客发'回店礼'（满60减15）。</li><li><strong>第21天</strong>：调整菜单。根据销量数据，淘汰后20%菜品，新增1款时令菜。</li><li><strong>第30天</strong>：首次月度复盘。对比OKR目标：营收/评分/会员数/复购率。</li></ul><h3>不配合预案</h3><p>若员工对'推荐储值'抵触，设置<strong>'储值推荐奖励'</strong>：每成功推荐1位储值顾客，奖励推荐人2元/单（从储值营销预算出）。执行3天后，员工积极性通常显著提升。</p>`,
+    6: `<h3>第一性原理：这家店需要储值吗？</h3><p>湘菜正餐的<strong>自然复购周期约25-35天</strong>（行业参考值），低于火锅（15-20天）但高于烧烤（35-45天）。对于140㎡、人均65元的湘菜店，储值的核心价值不是'锁客'（复购本身不差），而是<strong>'提升客单价'</strong>和<strong>'加速复购'</strong>。建议<strong>开业30天后</strong>再主推储值（先让顾客吃满意），但开业期可设低门槛体验档。</p><h3>储值档位设计</h3><table><tr><th>档位</th><th>充值</th><th>赠送</th><th>折合折扣</th><th>适用场景</th></tr><tr><td>体验档</td><td>¥200</td><td>¥15</td><td>93折</td><td>新客尝鲜，降低决策门槛</td></tr><tr><td>主推档</td><td>¥500</td><td>¥80</td><td>86折</td><td>家庭常客，约8次消费</td></tr><tr><td>尊享档</td><td>¥1000</td><td>¥200</td><td>83折</td><td>商务小聚/高频客群</td></tr></table><p>⚠️ 以上档位基于湘菜正餐复购频率设计，实际执行需根据首月客单价调整。</p><h3>旗舰版会员独有功能落地</h3><p>您已签约<strong>会员旗舰版（¥4,888/年）</strong>，以下功能是高级版没有的，必须用起来：</p><ul><li><strong>团购会员卡</strong>：在🔧「商家后台→会员→团购会员卡」创建'虾当道VIP卡'，顾客在美团/点评购买虚拟会员卡（如¥9.9购卡享全年88折），既引流又锁客。谁来做：店长，开业第15天配置。预期：月售卡50张，引流新客约80人。</li><li><strong>潜客营销</strong>：在🔧「会员→潜客营销」开启'新客7天召回'（自动给首次到店但未二次消费的顾客发券）。预期：新客复购率提升15%。</li><li><strong>生日营销</strong>：在🔧「会员→自动营销」设置生日前3天自动发送'生日专享券'（满100减30+赠长寿面）。预期：生日当月到店率提升40%。</li></ul><h3>储值落地话术与动作</h3><ul><li><strong>谁来做</strong>：收银员（主）+ 服务员（辅）</li><li><strong>第几天做</strong>：开业第15天起正式推广（先让口碑沉淀）</li><li><strong>在哪操作🔧</strong>：收银POS机→会员→储值充值</li><li><strong>话怎么说</strong>：'您今天消费¥186，充500送80，这单直接省30元，卡上还剩394，下次来直接刷。'</li><li><strong>不配合怎么办</strong>：顾客说'不用了'→改推'先加个会员吧，送您一份凉粉，下次来减10元'（降低门槛）；顾客说'充太多怕你们倒闭'→'我们 backed by 美团，储值资金是第三方监管的，您随时可退'（旗舰版储值有资金保障）。</li></ul><h3>储值OKR</h3><table><tr><th>时间</th><th>储值会员数</th><th>储值金额</th><th>储值消费占比</th></tr><tr><td>开业30天</td><td>≥50人</td><td>≥¥2.5万</td><td>≥15%</td></tr><tr><td>开业90天</td><td>≥200人</td><td>≥¥10万</td><td>≥25%</td></tr></table>`,
+    7: `<h3>公域引流：三大平台组合打法</h3><p>湘菜属于<strong>中客单正餐</strong>，最适合的公域组合是<strong>大众点评（口碑基建）+ 抖音（流量爆发）+ 小红书（种草沉淀）</strong>。三个平台不是'都发一样内容'，而是各司其职。</p><h4>① 大众点评：口碑地基（必须做好）</h4><ul><li><strong>团购套餐</strong>：上线'虾当道双人餐'（¥128，含口味虾小份+2道小炒+米饭）和'家庭欢聚4人餐'（¥238），比单点省15%。在🔧「大众点评商家后台→团购→新建套餐」配置。</li><li><strong>推广通</strong>：开业第15天起，每日预算¥80-120，定向投放'坂田'+'湘菜'关键词。谁来做：店长每天花5分钟在🔧「推广通」调整出价。预期：日均带来3-5个新客点击。</li><li><strong>榜单冲刺</strong>：目标开业90天内冲击'坂田湘菜热门榜'前10。路径：保持评分4.5+、月新增评价≥50条、团购核销率≥60%。</li></ul><h4>② 抖音：短视频引流（爆发型）</h4><ul><li><strong>内容方向</strong>：'虾当道出餐全过程'（活虾→清洗→下锅→成品，15秒）、'厨师长教你挑活虾'（知识型）、'深圳打工人午餐吃什么'（场景型）。</li><li><strong>发布频率</strong>：开业前1周每天1条，开业后每周3条。谁来做：店长或指定员工（无需专业设备，手机拍摄即可）。</li><li><strong>抖音团购</strong>：在🔧「抖音来客→团购」上线'¥58口味虾秒杀券'（限量每天10张），引流到店后升单。</li></ul><h4>③ 小红书：种草沉淀（长期型）</h4><ul><li><strong>内容方向</strong>：'坂田这家新店虾塔太绝了'（图片+打卡）、'深圳人均60的湘菜找到了'（攻略型）。</li><li><strong>执行方式</strong>：开业期邀请5-10位周边小红书素人（粉丝500-5000）探店，赠送套餐换笔记。成本约¥500-800。谁来做：老板或店长联系本地探店群。</li></ul><h3>私域锁客：会员+社群+小程序</h3><ul><li><strong>扫码入会</strong>：每桌必推，在🔧「会员→新客有礼」设置'扫码领¥5无门槛券'。目标：入会率≥60%。</li><li><strong>社群运营</strong>：建'虾当道坂田粉丝群'，每周三发'周三会员日'专属券（满80减15），每周五发'周末聚餐预告'（新菜预告+预订接龙）。谁来做：店长，每天花10分钟维护。</li><li><strong>小程序</strong>：在🔧「小程序→装修」设置首页Banner轮换（周一到周日不同主题），激活沉默用户。</li></ul><h3>公私域联动闭环</h3><p><strong>公域引流→到店体验→扫码入会→储值锁客→社群维护→二次到店→评价反哺公域</strong></p><p>示例闭环：抖音用户看到'¥58口味虾秒杀券'→到店消费¥130（升单）→扫码加入会员→被推荐储值500送80→入群→周三收到会员日券→7天后二次到店→在点评写好评→好评提升点评排名→带来更多新客。</p>`,
+    8: `<h3>数据基石（⚠️ 基于行业参考值假设）</h3><table><tr><th>指标</th><th>数值</th><th>来源/假设</th></tr><tr><td>门店面积</td><td>140㎡</td><td>门店提供</td></tr><tr><td>预估座位数</td><td>约75座</td><td>含大厅+包间（行业参考值）</td></tr><tr><td>预估人均客单价</td><td>¥65</td><td>深圳坂田湘菜市场参考</td></tr><tr><td>预估日均人次</td><td>约130人次</td><td>75座×加权翻台率（行业参考值）</td></tr><tr><td>月营收目标（稳定期）</td><td>约¥25万</td><td>130人次×¥65×30天</td></tr><tr><td>食材成本率目标</td><td>35%</td><td>供应链优化后（行业均值33-40%取优）</td></tr><tr><td>人力成本率</td><td>25%</td><td>KDS+扫码点餐省1人/班</td></tr><tr><td>房租成本率</td><td>12%</td><td>深圳坂田140㎡预估月租（行业参考值）</td></tr><tr><td>其他成本率</td><td>10%</td><td>水电燃气+平台佣金+杂费</td></tr><tr><td>目标净利润率</td><td>约18%</td><td>湘菜正餐优秀水平</td></tr><tr><td>月净利目标</td><td>约¥4.5万</td><td>¥25万×18%</td></tr></table><h3>增收测算：从0到25万的路径</h3><p>当前月流水极低（新店未开业），方案目标是帮助门店在<strong>6个月内达到月营收25万</strong>的稳定状态。以下是增收来源拆解：</p><table><tr><th>增收来源</th><th>预期效果</th><th>测算逻辑</th></tr><tr><td>点评口碑+团购引流</td><td>+¥5万/月</td><td>评分4.5+带动自然流量提升30%，团购套餐核销日均8单</td></tr><tr><td>会员储值提升复购</td><td>+¥3万/月</td><td>复购频次从1.5次/月提升至2.0次，储值会员消费占比25%</td></tr><tr><td>外卖中心多平台运营</td><td>+¥2.5万/月</td><td>外卖占比从0提升至15%，客单价¥55</td></tr><tr><td>供应链降本</td><td>+¥0.75万/月</td><td>食材成本率从38%压至35%，BOM标准化减少浪费</td></tr><tr><td><strong>合计</strong></td><td><strong>+¥11.25万/月</strong></td><td>从开业到稳定期的综合增长空间</td></tr></table><h3>投入与ROI</h3><table><tr><th>投入项</th><th>金额</th><th>说明</th></tr><tr><td>SaaS年费（已签约）</td><td>约¥2万/年</td><td>已投入，不计新增</td></tr><tr><td>点评推广通</td><td>¥2,500/月</td><td>开业第15天起投放</td></tr><tr><td>抖音/小红书营销</td><td>¥1,500/月</td><td>素人探店+内容制作</td></tr><tr><td>开业物料/培训</td><td>¥2,000（一次性）</td><td>桌卡/海报/员工培训</td></tr><tr><td><strong>月均新增投入</strong></td><td><strong>约¥4,000</strong></td><td>不含已签约SaaS</td></tr></table><p><strong>ROI测算</strong>：月均投入¥4,000，月增收空间¥11.25万，投入产出比约为<strong>1:28</strong>。即使只实现50%的增收目标（¥5.6万/月），ROI仍达1:14。</p><h3>量化OKR目标表</h3><table><tr><th>时间</th><th>月营收</th><th>点评评分</th><th>会员数</th><th>评价数</th><th>储值金额</th><th>外卖占比</th></tr><tr><td>开业1个月</td><td>¥8万</td><td>4.2</td><td>100</td><td>20</td><td>¥0.5万</td><td>5%</td></tr><tr><td>开业3个月</td><td>¥18万</td><td>4.4</td><td>350</td><td>100</td><td>¥5万</td><td>12%</td></tr><tr><td>开业6个月</td><td>¥25万</td><td>4.5</td><td>600</td><td>200</td><td>¥15万</td><td>15%</td></tr></table><p><strong>关键里程碑</strong>：开业30天内完成系统落地+口碑冷启动，开业90天内验证单店盈利模型（月净利≥3万）。</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
