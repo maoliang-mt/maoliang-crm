@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>炊拾青·二十七道下饭菜 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #8B0000;
+      --primary-light: #B22222;
+      --accent: #D4A574;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #8B000040;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">浙菜/杭帮菜（快餐简餐定位） · 运营提升方案</div>
+  <h1 class="hero-title">炊拾青·二十七道下饭菜</h1>
+  <p class="hero-subtitle">明档现炒的下饭菜专门店，让写字楼每一餐都有锅气</p>
+  <div class="hero-address">浙江省杭州市上城区彭埠街道开太·澎悦商务中心-3幢</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥35</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">100㎡</span>
+      <div class="hero-stat-label">门店面积</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">上城区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '经营模式诊断', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">经营模式诊断</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '品牌定位与爆品策略', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">品牌定位与爆品策略</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评口碑冷启动', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评口碑冷启动</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '开业冲刺60天', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">开业冲刺60天</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '公私域联动', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">公私域联动</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '投资回报与OKR', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">投资回报与OKR</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>杭州城东新城餐饮市场概览</h3><p>彭埠街道位于杭州东站商圈辐射区，周边写字楼密集，是商务+居住混合区域。⚠️ 数据基于行业参考值估算。</p><p>该区域餐饮消费呈「工作日午餐刚需+周末家庭聚餐」双峰特征。午市11:30-13:30为绝对高峰，客单价25-45元；晚市以2-4人小聚为主。</p><h3>品类机遇</h3><p>2024年全国快餐市场规模超<strong>1.0万亿元</strong>，中式快餐门店124.5万家（+9.8%）。「现炒现做+烟火气」是最大差异化卖点。</p><p>⚠️ 行业参考值：杭州商务中心快餐店日均80-120人次，人均28-40元，月流水7-12万，净利润率<strong>8%-15%</strong>。</p><h3>竞品格局（行业参考）</h3><table><tr><th>竞品</th><th>人均</th><th>弱点</th><th>切入机会</th></tr><tr><td>连锁快餐（大米先生/老乡鸡）</td><td>¥28-35</td><td>标准化出品缺锅气</td><td>同样价格更有烟火气</td></tr><tr><td>江西小炒/家常菜</td><td>¥35-50</td><td>环境一般、等位久</td><td>快餐效率+正餐体验</td></tr><tr><td>沙县/黄焖鸡个体店</td><td>¥15-25</td><td>品类老化、无品牌感</td><td>品牌化下饭菜定位</td></tr></table><p>「现炒下饭菜」在澎埠有明显差异化空间——比连锁有锅气，比小炒有效率，比个体店有品牌感。</p></div>
+<div id="modal-content-2" style="display:none"><h3>自选快餐 vs 点菜形式 对比分析</h3><table><tr><th>维度</th><th>自选快餐</th><th>点菜形式</th></tr><tr><td>客单价</td><td>¥25-40</td><td>¥50-80</td></tr><tr><td>翻台率</td><td>高（3-4次/小时）</td><td>低（1.5-2小时）</td></tr><tr><td>出餐速度</td><td>3分钟内</td><td>15-25分钟</td></tr><tr><td>午市适配</td><td>极高</td><td>较低</td></tr><tr><td>100㎡适配</td><td>高</td><td>中</td></tr></table><h3>🎯 建议：以自选快餐为主，叠加晚市小炒</h3><p><strong>① 地段决定模式</strong>：澎悦商务中心是写字楼商圈，午市刚需至少支撑80-120单/天。纯点菜模式午市接不住。</p><p><strong>② 100㎡两层最适合快餐</strong>：一层明档自选（35-40座），二层少量4人桌（6-8张），晚市可承接小聚。</p><p><strong>③ 风险更低</strong>：快餐食材周转快，现金流稳定。先跑通模型，3个月后再考虑叠加点菜。</p><h3>模式设计</h3><p><strong>午市（11:00-14:00）：纯自选</strong>。按份计价（素菜¥3-5、荤菜¥6-12），一荤两素+米饭+汤=¥25-30。</p><p><strong>晚市（17:00-20:30）：自选+小炒双轨</strong>。一楼自选，二楼现点小炒（10道可选），人均¥45-60。</p><h3>How落地</h3><ol><li><strong>谁来做</strong>：老板/厨师长，开业前15天确定模式</li><li><strong>在哪操作</strong>：🔧 美团SaaS→菜品管理→设「自选菜品」和「小炒菜品」两个分类</li><li><strong>话怎么说</strong>：服务员引导——一楼自选快一些，二楼现炒香一些，您看今天赶不赶时间？</li><li><strong>不配合</strong>：嫌自选没面子→强调明档现炒，和家里炒的一个味</li></ol></div>
+<div id="modal-content-3" style="display:none"><h3>品牌定位</h3><p>炊拾青 = <strong>「写字楼旁的现炒食堂」</strong>。核心价值：<strong>「明档现炒，道道下饭」</strong>。</p><h3>主推爆品：东坡肉焖饭（¥28）</h3><p>将杭州名菜快餐化——东坡肉+卤汁拌饭+配菜。出餐快、毛利高（可达65%+）、拍照有辨识度。</p><h3>菜单结构</h3><table><tr><th>层级</th><th>功能</th><th>代表菜品</th></tr><tr><td>引流款（3道）</td><td>低价拉新</td><td>番茄炒蛋¥12、酸辣土豆丝¥8</td></tr><tr><td>主推款（5道）</td><td>利润主力</td><td>东坡肉焖饭¥28、小炒黄牛肉¥26</td></tr><tr><td>常规款（12道）</td><td>丰富选择</td><td>荤素搭配小炒</td></tr><tr><td>季节款（4道）</td><td>按月轮换</td><td>春笋、小龙虾、蟹粉、腊味</td></tr><tr><td>增值款（3道）</td><td>提升客单</td><td>炖汤¥12、卤味拼盘¥18</td></tr></table><h3>定价策略</h3><p>锚定策略：三荤两素¥48（锚定）→ 主推两荤两素¥32（显得超值）。尾数用8而非9，快餐场景更显诚实。</p><h3>How落地</h3><ol><li><strong>谁来做</strong>：老板+厨师长，开业前10天定稿</li><li><strong>在哪操作</strong>：🔧 美团SaaS→菜品管理→上传图片→设置「东坡肉焖饭」为推荐菜置顶</li><li><strong>物料</strong>：明档上方菜单灯箱，门口立牌放爆品海报</li><li><strong>不配合</strong>：厨师长反对→带去看大米先生午市排队；担心成本高→算毛利率给他看</li></ol></div>
+<div id="modal-content-4" style="display:none"><h3>新店点评冷启动逻辑</h3><p>大众点评对新店有「保护期」，但前30天需积累<strong>30-50条真实评价</strong>才能突破「暂无星级」。⚠️ 严禁促评/邀评，所有建议基于官方规则。</p><h3>合规口碑三步走</h3><p><strong>第一步：免费试</strong>。开业第2周，在大众点评后台🔧「营销中心→免费试」申请20-30个名额。不引导评价，靠产品自然赢得好评。预计60-70%用户会自发写评价。</p><p><strong>第二步：分享动机打造</strong>。颜值驱动（东坡肉焖饭摆盘适合拍照）、惊喜驱动（随机送隐藏小菜）、情感驱动（餐盘垫纸印厨师名字）。</p><p><strong>第三步：差评防御</strong>。🔧 美团SaaS→评价管理→开启差评实时推送，2小时内回复。回复模板：感谢您来炊拾青，XX问题当天已调整，明天来送您一份新菜试吃。</p><h3>点评OKR</h3><table><tr><th>时间</th><th>评价数</th><th>星级</th></tr><tr><td>第1周</td><td>5-8条</td><td>暂无</td></tr><tr><td>第2周</td><td>15-20条</td><td>3.5+</td></tr><tr><td>第30天</td><td>≥40条</td><td>4.0+</td></tr><tr><td>第90天</td><td>≥100条</td><td>4.3+</td></tr></table><h3>How落地</h3><ol><li><strong>谁来做</strong>：店长，每天早会通报评价数</li><li><strong>在哪操作</strong>：🔧 大众点评商家版→营销中心→免费试；美团SaaS→评价管理</li><li><strong>话怎么说</strong>：不说写好评，说今天的东坡肉是早上现炖的，您尝尝合不合口味</li><li><strong>不配合</strong>：差评→当天联系道歉+邀请再来；星级涨得慢→优先解决菜品问题</li></ol></div>
+<div id="modal-content-5" style="display:none"><h3>开业前30天：筹备期</h3><p><strong>D-30至D-20</strong>：确定模式，明档设备采购（¥8000-12000），二楼桌椅（¥4000-6000）。🔧 美团SaaS完成菜品录入和扫码点餐配置。</p><p><strong>D-20至D-10</strong>：团队培训（自选流程、出品标准化），内部试吃5天。🔧 全员模拟扫码点餐测试。</p><p><strong>D-10至D-1</strong>：门口倒计时海报预热，周边写字楼地推，抖音/小红书发装修日记。🔧 设置「开业首周8折」优惠券。</p><h3>开业后30天：冲刺期</h3><p><strong>第1周：引爆</strong>。霸王餐20-30名额，全场8折，午市写字楼电梯口发传单。目标：首日50单，首周日均80单。</p><p><strong>第2周：锁客</strong>。「满30送5元券」自动发放，「午餐卡充100送15」。🔧 美团SaaS设置「消费3次送招牌菜」。目标：周复购率≥25%。</p><p><strong>第3-4周：口碑</strong>。淘汰销量最低3道菜，上新2道应季菜。周五/周六晚市试运营二楼小炒。目标：月评价≥40条，星级≥4.0，日均80+单。</p><h3>How清单</h3><table><tr><th>动作</th><th>谁做</th><th>时间</th><th>在哪操作🔧</th><th>翻车预案</th></tr><tr><td>明档设备</td><td>老板</td><td>D-30前</td><td>淘宝/本地市场</td><td>预算不够→先用简易保温台（¥3000）</td></tr><tr><td>菜单上线</td><td>店长</td><td>D-10前</td><td>美团SaaS→菜品管理</td><td>图来不及→先用文字菜单，3天内补图</td></tr><tr><td>地推</td><td>服务员</td><td>D-3至D+7</td><td>澎悦商务中心</td><td>被驱赶→改楼外路口/彭埠地铁口</td></tr><tr><td>霸王餐</td><td>店长</td><td>D-7前</td><td>大众点评→营销中心</td><td>审核不过→朋友圈集赞免单</td></tr><tr><td>复购券</td><td>系统</td><td>每笔订单</td><td>美团SaaS→自动发券</td><td>核销率低→改「满15减2」降门槛</td></tr></table></div>
+<div id="modal-content-6" style="display:none"><h3>公域引流</h3><p><strong>大众点评</strong>：上线「单人午餐套餐¥26.8」（原价¥32）。推广通日预算¥50-80，定向彭埠/东站区域，午市10:30-12:00投放。</p><p><strong>抖音</strong>：拍明档现炒过程（锅气、颠勺），配文拒绝料理包。每周3条，挂载团购套餐¥25.8。⚠️ 月预算¥1000-2000可获1-3万曝光（行业参考）。</p><p><strong>小红书</strong>：「东站打工人食堂」「¥25现炒三菜一汤」。开业第2周邀请3-5位本地博主（5000-2万粉）免费试吃。</p><h3>私域留客</h3><p><strong>扫码入会（已签约）</strong>：扫码点餐弹「加入会员立减3元」。1元=1积分，100积分=¥5券。目标：30天会员≥300人。</p><p><strong>社群</strong>：收银台放「加群抢红包，手气最佳送免单」立牌。每天11:00发今日菜单，17:00发晚市预定。周五群友专属¥2优惠。目标：500人群，每天带来10-15单。</p><p><strong>储值（按需启用）</strong>：复购率达30%再启动。充100送10、充200送25、充300送40。目标：储值会员占比≥15%。</p><h3>联动闭环</h3><p>抖音/小红书种草 → 大众点评搜索 → 到店 → 扫码入会 → 社群沉淀 → 复购/储值。</p><h3>How落地</h3><ol><li><strong>谁来做</strong>：公域老板/店长拍摄，社群收银员维护（每天10分钟）</li><li><strong>在哪操作</strong>：🔧 美团SaaS→会员管理→「扫码自动入会」开启；抖音来客→团购上架</li><li><strong>话怎么说</strong>：扫码加群，明天菜单提前看，还有红包抢</li><li><strong>不配合</strong>：不愿加群→送饮料券；抖音播放低→投¥100 DOU+测试；储值没人充→等复购率30%再上</li></ol></div>
+<div id="modal-content-7" style="display:none"><h3>投资预算</h3><table><tr><th>项目</th><th>金额</th></tr><tr><td>明档自选设备</td><td>¥8,000-12,000</td></tr><tr><td>二楼桌椅</td><td>¥4,000-6,000</td></tr><tr><td>开业营销</td><td>¥5,000-8,000</td></tr><tr><td>首批食材</td><td>¥3,000-5,000</td></tr><tr><td>美团SaaS年费</td><td>¥4,888</td></tr><tr><td><strong>合计</strong></td><td><strong>¥24,888-35,888</strong></td></tr></table><h3>盈利测算（⚠️ 行业参考值假设）</h3><p>假设：人均¥32→¥35，日均60→90单，月营26天，食材成本35%，人力¥18000/月，房租¥12000/月（假设），水电¥3000/月。</p><table><tr><th>指标</th><th>第1月</th><th>第2月</th><th>第3月</th></tr><tr><td>月流水</td><td>¥46,800</td><td>¥62,400</td><td>¥81,900</td></tr><tr><td>净利润</td><td><strong>-¥7,580</strong></td><td><strong>¥5,560</strong></td><td><strong>¥16,235</strong></td></tr><tr><td>利润率</td><td>-16.2%</td><td>8.9%</td><td>19.8%</td></tr></table><p>第1月亏损正常（爬坡期），第2月盈亏平衡，第3月盈利。⚠️ 实际受房租/人工/客流影响。</p><h3>月度OKR</h3><table><tr><th>维度</th><th>第1月</th><th>第2月</th><th>第3月</th></tr><tr><td>营收</td><td>¥45,000</td><td>¥60,000</td><td>¥80,000</td></tr><tr><td>日均单量</td><td>60</td><td>75</td><td>90</td></tr><tr><td>点评评分</td><td>3.8+</td><td>4.0+</td><td>4.3+</td></tr><tr><td>会员数</td><td>≥200</td><td>≥400</td><td>≥600</td></tr><tr><td>复购率</td><td>≥15%</td><td>≥20%</td><td>≥25%</td></tr></table><h3>关键里程碑</h3><ul><li>第30天：日均80单、评价40条、会员300人、星级4.0</li><li>第60天：日均90单、评价80条、会员500人、开始盈利</li><li>第90天：日均100单、评价100条、星级4.3、月净利¥15000+</li></ul></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>翟卫婷</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>杭州城东新城餐饮市场概览</h3><p>彭埠街道位于杭州东站商圈辐射区，周边写字楼密集，是商务+居住混合区域。⚠️ 数据基于行业参考值估算。</p><p>该区域餐饮消费呈「工作日午餐刚需+周末家庭聚餐」双峰特征。午市11:30-13:30为绝对高峰，客单价25-45元；晚市以2-4人小聚为主。</p><h3>品类机遇</h3><p>2024年全国快餐市场规模超<strong>1.0万亿元</strong>，中式快餐门店124.5万家（+9.8%）。「现炒现做+烟火气」是最大差异化卖点。</p><p>⚠️ 行业参考值：杭州商务中心快餐店日均80-120人次，人均28-40元，月流水7-12万，净利润率<strong>8%-15%</strong>。</p><h3>竞品格局（行业参考）</h3><table><tr><th>竞品</th><th>人均</th><th>弱点</th><th>切入机会</th></tr><tr><td>连锁快餐（大米先生/老乡鸡）</td><td>¥28-35</td><td>标准化出品缺锅气</td><td>同样价格更有烟火气</td></tr><tr><td>江西小炒/家常菜</td><td>¥35-50</td><td>环境一般、等位久</td><td>快餐效率+正餐体验</td></tr><tr><td>沙县/黄焖鸡个体店</td><td>¥15-25</td><td>品类老化、无品牌感</td><td>品牌化下饭菜定位</td></tr></table><p>「现炒下饭菜」在澎埠有明显差异化空间——比连锁有锅气，比小炒有效率，比个体店有品牌感。</p>`,
+    2: `<h3>自选快餐 vs 点菜形式 对比分析</h3><table><tr><th>维度</th><th>自选快餐</th><th>点菜形式</th></tr><tr><td>客单价</td><td>¥25-40</td><td>¥50-80</td></tr><tr><td>翻台率</td><td>高（3-4次/小时）</td><td>低（1.5-2小时）</td></tr><tr><td>出餐速度</td><td>3分钟内</td><td>15-25分钟</td></tr><tr><td>午市适配</td><td>极高</td><td>较低</td></tr><tr><td>100㎡适配</td><td>高</td><td>中</td></tr></table><h3>🎯 建议：以自选快餐为主，叠加晚市小炒</h3><p><strong>① 地段决定模式</strong>：澎悦商务中心是写字楼商圈，午市刚需至少支撑80-120单/天。纯点菜模式午市接不住。</p><p><strong>② 100㎡两层最适合快餐</strong>：一层明档自选（35-40座），二层少量4人桌（6-8张），晚市可承接小聚。</p><p><strong>③ 风险更低</strong>：快餐食材周转快，现金流稳定。先跑通模型，3个月后再考虑叠加点菜。</p><h3>模式设计</h3><p><strong>午市（11:00-14:00）：纯自选</strong>。按份计价（素菜¥3-5、荤菜¥6-12），一荤两素+米饭+汤=¥25-30。</p><p><strong>晚市（17:00-20:30）：自选+小炒双轨</strong>。一楼自选，二楼现点小炒（10道可选），人均¥45-60。</p><h3>How落地</h3><ol><li><strong>谁来做</strong>：老板/厨师长，开业前15天确定模式</li><li><strong>在哪操作</strong>：🔧 美团SaaS→菜品管理→设「自选菜品」和「小炒菜品」两个分类</li><li><strong>话怎么说</strong>：服务员引导——一楼自选快一些，二楼现炒香一些，您看今天赶不赶时间？</li><li><strong>不配合</strong>：嫌自选没面子→强调明档现炒，和家里炒的一个味</li></ol>`,
+    3: `<h3>品牌定位</h3><p>炊拾青 = <strong>「写字楼旁的现炒食堂」</strong>。核心价值：<strong>「明档现炒，道道下饭」</strong>。</p><h3>主推爆品：东坡肉焖饭（¥28）</h3><p>将杭州名菜快餐化——东坡肉+卤汁拌饭+配菜。出餐快、毛利高（可达65%+）、拍照有辨识度。</p><h3>菜单结构</h3><table><tr><th>层级</th><th>功能</th><th>代表菜品</th></tr><tr><td>引流款（3道）</td><td>低价拉新</td><td>番茄炒蛋¥12、酸辣土豆丝¥8</td></tr><tr><td>主推款（5道）</td><td>利润主力</td><td>东坡肉焖饭¥28、小炒黄牛肉¥26</td></tr><tr><td>常规款（12道）</td><td>丰富选择</td><td>荤素搭配小炒</td></tr><tr><td>季节款（4道）</td><td>按月轮换</td><td>春笋、小龙虾、蟹粉、腊味</td></tr><tr><td>增值款（3道）</td><td>提升客单</td><td>炖汤¥12、卤味拼盘¥18</td></tr></table><h3>定价策略</h3><p>锚定策略：三荤两素¥48（锚定）→ 主推两荤两素¥32（显得超值）。尾数用8而非9，快餐场景更显诚实。</p><h3>How落地</h3><ol><li><strong>谁来做</strong>：老板+厨师长，开业前10天定稿</li><li><strong>在哪操作</strong>：🔧 美团SaaS→菜品管理→上传图片→设置「东坡肉焖饭」为推荐菜置顶</li><li><strong>物料</strong>：明档上方菜单灯箱，门口立牌放爆品海报</li><li><strong>不配合</strong>：厨师长反对→带去看大米先生午市排队；担心成本高→算毛利率给他看</li></ol>`,
+    4: `<h3>新店点评冷启动逻辑</h3><p>大众点评对新店有「保护期」，但前30天需积累<strong>30-50条真实评价</strong>才能突破「暂无星级」。⚠️ 严禁促评/邀评，所有建议基于官方规则。</p><h3>合规口碑三步走</h3><p><strong>第一步：免费试</strong>。开业第2周，在大众点评后台🔧「营销中心→免费试」申请20-30个名额。不引导评价，靠产品自然赢得好评。预计60-70%用户会自发写评价。</p><p><strong>第二步：分享动机打造</strong>。颜值驱动（东坡肉焖饭摆盘适合拍照）、惊喜驱动（随机送隐藏小菜）、情感驱动（餐盘垫纸印厨师名字）。</p><p><strong>第三步：差评防御</strong>。🔧 美团SaaS→评价管理→开启差评实时推送，2小时内回复。回复模板：感谢您来炊拾青，XX问题当天已调整，明天来送您一份新菜试吃。</p><h3>点评OKR</h3><table><tr><th>时间</th><th>评价数</th><th>星级</th></tr><tr><td>第1周</td><td>5-8条</td><td>暂无</td></tr><tr><td>第2周</td><td>15-20条</td><td>3.5+</td></tr><tr><td>第30天</td><td>≥40条</td><td>4.0+</td></tr><tr><td>第90天</td><td>≥100条</td><td>4.3+</td></tr></table><h3>How落地</h3><ol><li><strong>谁来做</strong>：店长，每天早会通报评价数</li><li><strong>在哪操作</strong>：🔧 大众点评商家版→营销中心→免费试；美团SaaS→评价管理</li><li><strong>话怎么说</strong>：不说写好评，说今天的东坡肉是早上现炖的，您尝尝合不合口味</li><li><strong>不配合</strong>：差评→当天联系道歉+邀请再来；星级涨得慢→优先解决菜品问题</li></ol>`,
+    5: `<h3>开业前30天：筹备期</h3><p><strong>D-30至D-20</strong>：确定模式，明档设备采购（¥8000-12000），二楼桌椅（¥4000-6000）。🔧 美团SaaS完成菜品录入和扫码点餐配置。</p><p><strong>D-20至D-10</strong>：团队培训（自选流程、出品标准化），内部试吃5天。🔧 全员模拟扫码点餐测试。</p><p><strong>D-10至D-1</strong>：门口倒计时海报预热，周边写字楼地推，抖音/小红书发装修日记。🔧 设置「开业首周8折」优惠券。</p><h3>开业后30天：冲刺期</h3><p><strong>第1周：引爆</strong>。霸王餐20-30名额，全场8折，午市写字楼电梯口发传单。目标：首日50单，首周日均80单。</p><p><strong>第2周：锁客</strong>。「满30送5元券」自动发放，「午餐卡充100送15」。🔧 美团SaaS设置「消费3次送招牌菜」。目标：周复购率≥25%。</p><p><strong>第3-4周：口碑</strong>。淘汰销量最低3道菜，上新2道应季菜。周五/周六晚市试运营二楼小炒。目标：月评价≥40条，星级≥4.0，日均80+单。</p><h3>How清单</h3><table><tr><th>动作</th><th>谁做</th><th>时间</th><th>在哪操作🔧</th><th>翻车预案</th></tr><tr><td>明档设备</td><td>老板</td><td>D-30前</td><td>淘宝/本地市场</td><td>预算不够→先用简易保温台（¥3000）</td></tr><tr><td>菜单上线</td><td>店长</td><td>D-10前</td><td>美团SaaS→菜品管理</td><td>图来不及→先用文字菜单，3天内补图</td></tr><tr><td>地推</td><td>服务员</td><td>D-3至D+7</td><td>澎悦商务中心</td><td>被驱赶→改楼外路口/彭埠地铁口</td></tr><tr><td>霸王餐</td><td>店长</td><td>D-7前</td><td>大众点评→营销中心</td><td>审核不过→朋友圈集赞免单</td></tr><tr><td>复购券</td><td>系统</td><td>每笔订单</td><td>美团SaaS→自动发券</td><td>核销率低→改「满15减2」降门槛</td></tr></table>`,
+    6: `<h3>公域引流</h3><p><strong>大众点评</strong>：上线「单人午餐套餐¥26.8」（原价¥32）。推广通日预算¥50-80，定向彭埠/东站区域，午市10:30-12:00投放。</p><p><strong>抖音</strong>：拍明档现炒过程（锅气、颠勺），配文拒绝料理包。每周3条，挂载团购套餐¥25.8。⚠️ 月预算¥1000-2000可获1-3万曝光（行业参考）。</p><p><strong>小红书</strong>：「东站打工人食堂」「¥25现炒三菜一汤」。开业第2周邀请3-5位本地博主（5000-2万粉）免费试吃。</p><h3>私域留客</h3><p><strong>扫码入会（已签约）</strong>：扫码点餐弹「加入会员立减3元」。1元=1积分，100积分=¥5券。目标：30天会员≥300人。</p><p><strong>社群</strong>：收银台放「加群抢红包，手气最佳送免单」立牌。每天11:00发今日菜单，17:00发晚市预定。周五群友专属¥2优惠。目标：500人群，每天带来10-15单。</p><p><strong>储值（按需启用）</strong>：复购率达30%再启动。充100送10、充200送25、充300送40。目标：储值会员占比≥15%。</p><h3>联动闭环</h3><p>抖音/小红书种草 → 大众点评搜索 → 到店 → 扫码入会 → 社群沉淀 → 复购/储值。</p><h3>How落地</h3><ol><li><strong>谁来做</strong>：公域老板/店长拍摄，社群收银员维护（每天10分钟）</li><li><strong>在哪操作</strong>：🔧 美团SaaS→会员管理→「扫码自动入会」开启；抖音来客→团购上架</li><li><strong>话怎么说</strong>：扫码加群，明天菜单提前看，还有红包抢</li><li><strong>不配合</strong>：不愿加群→送饮料券；抖音播放低→投¥100 DOU+测试；储值没人充→等复购率30%再上</li></ol>`,
+    7: `<h3>投资预算</h3><table><tr><th>项目</th><th>金额</th></tr><tr><td>明档自选设备</td><td>¥8,000-12,000</td></tr><tr><td>二楼桌椅</td><td>¥4,000-6,000</td></tr><tr><td>开业营销</td><td>¥5,000-8,000</td></tr><tr><td>首批食材</td><td>¥3,000-5,000</td></tr><tr><td>美团SaaS年费</td><td>¥4,888</td></tr><tr><td><strong>合计</strong></td><td><strong>¥24,888-35,888</strong></td></tr></table><h3>盈利测算（⚠️ 行业参考值假设）</h3><p>假设：人均¥32→¥35，日均60→90单，月营26天，食材成本35%，人力¥18000/月，房租¥12000/月（假设），水电¥3000/月。</p><table><tr><th>指标</th><th>第1月</th><th>第2月</th><th>第3月</th></tr><tr><td>月流水</td><td>¥46,800</td><td>¥62,400</td><td>¥81,900</td></tr><tr><td>净利润</td><td><strong>-¥7,580</strong></td><td><strong>¥5,560</strong></td><td><strong>¥16,235</strong></td></tr><tr><td>利润率</td><td>-16.2%</td><td>8.9%</td><td>19.8%</td></tr></table><p>第1月亏损正常（爬坡期），第2月盈亏平衡，第3月盈利。⚠️ 实际受房租/人工/客流影响。</p><h3>月度OKR</h3><table><tr><th>维度</th><th>第1月</th><th>第2月</th><th>第3月</th></tr><tr><td>营收</td><td>¥45,000</td><td>¥60,000</td><td>¥80,000</td></tr><tr><td>日均单量</td><td>60</td><td>75</td><td>90</td></tr><tr><td>点评评分</td><td>3.8+</td><td>4.0+</td><td>4.3+</td></tr><tr><td>会员数</td><td>≥200</td><td>≥400</td><td>≥600</td></tr><tr><td>复购率</td><td>≥15%</td><td>≥20%</td><td>≥25%</td></tr></table><h3>关键里程碑</h3><ul><li>第30天：日均80单、评价40条、会员300人、星级4.0</li><li>第60天：日均90单、评价80条、会员500人、开始盈利</li><li>第90天：日均100单、评价100条、星级4.3、月净利¥15000+</li></ul>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
