@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>张记私房菜 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #8B0000;
+      --primary-light: #B22222;
+      --accent: #D4A574;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #8B000040;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">浙菜/杭帮菜 · 运营提升方案</div>
+  <h1 class="hero-title">张记私房菜</h1>
+  <p class="hero-subtitle">从4.1分到4.6分，把吃过一次的客人变成带朋友来的回头客</p>
+  <div class="hero-address">浙江省杭州市萧山区纵七路天润中心3幢3-8号</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥90</span>
+      <div class="hero-stat-label">门店人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.1分</span>
+      <div class="hero-stat-label">当前评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">萧山区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '门店诊断·4.1分背后的真问题', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">门店诊断·4.1分背后的真问题</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '商圈与竞品·萧山纵七路这场仗怎么打', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">商圈与竞品·萧山纵七路这场仗怎么打</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '点评口碑·从4.1到4.6的合规作战路径', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">点评口碑·从4.1到4.6的合规作战路径</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '系统方案·已签约SaaS怎么用到点子上', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">系统方案·已签约SaaS怎么用到点子上</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '会员复购·锁住高价值回头客（核心）', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">会员复购·锁住高价值回头客（核心）</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '打竞对·用宴请套餐和包厢抢高客单生意', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">打竞对·用宴请套餐和包厢抢高客单生意</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '公私域联动与90天OKR', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">公私域联动与90天OKR</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>张记私房菜现在卡在哪：菜好不好不知道，但口碑分明显偏低</h3><p>张记私房菜位于萧山纵七路天润中心，人均约¥90，约300㎡，是一家面向商务宴请和家庭聚餐的中高端私房菜馆。大众点评当前评分<strong>4.1分</strong>——这个分数对人均90元的正餐来说<strong>是明显偏低的（同档位标杆普遍4.5+）</strong>，意味着大量潜在客人在搜索阶段就因为分数低而流失，被旁边4.5分的竞品截走。</p><h3>三个核心诊断</h3><ul><li><strong>① 评分拖后腿，获客漏在第一步</strong>：你4.1分，说明线上「被看见但没被选中」——人均90元客人会反复对比评分，4.1分在4.5分竞品面前几乎没有胜算。这是最该先止血的问题。</li><li><strong>② 私房菜=高客单低频次，复购是命门</strong>：人均90元意味着客人不会天天来，一个客人一年可能就来4-6次。说明<strong>「让吃过的人记得你、愿意再来、愿意带人来」</strong>比拉新更值钱——而你目前大概率没有系统的会员/复购抓手。</li><li><strong>③ 300㎡的空间利用</strong>：300㎡说明你有包厢/大桌资源，适合做商务宴请和家庭聚餐——这是私房菜的利润高地，但需要通过点评包厢预订、宴请套餐去主动经营，不能被动等客上门。</li></ul><div class="highlight-box"><p>🎯 主线结论：张记的三件大事按优先级是 ① 把评分从4.1拉到4.6（止血获客）→ ② 用会员体系锁住高价值回头客（提复购）→ ③ 用包厢/宴请套餐打竞对、抢高客单生意。储值可作为复购工具之一，但不是第一优先级。</p></div></div>
+<div id="modal-content-2" style="display:none"><h3>周边竞品画像（⚠️行业参考画像，建议BD实地核实具体门店名称与数据）</h3><p>纵七路天润中心一带（旺角城/银隆百货商圈）是萧山成熟商务+居住混合区，人均80-120元的正餐竞争激烈。私房菜/杭帮菜赛道客群重叠度高，谁的评分高、谁的宴请套餐有性价比，谁就赢。</p><table><tr><th>竞品类型</th><th>人均</th><th>评分</th><th>核心弱点</th><th>张记切入机会</th></tr><tr><td>商圈连锁杭帮菜</td><td>¥85-100</td><td>4.4-4.6</td><td>菜品标准化、缺私房菜的「家味」特色</td><td>主打「私房手作+包厢私密性」差异化</td></tr><tr><td>本地老牌私房菜</td><td>¥100-130</td><td>4.3-4.5</td><td>线上运营弱、套餐不清晰</td><td>用清晰宴请套餐+点评包厢预订抢商务客</td></tr><tr><td>家常浙菜馆</td><td>¥55-70</td><td>4.2-4.4</td><td>客单低、不适合宴请</td><td>错位竞争，主攻中高端聚餐场景</td></tr></table><h3>你的站位</h3><p>你4.1分目前在这条街处于<strong>劣势</strong>，但人均90+300㎡+私房菜定位，说明你的牌面其实不差——一旦评分追上来，「私房手作+包厢宴请」这个组合在标准化连锁面前是有差异化壁垒的。因此打法是：<strong>先用评分追平竞品（防守），再用宴请套餐和包厢预订主动抢客（进攻）。</strong></p></div>
+<div id="modal-content-3" style="display:none"><h3>评分是张记当前的头号止血点，30-60天必须见效</h3><p>你当前4.1分，说明历史积累里有一定比例的中差评在拉低均分。人均90元的客人对评分极度敏感，每提升0.1分都能带来可观的进店转化。目标：<strong>60天内把评分从4.1拉到4.5+，90天冲4.6。</strong>（⚠️ 严禁刷评/买评，2025年10月后高强度促评不再产生星级收益）</p><h4>三步走</h4><ul><li><strong>① 止血——先处理差评，再谈涨分</strong>：How：店长负责，本周内把近3个月所有中差评逐条看完，归类出高频差评关键词（如「上菜慢」「停车难」「服务」）；每条差评店主亲自真诚回复+留私信，能补救的当场补救（补菜/送券），把差评客人转成路转粉。</li><li><strong>② 提质——用新评价稀释旧差评</strong>：How：① 在🔧大众点评商家后台「营销中心」报名「免费试/霸王餐」投放真实曝光；② 针对宴请大桌客人，店长在上压轴菜时真诚说「您要是觉得今天这桌满意，方便的话帮我们在点评说句实在话」——大桌客人写的长评权重高、稀释差评效果好。</li><li><strong>③ 维护——把口碑标签养起来</strong>：How：盯住「口味」「环境」「适合聚餐」这几个标签的积累，宴请客人多了之后「适合商务/家庭聚餐」的标签会自然形成，这正是高客单客人搜索时最看重的。</li></ul><h4>口碑目标路线</h4><p>4.1→4.5（60天止血）→ 4.6（90天）→ 冲「好评榜/口味榜」前列，让搜索杭帮菜/私房菜的客人优先看到你。</p></div>
+<div id="modal-content-4" style="display:none"><h3>你已签约的工具，要对着「评分+复购+宴请」三件事用，而不是摆着</h3><p>已签约：<strong>收银POS + 扫码点餐 + 会员旗舰版 + 会员高级版 + 小程序 + KDS</strong>。这套组合对一家300㎡的中高端私房菜馆是匹配的，关键是用对场景：</p><table><tr><th>已签约模块</th><th>对应解决张记的什么问题</th><th>具体怎么用</th></tr><tr><td>KDS（后厨显示）</td><td>解决「上菜慢」这个高频差评</td><td>🔧后厨用KDS分菜品工序排单，宴请大桌按上菜节奏推送，减少漏单催菜，直接改善差评关键词</td></tr><tr><td>扫码点餐</td><td>减少高峰漏单、服务跟不上</td><td>🔧大桌/包厢扫码自助加菜，服务员专注招呼，提升服务评价</td></tr><tr><td>会员旗舰版+高级版</td><td>解决复购命门</td><td>🔧建积分会员体系+储值，锁住高价值回头客（见第5章）</td></tr><tr><td>小程序</td><td>私域沉淀+包厢预订</td><td>🔧客人小程序在线订包厢、看宴请套餐，把生意从被动等客变主动经营</td></tr></table><div class="highlight-box"><p>🔑 关键认知：你买的不是「一堆功能」，是「解决上菜慢→改善评分」「沉淀会员→提升复购」「线上订包厢→抢宴请生意」三条增长路径。本方案后半部分会把每条路径拆到能落地。</p></div></div>
+<div id="modal-content-5" style="display:none"><h3>人均90元的私房菜，一个回头客的终身价值远超你想象</h3><p>你客单¥90、消费频次低，说明<strong>每留住一个老客=锁定一年4-6次×90元=¥360-540的稳定营收</strong>，而且老客带来的宴请、家庭聚餐往往是大桌高客单。因此会员复购是张记利润的压舱石，已签约的会员旗舰版+高级版正是为此。</p><h4>① 分层会员体系</h4><p><strong>What</strong>：把客人按消费分层，重点经营高价值客。<br><strong>How</strong>：① 店长在🔧会员旗舰版设置成长等级（普通/银卡/金卡），金卡享专属包厢预留+生日福利；② 收银员结账必说「加个会员，消费有积分，攒够能抵现，订包厢还能优先」；③ 系统自动标记消费3次以上的客人为「重点客」，店长重点维护。</p><h4>② 复购触发器</h4><p><strong>What</strong>：用券和节点把客人「召回」。<br><strong>How</strong>：① 🔧会员系统设置「消费后7天自动发一张满300减30券」逼下次到店；② 重要节日（中秋/年夜饭）提前2周给老会员发宴请预订提醒；③ 客人超60天没来→系统自动发「想您了，回来送一道招牌菜」唤醒券。</p><h4>③ 储值（作为复购工具，中额起步）</h4><p><strong>What</strong>：对已认可的老客（消费3次以上）推储值，把未来消费提前锁定。<br><strong>How</strong>：① 主推🔧「充500送80」（约5-6次消费的甜头，适配90元客单）；② 收银员对老客说「您常来，充500送80相当于多一顿，订包厢还优先」；③ 客人犹豫→「先充500，吃不完随时退」。⚠️ 储值是工具不是目的，只对老客推，不对新客硬塞。</p></div>
+<div id="modal-content-6" style="display:none"><h3>张记真正的进攻武器：私房菜的「包厢宴请」场景，连锁打不过你</h3><p>你有300㎡和包厢资源，说明最该主动抢的是<strong>商务宴请+家庭聚餐</strong>这块高客单生意——这正是标准化连锁的短板（没私密包厢、没家味手作）。打竞对不是降价，是把这个场景做到比竞品更清晰、更专业。</p><h4>① 清晰的宴请套餐（打竞对的核心弹药）</h4><p><strong>What</strong>：设计阶梯式宴请套餐，让客人一眼看懂、好决策。<br><strong>How</strong>：① 店长设计3档套餐——「家庭聚餐6人¥588」「商务宴请8人¥888」「尊享宴请10人¥1288」；② 套餐定价用心理学：把¥888设为主推（含招牌硬菜），¥1288档让¥888显得超值；③ 🔧在大众点评/小程序上架套餐，配高质量大桌摆盘图；④ 客人嫌贵→「这桌人均不到120，比单点划算，还含包厢」。</p><h4>② 包厢预订线上化</h4><p><strong>What</strong>：把包厢从「打电话问」变成「线上随时订」。<br><strong>How</strong>：① 🔧小程序开通包厢在线预订，显示空闲时段；② 点评店铺页挂「可订包厢」标签（商务客搜索强偏好）；③ 重点节日包厢提前推送给金卡会员锁定。</p><h4>③ 爆品锚点（让人记住张记）</h4><p><strong>What</strong>：找一道招牌私房菜作为品牌记忆点，串联所有宣传。<br><strong>How</strong>：① 店主选定一道最有特色的私房手作菜（如某招牌硬菜）作为「招牌锚点」；② 所有套餐都含这道菜、所有点评引导都提它、小红书都拍它；③ 让客人记住「去张记就为那道菜」——这是连锁标准化产品给不了的差异化。</p></div>
+<div id="modal-content-7" style="display:none"><h3>公域抢流量，私域提复购，宴请套餐拉高客单——三条线协同</h3><h4>公私域联动闭环</h4><ul><li><strong>公域（被看见）</strong>：大众点评是主战场——评分冲4.6、上架宴请套餐、点评包厢预订、报名免费试涨评；小红书发「私房菜探店+包厢氛围+招牌菜」笔记，带「萧山私房菜」「萧山聚餐」定位。</li><li><strong>私域（留得住）</strong>：所有进店客人结账引导加会员+小程序，大桌宴请客人重点加店主企业微信，沉淀为可复购的高价值客。</li><li><strong>闭环</strong>：点评/小红书看到→进店宴请→成为会员→节点召回复购→满意后写长评+带朋友办下一场宴请→又带来公域口碑。</li></ul><h3>投入产出测算（⚠️行业基准估算，建议核实）</h3><table><tr><th>增收来源</th><th>测算逻辑</th><th>月增收估算</th></tr><tr><td>评分提升带来获客</td><td>4.1→4.6进店转化提升约20%</td><td>显著拉新（按现有客流20%增量）</td></tr><tr><td>会员复购提升</td><td>500活跃会员×季度多来1次×¥90</td><td>≈¥15,000/月摊算</td></tr><tr><td>宴请套餐高客单</td><td>月增20桌888套餐</td><td>≈¥17,760</td></tr><tr><td>储值现金流（老客）</td><td>80名老客×充500</td><td>≈¥40,000现金沉淀</td></tr></table><h4>90天OKR（量化目标）</h4><ul><li><strong>第30天</strong>：差评清零回复、评分回到4.3+、会员注册≥300人、宴请套餐上架并出单</li><li><strong>第60天</strong>：评分≥4.5、新增评价≥80条、会员≥600人、包厢预订线上化、月宴请桌数+30%</li><li><strong>第90天</strong>：评分≥4.6冲好评榜、会员≥1000人、储值老客占比25%、月营收稳定爬坡</li></ul><div class="highlight-box"><p>🎯 核心结论：张记的增长引擎是「评分止血→会员锁客→宴请打竞对」。先把4.1分这个最致命的漏洞补上，再用私房菜的包厢宴请优势主动抢高客单生意，这家店就能在萧山纵七路重新拿回主动权。</p></div></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>陈意</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>张记私房菜现在卡在哪：菜好不好不知道，但口碑分明显偏低</h3><p>张记私房菜位于萧山纵七路天润中心，人均约¥90，约300㎡，是一家面向商务宴请和家庭聚餐的中高端私房菜馆。大众点评当前评分<strong>4.1分</strong>——这个分数对人均90元的正餐来说<strong>是明显偏低的（同档位标杆普遍4.5+）</strong>，意味着大量潜在客人在搜索阶段就因为分数低而流失，被旁边4.5分的竞品截走。</p><h3>三个核心诊断</h3><ul><li><strong>① 评分拖后腿，获客漏在第一步</strong>：你4.1分，说明线上「被看见但没被选中」——人均90元客人会反复对比评分，4.1分在4.5分竞品面前几乎没有胜算。这是最该先止血的问题。</li><li><strong>② 私房菜=高客单低频次，复购是命门</strong>：人均90元意味着客人不会天天来，一个客人一年可能就来4-6次。说明<strong>「让吃过的人记得你、愿意再来、愿意带人来」</strong>比拉新更值钱——而你目前大概率没有系统的会员/复购抓手。</li><li><strong>③ 300㎡的空间利用</strong>：300㎡说明你有包厢/大桌资源，适合做商务宴请和家庭聚餐——这是私房菜的利润高地，但需要通过点评包厢预订、宴请套餐去主动经营，不能被动等客上门。</li></ul><div class="highlight-box"><p>🎯 主线结论：张记的三件大事按优先级是 ① 把评分从4.1拉到4.6（止血获客）→ ② 用会员体系锁住高价值回头客（提复购）→ ③ 用包厢/宴请套餐打竞对、抢高客单生意。储值可作为复购工具之一，但不是第一优先级。</p></div>`,
+    2: `<h3>周边竞品画像（⚠️行业参考画像，建议BD实地核实具体门店名称与数据）</h3><p>纵七路天润中心一带（旺角城/银隆百货商圈）是萧山成熟商务+居住混合区，人均80-120元的正餐竞争激烈。私房菜/杭帮菜赛道客群重叠度高，谁的评分高、谁的宴请套餐有性价比，谁就赢。</p><table><tr><th>竞品类型</th><th>人均</th><th>评分</th><th>核心弱点</th><th>张记切入机会</th></tr><tr><td>商圈连锁杭帮菜</td><td>¥85-100</td><td>4.4-4.6</td><td>菜品标准化、缺私房菜的「家味」特色</td><td>主打「私房手作+包厢私密性」差异化</td></tr><tr><td>本地老牌私房菜</td><td>¥100-130</td><td>4.3-4.5</td><td>线上运营弱、套餐不清晰</td><td>用清晰宴请套餐+点评包厢预订抢商务客</td></tr><tr><td>家常浙菜馆</td><td>¥55-70</td><td>4.2-4.4</td><td>客单低、不适合宴请</td><td>错位竞争，主攻中高端聚餐场景</td></tr></table><h3>你的站位</h3><p>你4.1分目前在这条街处于<strong>劣势</strong>，但人均90+300㎡+私房菜定位，说明你的牌面其实不差——一旦评分追上来，「私房手作+包厢宴请」这个组合在标准化连锁面前是有差异化壁垒的。因此打法是：<strong>先用评分追平竞品（防守），再用宴请套餐和包厢预订主动抢客（进攻）。</strong></p>`,
+    3: `<h3>评分是张记当前的头号止血点，30-60天必须见效</h3><p>你当前4.1分，说明历史积累里有一定比例的中差评在拉低均分。人均90元的客人对评分极度敏感，每提升0.1分都能带来可观的进店转化。目标：<strong>60天内把评分从4.1拉到4.5+，90天冲4.6。</strong>（⚠️ 严禁刷评/买评，2025年10月后高强度促评不再产生星级收益）</p><h4>三步走</h4><ul><li><strong>① 止血——先处理差评，再谈涨分</strong>：How：店长负责，本周内把近3个月所有中差评逐条看完，归类出高频差评关键词（如「上菜慢」「停车难」「服务」）；每条差评店主亲自真诚回复+留私信，能补救的当场补救（补菜/送券），把差评客人转成路转粉。</li><li><strong>② 提质——用新评价稀释旧差评</strong>：How：① 在🔧大众点评商家后台「营销中心」报名「免费试/霸王餐」投放真实曝光；② 针对宴请大桌客人，店长在上压轴菜时真诚说「您要是觉得今天这桌满意，方便的话帮我们在点评说句实在话」——大桌客人写的长评权重高、稀释差评效果好。</li><li><strong>③ 维护——把口碑标签养起来</strong>：How：盯住「口味」「环境」「适合聚餐」这几个标签的积累，宴请客人多了之后「适合商务/家庭聚餐」的标签会自然形成，这正是高客单客人搜索时最看重的。</li></ul><h4>口碑目标路线</h4><p>4.1→4.5（60天止血）→ 4.6（90天）→ 冲「好评榜/口味榜」前列，让搜索杭帮菜/私房菜的客人优先看到你。</p>`,
+    4: `<h3>你已签约的工具，要对着「评分+复购+宴请」三件事用，而不是摆着</h3><p>已签约：<strong>收银POS + 扫码点餐 + 会员旗舰版 + 会员高级版 + 小程序 + KDS</strong>。这套组合对一家300㎡的中高端私房菜馆是匹配的，关键是用对场景：</p><table><tr><th>已签约模块</th><th>对应解决张记的什么问题</th><th>具体怎么用</th></tr><tr><td>KDS（后厨显示）</td><td>解决「上菜慢」这个高频差评</td><td>🔧后厨用KDS分菜品工序排单，宴请大桌按上菜节奏推送，减少漏单催菜，直接改善差评关键词</td></tr><tr><td>扫码点餐</td><td>减少高峰漏单、服务跟不上</td><td>🔧大桌/包厢扫码自助加菜，服务员专注招呼，提升服务评价</td></tr><tr><td>会员旗舰版+高级版</td><td>解决复购命门</td><td>🔧建积分会员体系+储值，锁住高价值回头客（见第5章）</td></tr><tr><td>小程序</td><td>私域沉淀+包厢预订</td><td>🔧客人小程序在线订包厢、看宴请套餐，把生意从被动等客变主动经营</td></tr></table><div class="highlight-box"><p>🔑 关键认知：你买的不是「一堆功能」，是「解决上菜慢→改善评分」「沉淀会员→提升复购」「线上订包厢→抢宴请生意」三条增长路径。本方案后半部分会把每条路径拆到能落地。</p></div>`,
+    5: `<h3>人均90元的私房菜，一个回头客的终身价值远超你想象</h3><p>你客单¥90、消费频次低，说明<strong>每留住一个老客=锁定一年4-6次×90元=¥360-540的稳定营收</strong>，而且老客带来的宴请、家庭聚餐往往是大桌高客单。因此会员复购是张记利润的压舱石，已签约的会员旗舰版+高级版正是为此。</p><h4>① 分层会员体系</h4><p><strong>What</strong>：把客人按消费分层，重点经营高价值客。<br><strong>How</strong>：① 店长在🔧会员旗舰版设置成长等级（普通/银卡/金卡），金卡享专属包厢预留+生日福利；② 收银员结账必说「加个会员，消费有积分，攒够能抵现，订包厢还能优先」；③ 系统自动标记消费3次以上的客人为「重点客」，店长重点维护。</p><h4>② 复购触发器</h4><p><strong>What</strong>：用券和节点把客人「召回」。<br><strong>How</strong>：① 🔧会员系统设置「消费后7天自动发一张满300减30券」逼下次到店；② 重要节日（中秋/年夜饭）提前2周给老会员发宴请预订提醒；③ 客人超60天没来→系统自动发「想您了，回来送一道招牌菜」唤醒券。</p><h4>③ 储值（作为复购工具，中额起步）</h4><p><strong>What</strong>：对已认可的老客（消费3次以上）推储值，把未来消费提前锁定。<br><strong>How</strong>：① 主推🔧「充500送80」（约5-6次消费的甜头，适配90元客单）；② 收银员对老客说「您常来，充500送80相当于多一顿，订包厢还优先」；③ 客人犹豫→「先充500，吃不完随时退」。⚠️ 储值是工具不是目的，只对老客推，不对新客硬塞。</p>`,
+    6: `<h3>张记真正的进攻武器：私房菜的「包厢宴请」场景，连锁打不过你</h3><p>你有300㎡和包厢资源，说明最该主动抢的是<strong>商务宴请+家庭聚餐</strong>这块高客单生意——这正是标准化连锁的短板（没私密包厢、没家味手作）。打竞对不是降价，是把这个场景做到比竞品更清晰、更专业。</p><h4>① 清晰的宴请套餐（打竞对的核心弹药）</h4><p><strong>What</strong>：设计阶梯式宴请套餐，让客人一眼看懂、好决策。<br><strong>How</strong>：① 店长设计3档套餐——「家庭聚餐6人¥588」「商务宴请8人¥888」「尊享宴请10人¥1288」；② 套餐定价用心理学：把¥888设为主推（含招牌硬菜），¥1288档让¥888显得超值；③ 🔧在大众点评/小程序上架套餐，配高质量大桌摆盘图；④ 客人嫌贵→「这桌人均不到120，比单点划算，还含包厢」。</p><h4>② 包厢预订线上化</h4><p><strong>What</strong>：把包厢从「打电话问」变成「线上随时订」。<br><strong>How</strong>：① 🔧小程序开通包厢在线预订，显示空闲时段；② 点评店铺页挂「可订包厢」标签（商务客搜索强偏好）；③ 重点节日包厢提前推送给金卡会员锁定。</p><h4>③ 爆品锚点（让人记住张记）</h4><p><strong>What</strong>：找一道招牌私房菜作为品牌记忆点，串联所有宣传。<br><strong>How</strong>：① 店主选定一道最有特色的私房手作菜（如某招牌硬菜）作为「招牌锚点」；② 所有套餐都含这道菜、所有点评引导都提它、小红书都拍它；③ 让客人记住「去张记就为那道菜」——这是连锁标准化产品给不了的差异化。</p>`,
+    7: `<h3>公域抢流量，私域提复购，宴请套餐拉高客单——三条线协同</h3><h4>公私域联动闭环</h4><ul><li><strong>公域（被看见）</strong>：大众点评是主战场——评分冲4.6、上架宴请套餐、点评包厢预订、报名免费试涨评；小红书发「私房菜探店+包厢氛围+招牌菜」笔记，带「萧山私房菜」「萧山聚餐」定位。</li><li><strong>私域（留得住）</strong>：所有进店客人结账引导加会员+小程序，大桌宴请客人重点加店主企业微信，沉淀为可复购的高价值客。</li><li><strong>闭环</strong>：点评/小红书看到→进店宴请→成为会员→节点召回复购→满意后写长评+带朋友办下一场宴请→又带来公域口碑。</li></ul><h3>投入产出测算（⚠️行业基准估算，建议核实）</h3><table><tr><th>增收来源</th><th>测算逻辑</th><th>月增收估算</th></tr><tr><td>评分提升带来获客</td><td>4.1→4.6进店转化提升约20%</td><td>显著拉新（按现有客流20%增量）</td></tr><tr><td>会员复购提升</td><td>500活跃会员×季度多来1次×¥90</td><td>≈¥15,000/月摊算</td></tr><tr><td>宴请套餐高客单</td><td>月增20桌888套餐</td><td>≈¥17,760</td></tr><tr><td>储值现金流（老客）</td><td>80名老客×充500</td><td>≈¥40,000现金沉淀</td></tr></table><h4>90天OKR（量化目标）</h4><ul><li><strong>第30天</strong>：差评清零回复、评分回到4.3+、会员注册≥300人、宴请套餐上架并出单</li><li><strong>第60天</strong>：评分≥4.5、新增评价≥80条、会员≥600人、包厢预订线上化、月宴请桌数+30%</li><li><strong>第90天</strong>：评分≥4.6冲好评榜、会员≥1000人、储值老客占比25%、月营收稳定爬坡</li></ul><div class="highlight-box"><p>🎯 核心结论：张记的增长引擎是「评分止血→会员锁客→宴请打竞对」。先把4.1分这个最致命的漏洞补上，再用私房菜的包厢宴请优势主动抢高客单生意，这家店就能在萧山纵七路重新拿回主动权。</p></div>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
