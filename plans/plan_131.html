@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MoYa墨雅 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">咖啡 · 运营提升方案</div>
+  <h1 class="hero-title">MoYa墨雅</h1>
+  <p class="hero-subtitle">新店冷启动90天，把过路客变成天天来的「自己人」</p>
+  <div class="hero-address">浙江省杭州市临平区星桥街道藕花洲大街西段162号</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥40</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">临平区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '门店诊断·新店的真问题', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">门店诊断·新店的真问题</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '商圈与竞品·你这条街谁跟你抢生意', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">商圈与竞品·你这条街谁跟你抢生意</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '开业冷启动·前14天每天干什么', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">开业冷启动·前14天每天干什么</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评口碑·新店从0到4.6分的合规路径', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评口碑·新店从0到4.6分的合规路径</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '私域复购·把熟客装进自己的口袋', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">私域复购·把熟客装进自己的口袋</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '公私域联动·线上引流+线下锁客闭环', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">公私域联动·线上引流+线下锁客闭环</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '投资回报与90天OKR', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">投资回报与90天OKR</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>先说清楚：墨雅现在最该解决的不是「卖货」，是「让人知道并记住你」</h3><p>墨雅是临平星桥藕花洲大街的一家新开咖啡店，人均约¥40（⚠️假设，建议核实），约60㎡。新店未开业，意味着<strong>线上0评价、0星级、0熟客</strong>——这是所有新咖啡店冷启动期最致命的三个空白。客人路过看到一家没评价的新店，第一反应是「不知道好不好喝，先观望」，于是你白白损失了大量本可进店的过路客。</p><h3>咖啡店和正餐不一样，它靠的是「高频复购」</h3><ul><li><strong>客单低（¥40）但消费频次高</strong>：一个忠实客人一周可能来3-4次，一个月就是十几杯。所以咖啡店的命脉是<strong>「把一次性客人变成天天来的熟客」</strong>，而不是单次客单价。</li><li><strong>商圈决定客群</strong>：星桥街道以居民区+周边写字楼/产业园为主，主力客群是<strong>25-40岁通勤白领 + 周边居民</strong>，消费场景集中在早间通勤咖啡、下午办公提神、周末闲坐。</li><li><strong>诊断结论</strong>：你目前是0线上口碑的新店，说明前30天的头等大事是<strong>「攒够前50条真实好评 + 建立第一批稳定熟客」</strong>，因此本方案的主线是「冷启动获客 → 评价口碑 → 复购留存」三步走，而不是一上来就推大额储值。</li></ul><div class="highlight-box"><p>⚠️ 关于储值：很多方案一上来就给咖啡店推大额储值卡。但你是新店，客人还没喝过你的咖啡、不信任你，硬推大额储值只会吓跑人。本方案把储值放在第60天之后（客人已经认可你）才启动，这才是对你真正有用的节奏。</p></div></div>
+<div id="modal-content-2" style="display:none"><h3>星桥商圈咖啡竞争格局（⚠️周边竞品为行业参考画像，建议BD实地核实具体门店）</h3><p>临平星桥近年随产业园和住宅交付，常住人口快速增长，咖啡需求处于上升期，但本地精品咖啡供给仍不饱和，<strong>对新店是机会窗口</strong>。周边3公里典型竞争对手画像如下：</p><table><tr><th>竞品类型</th><th>人均</th><th>核心打法</th><th>弱点</th><th>墨雅切入机会</th></tr><tr><td>连锁品牌（瑞幸/库迪类）</td><td>¥15-20</td><td>低价+高频+小程序补贴</td><td>口感标准化、无温度、千店一面</td><td>主打「现磨品质+店主人情味」差异化</td></tr><tr><td>社区独立咖啡馆</td><td>¥35-45</td><td>熟客社群+空间体验</td><td>线上运营弱、评价少、获客慢</td><td>用线上口碑+小程序抢在前面建熟客池</td></tr><tr><td>商场连锁（星巴克类）</td><td>¥40-50</td><td>品牌+空间</td><td>价格高、离社区远</td><td>主打「更近、更便宜、更熟」</td></tr></table><h3>你的差异化定位</h3><p>你目前夹在「低价连锁」和「高价商场店」中间，说明最好的站位是<strong>「社区里有品质、有温度、记得住你的那家店」</strong>——价格比星巴克友好，品质和体验比瑞幸有温度。因此建议把品牌人设做成「街角懂你的咖啡店」，靠熟客口碑滚雪球，这是连锁巨头最打不过你的地方。</p></div>
+<div id="modal-content-3" style="display:none"><h3>新店最怕「悄悄开业、悄悄没人」。开业前后14天是生死期，必须打满。</h3><h4>开业前3天（造势 + 攒首批种子评价）</h4><p><strong>What</strong>：用「内测试饮」攒前20条真实好评，避免开业当天线上一片空白。<br><strong>How</strong>：① 店主/店长负责；② 开业前3天，邀请周边30个邻居/朋友/写字楼同事免费试饮；③ 上咖啡时说原句：「您是我们第一批品鉴官，喝完麻烦花1分钟在大众点评写写真实感受，好坏都行，我们靠这个改进」；④ 客人嫌麻烦→改为「写满15字送一张第二杯半价券」；⑤ 在大众点评商家后台🔧「门店管理」先把门店资料/招牌图/营业时间填满，确保客人搜得到。</p><h4>开业当天-第7天（引爆首波客流）</h4><p><strong>What</strong>：用「开业首杯9.9元」+「集赞免费杯」制造排队感和传播。<br><strong>How</strong>：① 收银员负责活动核销；② 在美团/点评🔧「营销中心→团购」上架一款「招牌拿铁9.9元（限开业7天）」引流团购；③ 门口立一块小黑板写「开业首杯9.9｜发朋友圈集9赞再送一杯」；④ 服务员结账时一句话提醒：「加个我们小程序会员，下次直接线上点单不排队，还有积分」；⑤ 没人发朋友圈→主动帮客人拍杯子出片照。</p><h4>第8-14天（沉淀熟客，别让客流断崖）</h4><p><strong>What</strong>：把开业来的人导进会员/小程序，形成第一批可复购的私域池。<br><strong>How</strong>：① 全员负责；② 凡进店客人都引导扫码注册小程序会员（🔧已签约的会员旗舰版+小程序）；③ 注册即送一张「3天内可用的第二杯半价券」逼复购；④ 目标开业14天内会员注册破200人。</p><div class="highlight-box"><p>🎯 14天OKR：线上评价≥30条、评分≥4.6、会员注册≥200人、单日出杯量稳定在80杯以上。</p></div></div>
+<div id="modal-content-4" style="display:none"><h3>新店前50条评价，决定后面所有路过客的第一印象</h3><p>你现在线上0评价，说明任何一个潜在客人搜到你时都没有决策依据。咖啡店尤其吃「环境好出片+口感好喝」两类评价。目标：<strong>开业30天内攒够50条真实好评，评分冲到4.6，进入临平咖啡「新店榜」。</strong></p><h4>合规攒评三板斧（⚠️ 严禁刷评/买评/强制好评，2025年10月后高强度促评不再产生星级收益）</h4><ul><li><strong>① 止血——把出片体验做到位</strong>：How：店主负责，开业前布置一个「出片角」（一面好看的墙+绿植即可，零成本），杯子做个有辨识度的封套，客人自然愿意拍照发点评。</li><li><strong>② 合规工具——用大众点评「霸王餐/免费试」</strong>：How：在🔧点评商家后台「营销中心」报名「免费试」活动投放10个名额，平台会给真实曝光并带来真实评价，这是平台官方鼓励的合规涨评方式。</li><li><strong>③ 打造分享动机</strong>：How：服务员上招牌咖啡时说「这杯是我们店主自己调的配方，您要是喜欢，帮我们在点评说一句呗」——真诚邀请而非利诱，转化率反而更高；差评出现时店主2小时内真诚回复+私信补一杯，把差评变路转粉。</li></ul><h4>口碑升级路线图</h4><p>新店榜（开业30天冲）→ 热门榜（评分稳4.6+评价过100）→ 好评榜（口味/环境标签积累）。你目前处于「新店阶段」，第一步就死磕新店榜前10。</p></div>
+<div id="modal-content-5" style="display:none"><h3>咖啡店真正赚钱的不是新客，是每周来3次的那批熟客</h3><p>你客单¥40、消费频次高，说明留存比拉新更值钱——一个熟客一个月贡献十几杯，相当于十几个一次性客人。因此私域留存是墨雅的核心利润引擎。已签约的<strong>会员旗舰版+小程序</strong>正好是为这件事准备的。</p><h4>① 会员成长体系（用积分养习惯）</h4><p><strong>What</strong>：让客人「为了积分而多来」。<br><strong>How</strong>：① 店长设置🔧会员旗舰版「积分规则」：每消费1元得1分，满100分抵5元；② 设「第10杯免费」的喝杯卡（线上集章），逼复购；③ 收银员每次结账提醒「您还差2杯就有免费咖啡啦」。</p><h4>② 企业微信/社群（高频触达）</h4><p><strong>What</strong>：建一个「墨雅熟客群」，每天有由头让客人想起你。<br><strong>How</strong>：① 店主负责，结账时引导加群「群里每天有隐藏暗号，报暗号第二杯半价」；② 每天早7点在群里发一句「今日暗号：早安」配咖啡图；③ 客人不进群→改为加店主企业微信1对1发券。</p><h4>③ 储值（第60天后再启动，且小额起步）</h4><p><strong>What</strong>：等客人已经认可你（来过5次以上），再用储值锁定长期消费——绝不在新店期硬推。<br><strong>How</strong>：① 第60天起开🔧会员储值，<strong>主推小额「充100送20」</strong>（约3杯的甜头，门槛低易接受），不搞充500/1000的大额卡；② 收银员对老客说「您都来这么多次了，充100送20，相当于打8折，划算」；③ 客人犹豫→「先充100试试，不好用随时退」降低顾虑。<br>⚠️ 目标：第3个月储值会员占老客30%即可，不贪多。</p></div>
+<div id="modal-content-6" style="display:none"><h3>公域负责「被看见」，私域负责「留得住」，两条腿才能跑起来</h3><h4>公域引流层（让更多人发现你）</h4><ul><li><strong>大众点评</strong>：主战场。How：上架9.9引流团购+38元双人下午茶套餐，冲新店榜；保持评分4.6+。</li><li><strong>小红书</strong>：咖啡店的天然流量池。How：店主每周发2条笔记（出片角、招牌咖啡制作过程、店主故事），带定位「临平咖啡」「星桥咖啡」；预算允许时找3-5个本地素人探店（每个成本约一杯咖啡+小红书发布）。</li><li><strong>抖音</strong>：How：上架抖音团购同款9.9引流券，发15秒拉花视频，挂门店POI。</li></ul><h4>私域留存层（把流量变留量）</h4><p>所有公域来的客人，落地动作只有一个：<strong>引导注册小程序会员 + 进熟客群</strong>。形成闭环：点评/小红书看到 → 进店消费 → 扫码成为会员 → 进群每日触达 → 复购 → 满意后帮你发点评/带朋友 → 又带来新公域流量。</p><div class="highlight-box"><p>🔑 联动关键动作：每个进店客人结账时必做两件事——①「扫码加会员，下次线上点单免排队」②「进群报暗号第二杯半价」。这两句话由收银员每次必说，是整个闭环的发动机。</p></div></div>
+<div id="modal-content-7" style="display:none"><h3>投入产出测算（⚠️均为基于行业基准的估算，建议BD结合实际核实）</h3><h4>SaaS投入</h4><p>已签约：收银POS+扫码点餐+会员旗舰版+会员高级版+小程序+外卖中心。这套组合覆盖了「收银-点单-会员-复购-外卖-线上」全链路，对一家要靠复购和线上口碑活下去的社区咖啡店，是对的工具。</p><h4>月增收来源拆解（开业第3个月达成态，假设日均出杯120杯）</h4><table><tr><th>增收来源</th><th>测算逻辑</th><th>月增收估算</th></tr><tr><td>会员复购提升</td><td>200活跃会员×月均6杯×¥40</td><td>≈¥48,000</td></tr><tr><td>团购/外卖引流新客</td><td>日均20单新客×¥30×30天</td><td>≈¥18,000</td></tr><tr><td>储值沉淀（第3月起）</td><td>60名老客×充100</td><td>≈¥6,000现金流</td></tr><tr><td>小红书/点评自然客</td><td>口碑带来日均15杯×¥40×30</td><td>≈¥18,000</td></tr></table><h4>90天OKR（量化目标）</h4><ul><li><strong>第30天</strong>：线上评价≥50条、评分≥4.6、上新店榜、会员≥300人、日均出杯≥80杯</li><li><strong>第60天</strong>：评分稳4.6+、评价≥100条进热门榜、会员≥600人、日均出杯≥110杯</li><li><strong>第90天</strong>：会员≥1000人、储值老客占比30%、日均出杯≥120杯、月营收稳定爬坡</li></ul><div class="highlight-box"><p>🎯 核心结论：墨雅的增长引擎是「口碑滚雪球+熟客高频复购」，不是大额储值。前90天把评价、会员、复购这三件事做扎实，这家店就能在星桥站稳。</p></div></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>陈意</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>先说清楚：墨雅现在最该解决的不是「卖货」，是「让人知道并记住你」</h3><p>墨雅是临平星桥藕花洲大街的一家新开咖啡店，人均约¥40（⚠️假设，建议核实），约60㎡。新店未开业，意味着<strong>线上0评价、0星级、0熟客</strong>——这是所有新咖啡店冷启动期最致命的三个空白。客人路过看到一家没评价的新店，第一反应是「不知道好不好喝，先观望」，于是你白白损失了大量本可进店的过路客。</p><h3>咖啡店和正餐不一样，它靠的是「高频复购」</h3><ul><li><strong>客单低（¥40）但消费频次高</strong>：一个忠实客人一周可能来3-4次，一个月就是十几杯。所以咖啡店的命脉是<strong>「把一次性客人变成天天来的熟客」</strong>，而不是单次客单价。</li><li><strong>商圈决定客群</strong>：星桥街道以居民区+周边写字楼/产业园为主，主力客群是<strong>25-40岁通勤白领 + 周边居民</strong>，消费场景集中在早间通勤咖啡、下午办公提神、周末闲坐。</li><li><strong>诊断结论</strong>：你目前是0线上口碑的新店，说明前30天的头等大事是<strong>「攒够前50条真实好评 + 建立第一批稳定熟客」</strong>，因此本方案的主线是「冷启动获客 → 评价口碑 → 复购留存」三步走，而不是一上来就推大额储值。</li></ul><div class="highlight-box"><p>⚠️ 关于储值：很多方案一上来就给咖啡店推大额储值卡。但你是新店，客人还没喝过你的咖啡、不信任你，硬推大额储值只会吓跑人。本方案把储值放在第60天之后（客人已经认可你）才启动，这才是对你真正有用的节奏。</p></div>`,
+    2: `<h3>星桥商圈咖啡竞争格局（⚠️周边竞品为行业参考画像，建议BD实地核实具体门店）</h3><p>临平星桥近年随产业园和住宅交付，常住人口快速增长，咖啡需求处于上升期，但本地精品咖啡供给仍不饱和，<strong>对新店是机会窗口</strong>。周边3公里典型竞争对手画像如下：</p><table><tr><th>竞品类型</th><th>人均</th><th>核心打法</th><th>弱点</th><th>墨雅切入机会</th></tr><tr><td>连锁品牌（瑞幸/库迪类）</td><td>¥15-20</td><td>低价+高频+小程序补贴</td><td>口感标准化、无温度、千店一面</td><td>主打「现磨品质+店主人情味」差异化</td></tr><tr><td>社区独立咖啡馆</td><td>¥35-45</td><td>熟客社群+空间体验</td><td>线上运营弱、评价少、获客慢</td><td>用线上口碑+小程序抢在前面建熟客池</td></tr><tr><td>商场连锁（星巴克类）</td><td>¥40-50</td><td>品牌+空间</td><td>价格高、离社区远</td><td>主打「更近、更便宜、更熟」</td></tr></table><h3>你的差异化定位</h3><p>你目前夹在「低价连锁」和「高价商场店」中间，说明最好的站位是<strong>「社区里有品质、有温度、记得住你的那家店」</strong>——价格比星巴克友好，品质和体验比瑞幸有温度。因此建议把品牌人设做成「街角懂你的咖啡店」，靠熟客口碑滚雪球，这是连锁巨头最打不过你的地方。</p>`,
+    3: `<h3>新店最怕「悄悄开业、悄悄没人」。开业前后14天是生死期，必须打满。</h3><h4>开业前3天（造势 + 攒首批种子评价）</h4><p><strong>What</strong>：用「内测试饮」攒前20条真实好评，避免开业当天线上一片空白。<br><strong>How</strong>：① 店主/店长负责；② 开业前3天，邀请周边30个邻居/朋友/写字楼同事免费试饮；③ 上咖啡时说原句：「您是我们第一批品鉴官，喝完麻烦花1分钟在大众点评写写真实感受，好坏都行，我们靠这个改进」；④ 客人嫌麻烦→改为「写满15字送一张第二杯半价券」；⑤ 在大众点评商家后台🔧「门店管理」先把门店资料/招牌图/营业时间填满，确保客人搜得到。</p><h4>开业当天-第7天（引爆首波客流）</h4><p><strong>What</strong>：用「开业首杯9.9元」+「集赞免费杯」制造排队感和传播。<br><strong>How</strong>：① 收银员负责活动核销；② 在美团/点评🔧「营销中心→团购」上架一款「招牌拿铁9.9元（限开业7天）」引流团购；③ 门口立一块小黑板写「开业首杯9.9｜发朋友圈集9赞再送一杯」；④ 服务员结账时一句话提醒：「加个我们小程序会员，下次直接线上点单不排队，还有积分」；⑤ 没人发朋友圈→主动帮客人拍杯子出片照。</p><h4>第8-14天（沉淀熟客，别让客流断崖）</h4><p><strong>What</strong>：把开业来的人导进会员/小程序，形成第一批可复购的私域池。<br><strong>How</strong>：① 全员负责；② 凡进店客人都引导扫码注册小程序会员（🔧已签约的会员旗舰版+小程序）；③ 注册即送一张「3天内可用的第二杯半价券」逼复购；④ 目标开业14天内会员注册破200人。</p><div class="highlight-box"><p>🎯 14天OKR：线上评价≥30条、评分≥4.6、会员注册≥200人、单日出杯量稳定在80杯以上。</p></div>`,
+    4: `<h3>新店前50条评价，决定后面所有路过客的第一印象</h3><p>你现在线上0评价，说明任何一个潜在客人搜到你时都没有决策依据。咖啡店尤其吃「环境好出片+口感好喝」两类评价。目标：<strong>开业30天内攒够50条真实好评，评分冲到4.6，进入临平咖啡「新店榜」。</strong></p><h4>合规攒评三板斧（⚠️ 严禁刷评/买评/强制好评，2025年10月后高强度促评不再产生星级收益）</h4><ul><li><strong>① 止血——把出片体验做到位</strong>：How：店主负责，开业前布置一个「出片角」（一面好看的墙+绿植即可，零成本），杯子做个有辨识度的封套，客人自然愿意拍照发点评。</li><li><strong>② 合规工具——用大众点评「霸王餐/免费试」</strong>：How：在🔧点评商家后台「营销中心」报名「免费试」活动投放10个名额，平台会给真实曝光并带来真实评价，这是平台官方鼓励的合规涨评方式。</li><li><strong>③ 打造分享动机</strong>：How：服务员上招牌咖啡时说「这杯是我们店主自己调的配方，您要是喜欢，帮我们在点评说一句呗」——真诚邀请而非利诱，转化率反而更高；差评出现时店主2小时内真诚回复+私信补一杯，把差评变路转粉。</li></ul><h4>口碑升级路线图</h4><p>新店榜（开业30天冲）→ 热门榜（评分稳4.6+评价过100）→ 好评榜（口味/环境标签积累）。你目前处于「新店阶段」，第一步就死磕新店榜前10。</p>`,
+    5: `<h3>咖啡店真正赚钱的不是新客，是每周来3次的那批熟客</h3><p>你客单¥40、消费频次高，说明留存比拉新更值钱——一个熟客一个月贡献十几杯，相当于十几个一次性客人。因此私域留存是墨雅的核心利润引擎。已签约的<strong>会员旗舰版+小程序</strong>正好是为这件事准备的。</p><h4>① 会员成长体系（用积分养习惯）</h4><p><strong>What</strong>：让客人「为了积分而多来」。<br><strong>How</strong>：① 店长设置🔧会员旗舰版「积分规则」：每消费1元得1分，满100分抵5元；② 设「第10杯免费」的喝杯卡（线上集章），逼复购；③ 收银员每次结账提醒「您还差2杯就有免费咖啡啦」。</p><h4>② 企业微信/社群（高频触达）</h4><p><strong>What</strong>：建一个「墨雅熟客群」，每天有由头让客人想起你。<br><strong>How</strong>：① 店主负责，结账时引导加群「群里每天有隐藏暗号，报暗号第二杯半价」；② 每天早7点在群里发一句「今日暗号：早安」配咖啡图；③ 客人不进群→改为加店主企业微信1对1发券。</p><h4>③ 储值（第60天后再启动，且小额起步）</h4><p><strong>What</strong>：等客人已经认可你（来过5次以上），再用储值锁定长期消费——绝不在新店期硬推。<br><strong>How</strong>：① 第60天起开🔧会员储值，<strong>主推小额「充100送20」</strong>（约3杯的甜头，门槛低易接受），不搞充500/1000的大额卡；② 收银员对老客说「您都来这么多次了，充100送20，相当于打8折，划算」；③ 客人犹豫→「先充100试试，不好用随时退」降低顾虑。<br>⚠️ 目标：第3个月储值会员占老客30%即可，不贪多。</p>`,
+    6: `<h3>公域负责「被看见」，私域负责「留得住」，两条腿才能跑起来</h3><h4>公域引流层（让更多人发现你）</h4><ul><li><strong>大众点评</strong>：主战场。How：上架9.9引流团购+38元双人下午茶套餐，冲新店榜；保持评分4.6+。</li><li><strong>小红书</strong>：咖啡店的天然流量池。How：店主每周发2条笔记（出片角、招牌咖啡制作过程、店主故事），带定位「临平咖啡」「星桥咖啡」；预算允许时找3-5个本地素人探店（每个成本约一杯咖啡+小红书发布）。</li><li><strong>抖音</strong>：How：上架抖音团购同款9.9引流券，发15秒拉花视频，挂门店POI。</li></ul><h4>私域留存层（把流量变留量）</h4><p>所有公域来的客人，落地动作只有一个：<strong>引导注册小程序会员 + 进熟客群</strong>。形成闭环：点评/小红书看到 → 进店消费 → 扫码成为会员 → 进群每日触达 → 复购 → 满意后帮你发点评/带朋友 → 又带来新公域流量。</p><div class="highlight-box"><p>🔑 联动关键动作：每个进店客人结账时必做两件事——①「扫码加会员，下次线上点单免排队」②「进群报暗号第二杯半价」。这两句话由收银员每次必说，是整个闭环的发动机。</p></div>`,
+    7: `<h3>投入产出测算（⚠️均为基于行业基准的估算，建议BD结合实际核实）</h3><h4>SaaS投入</h4><p>已签约：收银POS+扫码点餐+会员旗舰版+会员高级版+小程序+外卖中心。这套组合覆盖了「收银-点单-会员-复购-外卖-线上」全链路，对一家要靠复购和线上口碑活下去的社区咖啡店，是对的工具。</p><h4>月增收来源拆解（开业第3个月达成态，假设日均出杯120杯）</h4><table><tr><th>增收来源</th><th>测算逻辑</th><th>月增收估算</th></tr><tr><td>会员复购提升</td><td>200活跃会员×月均6杯×¥40</td><td>≈¥48,000</td></tr><tr><td>团购/外卖引流新客</td><td>日均20单新客×¥30×30天</td><td>≈¥18,000</td></tr><tr><td>储值沉淀（第3月起）</td><td>60名老客×充100</td><td>≈¥6,000现金流</td></tr><tr><td>小红书/点评自然客</td><td>口碑带来日均15杯×¥40×30</td><td>≈¥18,000</td></tr></table><h4>90天OKR（量化目标）</h4><ul><li><strong>第30天</strong>：线上评价≥50条、评分≥4.6、上新店榜、会员≥300人、日均出杯≥80杯</li><li><strong>第60天</strong>：评分稳4.6+、评价≥100条进热门榜、会员≥600人、日均出杯≥110杯</li><li><strong>第90天</strong>：会员≥1000人、储值老客占比30%、日均出杯≥120杯、月营收稳定爬坡</li></ul><div class="highlight-box"><p>🎯 核心结论：墨雅的增长引擎是「口碑滚雪球+熟客高频复购」，不是大额储值。前90天把评价、会员、复购这三件事做扎实，这家店就能在星桥站稳。</p></div>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
