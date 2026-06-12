@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>重庆自选地摊火锅 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #8B0000;
+      --primary-light: #B22222;
+      --accent: #D4A574;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #8B000040;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">川菜/火锅（自选地摊） · 运营提升方案</div>
+  <h1 class="hero-title">重庆自选地摊火锅</h1>
+  <p class="hero-subtitle">重庆味道地摊价，自选模式锁社区</p>
+  <div class="hero-address">浙江省杭州市滨江区长河街道齐虹雅园</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥50</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">滨江区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '品牌定位', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">品牌定位</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '系统方案', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">系统方案</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评赋能', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评赋能</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '开业冲刺', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">开业冲刺</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '会员储值', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">会员储值</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '公私域联动', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">公私域联动</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '投资回报', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">投资回报</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>杭州火锅市场格局</h3><p>2024年全国火锅市场规模6,175亿元，但2025年开店率22%已低于关店率28.8%，市场进入洗牌期。人均消费持续下行至70元区间，<strong>31-50元价格带</strong>占比大幅升高——这正是「自选地摊火锅」的核心赛道。⚠️ 假设：杭州滨江社区火锅竞争激烈，周边3公里内同类自选火锅约3-5家（行业参考值）。</p><h3>长河街道商圈画像</h3><p>齐虹雅园位于滨江区长河街道，属成熟社区聚落，周边以居民楼+小型写字楼为主。⚠️ 假设：周边常住人口约1.5-2万人（行业参考值），主力客群为<strong>25-35岁租房白领+社区家庭</strong>，晚餐和周末聚餐是核心消费场景。</p><h3>竞品扫描（行业参考值）</h3><table><tr><th>竞品类型</th><th>预估人均</th><th>核心弱点</th><th>我们的切入机会</th></tr><tr><td>社区串串香A</td><td>¥55</td><td>无会员体系，复购靠自然流量</td><td>用会员储值+扫码点餐锁定复购</td></tr><tr><td>旋转小火锅B</td><td>¥40</td><td>菜品品质参差，无品牌感</td><td>强调「重庆底料」差异化+地摊烟火气</td></tr><tr><td>商场火锅C</td><td>¥80</td><td>客单高、排队久、不适合日常聚餐</td><td>¥50人均承接「想吃火锅但不想花太多」的刚需</td></tr></table><h3>数据锚定</h3><p>你目前<strong>80㎡小店+¥50人均</strong>，说明定位精准瞄准「高频低价」社区火锅赛道。但面积小意味着<strong>翻台率是生死线</strong>——假设日均翻台3次、10张台、每桌2.5人，日流水约¥3,750，月流水约¥11万（⚠️ 行业估算，建议国庆确认实际座位数和翻台率）。</p></div>
+<div id="modal-content-2" style="display:none"><h3>一句话定位</h3><p><strong>「重庆底料现炒，地摊价格自选——楼下就能吃到的重庆烟火气」</strong></p><h3>核心卖点拆解</h3><ul><li><strong>重庆底料：</strong>麻辣牛油锅底是认知锚点，老板/厨师需在开业前3天完成底料标准化SOP（谁做：老板+厨师；第几天：开业前3天；在哪：后厨操作台🔧记录每锅底料的牛油/辣椒/花椒配比，确保每次口味一致）</li><li><strong>地摊价格：</strong>¥50人均≠便宜没好货，而是「自选称重/按份计价」让顾客觉得「花多少自己控」。How：① 菜单设计分「按份」和「按两」两种，蔬菜按两卖（看起来便宜）、肉类按份卖（看起来实在）；② 收银台🔧POS系统配置双单位计价，开业前1天测试完毕。</li><li><strong>自选模式：</strong>减少服务员点单环节，顾客自己拿→自己煮→自己算。How：① 开业前5天设计自选动线（进门→取盘→选菜→结账→落座），动线不超过8米；② 菜品展示区用冰柜+喷雾保鲜，灯光打暖黄色（让肉看起来更新鲜）。</li></ul><h3>爆品锚点：一道菜串联全部营销</h3><p>建议将<strong>「鲜切麻辣牛肉」</strong>定为爆品。理由：① 重庆火锅认知标配；② 视觉冲击强（红彤彤挂辣椒）；③ 毛利可控（牛肉片薄、按份卖）。</p><p>How落地：① 老板/厨师，开业前7天确定供应商和切片标准（厚2mm、每份120g）；② 菜品展示柜第一格放麻辣牛肉，上方挂手写POP「每桌必点」；③ 服务员话术：「我们家麻辣牛肉是重庆师傅手把手调的味，开业第一周点这个送一份素菜」；④ 不配合（顾客嫌贵）：改为「今天牛肉第二份半价」。</p><h3>数据锚定</h3><p>你目前<strong>人均¥50</strong>，在火锅品类中处于「小火锅/旋转火锅」区间（20-60元），但你的差异化是「重庆口味+自选自由度」——比旋转火锅有品质感，比商场火锅有性价比。⚠️ 假设：若爆品「麻辣牛肉」定价¥28/份，毛利约55%，每桌点1.5份，可贡献¥42营收/桌。</p></div>
+<div id="modal-content-3" style="display:none"><h3>已签约SaaS模块诊断</h3><p>你已签约：<strong>收银POS + 扫码点餐 + 会员旗舰版</strong>。会员旗舰版（¥4,888/年）含团购会员卡+潜客营销+6大特有活动——这是新店冷启动的「数字骨架」，每一项都必须开业前配好。</p><h3>① 收银POS：不只是算账，是数据入口</h3><p>What：开业前在POS里建好完整菜单和桌台，确保第一笔订单流畅。</p><p>How：① 老板/店长，开业前2天操作；② 在POS后台🔧「菜单管理」录入所有菜品，按「锅底→荤菜→素菜→小吃→酒水」排序；③ 设置桌台10张（按实际面积），编号T1-T10；④ 每个菜品绑定成本价（后续看毛利报表用）；⑤ 测试：让员工模拟点单3次，确保收银小票和扫码点餐同步。</p><h3>② 扫码点餐：减少服务员=降低人力成本=提升翻台</h3><p>What：80㎡小店最多配2-3个服务员，扫码点餐是翻台率的生命线。</p><p>How：① 店长，开业前3天配置；② 在扫码点餐后台🔧「店铺装修」上传菜单图，每道菜必须有图（没图的菜点击率下降40%）；③ 弹窗设置：首次扫码弹出「新客领券」——满100减10元（成本可控，拉首单）；④ 桌台贴万能码，码旁印提示「扫码点单，免等更快」；⑤ 不配合（老人不会用）：服务员主动帮点，话术「我帮您扫码，您看菜单点，我给您下单」。</p><h3>③ 会员旗舰版：新店的「蓄水池」</h3><p>What：会员旗舰版独有「团购会员卡」——顾客在美团/点评买团购时自动成为会员，打通公域到私域。</p><p>How：① 老板，开业前1天在会员后台🔧「团购会员卡」开启自动绑卡；② 设置「新客入会礼」：送1张¥5无门槛券（有效期7天，拉复购）；③ 开业第1天起，每笔结账后收银员话术：「扫码加会员，下次来送您一份冰粉」；④ 不配合（顾客嫌麻烦）：「就扫一下，3秒，以后来都有优惠」。</p><h3>数据锚定</h3><p>你目前<strong>80㎡小店+2-3人配置</strong>，扫码点餐可减少1个服务员人力（月省约¥4,500），同时扫码点餐的平均点单时间比人工点单快<strong>3-5分钟/桌</strong>——直接提升翻台率。⚠️ 假设：会员旗舰版的团购绑卡功能，预计每月从公域引流中自动转化<strong>80-120个会员</strong>（按日均40桌、20%团购占比估算）。</p></div>
+<div id="modal-content-4" style="display:none"><h3>新店点评冷启动：前30条评价定生死</h3><p>大众点评算法逻辑：新店前30条评价的<strong>星级权重极高</strong>——前10条决定初始星级，前30条决定搜索排序。你目前评价数为0，处于「出星关键期」，必须在前30天内精准控评。</p><h3>阶段判断：新店期（0-50条评价）</h3><p>根据点评官方规则，你的门店处于<strong>「新店期」</strong>，核心目标不是冲热门榜，而是：① 快速出星（4.5分以上）；② 积累50条真实评价进入「成长期」；③ 建立「好评基调」——让后续顾客看到的都是正面关键词。</p><h3>合规工具：免费试+免费菜（严禁促评）</h3><p>⚠️ <strong>2025年10月新规：高强度促评/邀评可能导致新评价不计入星级</strong>。以下方案全部基于合规工具。</p><p><strong>免费试（霸王餐）：</strong>What：开业前7天在大众点评商家后台🔧「营销中心→免费试」申请20个体验名额。How：① 老板，开业前10天操作；② 设置体验套餐为「招牌锅底+麻辣牛肉+3份素菜」，价值约¥80；③ 体验官要求：写真实评价，不强制好评；④ 开业前3天完成体验，确保开业时已有15-20条评价打底。</p><p><strong>免费菜引导分享动机：</strong>What：开业前30天，每桌送1份「手工冰粉」（成本约¥1.5），服务员话术引导评价。How：① 服务员，开业第1天起；② 话术：「今天送您一份手工冰粉，觉得味道好的话，麻烦在大众点评上帮我们写两句，好坏都接受」；③ 不配合（顾客嫌麻烦）：「您拍张照，我帮您写，您确认后发就行」。</p><h3>评价内容定调：3个关键词</h3><p>你希望顾客评价中出现的关键词：<strong>「便宜」「新鲜」「重庆味」</strong>。How：① 在免费试申请文案中植入「重庆地摊火锅」「自选按份」「鲜切牛肉」等关键词；② 服务员上麻辣牛肉时说「这是重庆师傅调的味，鲜切不过夜」——顾客写评价时会自然引用。</p><h3>数据锚定</h3><p>你目前<strong>点评评分未知、评价数0</strong>，属于「白纸出星」阶段。⚠️ 假设：若前30条评价中25条为4-5星，初始星级可达<strong>4.5-4.7分</strong>；若前30条中差评超过5条，星级可能卡在4.0以下，后续矫正需3-6个月。目标：开业30天内积累<strong>50条真实评价，评分≥4.5分</strong>。</p></div>
+<div id="modal-content-5" style="display:none"><h3>开业前30天倒计时SOP</h3><p>新店未开业，最大的风险是「开业即冷场」。80㎡社区店没有品牌背书，必须靠<strong>开业前蓄水+开业期爆破</strong>完成冷启动。</p><h3>T-30至T-15天：筹备与蓄水</h3><p><strong>What：建立「社区火锅群」蓄水。</strong></p><p>How：① 老板/店长，开业前30天起；② 在门店附近3个小区门口贴「重庆地摊火锅即将开业，扫码进群领开业券」海报（A4打印+透明胶，成本<¥20）；③ 每天进群约10-15人，开业前积累<strong>200-300人社群</strong>；④ 群里每天发1条内容：锅底熬制过程视频/菜品采购视频/开业倒计时；⑤ 不配合（保安不让贴）：改为「在快递柜/外卖柜放传单」，或与便利店合作放台卡。</p><h3>T-14至T-7天：霸王餐+员工内测</h3><p><strong>What：免费试体验+员工模拟。</strong></p><p>How：① 老板，开业前10天在大众点评🔧「营销中心→免费试」上线20个名额；② 体验日期设在开业前3-5天，确保评价在开业当天已上线；③ 同期做3次员工内测（模拟顾客从进门到结账全流程），记录问题清单；④ 不配合（体验官放鸽子）：提前1天电话确认，备选5个候补名额。</p><h3>T-7至T-1天：物料+菜单+人员到位</h3><p><strong>What：所有开业物料和系统配置完成。</strong></p><p>How：① 店长，开业前7天检查清单：✅菜单定价（含锅底/荤菜/素菜/酒水）✅扫码点餐上线测试✅POS桌台配置✅会员新客券配置✅万能码桌贴打印；② 开业前3天：食材供应链首笔订单到货，冷柜温度调试；③ 开业前1天：全体员工培训（自选动线→收银→会员话术→评价引导），每人模拟3次。</p><h3>开业第1-7天：爆破期</h3><p><strong>What：开业前7天「¥1元吃锅底」引流。</strong></p><p>How：① 老板，开业第1天起；② 在美团/大众点评上线「¥1元麻辣锅底」（原价¥38），限前200份；③ 同时在社群发「开业前7天，1元吃锅底，扫码抢」；④ 到店后服务员话术：「1元锅底今天特别划算，试试我们家牛肉？今天第二份半价」；⑤ 不配合（顾客只点锅底不点别的）：「锅底单点不划算，您点份牛肉我送您一份素菜」。</p><h3>数据锚定</h3><p>你目前<strong>0流水、0评价、0会员</strong>，开业前30天的蓄水质量直接决定首月流水。⚠️ 假设：若社群蓄水300人+霸王餐20人+1元锅底引流200人，开业首月到店约<strong>500-600人次</strong>，按人均¥50估算首月流水<strong>¥2.5-3万</strong>（爬坡期正常，第2个月目标¥8万，第3个月目标¥12万）。</p></div>
+<div id="modal-content-6" style="display:none"><h3>储值方案设计：开业期专属</h3><p>⚠️ 先过第一性原理：这家店需要储值吗？分析：80㎡社区小店，客群以周边居民和白领为主，复购场景明确（火锅是社交聚餐，天然复购），储值可以加速现金流回收+锁定复购。但人均¥50偏低，储值档位不能太高。</p><h3>三档储值方案</h3><table><tr><th>档位</th><th>金额</th><th>赠送</th><th>实际折扣</th><th>适用人群</th></tr><tr><td>体验档</td><td>¥100</td><td>送¥10+冰粉券1张</td><td>≈9.1折</td><td>首次到店试探性顾客</td></tr><tr><td>主推档</td><td>¥200</td><td>送¥30+麻辣牛肉券1张</td><td>≈8.7折</td><td>2-3人聚餐常客</td></tr><tr><td>尊享档</td><td>¥500</td><td>送¥80+免锅底券2张</td><td>≈8.4折</td><td>家庭/团建决策者</td></tr></table><h3>How落地：从配置到话术</h3><p>① <strong>谁来做</strong>：老板配置储值活动，收银员负责推荐；② <strong>第几天</strong>：开业前1天在会员后台🔧「储值卡管理」配置三档，开业第1天上线；③ <strong>在哪操作</strong>：会员旗舰版后台→储值卡→新增活动→设置金额/赠送/有效期；④ <strong>话术</strong>：收银员结账时说「今天充200送30，还送一份牛肉券，下次来直接免费吃牛肉，等于这单又省了」；⑤ <strong>不配合</strong>（顾客说下次不一定来）：「您充100也行，送10块，反正来不来钱都在您卡里，不亏」。</p><h3>会员旗舰版独有功能：团购绑卡+潜客营销</h3><p>What：顾客在美团/点评买团购后，自动成为会员并收到「到店领券」提醒。</p><p>How：① 老板，开业前1天在会员后台🔧「团购会员卡」开启；② 设置绑卡后自动发「新客礼」：¥5券+冰粉券；③ 潜客营销：针对「浏览过但未购买」的周边用户，系统自动推送「¥3元无门槛券」（每天预算¥30，覆盖约100个潜客）；④ 开业第7天起，每天看「会员增长报表」，低于10人/天则加大潜客投放。</p><h3>数据锚定</h3><p>你目前<strong>0会员、月流水预估¥11万（行业参考值）</strong>。若储值渗透率达<strong>20%</strong>（即每5桌有1桌储值），按主推档¥200计，月储值入账约<strong>¥4,400</strong>（22桌×¥200）。⚠️ 假设：储值会员的复购频次比非会员高<strong>40%</strong>（会员平均每月2.5次 vs 非会员1.8次）。目标：开业60天内储值会员破<strong>150人</strong>。</p></div>
+<div id="modal-content-7" style="display:none"><h3>公域引流：大众点评+小红书/抖音</h3><p>火锅品类天然适合「探店+打卡」内容，公私域联动逻辑：<strong>公域种草→到店体验→私域锁客→复购裂变</strong>。</p><h3>公域①：大众点评</h3><p>What：新店期用「免费试+团购套餐」完成冷启动。</p><p>How：① 老板，开业前7天上线2个团购：「双人尝鲜套餐¥88」（锅底+2份肉+3份素+2饮品，原价值约¥110）和「四人聚会套餐¥168」；② 套餐命名突出「重庆」「地摊」「自选」关键词；③ 团购头图用麻辣牛肉特写+红彤彤锅底（高饱和度、有食欲）；④ 每天下午4点看「团购核销报表」，核销率低于60%则调整套餐内容或降价。</p><h3>公域②：小红书/抖音（适合火锅品类）</h3><p>What：开业前7天起，每天发1条短视频/图文，建立「重庆地摊火锅」内容标签。</p><p>How：① 老板/店长，开业前7天起；② 内容模板：「锅底熬制过程」（发抖音，配重庆方言BGM）+「自选菜品展示」（发小红书，配「杭州居然有¥50的重庆火锅」标题）+「顾客吃辣挑战」（发抖音，配搞笑配音）；③ 每条视频带定位（齐虹雅园）；④ 不配合（不会拍视频）：用手机原相机拍，重点是「真实」而非「精美」，剪辑用剪映模板（10分钟出片）。</p><h3>私域：会员+社群+消息</h3><p>What：把公域流量沉淀到会员体系和社群，用消息推送激活沉默用户。</p><p>How：① 社群运营：每天发1条（上午10点发今日推荐菜，下午5点发「今晚火锅约吗」+优惠券，晚上9点发顾客好评截图）；② 会员消息推送：每周三发「会员日」通知——周三到店享素菜半价；③ 沉默唤醒：会员15天未消费，自动推送「好久不见，送您一份冰粉券」；④ 不配合（群里没人说话）：老板亲自下场，每天自己在群里发「今天牛肉新鲜到货，限量20份」，制造稀缺感。</p><h3>公私域联动闭环</h3><p><strong>路径1（点评→到店→会员）：</strong>顾客在点评买团购→到店核销→收银员引导扫码加会员→送券→下次直接用会员消费。</p><p><strong>路径2（抖音/小红书→到店→社群）：</strong>顾客被视频吸引→到店→桌贴万能码引导进群→群里领券→下次群里预约订位。</p><p><strong>路径3（社群裂变→新客）：</strong>老客带新客到店，老客送¥10券，新客送¥5券，双向激励。</p><h3>数据锚定</h3><p>你目前<strong>公域流量为0</strong>，预估开业后大众点评月曝光约<strong>3,000-5,000次</strong>（新店前3个月有流量扶持，行业参考值）。⚠️ 假设：若公域到店转化率为<strong>8%</strong>（曝光→点击→到店），每月从公域引流约<strong>240-400人次</strong>；若私域复购率提升至<strong>35%</strong>（行业均值约25%），月增收约<strong>¥4,000-6,000</strong>。</p></div>
+<div id="modal-content-8" style="display:none"><h3>月度OKR目标</h3><table><tr><th>指标</th><th>开业第1月</th><th>开业第2月</th><th>开业第3月</th></tr><tr><td>月营收</td><td>¥3万</td><td>¥8万</td><td>¥12万</td></tr><tr><td>大众点评评分</td><td>4.3分</td><td>4.5分</td><td>4.6分</td></tr><tr><td>评价数</td><td>30条</td><td>60条</td><td>100条</td></tr><tr><td>会员数</td><td>80人</td><td>150人</td><td>300人</td></tr><tr><td>储值入账</td><td>¥1,500</td><td>¥3,000</td><td>¥5,000</td></tr><tr><td>团购核销率</td><td>50%</td><td>60%</td><td>70%</td></tr></table><h3>投入预算</h3><table><tr><th>项目</th><th>金额</th><th>说明</th></tr><tr><td>大众点评免费试</td><td>¥1,600</td><td>20人×¥80套餐成本</td></tr><tr><td>开业引流券</td><td>¥1,000</td><td>1元锅底补贴+新客券</td></tr><tr><td>社群物料</td><td>¥200</td><td>海报+桌贴+万能码</td></tr><tr><td>会员系统</td><td>¥4,888/年</td><td>已签约旗舰版</td></tr><tr><td><strong>合计</strong></td><td><strong>¥2,800</strong></td><td>不含已签约年费</td></tr></table><h3>增收测算</h3><p>⚠️ 假设：开业第3月达到月流水¥12万（日均¥4,000，约16桌/天），食材成本率38%（¥4.56万），人力¥1.5万（3人），房租¥8,000（⚠️ 假设值，建议确认），水电杂费¥3,000，月净利约<strong>¥2.94万</strong>，净利润率约<strong>24.5%</strong>。</p><p>SaaS带来的直接增收：① 扫码点餐省1个服务员月¥4,500；② 会员储值复购提升月增收约¥4,000-6,000；③ 团购套餐提升客单价约¥8-10/桌；④ 评价运营带来的搜索排名提升，预估月增收¥2,000-3,000。SaaS综合月增收约<strong>¥10,500-13,500</strong>，旗舰版年费¥4,888，<strong>回本周期约1.5个月</strong>。</p><h3>30天复盘节点</h3><p>① 开业第30天：检查评价数是否≥30、评分是否≥4.3、会员是否≥80；② 若未达标，调整：评价数不够→追加10个免费试名额；会员不够→收银员储值话术加强；③ 配合（国庆BD）每两周到店一次，带数据报表和老板复盘。</p><h3>数据锚定</h3><p>你目前<strong>80㎡+人均¥50</strong>，按社区小火锅模型，盈亏平衡流水约<strong>¥6,000-7,000/月</strong>（⚠️ 假设房租¥8,000，行业参考值）。目标开业第2个月实现盈亏平衡，第3个月进入盈利期。⚠️ 所有测算基于行业参考值，实际数据需国庆BD协助确认房租、人工、食材成本后校准。</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>姜玲</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>杭州火锅市场格局</h3><p>2024年全国火锅市场规模6,175亿元，但2025年开店率22%已低于关店率28.8%，市场进入洗牌期。人均消费持续下行至70元区间，<strong>31-50元价格带</strong>占比大幅升高——这正是「自选地摊火锅」的核心赛道。⚠️ 假设：杭州滨江社区火锅竞争激烈，周边3公里内同类自选火锅约3-5家（行业参考值）。</p><h3>长河街道商圈画像</h3><p>齐虹雅园位于滨江区长河街道，属成熟社区聚落，周边以居民楼+小型写字楼为主。⚠️ 假设：周边常住人口约1.5-2万人（行业参考值），主力客群为<strong>25-35岁租房白领+社区家庭</strong>，晚餐和周末聚餐是核心消费场景。</p><h3>竞品扫描（行业参考值）</h3><table><tr><th>竞品类型</th><th>预估人均</th><th>核心弱点</th><th>我们的切入机会</th></tr><tr><td>社区串串香A</td><td>¥55</td><td>无会员体系，复购靠自然流量</td><td>用会员储值+扫码点餐锁定复购</td></tr><tr><td>旋转小火锅B</td><td>¥40</td><td>菜品品质参差，无品牌感</td><td>强调「重庆底料」差异化+地摊烟火气</td></tr><tr><td>商场火锅C</td><td>¥80</td><td>客单高、排队久、不适合日常聚餐</td><td>¥50人均承接「想吃火锅但不想花太多」的刚需</td></tr></table><h3>数据锚定</h3><p>你目前<strong>80㎡小店+¥50人均</strong>，说明定位精准瞄准「高频低价」社区火锅赛道。但面积小意味着<strong>翻台率是生死线</strong>——假设日均翻台3次、10张台、每桌2.5人，日流水约¥3,750，月流水约¥11万（⚠️ 行业估算，建议国庆确认实际座位数和翻台率）。</p>`,
+    2: `<h3>一句话定位</h3><p><strong>「重庆底料现炒，地摊价格自选——楼下就能吃到的重庆烟火气」</strong></p><h3>核心卖点拆解</h3><ul><li><strong>重庆底料：</strong>麻辣牛油锅底是认知锚点，老板/厨师需在开业前3天完成底料标准化SOP（谁做：老板+厨师；第几天：开业前3天；在哪：后厨操作台🔧记录每锅底料的牛油/辣椒/花椒配比，确保每次口味一致）</li><li><strong>地摊价格：</strong>¥50人均≠便宜没好货，而是「自选称重/按份计价」让顾客觉得「花多少自己控」。How：① 菜单设计分「按份」和「按两」两种，蔬菜按两卖（看起来便宜）、肉类按份卖（看起来实在）；② 收银台🔧POS系统配置双单位计价，开业前1天测试完毕。</li><li><strong>自选模式：</strong>减少服务员点单环节，顾客自己拿→自己煮→自己算。How：① 开业前5天设计自选动线（进门→取盘→选菜→结账→落座），动线不超过8米；② 菜品展示区用冰柜+喷雾保鲜，灯光打暖黄色（让肉看起来更新鲜）。</li></ul><h3>爆品锚点：一道菜串联全部营销</h3><p>建议将<strong>「鲜切麻辣牛肉」</strong>定为爆品。理由：① 重庆火锅认知标配；② 视觉冲击强（红彤彤挂辣椒）；③ 毛利可控（牛肉片薄、按份卖）。</p><p>How落地：① 老板/厨师，开业前7天确定供应商和切片标准（厚2mm、每份120g）；② 菜品展示柜第一格放麻辣牛肉，上方挂手写POP「每桌必点」；③ 服务员话术：「我们家麻辣牛肉是重庆师傅手把手调的味，开业第一周点这个送一份素菜」；④ 不配合（顾客嫌贵）：改为「今天牛肉第二份半价」。</p><h3>数据锚定</h3><p>你目前<strong>人均¥50</strong>，在火锅品类中处于「小火锅/旋转火锅」区间（20-60元），但你的差异化是「重庆口味+自选自由度」——比旋转火锅有品质感，比商场火锅有性价比。⚠️ 假设：若爆品「麻辣牛肉」定价¥28/份，毛利约55%，每桌点1.5份，可贡献¥42营收/桌。</p>`,
+    3: `<h3>已签约SaaS模块诊断</h3><p>你已签约：<strong>收银POS + 扫码点餐 + 会员旗舰版</strong>。会员旗舰版（¥4,888/年）含团购会员卡+潜客营销+6大特有活动——这是新店冷启动的「数字骨架」，每一项都必须开业前配好。</p><h3>① 收银POS：不只是算账，是数据入口</h3><p>What：开业前在POS里建好完整菜单和桌台，确保第一笔订单流畅。</p><p>How：① 老板/店长，开业前2天操作；② 在POS后台🔧「菜单管理」录入所有菜品，按「锅底→荤菜→素菜→小吃→酒水」排序；③ 设置桌台10张（按实际面积），编号T1-T10；④ 每个菜品绑定成本价（后续看毛利报表用）；⑤ 测试：让员工模拟点单3次，确保收银小票和扫码点餐同步。</p><h3>② 扫码点餐：减少服务员=降低人力成本=提升翻台</h3><p>What：80㎡小店最多配2-3个服务员，扫码点餐是翻台率的生命线。</p><p>How：① 店长，开业前3天配置；② 在扫码点餐后台🔧「店铺装修」上传菜单图，每道菜必须有图（没图的菜点击率下降40%）；③ 弹窗设置：首次扫码弹出「新客领券」——满100减10元（成本可控，拉首单）；④ 桌台贴万能码，码旁印提示「扫码点单，免等更快」；⑤ 不配合（老人不会用）：服务员主动帮点，话术「我帮您扫码，您看菜单点，我给您下单」。</p><h3>③ 会员旗舰版：新店的「蓄水池」</h3><p>What：会员旗舰版独有「团购会员卡」——顾客在美团/点评买团购时自动成为会员，打通公域到私域。</p><p>How：① 老板，开业前1天在会员后台🔧「团购会员卡」开启自动绑卡；② 设置「新客入会礼」：送1张¥5无门槛券（有效期7天，拉复购）；③ 开业第1天起，每笔结账后收银员话术：「扫码加会员，下次来送您一份冰粉」；④ 不配合（顾客嫌麻烦）：「就扫一下，3秒，以后来都有优惠」。</p><h3>数据锚定</h3><p>你目前<strong>80㎡小店+2-3人配置</strong>，扫码点餐可减少1个服务员人力（月省约¥4,500），同时扫码点餐的平均点单时间比人工点单快<strong>3-5分钟/桌</strong>——直接提升翻台率。⚠️ 假设：会员旗舰版的团购绑卡功能，预计每月从公域引流中自动转化<strong>80-120个会员</strong>（按日均40桌、20%团购占比估算）。</p>`,
+    4: `<h3>新店点评冷启动：前30条评价定生死</h3><p>大众点评算法逻辑：新店前30条评价的<strong>星级权重极高</strong>——前10条决定初始星级，前30条决定搜索排序。你目前评价数为0，处于「出星关键期」，必须在前30天内精准控评。</p><h3>阶段判断：新店期（0-50条评价）</h3><p>根据点评官方规则，你的门店处于<strong>「新店期」</strong>，核心目标不是冲热门榜，而是：① 快速出星（4.5分以上）；② 积累50条真实评价进入「成长期」；③ 建立「好评基调」——让后续顾客看到的都是正面关键词。</p><h3>合规工具：免费试+免费菜（严禁促评）</h3><p>⚠️ <strong>2025年10月新规：高强度促评/邀评可能导致新评价不计入星级</strong>。以下方案全部基于合规工具。</p><p><strong>免费试（霸王餐）：</strong>What：开业前7天在大众点评商家后台🔧「营销中心→免费试」申请20个体验名额。How：① 老板，开业前10天操作；② 设置体验套餐为「招牌锅底+麻辣牛肉+3份素菜」，价值约¥80；③ 体验官要求：写真实评价，不强制好评；④ 开业前3天完成体验，确保开业时已有15-20条评价打底。</p><p><strong>免费菜引导分享动机：</strong>What：开业前30天，每桌送1份「手工冰粉」（成本约¥1.5），服务员话术引导评价。How：① 服务员，开业第1天起；② 话术：「今天送您一份手工冰粉，觉得味道好的话，麻烦在大众点评上帮我们写两句，好坏都接受」；③ 不配合（顾客嫌麻烦）：「您拍张照，我帮您写，您确认后发就行」。</p><h3>评价内容定调：3个关键词</h3><p>你希望顾客评价中出现的关键词：<strong>「便宜」「新鲜」「重庆味」</strong>。How：① 在免费试申请文案中植入「重庆地摊火锅」「自选按份」「鲜切牛肉」等关键词；② 服务员上麻辣牛肉时说「这是重庆师傅调的味，鲜切不过夜」——顾客写评价时会自然引用。</p><h3>数据锚定</h3><p>你目前<strong>点评评分未知、评价数0</strong>，属于「白纸出星」阶段。⚠️ 假设：若前30条评价中25条为4-5星，初始星级可达<strong>4.5-4.7分</strong>；若前30条中差评超过5条，星级可能卡在4.0以下，后续矫正需3-6个月。目标：开业30天内积累<strong>50条真实评价，评分≥4.5分</strong>。</p>`,
+    5: `<h3>开业前30天倒计时SOP</h3><p>新店未开业，最大的风险是「开业即冷场」。80㎡社区店没有品牌背书，必须靠<strong>开业前蓄水+开业期爆破</strong>完成冷启动。</p><h3>T-30至T-15天：筹备与蓄水</h3><p><strong>What：建立「社区火锅群」蓄水。</strong></p><p>How：① 老板/店长，开业前30天起；② 在门店附近3个小区门口贴「重庆地摊火锅即将开业，扫码进群领开业券」海报（A4打印+透明胶，成本<¥20）；③ 每天进群约10-15人，开业前积累<strong>200-300人社群</strong>；④ 群里每天发1条内容：锅底熬制过程视频/菜品采购视频/开业倒计时；⑤ 不配合（保安不让贴）：改为「在快递柜/外卖柜放传单」，或与便利店合作放台卡。</p><h3>T-14至T-7天：霸王餐+员工内测</h3><p><strong>What：免费试体验+员工模拟。</strong></p><p>How：① 老板，开业前10天在大众点评🔧「营销中心→免费试」上线20个名额；② 体验日期设在开业前3-5天，确保评价在开业当天已上线；③ 同期做3次员工内测（模拟顾客从进门到结账全流程），记录问题清单；④ 不配合（体验官放鸽子）：提前1天电话确认，备选5个候补名额。</p><h3>T-7至T-1天：物料+菜单+人员到位</h3><p><strong>What：所有开业物料和系统配置完成。</strong></p><p>How：① 店长，开业前7天检查清单：✅菜单定价（含锅底/荤菜/素菜/酒水）✅扫码点餐上线测试✅POS桌台配置✅会员新客券配置✅万能码桌贴打印；② 开业前3天：食材供应链首笔订单到货，冷柜温度调试；③ 开业前1天：全体员工培训（自选动线→收银→会员话术→评价引导），每人模拟3次。</p><h3>开业第1-7天：爆破期</h3><p><strong>What：开业前7天「¥1元吃锅底」引流。</strong></p><p>How：① 老板，开业第1天起；② 在美团/大众点评上线「¥1元麻辣锅底」（原价¥38），限前200份；③ 同时在社群发「开业前7天，1元吃锅底，扫码抢」；④ 到店后服务员话术：「1元锅底今天特别划算，试试我们家牛肉？今天第二份半价」；⑤ 不配合（顾客只点锅底不点别的）：「锅底单点不划算，您点份牛肉我送您一份素菜」。</p><h3>数据锚定</h3><p>你目前<strong>0流水、0评价、0会员</strong>，开业前30天的蓄水质量直接决定首月流水。⚠️ 假设：若社群蓄水300人+霸王餐20人+1元锅底引流200人，开业首月到店约<strong>500-600人次</strong>，按人均¥50估算首月流水<strong>¥2.5-3万</strong>（爬坡期正常，第2个月目标¥8万，第3个月目标¥12万）。</p>`,
+    6: `<h3>储值方案设计：开业期专属</h3><p>⚠️ 先过第一性原理：这家店需要储值吗？分析：80㎡社区小店，客群以周边居民和白领为主，复购场景明确（火锅是社交聚餐，天然复购），储值可以加速现金流回收+锁定复购。但人均¥50偏低，储值档位不能太高。</p><h3>三档储值方案</h3><table><tr><th>档位</th><th>金额</th><th>赠送</th><th>实际折扣</th><th>适用人群</th></tr><tr><td>体验档</td><td>¥100</td><td>送¥10+冰粉券1张</td><td>≈9.1折</td><td>首次到店试探性顾客</td></tr><tr><td>主推档</td><td>¥200</td><td>送¥30+麻辣牛肉券1张</td><td>≈8.7折</td><td>2-3人聚餐常客</td></tr><tr><td>尊享档</td><td>¥500</td><td>送¥80+免锅底券2张</td><td>≈8.4折</td><td>家庭/团建决策者</td></tr></table><h3>How落地：从配置到话术</h3><p>① <strong>谁来做</strong>：老板配置储值活动，收银员负责推荐；② <strong>第几天</strong>：开业前1天在会员后台🔧「储值卡管理」配置三档，开业第1天上线；③ <strong>在哪操作</strong>：会员旗舰版后台→储值卡→新增活动→设置金额/赠送/有效期；④ <strong>话术</strong>：收银员结账时说「今天充200送30，还送一份牛肉券，下次来直接免费吃牛肉，等于这单又省了」；⑤ <strong>不配合</strong>（顾客说下次不一定来）：「您充100也行，送10块，反正来不来钱都在您卡里，不亏」。</p><h3>会员旗舰版独有功能：团购绑卡+潜客营销</h3><p>What：顾客在美团/点评买团购后，自动成为会员并收到「到店领券」提醒。</p><p>How：① 老板，开业前1天在会员后台🔧「团购会员卡」开启；② 设置绑卡后自动发「新客礼」：¥5券+冰粉券；③ 潜客营销：针对「浏览过但未购买」的周边用户，系统自动推送「¥3元无门槛券」（每天预算¥30，覆盖约100个潜客）；④ 开业第7天起，每天看「会员增长报表」，低于10人/天则加大潜客投放。</p><h3>数据锚定</h3><p>你目前<strong>0会员、月流水预估¥11万（行业参考值）</strong>。若储值渗透率达<strong>20%</strong>（即每5桌有1桌储值），按主推档¥200计，月储值入账约<strong>¥4,400</strong>（22桌×¥200）。⚠️ 假设：储值会员的复购频次比非会员高<strong>40%</strong>（会员平均每月2.5次 vs 非会员1.8次）。目标：开业60天内储值会员破<strong>150人</strong>。</p>`,
+    7: `<h3>公域引流：大众点评+小红书/抖音</h3><p>火锅品类天然适合「探店+打卡」内容，公私域联动逻辑：<strong>公域种草→到店体验→私域锁客→复购裂变</strong>。</p><h3>公域①：大众点评</h3><p>What：新店期用「免费试+团购套餐」完成冷启动。</p><p>How：① 老板，开业前7天上线2个团购：「双人尝鲜套餐¥88」（锅底+2份肉+3份素+2饮品，原价值约¥110）和「四人聚会套餐¥168」；② 套餐命名突出「重庆」「地摊」「自选」关键词；③ 团购头图用麻辣牛肉特写+红彤彤锅底（高饱和度、有食欲）；④ 每天下午4点看「团购核销报表」，核销率低于60%则调整套餐内容或降价。</p><h3>公域②：小红书/抖音（适合火锅品类）</h3><p>What：开业前7天起，每天发1条短视频/图文，建立「重庆地摊火锅」内容标签。</p><p>How：① 老板/店长，开业前7天起；② 内容模板：「锅底熬制过程」（发抖音，配重庆方言BGM）+「自选菜品展示」（发小红书，配「杭州居然有¥50的重庆火锅」标题）+「顾客吃辣挑战」（发抖音，配搞笑配音）；③ 每条视频带定位（齐虹雅园）；④ 不配合（不会拍视频）：用手机原相机拍，重点是「真实」而非「精美」，剪辑用剪映模板（10分钟出片）。</p><h3>私域：会员+社群+消息</h3><p>What：把公域流量沉淀到会员体系和社群，用消息推送激活沉默用户。</p><p>How：① 社群运营：每天发1条（上午10点发今日推荐菜，下午5点发「今晚火锅约吗」+优惠券，晚上9点发顾客好评截图）；② 会员消息推送：每周三发「会员日」通知——周三到店享素菜半价；③ 沉默唤醒：会员15天未消费，自动推送「好久不见，送您一份冰粉券」；④ 不配合（群里没人说话）：老板亲自下场，每天自己在群里发「今天牛肉新鲜到货，限量20份」，制造稀缺感。</p><h3>公私域联动闭环</h3><p><strong>路径1（点评→到店→会员）：</strong>顾客在点评买团购→到店核销→收银员引导扫码加会员→送券→下次直接用会员消费。</p><p><strong>路径2（抖音/小红书→到店→社群）：</strong>顾客被视频吸引→到店→桌贴万能码引导进群→群里领券→下次群里预约订位。</p><p><strong>路径3（社群裂变→新客）：</strong>老客带新客到店，老客送¥10券，新客送¥5券，双向激励。</p><h3>数据锚定</h3><p>你目前<strong>公域流量为0</strong>，预估开业后大众点评月曝光约<strong>3,000-5,000次</strong>（新店前3个月有流量扶持，行业参考值）。⚠️ 假设：若公域到店转化率为<strong>8%</strong>（曝光→点击→到店），每月从公域引流约<strong>240-400人次</strong>；若私域复购率提升至<strong>35%</strong>（行业均值约25%），月增收约<strong>¥4,000-6,000</strong>。</p>`,
+    8: `<h3>月度OKR目标</h3><table><tr><th>指标</th><th>开业第1月</th><th>开业第2月</th><th>开业第3月</th></tr><tr><td>月营收</td><td>¥3万</td><td>¥8万</td><td>¥12万</td></tr><tr><td>大众点评评分</td><td>4.3分</td><td>4.5分</td><td>4.6分</td></tr><tr><td>评价数</td><td>30条</td><td>60条</td><td>100条</td></tr><tr><td>会员数</td><td>80人</td><td>150人</td><td>300人</td></tr><tr><td>储值入账</td><td>¥1,500</td><td>¥3,000</td><td>¥5,000</td></tr><tr><td>团购核销率</td><td>50%</td><td>60%</td><td>70%</td></tr></table><h3>投入预算</h3><table><tr><th>项目</th><th>金额</th><th>说明</th></tr><tr><td>大众点评免费试</td><td>¥1,600</td><td>20人×¥80套餐成本</td></tr><tr><td>开业引流券</td><td>¥1,000</td><td>1元锅底补贴+新客券</td></tr><tr><td>社群物料</td><td>¥200</td><td>海报+桌贴+万能码</td></tr><tr><td>会员系统</td><td>¥4,888/年</td><td>已签约旗舰版</td></tr><tr><td><strong>合计</strong></td><td><strong>¥2,800</strong></td><td>不含已签约年费</td></tr></table><h3>增收测算</h3><p>⚠️ 假设：开业第3月达到月流水¥12万（日均¥4,000，约16桌/天），食材成本率38%（¥4.56万），人力¥1.5万（3人），房租¥8,000（⚠️ 假设值，建议确认），水电杂费¥3,000，月净利约<strong>¥2.94万</strong>，净利润率约<strong>24.5%</strong>。</p><p>SaaS带来的直接增收：① 扫码点餐省1个服务员月¥4,500；② 会员储值复购提升月增收约¥4,000-6,000；③ 团购套餐提升客单价约¥8-10/桌；④ 评价运营带来的搜索排名提升，预估月增收¥2,000-3,000。SaaS综合月增收约<strong>¥10,500-13,500</strong>，旗舰版年费¥4,888，<strong>回本周期约1.5个月</strong>。</p><h3>30天复盘节点</h3><p>① 开业第30天：检查评价数是否≥30、评分是否≥4.3、会员是否≥80；② 若未达标，调整：评价数不够→追加10个免费试名额；会员不够→收银员储值话术加强；③ 配合（国庆BD）每两周到店一次，带数据报表和老板复盘。</p><h3>数据锚定</h3><p>你目前<strong>80㎡+人均¥50</strong>，按社区小火锅模型，盈亏平衡流水约<strong>¥6,000-7,000/月</strong>（⚠️ 假设房租¥8,000，行业参考值）。目标开业第2个月实现盈亏平衡，第3个月进入盈利期。⚠️ 所有测算基于行业参考值，实际数据需国庆BD协助确认房租、人工、食材成本后校准。</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
