@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>门店 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">餐饮 · 运营提升方案</div>
+  <h1 class="hero-title">门店</h1>
+  <p class="hero-subtitle">专属运营提升方案，助力门店持续增长</p>
+  <div class="hero-address"></div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥25-35</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">萧山区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(ch1, '门店诊断与定位', ch1)">
+      
+      <div class="chapter-num">CHAPTER ch1</div>
+      <div class="chapter-title">门店诊断与定位</div>
+      <span class="chapter-type free">analysis</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(ch2, '线上引流策略', ch2)">
+      
+      <div class="chapter-num">CHAPTER ch2</div>
+      <div class="chapter-title">线上引流策略</div>
+      <span class="chapter-type free">strategy</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(ch3, '小程序+扫码点餐落地方案', ch3)">
+      
+      <div class="chapter-num">CHAPTER ch3</div>
+      <div class="chapter-title">小程序+扫码点餐落地方案</div>
+      <span class="chapter-type free">strategy</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(ch4, '会员旗舰版运营规划', ch4)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER ch4</div>
+      <div class="chapter-title">会员旗舰版运营规划</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(ch5, '开业营销节奏表', ch5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER ch5</div>
+      <div class="chapter-title">开业营销节奏表</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(ch6, '差异化打法：山野茶咖的记忆点', ch6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER ch6</div>
+      <div class="chapter-title">差异化打法：山野茶咖的记忆点</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(ch7, '数据复盘与持续优化', ch7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER ch7</div>
+      <div class="chapter-title">数据复盘与持续优化</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-ch1" style="display:none"><h2>🏪 门店现状</h2><p><b>香野茶咖</b>位于杭州萧山区瓜沥镇航坞公园东100米，是一家即将开业的茶咖新店。面积100㎡，周边依山傍水，自然风景优美，具备打造「城市微度假+茶咖」特色的天然条件。</p><h3>品类洞察</h3><p>茶咖赛道2025-2026年持续高速增长，杭州「茶咖+」融合店态兴起。瓜沥镇属于城镇商圈，周边茶饮竞争中等偏低（晓麟家、茶理宜世等连锁覆盖但密度不高），对新进入者友好。</p><h3>核心优势</h3><ul><li>🌿 <b>自然环境差异化</b>：航坞公园旁田间风光，天然适合「打卡+休闲」场景</li><li>📍 <b>新店红利期</b>：美团平台给予新店30天流量加权，必须抓住</li><li>🎯 <b>KP已触达</b>：决策链短，推进速度快</li></ul><h3>核心挑战</h3><ul><li>⚠️ 位置偏乡镇，自然到店客流有限，线上引流是生命线</li><li>⚠️ 新店无口碑积累，需快速破零攒评</li><li>⚠️ 品类同质化风险高，需打出差异记忆点</li></ul></div>
+<div id="modal-content-ch2" style="display:none"><h2>📱 线上推广：从0到1获客</h2><p>店铺位于乡镇区域，自然客流有限，<b>线上是主战场</b>。美团系统能帮香野茶咖解决「让周边人知道你」的核心问题。</p><h3>第一步：新店专属流量包（开业前7天配置）</h3><p><b>What</b>：利用美团新店30天加权期，配合小程序上线+扫码点餐落地页搭建。</p><p><b>How</b>：</p><ol><li>开业前3天完成美团门店信息填充（门头照≥3张、环境照≥5张、菜单100%上架含图片描述）</li><li>设置「新客专享券」：首杯立减5元（限美团小程序领取），预算500元/月</li><li>开业当天在小程序首页挂Banner「航坞公园旁·新店开业·首杯半价」</li><li>扫码点餐桌贴设计融入航坞山景元素，增加记忆锚点</li></ol><h3>第二步：美团/点评双平台铺设</h3><p><b>What</b>：在美团和大众点评双端建立门店形象。</p><p><b>How</b>：</p><ol><li>点评页面标题优化：「香野茶咖丨航坞山脚下的自然系咖啡」——带地标+品类+情绪词</li><li>发布3条「商户说」短内容（拍门店+出品+环境），每条带#航坞公园 标签</li><li>邀请首批5位真实顾客写好评（邀评话术：'帮我们在点评写几句，下次来送小甜品一份'）</li><li>开业首周做一波「1元品鉴券」引流（限量50份/天），快速积累消费记录</li></ol><h3>第三步：周边3公里精准获客</h3><p><b>What</b>：通过会员旗舰版的「潜客营销」能力触达附近用户。</p><p><b>How</b>：</p><ol><li>开通会员旗舰版后，在「潜客营销」模块设定投放半径3km</li><li>创建潜客券「新店尝鲜·任意饮品第二杯半价」，投放时段14:00-17:00（下午茶高峰）</li><li>每周检查领券-核销转化率，低于15%则调整券面额（如改为满25减8）</li></ol></div>
+<div id="modal-content-ch3" style="display:none"><h2>📲 小程序+扫码点餐：提升体验·沉淀私域</h2><p>对于100㎡的茶咖店，扫码点餐不仅是提效工具，更是<b>线下流量→私域会员</b>的核心通道。</p><h3>扫码点餐配置方案</h3><p><b>What</b>：每张桌台放置扫码点餐桌贴，顾客扫码即进入小程序点单。</p><p><b>How（逐步落地）</b>：</p><ol><li><b>桌贴设计</b>：融入「山野绿+咖啡棕」品牌色，印上「扫我点单·免排队」+品牌logo（翟卫婷协助上传设计稿到系统后台）</li><li><b>菜单分类</b>：建议分4栏——招牌特调/经典咖啡/鲜萃茶/小食甜品，每栏不超过8款（减少决策疲劳）</li><li><b>点单引导设置</b>：首屏推「店长推荐」3款（毛利最高的特调），弹窗提示「加3元升大杯」</li><li><b>出餐叫号</b>：对接取餐屏，顾客手机实时查看制作进度——小店也有大牌体验感</li></ol><h3>小程序会员沉淀</h3><p><b>What</b>：扫码点餐过程中无感引导注册会员。</p><p><b>How</b>：</p><ol><li>点餐结算页弹出「注册会员立享本单9折」（一键授权手机号即可）</li><li>注册后自动发放「7日内回头券·满20减3」（用会员旗舰版设置）</li><li>会员首页显示积分（消费1元=1分，100分=免费升杯），培养复购习惯</li><li>每周三设为「会员日·第二杯半价」，系统自动推送通知</li></ol><h3>预期效果</h3><ul><li>扫码点餐上线后，前台人效提升约30%（1人即可覆盖高峰期点单）</li><li>开业首月会员注册率目标≥40%（行业平均25-30%）</li><li>会员回头率目标≥35%（通过回头券+积分+会员日三重驱动）</li></ul></div>
+<div id="modal-content-ch4" style="display:none"><h2>👑 会员旗舰版：从拉新到复购的完整闭环</h2><p>会员旗舰版（4,888元/年）是香野茶咖线上运营的核心引擎，独有<b>团购会员卡+潜客营销+裂变拉新</b>三大能力。</p><h3>团购会员卡（公域→私域转化器）</h3><p><b>What</b>：在美团/点评上架「香野茶咖会员卡」团购商品，用户购买即成为店铺会员。</p><p><b>How</b>：</p><ol><li>设置会员卡套餐：99元享120元储值+赠1杯招牌特调（感知价值>付出成本）</li><li>卡面设计突出「航坞山野·限定会员」标签，营造稀缺感</li><li>上架美团/点评双平台，关键词优化「瓜沥咖啡」「航坞公园周边」</li><li>首月促销：前100位购卡用户额外送定制帆布袋（成本8元/个，但晒图率极高）</li></ol><h3>潜客营销（精准投放）</h3><p><b>What</b>：向门店周边3km内、近期搜索过「咖啡/奶茶/下午茶」的用户精准推券。</p><p><b>How</b>：</p><ol><li>投放人群：25-45岁，近7天有茶饮消费或搜索行为</li><li>投放券：「到店消费满25减8」（核销门槛低，茶咖客单刚好覆盖）</li><li>投放节奏：开业首周日投100张券（预算约800元/天），后续按ROI调整</li><li>跟踪指标：领券率>20%、核销率>15%为健康，低于则调整面额或人群</li></ol><h3>裂变拉新（老带新）</h3><p><b>What</b>：通过会员旗舰版「任务中心」功能设置分享裂变活动。</p><p><b>How</b>：</p><ol><li>设置「邀请好友·各得半价券」：老会员分享链接，好友首次下单双方各获一杯半价券</li><li>每月设1次「拼团日」：3人成团各享7折（适合闺蜜/同事场景）</li><li>在扫码点餐完成页底部加「分享给朋友」按钮（路径最短=转化最高）</li></ol></div>
+<div id="modal-content-ch5" style="display:none"><h2>📅 开业30天营销节奏</h2><p>新店黄金30天，必须步步为营。以下按时间线拆解每个阶段的执行动作。</p><h3>开业前7天（筹备期）</h3><table><tr><th>天数</th><th>动作</th><th>负责人</th></tr><tr><td>D-7</td><td>完成美团门店信息100%填充（照片/菜单/营业时间）</td><td>老板+翟卫婷</td></tr><tr><td>D-5</td><td>小程序上线、扫码点餐测试完毕、桌贴到位</td><td>翟卫婷</td></tr><tr><td>D-3</td><td>会员旗舰版配置完成（会员卡/积分/回头券规则）</td><td>翟卫婷</td></tr><tr><td>D-1</td><td>朋友圈/社群预热「明天开业·前50杯买一送一」</td><td>老板</td></tr></table><h3>开业第1-7天（爆发期）</h3><table><tr><th>天数</th><th>动作</th><th>预期效果</th></tr><tr><td>D1</td><td>开业当天买一送一（限前50杯），朋友圈集赞送饮品</td><td>日客流80+，快速破冰</td></tr><tr><td>D2-3</td><td>美团新客券生效+点评1元品鉴券上线</td><td>线上引流开始起量</td></tr><tr><td>D4-7</td><td>邀评动作启动（每日目标3条真实好评）</td><td>7天攒15条评价，点评星级初显</td></tr></table><h3>开业第8-14天（蓄能期）</h3><table><tr><th>天数</th><th>动作</th><th>预期效果</th></tr><tr><td>D8-10</td><td>开启潜客营销投放（3km精准推券）</td><td>日新增到店5-8人（线上引流）</td></tr><tr><td>D11-14</td><td>启动「邀请好友各得半价」裂变活动</td><td>会员数突破100人</td></tr></table><h3>开业第15-30天（稳定期）</h3><table><tr><th>天数</th><th>动作</th><th>预期效果</th></tr><tr><td>D15-21</td><td>首次「会员日」执行（周三第二杯半价），沉淀复购</td><td>会员复购率>25%</td></tr><tr><td>D22-28</td><td>根据数据调整：热销品加大曝光、冷门品优化或下架</td><td>菜单精简，出品效率提升</td></tr><tr><td>D29-30</td><td>复盘首月数据，输出第二月运营计划</td><td>建立数据化运营节奏</td></tr></table></div>
+<div id="modal-content-ch6" style="display:none"><h2>🌿 差异化：让人记住「航坞山脚的那家咖啡」</h2><p>瓜沥镇不缺奶茶店，但缺<b>有故事、有场景、值得专程来</b>的茶咖空间。香野茶咖的核心差异化就是「山野感」。</p><h3>场景打造（零成本/低成本）</h3><p><b>What</b>：利用现有环境打造拍照打卡场景。</p><p><b>How</b>：</p><ol><li>门口放一块手写黑板：「今日航坞山能见度：极佳☀️ 推荐坐窗边看山」——每天更新，成本0</li><li>窗边座位命名为「看山位」，菜单上标注「看山位推荐搭配：云雾拿铁」（产品与场景绑定）</li><li>提供拍照道具：竹编托盘+绿植背景板，暗示顾客拍照发圈（免费UGC内容）</li><li>定制纸杯印「航坞山脚·香野出品」+简笔山景插画（杯子本身就是传播媒介）</li></ol><h3>产品差异化</h3><p><b>What</b>：打造2-3款「只有这里才有」的招牌产品。</p><p><b>How</b>：</p><ol><li>「航坞绿」特调：抹茶+椰乳+薄荷叶，取名呼应航坞山（成本约4元，定价22元）</li><li>「山野拿铁」：咖啡+桂花糖浆+燕麦奶，秋冬主推（季节感+在地食材）</li><li>小程序点单页给招牌款加🔥标+「本店独家」tag</li><li>每月限定1款「当季特调」，培养顾客定期探店动机</li></ol><h3>线上内容运营</h3><p><b>What</b>：通过点评/小红书内容持续放大「山野茶咖」心智。</p><p><b>How</b>：</p><ol><li>点评商户说每周更新1条（出品+环境+山景，带话题#航坞公园打卡）</li><li>制作「从航坞公园走路到香野只要5分钟」短内容，关联周边POI</li><li>邀请小红书本地博主到店（赠饮+免费出片），换1条探店笔记</li></ol></div>
+<div id="modal-content-ch7" style="display:none"><h2>📊 数据驱动：每周看什么·怎么调</h2><p>开店容易守店难。方案落地后，必须建立<b>「看数→判断→调整」</b>的周循环。</p><h3>核心指标看板（每周一看）</h3><table><tr><th>指标</th><th>健康值</th><th>低于则</th></tr><tr><td>日均客流</td><td>≥40人</td><td>加大潜客营销投放预算</td></tr><tr><td>线上引流占比</td><td>≥30%</td><td>检查美团门店曝光/点评排名</td></tr><tr><td>会员注册率</td><td>≥40%</td><td>优化注册弹窗时机和利益点</td></tr><tr><td>会员复购率</td><td>≥35%</td><td>加强回头券力度/增设会员日</td></tr><tr><td>客单价</td><td>≥25元</td><td>优化加购引导（升杯/加小食）</td></tr><tr><td>点评评分</td><td>≥4.3分</td><td>排查差评原因，启动口碑修复</td></tr></table><h3>月度复盘模板</h3><p>每月1号输出上月复盘（翟卫婷协助拉取系统后台数据）：</p><ol><li><b>流量端</b>：美团曝光量/点击率/到店转化率变化趋势</li><li><b>转化端</b>：新客数/新会员数/首单转化率</li><li><b>复购端</b>：会员活跃率/复购频次/沉睡会员唤醒率</li><li><b>利润端</b>：毛利率/活动补贴成本占比（控制在营收5%以内）</li></ol><h3>持续优化方向</h3><ul><li>📈 <b>旺季加码</b>：春夏航坞公园游客增多，可推「徒步打卡套餐」（饮品+能量棒）</li><li>🤝 <b>异业联动</b>：与航坞公园/周边民宿合作，互相导流（放对方优惠单页）</li><li>🔄 <b>菜单迭代</b>：每季更新30%产品，保持新鲜感；保留数据验证过的TOP5常青款</li><li>💡 <b>外卖试水</b>：稳定期后可考虑开通外卖（3km配送），进一步扩大覆盖</li></ul></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>翟卫婷</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        ch1: `<h2>🏪 门店现状</h2><p><b>香野茶咖</b>位于杭州萧山区瓜沥镇航坞公园东100米，是一家即将开业的茶咖新店。面积100㎡，周边依山傍水，自然风景优美，具备打造「城市微度假+茶咖」特色的天然条件。</p><h3>品类洞察</h3><p>茶咖赛道2025-2026年持续高速增长，杭州「茶咖+」融合店态兴起。瓜沥镇属于城镇商圈，周边茶饮竞争中等偏低（晓麟家、茶理宜世等连锁覆盖但密度不高），对新进入者友好。</p><h3>核心优势</h3><ul><li>🌿 <b>自然环境差异化</b>：航坞公园旁田间风光，天然适合「打卡+休闲」场景</li><li>📍 <b>新店红利期</b>：美团平台给予新店30天流量加权，必须抓住</li><li>🎯 <b>KP已触达</b>：决策链短，推进速度快</li></ul><h3>核心挑战</h3><ul><li>⚠️ 位置偏乡镇，自然到店客流有限，线上引流是生命线</li><li>⚠️ 新店无口碑积累，需快速破零攒评</li><li>⚠️ 品类同质化风险高，需打出差异记忆点</li></ul>`,
+    ch2: `<h2>📱 线上推广：从0到1获客</h2><p>店铺位于乡镇区域，自然客流有限，<b>线上是主战场</b>。美团系统能帮香野茶咖解决「让周边人知道你」的核心问题。</p><h3>第一步：新店专属流量包（开业前7天配置）</h3><p><b>What</b>：利用美团新店30天加权期，配合小程序上线+扫码点餐落地页搭建。</p><p><b>How</b>：</p><ol><li>开业前3天完成美团门店信息填充（门头照≥3张、环境照≥5张、菜单100%上架含图片描述）</li><li>设置「新客专享券」：首杯立减5元（限美团小程序领取），预算500元/月</li><li>开业当天在小程序首页挂Banner「航坞公园旁·新店开业·首杯半价」</li><li>扫码点餐桌贴设计融入航坞山景元素，增加记忆锚点</li></ol><h3>第二步：美团/点评双平台铺设</h3><p><b>What</b>：在美团和大众点评双端建立门店形象。</p><p><b>How</b>：</p><ol><li>点评页面标题优化：「香野茶咖丨航坞山脚下的自然系咖啡」——带地标+品类+情绪词</li><li>发布3条「商户说」短内容（拍门店+出品+环境），每条带#航坞公园 标签</li><li>邀请首批5位真实顾客写好评（邀评话术：'帮我们在点评写几句，下次来送小甜品一份'）</li><li>开业首周做一波「1元品鉴券」引流（限量50份/天），快速积累消费记录</li></ol><h3>第三步：周边3公里精准获客</h3><p><b>What</b>：通过会员旗舰版的「潜客营销」能力触达附近用户。</p><p><b>How</b>：</p><ol><li>开通会员旗舰版后，在「潜客营销」模块设定投放半径3km</li><li>创建潜客券「新店尝鲜·任意饮品第二杯半价」，投放时段14:00-17:00（下午茶高峰）</li><li>每周检查领券-核销转化率，低于15%则调整券面额（如改为满25减8）</li></ol>`,
+    ch3: `<h2>📲 小程序+扫码点餐：提升体验·沉淀私域</h2><p>对于100㎡的茶咖店，扫码点餐不仅是提效工具，更是<b>线下流量→私域会员</b>的核心通道。</p><h3>扫码点餐配置方案</h3><p><b>What</b>：每张桌台放置扫码点餐桌贴，顾客扫码即进入小程序点单。</p><p><b>How（逐步落地）</b>：</p><ol><li><b>桌贴设计</b>：融入「山野绿+咖啡棕」品牌色，印上「扫我点单·免排队」+品牌logo（翟卫婷协助上传设计稿到系统后台）</li><li><b>菜单分类</b>：建议分4栏——招牌特调/经典咖啡/鲜萃茶/小食甜品，每栏不超过8款（减少决策疲劳）</li><li><b>点单引导设置</b>：首屏推「店长推荐」3款（毛利最高的特调），弹窗提示「加3元升大杯」</li><li><b>出餐叫号</b>：对接取餐屏，顾客手机实时查看制作进度——小店也有大牌体验感</li></ol><h3>小程序会员沉淀</h3><p><b>What</b>：扫码点餐过程中无感引导注册会员。</p><p><b>How</b>：</p><ol><li>点餐结算页弹出「注册会员立享本单9折」（一键授权手机号即可）</li><li>注册后自动发放「7日内回头券·满20减3」（用会员旗舰版设置）</li><li>会员首页显示积分（消费1元=1分，100分=免费升杯），培养复购习惯</li><li>每周三设为「会员日·第二杯半价」，系统自动推送通知</li></ol><h3>预期效果</h3><ul><li>扫码点餐上线后，前台人效提升约30%（1人即可覆盖高峰期点单）</li><li>开业首月会员注册率目标≥40%（行业平均25-30%）</li><li>会员回头率目标≥35%（通过回头券+积分+会员日三重驱动）</li></ul>`,
+    ch4: `<h2>👑 会员旗舰版：从拉新到复购的完整闭环</h2><p>会员旗舰版（4,888元/年）是香野茶咖线上运营的核心引擎，独有<b>团购会员卡+潜客营销+裂变拉新</b>三大能力。</p><h3>团购会员卡（公域→私域转化器）</h3><p><b>What</b>：在美团/点评上架「香野茶咖会员卡」团购商品，用户购买即成为店铺会员。</p><p><b>How</b>：</p><ol><li>设置会员卡套餐：99元享120元储值+赠1杯招牌特调（感知价值>付出成本）</li><li>卡面设计突出「航坞山野·限定会员」标签，营造稀缺感</li><li>上架美团/点评双平台，关键词优化「瓜沥咖啡」「航坞公园周边」</li><li>首月促销：前100位购卡用户额外送定制帆布袋（成本8元/个，但晒图率极高）</li></ol><h3>潜客营销（精准投放）</h3><p><b>What</b>：向门店周边3km内、近期搜索过「咖啡/奶茶/下午茶」的用户精准推券。</p><p><b>How</b>：</p><ol><li>投放人群：25-45岁，近7天有茶饮消费或搜索行为</li><li>投放券：「到店消费满25减8」（核销门槛低，茶咖客单刚好覆盖）</li><li>投放节奏：开业首周日投100张券（预算约800元/天），后续按ROI调整</li><li>跟踪指标：领券率>20%、核销率>15%为健康，低于则调整面额或人群</li></ol><h3>裂变拉新（老带新）</h3><p><b>What</b>：通过会员旗舰版「任务中心」功能设置分享裂变活动。</p><p><b>How</b>：</p><ol><li>设置「邀请好友·各得半价券」：老会员分享链接，好友首次下单双方各获一杯半价券</li><li>每月设1次「拼团日」：3人成团各享7折（适合闺蜜/同事场景）</li><li>在扫码点餐完成页底部加「分享给朋友」按钮（路径最短=转化最高）</li></ol>`,
+    ch5: `<h2>📅 开业30天营销节奏</h2><p>新店黄金30天，必须步步为营。以下按时间线拆解每个阶段的执行动作。</p><h3>开业前7天（筹备期）</h3><table><tr><th>天数</th><th>动作</th><th>负责人</th></tr><tr><td>D-7</td><td>完成美团门店信息100%填充（照片/菜单/营业时间）</td><td>老板+翟卫婷</td></tr><tr><td>D-5</td><td>小程序上线、扫码点餐测试完毕、桌贴到位</td><td>翟卫婷</td></tr><tr><td>D-3</td><td>会员旗舰版配置完成（会员卡/积分/回头券规则）</td><td>翟卫婷</td></tr><tr><td>D-1</td><td>朋友圈/社群预热「明天开业·前50杯买一送一」</td><td>老板</td></tr></table><h3>开业第1-7天（爆发期）</h3><table><tr><th>天数</th><th>动作</th><th>预期效果</th></tr><tr><td>D1</td><td>开业当天买一送一（限前50杯），朋友圈集赞送饮品</td><td>日客流80+，快速破冰</td></tr><tr><td>D2-3</td><td>美团新客券生效+点评1元品鉴券上线</td><td>线上引流开始起量</td></tr><tr><td>D4-7</td><td>邀评动作启动（每日目标3条真实好评）</td><td>7天攒15条评价，点评星级初显</td></tr></table><h3>开业第8-14天（蓄能期）</h3><table><tr><th>天数</th><th>动作</th><th>预期效果</th></tr><tr><td>D8-10</td><td>开启潜客营销投放（3km精准推券）</td><td>日新增到店5-8人（线上引流）</td></tr><tr><td>D11-14</td><td>启动「邀请好友各得半价」裂变活动</td><td>会员数突破100人</td></tr></table><h3>开业第15-30天（稳定期）</h3><table><tr><th>天数</th><th>动作</th><th>预期效果</th></tr><tr><td>D15-21</td><td>首次「会员日」执行（周三第二杯半价），沉淀复购</td><td>会员复购率>25%</td></tr><tr><td>D22-28</td><td>根据数据调整：热销品加大曝光、冷门品优化或下架</td><td>菜单精简，出品效率提升</td></tr><tr><td>D29-30</td><td>复盘首月数据，输出第二月运营计划</td><td>建立数据化运营节奏</td></tr></table>`,
+    ch6: `<h2>🌿 差异化：让人记住「航坞山脚的那家咖啡」</h2><p>瓜沥镇不缺奶茶店，但缺<b>有故事、有场景、值得专程来</b>的茶咖空间。香野茶咖的核心差异化就是「山野感」。</p><h3>场景打造（零成本/低成本）</h3><p><b>What</b>：利用现有环境打造拍照打卡场景。</p><p><b>How</b>：</p><ol><li>门口放一块手写黑板：「今日航坞山能见度：极佳☀️ 推荐坐窗边看山」——每天更新，成本0</li><li>窗边座位命名为「看山位」，菜单上标注「看山位推荐搭配：云雾拿铁」（产品与场景绑定）</li><li>提供拍照道具：竹编托盘+绿植背景板，暗示顾客拍照发圈（免费UGC内容）</li><li>定制纸杯印「航坞山脚·香野出品」+简笔山景插画（杯子本身就是传播媒介）</li></ol><h3>产品差异化</h3><p><b>What</b>：打造2-3款「只有这里才有」的招牌产品。</p><p><b>How</b>：</p><ol><li>「航坞绿」特调：抹茶+椰乳+薄荷叶，取名呼应航坞山（成本约4元，定价22元）</li><li>「山野拿铁」：咖啡+桂花糖浆+燕麦奶，秋冬主推（季节感+在地食材）</li><li>小程序点单页给招牌款加🔥标+「本店独家」tag</li><li>每月限定1款「当季特调」，培养顾客定期探店动机</li></ol><h3>线上内容运营</h3><p><b>What</b>：通过点评/小红书内容持续放大「山野茶咖」心智。</p><p><b>How</b>：</p><ol><li>点评商户说每周更新1条（出品+环境+山景，带话题#航坞公园打卡）</li><li>制作「从航坞公园走路到香野只要5分钟」短内容，关联周边POI</li><li>邀请小红书本地博主到店（赠饮+免费出片），换1条探店笔记</li></ol>`,
+    ch7: `<h2>📊 数据驱动：每周看什么·怎么调</h2><p>开店容易守店难。方案落地后，必须建立<b>「看数→判断→调整」</b>的周循环。</p><h3>核心指标看板（每周一看）</h3><table><tr><th>指标</th><th>健康值</th><th>低于则</th></tr><tr><td>日均客流</td><td>≥40人</td><td>加大潜客营销投放预算</td></tr><tr><td>线上引流占比</td><td>≥30%</td><td>检查美团门店曝光/点评排名</td></tr><tr><td>会员注册率</td><td>≥40%</td><td>优化注册弹窗时机和利益点</td></tr><tr><td>会员复购率</td><td>≥35%</td><td>加强回头券力度/增设会员日</td></tr><tr><td>客单价</td><td>≥25元</td><td>优化加购引导（升杯/加小食）</td></tr><tr><td>点评评分</td><td>≥4.3分</td><td>排查差评原因，启动口碑修复</td></tr></table><h3>月度复盘模板</h3><p>每月1号输出上月复盘（翟卫婷协助拉取系统后台数据）：</p><ol><li><b>流量端</b>：美团曝光量/点击率/到店转化率变化趋势</li><li><b>转化端</b>：新客数/新会员数/首单转化率</li><li><b>复购端</b>：会员活跃率/复购频次/沉睡会员唤醒率</li><li><b>利润端</b>：毛利率/活动补贴成本占比（控制在营收5%以内）</li></ol><h3>持续优化方向</h3><ul><li>📈 <b>旺季加码</b>：春夏航坞公园游客增多，可推「徒步打卡套餐」（饮品+能量棒）</li><li>🤝 <b>异业联动</b>：与航坞公园/周边民宿合作，互相导流（放对方优惠单页）</li><li>🔄 <b>菜单迭代</b>：每季更新30%产品，保持新鲜感；保留数据验证过的TOP5常青款</li><li>💡 <b>外卖试水</b>：稳定期后可考虑开通外卖（3km配送），进一步扩大覆盖</li></ul>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
