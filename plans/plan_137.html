@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>翠釜山 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #B8860B;
+      --primary-light: #DAA520;
+      --accent: #FFC107;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #B8860B40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">海鲜黄油砂锅焗 · 融合正餐 · 运营提升方案</div>
+  <h1 class="hero-title">翠釜山</h1>
+  <p class="hero-subtitle">用一道招牌焗锅打透心智，让新店30天冲出萧山子夜广场</p>
+  <div class="hero-address">浙江省杭州市萧山区北干街道子夜广场（山阴路与纵七路交叉口东北200米）</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥80</span>
+      <div class="hero-stat-label">人均客单</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.6分</span>
+      <div class="hero-stat-label">30天目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">萧山子夜</span>
+      <div class="hero-stat-label">所在商圈</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '门店诊断 · 你现在站在哪', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">门店诊断 · 你现在站在哪</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '市场洞察 · 萧山子夜广场战场', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">市场洞察 · 萧山子夜广场战场</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '竞品拆解 · 这条街谁跟你抢生意', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">竞品拆解 · 这条街谁跟你抢生意</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '品牌定位 · 把焗锅变成代名词', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">品牌定位 · 把焗锅变成代名词</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '开业冲刺 · 前30天每天干什么', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">开业冲刺 · 前30天每天干什么</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '点评口碑 · 合规冲4.6分', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">点评口碑 · 合规冲4.6分</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '公私域联动 · 公域引流+私域留客', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">公私域联动 · 公域引流+私域留客</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, 'SaaS系统方案 · 已签约产品怎么用满', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">SaaS系统方案 · 已签约产品怎么用满</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(9, '投资回报 · 算清账 + 量化OKR', 9)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 09</div>
+      <div class="chapter-title">投资回报 · 算清账 + 量化OKR</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>一句话定位</h3><p>翠釜山是一家主打<strong>「海鲜黄油砂锅焗」</strong>的融合正餐新店，落位萧山北干街道子夜广场（绿众商业中心商圈），面积150㎡，人均¥80，目前<strong>尚未开业、保护期至2026-06-18</strong>。系统标签：0-30天新店、日均流水1千以下（尚未正式经营）、有KP、智能版可SaaS。</p><h3>三个必须正视的现实（⚠️ 部分为新店假设，建议开业首周核实）</h3><ul><li><strong>① ¥80是杭州正餐最难做的腰部价格带。</strong>2025-2026杭州正餐两极分化：50元以下小炒快餐和150+精致正餐两头挤压80元带。萧山客群务实，不为概念买单——光靠「黄油焗」概念和装修撑80人均，开局极易翻车。</li><li><strong>② 子夜广场是区域型商圈，不是顶级流量场。</strong>客流主要靠周边社区+写字楼，<strong>关键看复购而非打卡</strong>。你不能像网红店那样赌一波流量，必须从第一天就抓住「让客人记得住、还想来」。</li><li><strong>③ 新店0认知 + 正面撞成熟连锁。</strong>商圈里费大厨/炊烟这类湘菜爆品连锁（人均80-90）正好卡你价格带，绿茶/外婆家（人均60-75）从下方分流。作为无品牌认知的新店，开局压力客观存在。</li></ul><h3>但你手里有一张别人没有的牌</h3><p>「<strong>海鲜黄油砂锅焗</strong>」——周边费大厨、绿茶、外婆家都没有的差异化品类记忆点。黄油焗自带<strong>香气穿透力（上桌即闻到）+ 视觉冲击（砂锅滋滋作响）+ 拍照欲</strong>，是天然的爆品锚点和社交货币。本方案全部打法都围绕「把这道焗锅变成翠釜山的代名词」展开。</p></div>
+<div id="modal-content-2" style="display:none"><h3>品类大盘：地域特色+性价比是腰部唯一活路</h3><p>2025杭州正餐增长点集中在「地域特色+性价比」——纯靠装修和噱头撑高人均的店在批量死亡。翠釜山的「海鲜黄油焗」恰好属于<strong>有记忆点的特色品类</strong>，这是优势；但80人均必须用「值」来支撑，让客人觉得「这个价格吃到这种锅，划算」。</p><h3>客群画像（子夜广场）</h3><ul><li><strong>主力客群：</strong>周边社区家庭（周末晚餐、3-4人聚餐）+ 写字楼白领（工作日午市、商务简餐）</li><li><strong>次要客群：</strong>年轻情侣/朋友小聚（被「黄油焗」颜值吸引来打卡）</li><li><strong>消费场景：</strong>工作日午市求快求值，周末晚市求体验求特色——这意味着需要<strong>两套打法</strong>（详见午晚错峰）</li></ul><h3>三招差异化定调（贯穿全案）</h3><ul><li><strong>① 立招牌单品卡心智：</strong>别做大而全融合菜，砍到3道必点（1道招牌海鲜黄油焗锅+1道现做硬菜+1道引流爆款），菜单首页只推它。对标费大厨「小炒黄牛肉」逻辑——让顾客一想到翠釜山就想到那道焗锅。</li><li><strong>② 开业期主攻3公里社区+写字楼：</strong>前30天集中冲点评评价，快速攒300+真实评价破冷启动（详见点评章节）。</li><li><strong>③ 午晚错峰留客：</strong>工作日午市做商务套餐抢写字楼，晚市靠招牌焗锅拉客单价——午市养现金流，晚市养口碑。</li></ul></div>
+<div id="modal-content-3" style="display:none"><h3>子夜广场周边真实竞争格局（中高烈度）</h3><table><tr><th>竞品</th><th>人均</th><th>核心打法</th><th>它的弱点</th><th>翠釜山切入机会</th></tr><tr><td><strong>费大厨/炊烟</strong>（湘菜）</td><td>¥80-90</td><td>湘菜爆品逻辑强、翻台快、单品心智极强</td><td>口味重油重辣吃多腻；非海鲜，无「鲜」记忆</td><td>用「黄油焗海鲜=鲜香不辣」差异化，抢「想吃点不一样的」那批人</td></tr><tr><td><strong>绿茶/外婆家</strong></td><td>¥60-75</td><td>性价比强、出餐快</td><td>菜品老化、无记忆点、同质化</td><td>用招牌焗锅视觉/香气冲击，把「来吃饭」升级成「来吃那道焗锅」</td></tr><tr><td><strong>怂火锅/楠火锅</strong></td><td>¥90+</td><td>年轻氛围强、社交属性</td><td>火锅决策重（要约人、耗时长）</td><td>正餐决策更轻，主打「想吃顿好的不用凑火锅局」</td></tr><tr><td><strong>本地江浙菜散店</strong></td><td>¥70</td><td>家常、熟客生意</td><td>无品类亮点、无线上运营</td><td>用线上点评+招牌单品做出降维差距</td></tr></table><h3>结论：你的对手不是「所有餐厅」，是费大厨</h3><p>费大厨这类成熟连锁正面卡你价格带，是最大威胁。但它的命门是<strong>「重辣、非海鲜、吃多腻」</strong>。翠釜山破局点很清晰：<strong>主打「黄油焗海鲜——鲜、香、不辣、有锅气、能拍照」</strong>，吃走那批「今天不想吃辣、想吃点不一样的」客人。把这句话变成你的菜单第一行、点评第一张图、招牌第一句话。</p></div>
+<div id="modal-content-4" style="display:none"><h3>一句话品牌主张</h3><p><strong>「翠釜山——萧山人的那一锅黄油焗海鲜」</strong></p><p>所有传播、菜单、点评、物料都围绕这一句话收敛。新店最大的敌人是「让人记不住」，记忆靠<strong>重复一个点</strong>，不是堆砌十个卖点。</p><h3>爆品锚点设计：3道必点（What→How）</h3><ul><li><strong>① 招牌：海鲜黄油砂锅焗（旗舰款 ¥88-128）</strong>——上桌现场揭盖、滋滋作响、黄油香气穿透用餐区。<strong>How：</strong>① 厨房统一出餐SOP，必须保证上桌仍在「滋滋响」；② 服务员固定话术「您的招牌黄油焗海鲜，小心烫，趁热拍一张特别香」，主动引导拍照；③ 菜单首页大图就放它，占整页1/2。</li><li><strong>② 引流爆款（¥29-39高性价比小焗锅）</strong>——让人「低门槛尝鲜」，降低新客决策成本。<strong>How：</strong>点评团购套餐和午市套餐都用它做钩子。</li><li><strong>③ 现做硬菜1道</strong>——撑住「值这个价」的体验感。</li></ul><h3>菜单做减法（开业前必做）</h3><p><strong>What：</strong>砍掉融合菜「大而全」，菜单SKU控制在30道内，首页只推上述3道。<strong>How：</strong>① 老板+厨师长开业前7天定稿；② 在<strong>🔧 收银POS后台→商品管理</strong>给这3道打「招牌/推荐」标签，扫码点餐页自动置顶；③ 服务员培训：客人犹豫统一推「第一次来必点这个焗锅」。<strong>不配合怎么办：</strong>厨师坚持上更多菜，用「首页只推3道，后厨备菜更聚焦、出餐更快、口味更稳」说服。</p></div>
+<div id="modal-content-5" style="display:none"><h3>核心认知：新店前30天决定生死</h3><p>子夜广场是复购型商圈，前30天要同时干两件事：<strong>① 攒够真实评价破冷启动；② 让第一批客人变成回头客和自来水。</strong>下面是可照做的时间表。</p><h3>开业前（D-7 到 D-1）</h3><ul><li><strong>D-7：</strong>菜单定稿+招牌焗锅出餐SOP固化（老板+厨师长）；🔧 收银POS录入商品、打招牌标签。</li><li><strong>D-5：</strong>大众点评后台完善资料——上传9张图（招牌焗锅特写3张+环境3张+菜单3张），简介第一句写「萧山子夜广场·黄油焗海鲜」。</li><li><strong>D-3：</strong>🔧 点评后台「营销中心→霸王餐」设20个试吃名额，攒开业前首批真实评价。</li><li><strong>D-2：</strong>建企业微信社群，把KP人脉、装修期留资客人拉进群发开业预告。</li><li><strong>D-1：</strong>员工全流程演练；🔧 会员旗舰版后台配好「扫码入会礼」「储值档位」。</li></ul><h3>开业第1周（D1-D7）：冲评价 + 留首客</h3><ul><li><strong>每桌必做3件事（服务员SOP）：</strong>① 上招牌焗锅时引导拍照；② 结账前递「扫码入会立减8元/送引流小焗锅」；③ 满意客人请其「花1分钟写写真实感受，好坏都行」。</li><li><strong>话术原句：</strong>「我们刚开业，您是头一批客人，您的真实评价对我们特别重要，扫这个码写几句，下次来给您留个位。」</li><li><strong>客人嫌麻烦：</strong>改为「扫码写满15字，送一份引流小焗锅券下次用」。</li><li><strong>每天打烊后：</strong>老板/店长盯点评后台评价数和评分，<strong>差评2小时内回复</strong>（先共情再给方案，绝不辩解）。</li></ul><h3>第2-4周（D8-D30）：稳口碑 + 拉复购</h3><ul><li>每周复盘招牌焗锅点击率/复购率（🔧 收银POS→经营报表）。</li><li>对已入会客人，🔧 会员旗舰版定向推「7天内回店第二份焗锅半价」，把首客转回头客。</li><li>D30做首月复盘：评价数、评分、会员数、招牌菜占比四个数对照OKR（见末章）。</li></ul></div>
+<div id="modal-content-6" style="display:none"><h3>当前阶段判断：新店冷启动期</h3><p>翠釜山未开业、0评价。新店前10条评价决定后续所有顾客第一印象，必须「先定调、再冲量、后维护」。<strong>⚠️ 合规红线：2025年10月后高强度促评/邀评不再产生星级收益，严禁花钱买好评、诱导刷评。</strong>下面全是官方允许的合规打法。</p><h3>第一步 · 止血与定调（D-3到D7）</h3><ul><li><strong>What：</strong>用官方「霸王餐试吃」攒前20-30条真实好评，给新店定高起点基调。<strong>How：</strong>① 店长负责，开业前3天发起；② 🔧 点评后台「营销中心→霸王餐」设20名额；③ 试吃客上招牌焗锅时引导真实反馈；④ 控制节奏，每天5-8单，避免短时间集中爆评。</li></ul><h3>第二步 · 合规工具放大（持续）</h3><ul><li><strong>免费试 / 免费菜：</strong>🔧 点评后台开「免费试」招牌小焗锅，吸引新客到店——到店体验后自然产生评价，是官方鼓励的合规获评方式。</li><li><strong>分享动机打造：</strong>招牌焗锅本身就是「拍照素材」，上桌引导拍照=低成本制造UGC。桌上放「拍下你的黄油焗，发点评/小红书」小桌卡（仅鼓励真实分享，非诱导好评）。</li></ul><h3>第三步 · 评价维护（每天）</h3><ul><li><strong>What：</strong>所有评价24小时内回复，差评2小时内。<strong>How：</strong>好评回复带招牌菜名（强化记忆）；差评先共情「非常抱歉让您体验不好」+具体解决+邀请再来，绝不删评辩解。</li></ul><h3>口碑量化目标</h3><table><tr><th>节点</th><th>评价数</th><th>评分</th><th>榜单路径</th></tr><tr><td>开业7天</td><td>30+</td><td>4.5+</td><td>进「新店榜」</td></tr><tr><td>开业30天</td><td>120+</td><td>4.6</td><td>冲商圈「新店榜」前列</td></tr><tr><td>开业90天</td><td>300+</td><td>4.6-4.7</td><td>向「热门榜/好评榜」爬升</td></tr></table></div>
+<div id="modal-content-7" style="display:none"><h3>整体逻辑：公域拉新客，私域锁复购，招牌焗锅串全场</h3><h3>① 公域引流（让新客找到你）</h3><ul><li><strong>大众点评（核心主战场）：</strong>团购套餐做钩子——「招牌黄油焗海鲜双人餐¥158」「四人聚餐¥288」，套餐主图必须是焗锅特写。<strong>How：</strong>🔧 点评后台「团购管理」上架，套餐含招牌焗锅，引导到店核销+评价。</li><li><strong>小红书/抖音（焗锅天生适合）：</strong>黄油焗海鲜的「揭盖滋滋响+黄油香气+爆汁」是绝佳短视频素材。<strong>How：</strong>① 开业前老板自拍5条「揭盖瞬间」短视频铺垫；② 邀请萧山本地3-5个素人探店博主（非头部，成本可控）真实体验；③ 桌卡引导客人发笔记带定位「翠釜山·萧山子夜广场」。</li></ul><h3>② 私域留客（让来过的人再来）</h3><p><strong>这家店痛点是新店缺复购、缺认知，所以私域核心抓「会员沉淀+到店复购」，储值作为辅助而非主菜。</strong></p><ul><li><strong>会员（旗舰版，主推）：</strong>扫码入会礼=立减8元或送引流小焗锅。<strong>How：</strong>🔧 会员旗舰版后台设「扫码点餐自动弹入会礼」，结账必引导。目标首月会员400+。</li><li><strong>社群运营：</strong>入会客人拉进企业微信群，每周推1次「会员日招牌焗锅85折」「焗锅新品尝鲜」，把群当复购触发器。</li><li><strong>储值（辅助，开业稳定后再上）：</strong>⚠️ 新店开业首月不建议强推储值（客人还没建立信任）。<strong>建议D30后</strong>，对已复购2次以上熟客推「充300送30」轻档位，话术「您常来，办个会员卡更划算」。<strong>不配合怎么办：</strong>客人犹豫就不硬推，先靠体验养信任，储值是水到渠成的结果不是开业KPI。</li></ul><h3>③ 午晚错峰（用对工具救现金流）</h3><p><strong>What：</strong>工作日午市推¥38-48写字楼商务套餐（含引流小焗锅，快出餐），晚市主推招牌焗锅拉客单。<strong>How：</strong>🔧 扫码点餐设「午市套餐」时段自动展示；🔧 收银POS分时段看午/晚营收占比，动态调整备货。</p></div>
+<div id="modal-content-8" style="display:none"><h3>你已签约的5个模块，这样用才回本</h3><p>翠釜山已签约：<strong>收银POS、会员旗舰版、扫码点餐、小程序</strong>。新店开业，这套组合的价值在于「用最少的人手把客人留下来」。每个产品对应解决一个具体问题。</p><table><tr><th>产品</th><th>解决你的什么问题</th><th>怎么用（🔧 操作）</th></tr><tr><td><strong>扫码点餐</strong></td><td>150㎡新店人手紧、午市高峰出餐慢</td><td>🔧 桌贴扫码点餐，招牌焗锅自动置顶+「必点」标签；减少2名服务员人力</td></tr><tr><td><strong>会员旗舰版</strong></td><td>新店没复购、客人吃完就走</td><td>🔧 扫码入会弹窗+入会礼；旗舰版独有「团购会员卡」把点评公域客转私域；「潜客营销」对未复购客精准发券召回</td></tr><tr><td><strong>收银POS</strong></td><td>不知道哪道菜赚钱、午晚结构</td><td>🔧 经营报表看招牌菜占比/分时段营收/复购率，每周复盘指导备货和菜单</td></tr><tr><td><strong>小程序</strong></td><td>客人离店后无触点</td><td>🔧 小程序绑会员+社群，推新品/会员日/团购，沉淀私域流量池</td></tr></table><h3>旗舰版独有能力，新店一定要用上</h3><ul><li><strong>团购会员卡：</strong>把点评团购来的「一次性公域客」直接转成会员，避免「核销完就消失」。<strong>How：</strong>🔧 旗舰版后台开通团购会员卡，客人核销团购时自动引导入会。</li><li><strong>潜客营销：</strong>对「入会但30天没复购」的客人精准发「招牌焗锅半价券」召回。<strong>How：</strong>🔧 会员后台按「未复购」标签筛选定向推券。</li></ul></div>
+<div id="modal-content-9" style="display:none"><h3>营收测算（⚠️ 新店无历史数据，以下为基于150㎡正餐+人均¥80的合理估算，建议开业首月用真实数据校准）</h3><table><tr><th>项目</th><th>保守估算</th><th>测算逻辑</th></tr><tr><td>桌数（150㎡）</td><td>约25-30桌</td><td>正餐每桌约5-6㎡</td></tr><tr><td>日均接待</td><td>约80-110人次</td><td>午市+晚市，稳定后翻台1.2-1.5</td></tr><tr><td>日均流水</td><td>约¥6,400-8,800</td><td>人次×¥80人均</td></tr><tr><td>月流水</td><td>约¥19-26万</td><td>日均×30天（首月偏低，2-3月爬坡）</td></tr></table><h3>运营带来的增量（这套方案多赚多少）</h3><ul><li><strong>点评团购+评价冲分 → 公域获客：</strong>预计月新增到店约15-20%（评分4.6 vs 周边新店均值）。</li><li><strong>会员+社群 → 复购提升：</strong>会员复购率比散客高30%+，按首月400会员、月均复购1.5次估，月增收约¥2-3万。</li><li><strong>午晚错峰 → 午市现金流：</strong>商务套餐填满午市空档，月增收约¥1.5-2万。</li></ul><h3>🎯 量化OKR（开业30天 / 90天目标）</h3><table><tr><th>指标</th><th>30天目标</th><th>90天目标</th></tr><tr><td>月营收</td><td>¥19万+</td><td>¥28万+</td></tr><tr><td>大众点评评分</td><td>4.6</td><td>4.6-4.7</td></tr><tr><td>评价数</td><td>120+</td><td>300+</td></tr><tr><td>会员数</td><td>400+</td><td>1200+</td></tr><tr><td>招牌焗锅点单占比</td><td>40%+</td><td>50%+</td></tr><tr><td>会员复购率</td><td>20%+</td><td>35%+</td></tr></table><h3>结论</h3><p>翠釜山的胜负手不在「卖什么SaaS」，而在<strong>能不能把那道海鲜黄油焗锅打成萧山子夜广场的记忆点</strong>。已签约的收银POS+会员旗舰版+扫码点餐+小程序，恰好能把「引来的客人留下来、让来过的人再回来」。前30天照着上面的时间表做，90天就能在商圈里站稳脚跟。</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>李启炫</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>一句话定位</h3><p>翠釜山是一家主打<strong>「海鲜黄油砂锅焗」</strong>的融合正餐新店，落位萧山北干街道子夜广场（绿众商业中心商圈），面积150㎡，人均¥80，目前<strong>尚未开业、保护期至2026-06-18</strong>。系统标签：0-30天新店、日均流水1千以下（尚未正式经营）、有KP、智能版可SaaS。</p><h3>三个必须正视的现实（⚠️ 部分为新店假设，建议开业首周核实）</h3><ul><li><strong>① ¥80是杭州正餐最难做的腰部价格带。</strong>2025-2026杭州正餐两极分化：50元以下小炒快餐和150+精致正餐两头挤压80元带。萧山客群务实，不为概念买单——光靠「黄油焗」概念和装修撑80人均，开局极易翻车。</li><li><strong>② 子夜广场是区域型商圈，不是顶级流量场。</strong>客流主要靠周边社区+写字楼，<strong>关键看复购而非打卡</strong>。你不能像网红店那样赌一波流量，必须从第一天就抓住「让客人记得住、还想来」。</li><li><strong>③ 新店0认知 + 正面撞成熟连锁。</strong>商圈里费大厨/炊烟这类湘菜爆品连锁（人均80-90）正好卡你价格带，绿茶/外婆家（人均60-75）从下方分流。作为无品牌认知的新店，开局压力客观存在。</li></ul><h3>但你手里有一张别人没有的牌</h3><p>「<strong>海鲜黄油砂锅焗</strong>」——周边费大厨、绿茶、外婆家都没有的差异化品类记忆点。黄油焗自带<strong>香气穿透力（上桌即闻到）+ 视觉冲击（砂锅滋滋作响）+ 拍照欲</strong>，是天然的爆品锚点和社交货币。本方案全部打法都围绕「把这道焗锅变成翠釜山的代名词」展开。</p>`,
+    2: `<h3>品类大盘：地域特色+性价比是腰部唯一活路</h3><p>2025杭州正餐增长点集中在「地域特色+性价比」——纯靠装修和噱头撑高人均的店在批量死亡。翠釜山的「海鲜黄油焗」恰好属于<strong>有记忆点的特色品类</strong>，这是优势；但80人均必须用「值」来支撑，让客人觉得「这个价格吃到这种锅，划算」。</p><h3>客群画像（子夜广场）</h3><ul><li><strong>主力客群：</strong>周边社区家庭（周末晚餐、3-4人聚餐）+ 写字楼白领（工作日午市、商务简餐）</li><li><strong>次要客群：</strong>年轻情侣/朋友小聚（被「黄油焗」颜值吸引来打卡）</li><li><strong>消费场景：</strong>工作日午市求快求值，周末晚市求体验求特色——这意味着需要<strong>两套打法</strong>（详见午晚错峰）</li></ul><h3>三招差异化定调（贯穿全案）</h3><ul><li><strong>① 立招牌单品卡心智：</strong>别做大而全融合菜，砍到3道必点（1道招牌海鲜黄油焗锅+1道现做硬菜+1道引流爆款），菜单首页只推它。对标费大厨「小炒黄牛肉」逻辑——让顾客一想到翠釜山就想到那道焗锅。</li><li><strong>② 开业期主攻3公里社区+写字楼：</strong>前30天集中冲点评评价，快速攒300+真实评价破冷启动（详见点评章节）。</li><li><strong>③ 午晚错峰留客：</strong>工作日午市做商务套餐抢写字楼，晚市靠招牌焗锅拉客单价——午市养现金流，晚市养口碑。</li></ul>`,
+    3: `<h3>子夜广场周边真实竞争格局（中高烈度）</h3><table><tr><th>竞品</th><th>人均</th><th>核心打法</th><th>它的弱点</th><th>翠釜山切入机会</th></tr><tr><td><strong>费大厨/炊烟</strong>（湘菜）</td><td>¥80-90</td><td>湘菜爆品逻辑强、翻台快、单品心智极强</td><td>口味重油重辣吃多腻；非海鲜，无「鲜」记忆</td><td>用「黄油焗海鲜=鲜香不辣」差异化，抢「想吃点不一样的」那批人</td></tr><tr><td><strong>绿茶/外婆家</strong></td><td>¥60-75</td><td>性价比强、出餐快</td><td>菜品老化、无记忆点、同质化</td><td>用招牌焗锅视觉/香气冲击，把「来吃饭」升级成「来吃那道焗锅」</td></tr><tr><td><strong>怂火锅/楠火锅</strong></td><td>¥90+</td><td>年轻氛围强、社交属性</td><td>火锅决策重（要约人、耗时长）</td><td>正餐决策更轻，主打「想吃顿好的不用凑火锅局」</td></tr><tr><td><strong>本地江浙菜散店</strong></td><td>¥70</td><td>家常、熟客生意</td><td>无品类亮点、无线上运营</td><td>用线上点评+招牌单品做出降维差距</td></tr></table><h3>结论：你的对手不是「所有餐厅」，是费大厨</h3><p>费大厨这类成熟连锁正面卡你价格带，是最大威胁。但它的命门是<strong>「重辣、非海鲜、吃多腻」</strong>。翠釜山破局点很清晰：<strong>主打「黄油焗海鲜——鲜、香、不辣、有锅气、能拍照」</strong>，吃走那批「今天不想吃辣、想吃点不一样的」客人。把这句话变成你的菜单第一行、点评第一张图、招牌第一句话。</p>`,
+    4: `<h3>一句话品牌主张</h3><p><strong>「翠釜山——萧山人的那一锅黄油焗海鲜」</strong></p><p>所有传播、菜单、点评、物料都围绕这一句话收敛。新店最大的敌人是「让人记不住」，记忆靠<strong>重复一个点</strong>，不是堆砌十个卖点。</p><h3>爆品锚点设计：3道必点（What→How）</h3><ul><li><strong>① 招牌：海鲜黄油砂锅焗（旗舰款 ¥88-128）</strong>——上桌现场揭盖、滋滋作响、黄油香气穿透用餐区。<strong>How：</strong>① 厨房统一出餐SOP，必须保证上桌仍在「滋滋响」；② 服务员固定话术「您的招牌黄油焗海鲜，小心烫，趁热拍一张特别香」，主动引导拍照；③ 菜单首页大图就放它，占整页1/2。</li><li><strong>② 引流爆款（¥29-39高性价比小焗锅）</strong>——让人「低门槛尝鲜」，降低新客决策成本。<strong>How：</strong>点评团购套餐和午市套餐都用它做钩子。</li><li><strong>③ 现做硬菜1道</strong>——撑住「值这个价」的体验感。</li></ul><h3>菜单做减法（开业前必做）</h3><p><strong>What：</strong>砍掉融合菜「大而全」，菜单SKU控制在30道内，首页只推上述3道。<strong>How：</strong>① 老板+厨师长开业前7天定稿；② 在<strong>🔧 收银POS后台→商品管理</strong>给这3道打「招牌/推荐」标签，扫码点餐页自动置顶；③ 服务员培训：客人犹豫统一推「第一次来必点这个焗锅」。<strong>不配合怎么办：</strong>厨师坚持上更多菜，用「首页只推3道，后厨备菜更聚焦、出餐更快、口味更稳」说服。</p>`,
+    5: `<h3>核心认知：新店前30天决定生死</h3><p>子夜广场是复购型商圈，前30天要同时干两件事：<strong>① 攒够真实评价破冷启动；② 让第一批客人变成回头客和自来水。</strong>下面是可照做的时间表。</p><h3>开业前（D-7 到 D-1）</h3><ul><li><strong>D-7：</strong>菜单定稿+招牌焗锅出餐SOP固化（老板+厨师长）；🔧 收银POS录入商品、打招牌标签。</li><li><strong>D-5：</strong>大众点评后台完善资料——上传9张图（招牌焗锅特写3张+环境3张+菜单3张），简介第一句写「萧山子夜广场·黄油焗海鲜」。</li><li><strong>D-3：</strong>🔧 点评后台「营销中心→霸王餐」设20个试吃名额，攒开业前首批真实评价。</li><li><strong>D-2：</strong>建企业微信社群，把KP人脉、装修期留资客人拉进群发开业预告。</li><li><strong>D-1：</strong>员工全流程演练；🔧 会员旗舰版后台配好「扫码入会礼」「储值档位」。</li></ul><h3>开业第1周（D1-D7）：冲评价 + 留首客</h3><ul><li><strong>每桌必做3件事（服务员SOP）：</strong>① 上招牌焗锅时引导拍照；② 结账前递「扫码入会立减8元/送引流小焗锅」；③ 满意客人请其「花1分钟写写真实感受，好坏都行」。</li><li><strong>话术原句：</strong>「我们刚开业，您是头一批客人，您的真实评价对我们特别重要，扫这个码写几句，下次来给您留个位。」</li><li><strong>客人嫌麻烦：</strong>改为「扫码写满15字，送一份引流小焗锅券下次用」。</li><li><strong>每天打烊后：</strong>老板/店长盯点评后台评价数和评分，<strong>差评2小时内回复</strong>（先共情再给方案，绝不辩解）。</li></ul><h3>第2-4周（D8-D30）：稳口碑 + 拉复购</h3><ul><li>每周复盘招牌焗锅点击率/复购率（🔧 收银POS→经营报表）。</li><li>对已入会客人，🔧 会员旗舰版定向推「7天内回店第二份焗锅半价」，把首客转回头客。</li><li>D30做首月复盘：评价数、评分、会员数、招牌菜占比四个数对照OKR（见末章）。</li></ul>`,
+    6: `<h3>当前阶段判断：新店冷启动期</h3><p>翠釜山未开业、0评价。新店前10条评价决定后续所有顾客第一印象，必须「先定调、再冲量、后维护」。<strong>⚠️ 合规红线：2025年10月后高强度促评/邀评不再产生星级收益，严禁花钱买好评、诱导刷评。</strong>下面全是官方允许的合规打法。</p><h3>第一步 · 止血与定调（D-3到D7）</h3><ul><li><strong>What：</strong>用官方「霸王餐试吃」攒前20-30条真实好评，给新店定高起点基调。<strong>How：</strong>① 店长负责，开业前3天发起；② 🔧 点评后台「营销中心→霸王餐」设20名额；③ 试吃客上招牌焗锅时引导真实反馈；④ 控制节奏，每天5-8单，避免短时间集中爆评。</li></ul><h3>第二步 · 合规工具放大（持续）</h3><ul><li><strong>免费试 / 免费菜：</strong>🔧 点评后台开「免费试」招牌小焗锅，吸引新客到店——到店体验后自然产生评价，是官方鼓励的合规获评方式。</li><li><strong>分享动机打造：</strong>招牌焗锅本身就是「拍照素材」，上桌引导拍照=低成本制造UGC。桌上放「拍下你的黄油焗，发点评/小红书」小桌卡（仅鼓励真实分享，非诱导好评）。</li></ul><h3>第三步 · 评价维护（每天）</h3><ul><li><strong>What：</strong>所有评价24小时内回复，差评2小时内。<strong>How：</strong>好评回复带招牌菜名（强化记忆）；差评先共情「非常抱歉让您体验不好」+具体解决+邀请再来，绝不删评辩解。</li></ul><h3>口碑量化目标</h3><table><tr><th>节点</th><th>评价数</th><th>评分</th><th>榜单路径</th></tr><tr><td>开业7天</td><td>30+</td><td>4.5+</td><td>进「新店榜」</td></tr><tr><td>开业30天</td><td>120+</td><td>4.6</td><td>冲商圈「新店榜」前列</td></tr><tr><td>开业90天</td><td>300+</td><td>4.6-4.7</td><td>向「热门榜/好评榜」爬升</td></tr></table>`,
+    7: `<h3>整体逻辑：公域拉新客，私域锁复购，招牌焗锅串全场</h3><h3>① 公域引流（让新客找到你）</h3><ul><li><strong>大众点评（核心主战场）：</strong>团购套餐做钩子——「招牌黄油焗海鲜双人餐¥158」「四人聚餐¥288」，套餐主图必须是焗锅特写。<strong>How：</strong>🔧 点评后台「团购管理」上架，套餐含招牌焗锅，引导到店核销+评价。</li><li><strong>小红书/抖音（焗锅天生适合）：</strong>黄油焗海鲜的「揭盖滋滋响+黄油香气+爆汁」是绝佳短视频素材。<strong>How：</strong>① 开业前老板自拍5条「揭盖瞬间」短视频铺垫；② 邀请萧山本地3-5个素人探店博主（非头部，成本可控）真实体验；③ 桌卡引导客人发笔记带定位「翠釜山·萧山子夜广场」。</li></ul><h3>② 私域留客（让来过的人再来）</h3><p><strong>这家店痛点是新店缺复购、缺认知，所以私域核心抓「会员沉淀+到店复购」，储值作为辅助而非主菜。</strong></p><ul><li><strong>会员（旗舰版，主推）：</strong>扫码入会礼=立减8元或送引流小焗锅。<strong>How：</strong>🔧 会员旗舰版后台设「扫码点餐自动弹入会礼」，结账必引导。目标首月会员400+。</li><li><strong>社群运营：</strong>入会客人拉进企业微信群，每周推1次「会员日招牌焗锅85折」「焗锅新品尝鲜」，把群当复购触发器。</li><li><strong>储值（辅助，开业稳定后再上）：</strong>⚠️ 新店开业首月不建议强推储值（客人还没建立信任）。<strong>建议D30后</strong>，对已复购2次以上熟客推「充300送30」轻档位，话术「您常来，办个会员卡更划算」。<strong>不配合怎么办：</strong>客人犹豫就不硬推，先靠体验养信任，储值是水到渠成的结果不是开业KPI。</li></ul><h3>③ 午晚错峰（用对工具救现金流）</h3><p><strong>What：</strong>工作日午市推¥38-48写字楼商务套餐（含引流小焗锅，快出餐），晚市主推招牌焗锅拉客单。<strong>How：</strong>🔧 扫码点餐设「午市套餐」时段自动展示；🔧 收银POS分时段看午/晚营收占比，动态调整备货。</p>`,
+    8: `<h3>你已签约的5个模块，这样用才回本</h3><p>翠釜山已签约：<strong>收银POS、会员旗舰版、扫码点餐、小程序</strong>。新店开业，这套组合的价值在于「用最少的人手把客人留下来」。每个产品对应解决一个具体问题。</p><table><tr><th>产品</th><th>解决你的什么问题</th><th>怎么用（🔧 操作）</th></tr><tr><td><strong>扫码点餐</strong></td><td>150㎡新店人手紧、午市高峰出餐慢</td><td>🔧 桌贴扫码点餐，招牌焗锅自动置顶+「必点」标签；减少2名服务员人力</td></tr><tr><td><strong>会员旗舰版</strong></td><td>新店没复购、客人吃完就走</td><td>🔧 扫码入会弹窗+入会礼；旗舰版独有「团购会员卡」把点评公域客转私域；「潜客营销」对未复购客精准发券召回</td></tr><tr><td><strong>收银POS</strong></td><td>不知道哪道菜赚钱、午晚结构</td><td>🔧 经营报表看招牌菜占比/分时段营收/复购率，每周复盘指导备货和菜单</td></tr><tr><td><strong>小程序</strong></td><td>客人离店后无触点</td><td>🔧 小程序绑会员+社群，推新品/会员日/团购，沉淀私域流量池</td></tr></table><h3>旗舰版独有能力，新店一定要用上</h3><ul><li><strong>团购会员卡：</strong>把点评团购来的「一次性公域客」直接转成会员，避免「核销完就消失」。<strong>How：</strong>🔧 旗舰版后台开通团购会员卡，客人核销团购时自动引导入会。</li><li><strong>潜客营销：</strong>对「入会但30天没复购」的客人精准发「招牌焗锅半价券」召回。<strong>How：</strong>🔧 会员后台按「未复购」标签筛选定向推券。</li></ul>`,
+    9: `<h3>营收测算（⚠️ 新店无历史数据，以下为基于150㎡正餐+人均¥80的合理估算，建议开业首月用真实数据校准）</h3><table><tr><th>项目</th><th>保守估算</th><th>测算逻辑</th></tr><tr><td>桌数（150㎡）</td><td>约25-30桌</td><td>正餐每桌约5-6㎡</td></tr><tr><td>日均接待</td><td>约80-110人次</td><td>午市+晚市，稳定后翻台1.2-1.5</td></tr><tr><td>日均流水</td><td>约¥6,400-8,800</td><td>人次×¥80人均</td></tr><tr><td>月流水</td><td>约¥19-26万</td><td>日均×30天（首月偏低，2-3月爬坡）</td></tr></table><h3>运营带来的增量（这套方案多赚多少）</h3><ul><li><strong>点评团购+评价冲分 → 公域获客：</strong>预计月新增到店约15-20%（评分4.6 vs 周边新店均值）。</li><li><strong>会员+社群 → 复购提升：</strong>会员复购率比散客高30%+，按首月400会员、月均复购1.5次估，月增收约¥2-3万。</li><li><strong>午晚错峰 → 午市现金流：</strong>商务套餐填满午市空档，月增收约¥1.5-2万。</li></ul><h3>🎯 量化OKR（开业30天 / 90天目标）</h3><table><tr><th>指标</th><th>30天目标</th><th>90天目标</th></tr><tr><td>月营收</td><td>¥19万+</td><td>¥28万+</td></tr><tr><td>大众点评评分</td><td>4.6</td><td>4.6-4.7</td></tr><tr><td>评价数</td><td>120+</td><td>300+</td></tr><tr><td>会员数</td><td>400+</td><td>1200+</td></tr><tr><td>招牌焗锅点单占比</td><td>40%+</td><td>50%+</td></tr><tr><td>会员复购率</td><td>20%+</td><td>35%+</td></tr></table><h3>结论</h3><p>翠釜山的胜负手不在「卖什么SaaS」，而在<strong>能不能把那道海鲜黄油焗锅打成萧山子夜广场的记忆点</strong>。已签约的收银POS+会员旗舰版+扫码点餐+小程序，恰好能把「引来的客人留下来、让来过的人再回来」。前30天照着上面的时间表做，90天就能在商圈里站稳脚跟。</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
