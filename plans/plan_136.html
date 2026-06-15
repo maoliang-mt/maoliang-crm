@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>门店 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">餐饮 · 运营提升方案</div>
+  <h1 class="hero-title">门店</h1>
+  <p class="hero-subtitle">专属运营提升方案，助力门店持续增长</p>
+  <div class="hero-address"></div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥90-130</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">临安区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '一、这家店的真问题：开业前必须想清的三件事', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">一、这家店的真问题：开业前必须想清的三件事</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '二、装修阶段就要埋的 3 个钩子（现在不做，开业就晚了）', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">二、装修阶段就要埋的 3 个钩子（现在不做，开业就晚了）</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '三、开业 3 天怎么打：从冷启动到刷屏', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">三、开业 3 天怎么打：从冷启动到刷屏</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '四、为什么你签的这几个工具，正好对症', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">四、为什么你签的这几个工具，正好对症</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(5, '五、临安市场怎么打：差异化定位（基于真实调研）', 5)">
+      
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">五、临安市场怎么打：差异化定位（基于真实调研）</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '六、开业后 90 天会员运营 SOP（签约解锁）', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">六、开业后 90 天会员运营 SOP（签约解锁）</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '七、抖音外卖经验如何嫁接堂食 + 投资回报测算（签约解锁）', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">七、抖音外卖经验如何嫁接堂食 + 投资回报测算（签约解锁）</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>零度鲜生不是缺产品，是缺一套「开门就有人、来了就记住、走了还会回」的开业打法</h3><p>结合菜单和老板背景，这家店的底子是清楚的：走的是<strong>生腌 + 刺身拼盘</strong>路线（招牌三文鱼/北极贝/甜虾拼盘 227 元、生腌西鲮鱼 44.88 元、芥末章鱼 32.25 元），人均落在 90-130 元，是临安市面上稀缺的「专业冷食海鲜」定位——不是大排档活鲜，也不是盒马现做，这是好事，但也意味着<strong>临安本地客对这个品类是陌生的，要先教育、再转化</strong>。</p><p>老板已有抖音直播带货 + 线上外卖的经验，这是别人没有的起跑优势。但堂食店是另一套逻辑，开业阶段最容易踩的三个坑：</p><ul><li><strong>① 开业即冷场</strong>：装修再好，临安客不知道你、也没尝过生腌，开业头两周没人气，后面口碑就起不来。</li><li><strong>② 把线上流量浪费掉</strong>：抖音/外卖来的客人扫一次码、吃一次就走，没沉淀成能反复触达的会员，每次都要重新花钱买流量。</li><li><strong>③ 生腌品类「叫好不叫座」</strong>：尝鲜客来一次不复购，因为没人帮他们建立「这家值得再来」的理由。</li></ul><p>下面的方案就围绕这三件事来，每一条都说清楚<strong>具体怎么做、第几天做、谁来做</strong>，照着落地即可。</p></div>
+<div id="modal-content-2" style="display:none"><h3>设计装修期是最便宜的获客窗口，别等开业才想营销</h3><p>店还在装修，恰恰是做开业蓄客最好的时机——这阶段动作几乎零成本，却能让开业当天就有第一批客。</p><h4>钩子1：把围挡变成获客入口（第1天就做）</h4><ul><li><strong>谁来做</strong>：老板/店长对接装修方，加一块临时喷绘围挡。</li><li><strong>怎么做</strong>：围挡上印「临安第一家专业生腌刺身店即将开业」+ 招牌拼盘大图 + 一个企微/小程序二维码，文案写「扫码进群，开业第一波 5 折尝鲜名额仅 100 个」。</li><li><strong>为什么</strong>：临安人天天路过这条街，围挡是免费的曝光位，把路过的人先存进私域池子，开业当天就有种子用户。</li></ul><h4>钩子2：抖音同步做「开业倒计时」内容（装修期持续发）</h4><ul><li><strong>谁来做</strong>：老板用现成的抖音号。</li><li><strong>怎么做</strong>：拍装修进度 + 海鲜进货 + 生腌制作过程的短视频，每条挂「临安门店即将开业」定位，引导本地人「想第一时间尝鲜的扣1，拉你进群」。</li><li><strong>为什么</strong>：老板本来就会拍抖音，把线上粉丝/流量精准导到临安这家实体店，比开业后再投流便宜得多。</li></ul><h4>钩子3：开业前 7 天，企微群里做预热(裂变)</h4><ul><li><strong>怎么做</strong>：群里发「邀请 3 位临安好友进群，开业当天免费送一份生腌西鲮鱼」，用小程序的裂变拉新工具自动统计。</li><li><strong>为什么</strong>：让第一批种子客帮你拉客，开业前把群做到 300-500 人，开业当天就不会冷场。</li></ul></div>
+<div id="modal-content-3" style="display:none"><h3>开业的目标不是赚钱，是「制造满座 + 攒下第一批会员和评价」</h3><p>临安客对生腌陌生，开业期要用「低门槛尝鲜 + 强引导沉淀」把陌生客变成回头客。</p><h4>第1天 · 引爆到店</h4><ul><li><strong>动作</strong>：推「开业招牌拼盘 5 折」（227 元拼盘 → 113 元），但<strong>限定扫码点餐 + 加入会员才享</strong>。</li><li><strong>谁来做</strong>：店员在门口和桌上立牌引导，「扫码点餐，招牌拼盘直接半价」。</li><li><strong>为什么这样设计</strong>：5 折是钩子，真正目的是让每一桌都<strong>扫码点餐（沉淀数据）+ 注册会员（能再触达）</strong>。不是白送，是用一份拼盘换一个长期会员。</li></ul><h4>第2-3天 · 攒评价、保口碑</h4><ul><li><strong>动作</strong>：到店客人结账时，店员引导「点评写好评带图，送下次可用的 30 元生腌券」。</li><li><strong>为什么</strong>：生腌品类客人决策前一定会看点评，开业头 3 天攒够 30-50 条带图好评，后面自然流量才起得来。这是临安新店最该抢的资产。</li></ul><h4>开业期的「峰值」设计（零成本，让人记住）</h4><ul><li>每份拼盘上桌时铺干冰冒白烟 + 店员一句「临安独一份的现切生腌，欢迎拍照」——制造可传播的瞬间，客人自发发朋友圈/抖音，等于免费广告。</li></ul></div>
+<div id="modal-content-4" style="display:none"><h3>你已签：会员旗舰版 + 扫码点餐 + 小程序 + 外卖中心——这套组合对生腌新店是「黄金配置」</h3><p>不是为了凑产品，是这家店的每个问题都正好对应一个工具：</p><table><tr><th>这家店的问题</th><th>对应工具</th><th>怎么解决</th></tr><tr><td>开业冷场、没种子客</td><td>小程序（裂变拉新）</td><td>装修期就能拉群裂变，开业前攒满 500 人种子池</td></tr><tr><td>客人来一次就流失</td><td>会员旗舰版</td><td>每桌扫码即注册会员，沉淀后可反复发券召回</td></tr><tr><td>抖音/外卖流量浪费</td><td>扫码点餐 + 会员</td><td>线上来的客人到店扫码即入会，公域流量转私域资产</td></tr><tr><td>老板已有外卖经验要放大</td><td>外卖中心</td><td>多平台外卖统一管理，把现有线上盘子接进堂食会员体系</td></tr></table><p>核心逻辑一句话：<strong>用扫码点餐把每一桌变成会员，用会员旗舰版反复召回，用小程序裂变拉新，用外卖中心放大老板已有的线上优势。</strong>四个工具是一条闭环，不是四个孤立功能。</p></div>
+<div id="modal-content-5" style="display:none"><h3>临安没有真正的专业生腌店，这是你的窗口期</h3><p>系统调研了临安周边竞争格局，结论是<strong>错位空间真实存在</strong>：</p><ul><li><strong>盒马鲜生（吾悦广场）</strong>：人均 60-100，强在供应链现做，但堂食体验弱、没烟火气——它做不了「现切生腌 + 仪式感堂食」。</li><li><strong>新石浦/外婆家系浙菜馆</strong>：人均 70-100，海鲜只是配菜，没有专业生腌。</li><li><strong>本地大排档/夜市摊</strong>：人均 50-80，价格低但品质不稳、卫生差。</li></ul><p><strong>你的定位</strong>：临安唯一「专业冷食 / 现切生腌刺身」堂食店——比盒马有体验、比浙菜馆专业、比大排档干净。这个定位别人短期补不上。</p><h4>定位落地的 3 个动作</h4><ul><li><strong>明厨亮档</strong>：把生腌/切刺身的过程做成可视化档口，客人看得见新鲜与手艺，打掉「生腌=不卫生」的顾虑。</li><li><strong>价格锚点</strong>：105 元的「三文鱼+甜虾」拼盘做引流款（菜单已有），让客人觉得「专业生腌也吃得起」。</li><li><strong>家庭客锁客</strong>：临安家庭客是基本盘，推「288 元家庭海鲜套餐」抓团圆饭/聚餐场景。</li></ul></div>
+<div id="modal-content-6" style="display:none"><h3>开业只是开始，90 天会员运营决定这家店能不能活下来</h3><p>生腌品类复购全靠运营，这里给一套照着做的 90 天 SOP。</p><h4>第 1-30 天：把会员池做厚</h4><ul><li>每桌扫码点餐强制入会，目标月底 800+ 会员。</li><li>会员首单后第 3 天，自动发「想你了，第二次到店送一份海兔」的召回券（会员旗舰版自动化触达）。</li></ul><h4>第 31-60 天：激活复购</h4><ul><li>对「来过一次未复购」的会员，精准推送生腌新品券（旗舰版潜客营销功能）。</li><li>建立会员储值钩子：充 500 送 80，绑定家庭客长期消费（注意：储值只对适合的客人推，不强推）。</li></ul><h4>第 61-90 天：裂变 + 口碑放大</h4><ul><li>老带新活动：会员邀请好友首单，双方各得 30 元券。</li><li>把外卖中心的线上客同步导入会员体系，线上线下打通。</li></ul><h4>每周固定动作（店长执行）</h4><ul><li>周一：看上周会员增长/复购数据，调整本周券策略。</li><li>周五：群里发周末到货预告 + 限量生腌秒杀，拉动周末客流。</li></ul></div>
+<div id="modal-content-7" style="display:none"><h3>老板最大的优势——已有的抖音 + 外卖盘子，怎么变成堂食店的增长引擎</h3><h4>把线上流量灌进堂食</h4><ul><li><strong>抖音团购</strong>：上架「99 元双人生腌拼盘」抖音团购，核销到店时引导扫码入会，把抖音公域粉丝变成门店私域会员。</li><li><strong>外卖中心承接</strong>：外卖订单包装里放小卡片「到店扫码享会员价 + 现切更新鲜」，把外卖客往堂食引。</li><li><strong>直播预告门店活动</strong>：老板直播时口播门店周末活动，线上线下流量互导。</li></ul><h4>投资回报粗算（参考，实际以经营为准）</h4><table><tr><th>项目</th><th>估算</th></tr><tr><td>人均消费</td><td>90-130 元</td></tr><tr><td>开业首月目标到店</td><td>3000-4000 人次</td></tr><tr><td>会员转化率目标</td><td>≥70%（扫码点餐强制入会）</td></tr><tr><td>3 个月会员池</td><td>2000+ 人</td></tr><tr><td>会员复购贡献</td><td>稳定后占营收 40%+</td></tr></table><p><strong>关键结论</strong>：这家店的胜负手不在开业当天热闹，而在于<strong>能不能把抖音/外卖的线上流量，沉淀成 2000+ 可反复触达的堂食会员</strong>。工具已经齐了，剩下的是把上面的 SOP 一条条执行到位。开业前的装修期，就是现在该动手的时候。</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>翟卫婷</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>零度鲜生不是缺产品，是缺一套「开门就有人、来了就记住、走了还会回」的开业打法</h3><p>结合菜单和老板背景，这家店的底子是清楚的：走的是<strong>生腌 + 刺身拼盘</strong>路线（招牌三文鱼/北极贝/甜虾拼盘 227 元、生腌西鲮鱼 44.88 元、芥末章鱼 32.25 元），人均落在 90-130 元，是临安市面上稀缺的「专业冷食海鲜」定位——不是大排档活鲜，也不是盒马现做，这是好事，但也意味着<strong>临安本地客对这个品类是陌生的，要先教育、再转化</strong>。</p><p>老板已有抖音直播带货 + 线上外卖的经验，这是别人没有的起跑优势。但堂食店是另一套逻辑，开业阶段最容易踩的三个坑：</p><ul><li><strong>① 开业即冷场</strong>：装修再好，临安客不知道你、也没尝过生腌，开业头两周没人气，后面口碑就起不来。</li><li><strong>② 把线上流量浪费掉</strong>：抖音/外卖来的客人扫一次码、吃一次就走，没沉淀成能反复触达的会员，每次都要重新花钱买流量。</li><li><strong>③ 生腌品类「叫好不叫座」</strong>：尝鲜客来一次不复购，因为没人帮他们建立「这家值得再来」的理由。</li></ul><p>下面的方案就围绕这三件事来，每一条都说清楚<strong>具体怎么做、第几天做、谁来做</strong>，照着落地即可。</p>`,
+    2: `<h3>设计装修期是最便宜的获客窗口，别等开业才想营销</h3><p>店还在装修，恰恰是做开业蓄客最好的时机——这阶段动作几乎零成本，却能让开业当天就有第一批客。</p><h4>钩子1：把围挡变成获客入口（第1天就做）</h4><ul><li><strong>谁来做</strong>：老板/店长对接装修方，加一块临时喷绘围挡。</li><li><strong>怎么做</strong>：围挡上印「临安第一家专业生腌刺身店即将开业」+ 招牌拼盘大图 + 一个企微/小程序二维码，文案写「扫码进群，开业第一波 5 折尝鲜名额仅 100 个」。</li><li><strong>为什么</strong>：临安人天天路过这条街，围挡是免费的曝光位，把路过的人先存进私域池子，开业当天就有种子用户。</li></ul><h4>钩子2：抖音同步做「开业倒计时」内容（装修期持续发）</h4><ul><li><strong>谁来做</strong>：老板用现成的抖音号。</li><li><strong>怎么做</strong>：拍装修进度 + 海鲜进货 + 生腌制作过程的短视频，每条挂「临安门店即将开业」定位，引导本地人「想第一时间尝鲜的扣1，拉你进群」。</li><li><strong>为什么</strong>：老板本来就会拍抖音，把线上粉丝/流量精准导到临安这家实体店，比开业后再投流便宜得多。</li></ul><h4>钩子3：开业前 7 天，企微群里做预热(裂变)</h4><ul><li><strong>怎么做</strong>：群里发「邀请 3 位临安好友进群，开业当天免费送一份生腌西鲮鱼」，用小程序的裂变拉新工具自动统计。</li><li><strong>为什么</strong>：让第一批种子客帮你拉客，开业前把群做到 300-500 人，开业当天就不会冷场。</li></ul>`,
+    3: `<h3>开业的目标不是赚钱，是「制造满座 + 攒下第一批会员和评价」</h3><p>临安客对生腌陌生，开业期要用「低门槛尝鲜 + 强引导沉淀」把陌生客变成回头客。</p><h4>第1天 · 引爆到店</h4><ul><li><strong>动作</strong>：推「开业招牌拼盘 5 折」（227 元拼盘 → 113 元），但<strong>限定扫码点餐 + 加入会员才享</strong>。</li><li><strong>谁来做</strong>：店员在门口和桌上立牌引导，「扫码点餐，招牌拼盘直接半价」。</li><li><strong>为什么这样设计</strong>：5 折是钩子，真正目的是让每一桌都<strong>扫码点餐（沉淀数据）+ 注册会员（能再触达）</strong>。不是白送，是用一份拼盘换一个长期会员。</li></ul><h4>第2-3天 · 攒评价、保口碑</h4><ul><li><strong>动作</strong>：到店客人结账时，店员引导「点评写好评带图，送下次可用的 30 元生腌券」。</li><li><strong>为什么</strong>：生腌品类客人决策前一定会看点评，开业头 3 天攒够 30-50 条带图好评，后面自然流量才起得来。这是临安新店最该抢的资产。</li></ul><h4>开业期的「峰值」设计（零成本，让人记住）</h4><ul><li>每份拼盘上桌时铺干冰冒白烟 + 店员一句「临安独一份的现切生腌，欢迎拍照」——制造可传播的瞬间，客人自发发朋友圈/抖音，等于免费广告。</li></ul>`,
+    4: `<h3>你已签：会员旗舰版 + 扫码点餐 + 小程序 + 外卖中心——这套组合对生腌新店是「黄金配置」</h3><p>不是为了凑产品，是这家店的每个问题都正好对应一个工具：</p><table><tr><th>这家店的问题</th><th>对应工具</th><th>怎么解决</th></tr><tr><td>开业冷场、没种子客</td><td>小程序（裂变拉新）</td><td>装修期就能拉群裂变，开业前攒满 500 人种子池</td></tr><tr><td>客人来一次就流失</td><td>会员旗舰版</td><td>每桌扫码即注册会员，沉淀后可反复发券召回</td></tr><tr><td>抖音/外卖流量浪费</td><td>扫码点餐 + 会员</td><td>线上来的客人到店扫码即入会，公域流量转私域资产</td></tr><tr><td>老板已有外卖经验要放大</td><td>外卖中心</td><td>多平台外卖统一管理，把现有线上盘子接进堂食会员体系</td></tr></table><p>核心逻辑一句话：<strong>用扫码点餐把每一桌变成会员，用会员旗舰版反复召回，用小程序裂变拉新，用外卖中心放大老板已有的线上优势。</strong>四个工具是一条闭环，不是四个孤立功能。</p>`,
+    5: `<h3>临安没有真正的专业生腌店，这是你的窗口期</h3><p>系统调研了临安周边竞争格局，结论是<strong>错位空间真实存在</strong>：</p><ul><li><strong>盒马鲜生（吾悦广场）</strong>：人均 60-100，强在供应链现做，但堂食体验弱、没烟火气——它做不了「现切生腌 + 仪式感堂食」。</li><li><strong>新石浦/外婆家系浙菜馆</strong>：人均 70-100，海鲜只是配菜，没有专业生腌。</li><li><strong>本地大排档/夜市摊</strong>：人均 50-80，价格低但品质不稳、卫生差。</li></ul><p><strong>你的定位</strong>：临安唯一「专业冷食 / 现切生腌刺身」堂食店——比盒马有体验、比浙菜馆专业、比大排档干净。这个定位别人短期补不上。</p><h4>定位落地的 3 个动作</h4><ul><li><strong>明厨亮档</strong>：把生腌/切刺身的过程做成可视化档口，客人看得见新鲜与手艺，打掉「生腌=不卫生」的顾虑。</li><li><strong>价格锚点</strong>：105 元的「三文鱼+甜虾」拼盘做引流款（菜单已有），让客人觉得「专业生腌也吃得起」。</li><li><strong>家庭客锁客</strong>：临安家庭客是基本盘，推「288 元家庭海鲜套餐」抓团圆饭/聚餐场景。</li></ul>`,
+    6: `<h3>开业只是开始，90 天会员运营决定这家店能不能活下来</h3><p>生腌品类复购全靠运营，这里给一套照着做的 90 天 SOP。</p><h4>第 1-30 天：把会员池做厚</h4><ul><li>每桌扫码点餐强制入会，目标月底 800+ 会员。</li><li>会员首单后第 3 天，自动发「想你了，第二次到店送一份海兔」的召回券（会员旗舰版自动化触达）。</li></ul><h4>第 31-60 天：激活复购</h4><ul><li>对「来过一次未复购」的会员，精准推送生腌新品券（旗舰版潜客营销功能）。</li><li>建立会员储值钩子：充 500 送 80，绑定家庭客长期消费（注意：储值只对适合的客人推，不强推）。</li></ul><h4>第 61-90 天：裂变 + 口碑放大</h4><ul><li>老带新活动：会员邀请好友首单，双方各得 30 元券。</li><li>把外卖中心的线上客同步导入会员体系，线上线下打通。</li></ul><h4>每周固定动作（店长执行）</h4><ul><li>周一：看上周会员增长/复购数据，调整本周券策略。</li><li>周五：群里发周末到货预告 + 限量生腌秒杀，拉动周末客流。</li></ul>`,
+    7: `<h3>老板最大的优势——已有的抖音 + 外卖盘子，怎么变成堂食店的增长引擎</h3><h4>把线上流量灌进堂食</h4><ul><li><strong>抖音团购</strong>：上架「99 元双人生腌拼盘」抖音团购，核销到店时引导扫码入会，把抖音公域粉丝变成门店私域会员。</li><li><strong>外卖中心承接</strong>：外卖订单包装里放小卡片「到店扫码享会员价 + 现切更新鲜」，把外卖客往堂食引。</li><li><strong>直播预告门店活动</strong>：老板直播时口播门店周末活动，线上线下流量互导。</li></ul><h4>投资回报粗算（参考，实际以经营为准）</h4><table><tr><th>项目</th><th>估算</th></tr><tr><td>人均消费</td><td>90-130 元</td></tr><tr><td>开业首月目标到店</td><td>3000-4000 人次</td></tr><tr><td>会员转化率目标</td><td>≥70%（扫码点餐强制入会）</td></tr><tr><td>3 个月会员池</td><td>2000+ 人</td></tr><tr><td>会员复购贡献</td><td>稳定后占营收 40%+</td></tr></table><p><strong>关键结论</strong>：这家店的胜负手不在开业当天热闹，而在于<strong>能不能把抖音/外卖的线上流量，沉淀成 2000+ 可反复触达的堂食会员</strong>。工具已经齐了，剩下的是把上面的 SOP 一条条执行到位。开业前的装修期，就是现在该动手的时候。</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
