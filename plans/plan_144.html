@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NON-RATIONAL hookah lounge · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">休闲娱乐 / 清吧 / 特调酒吧 · 运营提升方案</div>
+  <h1 class="hero-title">NON-RATIONAL hookah lounge</h1>
+  <p class="hero-subtitle">让每一杯特调都成为下次再来的理由</p>
+  <div class="hero-address">潮韵路151-1号兰泽欧医美旁边（观云钱塘城商圈）</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥194</span>
+      <div class="hero-stat-label">人均消费</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.8分</span>
+      <div class="hero-stat-label">点评评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">钱塘区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '门店诊断·数据体检', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">门店诊断·数据体检</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '商圈竞争·差异化定位', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">商圈竞争·差异化定位</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '线上引流急救·流量漏斗修复', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">线上引流急救·流量漏斗修复</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评口碑·从4.8到稳固壁垒', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评口碑·从4.8到稳固壁垒</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '会员体系·把散客变成常客', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">会员体系·把散客变成常客</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '营销活动·四季节奏', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">营销活动·四季节奏</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '公私域联动·闭环引流', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">公私域联动·闭环引流</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '投资回报·OKR目标', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">投资回报·OKR目标</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>基础经营数据交叉验证</h3><p>日均流水<strong>3,000元+</strong>，客单价<strong>¥194</strong>，推算日均消费人次约<strong>15-16人</strong>，月消费人次约<strong>450-480人</strong>。100平方米的清吧空间按6-8张桌、每桌2-3人算满座约18人，日均15人说明<strong>翻台率不到1</strong>——晚高峰基本能坐满一轮，但缺少第二轮客流。月流水约<strong>9万-10万</strong>。</p><h3>核心问题诊断</h3><ul><li><strong>线上流量漏斗断裂（最致命）</strong>：商户通和推广通都已开通在线，但近30天曝光、访问、消费三项转化率全部为<strong>0%</strong>。平台投放预算在烧空气——钱花了但没有一个有效客户通过线上到店。可能原因：推广通关键词与品类不匹配、团购套餐未上线或定价不合理、门店信息不完整导致点击后流失。</li><li><strong>评分高但转化低</strong>：4.8分加154条评价加942次收藏，口碑基础非常好。但好口碑没转化为到店客流，说明被收藏但没被消费——消费者感兴趣但没有触发行动的临门一脚（缺一个到店理由如团购套餐）。</li><li><strong>品类认知门槛高</strong>：hookah lounge对普通消费者来说是陌生概念。大众点评分类为清吧和特调酒吧，但核心产品是水烟加特调，这种小众品类必须靠内容种草降低认知门槛。</li><li><strong>日均流水3千约月营收9万</strong>：100平方米清吧的租金加人力加物料成本按杭州钱塘区估算约5-6万每月（假设，建议核实），净利润空间约3-4万，有提升空间但前提是线上引流必须先打通。</li></ul><h3>已签约SaaS模块确认</h3><table><tr><th>模块</th><th>状态</th><th>使用建议</th></tr><tr><td>收银POS</td><td>已签约</td><td>正常使用，关注酒水品类销售数据分析</td></tr><tr><td>扫码点餐</td><td>已签约</td><td>清吧场景下要优化：客人进店先体验氛围再扫码，不要一坐下就推</td></tr><tr><td>会员旗舰版</td><td>已签约</td><td>核心武器——用团购会员卡加潜客营销做线上引流闭环</td></tr><tr><td>小程序</td><td>已签约</td><td>做私域承接入口，社群加朋友圈引流到小程序下单</td></tr><tr><td>会员高级版</td><td>已签约</td><td>旗舰版已覆盖高级版功能，优先用旗舰版</td></tr></table></div>
+<div id="modal-content-2" style="display:none"><h3>观云钱塘城商圈竞争格局</h3><p>NON-RATIONAL位于钱塘区观云钱塘城商圈，潮韵路沿街铺面。钱塘区作为杭州新兴产业区，常住人口超50万，以年轻产业人口为主。清吧和特调酒吧赛道在该区域<strong>竞争烈度中等偏低</strong>——不像武林或湖滨那样酒吧密集，但这也意味着品类认知需要靠自己教育市场。</p><h3>周边竞品对比（3-5公里范围）</h3><table><tr><th>竞品类型</th><th>代表品牌</th><th>人均</th><th>核心优势</th><th>可切入弱点</th></tr><tr><td>创意西餐酒吧</td><td>Alimentari类精酿吧</td><td>180-250元</td><td>出片率高酒单利润厚</td><td>同质化严重缺独特体验无水烟差异化</td></tr><tr><td>日式居酒屋清吧</td><td>各类居酒屋</td><td>120-180元</td><td>氛围感好适合小聚</td><td>产品线单一缺乏体验型消费</td></tr><tr><td>咖啡加酒复合店</td><td>Day and Night类</td><td>80-150元</td><td>全时段经营客群广</td><td>专业度不够深什么都做什么都不精</td></tr><tr><td>KTV量贩式</td><td>纯K星聚会等</td><td>100-200元</td><td>团建聚会场景明确</td><td>体验老旧缺私密社交感</td></tr></table><h3>NON-RATIONAL的差异化壁垒</h3><p><strong>水烟加特调双体验模式</strong>是你在钱塘区的独有差异化——周边没有第二家hookah lounge。这意味着：</p><ul><li><strong>体验不可替代性强</strong>：想体验水烟只能来这里，不存在隔壁更便宜的比较。</li><li><strong>社交货币属性高</strong>：水烟本身就是拍照打卡的内容素材，天然适合小红书传播。</li><li><strong>客单价支撑力强</strong>：194元人均包含体验溢价（类似密室逃脱和剧本杀的体验消费逻辑），消费者不会用普通清吧的80到120元来对标。</li></ul><p><strong>核心判断</strong>：你的竞争对手不是隔壁酒吧，而是所有「晚上去哪玩」的选项（电影院、KTV、桌游、剧本杀）。营销打法要把自己放在休闲娱乐大赛道里抢客，而不是只在酒吧小池子里打。</p></div>
+<div id="modal-content-3" style="display:none"><h3>当前最大问题：推广通在线但转化率0%</h3><p>你的商户通和推广通都已开通在线，但近30天曝光到访问到消费三级转化全部为<strong>0%</strong>。这是最需要立刻解决的问题——相当于开了店但没挂招牌。</p><h3>第一步：72小时急救（店长负责，立刻执行）</h3><p><strong>Day 1 团购套餐上线</strong></p><ul><li>在大众点评商家后台「营销中心-团购」上线2款引流套餐：</li><li><strong>非理性入门体验 128元</strong>：含1支特调鸡尾酒加30分钟水烟体验加1份小食拼盘，门市价约200元让利约36%——这是引流款，目的是降低首次体验门槛。</li><li><strong>非理性双人夜 358元</strong>：含2支特调加60分钟水烟加小食拼盘加果盘，门市价约500元让利约28%——这是利润款加社交场景款。</li></ul><p><strong>Day 1 门店信息完善</strong></p><ul><li>大众点评商家后台「门店管理-门店信息」，检查并补全：营业时间标注到凌晨2点、特色标签填写水烟和特调鸡尾酒和私密社交和约会推荐、100张门店图按环境到产品到菜单排序，封面图选水烟加鸡尾酒的氛围感图片。</li></ul><p><strong>Day 2 推广通关键词优化</strong></p><ul><li>推广通后台「关键词管理」，当前关键词大概率不精准。清吧品类有效关键词：钱塘区酒吧、杭州清吧、约会好去处钱塘、水烟体验、特调鸡尾酒、朋友聚会去哪——先暂停所有原关键词，只保留这6个高相关词，日预算设50元起步。</li></ul><p><strong>Day 3 验证效果</strong></p><ul><li>商家后台「数据中心-流量分析」查看曝光和点击和收藏数据是否开始有数字。如果3天后曝光仍为0，说明门店分类可能有误，需联系美团客服调整品类至酒吧或清吧。</li></ul><h3>第二步：14天内容种草启动（老板加1名员工负责）</h3><ul><li><strong>小红书</strong>：每周发3条笔记（周三周五周六各1条），内容模板：第一类品牌故事型「杭州钱塘区终于有hookah lounge了」，第二类团购引导型「128元体验一次非理性之夜」，第三类产品展示型「调酒师今晚的隐藏特调」。标题必带地理关键词钱塘区和观云钱塘城。谁来做：老板或指定1名颜值在线的调酒师，手机拍摄加剪映简单剪辑，单条制作时间控制在20分钟内。</li><li><strong>抖音</strong>：每周发2条短视频15到30秒，重点拍水烟吐烟圈、调酒过程、氛围灯光等视觉冲击强的画面。挂抖音团购链接（需开通抖音来客，建议日预算30元起步）。</li><li>客人不配合或没时间拍怎么办：提前拍好20条素材存手机相册，用定时发布功能一次拍够一周的量。</li></ul><h3>预期效果</h3><p>修复后14天内，大众点评曝光人数从0提升到日均500以上（假设取决于推广通预算和关键词精准度），团购核销首月目标30单（128元档20单加358元档10单），直接带来增量营收约6140元。更关键的是这30位新客就是私域种子用户的来源。</p></div>
+<div id="modal-content-4" style="display:none"><h3>当前口碑状态判断</h3><p>点评评分<strong>4.8分</strong>、评价<strong>154条</strong>、收藏<strong>942次</strong>——这是一个非常健康的口碑基础。4.8分在清吧品类里属于头部水平（行业均值约4.2到4.5分），154条评价也已经过了新店冷启动阶段。口碑不缺数量，缺的是把口碑转化为到店客流的最后一环。</p><h3>合规红线 2025年10月新规</h3><p>大众点评2025年10月后严厉打击高强度促评和邀评行为——被判定为促评的新评价不产生星级收益，严重者降权甚至摘星。因此以下行为绝对禁止：</p><ul><li>好评返现返券</li><li>服务员主动要求客人写好评</li><li>第三方刷评买评</li><li>任何写好评送什么的话术</li></ul><h3>合规提升路径（3个动作）</h3><p><strong>动作1：上线免费试活动（店长负责本周内完成）</strong></p><ul><li>大众点评商家后台「营销中心-免费试」，设置每周5个名额的免费体验——内容为特调鸡尾酒1杯加水烟15分钟体验（成本约30元每份，月成本约600元）。</li><li>免费试的优势：平台官方活动，获得的评价100%计入星级且会被打上免费试标签，不会被判定为促评。</li><li>目标：每月新增15到20条高质量评价（免费试用户写评概率约60%到70%）。</li></ul><p><strong>动作2：打造分享动机而非催评（服务员执行每天）</strong></p><ul><li>在水烟区域设置一个打卡角——好看的霓虹灯牌写着NON-RATIONAL品牌名加一句有调性的slogan如今晚不讲道理，旁边放小镜子和补光灯。</li><li>服务员话术（只在客人主动拍照时说）：这个角度拍出来最好看，很多客人都发了小红书。引导分享而非催评，客人发了小红书或朋友圈就自然带出门店。</li><li>禁止说：麻烦给个好评或写评价送什么。客人不拍照不用管，强推只会招反感。</li></ul><p><strong>动作3：差评2小时回复机制（老板或店长负责）</strong></p><ul><li>大众点评商家后台「评价管理」设置新评价提醒推送到手机，差评2小时内必须回复。</li><li>回复模板：先道歉再说明原因再给出补偿方案再邀请再来体验。禁止模板化回复。</li><li>目标：差评回复率100%，将差评转化为商家态度好的二次口碑。</li></ul><h3>口碑维护目标</h3><table><tr><th>指标</th><th>当前</th><th>3个月目标</th></tr><tr><td>点评评分</td><td>4.8分</td><td>稳定4.8分不降</td></tr><tr><td>月新增评价</td><td>约5到8条（估算）</td><td>15到20条</td></tr><tr><td>差评回复率</td><td>未知</td><td>100%</td></tr><tr><td>收藏转化率</td><td>极低942收藏但转化0%</td><td>收藏用户月到店率5%以上约47人每月</td></tr></table></div>
+<div id="modal-content-5" style="display:none"><h3>会员策略核心逻辑</h3><p>清吧的消费特征是<strong>低频高客单</strong>——客人不会天天来，但每次来消费194元。这意味着会员策略的重点不是让客人来更多次（很难，清吧消费频次天然低），而是<strong>每次来的时候多花一点加带朋友来</strong>。</p><p>你已签约<strong>会员旗舰版4888元每年</strong>，这是最关键的武器。旗舰版独有的团购会员卡加潜客营销功能，刚好解决你收藏942但转化0%的核心问题。</p><h3>会员体系搭建（店长负责1周内完成）</h3><p><strong>第1步：设计会员等级（Day 1到2）</strong></p><ul><li>美团商家后台「会员中心-会员等级设置」，建议设3个等级：</li><li><strong>微醺会员</strong>（注册即享）：生日月赠特调1杯加每次到店享水烟加时15分钟。</li><li><strong>迷醉会员</strong>（累计消费满1000元）：额外享专属隐藏酒单每月更新3款加可预约VIP卡座。</li><li><strong>非理性会员</strong>（累计消费满3000元）：每月1次调酒师定制特调加优先参加品鉴会加带朋友享同等水烟体验。</li><li>注意：不设折扣。清吧卖的是体验和氛围，打折会拉低品牌调性。用特权和专属体验替代折扣。</li></ul><p><strong>第2步：团购会员卡上线（Day 3到4）</strong></p><ul><li>会员中心「团购会员卡」上线<strong>非理性体验卡39元</strong>：持卡享首次到店特调升杯中杯到大杯、水烟体验延长15分钟、生日月双倍权益。</li><li>定价逻辑：39元足够低（一杯奶茶钱），但能把大众点评的收藏用户转化为会员用户——这是解决942收藏但0转化的钥匙。</li><li>在团购套餐详情页和店内桌牌和小程序首页都放团购会员卡入口。</li></ul><p><strong>第3步：潜客营销激活（Day 5到7）</strong></p><ul><li>会员中心「潜客营销」，对收藏未消费用户推送消息：你收藏的NON-RATIONAL有新品上线——本周隐藏特调午夜花园，前20位到店品鉴。</li><li>每周推送1次，内容围绕新品和限时体验和品鉴会，制造稀缺感和到店理由。</li><li>预期：942收藏用户中，潜客营销触达率约30%（283人），到店转化率5%（约14人每月），人均消费194元等于月增收2716元。</li></ul><h3>会员目标（3个月）</h3><table><tr><th>指标</th><th>当前</th><th>3个月目标</th></tr><tr><td>会员总数</td><td>未知假设少于50人</td><td>300人</td></tr><tr><td>团购会员卡销售</td><td>0</td><td>月售50张</td></tr><tr><td>会员月到店率</td><td>未知</td><td>15%以上</td></tr><tr><td>会员带新率</td><td>未知</td><td>10%以上每10个会员带1个新客</td></tr></table></div>
+<div id="modal-content-6" style="display:none"><h3>清吧营销核心原则</h3><p>清吧不是快餐店，不能靠满减折扣秒杀拉客——这会拉低品牌调性。清吧营销的关键词是<strong>仪式感、稀缺性、社交货币</strong>。每个活动的设计标准：客人参加完愿意发朋友圈或小红书。</p><h3>Q2当季活动方案（6到7月执行）</h3><p><strong>活动1：夏日非理性之夜 主题周（6月第3周启动每月1次）</strong></p><ul><li><strong>谁来做</strong>：调酒师加老板策划，服务员执行。</li><li><strong>做什么</strong>：每月选一个周五晚推出限定主题夜——6月主题热带风暴（朗姆基酒加热带水果特调加椰子味水烟），7月主题薄荷凉夜（金酒基酒加薄荷黄瓜特调加薄荷味水烟）。</li><li><strong>在哪操作</strong>：扫码点餐后台「限时活动」设置主题夜专属套餐258元双人（含2杯主题特调加60分钟主题水烟加限定小食）；会员系统提前3天给会员推送本周五主题夜预约消息。</li><li><strong>引流</strong>：提前5天在小红书和抖音发预告视频（调酒师调制主题特调过程），标题杭州钱塘区本周五限定主题夜仅开放15桌。</li><li><strong>客人不感兴趣怎么办</strong>：前3次主题夜给老会员赠送主题限定小食1份作为到场奖励，养成每月必来的习惯。</li><li>预估成本：额外食材加水烟耗材约500元每次月1次等于500元。预期到场8到12桌营收2064到3096元。</li></ul><p><strong>活动2：周三微醺日 常态化拉低谷（每周三固定）</strong></p><ul><li><strong>谁来做</strong>：店长设置，服务员提醒。</li><li><strong>做什么</strong>：每周三到店消费第二杯特调半价（限同行2人以上）。不是打折——是用周三低谷时段练新品带新客。</li><li><strong>在哪操作</strong>：会员系统「定时营销」设置每周二晚推送周三微醺日提醒；扫码点餐设置周三专属弹窗今日第二杯半价。</li><li><strong>话术</strong>：服务员在周三客人落座后说今天是微醺日第二杯特调半价，要不要试试调酒师这周的新品。</li><li><strong>客人一个人来怎么办</strong>：单人消费不享半价但送一份限定小食（成本5到8元），不让单人客觉得被冷落。</li><li>预期：周三到店人数从日常5到6人提升到10到12人，周增收约1000元月增收约4000元。</li></ul><p><strong>活动3：端午特调限定（6月底3天）</strong></p><ul><li><strong>做什么</strong>：推出端午限定特调粽香古法（糯米酒基底加桂花蜜加薄荷叶），定价68元每杯，限售100杯。</li><li><strong>引流</strong>：小红书发杭州这家酒吧居然用糯米酒做鸡尾酒的种草帖。</li><li><strong>在哪操作</strong>：扫码点餐菜单新增端午限定分类，上线前3天发会员推送。</li><li>预期：3天售50到80杯增收3400到5440元。</li></ul></div>
+<div id="modal-content-7" style="display:none"><h3>公私域联动全景图</h3><p>NON-RATIONAL的引流逻辑不是传统餐饮的满减获客，而是<strong>内容种草加体验转化加私域锁客</strong>的三角闭环。水烟加特调的体验属性天然适合内容传播，关键是把传播链条做成系统而不是碰运气。</p><h3>公域引流矩阵（4个渠道按优先级排序）</h3><p><strong>渠道1：大众点评（核心主战场）</strong></p><ul><li>团购套餐（128元体验款加358元双人款）持续在线，这是从收藏到消费的转化桥梁。</li><li>推广通关键词精准投放（日预算50元），只投钱塘区酒吧等6个高相关词。</li><li>免费试活动每周5个名额，持续获得合规评价。</li><li>负责人：店长，每天花10分钟检查后台数据。</li></ul><p><strong>渠道2：小红书（品牌心智建设）</strong></p><ul><li>每周3条笔记，内容方向：品牌故事型30%、产品展示型40%、探店打卡型30%。</li><li>关键动作：每条笔记标题必带杭州钱塘区加hookah或水烟关键词，封面图必须有水烟烟雾效果（视觉冲击力强）。</li><li>邀请本地5000到50000粉丝的博主到店免费体验（每月2到3位，成本约200到300元每位），产出探店笔记。</li><li>负责人：老板或调酒师，每条20分钟内完成。</li></ul><p><strong>渠道3：抖音（短视频爆发力）</strong></p><ul><li>每周2条短视频，重点拍视觉冲击强的画面——水烟吐烟圈慢镜头、火焰调酒、氛围灯光。</li><li>挂抖音团购链接（需开通抖音来客），日预算30元。</li><li>负责人：老板或员工用手机拍摄，剪映简单剪辑。</li></ul><p><strong>渠道4：朋友圈广告（精准触达周边3公里）</strong></p><ul><li>月预算500元投朋友圈广告，定向钱塘区观云钱塘城周边3公里、18到35岁、兴趣标签酒吧和夜生活和聚会。</li><li>广告创意：15秒水烟加特调体验短视频加128元团购二维码。</li><li>预期：月曝光1万以上，点击率2%到3%等于200到300次点击到店转化10%等于20到30人。</li></ul><h3>私域沉淀闭环</h3><p><strong>入口</strong>：所有到店客人扫码点餐时自动跳转小程序注册会员（桌面立牌提示扫码注册即享水烟加时15分钟）。</p><p><strong>承接</strong>：会员进入小程序后看到会员等级和权益和活动预告和隐藏酒单，建立持续互动触点。</p><p><strong>激活</strong>：每周通过会员系统推送1次内容（新品推荐或主题夜预告或限定活动），保持品牌在客人心中的存在感。</p><p><strong>裂变</strong>：非理性会员（累计3000元）带朋友享同等水烟体验——这是用老客带新客的零成本裂变引擎。</p><h3>联动逻辑总结</h3><p>公域（点评团购加小红书种草加抖音短视频加朋友圈广告）拉新客到店 → 到店扫码变会员 → 会员系统推送持续唤醒 → 高等级会员带新裂变 → 新客到店再变会员。形成<strong>拉新到留存到裂变的正循环</strong>。</p></div>
+<div id="modal-content-8" style="display:none"><h3>投入预算明细（月度）</h3><table><tr><th>投入项</th><th>月预算</th><th>用途说明</th></tr><tr><td>推广通投放</td><td>1500元</td><td>日预算50元 x 30天精准关键词投放</td></tr><tr><td>抖音来客投放</td><td>900元</td><td>日预算30元 x 30天短视频投流</td></tr><tr><td>免费试活动成本</td><td>600元</td><td>每周5人每人成本30元 x 4周</td></tr><tr><td>博主探店邀请</td><td>600元</td><td>每月2到3位本地博主每人200到300元</td></tr><tr><td>朋友圈广告</td><td>500元</td><td>定向周边3公里精准投放</td></tr><tr><td>主题夜额外物料</td><td>500元</td><td>每月1场主题夜食材和水烟耗材</td></tr><tr><td>周三微醺日让利</td><td>800元</td><td>每周约200元第二杯半价让利</td></tr><tr><td><strong>月总投入</strong></td><td><strong>5400元</strong></td><td></td></tr></table><h3>预期增收来源（月度）</h3><table><tr><th>增收来源</th><th>月增收预估</th><th>计算逻辑</th></tr><tr><td>团购套餐核销</td><td>6140元</td><td>128元档20单加358元档10单</td></tr><tr><td>潜客营销转化到店</td><td>2716元</td><td>942收藏 x 30%触达 x 5%转化 x 194元人均</td></tr><tr><td>周三微醺日增量</td><td>4000元</td><td>每周增加5到6人次 x 4周 x 194元人均</td></tr><tr><td>主题夜增收</td><td>2580元</td><td>每月1场 x 10桌 x 258元套餐</td></tr><tr><td>会员带新裂变</td><td>1940元</td><td>月增10个裂变新客 x 194元人均</td></tr><tr><td>朋友圈广告到店</td><td>3880元</td><td>月增20人到店 x 194元人均</td></tr><tr><td><strong>月总增收预估</strong></td><td><strong>21256元</strong></td><td></td></tr></table><h3>投资回报分析</h3><ul><li><strong>月投入</strong>：5400元</li><li><strong>月增收</strong>：21256元</li><li><strong>净增利润</strong>：约15856元（按酒水品类毛利率70%计算净增利润约11099元）</li><li><strong>ROI</strong>：每投入1元带来约3.9元营收</li><li><strong>月流水目标</strong>：从当前9万提升至<strong>11.1万</strong>，增幅约23%</li></ul><h3>3个月OKR目标</h3><table><tr><th>指标</th><th>当前基线</th><th>第1个月</th><th>第2个月</th><th>第3个月</th></tr><tr><td>月流水</td><td>9万</td><td>10万</td><td>10.8万</td><td>11.5万</td></tr><tr><td>点评评分</td><td>4.8分</td><td>4.8分</td><td>4.8分</td><td>4.8分稳固</td></tr><tr><td>月新增评价</td><td>5到8条</td><td>15条</td><td>18条</td><td>20条</td></tr><tr><td>会员总数</td><td>少于50人</td><td>120人</td><td>220人</td><td>300人</td></tr><tr><td>团购月核销</td><td>0</td><td>30单</td><td>40单</td><td>50单</td></tr><tr><td>小红书笔记数</td><td>未知</td><td>12条</td><td>24条累计</td><td>36条累计</td></tr><tr><td>线上曝光人数日均</td><td>0</td><td>500以上</td><td>800以上</td><td>1000以上</td></tr></table><h3>30天复盘节点</h3><ul><li><strong>第7天</strong>：检查推广通是否有曝光数据（0变非0即成功），团购是否有首单核销。</li><li><strong>第14天</strong>：检查小红书和抖音内容是否按计划发布（应有6条小红书加4条抖音），免费试是否上线。</li><li><strong>第21天</strong>：首场主题夜复盘——到场桌数和营收和客人反馈，会员注册数是否达80人。</li><li><strong>第30天</strong>：全面复盘——月流水是否达10万目标，团购核销是否达30单，评价新增是否达15条。达标继续放大，未达标分析原因调整策略。</li></ul></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>李朝</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>基础经营数据交叉验证</h3><p>日均流水<strong>3,000元+</strong>，客单价<strong>¥194</strong>，推算日均消费人次约<strong>15-16人</strong>，月消费人次约<strong>450-480人</strong>。100平方米的清吧空间按6-8张桌、每桌2-3人算满座约18人，日均15人说明<strong>翻台率不到1</strong>——晚高峰基本能坐满一轮，但缺少第二轮客流。月流水约<strong>9万-10万</strong>。</p><h3>核心问题诊断</h3><ul><li><strong>线上流量漏斗断裂（最致命）</strong>：商户通和推广通都已开通在线，但近30天曝光、访问、消费三项转化率全部为<strong>0%</strong>。平台投放预算在烧空气——钱花了但没有一个有效客户通过线上到店。可能原因：推广通关键词与品类不匹配、团购套餐未上线或定价不合理、门店信息不完整导致点击后流失。</li><li><strong>评分高但转化低</strong>：4.8分加154条评价加942次收藏，口碑基础非常好。但好口碑没转化为到店客流，说明被收藏但没被消费——消费者感兴趣但没有触发行动的临门一脚（缺一个到店理由如团购套餐）。</li><li><strong>品类认知门槛高</strong>：hookah lounge对普通消费者来说是陌生概念。大众点评分类为清吧和特调酒吧，但核心产品是水烟加特调，这种小众品类必须靠内容种草降低认知门槛。</li><li><strong>日均流水3千约月营收9万</strong>：100平方米清吧的租金加人力加物料成本按杭州钱塘区估算约5-6万每月（假设，建议核实），净利润空间约3-4万，有提升空间但前提是线上引流必须先打通。</li></ul><h3>已签约SaaS模块确认</h3><table><tr><th>模块</th><th>状态</th><th>使用建议</th></tr><tr><td>收银POS</td><td>已签约</td><td>正常使用，关注酒水品类销售数据分析</td></tr><tr><td>扫码点餐</td><td>已签约</td><td>清吧场景下要优化：客人进店先体验氛围再扫码，不要一坐下就推</td></tr><tr><td>会员旗舰版</td><td>已签约</td><td>核心武器——用团购会员卡加潜客营销做线上引流闭环</td></tr><tr><td>小程序</td><td>已签约</td><td>做私域承接入口，社群加朋友圈引流到小程序下单</td></tr><tr><td>会员高级版</td><td>已签约</td><td>旗舰版已覆盖高级版功能，优先用旗舰版</td></tr></table>`,
+    2: `<h3>观云钱塘城商圈竞争格局</h3><p>NON-RATIONAL位于钱塘区观云钱塘城商圈，潮韵路沿街铺面。钱塘区作为杭州新兴产业区，常住人口超50万，以年轻产业人口为主。清吧和特调酒吧赛道在该区域<strong>竞争烈度中等偏低</strong>——不像武林或湖滨那样酒吧密集，但这也意味着品类认知需要靠自己教育市场。</p><h3>周边竞品对比（3-5公里范围）</h3><table><tr><th>竞品类型</th><th>代表品牌</th><th>人均</th><th>核心优势</th><th>可切入弱点</th></tr><tr><td>创意西餐酒吧</td><td>Alimentari类精酿吧</td><td>180-250元</td><td>出片率高酒单利润厚</td><td>同质化严重缺独特体验无水烟差异化</td></tr><tr><td>日式居酒屋清吧</td><td>各类居酒屋</td><td>120-180元</td><td>氛围感好适合小聚</td><td>产品线单一缺乏体验型消费</td></tr><tr><td>咖啡加酒复合店</td><td>Day and Night类</td><td>80-150元</td><td>全时段经营客群广</td><td>专业度不够深什么都做什么都不精</td></tr><tr><td>KTV量贩式</td><td>纯K星聚会等</td><td>100-200元</td><td>团建聚会场景明确</td><td>体验老旧缺私密社交感</td></tr></table><h3>NON-RATIONAL的差异化壁垒</h3><p><strong>水烟加特调双体验模式</strong>是你在钱塘区的独有差异化——周边没有第二家hookah lounge。这意味着：</p><ul><li><strong>体验不可替代性强</strong>：想体验水烟只能来这里，不存在隔壁更便宜的比较。</li><li><strong>社交货币属性高</strong>：水烟本身就是拍照打卡的内容素材，天然适合小红书传播。</li><li><strong>客单价支撑力强</strong>：194元人均包含体验溢价（类似密室逃脱和剧本杀的体验消费逻辑），消费者不会用普通清吧的80到120元来对标。</li></ul><p><strong>核心判断</strong>：你的竞争对手不是隔壁酒吧，而是所有「晚上去哪玩」的选项（电影院、KTV、桌游、剧本杀）。营销打法要把自己放在休闲娱乐大赛道里抢客，而不是只在酒吧小池子里打。</p>`,
+    3: `<h3>当前最大问题：推广通在线但转化率0%</h3><p>你的商户通和推广通都已开通在线，但近30天曝光到访问到消费三级转化全部为<strong>0%</strong>。这是最需要立刻解决的问题——相当于开了店但没挂招牌。</p><h3>第一步：72小时急救（店长负责，立刻执行）</h3><p><strong>Day 1 团购套餐上线</strong></p><ul><li>在大众点评商家后台「营销中心-团购」上线2款引流套餐：</li><li><strong>非理性入门体验 128元</strong>：含1支特调鸡尾酒加30分钟水烟体验加1份小食拼盘，门市价约200元让利约36%——这是引流款，目的是降低首次体验门槛。</li><li><strong>非理性双人夜 358元</strong>：含2支特调加60分钟水烟加小食拼盘加果盘，门市价约500元让利约28%——这是利润款加社交场景款。</li></ul><p><strong>Day 1 门店信息完善</strong></p><ul><li>大众点评商家后台「门店管理-门店信息」，检查并补全：营业时间标注到凌晨2点、特色标签填写水烟和特调鸡尾酒和私密社交和约会推荐、100张门店图按环境到产品到菜单排序，封面图选水烟加鸡尾酒的氛围感图片。</li></ul><p><strong>Day 2 推广通关键词优化</strong></p><ul><li>推广通后台「关键词管理」，当前关键词大概率不精准。清吧品类有效关键词：钱塘区酒吧、杭州清吧、约会好去处钱塘、水烟体验、特调鸡尾酒、朋友聚会去哪——先暂停所有原关键词，只保留这6个高相关词，日预算设50元起步。</li></ul><p><strong>Day 3 验证效果</strong></p><ul><li>商家后台「数据中心-流量分析」查看曝光和点击和收藏数据是否开始有数字。如果3天后曝光仍为0，说明门店分类可能有误，需联系美团客服调整品类至酒吧或清吧。</li></ul><h3>第二步：14天内容种草启动（老板加1名员工负责）</h3><ul><li><strong>小红书</strong>：每周发3条笔记（周三周五周六各1条），内容模板：第一类品牌故事型「杭州钱塘区终于有hookah lounge了」，第二类团购引导型「128元体验一次非理性之夜」，第三类产品展示型「调酒师今晚的隐藏特调」。标题必带地理关键词钱塘区和观云钱塘城。谁来做：老板或指定1名颜值在线的调酒师，手机拍摄加剪映简单剪辑，单条制作时间控制在20分钟内。</li><li><strong>抖音</strong>：每周发2条短视频15到30秒，重点拍水烟吐烟圈、调酒过程、氛围灯光等视觉冲击强的画面。挂抖音团购链接（需开通抖音来客，建议日预算30元起步）。</li><li>客人不配合或没时间拍怎么办：提前拍好20条素材存手机相册，用定时发布功能一次拍够一周的量。</li></ul><h3>预期效果</h3><p>修复后14天内，大众点评曝光人数从0提升到日均500以上（假设取决于推广通预算和关键词精准度），团购核销首月目标30单（128元档20单加358元档10单），直接带来增量营收约6140元。更关键的是这30位新客就是私域种子用户的来源。</p>`,
+    4: `<h3>当前口碑状态判断</h3><p>点评评分<strong>4.8分</strong>、评价<strong>154条</strong>、收藏<strong>942次</strong>——这是一个非常健康的口碑基础。4.8分在清吧品类里属于头部水平（行业均值约4.2到4.5分），154条评价也已经过了新店冷启动阶段。口碑不缺数量，缺的是把口碑转化为到店客流的最后一环。</p><h3>合规红线 2025年10月新规</h3><p>大众点评2025年10月后严厉打击高强度促评和邀评行为——被判定为促评的新评价不产生星级收益，严重者降权甚至摘星。因此以下行为绝对禁止：</p><ul><li>好评返现返券</li><li>服务员主动要求客人写好评</li><li>第三方刷评买评</li><li>任何写好评送什么的话术</li></ul><h3>合规提升路径（3个动作）</h3><p><strong>动作1：上线免费试活动（店长负责本周内完成）</strong></p><ul><li>大众点评商家后台「营销中心-免费试」，设置每周5个名额的免费体验——内容为特调鸡尾酒1杯加水烟15分钟体验（成本约30元每份，月成本约600元）。</li><li>免费试的优势：平台官方活动，获得的评价100%计入星级且会被打上免费试标签，不会被判定为促评。</li><li>目标：每月新增15到20条高质量评价（免费试用户写评概率约60%到70%）。</li></ul><p><strong>动作2：打造分享动机而非催评（服务员执行每天）</strong></p><ul><li>在水烟区域设置一个打卡角——好看的霓虹灯牌写着NON-RATIONAL品牌名加一句有调性的slogan如今晚不讲道理，旁边放小镜子和补光灯。</li><li>服务员话术（只在客人主动拍照时说）：这个角度拍出来最好看，很多客人都发了小红书。引导分享而非催评，客人发了小红书或朋友圈就自然带出门店。</li><li>禁止说：麻烦给个好评或写评价送什么。客人不拍照不用管，强推只会招反感。</li></ul><p><strong>动作3：差评2小时回复机制（老板或店长负责）</strong></p><ul><li>大众点评商家后台「评价管理」设置新评价提醒推送到手机，差评2小时内必须回复。</li><li>回复模板：先道歉再说明原因再给出补偿方案再邀请再来体验。禁止模板化回复。</li><li>目标：差评回复率100%，将差评转化为商家态度好的二次口碑。</li></ul><h3>口碑维护目标</h3><table><tr><th>指标</th><th>当前</th><th>3个月目标</th></tr><tr><td>点评评分</td><td>4.8分</td><td>稳定4.8分不降</td></tr><tr><td>月新增评价</td><td>约5到8条（估算）</td><td>15到20条</td></tr><tr><td>差评回复率</td><td>未知</td><td>100%</td></tr><tr><td>收藏转化率</td><td>极低942收藏但转化0%</td><td>收藏用户月到店率5%以上约47人每月</td></tr></table>`,
+    5: `<h3>会员策略核心逻辑</h3><p>清吧的消费特征是<strong>低频高客单</strong>——客人不会天天来，但每次来消费194元。这意味着会员策略的重点不是让客人来更多次（很难，清吧消费频次天然低），而是<strong>每次来的时候多花一点加带朋友来</strong>。</p><p>你已签约<strong>会员旗舰版4888元每年</strong>，这是最关键的武器。旗舰版独有的团购会员卡加潜客营销功能，刚好解决你收藏942但转化0%的核心问题。</p><h3>会员体系搭建（店长负责1周内完成）</h3><p><strong>第1步：设计会员等级（Day 1到2）</strong></p><ul><li>美团商家后台「会员中心-会员等级设置」，建议设3个等级：</li><li><strong>微醺会员</strong>（注册即享）：生日月赠特调1杯加每次到店享水烟加时15分钟。</li><li><strong>迷醉会员</strong>（累计消费满1000元）：额外享专属隐藏酒单每月更新3款加可预约VIP卡座。</li><li><strong>非理性会员</strong>（累计消费满3000元）：每月1次调酒师定制特调加优先参加品鉴会加带朋友享同等水烟体验。</li><li>注意：不设折扣。清吧卖的是体验和氛围，打折会拉低品牌调性。用特权和专属体验替代折扣。</li></ul><p><strong>第2步：团购会员卡上线（Day 3到4）</strong></p><ul><li>会员中心「团购会员卡」上线<strong>非理性体验卡39元</strong>：持卡享首次到店特调升杯中杯到大杯、水烟体验延长15分钟、生日月双倍权益。</li><li>定价逻辑：39元足够低（一杯奶茶钱），但能把大众点评的收藏用户转化为会员用户——这是解决942收藏但0转化的钥匙。</li><li>在团购套餐详情页和店内桌牌和小程序首页都放团购会员卡入口。</li></ul><p><strong>第3步：潜客营销激活（Day 5到7）</strong></p><ul><li>会员中心「潜客营销」，对收藏未消费用户推送消息：你收藏的NON-RATIONAL有新品上线——本周隐藏特调午夜花园，前20位到店品鉴。</li><li>每周推送1次，内容围绕新品和限时体验和品鉴会，制造稀缺感和到店理由。</li><li>预期：942收藏用户中，潜客营销触达率约30%（283人），到店转化率5%（约14人每月），人均消费194元等于月增收2716元。</li></ul><h3>会员目标（3个月）</h3><table><tr><th>指标</th><th>当前</th><th>3个月目标</th></tr><tr><td>会员总数</td><td>未知假设少于50人</td><td>300人</td></tr><tr><td>团购会员卡销售</td><td>0</td><td>月售50张</td></tr><tr><td>会员月到店率</td><td>未知</td><td>15%以上</td></tr><tr><td>会员带新率</td><td>未知</td><td>10%以上每10个会员带1个新客</td></tr></table>`,
+    6: `<h3>清吧营销核心原则</h3><p>清吧不是快餐店，不能靠满减折扣秒杀拉客——这会拉低品牌调性。清吧营销的关键词是<strong>仪式感、稀缺性、社交货币</strong>。每个活动的设计标准：客人参加完愿意发朋友圈或小红书。</p><h3>Q2当季活动方案（6到7月执行）</h3><p><strong>活动1：夏日非理性之夜 主题周（6月第3周启动每月1次）</strong></p><ul><li><strong>谁来做</strong>：调酒师加老板策划，服务员执行。</li><li><strong>做什么</strong>：每月选一个周五晚推出限定主题夜——6月主题热带风暴（朗姆基酒加热带水果特调加椰子味水烟），7月主题薄荷凉夜（金酒基酒加薄荷黄瓜特调加薄荷味水烟）。</li><li><strong>在哪操作</strong>：扫码点餐后台「限时活动」设置主题夜专属套餐258元双人（含2杯主题特调加60分钟主题水烟加限定小食）；会员系统提前3天给会员推送本周五主题夜预约消息。</li><li><strong>引流</strong>：提前5天在小红书和抖音发预告视频（调酒师调制主题特调过程），标题杭州钱塘区本周五限定主题夜仅开放15桌。</li><li><strong>客人不感兴趣怎么办</strong>：前3次主题夜给老会员赠送主题限定小食1份作为到场奖励，养成每月必来的习惯。</li><li>预估成本：额外食材加水烟耗材约500元每次月1次等于500元。预期到场8到12桌营收2064到3096元。</li></ul><p><strong>活动2：周三微醺日 常态化拉低谷（每周三固定）</strong></p><ul><li><strong>谁来做</strong>：店长设置，服务员提醒。</li><li><strong>做什么</strong>：每周三到店消费第二杯特调半价（限同行2人以上）。不是打折——是用周三低谷时段练新品带新客。</li><li><strong>在哪操作</strong>：会员系统「定时营销」设置每周二晚推送周三微醺日提醒；扫码点餐设置周三专属弹窗今日第二杯半价。</li><li><strong>话术</strong>：服务员在周三客人落座后说今天是微醺日第二杯特调半价，要不要试试调酒师这周的新品。</li><li><strong>客人一个人来怎么办</strong>：单人消费不享半价但送一份限定小食（成本5到8元），不让单人客觉得被冷落。</li><li>预期：周三到店人数从日常5到6人提升到10到12人，周增收约1000元月增收约4000元。</li></ul><p><strong>活动3：端午特调限定（6月底3天）</strong></p><ul><li><strong>做什么</strong>：推出端午限定特调粽香古法（糯米酒基底加桂花蜜加薄荷叶），定价68元每杯，限售100杯。</li><li><strong>引流</strong>：小红书发杭州这家酒吧居然用糯米酒做鸡尾酒的种草帖。</li><li><strong>在哪操作</strong>：扫码点餐菜单新增端午限定分类，上线前3天发会员推送。</li><li>预期：3天售50到80杯增收3400到5440元。</li></ul>`,
+    7: `<h3>公私域联动全景图</h3><p>NON-RATIONAL的引流逻辑不是传统餐饮的满减获客，而是<strong>内容种草加体验转化加私域锁客</strong>的三角闭环。水烟加特调的体验属性天然适合内容传播，关键是把传播链条做成系统而不是碰运气。</p><h3>公域引流矩阵（4个渠道按优先级排序）</h3><p><strong>渠道1：大众点评（核心主战场）</strong></p><ul><li>团购套餐（128元体验款加358元双人款）持续在线，这是从收藏到消费的转化桥梁。</li><li>推广通关键词精准投放（日预算50元），只投钱塘区酒吧等6个高相关词。</li><li>免费试活动每周5个名额，持续获得合规评价。</li><li>负责人：店长，每天花10分钟检查后台数据。</li></ul><p><strong>渠道2：小红书（品牌心智建设）</strong></p><ul><li>每周3条笔记，内容方向：品牌故事型30%、产品展示型40%、探店打卡型30%。</li><li>关键动作：每条笔记标题必带杭州钱塘区加hookah或水烟关键词，封面图必须有水烟烟雾效果（视觉冲击力强）。</li><li>邀请本地5000到50000粉丝的博主到店免费体验（每月2到3位，成本约200到300元每位），产出探店笔记。</li><li>负责人：老板或调酒师，每条20分钟内完成。</li></ul><p><strong>渠道3：抖音（短视频爆发力）</strong></p><ul><li>每周2条短视频，重点拍视觉冲击强的画面——水烟吐烟圈慢镜头、火焰调酒、氛围灯光。</li><li>挂抖音团购链接（需开通抖音来客），日预算30元。</li><li>负责人：老板或员工用手机拍摄，剪映简单剪辑。</li></ul><p><strong>渠道4：朋友圈广告（精准触达周边3公里）</strong></p><ul><li>月预算500元投朋友圈广告，定向钱塘区观云钱塘城周边3公里、18到35岁、兴趣标签酒吧和夜生活和聚会。</li><li>广告创意：15秒水烟加特调体验短视频加128元团购二维码。</li><li>预期：月曝光1万以上，点击率2%到3%等于200到300次点击到店转化10%等于20到30人。</li></ul><h3>私域沉淀闭环</h3><p><strong>入口</strong>：所有到店客人扫码点餐时自动跳转小程序注册会员（桌面立牌提示扫码注册即享水烟加时15分钟）。</p><p><strong>承接</strong>：会员进入小程序后看到会员等级和权益和活动预告和隐藏酒单，建立持续互动触点。</p><p><strong>激活</strong>：每周通过会员系统推送1次内容（新品推荐或主题夜预告或限定活动），保持品牌在客人心中的存在感。</p><p><strong>裂变</strong>：非理性会员（累计3000元）带朋友享同等水烟体验——这是用老客带新客的零成本裂变引擎。</p><h3>联动逻辑总结</h3><p>公域（点评团购加小红书种草加抖音短视频加朋友圈广告）拉新客到店 → 到店扫码变会员 → 会员系统推送持续唤醒 → 高等级会员带新裂变 → 新客到店再变会员。形成<strong>拉新到留存到裂变的正循环</strong>。</p>`,
+    8: `<h3>投入预算明细（月度）</h3><table><tr><th>投入项</th><th>月预算</th><th>用途说明</th></tr><tr><td>推广通投放</td><td>1500元</td><td>日预算50元 x 30天精准关键词投放</td></tr><tr><td>抖音来客投放</td><td>900元</td><td>日预算30元 x 30天短视频投流</td></tr><tr><td>免费试活动成本</td><td>600元</td><td>每周5人每人成本30元 x 4周</td></tr><tr><td>博主探店邀请</td><td>600元</td><td>每月2到3位本地博主每人200到300元</td></tr><tr><td>朋友圈广告</td><td>500元</td><td>定向周边3公里精准投放</td></tr><tr><td>主题夜额外物料</td><td>500元</td><td>每月1场主题夜食材和水烟耗材</td></tr><tr><td>周三微醺日让利</td><td>800元</td><td>每周约200元第二杯半价让利</td></tr><tr><td><strong>月总投入</strong></td><td><strong>5400元</strong></td><td></td></tr></table><h3>预期增收来源（月度）</h3><table><tr><th>增收来源</th><th>月增收预估</th><th>计算逻辑</th></tr><tr><td>团购套餐核销</td><td>6140元</td><td>128元档20单加358元档10单</td></tr><tr><td>潜客营销转化到店</td><td>2716元</td><td>942收藏 x 30%触达 x 5%转化 x 194元人均</td></tr><tr><td>周三微醺日增量</td><td>4000元</td><td>每周增加5到6人次 x 4周 x 194元人均</td></tr><tr><td>主题夜增收</td><td>2580元</td><td>每月1场 x 10桌 x 258元套餐</td></tr><tr><td>会员带新裂变</td><td>1940元</td><td>月增10个裂变新客 x 194元人均</td></tr><tr><td>朋友圈广告到店</td><td>3880元</td><td>月增20人到店 x 194元人均</td></tr><tr><td><strong>月总增收预估</strong></td><td><strong>21256元</strong></td><td></td></tr></table><h3>投资回报分析</h3><ul><li><strong>月投入</strong>：5400元</li><li><strong>月增收</strong>：21256元</li><li><strong>净增利润</strong>：约15856元（按酒水品类毛利率70%计算净增利润约11099元）</li><li><strong>ROI</strong>：每投入1元带来约3.9元营收</li><li><strong>月流水目标</strong>：从当前9万提升至<strong>11.1万</strong>，增幅约23%</li></ul><h3>3个月OKR目标</h3><table><tr><th>指标</th><th>当前基线</th><th>第1个月</th><th>第2个月</th><th>第3个月</th></tr><tr><td>月流水</td><td>9万</td><td>10万</td><td>10.8万</td><td>11.5万</td></tr><tr><td>点评评分</td><td>4.8分</td><td>4.8分</td><td>4.8分</td><td>4.8分稳固</td></tr><tr><td>月新增评价</td><td>5到8条</td><td>15条</td><td>18条</td><td>20条</td></tr><tr><td>会员总数</td><td>少于50人</td><td>120人</td><td>220人</td><td>300人</td></tr><tr><td>团购月核销</td><td>0</td><td>30单</td><td>40单</td><td>50单</td></tr><tr><td>小红书笔记数</td><td>未知</td><td>12条</td><td>24条累计</td><td>36条累计</td></tr><tr><td>线上曝光人数日均</td><td>0</td><td>500以上</td><td>800以上</td><td>1000以上</td></tr></table><h3>30天复盘节点</h3><ul><li><strong>第7天</strong>：检查推广通是否有曝光数据（0变非0即成功），团购是否有首单核销。</li><li><strong>第14天</strong>：检查小红书和抖音内容是否按计划发布（应有6条小红书加4条抖音），免费试是否上线。</li><li><strong>第21天</strong>：首场主题夜复盘——到场桌数和营收和客人反馈，会员注册数是否达80人。</li><li><strong>第30天</strong>：全面复盘——月流水是否达10万目标，团购核销是否达30单，评价新增是否达15条。达标继续放大，未达标分析原因调整策略。</li></ul>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
