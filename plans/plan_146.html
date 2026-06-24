@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>多宝寻味馆 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">面食/快餐 · 运营提升方案</div>
+  <h1 class="hero-title">多宝寻味馆</h1>
+  <p class="hero-subtitle">老城区质价比面馆，用一碗好面锁住每天路过的回头客</p>
+  <div class="hero-address">浙江省杭州市萧山区城厢街道西河路382号</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥20</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">萧山区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察与商圈诊断', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察与商圈诊断</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解与差异化定位', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解与差异化定位</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '开业冲刺30天作战计划', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">开业冲刺30天作战计划</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评口碑·新店冷启动', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评口碑·新店冷启动</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '系统方案·SaaS工具落地', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">系统方案·SaaS工具落地</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '公私域联动·流量闭环', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">公私域联动·流量闭环</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '营销活动日历·6-8月', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">营销活动日历·6-8月</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '投资回报与量化OKR', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">投资回报与量化OKR</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>萧山城厢·老城区面食快餐市场诊断</h3><p>城厢街道是萧山区行政与商业核心，人口密度高、消费务实。西河路紧邻人民路地铁站B口（步行400米），日均客流覆盖<strong>通勤上班族、周边社区居民、中老年群体</strong>三大人群。</p><h4>品类大盘数据</h4><p>2024年中国快餐小吃市场规模超<strong>1.0万亿元</strong>，同比增长7.5%；其中粉面汤类门店近100万家，同比<strong>+25.3%</strong>，属于高增长赛道。杭州面食主流价格带集中在15-25元，¥20人均正卡在「不高不低」的敏感区——必须靠<strong>质价比</strong>立住，即「让顾客觉得这个价位吃得比预期好」。</p><h4>核心挑战</h4><ul><li><strong>老城区供给密度大</strong>：西河路及周边1公里内面食/快餐类门店超15家（⚠️ 行业参考值），客群选择多、忠诚度低</li><li><strong>客群价格敏感</strong>：以居民和通勤上班族为主，20元人均如果份量或配置撑不住，复购极其脆弱</li><li><strong>新店无口碑基础</strong>：门店6月8日新建，零评价、零收藏、零曝光，冷启动压力巨大</li><li><strong>外卖利润薄</strong>：20元客单价扣除平台佣金（约4.5%）和打包成本后，纯外卖走量不可持续</li></ul><h4>机遇判断</h4><p>周边多数竞品「有品类无品牌」——老面馆环境差、连锁快餐无惊喜。多宝寻味馆若能做到<strong>「环境干净+一碗有记忆点的面+质价比」</strong>三合一，在老城区就能快速跑出差异化。店名自带「寻味」内容属性，天然适合做<strong>每月一款地域限定面</strong>的内容营销，给老客反复进店的理由。</p></div>
+<div id="modal-content-2" style="display:none"><h3>周边3公里真实竞争格局</h3><table><tr><th>竞品名称</th><th>人均</th><th>核心强项</th><th>核心弱点</th><th>多宝寻味馆切入机会</th></tr><tr><td><strong>老娘舅</strong></td><td>¥22-28</td><td>品牌认知强、标准化出餐快、午间写字楼流量稳</td><td>菜品无惊喜，复购靠便利而非口味</td><td>用「现做手工面」打老娘舅「工厂预制」的体验差</td></tr><tr><td><strong>陈生记/萧山本地面馆</strong></td><td>¥12-18</td><td>价格低、老客粘性强、片儿川/拌面等本地口味扎实</td><td>环境差、无品牌感、年轻客群流失</td><td>同样做本地面但<strong>环境干净+颜值在线</strong>，抢年轻客群</td></tr><tr><td><strong>张亮/杨国福麻辣烫</strong></td><td>¥20-30</td><td>品类成瘾性强、自选模式客单灵活</td><td>同质化严重、健康形象偏弱</td><td>用「一碗面+一份时令小菜」组合做健康快餐替代</td></tr><tr><td><strong>兰州拉面个体户</strong></td><td>¥15-20</td><td>现拉现做有体验感、价格实惠</td><td>品类单一、环境一般、无会员体系</td><td>品类更丰富（每月换地域面），会员锁客拉开复购差距</td></tr></table><h3>多宝寻味馆·品牌定位</h3><p><strong>一句话定位</strong>：萧山老城里的「寻味面馆」——每月一款地域限定面，让你每天路过都想进来尝一碗。</p><h4>差异化三板斧</h4><ul><li><strong>「寻味」IP化</strong>：每月推一款地域限定面（如本月贵州酸汤面、下月新疆拌面），门口黑板手写更新，制造「这家店总有新东西」的认知。<br><strong>怎么做</strong>：老板每月25号确定下月限定面→后厨试做3天→开月初上新。门口A字架手写「本月寻味：XX面，限量供应」。成本：新面研发约增加食材成本2-3%，但带来的回头率远超投入</li><li><strong>「面+浆」早餐组合</strong>：周边老面馆多数10点后才开，抢6:30-9:00早餐空白期——「一碗小面+现磨豆浆=9.9元」，用低客单拉首次进店。<br><strong>怎么做</strong>：老板决定是否覆盖早餐时段（需提前备面/磨豆浆）。若人力不够，可先从7:30开始，只做3款快出餐品（拌面/小馄饨/豆浆）。门口A字架写「早餐9.9」，锁住晨间路过上班族</li><li><strong>「3元加购」锁复购</strong>：主面定价12-16元，设计3元加购小食组合（卤蛋+泡菜/小菜）。首次消费后送「5次盖章卡」，集满送招牌面一碗。<br><strong>怎么做</strong>：收银员结账时必推话术「加3块钱送您一份卤蛋和小菜，今天还送您一张集章卡，吃满5次送碗面~」。客人拒绝→「那先送您一张集章卡，下次来盖章就行」</li></ul></div>
+<div id="modal-content-3" style="display:none"><h3>新店冷启动·30天倒计时作战表</h3><p>多宝寻味馆是新店未开业，零口碑零评价，开业前后30天的执行质量决定了这家店未来半年的生死。以下按天拆解，每个动作标明<strong>谁来做、怎么做、在哪操作</strong>：</p><h4>开业前7天（D-7至D-1）：蓄水期</h4><ul><li><strong>D-7 店长</strong>：在大众点评商家后台🔧「门店管理→基础信息」完善门店照片（门头照1张+环境照3张+招牌菜特写6张），上传完整菜单。确保搜索「萧山面食」能出现本店</li><li><strong>D-7 老板</strong>：确定开业<strong>爆品引流菜</strong>——选1道成本可控、出餐快、颜值高的招牌面定为「开业特价菜」，建议定价9.9元（正常价15元），限前100碗/天×3天。⚠️ 假设食材成本约4元/碗，特价期每碗让利约6元×100碗×3天=总让利约1,800元</li><li><strong>D-5 店长</strong>：发起霸王餐试吃——大众点评商家后台🔧「营销中心→霸王餐」设置15个名额，选招牌面2款。上菜时话术：「今天您是我们试吃官，吃完麻烦花1分钟写写真实感受，好坏都行~」客人嫌麻烦→「扫码写满15字送一份卤蛋」</li><li><strong>D-3 老板</strong>：门口A字架手写「开业倒计时3天｜招牌XX面9.9元限量100碗」——老城区居民每天路过看3天，开业当天自然进店</li><li><strong>D-1 全员</strong>：全员模拟演练2遍——扫码点餐全流程测试🔧（收银后台→扫码点餐→打印桌码+测试下单→后厨接单→出餐），确保0卡顿</li></ul><h4>开业首周（D1-D7）：引爆期</h4><ul><li><strong>D1-D3 收银员</strong>：每位结账客人必推3元加购+盖章卡：「加3块钱送您一份卤蛋和泡菜，再送您一张集章卡~」</li><li><strong>D1-D3 店长</strong>：每天3次（9:00/14:00/20:00）查大众点评🔧「评价管理」，差评2小时内回复。模板：「非常抱歉给您不好的体验，我是店长XX，您下次来我亲自给您做一碗，一定满意」</li><li><strong>D4 老板</strong>：复盘首3天数据——🔧 收银后台→经营报表→日报，看日均客流/客单价/加购转化率/评价数。若日均客流低于80人，立刻加门口横幅「路过必吃·招牌XX面」</li><li><strong>D5-D7 店长</strong>：上线外卖——🔧 外卖中心→新店活动→设置「满15减3+首单立减5元」。菜品图必须实拍，SKU精简到8款</li></ul><h4>第2-4周（D8-D30）：稳客期</h4><ul><li><strong>每周 店长</strong>：🔧 会员高级版→智能营销→流失预警，查7天未到店客户→发消息「好久没来啦，这周新出了XX限定面，老客专享减2元~」</li><li><strong>D14 老板</strong>：启动「每月寻味面」第一期——选一款地域特色面上新，门口黑板更新，拍15秒制作视频发抖音同城</li><li><strong>D21 店长</strong>：盘点阶段数据——目标：日均客流≥100人、点评评价≥20条、会员注册≥150人</li><li><strong>D30 老板+店长</strong>：首月复盘会——对照OKR逐项检视，制定7月运营重点</li></ul></div>
+<div id="modal-content-4" style="display:none"><h3>大众点评·新店阶段口碑打法</h3><p>多宝寻味馆是新店零评价，大众点评上的<strong>前10条评价决定了所有后续顾客的第一印象</strong>。新店阶段核心目标不是冲星级，而是<strong>先攒够一批真实好评定调</strong>。</p><h4>红线警告（2025年10月新规）</h4><p>大众点评已严格打击高强度促评——<strong>促评产生的新评价不再计入星级收益</strong>。任何「好评返现」「五星截图送礼」操作都是无效甚至反效的。口碑策略必须100%合规。</p><h4>阶段一：止血+定调（开业前~D7）</h4><ul><li><strong>谁来做</strong>：店长负责，开业前3天发起</li><li><strong>怎么做</strong>：大众点评商家后台🔧「营销中心→霸王餐」设置15个名额，选招牌面2款。试吃官的真实评价将成为门店第一批口碑基石</li><li><strong>服务员话术</strong>：「今天您是我们特邀试吃官！吃完后花1分钟写写真实感受就行，好坏都要~」</li><li><strong>客人不配合</strong>：不强求，改口「那您下次带朋友来，我送您一份小菜」——先留好印象，好评自然来</li></ul><h4>阶段二：合规工具引流（D8-D30）</h4><ul><li><strong>免费试/免费菜</strong>：商家后台🔧「营销中心→免费试」上线1道低成本引流菜（卤蛋+小菜拼盘，成本约3元/份），用户线上领取到店核销，自然产生进店和评价行为</li><li><strong>店内分享动机打造</strong>：餐桌放小立牌「拍照发朋友圈/小红书，到前台领一份神秘小食」——让分享变成有趣的事而非任务</li><li><strong>差评2小时响应</strong>：店长每天9:00/14:00/20:00三个时间点查评价🔧，差评必须2小时内真诚回复+留店长手机号</li></ul><h4>新店口碑量化目标</h4><table><tr><th>指标</th><th>30天目标</th><th>60天目标</th></tr><tr><td>评价数</td><td>≥30条</td><td>≥80条</td></tr><tr><td>好评率（4-5星）</td><td>≥85%</td><td>≥85%</td></tr><tr><td>差评响应率</td><td>100%（2h内）</td><td>100%（2h内）</td></tr><tr><td>目标评分</td><td>出星（≥4.0）</td><td>≥4.3</td></tr><tr><td>榜单</td><td>进入区域新店榜TOP20</td><td>冲热门榜</td></tr></table><p><strong>榜单升级路线</strong>：新店榜（0-30天）→ 热门榜（30-90天，靠评价量+收藏量）→ 好评榜（90天+，靠高评分稳定）。每阶段目标不同，新店期不要盯好评榜。</p></div>
+<div id="modal-content-5" style="display:none"><h3>已签约SaaS·场景化落地指南</h3><p>多宝寻味馆已签约<strong>收银POS+扫码点餐+会员高级版+小程序</strong>四件套。下面不讲功能清单，只讲每个产品怎么解决你面馆的具体问题。</p><h4>1. 扫码点餐 → 解决：50㎡小店人效不够</h4><p><strong>痛点</strong>：50㎡面馆前厅最多1-2人，高峰期（11:30-13:00）点餐+叫号+收银全挤一起，体验差、翻台慢。</p><ul><li><strong>谁来做</strong>：店长，开业前1天完成配置</li><li><strong>怎么做</strong>：🔧 收银后台→扫码点餐→菜品管理，菜单分3层——「招牌必点」（3-4款主面）/「小食加购」（卤蛋/小菜/豆浆）/「限定推荐」（本月寻味面）。每道菜上实拍图</li><li><strong>关键设置</strong>：开启「扫码弹窗推荐」🔧，首屏弹窗推「招牌面+3元小食组合」</li><li><strong>预期效果</strong>：扫码点餐率做到70%+，高峰期省1人力（月省约3,500元），翻台提升15-20%</li></ul><h4>2. 会员高级版 → 解决：面馆复购率低</h4><p><strong>痛点</strong>：面食是高频低客单品类，日均消费人次多但忠诚度差——隔壁便宜2块就走了。</p><ul><li><strong>谁来做</strong>：收银员，每位买单客人必推</li><li><strong>怎么做</strong>：🔧 会员高级版→开卡礼→设置「扫码入会送2元无门槛券」（食材成本约0.7元）。话术：「扫个码注册会员，今天直接减2块，以后每次来都有会员价~」</li><li><strong>客人犹豫</strong>：「就扫一下码，3秒就好，不用填任何信息」</li><li><strong>复购激活</strong>：🔧 智能营销→「7天未到店」自动发2元券，「14天未到店」发短信</li><li><strong>目标</strong>：首月注册≥150人，会员复购率≥40%（行业均值约30%）</li></ul><h4>3. 小程序 → 解决：高峰排队流失</h4><ul><li><strong>痛点</strong>：50㎡坐不下，高峰等位客人直接走了</li><li><strong>怎么做</strong>：🔧 小程序→预点餐功能，让客人路上下单，到店直接取面。门口A字架写「提前下单·到店免排队」附小程序码</li><li><strong>高峰引导</strong>：等位客人由服务员说「您可以先扫码点好，5分钟后直接取」</li><li><strong>预期</strong>：⚠️ 假设日均高峰流失10-15人→挽回3-5人×¥20=日增60-100元</li></ul><h4>4. 收银POS → 解决：经营数据看不清</h4><ul><li><strong>谁来做</strong>：老板，每天打烊后5分钟</li><li><strong>怎么做</strong>：🔧 收银后台→经营报表→日报，重点看3个数：日营业额、客单价、菜品销量TOP5</li><li><strong>关键动作</strong>：每周对比「本周vs上周」，连续2天下滑就排查原因</li></ul></div>
+<div id="modal-content-6" style="display:none"><h3>公域引流+私域锁客·双向闭环</h3><p>面食快餐客单¥20，靠单次消费赚不了钱，必须靠<strong>「公域拉新→私域锁住→高频复购」</strong>闭环才能跑出利润。</p><h4>公域渠道1：大众点评（核心——吃面的人会搜「附近面食」）</h4><ul><li><strong>团购套餐设计</strong>：上线「招牌面+小食+饮品」双人套餐，定价35.8元（原价约42元，让利15%）——🔧 商家后台→团购管理→创建套餐</li><li><strong>目的</strong>：不是赚钱，是用低门槛让新客进店体验，团购核销后引导入会</li><li><strong>门店标签</strong>：确保「面食」「快餐」「社区」「地铁站附近」标签齐全——🔧 门店管理→标签设置</li></ul><h4>公域渠道2：美团外卖（必做——社区店外卖是基本盘）</h4><ul><li><strong>新店活动</strong>：🔧 外卖中心→新店活动→「满15减3」+「首单立减5元」，新店期有平台流量扶持</li><li><strong>菜品策略</strong>：外卖只上6-8款爆款面+2-3款小食，精简SKU提高出餐效率。主图必须实拍</li><li><strong>外卖评分目标</strong>：4.8分以上。出餐时附手写便签「感谢选择多宝寻味馆~」（成本0.1元/份）</li><li><strong>⚠️ 警惕利润</strong>：¥20客单价外卖扣完佣金+打包，单均利润仅2-3元。外卖定位是<strong>拉新引流</strong>非利润来源，目标是把外卖客转堂食会员</li></ul><h4>公域渠道3：抖音同城（零成本·「寻味」天然适合短视频）</h4><ul><li><strong>谁来做</strong>：老板或店长，每周1-2条</li><li><strong>内容模板</strong>：15秒「下面→浇头→端上桌」制作过程，配BGM+字幕「今天的寻味面是贵州酸汤面~」</li><li><strong>发布设置</strong>：定位「萧山区城厢街道」，#萧山美食 #杭州面食。零投流即可覆盖周边3公里</li></ul><h4>私域层：会员+盖章卡+社群</h4><ul><li><strong>入会</strong>：扫码点餐自动弹窗🔧引导入会（开卡礼2元券），做到「点餐即入会」零阻力</li><li><strong>盖章卡</strong>：纸质卡，每次堂食盖1章，集满5章送招牌面1碗。成本：每5次消费送1碗≈成本4元=相当于8折换5次复购</li><li><strong>微信群（30天后启动）</strong>：会员超100人后建「多宝寻味·老客群」，每天11:00发「今日限定面」+实拍图。不群发广告，只发有用信息</li></ul><h4>闭环路径</h4><p><strong>点评/外卖新客进店</strong> → <strong>扫码弹窗引导入会</strong> → <strong>发盖章卡锁5次复购</strong> → <strong>7天未到店自动发券</strong> → <strong>微信群每日推送</strong> → <strong>高频复购成习惯</strong> → <strong>老客分享带新客</strong> → 循环</p></div>
+<div id="modal-content-7" style="display:none"><h3>开业首季度·营销活动日历</h3><p>多宝寻味馆开业正值初夏入梅（杭州6月中旬进入梅雨期），天气闷热潮湿影响堂食但外卖猛增。以下按月排列核心活动：</p><h4>六月·开业月「寻味首发季」</h4><table><tr><th>时间</th><th>活动</th><th>谁来做</th><th>具体操作</th><th>预期</th></tr><tr><td>D1-D3</td><td>开业特价·招牌面9.9元</td><td>全员</td><td>限前100碗/天，门口A字架+横幅，扫码点餐首屏推</td><td>日均引流120+人</td></tr><tr><td>D1-D7</td><td>霸王餐攒评价</td><td>店长</td><td>🔧营销中心→霸王餐，15个名额</td><td>首周评价≥15条</td></tr><tr><td>D7起</td><td>3元加购+盖章卡</td><td>收银员</td><td>结账必推，话术见第2章</td><td>加购率≥40%</td></tr><tr><td>端午节</td><td>「寻味端午·限定酸汤面」</td><td>老板+店长</td><td>推出端午限定地域面，到店消费赠迷你粽1只（成本1.5元），门口挂艾草增节日氛围</td><td>端午3天日均客流+30%</td></tr></table><h4>七月·梅雨季「外卖冲量月」</h4><table><tr><th>时间</th><th>活动</th><th>谁来做</th><th>具体操作</th><th>预期</th></tr><tr><td>全月</td><td>外卖「雨天送暖」</td><td>店长</td><td>🔧外卖中心→满减活动，雨天加码「满20减5」+附暖心便签</td><td>外卖单量+50%</td></tr><tr><td>全月</td><td>「寻味面·第二弹」上新</td><td>老板</td><td>更换地域限定面（如重庆小面/武汉热干面），门口黑板更新+拍短视频</td><td>老客回头率+20%</td></tr><tr><td>月底</td><td>「会员日·周三减2元」</td><td>收银员</td><td>每周三会员到店消费主面减2元，🔧会员系统→定向push周二晚提醒</td><td>周三客流+25%</td></tr></table><h4>八月·暑期「学生+家庭攻坚月」</h4><table><tr><th>时间</th><th>活动</th><th>谁来做</th><th>具体操作</th><th>预期</th></tr><tr><td>全月</td><td>「暑期学生价」</td><td>收银员</td><td>凭学生证主面减3元（⚠️假设成本让利约1元/碗），拉动暑期白天闲时客流</td><td>午间客流+15%</td></tr><tr><td>全月</td><td>「亲子面·DIY浇头」</td><td>服务员</td><td>周末推亲子套餐：大人面+儿童小碗面+2份小食=29.9元，儿童可自选浇头</td><td>周末家庭桌占比+20%</td></tr><tr><td>立秋前后</td><td>「贴秋膘·大碗面升级」</td><td>老板</td><td>限时3天招牌面免费加量50%（「贴秋膘，面加大」），门口横幅告知</td><td>日均客流短期+40%</td></tr></table></div>
+<div id="modal-content-8" style="display:none"><h3>投资回报分析</h3><p>基于盈利测算数据，多宝寻味馆总投入约<strong>13万元</strong>，预估月营业额<strong>9.49万元</strong>，月毛利约<strong>6.40万元</strong>（毛利率32.6%），月净利润约<strong>3.09万元</strong>，预计回本周期<strong>4.2个月</strong>。以下基于这些基准数据，测算运营方案带来的增量：</p><h4>成本结构诊断</h4><table><tr><th>项目</th><th>月金额</th><th>占营收比</th><th>行业参考值</th><th>诊断</th></tr><tr><td>房租</td><td>¥6,000</td><td>6.3%</td><td>8-15%</td><td>✅ 偏低，老城区房租优势明显</td></tr><tr><td>人工</td><td>¥8,000</td><td>8.4%</td><td>20-28%</td><td>✅ 远低于行业均值，但需警惕人手不足</td></tr><tr><td>食材（毛利率32.6%推算）</td><td>约¥6.4万</td><td>约67%</td><td>30-38%</td><td>⚠️ OCR识别可能有误，正常面馆食材占比应为30-38%。若毛利率实际为67%（食材占33%）则健康</td></tr><tr><td>月净利润</td><td>¥30,907</td><td>32.6%</td><td>8-15%</td><td>⚠️ 净利率远高于行业均值，需验证数据准确性</td></tr></table><h4>运营方案增收测算</h4><table><tr><th>增收来源</th><th>月增收（保守）</th><th>计算逻辑</th></tr><tr><td>3元加购转化</td><td>+¥2,700</td><td>日均客流100人×40%加购率×3元×30天×75%毛利</td></tr><tr><td>盖章卡锁复购</td><td>+¥1,800</td><td>200张卡×30%完成率×5次×20元×30%增量（本不会来的那次）</td></tr><tr><td>外卖渠道</td><td>+¥4,500</td><td>日均15单×20元×30天×50%毛利（扣佣后）</td></tr><tr><td>会员复购提升</td><td>+¥1,500</td><td>150会员×40%复购率×多来1次×20元×增量30%</td></tr><tr><td><strong>合计月增收</strong></td><td><strong>+¥10,500</strong></td><td>占基准月营收的11%</td></tr></table><h4>运营投入成本</h4><table><tr><th>投入项</th><th>费用</th><th>说明</th></tr><tr><td>开业特价让利（3天）</td><td>¥1,800（一次性）</td><td>100碗×6元让利×3天</td></tr><tr><td>霸王餐食材</td><td>¥300（一次性）</td><td>15份×20元成本</td></tr><tr><td>盖章卡制作</td><td>¥200（一次性）</td><td>500张纸质卡</td></tr><tr><td>免费试/免费菜</td><td>¥450/月</td><td>150份×3元成本</td></tr><tr><td>迷你粽/节日赠品</td><td>¥300/月</td><td>节日活动物料</td></tr><tr><td><strong>首月总投入</strong></td><td><strong>约¥3,050</strong></td><td>后续月均约¥750</td></tr></table><p><strong>ROI</strong>：首月净增收约¥10,500-¥3,050=<strong>¥7,450</strong>；后续月净增收约¥10,500-¥750=<strong>¥9,750</strong>。运营投入回报比约<strong>1:3.4</strong>（投1元回3.4元）。</p><h4>量化OKR目标</h4><table><tr><th>指标</th><th>开业首月</th><th>第2-3个月</th><th>第4-6个月</th></tr><tr><td>月营业额</td><td>≥8万元</td><td>≥10万元</td><td>≥12万元（含外卖）</td></tr><tr><td>日均客流</td><td>≥100人</td><td>≥120人</td><td>≥150人</td></tr><tr><td>大众点评评分</td><td>出星≥4.0</td><td>≥4.3</td><td>≥4.5</td></tr><tr><td>点评评价数</td><td>≥30条</td><td>累计≥100条</td><td>累计≥200条</td></tr><tr><td>会员注册数</td><td>≥150人</td><td>累计≥400人</td><td>累计≥800人</td></tr><tr><td>会员复购率</td><td>≥35%</td><td>≥40%</td><td>≥45%</td></tr><tr><td>外卖评分</td><td>≥4.6</td><td>≥4.8</td><td>≥4.8</td></tr><tr><td>外卖日均单量</td><td>≥10单</td><td>≥20单</td><td>≥30单</td></tr></table><p><strong>30天复盘节点</strong>：D7首周复盘（客流/评价/加购率）→ D14半月复盘（会员数/外卖数据）→ D21三周盘点 → D30月度复盘会（全指标对照OKR）。每个节点未达标项必须当天制定补救方案。</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>陈意</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>萧山城厢·老城区面食快餐市场诊断</h3><p>城厢街道是萧山区行政与商业核心，人口密度高、消费务实。西河路紧邻人民路地铁站B口（步行400米），日均客流覆盖<strong>通勤上班族、周边社区居民、中老年群体</strong>三大人群。</p><h4>品类大盘数据</h4><p>2024年中国快餐小吃市场规模超<strong>1.0万亿元</strong>，同比增长7.5%；其中粉面汤类门店近100万家，同比<strong>+25.3%</strong>，属于高增长赛道。杭州面食主流价格带集中在15-25元，¥20人均正卡在「不高不低」的敏感区——必须靠<strong>质价比</strong>立住，即「让顾客觉得这个价位吃得比预期好」。</p><h4>核心挑战</h4><ul><li><strong>老城区供给密度大</strong>：西河路及周边1公里内面食/快餐类门店超15家（⚠️ 行业参考值），客群选择多、忠诚度低</li><li><strong>客群价格敏感</strong>：以居民和通勤上班族为主，20元人均如果份量或配置撑不住，复购极其脆弱</li><li><strong>新店无口碑基础</strong>：门店6月8日新建，零评价、零收藏、零曝光，冷启动压力巨大</li><li><strong>外卖利润薄</strong>：20元客单价扣除平台佣金（约4.5%）和打包成本后，纯外卖走量不可持续</li></ul><h4>机遇判断</h4><p>周边多数竞品「有品类无品牌」——老面馆环境差、连锁快餐无惊喜。多宝寻味馆若能做到<strong>「环境干净+一碗有记忆点的面+质价比」</strong>三合一，在老城区就能快速跑出差异化。店名自带「寻味」内容属性，天然适合做<strong>每月一款地域限定面</strong>的内容营销，给老客反复进店的理由。</p>`,
+    2: `<h3>周边3公里真实竞争格局</h3><table><tr><th>竞品名称</th><th>人均</th><th>核心强项</th><th>核心弱点</th><th>多宝寻味馆切入机会</th></tr><tr><td><strong>老娘舅</strong></td><td>¥22-28</td><td>品牌认知强、标准化出餐快、午间写字楼流量稳</td><td>菜品无惊喜，复购靠便利而非口味</td><td>用「现做手工面」打老娘舅「工厂预制」的体验差</td></tr><tr><td><strong>陈生记/萧山本地面馆</strong></td><td>¥12-18</td><td>价格低、老客粘性强、片儿川/拌面等本地口味扎实</td><td>环境差、无品牌感、年轻客群流失</td><td>同样做本地面但<strong>环境干净+颜值在线</strong>，抢年轻客群</td></tr><tr><td><strong>张亮/杨国福麻辣烫</strong></td><td>¥20-30</td><td>品类成瘾性强、自选模式客单灵活</td><td>同质化严重、健康形象偏弱</td><td>用「一碗面+一份时令小菜」组合做健康快餐替代</td></tr><tr><td><strong>兰州拉面个体户</strong></td><td>¥15-20</td><td>现拉现做有体验感、价格实惠</td><td>品类单一、环境一般、无会员体系</td><td>品类更丰富（每月换地域面），会员锁客拉开复购差距</td></tr></table><h3>多宝寻味馆·品牌定位</h3><p><strong>一句话定位</strong>：萧山老城里的「寻味面馆」——每月一款地域限定面，让你每天路过都想进来尝一碗。</p><h4>差异化三板斧</h4><ul><li><strong>「寻味」IP化</strong>：每月推一款地域限定面（如本月贵州酸汤面、下月新疆拌面），门口黑板手写更新，制造「这家店总有新东西」的认知。<br><strong>怎么做</strong>：老板每月25号确定下月限定面→后厨试做3天→开月初上新。门口A字架手写「本月寻味：XX面，限量供应」。成本：新面研发约增加食材成本2-3%，但带来的回头率远超投入</li><li><strong>「面+浆」早餐组合</strong>：周边老面馆多数10点后才开，抢6:30-9:00早餐空白期——「一碗小面+现磨豆浆=9.9元」，用低客单拉首次进店。<br><strong>怎么做</strong>：老板决定是否覆盖早餐时段（需提前备面/磨豆浆）。若人力不够，可先从7:30开始，只做3款快出餐品（拌面/小馄饨/豆浆）。门口A字架写「早餐9.9」，锁住晨间路过上班族</li><li><strong>「3元加购」锁复购</strong>：主面定价12-16元，设计3元加购小食组合（卤蛋+泡菜/小菜）。首次消费后送「5次盖章卡」，集满送招牌面一碗。<br><strong>怎么做</strong>：收银员结账时必推话术「加3块钱送您一份卤蛋和小菜，今天还送您一张集章卡，吃满5次送碗面~」。客人拒绝→「那先送您一张集章卡，下次来盖章就行」</li></ul>`,
+    3: `<h3>新店冷启动·30天倒计时作战表</h3><p>多宝寻味馆是新店未开业，零口碑零评价，开业前后30天的执行质量决定了这家店未来半年的生死。以下按天拆解，每个动作标明<strong>谁来做、怎么做、在哪操作</strong>：</p><h4>开业前7天（D-7至D-1）：蓄水期</h4><ul><li><strong>D-7 店长</strong>：在大众点评商家后台🔧「门店管理→基础信息」完善门店照片（门头照1张+环境照3张+招牌菜特写6张），上传完整菜单。确保搜索「萧山面食」能出现本店</li><li><strong>D-7 老板</strong>：确定开业<strong>爆品引流菜</strong>——选1道成本可控、出餐快、颜值高的招牌面定为「开业特价菜」，建议定价9.9元（正常价15元），限前100碗/天×3天。⚠️ 假设食材成本约4元/碗，特价期每碗让利约6元×100碗×3天=总让利约1,800元</li><li><strong>D-5 店长</strong>：发起霸王餐试吃——大众点评商家后台🔧「营销中心→霸王餐」设置15个名额，选招牌面2款。上菜时话术：「今天您是我们试吃官，吃完麻烦花1分钟写写真实感受，好坏都行~」客人嫌麻烦→「扫码写满15字送一份卤蛋」</li><li><strong>D-3 老板</strong>：门口A字架手写「开业倒计时3天｜招牌XX面9.9元限量100碗」——老城区居民每天路过看3天，开业当天自然进店</li><li><strong>D-1 全员</strong>：全员模拟演练2遍——扫码点餐全流程测试🔧（收银后台→扫码点餐→打印桌码+测试下单→后厨接单→出餐），确保0卡顿</li></ul><h4>开业首周（D1-D7）：引爆期</h4><ul><li><strong>D1-D3 收银员</strong>：每位结账客人必推3元加购+盖章卡：「加3块钱送您一份卤蛋和泡菜，再送您一张集章卡~」</li><li><strong>D1-D3 店长</strong>：每天3次（9:00/14:00/20:00）查大众点评🔧「评价管理」，差评2小时内回复。模板：「非常抱歉给您不好的体验，我是店长XX，您下次来我亲自给您做一碗，一定满意」</li><li><strong>D4 老板</strong>：复盘首3天数据——🔧 收银后台→经营报表→日报，看日均客流/客单价/加购转化率/评价数。若日均客流低于80人，立刻加门口横幅「路过必吃·招牌XX面」</li><li><strong>D5-D7 店长</strong>：上线外卖——🔧 外卖中心→新店活动→设置「满15减3+首单立减5元」。菜品图必须实拍，SKU精简到8款</li></ul><h4>第2-4周（D8-D30）：稳客期</h4><ul><li><strong>每周 店长</strong>：🔧 会员高级版→智能营销→流失预警，查7天未到店客户→发消息「好久没来啦，这周新出了XX限定面，老客专享减2元~」</li><li><strong>D14 老板</strong>：启动「每月寻味面」第一期——选一款地域特色面上新，门口黑板更新，拍15秒制作视频发抖音同城</li><li><strong>D21 店长</strong>：盘点阶段数据——目标：日均客流≥100人、点评评价≥20条、会员注册≥150人</li><li><strong>D30 老板+店长</strong>：首月复盘会——对照OKR逐项检视，制定7月运营重点</li></ul>`,
+    4: `<h3>大众点评·新店阶段口碑打法</h3><p>多宝寻味馆是新店零评价，大众点评上的<strong>前10条评价决定了所有后续顾客的第一印象</strong>。新店阶段核心目标不是冲星级，而是<strong>先攒够一批真实好评定调</strong>。</p><h4>红线警告（2025年10月新规）</h4><p>大众点评已严格打击高强度促评——<strong>促评产生的新评价不再计入星级收益</strong>。任何「好评返现」「五星截图送礼」操作都是无效甚至反效的。口碑策略必须100%合规。</p><h4>阶段一：止血+定调（开业前~D7）</h4><ul><li><strong>谁来做</strong>：店长负责，开业前3天发起</li><li><strong>怎么做</strong>：大众点评商家后台🔧「营销中心→霸王餐」设置15个名额，选招牌面2款。试吃官的真实评价将成为门店第一批口碑基石</li><li><strong>服务员话术</strong>：「今天您是我们特邀试吃官！吃完后花1分钟写写真实感受就行，好坏都要~」</li><li><strong>客人不配合</strong>：不强求，改口「那您下次带朋友来，我送您一份小菜」——先留好印象，好评自然来</li></ul><h4>阶段二：合规工具引流（D8-D30）</h4><ul><li><strong>免费试/免费菜</strong>：商家后台🔧「营销中心→免费试」上线1道低成本引流菜（卤蛋+小菜拼盘，成本约3元/份），用户线上领取到店核销，自然产生进店和评价行为</li><li><strong>店内分享动机打造</strong>：餐桌放小立牌「拍照发朋友圈/小红书，到前台领一份神秘小食」——让分享变成有趣的事而非任务</li><li><strong>差评2小时响应</strong>：店长每天9:00/14:00/20:00三个时间点查评价🔧，差评必须2小时内真诚回复+留店长手机号</li></ul><h4>新店口碑量化目标</h4><table><tr><th>指标</th><th>30天目标</th><th>60天目标</th></tr><tr><td>评价数</td><td>≥30条</td><td>≥80条</td></tr><tr><td>好评率（4-5星）</td><td>≥85%</td><td>≥85%</td></tr><tr><td>差评响应率</td><td>100%（2h内）</td><td>100%（2h内）</td></tr><tr><td>目标评分</td><td>出星（≥4.0）</td><td>≥4.3</td></tr><tr><td>榜单</td><td>进入区域新店榜TOP20</td><td>冲热门榜</td></tr></table><p><strong>榜单升级路线</strong>：新店榜（0-30天）→ 热门榜（30-90天，靠评价量+收藏量）→ 好评榜（90天+，靠高评分稳定）。每阶段目标不同，新店期不要盯好评榜。</p>`,
+    5: `<h3>已签约SaaS·场景化落地指南</h3><p>多宝寻味馆已签约<strong>收银POS+扫码点餐+会员高级版+小程序</strong>四件套。下面不讲功能清单，只讲每个产品怎么解决你面馆的具体问题。</p><h4>1. 扫码点餐 → 解决：50㎡小店人效不够</h4><p><strong>痛点</strong>：50㎡面馆前厅最多1-2人，高峰期（11:30-13:00）点餐+叫号+收银全挤一起，体验差、翻台慢。</p><ul><li><strong>谁来做</strong>：店长，开业前1天完成配置</li><li><strong>怎么做</strong>：🔧 收银后台→扫码点餐→菜品管理，菜单分3层——「招牌必点」（3-4款主面）/「小食加购」（卤蛋/小菜/豆浆）/「限定推荐」（本月寻味面）。每道菜上实拍图</li><li><strong>关键设置</strong>：开启「扫码弹窗推荐」🔧，首屏弹窗推「招牌面+3元小食组合」</li><li><strong>预期效果</strong>：扫码点餐率做到70%+，高峰期省1人力（月省约3,500元），翻台提升15-20%</li></ul><h4>2. 会员高级版 → 解决：面馆复购率低</h4><p><strong>痛点</strong>：面食是高频低客单品类，日均消费人次多但忠诚度差——隔壁便宜2块就走了。</p><ul><li><strong>谁来做</strong>：收银员，每位买单客人必推</li><li><strong>怎么做</strong>：🔧 会员高级版→开卡礼→设置「扫码入会送2元无门槛券」（食材成本约0.7元）。话术：「扫个码注册会员，今天直接减2块，以后每次来都有会员价~」</li><li><strong>客人犹豫</strong>：「就扫一下码，3秒就好，不用填任何信息」</li><li><strong>复购激活</strong>：🔧 智能营销→「7天未到店」自动发2元券，「14天未到店」发短信</li><li><strong>目标</strong>：首月注册≥150人，会员复购率≥40%（行业均值约30%）</li></ul><h4>3. 小程序 → 解决：高峰排队流失</h4><ul><li><strong>痛点</strong>：50㎡坐不下，高峰等位客人直接走了</li><li><strong>怎么做</strong>：🔧 小程序→预点餐功能，让客人路上下单，到店直接取面。门口A字架写「提前下单·到店免排队」附小程序码</li><li><strong>高峰引导</strong>：等位客人由服务员说「您可以先扫码点好，5分钟后直接取」</li><li><strong>预期</strong>：⚠️ 假设日均高峰流失10-15人→挽回3-5人×¥20=日增60-100元</li></ul><h4>4. 收银POS → 解决：经营数据看不清</h4><ul><li><strong>谁来做</strong>：老板，每天打烊后5分钟</li><li><strong>怎么做</strong>：🔧 收银后台→经营报表→日报，重点看3个数：日营业额、客单价、菜品销量TOP5</li><li><strong>关键动作</strong>：每周对比「本周vs上周」，连续2天下滑就排查原因</li></ul>`,
+    6: `<h3>公域引流+私域锁客·双向闭环</h3><p>面食快餐客单¥20，靠单次消费赚不了钱，必须靠<strong>「公域拉新→私域锁住→高频复购」</strong>闭环才能跑出利润。</p><h4>公域渠道1：大众点评（核心——吃面的人会搜「附近面食」）</h4><ul><li><strong>团购套餐设计</strong>：上线「招牌面+小食+饮品」双人套餐，定价35.8元（原价约42元，让利15%）——🔧 商家后台→团购管理→创建套餐</li><li><strong>目的</strong>：不是赚钱，是用低门槛让新客进店体验，团购核销后引导入会</li><li><strong>门店标签</strong>：确保「面食」「快餐」「社区」「地铁站附近」标签齐全——🔧 门店管理→标签设置</li></ul><h4>公域渠道2：美团外卖（必做——社区店外卖是基本盘）</h4><ul><li><strong>新店活动</strong>：🔧 外卖中心→新店活动→「满15减3」+「首单立减5元」，新店期有平台流量扶持</li><li><strong>菜品策略</strong>：外卖只上6-8款爆款面+2-3款小食，精简SKU提高出餐效率。主图必须实拍</li><li><strong>外卖评分目标</strong>：4.8分以上。出餐时附手写便签「感谢选择多宝寻味馆~」（成本0.1元/份）</li><li><strong>⚠️ 警惕利润</strong>：¥20客单价外卖扣完佣金+打包，单均利润仅2-3元。外卖定位是<strong>拉新引流</strong>非利润来源，目标是把外卖客转堂食会员</li></ul><h4>公域渠道3：抖音同城（零成本·「寻味」天然适合短视频）</h4><ul><li><strong>谁来做</strong>：老板或店长，每周1-2条</li><li><strong>内容模板</strong>：15秒「下面→浇头→端上桌」制作过程，配BGM+字幕「今天的寻味面是贵州酸汤面~」</li><li><strong>发布设置</strong>：定位「萧山区城厢街道」，#萧山美食 #杭州面食。零投流即可覆盖周边3公里</li></ul><h4>私域层：会员+盖章卡+社群</h4><ul><li><strong>入会</strong>：扫码点餐自动弹窗🔧引导入会（开卡礼2元券），做到「点餐即入会」零阻力</li><li><strong>盖章卡</strong>：纸质卡，每次堂食盖1章，集满5章送招牌面1碗。成本：每5次消费送1碗≈成本4元=相当于8折换5次复购</li><li><strong>微信群（30天后启动）</strong>：会员超100人后建「多宝寻味·老客群」，每天11:00发「今日限定面」+实拍图。不群发广告，只发有用信息</li></ul><h4>闭环路径</h4><p><strong>点评/外卖新客进店</strong> → <strong>扫码弹窗引导入会</strong> → <strong>发盖章卡锁5次复购</strong> → <strong>7天未到店自动发券</strong> → <strong>微信群每日推送</strong> → <strong>高频复购成习惯</strong> → <strong>老客分享带新客</strong> → 循环</p>`,
+    7: `<h3>开业首季度·营销活动日历</h3><p>多宝寻味馆开业正值初夏入梅（杭州6月中旬进入梅雨期），天气闷热潮湿影响堂食但外卖猛增。以下按月排列核心活动：</p><h4>六月·开业月「寻味首发季」</h4><table><tr><th>时间</th><th>活动</th><th>谁来做</th><th>具体操作</th><th>预期</th></tr><tr><td>D1-D3</td><td>开业特价·招牌面9.9元</td><td>全员</td><td>限前100碗/天，门口A字架+横幅，扫码点餐首屏推</td><td>日均引流120+人</td></tr><tr><td>D1-D7</td><td>霸王餐攒评价</td><td>店长</td><td>🔧营销中心→霸王餐，15个名额</td><td>首周评价≥15条</td></tr><tr><td>D7起</td><td>3元加购+盖章卡</td><td>收银员</td><td>结账必推，话术见第2章</td><td>加购率≥40%</td></tr><tr><td>端午节</td><td>「寻味端午·限定酸汤面」</td><td>老板+店长</td><td>推出端午限定地域面，到店消费赠迷你粽1只（成本1.5元），门口挂艾草增节日氛围</td><td>端午3天日均客流+30%</td></tr></table><h4>七月·梅雨季「外卖冲量月」</h4><table><tr><th>时间</th><th>活动</th><th>谁来做</th><th>具体操作</th><th>预期</th></tr><tr><td>全月</td><td>外卖「雨天送暖」</td><td>店长</td><td>🔧外卖中心→满减活动，雨天加码「满20减5」+附暖心便签</td><td>外卖单量+50%</td></tr><tr><td>全月</td><td>「寻味面·第二弹」上新</td><td>老板</td><td>更换地域限定面（如重庆小面/武汉热干面），门口黑板更新+拍短视频</td><td>老客回头率+20%</td></tr><tr><td>月底</td><td>「会员日·周三减2元」</td><td>收银员</td><td>每周三会员到店消费主面减2元，🔧会员系统→定向push周二晚提醒</td><td>周三客流+25%</td></tr></table><h4>八月·暑期「学生+家庭攻坚月」</h4><table><tr><th>时间</th><th>活动</th><th>谁来做</th><th>具体操作</th><th>预期</th></tr><tr><td>全月</td><td>「暑期学生价」</td><td>收银员</td><td>凭学生证主面减3元（⚠️假设成本让利约1元/碗），拉动暑期白天闲时客流</td><td>午间客流+15%</td></tr><tr><td>全月</td><td>「亲子面·DIY浇头」</td><td>服务员</td><td>周末推亲子套餐：大人面+儿童小碗面+2份小食=29.9元，儿童可自选浇头</td><td>周末家庭桌占比+20%</td></tr><tr><td>立秋前后</td><td>「贴秋膘·大碗面升级」</td><td>老板</td><td>限时3天招牌面免费加量50%（「贴秋膘，面加大」），门口横幅告知</td><td>日均客流短期+40%</td></tr></table>`,
+    8: `<h3>投资回报分析</h3><p>基于盈利测算数据，多宝寻味馆总投入约<strong>13万元</strong>，预估月营业额<strong>9.49万元</strong>，月毛利约<strong>6.40万元</strong>（毛利率32.6%），月净利润约<strong>3.09万元</strong>，预计回本周期<strong>4.2个月</strong>。以下基于这些基准数据，测算运营方案带来的增量：</p><h4>成本结构诊断</h4><table><tr><th>项目</th><th>月金额</th><th>占营收比</th><th>行业参考值</th><th>诊断</th></tr><tr><td>房租</td><td>¥6,000</td><td>6.3%</td><td>8-15%</td><td>✅ 偏低，老城区房租优势明显</td></tr><tr><td>人工</td><td>¥8,000</td><td>8.4%</td><td>20-28%</td><td>✅ 远低于行业均值，但需警惕人手不足</td></tr><tr><td>食材（毛利率32.6%推算）</td><td>约¥6.4万</td><td>约67%</td><td>30-38%</td><td>⚠️ OCR识别可能有误，正常面馆食材占比应为30-38%。若毛利率实际为67%（食材占33%）则健康</td></tr><tr><td>月净利润</td><td>¥30,907</td><td>32.6%</td><td>8-15%</td><td>⚠️ 净利率远高于行业均值，需验证数据准确性</td></tr></table><h4>运营方案增收测算</h4><table><tr><th>增收来源</th><th>月增收（保守）</th><th>计算逻辑</th></tr><tr><td>3元加购转化</td><td>+¥2,700</td><td>日均客流100人×40%加购率×3元×30天×75%毛利</td></tr><tr><td>盖章卡锁复购</td><td>+¥1,800</td><td>200张卡×30%完成率×5次×20元×30%增量（本不会来的那次）</td></tr><tr><td>外卖渠道</td><td>+¥4,500</td><td>日均15单×20元×30天×50%毛利（扣佣后）</td></tr><tr><td>会员复购提升</td><td>+¥1,500</td><td>150会员×40%复购率×多来1次×20元×增量30%</td></tr><tr><td><strong>合计月增收</strong></td><td><strong>+¥10,500</strong></td><td>占基准月营收的11%</td></tr></table><h4>运营投入成本</h4><table><tr><th>投入项</th><th>费用</th><th>说明</th></tr><tr><td>开业特价让利（3天）</td><td>¥1,800（一次性）</td><td>100碗×6元让利×3天</td></tr><tr><td>霸王餐食材</td><td>¥300（一次性）</td><td>15份×20元成本</td></tr><tr><td>盖章卡制作</td><td>¥200（一次性）</td><td>500张纸质卡</td></tr><tr><td>免费试/免费菜</td><td>¥450/月</td><td>150份×3元成本</td></tr><tr><td>迷你粽/节日赠品</td><td>¥300/月</td><td>节日活动物料</td></tr><tr><td><strong>首月总投入</strong></td><td><strong>约¥3,050</strong></td><td>后续月均约¥750</td></tr></table><p><strong>ROI</strong>：首月净增收约¥10,500-¥3,050=<strong>¥7,450</strong>；后续月净增收约¥10,500-¥750=<strong>¥9,750</strong>。运营投入回报比约<strong>1:3.4</strong>（投1元回3.4元）。</p><h4>量化OKR目标</h4><table><tr><th>指标</th><th>开业首月</th><th>第2-3个月</th><th>第4-6个月</th></tr><tr><td>月营业额</td><td>≥8万元</td><td>≥10万元</td><td>≥12万元（含外卖）</td></tr><tr><td>日均客流</td><td>≥100人</td><td>≥120人</td><td>≥150人</td></tr><tr><td>大众点评评分</td><td>出星≥4.0</td><td>≥4.3</td><td>≥4.5</td></tr><tr><td>点评评价数</td><td>≥30条</td><td>累计≥100条</td><td>累计≥200条</td></tr><tr><td>会员注册数</td><td>≥150人</td><td>累计≥400人</td><td>累计≥800人</td></tr><tr><td>会员复购率</td><td>≥35%</td><td>≥40%</td><td>≥45%</td></tr><tr><td>外卖评分</td><td>≥4.6</td><td>≥4.8</td><td>≥4.8</td></tr><tr><td>外卖日均单量</td><td>≥10单</td><td>≥20单</td><td>≥30单</td></tr></table><p><strong>30天复盘节点</strong>：D7首周复盘（客流/评价/加购率）→ D14半月复盘（会员数/外卖数据）→ D21三周盘点 → D30月度复盘会（全指标对照OKR）。每个节点未达标项必须当天制定补救方案。</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
