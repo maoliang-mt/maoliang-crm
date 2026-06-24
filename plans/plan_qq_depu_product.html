@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QQ德州扑克酒馆 · 产品功能落地使用方案</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #0f0f1a;
+  color: #e8e8e8;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  line-height: 1.7;
+  padding: 0 16px;
+}
+.container {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 24px 0 60px;
+}
+/* Header */
+.header {
+  text-align: center;
+  padding: 40px 0 32px;
+  border-bottom: 1px solid rgba(212,175,55,0.3);
+  margin-bottom: 32px;
+}
+.header h1 {
+  font-size: 22px;
+  color: #d4af37;
+  margin-bottom: 8px;
+  letter-spacing: 2px;
+}
+.header .subtitle {
+  font-size: 13px;
+  color: #999;
+  margin-bottom: 16px;
+}
+.header .tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+.header .tag {
+  background: rgba(212,175,55,0.15);
+  border: 1px solid rgba(212,175,55,0.3);
+  color: #d4af37;
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+/* Chapter */
+.chapter {
+  margin-bottom: 40px;
+}
+.chapter-title {
+  font-size: 18px;
+  color: #d4af37;
+  padding: 16px 0 12px;
+  border-bottom: 2px solid #d4af37;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.chapter-title .num {
+  background: #d4af37;
+  color: #1a1a2e;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+/* Section */
+.section {
+  margin-bottom: 24px;
+}
+.section h3 {
+  font-size: 15px;
+  color: #f0e6c8;
+  margin-bottom: 10px;
+  padding-left: 12px;
+  border-left: 3px solid #d4af37;
+}
+.section p, .section li {
+  font-size: 13.5px;
+  color: #ccc;
+  margin-bottom: 6px;
+}
+.section ul, .section ol {
+  padding-left: 20px;
+  margin-bottom: 12px;
+}
+.section li {
+  margin-bottom: 4px;
+}
+/* Cards */
+.card {
+  background: rgba(212,175,55,0.08);
+  border: 1px solid rgba(212,175,55,0.25);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin: 12px 0;
+}
+.card-title {
+  font-size: 13px;
+  color: #d4af37;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+.card p, .card li {
+  font-size: 12.5px;
+  color: #ddd;
+}
+/* Path */
+.path {
+  background: rgba(255,255,255,0.05);
+  border-left: 3px solid #5b8def;
+  padding: 8px 12px;
+  margin: 10px 0;
+  font-size: 12px;
+  color: #8bb8ff;
+  border-radius: 0 6px 6px 0;
+}
+/* Warning */
+.warning {
+  background: rgba(255,107,53,0.1);
+  border: 1px solid rgba(255,107,53,0.3);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin: 12px 0;
+}
+.warning-title {
+  color: #ff6b35;
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+.warning p {
+  font-size: 12.5px;
+  color: #ddd;
+}
+/* Table */
+.table-wrap {
+  overflow-x: auto;
+  margin: 12px 0;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+th {
+  background: rgba(212,175,55,0.2);
+  color: #d4af37;
+  padding: 8px 10px;
+  text-align: left;
+  border: 1px solid rgba(212,175,55,0.2);
+}
+td {
+  padding: 8px 10px;
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #ccc;
+}
+tr:nth-child(even) td {
+  background: rgba(255,255,255,0.02);
+}
+/* Highlight number */
+.highlight {
+  color: #d4af37;
+  font-weight: bold;
+}
+/* Checklist */
+.checklist {
+  list-style: none;
+  padding-left: 0;
+}
+.checklist li {
+  padding: 6px 0 6px 24px;
+  position: relative;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.checklist li::before {
+  content: "☐";
+  position: absolute;
+  left: 0;
+  color: #d4af37;
+}
+/* Divider */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,175,55,0.4), transparent);
+  margin: 32px 0;
+}
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  border-top: 1px solid rgba(212,175,55,0.2);
+  color: #666;
+  font-size: 11px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- Header -->
+<div class="header">
+  <h1>♠️ QQ德州扑克酒馆</h1>
+  <div class="subtitle">产品功能落地使用方案</div>
+  <div class="tags">
+    <span class="tag">小程序</span>
+    <span class="tag">旗舰版会员</span>
+    <span class="tag">扫码点餐</span>
+    <span class="tag">收银POS</span>
+  </div>
+  <p style="margin-top:16px;font-size:12px;color:#888;">杭州市上城区四季青街道景昙路100号 · 100㎡ · 新店筹备中</p>
+</div>
+
+<!-- ========== 第一章 ========== -->
+<div class="chapter">
+  <div class="chapter-title"><span class="num">1</span>小程序——你的线上门面+预约入口</div>
+
+  <div class="section">
+    <h3>📱 首页装修建议</h3>
+    <p>小程序首页就是你的"线上门牌"，德扑酒馆需要在3秒内传递"专业+社交+有趣"的调性。</p>
+    <div class="card">
+      <div class="card-title">推荐首页模块布局（从上到下）</div>
+      <ol>
+        <li><strong>轮播Banner</strong>（3-5张）：开业预告 / 本周赛事 / 会员招募</li>
+        <li><strong>公告栏</strong>：今日牌局预告、接龙报名入口</li>
+        <li><strong>快捷入口</strong>（金刚区4格）：扫码点餐 / 会员中心 / 本周赛程 / 联系我们</li>
+        <li><strong>菜单精选</strong>：3-4款招牌酒水（带图+价格）</li>
+        <li><strong>门店信息</strong>：地址+营业时间+电话+导航</li>
+      </ol>
+    </div>
+    <div class="path">🔧 操作路径：商家后台 > 小程序装修 > 首页管理 > 添加模块</div>
+    <p style="margin-top:8px;font-size:12px;color:#999;">💡 Banner尺寸建议750×360px，深色背景+金色文字保持调性统一</p>
+  </div>
+
+  <div class="section">
+    <h3>📅 预约功能配置</h3>
+    <div class="warning">
+      <div class="warning-title">⚠️ 重要说明</div>
+      <p>「在线预订」模块需<strong>额外签约</strong>才能使用（支持选桌、选场次、在线付定金）。当前签约产品中不含此模块。</p>
+    </div>
+    <p><strong>当前替代方案（零成本立即可用）：</strong></p>
+    <div class="card">
+      <div class="card-title">方案A：小程序公告 + 企微群接龙</div>
+      <ul>
+        <li>每天17:00在小程序公告栏发布「今晚牌局预告」</li>
+        <li>公告末尾引导添加企微群</li>
+        <li>企微群内发起接龙：「今晚20:00 A3桌 德州无限注，还差2位，接1报名」</li>
+        <li>确认后由店员手动登记座位</li>
+      </ul>
+    </div>
+    <div class="path">🔧 操作路径：商家后台 > 小程序装修 > 公告管理 > 新建公告</div>
+    <p style="margin-top:10px;"><strong>未来升级建议：</strong>签约「在线预订」模块后，可配置：</p>
+    <ul>
+      <li>桌台类型：德扑桌（A1-A6）/ 吧台散座 / 卡座包间</li>
+      <li>场次时段：19:00-22:00（早场）/ 22:00-01:00（晚场）</li>
+      <li>每桌定金：50元/位，到店抵扣消费</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3>🍺 扫码点餐在酒馆的配置</h3>
+    <p>酒馆场景的扫码点餐 ≠ 餐厅点菜，核心是「台费+酒水一键下单」。</p>
+    <div class="card">
+      <div class="card-title">菜单分类建议（6大类）</div>
+      <table>
+        <tr><th>分类名</th><th>商品示例</th><th>价格区间</th></tr>
+        <tr><td>💰 入座台费</td><td>标准台费/VIP台费</td><td>80-150元/位</td></tr>
+        <tr><td>🍺 精酿啤酒</td><td>IPA/小麦/拉格</td><td>38-68元</td></tr>
+        <tr><td>🍸 鸡尾酒</td><td>莫吉托/长岛/Negroni</td><td>58-88元</td></tr>
+        <tr><td>🥃 威士忌</td><td>百富/麦卡伦/山崎</td><td>68-388元</td></tr>
+        <tr><td>🍿 小食拼盘</td><td>薯条/坚果/芝士</td><td>28-58元</td></tr>
+        <tr><td>🎁 超值套餐</td><td>开局套餐/畅饮套餐</td><td>168-298元</td></tr>
+      </table>
+    </div>
+    <div class="path">🔧 操作路径：商家后台 > 扫码点餐 > 菜单管理 > 分类设置</div>
+    <p style="margin-top:8px;"><strong>台费商品化技巧：</strong></p>
+    <ul>
+      <li>创建分类「入座台费」，设为<strong>必点分类</strong>（顾客下单时强制选择）</li>
+      <li>台费按人头算：商品名设为「标准场台费（80元/位）」，规格不做SKU拆分，按人数多次加购</li>
+      <li>VIP客户台费设为独立商品「VIP尊享台费」，关联会员折扣</li>
+    </ul>
+    <div class="path">🔧 操作路径：商家后台 > 扫码点餐 > 菜单管理 > 新建商品 > 设置必点</div>
+  </div>
+
+  <div class="section">
+    <h3>📢 消息推送触达</h3>
+    <div class="card">
+      <div class="card-title">适合德扑酒馆的推送场景</div>
+      <ul>
+        <li><strong>新局通知</strong>：每周三/五 17:00推送「今晚有局」（利用模板消息）</li>
+        <li><strong>活动通知</strong>：赛事报名开启、会员日提醒</li>
+        <li><strong>消费提醒</strong>：下单成功/积分到账/会员升级通知</li>
+        <li><strong>唤醒沉睡</strong>：7天未到店自动推送优惠券</li>
+      </ul>
+    </div>
+    <div class="path">🔧 操作路径：商家后台 > 营销中心 > 消息推送 > 新建推送任务</div>
+    <p style="font-size:12px;color:#999;">注：模板消息需用户授权，首次消费后即可获得推送权限</p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ========== 第二章 ========== -->
+<div class="chapter">
+  <div class="chapter-title"><span class="num">2</span>旗舰版会员——锁住牌友的核心武器</div>
+
+  <div class="section">
+    <h3>🏆 会员等级体系设计</h3>
+    <p>德扑酒馆客群忠诚度高，等级体系能有效刺激消费频次和客单价。</p>
+    <div class="card">
+      <div class="card-title">三级会员体系配置</div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>等级</th><th>升级条件</th><th>权益</th></tr>
+          <tr>
+            <td><strong>♣ 新手牌友</strong></td>
+            <td>注册即得</td>
+            <td>• 首杯酒水8折<br>• 生日当天台费免单<br>• 积分1倍</td>
+          </tr>
+          <tr>
+            <td><strong>♦ VIP牌友</strong></td>
+            <td>累计消费满<span class="highlight">2000元</span></td>
+            <td>• 酒水9折<br>• 每月1张免台费券<br>• 赛事优先报名<br>• 积分1.5倍</td>
+          </tr>
+          <tr>
+            <td><strong>♠ 黑金玩家</strong></td>
+            <td>累计消费满<span class="highlight">8000元</span></td>
+            <td>• 酒水85折<br>• 每月2张免台费券<br>• 专属牌桌优先预约<br>• 新品免费品鉴<br>• 积分2倍<br>• 私局优先组桌</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="path">🔧 操作路径：商家后台 > 会员中心 > 等级规则 > 新建等级</div>
+    <p style="margin-top:8px;font-size:12px;color:#999;">💡 等级以累计消费金额为门槛（非次数），避免"刷次数低消"行为</p>
+  </div>
+
+  <div class="section">
+    <h3>💎 积分规则配置</h3>
+    <div class="card">
+      <div class="card-title">积分获取规则</div>
+      <ul>
+        <li>消费 <span class="highlight">1元 = 1积分</span>（基础倍率）</li>
+        <li>VIP牌友：1元 = 1.5积分</li>
+        <li>黑金玩家：1元 = 2积分</li>
+        <li>指定日翻倍：每周五「疯狂积分夜」积分×3</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">积分兑换项目</div>
+      <table>
+        <tr><th>兑换项</th><th>所需积分</th><th>价值</th></tr>
+        <tr><td>免台费券（标准场）</td><td>800积分</td><td>≈80元</td></tr>
+        <tr><td>指定鸡尾酒1杯</td><td>600积分</td><td>≈60元</td></tr>
+        <tr><td>小食拼盘1份</td><td>300积分</td><td>≈30元</td></tr>
+        <tr><td>精酿啤酒1杯</td><td>400积分</td><td>≈40元</td></tr>
+        <tr><td>专属牌桌优先权（1次）</td><td>1500积分</td><td>稀缺体验</td></tr>
+      </table>
+    </div>
+    <div class="path">🔧 操作路径：商家后台 > 会员中心 > 积分规则 > 获取规则 / 兑换商城</div>
+    <p style="margin-top:8px;font-size:12px;color:#999;">💡 积分兑换比控制在10:1左右（10积分≈1元价值），既有获得感又不亏本</p>
+  </div>
+
+  <div class="section">
+    <h3>💳 会员卡类型设计</h3>
+    <p>除了等级自动升降外，设置付费会员卡进一步锁定高频客户。</p>
+    <div class="card">
+      <div class="card-title">推荐设置3种会员卡</div>
+      <table>
+        <tr><th>卡种</th><th>售价</th><th>专属权益</th></tr>
+        <tr>
+          <td><strong>牌友月卡</strong></td>
+          <td><span class="highlight">199元/月</span></td>
+          <td>• 每日首场台费5折<br>• 赠100积分/周<br>• 适合每周来1-2次的客人</td>
+        </tr>
+        <tr>
+          <td><strong>VIP季卡</strong></td>
+          <td><span class="highlight">499元/季</span></td>
+          <td>• 台费全场8折<br>• 每月2张酒水免单券<br>• 私局组桌优先<br>• 适合每周来3次以上的客人</td>
+        </tr>
+        <tr>
+          <td><strong>黑金年卡</strong></td>
+          <td><span class="highlight">1688元/年</span></td>
+          <td>• 台费全场7折<br>• 每月4张酒水免单券<br>• 生日场全桌免台费<br>• 新品优先品鉴<br>• 专属赛事邀请<br>• 适合铁杆牌友/团建负责人</td>
+        </tr>
+      </table>
+    </div>
+    <div class="path">🔧 操作路径：商家后台 > 会员中心 > 会员卡管理 > 新建付费会员卡</div>
+  </div>
+
+  <div class="section">
+    <h3>🎯 潜客营销功能使用</h3>
+    <p>针对「来过但没消费」或「注册了没到店」的人群自动触达。</p>
+    <div class="card">
+      <div class="card-title">推荐配置策略</div>
+      <ul>
+        <li><strong>首次到店未消费</strong>→ 离店后30分钟自动推送「新人首场台费立减30元」优惠券</li>
+        <li><strong>注册7天未到店</strong>→ 推送「开业福利：到店送一杯精酿」</li>
+        <li><strong>30天未复购</strong>→ 推送「老朋友回归礼：免台费券1张」</li>
+        <li><strong>消费满3次未办卡</strong>→ 推送「牌友月卡限时特惠，立省XX元」</li>
+      </ul>
+    </div>
+    <div class="path">🔧 操作路径：商家后台 > 营销中心 > 智能营销 > 潜客唤醒 > 新建规则</div>
+  </div>
+
+  <div class="section">
+    <h3>🔗 裂变拉新配置</h3>
+    <div class="card">
+      <div class="card-title">老带新奖励规则</div>
+      <ul>
+        <li><strong>推荐人奖励</strong>：好友首次消费后，推荐人获得 <span class="highlight">50积分 + 酒水半价券1张</span></li>
+        <li><strong>被推荐人福利</strong>：首次到店享台费5折</li>
+        <li><strong>阶梯加码</strong>：推荐满5人，额外奖励免台费券2张</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">分享海报设置建议</div>
+      <ul>
+        <li>海报风格：黑金调性，突出"♠️ 今晚有局，就差你一个"</li>
+        <li>海报内容：店名+地址+新人福利+推荐人专属二维码</li>
+        <li>投放场景：打完牌后引导分享到朋友圈/群</li>
+      </ul>
+    </div>
+    <div class="path">🔧 操作路径：商家后台 > 营销中心 > 裂变拉新 > 邀请有礼 > 配置规则</div>
+  </div>
+
+  <div class="section">
+    <h3>✅ 任务中心活用</h3>
+    <p>旗舰版会员自带「任务中心」，用户完成指定行为可获得积分/优惠券。</p>
+    <div class="card">
+      <div class="card-title">适合德扑酒馆的任务配置</div>
+      <table>
+        <tr><th>任务</th><th>奖励</th><th>说明</th></tr>
+        <tr><td>完善个人资料</td><td>20积分</td><td>收集客户信息便于精准营销</td></tr>
+        <tr><td>首次分享小程序</td><td>50积分</td><td>拉新触达</td></tr>
+        <tr><td>首次扫码点餐</td><td>30积分</td><td>培养点餐习惯</td></tr>
+        <tr><td>邀请1位好友注册</td><td>100积分</td><td>裂变核心任务</td></tr>
+        <tr><td>累计消费满500元</td><td>免台费券×1</td><td>消费激励</td></tr>
+        <tr><td>连续4周到店</td><td>酒水免单券×1</td><td>提升复购频次</td></tr>
+      </table>
+    </div>
+    <div class="path">🔧 操作路径：商家后台 > 会员中心 > 任务中心 > 新建任务</div>
+  </div>
+
+  <div class="section">
+    <h3>⚠️ 功能边界诚实说明</h3>
+    <div class="warning">
+      <div class="warning-title">系统暂不支持的功能</div>
+      <p><strong>① 每日签到打卡</strong>：旗舰版会员无独立签到模块，无法实现"打卡赚积分"。</p>
+      <p><strong>② C端积分排行榜</strong>：系统不支持在小程序展示"积分TOP10"排名。</p>
+    </div>
+    <div class="card">
+      <div class="card-title">替代方案</div>
+      <ul>
+        <li><strong>签到替代</strong>：用"消费即得积分"替代签到——每次到店消费自动累积，比打卡更有商业价值</li>
+        <li><strong>排行榜替代</strong>：每月1号在企微群/店内屏幕公布「本月积分TOP5牌友」，手动制图发布，反而更有社交仪式感</li>
+        <li><strong>连续到店激励</strong>：通过任务中心设置「连续4周到店」任务替代签到效果</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ========== 第三章 ========== -->
+<div class="chapter">
+  <div class="chapter-title"><span class="num">3</span>扫码点餐——台费+酒水一体化收银</div>
+
+  <div class="section">
+    <h3>🪑 桌台设置</h3>
+    <div class="card">
+      <div class="card-title">桌台编号规划</div>
+      <table>
+        <tr><th>区域</th><th>编号</th><th>容量</th><th>桌贴二维码</th></tr>
+        <tr><td>德扑桌区</td><td>A1、A2、A3、A4、A5、A6</td><td>6-9人/桌</td><td>每桌1张</td></tr>
+        <tr><td>吧台区</td><td>B1-B4</td><td>1-2人/位</td><td>每2位共享1张</td></tr>
+        <tr><td>卡座区</td><td>C1、C2</td><td>4-6人/座</td><td>每座1张</td></tr>
+      </table>
+    </div>
+    <div class="path">🔧 操作路径：商家后台 > 扫码点餐 > 桌台管理 > 新建区域 > 添加桌台</div>
+    <p style="margin-top:8px;font-size:12px;color:#999;">💡 德扑桌编号建议与实体桌牌一致（A1-A6），顾客入座即扫桌上码，自动关联桌号</p>
+  </div>
+
+  <div class="section">
+    <h3>📋 菜单结构设计</h3>
+    <div class="card">
+      <div class="card-title">完整菜单分类及商品配置</div>
+      <p style="margin-top:10px;"><strong>分类2：🍺 精酿啤酒</strong></p>
+      <ul>
+        <li>IPA精酿 —— 68元/杯</li>
+        <li>小麦白啤 —— 58元/杯</li>
+        <li>黑啤世涛 —— 72元/杯</li>
+        <li>当季特酿 —— 78元/杯</li>
+      </ul>
+      <p style="margin-top:10px;"><strong>分类3：🍸 鸡尾酒</strong></p>
+      <ul>
+        <li>经典莫吉托 —— 68元/杯</li>
+        <li>长岛冰茶 —— 78元/杯</li>
+        <li>QQ特调（店名定制款）—— 88元/杯</li>
+        <li>无酒精特饮 —— 38元/杯</li>
+      </ul>
+      <p style="margin-top:10px;"><strong>分类4：🥃 威士忌/洋酒</strong></p>
+      <ul>
+        <li>按杯卖（30ml）—— 88-168元</li>
+        <li>整瓶（开瓶费含）—— 388-1288元</li>
+      </ul>
+      <p style="margin-top:10px;"><strong>分类5：🍿 小食拼盘</strong></p>
+      <ul>
+        <li>薯条拼盘 —— 38元</li>
+        <li>坚果拼盘 —— 48元</li>
+        <li>芝士烤翅 —— 58元</li>
+        <li>牛肉干 —— 42元</li>
+      </ul>
+      <p style="margin-top:10px;"><strong>分类6：🎁 开局套餐（推荐组合）</strong></p>
+      <ul>
+        <li>新手开局套餐：标准场台费+2杯精酿+坚果拼盘 = <span style="color:#d4af37">原价224元 → 套餐价188元</span></li>
+        <li>高手畅饮套餐：高手场台费+2杯鸡尾酒+薯条拼盘 = <span style="color:#d4af37">原价294元 → 套餐价258元</span></li>
+        <li>团建包场套餐（6人）：6×标准台费+12杯酒任选+3份小食 = <span style="color:#d4af37">原价1530元 → 套餐价1288元</span></li>
+      </ul>
+    </div>
+    <div class="path">🔧 操作路径：商家后台 > 扫码点餐 > 菜品管理 > 新增分类 > 添加商品</div>
+  </div>
+
+  <div class="section">
+    <h3>💰 台费商品化配置</h3>
+    <div class="card">
+      <div class="card-title">关键设置</div>
+      <ul>
+        <li><strong>台费设为独立分类</strong>，排序置顶（排序号设为1）</li>
+        <li><strong>台费按人头下单</strong>：商品单位设为「位」，入座时每人扫码各点1份台费</li>
+        <li><strong>加时台费</strong>：设置「续时台费」商品（50元/位/2小时），超时后服务员引导加点</li>
+        <li><strong>商品备注：</strong>台费商品描述写清包含内容（如"含3小时牌局+免费茶水+WiFi"）</li>
+      </ul>
+    </div>
+    <div class="path">🔧 操作路径：商家后台 > 扫码点餐 > 菜品管理 > 入座台费分类 > 编辑商品 > 排序号设为1</div>
+    <p style="margin-top:8px;font-size:12px;color:#999;">💡 技巧：台费商品的「商品图片」用德扑桌实拍，增强仪式感</p>
+  </div>
+
+  <div class="section">
+    <h3>🔄 加时/续杯场景处理</h3>
+    <div class="card">
+      <div class="card-title">实操流程</div>
+      <ul>
+        <li><strong>加时：</strong>桌上放「扫码加时」台卡 → 顾客自助扫码点「续时台费」→ 直接扣款无需找服务员</li>
+        <li><strong>续杯：</strong>同一桌台码，随时可再下单加酒水/小食，追加到同一订单</li>
+        <li><strong>拼桌场景：</strong>AA制付款 → 每人扫同一桌码独立下单自己的台费+酒水</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 第四章 ========== -->
+<div class="chapter">
+  <div class="chapter-title"><span class="num">4</span>收银POS——日常经营管理</div>
+
+  <div class="section">
+    <h3>⏰ 班次管理</h3>
+    <div class="card">
+      <div class="card-title">德扑酒馆营业时段设置</div>
+      <table>
+        <tr><th>班次</th><th>时间</th><th>适用场景</th></tr>
+        <tr><td>晚班A</td><td>18:00-24:00</td><td>日常营业主时段</td></tr>
+        <tr><td>晚班B</td><td>00:00-02:00</td><td>深夜场（周末可延长至03:00）</td></tr>
+      </table>
+      <p style="margin-top:8px;">建议设置2个班次，交班时做小结——避免深夜场酒水对账混乱</p>
+    </div>
+    <div class="path">🔧 操作路径：POS机 > 设置 > 班次管理 > 新增班次 > 设置起止时间</div>
+  </div>
+
+  <div class="section">
+    <h3>💳 多支付方式配置</h3>
+    <div class="card">
+      <div class="card-title">建议开通的支付方式</div>
+      <ul>
+        <li>✅ 微信支付（主力，年轻客群90%用微信）</li>
+        <li>✅ 支付宝</li>
+        <li>✅ 美团支付（团购核销时自动走美团）</li>
+        <li>✅ 现金（备用，深夜场偶尔有需求）</li>
+        <li>✅ 会员储值余额（后期可开通）</li>
+      </ul>
+    </div>
+    <div class="path">🔧 操作路径：商家后台 > 收银设置 > 支付方式管理 > 逐一启用</div>
+  </div>
+
+  <div class="section">
+    <h3>📊 报表重点关注指标</h3>
+    <div class="card">
+      <div class="card-title">每日必看 + 每周复盘</div>
+      <p><strong>日结必看（每天闭店后5分钟）：</strong></p>
+      <ul>
+        <li>当日营业额（台费 vs 酒水占比，健康比例 = 台费40% : 酒水50% : 小食10%）</li>
+        <li>桌台翻台次数（A1-A6每桌用了几轮，低于1.5轮/天说明引流不够）</li>
+        <li>客单价（目标人均180-250元）</li>
+      </ul>
+      <p style="margin-top:10px;"><strong>周报复盘（每周一下午）：</strong></p>
+      <ul>
+        <li>各时段上座率（找出黄金时段和冷门时段）</li>
+        <li>套餐 vs 单点比例（套餐占比低说明推荐话术没跟上）</li>
+        <li>新客 vs 老客消费占比（老客占比低于40%要加强会员运营）</li>
+        <li>库存消耗TOP5酒水（及时补货+淘汰滞销款）</li>
+      </ul>
+    </div>
+    <div class="path">🔧 操作路径：商家后台 > 经营报表 > 营业概览/商品分析/时段分析</div>
+  </div>
+
+  <div class="section">
+    <h3>📦 库存管理（酒水进销存）</h3>
+    <div class="card">
+      <div class="card-title">酒水库存管理要点</div>
+      <ul>
+        <li><strong>建档：</strong>每款酒水设定库存数量，精酿按桶/瓶计、鸡尾酒按基酒瓶计</li>
+        <li><strong>预警线：</strong>设置安全库存（如IPA剩5瓶时提醒补货）</li>
+        <li><strong>盘点：</strong>每周一盘点一次，对比系统库存 vs 实际库存（差异>5%需查原因）</li>
+        <li><strong>损耗：</strong>鸡尾酒调制有自然损耗（约5-8%），做好损耗登记</li>
+      </ul>
+    </div>
+    <div class="path">🔧 操作路径：商家后台 > 库存管理 > 入库/出库/盘点 > 设置安全库存</div>
+  </div>
+</div>
+
+<!-- ========== 第五章 ========== -->
+<div class="chapter">
+  <div class="chapter-title"><span class="num">5</span>组合打法——从到店到复购的完整闭环</div>
+
+  <div class="section">
+    <h3>🎬 一个客户的完整旅程</h3>
+    <div class="card" style="background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);border-left:3px solid #d4af37;">
+      <p style="color:#d4af37;font-weight:bold;margin-bottom:12px;">👤 小王（28岁，互联网公司PM，德扑爱好者）</p>
+      <p><strong>Day 1 · 发现</strong><br>朋友发来小程序分享卡片 → 打开看到"新手免台费"活动 → 注册会员</p>
+      <p style="margin-top:8px;"><strong>Day 3 · 首次到店</strong><br>小程序看今晚新手场有位 → 企微群接龙报名 → 到店扫桌码点台费+2杯酒（免台费券自动抵扣）→ 消费136元 → 获得136积分 → 自动成为「开桌新人」等级</p>
+      <p style="margin-top:8px;"><strong>Day 10 · 复购</strong><br>收到小程序消息推送"周五高手场仅剩2席" → 到店消费248元 → 累计384积分 → 升级为「常驻牌友」→ 解锁9折酒水权益</p>
+      <p style="margin-top:8px;"><strong>Day 20 · 裂变</strong><br>分享裂变海报给3个同事 → 同事注册消费 → 小王获赠1次免台费券 → 同事们加入企微群 → 形成固定牌搭子</p>
+      <p style="margin-top:8px;"><strong>Day 45 · 黏住</strong><br>累计消费2000元 → 升级「黑金玩家」→ 享专属VIP桌优先预约权 → 每月赠1次免台费 → 自发在朋友圈晒排名</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>📋 开业首月配置清单</h3>
+    <div class="card">
+      <div class="card-title">按天推进（打✓代表完成）</div>
+      <p><strong>开业前7天：</strong></p>
+      <ul>
+        <li>□ 完成POS机安装调试 + 绑定支付方式</li>
+        <li>□ 录入全部菜品（台费+酒水+小食+套餐）</li>
+        <li>□ 设置桌台编号（A1-A6/B1-B4/C1-C2）+ 打印桌码</li>
+        <li>□ 配置会员等级体系（3级） + 积分规则</li>
+        <li>□ 设计裂变海报 + 新客免台费券</li>
+        <li>□ 小程序首页装修上线</li>
+        <li>□ 建立企微群（种子群，先拉20-30个朋友的朋友）</li>
+      </ul>
+      <p style="margin-top:10px;"><strong>开业第1-7天（种子期）：</strong></p>
+      <ul>
+        <li>□ 每天邀请3-5位KOC免费体验 → 要求发朋友圈/小红书</li>
+        <li>□ 所有到店客人引导注册会员 + 进企微群</li>
+        <li>□ 每晚群内发当日战报（今日最佳牌手、消费TOP3等）</li>
+        <li>□ 收集客人反馈，调整酒水口味/台费时长</li>
+      </ul>
+      <p style="margin-top:10px;"><strong>开业第8-14天（固化期）：</strong></p>
+      <ul>
+        <li>□ 确认每周固定局型节奏（见下方）</li>
+        <li>□ 启用潜客营销：到店未消费的会员48小时后自动发30元酒水券</li>
+        <li>□ 首批常驻牌友识别 → 单独建「牌友VIP群」</li>
+      </ul>
+      <p style="margin-top:10px;"><strong>开业第15-30天（放量期）：</strong></p>
+      <ul>
+        <li>□ 开放裂变拉新活动（老带新各得1次免台费）</li>
+        <li>□ 策划首个"月度积分王"活动（群内公布排名，积分最高送整瓶威士忌）</li>
+        <li>□ 查看首月报表，判断哪个时段/局型最赚钱 → 集中资源</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>📅 每周运营节奏 × 系统功能对应</h3>
+    <div class="card">
+      <table>
+        <tr><th>日期</th><th>局型</th><th>系统动作</th></tr>
+        <tr><td>周一</td><td>休息日/内部培训</td><td>盘点库存、更新菜品、复盘上周数据</td></tr>
+        <tr><td>周二</td><td>女士之夜（吸引新客群）</td><td>小程序推送"女士免台费"活动</td></tr>
+        <tr><td>周三</td><td>新手友谊局</td><td>企微群接龙报名 + 新客到店自动送注册积分</td></tr>
+        <tr><td>周四</td><td>自由散局</td><td>正常营业，积分消费翻倍日</td></tr>
+        <tr><td>周五</td><td>高手竞技局</td><td>小程序推送"高手场今晚开" + 仅限银牌以上会员参加</td></tr>
+        <tr><td>周六</td><td>主题赛事/团建包场</td><td>套餐热卖 + 团建套餐主推 + 裂变海报传播</td></tr>
+        <tr><td>周日</td><td>休闲混搭局</td><td>下午场(14:00开)试水 + 新手/高手混搭</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 第六章 ========== -->
+<div class="chapter">
+  <div class="chapter-title"><span class="num">6</span>功能边界诚实说明</div>
+
+  <div class="section">
+    <h3>✅ 能做 vs ❌ 暂时做不到</h3>
+    <div class="card">
+      <table>
+        <tr><th>需求</th><th>状态</th><th>说明</th></tr>
+        <tr><td>会员注册/等级/积分</td><td style="color:#4caf50;">✅ 支持</td><td>旗舰版会员完整支持</td></tr>
+        <tr><td>积分兑换优惠券/商品</td><td style="color:#4caf50;">✅ 支持</td><td>积分商城可配</td></tr>
+        <tr><td>裂变拉新/老带新</td><td style="color:#4caf50;">✅ 支持</td><td>旗舰版含裂变海报功能</td></tr>
+        <tr><td>小程序消息推送</td><td style="color:#4caf50;">✅ 支持</td><td>活动/优惠信息触达</td></tr>
+        <tr><td>扫码点餐/加单/AA</td><td style="color:#4caf50;">✅ 支持</td><td>已签扫码点餐模块</td></tr>
+        <tr><td>经营报表/数据分析</td><td style="color:#4caf50;">✅ 支持</td><td>POS自带</td></tr>
+        <tr><td>潜客自动营销</td><td style="color:#4caf50;">✅ 支持</td><td>旗舰版含潜客触达</td></tr>
+        <tr style="background:rgba(255,82,82,0.1);"><td>每日签到打卡</td><td style="color:#ff5252;">❌ 暂不支持</td><td>系统无签到模块</td></tr>
+        <tr style="background:rgba(255,82,82,0.1);"><td>C端积分排行榜</td><td style="color:#ff5252;">❌ 暂不支持</td><td>后台可看排名，小程序端不展示</td></tr>
+        <tr style="background:rgba(255,82,82,0.1);"><td>在线预约选座/选场次</td><td style="color:#ff5252;">❌ 需加购</td><td>需额外签「在线预订」模块</td></tr>
+        <tr style="background:rgba(255,82,82,0.1);"><td>自动配桌/凑局</td><td style="color:#ff5252;">❌ 暂不支持</td><td>系统无此功能</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>🔧 做不到的替代方案</h3>
+    <div class="card">
+      <div class="card-title">实操替代方案</div>
+      <table>
+        <tr><th>需求</th><th>替代方案</th><th>效果</th></tr>
+        <tr>
+          <td>每日签到打卡</td>
+          <td>消费即累积积分（到店消费=打卡），比纯签到更有商业价值</td>
+          <td>⭐⭐⭐⭐ 比签到更实际</td>
+        </tr>
+        <tr>
+          <td>C端积分排行榜</td>
+          <td>每周在企微群/店内电视屏发布「本周积分TOP10」，手动从后台导出</td>
+          <td>⭐⭐⭐⭐ 社交竞争感更强</td>
+        </tr>
+        <tr>
+          <td>在线预约选座</td>
+          <td>企微群接龙报名（"周五高手场，回复1报名"）+ 小程序公告展示今日场次安排</td>
+          <td>⭐⭐⭐ 可用，但没有系统化</td>
+        </tr>
+        <tr>
+          <td>自动凑局</td>
+          <td>群内"凑局墙"（缺人时群主发通告），用系统小程序弹窗通知有坑位</td>
+          <td>⭐⭐⭐ 人工运营为主</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>📈 未来可加购模块建议</h3>
+    <div class="card" style="border-left:3px solid #d4af37;">
+      <p><strong>🥇 第一优先：在线预订（推荐开业稳定后加购）</strong></p>
+      <ul>
+        <li>解决问题：顾客在小程序直接选桌号+选时段预约</li>
+        <li>适合时机：开业2-3个月后，固定客群形成，预约需求明确</li>
+        <li>价值：减少群内报名的人工成本，提升专业感</li>
+      </ul>
+      <p style="margin-top:12px;"><strong>🥈 第二优先：储值功能</strong></p>
+      <ul>
+        <li>解决问题：锁住高频牌友的消费预算</li>
+        <li>适合时机：有10-15个高频客户后再开</li>
+        <li>玩法：充1000送150（约15%返赠，德扑客群消费力强可承受）</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 尾部 ========== -->
+<div style="text-align:center;padding:40px 0 20px;border-top:1px solid rgba(212,175,55,0.3);margin-top:32px;">
+  <p style="color:#d4af37;font-size:16px;font-weight:bold;">QQ德州扑克酒馆 · 系统落地使用方案</p>
+  <p style="color:#888;font-size:12px;margin-top:8px;">美团餐饮SaaS · 产品顾问团队出品</p>
+  <p style="color:#666;font-size:11px;margin-top:4px;">2026年6月</p>
+</div>
+
+</div><!-- .container -->
+</body>
+</html>
