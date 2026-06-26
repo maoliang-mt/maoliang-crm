@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>大步牛打酒铺 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">打酒铺/精酿鲜啤+酱酒 · 运营提升方案</div>
+  <h1 class="hero-title">大步牛打酒铺</h1>
+  <p class="hero-subtitle">中国酒，年轻喝——用周频复购锁住社区年轻酒客</p>
+  <div class="hero-address">浙江省杭州市上城区笕桥街道全福桥路498号</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥68</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">上城区·笕桥</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察与机会判断', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察与机会判断</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解与差异化定位', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解与差异化定位</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '开业冲刺30天作战计划', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">开业冲刺30天作战计划</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评口碑·新店冷启动路径', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评口碑·新店冷启动路径</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '小程序+会员·年轻人活动矩阵', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">小程序+会员·年轻人活动矩阵</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '公域引流·线上获客矩阵', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">公域引流·线上获客矩阵</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '私域运营·社群复购锁定', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">私域运营·社群复购锁定</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '投资回报与OKR目标', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">投资回报与OKR目标</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>品类大盘：打酒铺的结构性机会</h3><p>2024-2025年杭州精酿小酒馆进入洗牌期，前两年扎堆开店（海伦司、跳海、TAPS等），2024下半年关店率明显上升。但<strong>「打酒带走」轻模型</strong>（租金低、损耗少、坪效高）仍有结构性机会——类似北京京A打酒站、成都丰收精酿的模式已跑通。</p><h3>价格带定位判断</h3><p>杭州主流价格带：纯酒馆消费人均80-120元，打酒零售+少量堂饮人均50-80元。<strong>大步牛68元卡在「堂饮轻社交+带走」的甜蜜点</strong>，合理且差异化：既不是海伦司的廉价夜场模式，也不是贰麻酒馆100+的高门槛。</p><h3>区位风险与对策</h3><p>笕桥属城东新居住区（东方福邸、福雷德广场一带），<strong>非核心酒饮消费场景</strong>，客群需要教育。核心挑战不是竞争而是「客流密度不足+消费习惯待培养」。夏季是窗口期（啤酒刚需季），冬季坪效可能腰斩——<strong>必须在夏季建立周频复购习惯，靠私域锁客穿越淡季</strong>。</p><h3>独特资产识别</h3><ul><li><strong>老板自己是酒水商</strong>：千岛湖鲜啤+茅台镇酱酒，供应链零中间商，毛利空间大（⚠️ 假设毛利65-70%，酒商自营常规水平）</li><li><strong>品牌心智明确</strong>：「中国酒，年轻喝」——精准切国产精酿+新派酱酒年轻化赛道</li><li><strong>双品类覆盖</strong>：鲜啤（高频、夏季刚需、社交属性）+ 酱酒（高客单、送礼/品鉴场景、冬季补位）——季节互补，全年有抓手</li></ul></div>
+<div id="modal-content-2" style="display:none"><h3>周边3-5公里竞争格局</h3><table><tr><th>竞品</th><th>人均</th><th>核心优势</th><th>弱点 / 大步牛能切的</th></tr><tr><td>海伦司（九堡/城东银泰）</td><td>¥60-80</td><td>品牌引流强、夜间流量大</td><td>产品无差异化，工业啤酒为主，无精酿品质感；年轻人喝腻了</td></tr><tr><td>胡桃里/贰麻酒馆（凤起东路）</td><td>¥100+</td><td>氛围好、拍照出片</td><td>价格门槛高，不适合日常消费；离笕桥远，不方便</td></tr><tr><td>社区烧烤+啤酒档口（全福桥路周边）</td><td>¥40-60</td><td>烟火气、价格低、复购高</td><td>品质感弱，无品牌溢价，工业啤酒；无法满足「好喝+有调性+能发圈」</td></tr></table><h3>竞争烈度：中低</h3><p>全福桥路片区<strong>无直接打酒铺/精酿专营竞品</strong>。最近精酿店集中在城站/湖滨商圈（5公里+），笕桥板块存在品类空白。核心挑战不是抢客而是「做大蛋糕——教育周边居民养成打酒习惯」。</p><h3>差异化切入点</h3><ul><li><strong>vs 海伦司</strong>：「千岛湖鲜啤现打 vs 工业水啤」——品质碾压，价格接近，年轻人升级消费的最佳替代</li><li><strong>vs 贰麻/胡桃里</strong>：「社区家门口打酒 vs 商圈高消费」——不用打车、不用排队、不用花100+</li><li><strong>vs 烧烤档口</strong>：「国潮酒馆调性 vs 路边摊感觉」——年轻人要的是好喝+拍照出片+社交货币</li></ul><h3>一句话定位</h3><p><strong>「笕桥唯一国潮打酒铺——千岛湖鲜啤现打现喝，茅台镇酱酒论两品鉴」</strong>。核心记忆点：<strong>鲜（当天灌装）、近（就在家门口）、潮（中国酒年轻喝）</strong>。</p></div>
+<div id="modal-content-3" style="display:none"><h3>核心逻辑：社区打酒铺，拼的是「让人养成每周来打酒的习惯」</h3><p>70平社区店，自然客流有限。<strong>开业期=建立周频复购习惯的黄金窗口</strong>，一旦错过夏季旺季再想拉人很难。</p><h3>开业前7天｜社区预热蓄水</h3><ul><li><strong>Day -7至-4 建群蓄水</strong><br/>谁来做：老板本人<br/>怎么做：在周边小区业主群（东方福邸、景芳东区、福雷德广场）发开业海报+群二维码<br/>🔧 小程序后台→社群管理→生成「酒友群」活码<br/>话术：「全福桥路要开家打酒铺，千岛湖鲜啤3.8元/500ml现打带走，进群锁开业9.9元畅饮券」<br/>目标：开业前蓄水200人</li><li><strong>Day -3至-1 围挡造势</strong><br/>围挡已有slogan「中国酒，年轻喝」→加一行：「千岛湖鲜啤·现打现喝·X月X日开业」+ 群二维码<br/>门口摆易拉宝：「扫码进群→开业当天免费喝一杯」</li></ul><h3>开业当天（Day 1）｜引爆到店</h3><ul><li><strong>9.9元畅饮券核销</strong>：群内提前发的券当天生效→到店扫码核销🔧（小程序→我的券→出示）</li><li><strong>门口免费试饮</strong>：打酒台路边摆，路人免费尝50ml小杯（成本约0.3元/杯）<br/>话术：「老板自己酒厂的，今天开业请你尝尝，好喝再买」</li><li><strong>朋友圈裂变</strong>：到店拍照发朋友圈+定位「大步牛打酒铺」→当场再送一杯（成本约3元）<br/>目标：Day1拿到50条朋友圈曝光</li></ul><h3>Day 2-14｜锁定首批复购</h3><ul><li><strong>「周鲜打酒卡」上线</strong>：99元/4升，分4次打（每次1升），30天有效<br/>谁来做：收银员结账时推荐<br/>🔧 小程序后台→次卡→新建「周鲜打酒卡」→99元4次→每次核销1升→30天有效<br/>话术：「您今天这款鲜啤，我们有周卡99块4升，相当于每杯12块省了快一半，每周来打一次最新鲜」<br/>客人不买：递小程序会员码卡片「下次来出示减5元」，不强推</li><li><strong>点评冷启动</strong>：邀前20位客人写真实感受（合规：不要求好评，话术「好坏都行，帮我们改进」），目标14天内攒20条评价</li></ul><h3>Day 15-30｜稳流量建节奏</h3><ul><li>每周四固定「厂牌之夜」形成记忆锚点</li><li>社群周一发「本周新鲜到货」、周三发「周四厂牌预告」、周五发「周末打酒推荐」</li><li>小程序每周推1条「酒知识」图文→建立专业人设，年轻人为「懂酒」的社交货币买单</li></ul></div>
+<div id="modal-content-4" style="display:none"><h3>当前阶段：新店期（0评价→需30天内出星）</h3><p>大步牛尚未开业，评价数0、评分未知。<strong>核心目标：开业30天内积累30-50条真实评价，首次出星≥4.3分</strong>。</p><h3>合规红线（2025年10月新规）</h3><p><strong>严禁任何形式的促评/邀评</strong>。高强度促评=新评价不产生星级收益。正确做法：<strong>打造值得分享的体验，让顾客自发想写</strong>。</p><h3>冷启动三步走</h3><h4>第一步：止血——确保体验零差评（Day 1-7）</h4><ul><li>谁来做：老板+全员<br/>做什么：首周聚焦「出品稳定+响应快+环境干净」，宁可少接客也不能翻车<br/>怎么做：每天打烊后5分钟站会，老板问「今天有没有客人皱眉的瞬间」——记下来第二天改<br/>关键细节：打酒温度必须稳定在4-6度（鲜啤最佳口感），酱酒品鉴杯必须用郁金香杯（聚拢香气）</li></ul><h4>第二步：「免费试」拉体验客（Day 8-21）</h4><ul><li>谁来做：老板操作后台<br/>🔧 大众点评商家后台→营销中心→免费试→设置「鲜啤品鉴套组」（2杯不同风味鲜啤+1碟花生米，成本约12元/份）→名额20个/周<br/>机制：客人免费体验后，平台自动邀请写评价（非商家邀评，合规）<br/>目标：每周通过「免费试」获得8-10条自然评价</li></ul><h4>第三步：打造分享动机（持续）</h4><ul><li><strong>打酒瓶仪式感</strong>：3种容量瓶（330ml/1L/2L咆哮壶），瓶身印「中国酒·年轻喝」+logo——带走的瓶子=行走广告牌，拍照发圈=免费曝光</li><li><strong>酱酒墙</strong>：一面墙摆10-15款不同年份酱酒，客人论「两」（25ml/杯）品鉴——墙面=天然拍照背景</li><li><strong>周四厂牌之夜</strong>：固定视觉元素（黑板手写主题+暖色灯光），每周有新花样→回头客每次来都有新素材可发</li></ul><h3>量化口碑目标</h3><table><tr><th>时间</th><th>目标</th></tr><tr><td>开业14天</td><td>≥20条真实评价</td></tr><tr><td>开业30天</td><td>≥40条评价，首次出星≥4.3分</td></tr><tr><td>开业60天</td><td>冲新店榜TOP10（笕桥板块）</td></tr><tr><td>开业90天</td><td>评分稳定≥4.5，进入热门榜视野</td></tr></table></div>
+<div id="modal-content-5" style="display:none"><h3>核心逻辑：把「路过随机喝」变成「每周固定来打酒」</h3><p>已签约会员旗舰版+小程序，具备完整私域工具链。针对年轻客群（25-35岁城东白领/住户），活动围绕<strong>「社交货币+游戏化+周频锁定」</strong>三个抓手设计。</p><h3>活动一：「打酒护照」集章计划（长期运行）</h3><ul><li><strong>What</strong>：每次到店打酒小程序自动盖1个「酒章」。集5章=新品试饮1杯；集10章=限量定制打酒瓶（成本15元）；集20章=「VIP酒友」身份（全年9折+每月1次免费品鉴）</li><li><strong>How</strong>：<br/>谁来做：老板设置一次，后续自动<br/>第几天做：开业前3天配置完成<br/>🔧 小程序后台→会员旗舰版→积分商城→新建「打酒护照」→消费自动积分（每笔+1章）→配置兑换奖品<br/>收银员话术：「您今天盖了第X章了，再来X次就能换限量酒瓶，下周见！」<br/>客人不感兴趣：「没关系，章自动攒着，哪天想换随时来」——零压力，不伤体验</li></ul><h3>活动二：「周四厂牌之夜」会员专属（每周）</h3><ul><li><strong>What</strong>：每周四晚7-10点，单一酒厂/产区主题。会员19.9元含3杯50ml试饮，非会员29.9元</li><li><strong>How</strong>：<br/>谁来做：老板选酒+发群预告；收银员核销<br/>节奏：周一定主题→周三群内推送→周四执行<br/>🔧 小程序后台→限时活动→新建「周四厂牌之夜」→会员专享价19.9→关联会员卡自动识别<br/>群预告话术：「本周四：千岛湖IPA之夜 19.9喝遍3款（会员价），先到先得，扣1报名」<br/>没人来怎么办：前3周老板自邀3-5朋友撑场+拍氛围图发群，让观望者看到真的有人在玩</li></ul><h3>活动三：「带瓶打酒」环保裂变（持续）</h3><ul><li><strong>What</strong>：自带容器打酒每升减3元；带新朋友注册会员→双方各得500ml鲜啤</li><li><strong>How</strong>：<br/>🔧 小程序后台→优惠券→「自带容器立减」（满1升减3元）+「老带新双向券」（推荐人+新人各得500ml兑换券）→会员系统自动发放<br/>收银员话术：「自带杯子打酒每升便宜3块，咱鼓励环保」<br/>裂变话术：「加个会员，你朋友注册后你俩都白得一杯酒」</li></ul><h3>活动四：「盲品挑战赛」月度社交事件</h3><ul><li><strong>What</strong>：每月最后一个周六晚，5杯蒙眼品鉴猜风味/产区。猜中3个以上=「品酒师」徽章+下月9折；全中=送一箱鲜啤（成本约60元）</li><li><strong>How</strong>：<br/>🔧 小程序后台→活动报名→新建「盲品赛」→上限12人→会员优先<br/>物料：5个品鉴杯+遮光贴+答题卡（打印成本不到5元）<br/>传播：参赛者拍抖音/小红书短视频带POI定位<br/>没人报名：群里发「前5名报名免19.9入场费」制造稀缺</li></ul></div>
+<div id="modal-content-6" style="display:none"><h3>核心判断：笕桥非核心商圈，客流靠「主动搜索+内容种草」引到店</h3><p>自然路过客流有限。必须线上种草→引导到店，让周边3公里的人「专门来一趟」。</p><h3>大众点评（基本盘，必做）</h3><h4>基础建设（开业前完成）</h4><ul><li>谁来做：老板<br/>🔧 大众点评商家版→门店管理→完善信息<br/>必填：9张高清图（门头1+环境3+产品4+打酒过程1）、营业时间、人均、标签「精酿鲜啤」「打酒带走」「小酒馆」<br/>第几天：开业前5天搞定</li></ul><h4>团购套餐（开业第3天上线）</h4><table><tr><th>套餐</th><th>内容</th><th>定价</th><th>目的</th></tr><tr><td>尝鲜套餐</td><td>3杯x200ml不同鲜啤+花生米</td><td>39.9元（门店价约55）</td><td>低门槛引流</td></tr><tr><td>双人微醺</td><td>2L鲜啤+4碟小食</td><td>99元（门店价约130）</td><td>双人场景拉客单</td></tr><tr><td>酱酒品鉴</td><td>3杯x25ml不同酱酒+品鉴卡</td><td>68元（门店价约90）</td><td>切高端客群</td></tr></table><ul><li>🔧 大众点评商家后台→团购管理→新建→设库存/有效期</li></ul><h4>推广通（开业第7天启动）</h4><ul><li>🔧 大众点评商家版→推广通→投放设置<br/>预算：首月500-800元<br/>定向：笕桥+九堡+彭埠3公里，25-35岁，关键词「精酿」「小酒馆」「打酒」<br/>预期：500元约3000-5000曝光→150-250点击→30-50组到店</li></ul><h3>抖音（年轻人核心阵地，强推）</h3><h4>内容方向（老板自拍，零成本）</h4><ul><li>「打酒过程」15秒：鲜啤从龙头流入杯中+泡沫溢出——天然ASMR，完播率高</li><li>「酱酒小知识」：老板出镜讲「为什么酱酒要醒20分钟」「53度和43度差哪」——建立专业人设</li><li>「厂牌之夜花絮」：年轻人围坐品酒聊天的氛围画面</li><li>频率：每周3条，带POI定位</li></ul><h4>抖音团购（开业第14天）</h4><ul><li>同款「尝鲜套餐」39.9元，抖音引流到店核销<br/>🔧 抖音来客→团购→新建商品→到店核销</li></ul><h3>小红书（种草+打卡，精酿天然适配）</h3><ul><li>内容：「杭州城东宝藏打酒铺」「笕桥也有精酿了」「下班后的500ml快乐」</li><li>KOC合作：首月邀3-5个本地博主（1K-5K粉）免费品鉴（价值约50元/人），0费用置换</li><li>目标：首月小红书笔记大于15条，建立「城东打酒=大步牛」搜索心智</li></ul></div>
+<div id="modal-content-7" style="display:none"><h3>核心策略：社区预售制打酒——把到店频次锁死在周频</h3><p>笕桥居住区，核心客群在周边1-2公里小区。<strong>社群不是发广告用的，是「养成打酒习惯」的工具</strong>。</p><h3>社群搭建</h3><table><tr><th>群名</th><th>定位</th><th>目标人数</th></tr><tr><td>大步牛·酒友群1-3号</td><td>周边业主，日常通知+活动</td><td>各100-150人</td></tr><tr><td>大步牛·VIP品鉴群</td><td>月消费300以上高频客</td><td>30-50人</td></tr></table><ul><li>🔧 小程序→企业微信→社群管理→建群+设欢迎语<br/>欢迎语：「欢迎加入大步牛酒友群 每周四厂牌之夜/周一到货预告/不定期福利，有事@老板」</li></ul><h3>社群内容SOP（固定节奏）</h3><table><tr><th>时间</th><th>内容</th><th>目的</th></tr><tr><td>周一 10:00</td><td>「本周新鲜到货」+品鉴词</td><td>勾尝新欲</td></tr><tr><td>周三 18:00</td><td>「周四厂牌预告」+报名</td><td>锁周四到店</td></tr><tr><td>周五 17:00</td><td>「周末打酒推荐」+外带提醒</td><td>拉周末外带</td></tr><tr><td>不定期</td><td>酒知识/选酒故事/好评截图</td><td>信任+活跃</td></tr></table><h3>「周鲜打酒卡」——私域核心锁客工具</h3><ul><li><strong>What</strong>：99元/4升鲜啤，分4次打（每次1升），30天有效→逼着你每周来一次</li><li><strong>How</strong>：<br/>🔧 小程序→次卡→新建「周鲜打酒卡」→99元/4次→每次核销1升→30天有效<br/>收银员在结账时推：「这款鲜啤周卡99块4升，每杯12块省快一半，每周来打最新鲜」<br/>客人犹豫：「先加个会员吧，下次来减5块，周卡随时能买」——不逼单，先留人</li></ul><h3>异业联动（零成本获客）</h3><ul><li><strong>与周边烧烤店合作</strong>：客人点烧烤→送「大步牛鲜啤5元抵用券」；大步牛客人→送烧烤店「满50减10」券<br/>谁来做：老板找周边1-2家烧烤店谈（互利，不花钱）<br/>话术：「你的客人本来就要喝酒，我帮你升级成鲜啤体验；我的客人想吃东西，给你导流」</li><li><strong>与社区团购团长合作</strong>：团长群里推「打酒次卡」，成交一张给团长10元佣金<br/>🔧 小程序→分销→设置佣金比例10%</li></ul><h3>淡季（冬季）补位策略</h3><ul><li>冬季啤酒需求下降→<strong>酱酒品鉴转主角</strong>：推「酱酒品鉴月卡」199元/月（每周1次25mlx3杯品鉴），切送礼/自饮场景</li><li>热红酒/暖饮上新：成本低、仪式感强、适合冬季社群传播</li><li>「年货酱酒礼盒」：春节前推定制礼盒（茅台镇酱酒500ml+品鉴杯2只），客单价拉到200-300元</li></ul></div>
+<div id="modal-content-8" style="display:none"><h3>营收预估模型（⚠️ 基于行业参考值+门店条件假设，建议核实）</h3><h4>基础假设</h4><table><tr><th>指标</th><th>假设值</th><th>依据</th></tr><tr><td>日均客流（开业首月）</td><td>25-30人/天</td><td>70平社区店+新店期保守估计</td></tr><tr><td>人均客单价</td><td>68元</td><td>已知定价</td></tr><tr><td>月营业天数</td><td>30天</td><td>酒馆全年无休</td></tr><tr><td>毛利率</td><td>65-70%</td><td>老板自有供应链，零中间商</td></tr><tr><td>月固定成本</td><td>约3.5-4万</td><td>房租假设1.5-2万（笕桥70平）+人工1.5万（2人）+水电杂0.5万</td></tr></table><h4>月营收测算</h4><table><tr><th>阶段</th><th>日均客流</th><th>月营收</th><th>月毛利</th><th>月净利</th></tr><tr><td>开业首月（冲刺期）</td><td>30人</td><td>61,200元</td><td>42,840元</td><td>约6,000-8,000元</td></tr><tr><td>稳定期（第3-6月）</td><td>40人</td><td>81,600元</td><td>57,120元</td><td>约17,000-20,000元</td></tr><tr><td>成熟期（第7-12月）</td><td>50人</td><td>102,000元</td><td>71,400元</td><td>约31,000-35,000元</td></tr></table><h3>营销投入预算</h3><table><tr><th>项目</th><th>首月投入</th><th>月均常规</th></tr><tr><td>开业活动（试饮+裂变+物料）</td><td>2,000元</td><td>—</td></tr><tr><td>大众点评推广通</td><td>800元</td><td>500-800元</td></tr><tr><td>免费试（20份/周x12元）</td><td>960元</td><td>960元</td></tr><tr><td>周四厂牌之夜酒品成本</td><td>400元</td><td>400元</td></tr><tr><td>打酒瓶/物料制作</td><td>1,500元</td><td>—</td></tr><tr><td>KOC置换（5人x50元）</td><td>250元</td><td>150元</td></tr><tr><td><strong>合计</strong></td><td><strong>5,910元</strong></td><td><strong>约2,000元/月</strong></td></tr></table><h3>回本周期</h3><p>首月营销总投入约6,000元，按稳定期月净利17,000-20,000元计算，<strong>纯营销投入1个月内回本</strong>。门店整体投资回本周期取决于装修+设备总投入（⚠️ 未知，假设15-20万），预计<strong>8-12个月回本</strong>。</p><h3>OKR量化目标</h3><table><tr><th>维度</th><th>30天目标</th><th>90天目标</th><th>180天目标</th></tr><tr><td>月营收</td><td>大于6万</td><td>大于8万</td><td>大于10万</td></tr><tr><td>大众点评评分</td><td>首次出星4.3以上</td><td>4.5以上</td><td>稳定4.5+冲热门榜</td></tr><tr><td>会员数</td><td>150人以上</td><td>400人以上</td><td>800人以上</td></tr><tr><td>周鲜打酒卡在售</td><td>30张以上</td><td>80张以上</td><td>120张以上</td></tr><tr><td>社群总人数</td><td>300人以上</td><td>600人以上</td><td>1000人以上</td></tr><tr><td>周四厂牌之夜到场</td><td>8人/场以上</td><td>15人/场以上</td><td>20人/场以上</td></tr><tr><td>抖音/小红书内容</td><td>12条以上</td><td>36条以上</td><td>80条以上</td></tr></table><h3>30天复盘节点</h3><ul><li>Day 7：检查社群人数（目标200+）+ 点评信息是否完善</li><li>Day 14：检查评价数（目标20+）+ 周鲜卡销售（目标15张+）</li><li>Day 21：检查厂牌之夜参与度 + 内容产出量</li><li>Day 30：全面复盘——营收/评分/会员数/打酒卡 vs OKR，调整下月策略</li></ul></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>翟卫婷</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>品类大盘：打酒铺的结构性机会</h3><p>2024-2025年杭州精酿小酒馆进入洗牌期，前两年扎堆开店（海伦司、跳海、TAPS等），2024下半年关店率明显上升。但<strong>「打酒带走」轻模型</strong>（租金低、损耗少、坪效高）仍有结构性机会——类似北京京A打酒站、成都丰收精酿的模式已跑通。</p><h3>价格带定位判断</h3><p>杭州主流价格带：纯酒馆消费人均80-120元，打酒零售+少量堂饮人均50-80元。<strong>大步牛68元卡在「堂饮轻社交+带走」的甜蜜点</strong>，合理且差异化：既不是海伦司的廉价夜场模式，也不是贰麻酒馆100+的高门槛。</p><h3>区位风险与对策</h3><p>笕桥属城东新居住区（东方福邸、福雷德广场一带），<strong>非核心酒饮消费场景</strong>，客群需要教育。核心挑战不是竞争而是「客流密度不足+消费习惯待培养」。夏季是窗口期（啤酒刚需季），冬季坪效可能腰斩——<strong>必须在夏季建立周频复购习惯，靠私域锁客穿越淡季</strong>。</p><h3>独特资产识别</h3><ul><li><strong>老板自己是酒水商</strong>：千岛湖鲜啤+茅台镇酱酒，供应链零中间商，毛利空间大（⚠️ 假设毛利65-70%，酒商自营常规水平）</li><li><strong>品牌心智明确</strong>：「中国酒，年轻喝」——精准切国产精酿+新派酱酒年轻化赛道</li><li><strong>双品类覆盖</strong>：鲜啤（高频、夏季刚需、社交属性）+ 酱酒（高客单、送礼/品鉴场景、冬季补位）——季节互补，全年有抓手</li></ul>`,
+    2: `<h3>周边3-5公里竞争格局</h3><table><tr><th>竞品</th><th>人均</th><th>核心优势</th><th>弱点 / 大步牛能切的</th></tr><tr><td>海伦司（九堡/城东银泰）</td><td>¥60-80</td><td>品牌引流强、夜间流量大</td><td>产品无差异化，工业啤酒为主，无精酿品质感；年轻人喝腻了</td></tr><tr><td>胡桃里/贰麻酒馆（凤起东路）</td><td>¥100+</td><td>氛围好、拍照出片</td><td>价格门槛高，不适合日常消费；离笕桥远，不方便</td></tr><tr><td>社区烧烤+啤酒档口（全福桥路周边）</td><td>¥40-60</td><td>烟火气、价格低、复购高</td><td>品质感弱，无品牌溢价，工业啤酒；无法满足「好喝+有调性+能发圈」</td></tr></table><h3>竞争烈度：中低</h3><p>全福桥路片区<strong>无直接打酒铺/精酿专营竞品</strong>。最近精酿店集中在城站/湖滨商圈（5公里+），笕桥板块存在品类空白。核心挑战不是抢客而是「做大蛋糕——教育周边居民养成打酒习惯」。</p><h3>差异化切入点</h3><ul><li><strong>vs 海伦司</strong>：「千岛湖鲜啤现打 vs 工业水啤」——品质碾压，价格接近，年轻人升级消费的最佳替代</li><li><strong>vs 贰麻/胡桃里</strong>：「社区家门口打酒 vs 商圈高消费」——不用打车、不用排队、不用花100+</li><li><strong>vs 烧烤档口</strong>：「国潮酒馆调性 vs 路边摊感觉」——年轻人要的是好喝+拍照出片+社交货币</li></ul><h3>一句话定位</h3><p><strong>「笕桥唯一国潮打酒铺——千岛湖鲜啤现打现喝，茅台镇酱酒论两品鉴」</strong>。核心记忆点：<strong>鲜（当天灌装）、近（就在家门口）、潮（中国酒年轻喝）</strong>。</p>`,
+    3: `<h3>核心逻辑：社区打酒铺，拼的是「让人养成每周来打酒的习惯」</h3><p>70平社区店，自然客流有限。<strong>开业期=建立周频复购习惯的黄金窗口</strong>，一旦错过夏季旺季再想拉人很难。</p><h3>开业前7天｜社区预热蓄水</h3><ul><li><strong>Day -7至-4 建群蓄水</strong><br/>谁来做：老板本人<br/>怎么做：在周边小区业主群（东方福邸、景芳东区、福雷德广场）发开业海报+群二维码<br/>🔧 小程序后台→社群管理→生成「酒友群」活码<br/>话术：「全福桥路要开家打酒铺，千岛湖鲜啤3.8元/500ml现打带走，进群锁开业9.9元畅饮券」<br/>目标：开业前蓄水200人</li><li><strong>Day -3至-1 围挡造势</strong><br/>围挡已有slogan「中国酒，年轻喝」→加一行：「千岛湖鲜啤·现打现喝·X月X日开业」+ 群二维码<br/>门口摆易拉宝：「扫码进群→开业当天免费喝一杯」</li></ul><h3>开业当天（Day 1）｜引爆到店</h3><ul><li><strong>9.9元畅饮券核销</strong>：群内提前发的券当天生效→到店扫码核销🔧（小程序→我的券→出示）</li><li><strong>门口免费试饮</strong>：打酒台路边摆，路人免费尝50ml小杯（成本约0.3元/杯）<br/>话术：「老板自己酒厂的，今天开业请你尝尝，好喝再买」</li><li><strong>朋友圈裂变</strong>：到店拍照发朋友圈+定位「大步牛打酒铺」→当场再送一杯（成本约3元）<br/>目标：Day1拿到50条朋友圈曝光</li></ul><h3>Day 2-14｜锁定首批复购</h3><ul><li><strong>「周鲜打酒卡」上线</strong>：99元/4升，分4次打（每次1升），30天有效<br/>谁来做：收银员结账时推荐<br/>🔧 小程序后台→次卡→新建「周鲜打酒卡」→99元4次→每次核销1升→30天有效<br/>话术：「您今天这款鲜啤，我们有周卡99块4升，相当于每杯12块省了快一半，每周来打一次最新鲜」<br/>客人不买：递小程序会员码卡片「下次来出示减5元」，不强推</li><li><strong>点评冷启动</strong>：邀前20位客人写真实感受（合规：不要求好评，话术「好坏都行，帮我们改进」），目标14天内攒20条评价</li></ul><h3>Day 15-30｜稳流量建节奏</h3><ul><li>每周四固定「厂牌之夜」形成记忆锚点</li><li>社群周一发「本周新鲜到货」、周三发「周四厂牌预告」、周五发「周末打酒推荐」</li><li>小程序每周推1条「酒知识」图文→建立专业人设，年轻人为「懂酒」的社交货币买单</li></ul>`,
+    4: `<h3>当前阶段：新店期（0评价→需30天内出星）</h3><p>大步牛尚未开业，评价数0、评分未知。<strong>核心目标：开业30天内积累30-50条真实评价，首次出星≥4.3分</strong>。</p><h3>合规红线（2025年10月新规）</h3><p><strong>严禁任何形式的促评/邀评</strong>。高强度促评=新评价不产生星级收益。正确做法：<strong>打造值得分享的体验，让顾客自发想写</strong>。</p><h3>冷启动三步走</h3><h4>第一步：止血——确保体验零差评（Day 1-7）</h4><ul><li>谁来做：老板+全员<br/>做什么：首周聚焦「出品稳定+响应快+环境干净」，宁可少接客也不能翻车<br/>怎么做：每天打烊后5分钟站会，老板问「今天有没有客人皱眉的瞬间」——记下来第二天改<br/>关键细节：打酒温度必须稳定在4-6度（鲜啤最佳口感），酱酒品鉴杯必须用郁金香杯（聚拢香气）</li></ul><h4>第二步：「免费试」拉体验客（Day 8-21）</h4><ul><li>谁来做：老板操作后台<br/>🔧 大众点评商家后台→营销中心→免费试→设置「鲜啤品鉴套组」（2杯不同风味鲜啤+1碟花生米，成本约12元/份）→名额20个/周<br/>机制：客人免费体验后，平台自动邀请写评价（非商家邀评，合规）<br/>目标：每周通过「免费试」获得8-10条自然评价</li></ul><h4>第三步：打造分享动机（持续）</h4><ul><li><strong>打酒瓶仪式感</strong>：3种容量瓶（330ml/1L/2L咆哮壶），瓶身印「中国酒·年轻喝」+logo——带走的瓶子=行走广告牌，拍照发圈=免费曝光</li><li><strong>酱酒墙</strong>：一面墙摆10-15款不同年份酱酒，客人论「两」（25ml/杯）品鉴——墙面=天然拍照背景</li><li><strong>周四厂牌之夜</strong>：固定视觉元素（黑板手写主题+暖色灯光），每周有新花样→回头客每次来都有新素材可发</li></ul><h3>量化口碑目标</h3><table><tr><th>时间</th><th>目标</th></tr><tr><td>开业14天</td><td>≥20条真实评价</td></tr><tr><td>开业30天</td><td>≥40条评价，首次出星≥4.3分</td></tr><tr><td>开业60天</td><td>冲新店榜TOP10（笕桥板块）</td></tr><tr><td>开业90天</td><td>评分稳定≥4.5，进入热门榜视野</td></tr></table>`,
+    5: `<h3>核心逻辑：把「路过随机喝」变成「每周固定来打酒」</h3><p>已签约会员旗舰版+小程序，具备完整私域工具链。针对年轻客群（25-35岁城东白领/住户），活动围绕<strong>「社交货币+游戏化+周频锁定」</strong>三个抓手设计。</p><h3>活动一：「打酒护照」集章计划（长期运行）</h3><ul><li><strong>What</strong>：每次到店打酒小程序自动盖1个「酒章」。集5章=新品试饮1杯；集10章=限量定制打酒瓶（成本15元）；集20章=「VIP酒友」身份（全年9折+每月1次免费品鉴）</li><li><strong>How</strong>：<br/>谁来做：老板设置一次，后续自动<br/>第几天做：开业前3天配置完成<br/>🔧 小程序后台→会员旗舰版→积分商城→新建「打酒护照」→消费自动积分（每笔+1章）→配置兑换奖品<br/>收银员话术：「您今天盖了第X章了，再来X次就能换限量酒瓶，下周见！」<br/>客人不感兴趣：「没关系，章自动攒着，哪天想换随时来」——零压力，不伤体验</li></ul><h3>活动二：「周四厂牌之夜」会员专属（每周）</h3><ul><li><strong>What</strong>：每周四晚7-10点，单一酒厂/产区主题。会员19.9元含3杯50ml试饮，非会员29.9元</li><li><strong>How</strong>：<br/>谁来做：老板选酒+发群预告；收银员核销<br/>节奏：周一定主题→周三群内推送→周四执行<br/>🔧 小程序后台→限时活动→新建「周四厂牌之夜」→会员专享价19.9→关联会员卡自动识别<br/>群预告话术：「本周四：千岛湖IPA之夜 19.9喝遍3款（会员价），先到先得，扣1报名」<br/>没人来怎么办：前3周老板自邀3-5朋友撑场+拍氛围图发群，让观望者看到真的有人在玩</li></ul><h3>活动三：「带瓶打酒」环保裂变（持续）</h3><ul><li><strong>What</strong>：自带容器打酒每升减3元；带新朋友注册会员→双方各得500ml鲜啤</li><li><strong>How</strong>：<br/>🔧 小程序后台→优惠券→「自带容器立减」（满1升减3元）+「老带新双向券」（推荐人+新人各得500ml兑换券）→会员系统自动发放<br/>收银员话术：「自带杯子打酒每升便宜3块，咱鼓励环保」<br/>裂变话术：「加个会员，你朋友注册后你俩都白得一杯酒」</li></ul><h3>活动四：「盲品挑战赛」月度社交事件</h3><ul><li><strong>What</strong>：每月最后一个周六晚，5杯蒙眼品鉴猜风味/产区。猜中3个以上=「品酒师」徽章+下月9折；全中=送一箱鲜啤（成本约60元）</li><li><strong>How</strong>：<br/>🔧 小程序后台→活动报名→新建「盲品赛」→上限12人→会员优先<br/>物料：5个品鉴杯+遮光贴+答题卡（打印成本不到5元）<br/>传播：参赛者拍抖音/小红书短视频带POI定位<br/>没人报名：群里发「前5名报名免19.9入场费」制造稀缺</li></ul>`,
+    6: `<h3>核心判断：笕桥非核心商圈，客流靠「主动搜索+内容种草」引到店</h3><p>自然路过客流有限。必须线上种草→引导到店，让周边3公里的人「专门来一趟」。</p><h3>大众点评（基本盘，必做）</h3><h4>基础建设（开业前完成）</h4><ul><li>谁来做：老板<br/>🔧 大众点评商家版→门店管理→完善信息<br/>必填：9张高清图（门头1+环境3+产品4+打酒过程1）、营业时间、人均、标签「精酿鲜啤」「打酒带走」「小酒馆」<br/>第几天：开业前5天搞定</li></ul><h4>团购套餐（开业第3天上线）</h4><table><tr><th>套餐</th><th>内容</th><th>定价</th><th>目的</th></tr><tr><td>尝鲜套餐</td><td>3杯x200ml不同鲜啤+花生米</td><td>39.9元（门店价约55）</td><td>低门槛引流</td></tr><tr><td>双人微醺</td><td>2L鲜啤+4碟小食</td><td>99元（门店价约130）</td><td>双人场景拉客单</td></tr><tr><td>酱酒品鉴</td><td>3杯x25ml不同酱酒+品鉴卡</td><td>68元（门店价约90）</td><td>切高端客群</td></tr></table><ul><li>🔧 大众点评商家后台→团购管理→新建→设库存/有效期</li></ul><h4>推广通（开业第7天启动）</h4><ul><li>🔧 大众点评商家版→推广通→投放设置<br/>预算：首月500-800元<br/>定向：笕桥+九堡+彭埠3公里，25-35岁，关键词「精酿」「小酒馆」「打酒」<br/>预期：500元约3000-5000曝光→150-250点击→30-50组到店</li></ul><h3>抖音（年轻人核心阵地，强推）</h3><h4>内容方向（老板自拍，零成本）</h4><ul><li>「打酒过程」15秒：鲜啤从龙头流入杯中+泡沫溢出——天然ASMR，完播率高</li><li>「酱酒小知识」：老板出镜讲「为什么酱酒要醒20分钟」「53度和43度差哪」——建立专业人设</li><li>「厂牌之夜花絮」：年轻人围坐品酒聊天的氛围画面</li><li>频率：每周3条，带POI定位</li></ul><h4>抖音团购（开业第14天）</h4><ul><li>同款「尝鲜套餐」39.9元，抖音引流到店核销<br/>🔧 抖音来客→团购→新建商品→到店核销</li></ul><h3>小红书（种草+打卡，精酿天然适配）</h3><ul><li>内容：「杭州城东宝藏打酒铺」「笕桥也有精酿了」「下班后的500ml快乐」</li><li>KOC合作：首月邀3-5个本地博主（1K-5K粉）免费品鉴（价值约50元/人），0费用置换</li><li>目标：首月小红书笔记大于15条，建立「城东打酒=大步牛」搜索心智</li></ul>`,
+    7: `<h3>核心策略：社区预售制打酒——把到店频次锁死在周频</h3><p>笕桥居住区，核心客群在周边1-2公里小区。<strong>社群不是发广告用的，是「养成打酒习惯」的工具</strong>。</p><h3>社群搭建</h3><table><tr><th>群名</th><th>定位</th><th>目标人数</th></tr><tr><td>大步牛·酒友群1-3号</td><td>周边业主，日常通知+活动</td><td>各100-150人</td></tr><tr><td>大步牛·VIP品鉴群</td><td>月消费300以上高频客</td><td>30-50人</td></tr></table><ul><li>🔧 小程序→企业微信→社群管理→建群+设欢迎语<br/>欢迎语：「欢迎加入大步牛酒友群 每周四厂牌之夜/周一到货预告/不定期福利，有事@老板」</li></ul><h3>社群内容SOP（固定节奏）</h3><table><tr><th>时间</th><th>内容</th><th>目的</th></tr><tr><td>周一 10:00</td><td>「本周新鲜到货」+品鉴词</td><td>勾尝新欲</td></tr><tr><td>周三 18:00</td><td>「周四厂牌预告」+报名</td><td>锁周四到店</td></tr><tr><td>周五 17:00</td><td>「周末打酒推荐」+外带提醒</td><td>拉周末外带</td></tr><tr><td>不定期</td><td>酒知识/选酒故事/好评截图</td><td>信任+活跃</td></tr></table><h3>「周鲜打酒卡」——私域核心锁客工具</h3><ul><li><strong>What</strong>：99元/4升鲜啤，分4次打（每次1升），30天有效→逼着你每周来一次</li><li><strong>How</strong>：<br/>🔧 小程序→次卡→新建「周鲜打酒卡」→99元/4次→每次核销1升→30天有效<br/>收银员在结账时推：「这款鲜啤周卡99块4升，每杯12块省快一半，每周来打最新鲜」<br/>客人犹豫：「先加个会员吧，下次来减5块，周卡随时能买」——不逼单，先留人</li></ul><h3>异业联动（零成本获客）</h3><ul><li><strong>与周边烧烤店合作</strong>：客人点烧烤→送「大步牛鲜啤5元抵用券」；大步牛客人→送烧烤店「满50减10」券<br/>谁来做：老板找周边1-2家烧烤店谈（互利，不花钱）<br/>话术：「你的客人本来就要喝酒，我帮你升级成鲜啤体验；我的客人想吃东西，给你导流」</li><li><strong>与社区团购团长合作</strong>：团长群里推「打酒次卡」，成交一张给团长10元佣金<br/>🔧 小程序→分销→设置佣金比例10%</li></ul><h3>淡季（冬季）补位策略</h3><ul><li>冬季啤酒需求下降→<strong>酱酒品鉴转主角</strong>：推「酱酒品鉴月卡」199元/月（每周1次25mlx3杯品鉴），切送礼/自饮场景</li><li>热红酒/暖饮上新：成本低、仪式感强、适合冬季社群传播</li><li>「年货酱酒礼盒」：春节前推定制礼盒（茅台镇酱酒500ml+品鉴杯2只），客单价拉到200-300元</li></ul>`,
+    8: `<h3>营收预估模型（⚠️ 基于行业参考值+门店条件假设，建议核实）</h3><h4>基础假设</h4><table><tr><th>指标</th><th>假设值</th><th>依据</th></tr><tr><td>日均客流（开业首月）</td><td>25-30人/天</td><td>70平社区店+新店期保守估计</td></tr><tr><td>人均客单价</td><td>68元</td><td>已知定价</td></tr><tr><td>月营业天数</td><td>30天</td><td>酒馆全年无休</td></tr><tr><td>毛利率</td><td>65-70%</td><td>老板自有供应链，零中间商</td></tr><tr><td>月固定成本</td><td>约3.5-4万</td><td>房租假设1.5-2万（笕桥70平）+人工1.5万（2人）+水电杂0.5万</td></tr></table><h4>月营收测算</h4><table><tr><th>阶段</th><th>日均客流</th><th>月营收</th><th>月毛利</th><th>月净利</th></tr><tr><td>开业首月（冲刺期）</td><td>30人</td><td>61,200元</td><td>42,840元</td><td>约6,000-8,000元</td></tr><tr><td>稳定期（第3-6月）</td><td>40人</td><td>81,600元</td><td>57,120元</td><td>约17,000-20,000元</td></tr><tr><td>成熟期（第7-12月）</td><td>50人</td><td>102,000元</td><td>71,400元</td><td>约31,000-35,000元</td></tr></table><h3>营销投入预算</h3><table><tr><th>项目</th><th>首月投入</th><th>月均常规</th></tr><tr><td>开业活动（试饮+裂变+物料）</td><td>2,000元</td><td>—</td></tr><tr><td>大众点评推广通</td><td>800元</td><td>500-800元</td></tr><tr><td>免费试（20份/周x12元）</td><td>960元</td><td>960元</td></tr><tr><td>周四厂牌之夜酒品成本</td><td>400元</td><td>400元</td></tr><tr><td>打酒瓶/物料制作</td><td>1,500元</td><td>—</td></tr><tr><td>KOC置换（5人x50元）</td><td>250元</td><td>150元</td></tr><tr><td><strong>合计</strong></td><td><strong>5,910元</strong></td><td><strong>约2,000元/月</strong></td></tr></table><h3>回本周期</h3><p>首月营销总投入约6,000元，按稳定期月净利17,000-20,000元计算，<strong>纯营销投入1个月内回本</strong>。门店整体投资回本周期取决于装修+设备总投入（⚠️ 未知，假设15-20万），预计<strong>8-12个月回本</strong>。</p><h3>OKR量化目标</h3><table><tr><th>维度</th><th>30天目标</th><th>90天目标</th><th>180天目标</th></tr><tr><td>月营收</td><td>大于6万</td><td>大于8万</td><td>大于10万</td></tr><tr><td>大众点评评分</td><td>首次出星4.3以上</td><td>4.5以上</td><td>稳定4.5+冲热门榜</td></tr><tr><td>会员数</td><td>150人以上</td><td>400人以上</td><td>800人以上</td></tr><tr><td>周鲜打酒卡在售</td><td>30张以上</td><td>80张以上</td><td>120张以上</td></tr><tr><td>社群总人数</td><td>300人以上</td><td>600人以上</td><td>1000人以上</td></tr><tr><td>周四厂牌之夜到场</td><td>8人/场以上</td><td>15人/场以上</td><td>20人/场以上</td></tr><tr><td>抖音/小红书内容</td><td>12条以上</td><td>36条以上</td><td>80条以上</td></tr></table><h3>30天复盘节点</h3><ul><li>Day 7：检查社群人数（目标200+）+ 点评信息是否完善</li><li>Day 14：检查评价数（目标20+）+ 周鲜卡销售（目标15张+）</li><li>Day 21：检查厂牌之夜参与度 + 内容产出量</li><li>Day 30：全面复盘——营收/评分/会员数/打酒卡 vs OKR，调整下月策略</li></ul>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
