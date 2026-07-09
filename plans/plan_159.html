@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>熊熊旋转火锅店 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #8B0000;
+      --primary-light: #B22222;
+      --accent: #D4A574;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #8B000040;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">川菜/火锅（旋转小火锅） · 运营提升方案</div>
+  <h1 class="hero-title">熊熊旋转火锅店</h1>
+  <p class="hero-subtitle">沙井一人食川味正餐火锅，花旋转的钱吃真火锅</p>
+  <div class="hero-address">广东省深圳市宝安区沙井商圈</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥55</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">宝安区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察与客群定位', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察与客群定位</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解与差异化定位', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解与差异化定位</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '开业冲刺30天作战计划', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">开业冲刺30天作战计划</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评口碑与公域运营', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评口碑与公域运营</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '会员体系与私域运营', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">会员体系与私域运营</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '产品结构与套餐设计', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">产品结构与套餐设计</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '系统落地与运营提效', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">系统落地与运营提效</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '营销日历与暑期攻势', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">营销日历与暑期攻势</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(9, '投资回报与OKR目标', 9)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 09</div>
+      <div class="chapter-title">投资回报与OKR目标</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>沙井旋转火锅赛道：红海中的突围战</h3><p>2025年全国火锅市场规模约<strong>6,500亿元</strong>，其中小火锅/旋转火锅细分赛道约<strong>650亿元</strong>，门店数超2.3万家。深圳宝安沙井片区产业工人和年轻租房群体密集，刚需快餐属性强——但旋转小火锅同质化严重，沙井已有多家，主流人均集中在<strong>35-50元</strong>，价格战已杀到30-40元区间。</p><h3>核心挑战：55元人均的「夹心层」困境</h3><p>熊熊旋转火锅店人均<strong>55元</strong>，在沙井旋转火锅赛道已触碰品类天花板。消费者会拿你跟正餐火锅比（海底捞人均90、楠火锅人均75），性价比认知被挤压。上不着品牌火锅的势能，下不着平价快火锅的流量——<strong>必须靠差异化突围，给出「贵得值」的理由</strong>。</p><h3>目标客群画像</h3><ul><li><strong>主力客群（60%）：</strong>沙井工厂/写字楼上班族，20-35岁，午餐+晚餐一人食/二人食场景，月收入5-8K，对价格敏感但愿意为「品质感」多付5-10元</li><li><strong>次要客群（25%）：</strong>周边小区年轻租房族，18-30岁，晚餐+周末聚餐，追求打卡感和社交属性</li><li><strong>潜力客群（15%）：</strong>壹方城/天虹/京基百纳广场逛街客流，家庭亲子（周末），对旋转设备有新鲜感</li></ul><h3>消费场景拆解</h3><table><tr><th>场景</th><th>占比（假设）</th><th>客单预估</th><th>运营重点</th></tr><tr><td>工作日午餐一人食</td><td>35%</td><td>35-45元</td><td>出餐速度+引流套餐</td></tr><tr><td>工作日晚餐2-3人</td><td>30%</td><td>55-65元</td><td>主力利润场景</td></tr><tr><td>周末全天</td><td>25%</td><td>55-68元</td><td>家庭聚餐+高客单</td></tr><tr><td>夜宵时段</td><td>10%</td><td>40-55元</td><td>暑期延时+啤酒套餐</td></tr></table></div>
+<div id="modal-content-2" style="display:none"><h3>沙井商圈3公里竞争格局</h3><table><tr><th>竞品</th><th>人均</th><th>核心强项</th><th>致命弱点</th><th>我们的切入机会</th></tr><tr><td><strong>转塘小火锅</strong></td><td>38-45元</td><td>价格狠、出餐快、社区店扎根深</td><td>品质感弱、食材档次低、复购全靠低价</td><td>用现炒牛油锅底+明档碾压品质</td></tr><tr><td><strong>六年一班串串/旋转</strong></td><td>40元</td><td>场景打卡感强、学生客群粘性高</td><td>菜品SKU单一、锅底无差异化、无会员体系</td><td>3档套餐覆盖更广客群+会员旗舰版锁客</td></tr><tr><td><strong>楠火锅/朱光玉</strong></td><td>75-85元</td><td>品牌势能强、产品力过硬</td><td>排队时间长、人均高、工薪族吃不起日常</td><td>打「花旋转价格吃正餐火锅品质」错位</td></tr><tr><td><strong>社区夫妻火锅店</strong></td><td>30-40元</td><td>成本极低、熟客关系粘性强</td><td>无品牌、环境差、卫生隐忧、线上不可见</td><td>环境+线上运营+食安透明度碾压</td></tr></table><h3>差异化定位：一人食川味正餐火锅</h3><p>熊熊的突围路径不是跟转塘/六年一班打价格战（打不过），也不是跟楠火锅/朱光玉拼品牌（拼不起），而是<strong>卡在中间做品质升级版旋转火锅</strong>——旋转台只是传菜方式，锅底用真正现炒牛油/番茄鲜熬锅，明档展示炒料过程。</p><p><strong>一句话定位：花旋转的钱，吃真火锅的料。</strong></p><h3>差异化三板斧</h3><ul><li><strong>锅底即招牌：</strong>现炒牛油锅底明档展示（炒料过程就是免费表演），番茄锅用鲜番茄现熬不用料包——这是跟所有廉价旋转火锅拉开距离的核心武器（假设门店有明档条件，建议确认）</li><li><strong>3档套餐击穿价格带：</strong>38元引流套餐（午市一人食）到55元主力套餐（含肥牛+毛肚+饮品）到68元尊享套餐（加鲜切牛肉+锅底升级），让不同消费力的客人都有选择</li><li><strong>旋转+点选双轨制：</strong>旋转台放基础菜品（蔬菜/丸类/豆制品），好食材（肥牛卷/鲜毛肚/鲜切牛肉）扫码单点、现切现上——既保留旋转趣味性，又做出「值55元」的食材品质感</li></ul></div>
+<div id="modal-content-3" style="display:none"><h3>新店冷启动30天倒计时作战地图</h3><p>新店最大的敌人不是竞争对手，是<strong>没人知道你</strong>。沙井商圈旋转火锅供给已过剩，新店必须在前30天打出声量、攒够口碑基础分，否则会被淹没在同类店中。100平米约20个餐位（假设），日均需要坐满2轮才能保底流水。</p><h3>开业前7天（蓄水期）</h3><ul><li><strong>Day -7到-5 | 大众点评商户上线（店长负责）：</strong>在大众点评商家后台「店铺管理-基础信息」完善门店信息——上传15张以上高质量图片（门头/明档炒料/招牌菜品特写/环境），菜单完整录入含价格。推荐菜设3-5道：现炒牛油锅底、鲜切牛肉、手打虾滑</li><li><strong>Day -7到-3 | 抖音团购上架（店长负责）：</strong>在抖音来客「团购-创建团购」上线3款引流团购：9.9元锅底体验券（限新客200份）、38元单人午餐锅套餐、88元双人套餐。不赚钱，目的是让沙井周边1.5公里的人刷抖音时看到你</li><li><strong>Day -5到-1 | 朋友圈预热（老板/店长）：</strong>连发5天：Day-5明档炒料视频、Day-4食材到货开箱、Day-3旋转台调试、Day-2菜品摆盘、Day-1倒计时海报。每条带门店定位+开业优惠</li></ul><h3>开业第1-7天（爆破期）</h3><ul><li><strong>Day 1-3 | 开业活动「第二锅半价」（服务员执行）：</strong>到店消费第二个锅底半价——这比直接打折聪明：拉高桌均（从1人变2人）、制造划算感但让利可控（第二锅成本约8-12元）。服务员话术：「今天开业，第二个锅底直接半价，跟朋友一起来更划算哦」</li><li><strong>Day 1-7 | 点评冲评（服务员执行）：</strong>目标7天内攒20条以上带图好评。在客人用餐满意时自然引导：「您觉得好吃的话，帮我们在大众点评上写几句真实感受呗，好坏都行」。严禁「给好评送东西」——2025年10月新规后促评不产生星级收益</li><li><strong>Day 1-7 | 储值首充（收银员执行）：</strong>买单时推「充200送30」开业专属。话术：「您今天消费55，存200的话今天这顿等于免了一半，下次来继续用」。犹豫时：「不急，先加个会员，下次来再考虑也行」。在会员旗舰版后台「储值活动-新建活动」设置</li></ul><h3>开业第8-30天（养客期）</h3><ul><li><strong>Day 8-14 | 二次到店召回（系统自动）：</strong>通过会员旗舰版「智能营销-流失预警」在第7天自动推送：「上次的牛油锅想你了，本周到店出示此消息送一份鲜切牛肉拼盘」（成本约8元，拉回一个二次到店客人的价值远超8元）</li><li><strong>Day 15-30 | 午市引流稳流水（店长负责）：</strong>工作日11:00-14:00推「29.9午餐锅」限时套餐（含锅底+8碟旋转菜+米饭或饮料），通过抖音团购+门口海报定向触达周边1.5公里工厂/写字楼。目标午市坐满70%（假设20个餐位，午市目标14人），午市保底流水，晚市和周末才是利润场景</li></ul></div>
+<div id="modal-content-4" style="display:none"><h3>新店点评冲分路线图</h3><p>沙井顾客选店非常依赖线上评分——一个4.5分和一个3.8分的旋转火锅，前者的自然流量是后者的3-5倍。新店前30天的口碑攻坚决定了未来6个月的生死。</p><h3>阶段目标（新店到成长到冲榜）</h3><table><tr><th>阶段</th><th>时间</th><th>核心目标</th><th>关键动作</th></tr><tr><td>冷启动</td><td>前30天</td><td>积累50条以上真实评价，冲到4.5分</td><td>合规口碑引导+免费试</td></tr><tr><td>成长期</td><td>Day 31-90</td><td>评价数破100，稳定4.5+</td><td>差评2小时响应+口味优化</td></tr><tr><td>冲榜期</td><td>Day 91-180</td><td>冲新店榜/热门榜/好评榜</td><td>评价质量+特色标签沉淀</td></tr></table><h3>口碑四大合规动作</h3><ul><li><strong>止血——杜绝无效促评：</strong>2025年10月新规后，高强度促评（好评返现/好评送菜）会导致新评价不产生星级收益。严禁「好评送XX」「五星好评截图领XX」话术。店长每天检查员工是否违规引导</li><li><strong>合规工具「免费试」：</strong>店长在大众点评商家后台「营销中心-免费试」设置试吃名额（首月20份/周），邀请点评活跃用户到店体验招牌菜品，换取真实评价（50字以上+3张图）。免费试评价正常计入星级，是目前最合规的冲评方式</li><li><strong>分享动机打造——让顾客想拍而不是被逼拍：</strong>明档炒料过程本身就是内容（牛油翻滚、火焰升腾）——在明档区设「最佳拍摄点」标识；旋转台菜品摆盘做出仪式感；上锅底时服务员提醒「这个牛油锅开锅时候特别好看，很多客人都会拍」</li><li><strong>差评应急2小时响应：</strong>店长每天早中晚各查一次大众点评后台「评价管理」。差评2小时内回复——先道歉、问清具体问题、给出解决方案、邀请二次到店。模板：「非常抱歉给您带来不好的体验，您提到的XX问题我们已经XX改进，诚邀您再次到店体验，到店后找店长安排XX补偿」</li></ul><h3>抖音+小红书内容矩阵</h3><ul><li><strong>抖音（核心引流）：</strong>每周发2-3条短视频——明档炒料15秒（配滋滋声效+火焰特写）、旋转台菜品流转俯拍（配BGM）、客人反应抓拍。带话题#沙井美食 #深圳火锅 #一人食 #旋转小火锅，定位门店地址</li><li><strong>小红书（种草）：</strong>每周1-2篇图文——主打「深圳宝安一人食好去处」「沙井打工人午餐新选择」角度。邀请2-3位本地素人博主（粉丝1000-5000，报价100-300元/篇）做探店图文</li></ul></div>
+<div id="modal-content-5" style="display:none"><h3>会员旗舰版新店私域搭建全案</h3><p>熊熊已签约<strong>会员旗舰版（4,888元/年）</strong>，这是目前最强的私域武器——但工具买了不等于会用。新店私域挑战：客人还没来，池子是空的。前30天核心任务不是做复杂的会员玩法，而是<strong>先把人装进池子里</strong>。</p><h3>第一步：开业30天疯狂入会（目标：会员300人以上）</h3><ul><li><strong>场景一 买单即入会（收银员执行）：</strong>每单必问：「帮您注册个会员吧，免费的，今天消费直接积分，攒够500积分换一份鲜切牛肉」。在会员旗舰版后台「会员设置-入会礼」设置入会即送50积分（约等于2.5元，成本可忽略）</li><li><strong>场景二 扫码点餐自动入会（系统自动）：</strong>在收银POS后台「扫码点餐-设置」开启「点餐自动注册会员」——客人扫码即成会员，零人工成本，转化率最高</li><li><strong>场景三 抖音/点评引流入会（收银员执行）：</strong>团购核销时引导：「您的团购券核销好了，顺便帮您注册个会员，以后到店直接享会员价」</li></ul><h3>第二步：Day 31-60激活复购（目标：会员复购率30%以上）</h3><ul><li><strong>旗舰版潜客营销功能（系统自动）：</strong>在会员旗舰版后台「智能营销-潜客营销」——系统自动识别注册后未消费或仅消费1次的会员，推送定向优惠：「好久没来了，送你一张锅底免费券，本周到店直接用」</li><li><strong>旗舰版团购会员卡（旗舰独有功能）：</strong>在「会员营销-团购会员卡」设置——在大众点评/美团上线「熊熊会员卡」：19.9元购买，含3张5元代金券+1份免费小食+生日月双倍积分。核心逻辑：让点评上的公域流量直接转化为私域会员，公域到私域的最短路径</li></ul><h3>第三步：Day 61-90分层运营（目标：储值会员50人以上）</h3><ul><li><strong>会员分层（店长设置）：</strong>在「会员管理-会员等级」设普通/银卡/金卡三级：消费满300元升银卡（享9.5折）、消费满800元升金卡（享9折+生日赠锅底+优先排位）</li><li><strong>定向储值引导（收银员对高频客人推）：</strong>筛选消费3次以上的银卡/金卡会员定向推：「您已经来了3次了，存200送30等于每次省10块，比外面团购还划算」。在「储值活动-新建」设置200送30。注意：不要在开业第一天推储值——客人还没信任你，推储值等于赶客</li></ul></div>
+<div id="modal-content-6" style="display:none"><h3>3档套餐击穿价格带策略</h3><p>55元人均在沙井是「夹心层」——必须通过套餐组合让不同消费力的客人都觉得「值」。核心逻辑：<strong>38元引流、55元主力、68元利润</strong>，最贵档不是为了卖，是让55元的主力档显得划算（锚定效应）。</p><table><tr><th>套餐</th><th>定价</th><th>包含内容</th><th>食材成本（假设）</th><th>毛利率</th><th>定位</th></tr><tr><td>午市一人锅</td><td>38元</td><td>锅底1选1（番茄/菌汤）+8碟旋转菜+米饭+饮料</td><td>约14元</td><td>约63%</td><td>午市引流</td></tr><tr><td>招牌一人锅</td><td>55元</td><td>锅底1选1（含牛油）+肥牛卷+鲜毛肚+10碟旋转菜+饮品</td><td>约20元</td><td>约64%</td><td>主力套餐</td></tr><tr><td>尊享一人锅</td><td>68元</td><td>鸳鸯锅底+鲜切牛肉+手打虾滑+12碟旋转菜+精酿啤酒或特饮</td><td>约26元</td><td>约62%</td><td>利润标杆</td></tr></table><h3>暑期限定夜宵套餐（7-8月）</h3><p>沙井夜晚是年轻人聚集时段，7-8月暑期延时营业到23:00：</p><ul><li><strong>深夜一人锅35元：</strong>番茄/菌汤锅底+6碟旋转菜+啤酒1瓶，工作日22:00后专享。在扫码点餐后台「限时菜单」设置22:00自动切换</li><li><strong>兄弟开涮119元/2人：</strong>鸳鸯锅底+肥牛+毛肚+虾滑+12碟旋转+啤酒4瓶。2人分摊约60元/人，比单点省15元，拉高桌均</li></ul><h3>菜品结构优化</h3><ul><li><strong>旋转台菜品（基础款25-30个SKU）：</strong>蔬菜/菌菇/丸类/豆制品为主，单碟成本1.5-3元。分量不大但品种丰富——选择多是旋转火锅的核心乐趣</li><li><strong>点选菜品（利润款）：</strong>肥牛卷/鲜切牛肉/手打虾滑/鲜毛肚，扫码单点现切现上，单品18-38元，毛利60-70%，真正赚钱的品项</li><li><strong>爆品锚点——现炒牛油锅底：</strong>这是熊熊区别于所有廉价旋转火锅的核心记忆点。每锅明档现炒（成本多花3-5元/锅但感知价值翻倍），所有宣传物料/短视频/评价引导都围绕这一个点——品牌记忆靠重复一个点</li></ul></div>
+<div id="modal-content-7" style="display:none"><h3>已签约SaaS产品落地操作指南</h3><p>熊熊已签约<strong>收银POS + 会员旗舰版 + 电子发票</strong>三件套。工具买了不是摆设，以下是每个产品<strong>开业前必须完成的配置清单</strong>和日常运营SOP。</p><h3>收银POS开业前配置（店长负责，开业前3天完成）</h3><ul><li><strong>菜品录入：</strong>在POS后台「菜品管理-批量导入」把所有菜品按旋转台/点选/套餐/饮品/小食分类录入，每道菜配图片+简介。套餐菜品绑定好子菜品避免后厨漏出</li><li><strong>扫码点餐开通：</strong>在POS后台「扫码点餐-桌台管理」录入所有桌台号（假设100平米约15-20个位置），生成二维码打印贴桌。开启「点餐自动注册会员」</li><li><strong>外卖对接：</strong>在POS后台「外卖管理-平台授权」对接美团外卖+饿了么，菜品/价格同步，设置接单自动确认+出餐提醒</li></ul><h3>会员旗舰版开业前配置（店长负责，开业前2天完成）</h3><ul><li><strong>入会礼设置：</strong>在「会员设置-入会礼」设置入会即送50积分。500积分=1份鲜切牛肉（约10次消费攒满）</li><li><strong>储值档位设置：</strong>在「储值活动-新建」设置开业档位——充200送30（主推）、充500送100（高频客人专属）。注意设置活动有效期和每人限充次数</li><li><strong>短信模板配置：</strong>在「消息中心-短信模板」配置3条必备短信：入会欢迎（含门店地址+首次优惠）、消费提醒（含积分变动）、流失召回（7天未到店触发）</li></ul><h3>电子发票日常使用（收银员执行）</h3><ul><li>客人要发票时一句话搞定：「您扫这个码自己开就行，抬头金额自动填好的」。在收银小票底部自动打印开票二维码，客人扫码自助开票，零等待零人工</li><li>月底店长在「发票管理-统计」导出当月开票汇总，财务对账用</li></ul><h3>每日运营数据看板（店长每天看3分钟）</h3><ul><li><strong>早上9:00</strong>看POS后台「经营报表-昨日概况」：昨日营收/客单价/桌均/翻台率，跟目标对比（日营收目标4,400元，假设）</li><li><strong>中午14:00</strong>看「会员数据-今日新增」：新增会员数/储值金额/积分兑换量，跟目标对比（日新增会员目标10人）</li><li><strong>晚上22:00</strong>看大众点评后台「评价管理」：今日新评价/差评数/待回复数，差评必须当天回复</li></ul></div>
+<div id="modal-content-8" style="display:none"><h3>2026年7-9月暑期营销日历</h3><p>熊熊7月开业正值暑期旺季——深圳夏季高温但夜间经济活跃，沙井工厂区暑假工/实习生增多，一人食需求旺。以下是开业后3个月的关键营销节点：</p><table><tr><th>时间</th><th>节点</th><th>活动</th><th>谁负责</th><th>预算</th></tr><tr><td>7月开业周</td><td>开业爆破</td><td>第二锅半价+抖音9.9锅底券</td><td>全员</td><td>约1,500元</td></tr><tr><td>7月中旬</td><td>暑期开始</td><td>「暑假嗨吃卡」：凭学生证39元办卡，7-8月每次到店9折+赠冰饮</td><td>收银员</td><td>冰饮成本约2元/杯</td></tr><tr><td>7月22-23日</td><td>大暑</td><td>到店消费赠冰粉一份（成本0.5元），推消暑凉菜拼盘特价25元</td><td>服务员</td><td>约200元/周</td></tr><tr><td>8月上旬</td><td>七夕节</td><td>「鸳鸯锅·两人食」限定套餐128元：鸳鸯锅+双人肥牛毛肚+甜品+气泡饮，情侣到店送LED蜡烛氛围桌</td><td>店长+服务员</td><td>LED蜡烛3元+甜品5元/桌</td></tr><tr><td>8月7-8日</td><td>立秋</td><td>「贴秋膘」菜单上新：牛骨锅底+羊肉卷限时加入旋转台，点秋膘菜品送雪梨银耳汤</td><td>店长</td><td>银耳汤成本约1.5元/杯</td></tr><tr><td>9月初</td><td>开学季</td><td>学生凭录取通知书/学生证享全单8折（仅限堂食），锁定周边返校客流</td><td>收银员</td><td>8折让利约20%</td></tr><tr><td>9月中旬</td><td>中秋节</td><td>「团圆锅」4人套餐258元（鸳鸯锅+4份主食材+旋转台不限量+饮料4杯），会员价238元，提前3天预约送手工月饼礼盒</td><td>店长</td><td>月饼约15元/盒</td></tr></table><h3>7月开业重点：暑期延时+夜宵场景</h3><ul><li><strong>延时营业到23:00（7-8月试运行）：</strong>深圳夏天晚上才凉快，沙井工厂区下班后（20:00-22:00）是一人食黄金时段。推「深夜一人锅」35元套餐+啤酒套餐，在扫码点餐后台「限时菜单」设22:00自动切换夜宵菜单</li><li><strong>抖音夜宵专题投放：</strong>20:00-23:00时段投放抖音团购「深夜一人锅」，定向沙井周边1.5公里，预算200元/周。内容用明档炒料+旋转台夜景氛围短视频</li></ul><h3>活动执行铁律</h3><ul><li>每个活动<strong>提前7天</strong>完成物料准备+系统配置+员工培训</li><li>活动期间每天看数据：核销率低于30%的团购立即调价或换品</li><li>活动结束后3天内做复盘：实际成本vs预算、新客占比、储值转化率</li></ul></div>
+<div id="modal-content-9" style="display:none"><h3>开业投入与盈利测算</h3><p>以下基于100平米旋转火锅店、沙井商圈租金水平、行业成本结构进行估算（假设值已标注，建议核实确认）。</p><h3>月度经营测算</h3><table><tr><th>项目</th><th>数据</th><th>说明</th></tr><tr><td>餐位数</td><td>20个（假设）</td><td>100平米，含旋转台+少量散座</td></tr><tr><td>日均翻台</td><td>2.5轮（目标）</td><td>午市1轮+晚市1.2轮+夜宵0.3轮</td></tr><tr><td>日均客流</td><td>50人</td><td>20位 x 2.5轮</td></tr><tr><td>人均客单</td><td>50元（加权）</td><td>午市38+晚市55+夜宵40 加权</td></tr><tr><td>日均营收</td><td>2,500元</td><td>50人 x 50元</td></tr><tr><td>月营收</td><td>75,000元（假设）</td><td>日均2,500 x 30天</td></tr><tr><td>食材成本</td><td>28,500元（38%）</td><td>旋转火锅食材率偏高</td></tr><tr><td>人力成本</td><td>15,000元（20%）</td><td>假设4-5人（含店长）</td></tr><tr><td>房租</td><td>10,000元（13%）</td><td>沙井商圈100平米（假设）</td></tr><tr><td>水电燃气</td><td>4,500元（6%）</td><td>火锅品类水电偏高</td></tr><tr><td>其他（折旧/耗材）</td><td>3,000元（4%）</td><td>含旋转设备折旧</td></tr><tr><td><strong>月净利润</strong></td><td><strong>14,000元（19%）</strong></td><td>假设值，实际取决于翻台率</td></tr></table><h3>增收空间拆解（SaaS+运营赋能后）</h3><table><tr><th>增收来源</th><th>月增收（目标）</th><th>实现路径</th></tr><tr><td>午市引流套餐</td><td>+6,000元</td><td>29.9午餐锅 x 每日10单 x 20个工作日</td></tr><tr><td>储值锁客</td><td>+4,500元</td><td>月储值入账15,000元中约30%为增量消费</td></tr><tr><td>会员复购提升</td><td>+3,000元</td><td>会员复购率从自然20%提升至30%，月增约60人次 x 50元</td></tr><tr><td>抖音/点评引流</td><td>+4,000元</td><td>线上团购核销月增约80单 x 50元</td></tr><tr><td><strong>合计月增收</strong></td><td><strong>+17,500元</strong></td><td>月营收目标从75,000提升至92,500元</td></tr></table><h3>SaaS投入产出</h3><table><tr><th>投入项</th><th>年费用</th><th>月均</th></tr><tr><td>收银POS</td><td>已签约</td><td>—</td></tr><tr><td>会员旗舰版</td><td>4,888元/年</td><td>407元/月</td></tr><tr><td>电子发票</td><td>已签约</td><td>—</td></tr><tr><td>营销活动预算（首3个月）</td><td>—</td><td>约2,000元/月</td></tr><tr><td><strong>月均总投入</strong></td><td>—</td><td><strong>约2,407元</strong></td></tr></table><p>月增收17,500元 vs 月投入2,407元 = <strong>ROI约7.3倍</strong>，投入产出比优秀。首月因开业活动让利较多，实际ROI约4-5倍，第2-3个月稳定后可达7倍以上。</p><h3>OKR目标（季度）</h3><table><tr><th>指标</th><th>开业月（M1）</th><th>第2个月（M2）</th><th>第3个月（M3）</th></tr><tr><td>月营收</td><td>60,000元</td><td>75,000元</td><td>92,500元</td></tr><tr><td>大众点评评分</td><td>4.3分</td><td>4.5分</td><td>4.5+分</td></tr><tr><td>累计评价数</td><td>50条</td><td>120条</td><td>200条</td></tr><tr><td>会员总数</td><td>300人</td><td>600人</td><td>1,000人</td></tr><tr><td>储值会员数</td><td>20人</td><td>50人</td><td>80人</td></tr><tr><td>会员复购率</td><td>20%</td><td>25%</td><td>30%</td></tr><tr><td>午市上座率</td><td>50%</td><td>65%</td><td>70%</td></tr><tr><td>团购核销率</td><td>40%</td><td>55%</td><td>65%</td></tr></table><p><strong>关键里程碑：</strong>开业第30天评分达4.5分 → 第60天会员破600人 → 第90天月营收突破9万元。三个月后进入稳定运营期，逐步降低营销补贴比例，靠会员复购和口碑自然增长驱动。</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>邱振伟</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>沙井旋转火锅赛道：红海中的突围战</h3><p>2025年全国火锅市场规模约<strong>6,500亿元</strong>，其中小火锅/旋转火锅细分赛道约<strong>650亿元</strong>，门店数超2.3万家。深圳宝安沙井片区产业工人和年轻租房群体密集，刚需快餐属性强——但旋转小火锅同质化严重，沙井已有多家，主流人均集中在<strong>35-50元</strong>，价格战已杀到30-40元区间。</p><h3>核心挑战：55元人均的「夹心层」困境</h3><p>熊熊旋转火锅店人均<strong>55元</strong>，在沙井旋转火锅赛道已触碰品类天花板。消费者会拿你跟正餐火锅比（海底捞人均90、楠火锅人均75），性价比认知被挤压。上不着品牌火锅的势能，下不着平价快火锅的流量——<strong>必须靠差异化突围，给出「贵得值」的理由</strong>。</p><h3>目标客群画像</h3><ul><li><strong>主力客群（60%）：</strong>沙井工厂/写字楼上班族，20-35岁，午餐+晚餐一人食/二人食场景，月收入5-8K，对价格敏感但愿意为「品质感」多付5-10元</li><li><strong>次要客群（25%）：</strong>周边小区年轻租房族，18-30岁，晚餐+周末聚餐，追求打卡感和社交属性</li><li><strong>潜力客群（15%）：</strong>壹方城/天虹/京基百纳广场逛街客流，家庭亲子（周末），对旋转设备有新鲜感</li></ul><h3>消费场景拆解</h3><table><tr><th>场景</th><th>占比（假设）</th><th>客单预估</th><th>运营重点</th></tr><tr><td>工作日午餐一人食</td><td>35%</td><td>35-45元</td><td>出餐速度+引流套餐</td></tr><tr><td>工作日晚餐2-3人</td><td>30%</td><td>55-65元</td><td>主力利润场景</td></tr><tr><td>周末全天</td><td>25%</td><td>55-68元</td><td>家庭聚餐+高客单</td></tr><tr><td>夜宵时段</td><td>10%</td><td>40-55元</td><td>暑期延时+啤酒套餐</td></tr></table>`,
+    2: `<h3>沙井商圈3公里竞争格局</h3><table><tr><th>竞品</th><th>人均</th><th>核心强项</th><th>致命弱点</th><th>我们的切入机会</th></tr><tr><td><strong>转塘小火锅</strong></td><td>38-45元</td><td>价格狠、出餐快、社区店扎根深</td><td>品质感弱、食材档次低、复购全靠低价</td><td>用现炒牛油锅底+明档碾压品质</td></tr><tr><td><strong>六年一班串串/旋转</strong></td><td>40元</td><td>场景打卡感强、学生客群粘性高</td><td>菜品SKU单一、锅底无差异化、无会员体系</td><td>3档套餐覆盖更广客群+会员旗舰版锁客</td></tr><tr><td><strong>楠火锅/朱光玉</strong></td><td>75-85元</td><td>品牌势能强、产品力过硬</td><td>排队时间长、人均高、工薪族吃不起日常</td><td>打「花旋转价格吃正餐火锅品质」错位</td></tr><tr><td><strong>社区夫妻火锅店</strong></td><td>30-40元</td><td>成本极低、熟客关系粘性强</td><td>无品牌、环境差、卫生隐忧、线上不可见</td><td>环境+线上运营+食安透明度碾压</td></tr></table><h3>差异化定位：一人食川味正餐火锅</h3><p>熊熊的突围路径不是跟转塘/六年一班打价格战（打不过），也不是跟楠火锅/朱光玉拼品牌（拼不起），而是<strong>卡在中间做品质升级版旋转火锅</strong>——旋转台只是传菜方式，锅底用真正现炒牛油/番茄鲜熬锅，明档展示炒料过程。</p><p><strong>一句话定位：花旋转的钱，吃真火锅的料。</strong></p><h3>差异化三板斧</h3><ul><li><strong>锅底即招牌：</strong>现炒牛油锅底明档展示（炒料过程就是免费表演），番茄锅用鲜番茄现熬不用料包——这是跟所有廉价旋转火锅拉开距离的核心武器（假设门店有明档条件，建议确认）</li><li><strong>3档套餐击穿价格带：</strong>38元引流套餐（午市一人食）到55元主力套餐（含肥牛+毛肚+饮品）到68元尊享套餐（加鲜切牛肉+锅底升级），让不同消费力的客人都有选择</li><li><strong>旋转+点选双轨制：</strong>旋转台放基础菜品（蔬菜/丸类/豆制品），好食材（肥牛卷/鲜毛肚/鲜切牛肉）扫码单点、现切现上——既保留旋转趣味性，又做出「值55元」的食材品质感</li></ul>`,
+    3: `<h3>新店冷启动30天倒计时作战地图</h3><p>新店最大的敌人不是竞争对手，是<strong>没人知道你</strong>。沙井商圈旋转火锅供给已过剩，新店必须在前30天打出声量、攒够口碑基础分，否则会被淹没在同类店中。100平米约20个餐位（假设），日均需要坐满2轮才能保底流水。</p><h3>开业前7天（蓄水期）</h3><ul><li><strong>Day -7到-5 | 大众点评商户上线（店长负责）：</strong>在大众点评商家后台「店铺管理-基础信息」完善门店信息——上传15张以上高质量图片（门头/明档炒料/招牌菜品特写/环境），菜单完整录入含价格。推荐菜设3-5道：现炒牛油锅底、鲜切牛肉、手打虾滑</li><li><strong>Day -7到-3 | 抖音团购上架（店长负责）：</strong>在抖音来客「团购-创建团购」上线3款引流团购：9.9元锅底体验券（限新客200份）、38元单人午餐锅套餐、88元双人套餐。不赚钱，目的是让沙井周边1.5公里的人刷抖音时看到你</li><li><strong>Day -5到-1 | 朋友圈预热（老板/店长）：</strong>连发5天：Day-5明档炒料视频、Day-4食材到货开箱、Day-3旋转台调试、Day-2菜品摆盘、Day-1倒计时海报。每条带门店定位+开业优惠</li></ul><h3>开业第1-7天（爆破期）</h3><ul><li><strong>Day 1-3 | 开业活动「第二锅半价」（服务员执行）：</strong>到店消费第二个锅底半价——这比直接打折聪明：拉高桌均（从1人变2人）、制造划算感但让利可控（第二锅成本约8-12元）。服务员话术：「今天开业，第二个锅底直接半价，跟朋友一起来更划算哦」</li><li><strong>Day 1-7 | 点评冲评（服务员执行）：</strong>目标7天内攒20条以上带图好评。在客人用餐满意时自然引导：「您觉得好吃的话，帮我们在大众点评上写几句真实感受呗，好坏都行」。严禁「给好评送东西」——2025年10月新规后促评不产生星级收益</li><li><strong>Day 1-7 | 储值首充（收银员执行）：</strong>买单时推「充200送30」开业专属。话术：「您今天消费55，存200的话今天这顿等于免了一半，下次来继续用」。犹豫时：「不急，先加个会员，下次来再考虑也行」。在会员旗舰版后台「储值活动-新建活动」设置</li></ul><h3>开业第8-30天（养客期）</h3><ul><li><strong>Day 8-14 | 二次到店召回（系统自动）：</strong>通过会员旗舰版「智能营销-流失预警」在第7天自动推送：「上次的牛油锅想你了，本周到店出示此消息送一份鲜切牛肉拼盘」（成本约8元，拉回一个二次到店客人的价值远超8元）</li><li><strong>Day 15-30 | 午市引流稳流水（店长负责）：</strong>工作日11:00-14:00推「29.9午餐锅」限时套餐（含锅底+8碟旋转菜+米饭或饮料），通过抖音团购+门口海报定向触达周边1.5公里工厂/写字楼。目标午市坐满70%（假设20个餐位，午市目标14人），午市保底流水，晚市和周末才是利润场景</li></ul>`,
+    4: `<h3>新店点评冲分路线图</h3><p>沙井顾客选店非常依赖线上评分——一个4.5分和一个3.8分的旋转火锅，前者的自然流量是后者的3-5倍。新店前30天的口碑攻坚决定了未来6个月的生死。</p><h3>阶段目标（新店到成长到冲榜）</h3><table><tr><th>阶段</th><th>时间</th><th>核心目标</th><th>关键动作</th></tr><tr><td>冷启动</td><td>前30天</td><td>积累50条以上真实评价，冲到4.5分</td><td>合规口碑引导+免费试</td></tr><tr><td>成长期</td><td>Day 31-90</td><td>评价数破100，稳定4.5+</td><td>差评2小时响应+口味优化</td></tr><tr><td>冲榜期</td><td>Day 91-180</td><td>冲新店榜/热门榜/好评榜</td><td>评价质量+特色标签沉淀</td></tr></table><h3>口碑四大合规动作</h3><ul><li><strong>止血——杜绝无效促评：</strong>2025年10月新规后，高强度促评（好评返现/好评送菜）会导致新评价不产生星级收益。严禁「好评送XX」「五星好评截图领XX」话术。店长每天检查员工是否违规引导</li><li><strong>合规工具「免费试」：</strong>店长在大众点评商家后台「营销中心-免费试」设置试吃名额（首月20份/周），邀请点评活跃用户到店体验招牌菜品，换取真实评价（50字以上+3张图）。免费试评价正常计入星级，是目前最合规的冲评方式</li><li><strong>分享动机打造——让顾客想拍而不是被逼拍：</strong>明档炒料过程本身就是内容（牛油翻滚、火焰升腾）——在明档区设「最佳拍摄点」标识；旋转台菜品摆盘做出仪式感；上锅底时服务员提醒「这个牛油锅开锅时候特别好看，很多客人都会拍」</li><li><strong>差评应急2小时响应：</strong>店长每天早中晚各查一次大众点评后台「评价管理」。差评2小时内回复——先道歉、问清具体问题、给出解决方案、邀请二次到店。模板：「非常抱歉给您带来不好的体验，您提到的XX问题我们已经XX改进，诚邀您再次到店体验，到店后找店长安排XX补偿」</li></ul><h3>抖音+小红书内容矩阵</h3><ul><li><strong>抖音（核心引流）：</strong>每周发2-3条短视频——明档炒料15秒（配滋滋声效+火焰特写）、旋转台菜品流转俯拍（配BGM）、客人反应抓拍。带话题#沙井美食 #深圳火锅 #一人食 #旋转小火锅，定位门店地址</li><li><strong>小红书（种草）：</strong>每周1-2篇图文——主打「深圳宝安一人食好去处」「沙井打工人午餐新选择」角度。邀请2-3位本地素人博主（粉丝1000-5000，报价100-300元/篇）做探店图文</li></ul>`,
+    5: `<h3>会员旗舰版新店私域搭建全案</h3><p>熊熊已签约<strong>会员旗舰版（4,888元/年）</strong>，这是目前最强的私域武器——但工具买了不等于会用。新店私域挑战：客人还没来，池子是空的。前30天核心任务不是做复杂的会员玩法，而是<strong>先把人装进池子里</strong>。</p><h3>第一步：开业30天疯狂入会（目标：会员300人以上）</h3><ul><li><strong>场景一 买单即入会（收银员执行）：</strong>每单必问：「帮您注册个会员吧，免费的，今天消费直接积分，攒够500积分换一份鲜切牛肉」。在会员旗舰版后台「会员设置-入会礼」设置入会即送50积分（约等于2.5元，成本可忽略）</li><li><strong>场景二 扫码点餐自动入会（系统自动）：</strong>在收银POS后台「扫码点餐-设置」开启「点餐自动注册会员」——客人扫码即成会员，零人工成本，转化率最高</li><li><strong>场景三 抖音/点评引流入会（收银员执行）：</strong>团购核销时引导：「您的团购券核销好了，顺便帮您注册个会员，以后到店直接享会员价」</li></ul><h3>第二步：Day 31-60激活复购（目标：会员复购率30%以上）</h3><ul><li><strong>旗舰版潜客营销功能（系统自动）：</strong>在会员旗舰版后台「智能营销-潜客营销」——系统自动识别注册后未消费或仅消费1次的会员，推送定向优惠：「好久没来了，送你一张锅底免费券，本周到店直接用」</li><li><strong>旗舰版团购会员卡（旗舰独有功能）：</strong>在「会员营销-团购会员卡」设置——在大众点评/美团上线「熊熊会员卡」：19.9元购买，含3张5元代金券+1份免费小食+生日月双倍积分。核心逻辑：让点评上的公域流量直接转化为私域会员，公域到私域的最短路径</li></ul><h3>第三步：Day 61-90分层运营（目标：储值会员50人以上）</h3><ul><li><strong>会员分层（店长设置）：</strong>在「会员管理-会员等级」设普通/银卡/金卡三级：消费满300元升银卡（享9.5折）、消费满800元升金卡（享9折+生日赠锅底+优先排位）</li><li><strong>定向储值引导（收银员对高频客人推）：</strong>筛选消费3次以上的银卡/金卡会员定向推：「您已经来了3次了，存200送30等于每次省10块，比外面团购还划算」。在「储值活动-新建」设置200送30。注意：不要在开业第一天推储值——客人还没信任你，推储值等于赶客</li></ul>`,
+    6: `<h3>3档套餐击穿价格带策略</h3><p>55元人均在沙井是「夹心层」——必须通过套餐组合让不同消费力的客人都觉得「值」。核心逻辑：<strong>38元引流、55元主力、68元利润</strong>，最贵档不是为了卖，是让55元的主力档显得划算（锚定效应）。</p><table><tr><th>套餐</th><th>定价</th><th>包含内容</th><th>食材成本（假设）</th><th>毛利率</th><th>定位</th></tr><tr><td>午市一人锅</td><td>38元</td><td>锅底1选1（番茄/菌汤）+8碟旋转菜+米饭+饮料</td><td>约14元</td><td>约63%</td><td>午市引流</td></tr><tr><td>招牌一人锅</td><td>55元</td><td>锅底1选1（含牛油）+肥牛卷+鲜毛肚+10碟旋转菜+饮品</td><td>约20元</td><td>约64%</td><td>主力套餐</td></tr><tr><td>尊享一人锅</td><td>68元</td><td>鸳鸯锅底+鲜切牛肉+手打虾滑+12碟旋转菜+精酿啤酒或特饮</td><td>约26元</td><td>约62%</td><td>利润标杆</td></tr></table><h3>暑期限定夜宵套餐（7-8月）</h3><p>沙井夜晚是年轻人聚集时段，7-8月暑期延时营业到23:00：</p><ul><li><strong>深夜一人锅35元：</strong>番茄/菌汤锅底+6碟旋转菜+啤酒1瓶，工作日22:00后专享。在扫码点餐后台「限时菜单」设置22:00自动切换</li><li><strong>兄弟开涮119元/2人：</strong>鸳鸯锅底+肥牛+毛肚+虾滑+12碟旋转+啤酒4瓶。2人分摊约60元/人，比单点省15元，拉高桌均</li></ul><h3>菜品结构优化</h3><ul><li><strong>旋转台菜品（基础款25-30个SKU）：</strong>蔬菜/菌菇/丸类/豆制品为主，单碟成本1.5-3元。分量不大但品种丰富——选择多是旋转火锅的核心乐趣</li><li><strong>点选菜品（利润款）：</strong>肥牛卷/鲜切牛肉/手打虾滑/鲜毛肚，扫码单点现切现上，单品18-38元，毛利60-70%，真正赚钱的品项</li><li><strong>爆品锚点——现炒牛油锅底：</strong>这是熊熊区别于所有廉价旋转火锅的核心记忆点。每锅明档现炒（成本多花3-5元/锅但感知价值翻倍），所有宣传物料/短视频/评价引导都围绕这一个点——品牌记忆靠重复一个点</li></ul>`,
+    7: `<h3>已签约SaaS产品落地操作指南</h3><p>熊熊已签约<strong>收银POS + 会员旗舰版 + 电子发票</strong>三件套。工具买了不是摆设，以下是每个产品<strong>开业前必须完成的配置清单</strong>和日常运营SOP。</p><h3>收银POS开业前配置（店长负责，开业前3天完成）</h3><ul><li><strong>菜品录入：</strong>在POS后台「菜品管理-批量导入」把所有菜品按旋转台/点选/套餐/饮品/小食分类录入，每道菜配图片+简介。套餐菜品绑定好子菜品避免后厨漏出</li><li><strong>扫码点餐开通：</strong>在POS后台「扫码点餐-桌台管理」录入所有桌台号（假设100平米约15-20个位置），生成二维码打印贴桌。开启「点餐自动注册会员」</li><li><strong>外卖对接：</strong>在POS后台「外卖管理-平台授权」对接美团外卖+饿了么，菜品/价格同步，设置接单自动确认+出餐提醒</li></ul><h3>会员旗舰版开业前配置（店长负责，开业前2天完成）</h3><ul><li><strong>入会礼设置：</strong>在「会员设置-入会礼」设置入会即送50积分。500积分=1份鲜切牛肉（约10次消费攒满）</li><li><strong>储值档位设置：</strong>在「储值活动-新建」设置开业档位——充200送30（主推）、充500送100（高频客人专属）。注意设置活动有效期和每人限充次数</li><li><strong>短信模板配置：</strong>在「消息中心-短信模板」配置3条必备短信：入会欢迎（含门店地址+首次优惠）、消费提醒（含积分变动）、流失召回（7天未到店触发）</li></ul><h3>电子发票日常使用（收银员执行）</h3><ul><li>客人要发票时一句话搞定：「您扫这个码自己开就行，抬头金额自动填好的」。在收银小票底部自动打印开票二维码，客人扫码自助开票，零等待零人工</li><li>月底店长在「发票管理-统计」导出当月开票汇总，财务对账用</li></ul><h3>每日运营数据看板（店长每天看3分钟）</h3><ul><li><strong>早上9:00</strong>看POS后台「经营报表-昨日概况」：昨日营收/客单价/桌均/翻台率，跟目标对比（日营收目标4,400元，假设）</li><li><strong>中午14:00</strong>看「会员数据-今日新增」：新增会员数/储值金额/积分兑换量，跟目标对比（日新增会员目标10人）</li><li><strong>晚上22:00</strong>看大众点评后台「评价管理」：今日新评价/差评数/待回复数，差评必须当天回复</li></ul>`,
+    8: `<h3>2026年7-9月暑期营销日历</h3><p>熊熊7月开业正值暑期旺季——深圳夏季高温但夜间经济活跃，沙井工厂区暑假工/实习生增多，一人食需求旺。以下是开业后3个月的关键营销节点：</p><table><tr><th>时间</th><th>节点</th><th>活动</th><th>谁负责</th><th>预算</th></tr><tr><td>7月开业周</td><td>开业爆破</td><td>第二锅半价+抖音9.9锅底券</td><td>全员</td><td>约1,500元</td></tr><tr><td>7月中旬</td><td>暑期开始</td><td>「暑假嗨吃卡」：凭学生证39元办卡，7-8月每次到店9折+赠冰饮</td><td>收银员</td><td>冰饮成本约2元/杯</td></tr><tr><td>7月22-23日</td><td>大暑</td><td>到店消费赠冰粉一份（成本0.5元），推消暑凉菜拼盘特价25元</td><td>服务员</td><td>约200元/周</td></tr><tr><td>8月上旬</td><td>七夕节</td><td>「鸳鸯锅·两人食」限定套餐128元：鸳鸯锅+双人肥牛毛肚+甜品+气泡饮，情侣到店送LED蜡烛氛围桌</td><td>店长+服务员</td><td>LED蜡烛3元+甜品5元/桌</td></tr><tr><td>8月7-8日</td><td>立秋</td><td>「贴秋膘」菜单上新：牛骨锅底+羊肉卷限时加入旋转台，点秋膘菜品送雪梨银耳汤</td><td>店长</td><td>银耳汤成本约1.5元/杯</td></tr><tr><td>9月初</td><td>开学季</td><td>学生凭录取通知书/学生证享全单8折（仅限堂食），锁定周边返校客流</td><td>收银员</td><td>8折让利约20%</td></tr><tr><td>9月中旬</td><td>中秋节</td><td>「团圆锅」4人套餐258元（鸳鸯锅+4份主食材+旋转台不限量+饮料4杯），会员价238元，提前3天预约送手工月饼礼盒</td><td>店长</td><td>月饼约15元/盒</td></tr></table><h3>7月开业重点：暑期延时+夜宵场景</h3><ul><li><strong>延时营业到23:00（7-8月试运行）：</strong>深圳夏天晚上才凉快，沙井工厂区下班后（20:00-22:00）是一人食黄金时段。推「深夜一人锅」35元套餐+啤酒套餐，在扫码点餐后台「限时菜单」设22:00自动切换夜宵菜单</li><li><strong>抖音夜宵专题投放：</strong>20:00-23:00时段投放抖音团购「深夜一人锅」，定向沙井周边1.5公里，预算200元/周。内容用明档炒料+旋转台夜景氛围短视频</li></ul><h3>活动执行铁律</h3><ul><li>每个活动<strong>提前7天</strong>完成物料准备+系统配置+员工培训</li><li>活动期间每天看数据：核销率低于30%的团购立即调价或换品</li><li>活动结束后3天内做复盘：实际成本vs预算、新客占比、储值转化率</li></ul>`,
+    9: `<h3>开业投入与盈利测算</h3><p>以下基于100平米旋转火锅店、沙井商圈租金水平、行业成本结构进行估算（假设值已标注，建议核实确认）。</p><h3>月度经营测算</h3><table><tr><th>项目</th><th>数据</th><th>说明</th></tr><tr><td>餐位数</td><td>20个（假设）</td><td>100平米，含旋转台+少量散座</td></tr><tr><td>日均翻台</td><td>2.5轮（目标）</td><td>午市1轮+晚市1.2轮+夜宵0.3轮</td></tr><tr><td>日均客流</td><td>50人</td><td>20位 x 2.5轮</td></tr><tr><td>人均客单</td><td>50元（加权）</td><td>午市38+晚市55+夜宵40 加权</td></tr><tr><td>日均营收</td><td>2,500元</td><td>50人 x 50元</td></tr><tr><td>月营收</td><td>75,000元（假设）</td><td>日均2,500 x 30天</td></tr><tr><td>食材成本</td><td>28,500元（38%）</td><td>旋转火锅食材率偏高</td></tr><tr><td>人力成本</td><td>15,000元（20%）</td><td>假设4-5人（含店长）</td></tr><tr><td>房租</td><td>10,000元（13%）</td><td>沙井商圈100平米（假设）</td></tr><tr><td>水电燃气</td><td>4,500元（6%）</td><td>火锅品类水电偏高</td></tr><tr><td>其他（折旧/耗材）</td><td>3,000元（4%）</td><td>含旋转设备折旧</td></tr><tr><td><strong>月净利润</strong></td><td><strong>14,000元（19%）</strong></td><td>假设值，实际取决于翻台率</td></tr></table><h3>增收空间拆解（SaaS+运营赋能后）</h3><table><tr><th>增收来源</th><th>月增收（目标）</th><th>实现路径</th></tr><tr><td>午市引流套餐</td><td>+6,000元</td><td>29.9午餐锅 x 每日10单 x 20个工作日</td></tr><tr><td>储值锁客</td><td>+4,500元</td><td>月储值入账15,000元中约30%为增量消费</td></tr><tr><td>会员复购提升</td><td>+3,000元</td><td>会员复购率从自然20%提升至30%，月增约60人次 x 50元</td></tr><tr><td>抖音/点评引流</td><td>+4,000元</td><td>线上团购核销月增约80单 x 50元</td></tr><tr><td><strong>合计月增收</strong></td><td><strong>+17,500元</strong></td><td>月营收目标从75,000提升至92,500元</td></tr></table><h3>SaaS投入产出</h3><table><tr><th>投入项</th><th>年费用</th><th>月均</th></tr><tr><td>收银POS</td><td>已签约</td><td>—</td></tr><tr><td>会员旗舰版</td><td>4,888元/年</td><td>407元/月</td></tr><tr><td>电子发票</td><td>已签约</td><td>—</td></tr><tr><td>营销活动预算（首3个月）</td><td>—</td><td>约2,000元/月</td></tr><tr><td><strong>月均总投入</strong></td><td>—</td><td><strong>约2,407元</strong></td></tr></table><p>月增收17,500元 vs 月投入2,407元 = <strong>ROI约7.3倍</strong>，投入产出比优秀。首月因开业活动让利较多，实际ROI约4-5倍，第2-3个月稳定后可达7倍以上。</p><h3>OKR目标（季度）</h3><table><tr><th>指标</th><th>开业月（M1）</th><th>第2个月（M2）</th><th>第3个月（M3）</th></tr><tr><td>月营收</td><td>60,000元</td><td>75,000元</td><td>92,500元</td></tr><tr><td>大众点评评分</td><td>4.3分</td><td>4.5分</td><td>4.5+分</td></tr><tr><td>累计评价数</td><td>50条</td><td>120条</td><td>200条</td></tr><tr><td>会员总数</td><td>300人</td><td>600人</td><td>1,000人</td></tr><tr><td>储值会员数</td><td>20人</td><td>50人</td><td>80人</td></tr><tr><td>会员复购率</td><td>20%</td><td>25%</td><td>30%</td></tr><tr><td>午市上座率</td><td>50%</td><td>65%</td><td>70%</td></tr><tr><td>团购核销率</td><td>40%</td><td>55%</td><td>65%</td></tr></table><p><strong>关键里程碑：</strong>开业第30天评分达4.5分 → 第60天会员破600人 → 第90天月营收突破9万元。三个月后进入稳定运营期，逐步降低营销补贴比例，靠会员复购和口碑自然增长驱动。</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
