@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>味潭淳韩国烤肉 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #8B4513;
+      --primary-light: #A0522D;
+      --accent: #D2B48C;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #8B451340;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">烧烤/韩式烤肉 · 运营提升方案</div>
+  <h1 class="hero-title">味潭淳韩国烤肉</h1>
+  <p class="hero-subtitle">滨江互联网人的韩烤社交主场，30天打出口碑基本盘</p>
+  <div class="hero-address">浙江省杭州市滨江区浦沿街道宝龙城（杭州滨江店）</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥130</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">滨江区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察·杭州韩烤赛道', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察·杭州韩烤赛道</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解·周边3公里格局', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解·周边3公里格局</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '品牌定位·滨江人的韩烤社交局', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">品牌定位·滨江人的韩烤社交局</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评口碑·新店出星30天作战', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评口碑·新店出星30天作战</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '公域获客·抖音+小红书+点评三线引流', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">公域获客·抖音+小红书+点评三线引流</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '私域锁客·会员体系+企业客群BD', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">私域锁客·会员体系+企业客群BD</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '开业冲刺·30天倒计时执行表', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">开业冲刺·30天倒计时执行表</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '暑期营销·7-8月节点活动', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">暑期营销·7-8月节点活动</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(9, '投资回报·OKR量化目标', 9)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 09</div>
+      <div class="chapter-title">投资回报·OKR量化目标</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>杭州烤肉品类大盘</h3><p>2024年全国烧烤市场规模约<strong>2,840亿元</strong>，门店数达54.1万家，同比增长8.5%。杭州烤肉赛道已进入存量博弈期——中低端（人均80-120）持续内卷，<strong>人均130-180的品质韩烤仍有空间但窗口在收窄</strong>。韩国料理品类整体处于负增长趋势（辰智大数据），市场关店率30%高于开店率23.6%，但品质韩烤因「颜值经济+情绪价值」仍有差异化机会。</p><h3>滨江区客群画像</h3><p>滨江区特征鲜明：<strong>互联网从业者密集</strong>（网易、海康威视、大华、新华三等企业总部聚集），年轻客群占比高、消费意愿强但对「值不值」极敏感。核心消费场景：</p><ul><li><strong>工作日晚餐</strong>：加班后解压型消费（20:00-22:00黄金窗口），2-4人小局为主</li><li><strong>周末聚餐</strong>：朋友/情侣约饭，4-6人为主，客单价容忍度更高</li><li><strong>企业团建</strong>：互联网公司小组团建频繁（6-12人），预算人均100-150元，是大单来源</li></ul><h3>宝龙城商圈定位</h3><p>宝龙城（杭州滨江店）属于区域型商业体，<strong>自然客流不及龙湖天街、星光大道等顶流商圈</strong>，但周边浦沿板块居住密度高，社区消费属性强。烤肉品类在该商圈密度已不低，<strong>必须靠差异化主动拉客</strong>，不能坐等自然流量。价格带建议卡在<strong>人均110-150元</strong>：低于100打不出品质感，高于160在宝龙定位的商圈跑不动。⚠️ 假设人均130元（韩式品质烤肉标准，建议国庆确认）。</p></div>
+<div id="modal-content-2" style="display:none"><h3>核心竞对逐一拆解</h3><table><tr><th>竞品名称</th><th>人均</th><th>核心优势</th><th>弱点 / 味潭淳切入机会</th></tr><tr><td><strong>姜虎东白丁烤肉</strong>（龙湖天街店）</td><td>¥130-150</td><td>韩国明星IP背书、品牌认知度高、正宗韩式氛围</td><td>等位久（周末2h+）、套餐灵活性差、离宝龙约3km有距离壁垒 → 味潭淳打「不用等位的品质韩烤」</td></tr><tr><td><strong>酒炉烤肉 / 九田家</strong></td><td>¥90-110</td><td>性价比路线，翻台快，年轻人基础盘大</td><td>食材档次一般、复购靠低价不靠品质、无会员沉淀 → 味潭淳打「食材可视化+品质升级」</td></tr><tr><td><strong>大同门 / 新石器烤肉</strong></td><td>¥100-130</td><td>中规中矩，稳定经营</td><td>无明显记忆点、菜品同质化严重、缺乏社交媒体声量 → 味潭淳打「视觉锤爆品+社交传播」</td></tr><tr><td><strong>宝龙城内自助/融合烤肉</strong></td><td>¥80-120</td><td>价格亲民、品种多</td><td>品质感弱、食材不够透明 → 味潭淳天然区隔，走品质路线</td></tr></table><h3>竞争烈度判断：中高</h3><p>宝龙城自然客流有限，但烤肉品类密度已不低。味潭淳的机会在于<strong>「品质韩烤 + 企业团建场景」的差异化卡位</strong>——姜虎东太远且等位久，酒炉/九田家品质不够，自助烤肉定位不同。味潭淳要做的是<strong>「比姜虎东近、比九田家好、比自助有格调」</strong>的那个选项。</p><h3>⚠️ 核心判断</h3><p>这家店成败关键不在产品（韩烤产品差异有限），<strong>在于开业首月能否用精准投放 + 企业客群BD快速打出口碑基本盘，撑过养店期</strong>。青岛店作为品牌已有门店，建议参考其大众点评评分和热评菜品作为杭州新店的产品优化参考（⚠️ 具体数据需国庆确认青岛店实际表现）。</p></div>
+<div id="modal-content-3" style="display:none"><h3>定位逻辑</h3><p>韩烤同质化严重，纯靠「韩式氛围」已无壁垒。味潭淳要在宝龙城活下来，<strong>必须绑定一个具体的消费场景作为品牌锚点</strong>。滨江最大的红利是企业客群——互联网公司小组团建、同事聚餐、项目庆功宴，这些场景频繁、客单高、可复购。</p><h3>品牌锚点：「团建烤肉局」</h3><ul><li><strong>Slogan建议</strong>：「下班后的韩烤社交局」或「滨江人的深夜烤肉局」</li><li><strong>视觉锤</strong>：厚切牛舌整块上桌（可拍照的仪式感菜品）+ 芝士瀑布五花肉（自传播UGC爆点）</li><li><strong>场景锤</strong>：4-6人拼桌套餐（含酒水），人均控在130左右，专为团建/聚餐设计</li></ul><h3>爆品锚点设计（一道菜串联全部营销）</h3><ul><li><strong>首选</strong>：<strong>厚切和牛牛舌</strong>——整块上桌、现场片切、烟雾缭绕，单品定价68-88元，拍照出片率极高</li><li><strong>备选</strong>：<strong>芝士瀑布五花肉</strong>——芝士从上浇下的瞬间是天然短视频素材，成本约8-12元/份</li><li><strong>怎么做</strong>：① 服务员上菜时主动说「这是我们招牌，我帮您拍一个」；② 桌面放「拍照打卡送韩式小菜一碟」立牌（成本3元以内）；③ 所有达人探店视频必拍这道菜</li></ul><h3>套餐定价策略（心理学定价法）</h3><table><tr><th>档位</th><th>定价</th><th>内容</th><th>定位</th></tr><tr><td>双人浪漫局</td><td>¥228</td><td>厚切牛舌+五花肉+石锅拌饭+2杯饮品</td><td>情侣约会</td></tr><tr><td>四人畅吃局（主推）</td><td>¥468</td><td>牛舌+肥牛+五花+鸡肉+4小菜+主食+4杯饮品</td><td>朋友聚餐</td></tr><tr><td>六人团建局</td><td>¥698</td><td>全品类拼盘+啤酒畅饮1h+6小菜+主食</td><td>企业团建（利润最高）</td></tr></table><p>⚠️ 以上为建议定价（假设人均130元），<strong>最贵档不是为了卖，是让468元的四人局显得划算</strong>——这是套餐定价心理学。最终定价请结合食材成本确认。</p></div>
+<div id="modal-content-4" style="display:none"><h3>当前阶段判断：新店·零评价·零星级</h3><p>味潭淳处于「尚未开业」阶段，大众点评零评价零评分。新店出星规则：需积累足够数量的真实评价后才能出星。<strong>前30条评价的质量，决定了这家店未来半年的点评命运。</strong></p><h3>⛔ 止血：高强度促评已被平台严打</h3><p>2025年10月后大众点评明确：<strong>高强度促评（评价返现、好评返券等）产生的新评价不产生星级收益</strong>。传统「五星好评送菜」已失效。以下行为<strong>严禁</strong>：① 刷评/买评 ② 评价返现/好评返券 ③ 当面要求给五星。被检测到直接降星+限流。</p><h3>✅ 合规获评路径</h3><h4>第1-7天：种子期——「免费试」攒前15条真评</h4><ul><li><strong>谁来做</strong>：店长统筹，服务员执行引导</li><li><strong>操作</strong>：🔧 大众点评商家后台「营销中心 → 免费试」设置<strong>15个名额</strong>（招募条件：LV3以上、有头像、近30天有评价），每天释放2-3个名额</li><li><strong>话术</strong>：「您好，您是我们免费试的体验官，今天由我们请客，吃完麻烦花1分钟写写真实感受，好坏都行，帮我们改进」</li><li><strong>客人嫌麻烦</strong>：微笑说「没关系，希望您吃得开心」（⛔ 绝不给压力）</li></ul><h4>第8-15天：加速期——「免费菜」制造超预期</h4><ul><li><strong>操作</strong>：🔧「营销中心 → 免费菜」上线韩式蛋卷（成本3-5元），到店消费即可领取</li><li><strong>关键</strong>：免费菜的目的不是促评，是<strong>制造超预期体验</strong>——收到意外赠菜，客人自发分享概率远高于被要求写评价</li></ul><h4>第16-30天：冲榜期</h4><ul><li><strong>目标</strong>：累计<strong>50条以上真实评价</strong>，评分稳在4.5分以上</li><li><strong>榜单路径</strong>：新店榜（开业90天内自动参评）→ 热门榜（需评价量+浏览量）→ 好评榜（中期目标）</li><li><strong>每天必做</strong>：店长检查🔧「评价管理」，差评2小时内回复（真诚道歉+改进措施+邀请再次体验），好评当天回复感谢</li></ul><h3>分享动机打造</h3><p>不靠利诱靠体验：厚切牛舌上桌仪式感（自发拍照）+ 桌面打卡立牌（低成本引导）+ 服务员主动帮拍（降低分享门槛）。目标：<strong>每10桌客人中至少2桌自发发朋友圈/小红书</strong>。</p></div>
+<div id="modal-content-5" style="display:none"><h3>核心逻辑</h3><p>韩式烤肉天然具备「颜值高、仪式感强、适合拍照打卡」的社交属性，是年轻客群+网红品类的标准定位。<strong>必须主攻抖音团购+小红书种草</strong>，大众点评团购做承接。</p><h3>① 抖音：达人探店+团购套餐（开业前7天启动）</h3><ul><li><strong>谁来做</strong>：老板/店长负责对接达人，BD协助资源推荐</li><li><strong>第1步（D-7）</strong>：找<strong>3-5个滨江本地美食达人</strong>（粉丝10-50万），预算单条1,500-3,000元</li><li><strong>达人筛选</strong>：近30天有烤肉/火锅类内容、互动率大于3%、粉丝画像以杭州20-35岁为主</li><li><strong>拍摄重点</strong>：<strong>必拍厚切牛舌上桌+芝士瀑布五花肉</strong>，配合slogan「下班后的韩烤社交局」</li><li><strong>第2步（D1开业当天）</strong>：上线抖音团购——「开业5折双人套餐」¥114（原价¥228）限200份</li><li><strong>投放</strong>：达人视频挂团购链接 + DOU+投放首周500元，定向滨江区3公里</li><li><strong>预算</strong>：达人费1-1.5万 + DOU+约2,000元，合计1.2-1.7万</li></ul><h3>② 小红书：素人打卡矩阵（开业同步启动）</h3><ul><li><strong>操作</strong>：邀请5-8个素人博主（500-5,000粉，费用=置换免费餐）到店打卡</li><li><strong>内容方向</strong>：「杭州滨江新开的韩国烤肉｜厚切牛舌太绝了」「下班后和同事来的韩烤局」「宝龙城约会新去处」</li><li><strong>关键词</strong>：#杭州烤肉 #滨江美食 #宝龙城美食 #韩国烤肉 #下班后去哪吃</li><li><strong>预算</strong>：5-8顿免费餐，成本约3,000-5,000元</li></ul><h3>③ 大众点评：团购套餐做承接</h3><ul><li><strong>操作</strong>：🔧 商家后台「团购→创建套餐」，上线3档套餐（双人/四人/六人），价格比门店价低10-15%</li><li><strong>推广通</strong>：开业首月🔧「推广中心→推广通」日预算50-100元，关键词「滨江烤肉」「宝龙城美食」「韩国烤肉」</li></ul><h3>三线联动闭环</h3><p><strong>抖音种草（看到）→ 小红书验证（搜到）→ 大众点评下单（买到）→ 到店体验 → 自发传播</strong>。三个平台不是各自独立，而是一条完整的客户决策链路。</p></div>
+<div id="modal-content-6" style="display:none"><h3>核心判断：这家店私域的第一优先级是「企业客群BD」而非储值</h3><p>滨江最大红利是企业客群。互联网公司小组团建频率高（平均每月1-2次）、客单高、可复购。<strong>先用企业BD锁住「大单基本盘」，再用会员系统做散客复购</strong>。</p><h3>① 企业客群BD计划（开业前启动）</h3><ul><li><strong>谁来做</strong>：老板亲自跑（前期最重要的事）</li><li><strong>D-3</strong>：准备「团建烤肉局」A4宣传单页50份（套餐内容+价格+预约方式+位置地图）</li><li><strong>D-1起持续推进</strong>：扫周边1公里企业园区（网易二期、海康威视滨江园区、大华股份、新华三），找前台/HR/行政</li><li><strong>话术</strong>：「我们是宝龙城新开的韩式烤肉，专门为团建设计了套餐，6人局698含啤酒畅饮1小时，方便加个微信，有团建需求随时预约」</li><li><strong>首单钩子</strong>：「首次团建8.5折」（限4人以上）</li><li><strong>对方不响应</strong>：不纠缠，留物料走人；一周后企微再触达：「最近有团建需求吗？本周团建加赠一份厚切牛舌拼盘」</li><li><strong>目标</strong>：首月对接<strong>20家+企业</strong>，转化团建<strong>5-8单</strong>，预估营收3,500-5,600元/单 × 5-8 = <strong>1.8-4.5万</strong></li></ul><h3>② 会员旗舰版运营（已签约，充分用好）</h3><p>味潭淳已签约<strong>会员旗舰版</strong>（4,888元/年），以下是核心工具使用方案：</p><ul><li><strong>团购会员卡（旗舰独有）</strong>：🔧「会员中心→团购会员卡」——团购客到店后自动弹窗邀请注册会员，<strong>注册即送韩式小菜拼盘一份</strong>（成本8元），把一次性团购客转为可触达会员</li><li><strong>潜客营销（旗舰独有）</strong>：🔧「会员中心→潜客营销」——对收藏门店但未消费的用户自动推送优惠券（满200减30），拉动犹豫客群到店</li><li><strong>新会员礼</strong>：注册即送韩式小菜一碟 → <strong>生日礼</strong>：生日月到店赠甜品一份</li></ul><h3>③ 储值方案（⚠️ 开业期不急，养店期再启动）</h3><p><strong>第一性原理判断</strong>：新店开业期核心任务是「拉新+口碑」。客人还没来过就让充值，信任基础不够，转化率极低。建议<strong>开业满2个月、有稳定复购客群后</strong>再启动储值。</p><p>储值思路预埋：「充300送月卡，每次到店免费领韩式小菜拼盘（成本8元）」——用高频到店理由锁复购，比简单打折充值有效10倍。⚠️ 不是不做储值，是时机未到。</p></div>
+<div id="modal-content-7" style="display:none"><h3>新店开业30天是生死期——这30天决定能不能撑过养店期</h3><h4>开业前7天（D-7 ~ D-1）：蓄客期</h4><table><tr><th>天数</th><th>关键动作</th><th>谁来做</th><th>具体怎么做</th></tr><tr><td>D-7</td><td>达人探店拍摄</td><td>老板</td><td>邀3-5个本地达人到店拍摄，重点拍厚切牛舌+芝士瀑布五花肉，确认挂抖音团购链接</td></tr><tr><td>D-6</td><td>小红书素人邀约</td><td>老板/店长</td><td>联系5-8个素人博主，确认开业当天-第3天分批到店打卡时间</td></tr><tr><td>D-5</td><td>点评开店+免费试上线</td><td>店长</td><td>🔧 商家后台完善信息（菜单照片/环境照/营业时间）→「营销中心→免费试」设15个名额</td></tr><tr><td>D-4</td><td>抖音团购上线</td><td>老板</td><td>上线「开业5折双人套餐」¥114限200份 + 四人局¥468 → 达人视频挂链接</td></tr><tr><td>D-3</td><td>企业BD物料+试扫</td><td>老板</td><td>印50份A4单页 → 试扫1-2家企业前台练话术</td></tr><tr><td>D-2</td><td>员工话术培训</td><td>店长</td><td>全员背熟3套话术：免费试引导/拍照打卡引导/套餐推荐（每套3句话）</td></tr><tr><td>D-1</td><td>全链路测试</td><td>店长</td><td>🔧 扫码点餐确认菜品+价格正确 → 会员旗舰版设置新会员礼 → 全员扫码下单测试一遍</td></tr></table><h4>开业第1-7天（D1~D7）：爆发期</h4><table><tr><th>天数</th><th>关键动作</th><th>谁来做</th><th>具体怎么做</th></tr><tr><td>D1</td><td>开业引爆</td><td>全员</td><td>达人视频集中发布+朋友圈转发+到店客人引导注册会员（送小菜）</td></tr><tr><td>D1-D3</td><td>素人分批打卡</td><td>老板跟进</td><td>确认到店+发布笔记+带关键词标签</td></tr><tr><td>D1-D7</td><td>免费试释放</td><td>店长</td><td>每天上午10点释放2-3个名额（不要第一天全放完，均匀分布）</td></tr><tr><td>D3</td><td>首轮企业BD</td><td>老板</td><td>扫网易二期+海康威视园区，递物料+加企微，目标对接10家</td></tr><tr><td>每天</td><td>评价管理</td><td>店长</td><td>🔧 评价管理：差评2h内回复，好评当天回复</td></tr></table><h4>第8-30天：稳固期</h4><ul><li><strong>D8-D15</strong>：上线免费菜（韩式蛋卷成本3元）→ 继续企业BD累计对接20家 → 推广通开投日预算50元</li><li><strong>D16-D30</strong>：复盘前15天数据 → 调整套餐（卖不动的砍掉）→ 储值方案筹备（不急上线）</li><li><strong>D30</strong>：首月复盘，对照OKR——哪些达标、差距在哪、下月重点调什么</li></ul></div>
+<div id="modal-content-8" style="display:none"><h3>7月暑期旺季开业，天时有利</h3><p>7月是烤肉品类<strong>黄金旺季</strong>——夜宵需求旺盛、学生放假、聚餐频繁（⚠️ 假设7月中下旬开业）。味潭淳选在暑期开业，必须用好这个窗口。</p><h3>活动1：「深夜烤肉局」夜宵专享（7月开业即启动，持续至8月底）</h3><ul><li><strong>谁来做</strong>：店长负责排班调整</li><li><strong>操作</strong>：7-8月延长营业至<strong>凌晨0:00</strong>（视人力调整），推出「深夜烤肉局」菜单</li><li><strong>22:00后专属福利</strong>：啤酒买二送一（啤酒毛利60-70%，送一瓶成本约3-5元）</li><li><strong>夜宵菜单精简</strong>：15-20个SKU，出餐快、毛利高——烤五花+烤牛舌+韩式炸鸡+啤酒套餐（59/79/99三档）</li><li><strong>🔧 操作</strong>：扫码点餐「菜单管理」设置22:00自动切换夜宵菜单 + 外卖平台调整营业时间</li><li><strong>预期</strong>：夜宵时段日均增收约800-1,500元（⚠️ 假设，取决于周边夜间客流）</li></ul><h3>活动2：「七夕韩烤约会夜」（8月上旬，提前7天预热）</h3><ul><li><strong>谁来做</strong>：店长+服务员</li><li><strong>操作</strong>：推出七夕限定双人套餐（¥288，含厚切牛舌+芝士五花+石锅拌饭+2杯特调饮品+赠单支玫瑰）</li><li><strong>仪式感</strong>：LED电子蜡烛（3元/个，可复用）+ 桌面花瓣（2元/桌），成本极低但氛围感拉满</li><li><strong>预售锁定</strong>：提前7天在会员系统push + 社群预售，限50份，定金50元到店抵用</li><li><strong>目标</strong>：七夕当天及前后两天团购核销<strong>30+桌</strong></li></ul><h3>活动3：「贴秋膘·烤肉加码季」（立秋8月7-8日）</h3><ul><li><strong>操作</strong>：立秋当周推「贴秋膘加量不加价」——所有肉品份量+20%（实际成本增加约5-8元/桌），海报写「立秋贴膘，肉量加码」</li><li><strong>🔧 操作</strong>：扫码点餐弹窗「贴秋膘福利」提示 + 会员系统push</li><li><strong>目的</strong>：借势零成本话题营销，制造到店理由（「立秋不吃烤肉亏大了」）</li></ul><h3>暑期营销预算汇总</h3><table><tr><th>项目</th><th>预算</th><th>预期回报</th></tr><tr><td>达人探店（3-5个）</td><td>¥10,000-15,000</td><td>曝光50万+，团购转化200+单</td></tr><tr><td>小红书素人置换</td><td>¥3,000-5,000</td><td>笔记矩阵8-10篇，长尾搜索流量</td></tr><tr><td>DOU+投放（首月）</td><td>¥2,000</td><td>定向滨江区精准曝光</td></tr><tr><td>推广通（首月）</td><td>¥1,500-3,000</td><td>点评搜索排名提升</td></tr><tr><td>免费试/免费菜</td><td>¥1,500-2,000</td><td>15-30条真实评价</td></tr><tr><td>七夕物料</td><td>¥500</td><td>七夕当周集中引爆</td></tr><tr><td><strong>合计</strong></td><td><strong>¥18,500-27,500</strong></td><td>—</td></tr></table></div>
+<div id="modal-content-9" style="display:none"><h3>投入产出测算</h3><p>基于以上方案，首月核心投入与预期回报：</p><table><tr><th>投入项</th><th>金额</th><th>说明</th></tr><tr><td>达人探店+DOU+</td><td>¥12,000-17,000</td><td>抖音获客核心预算</td></tr><tr><td>小红书素人置换</td><td>¥3,000-5,000</td><td>长尾搜索流量</td></tr><tr><td>推广通（点评）</td><td>¥1,500-3,000</td><td>搜索排名</td></tr><tr><td>免费试/免费菜</td><td>¥1,500-2,000</td><td>评价积累</td></tr><tr><td>企业BD物料</td><td>¥500</td><td>A4单页+名片</td></tr><tr><td>会员旗舰版</td><td>¥4,888/年</td><td>已签约</td></tr><tr><td><strong>首月营销总投入</strong></td><td><strong>¥18,500-27,500</strong></td><td>—</td></tr></table><h3>预期月营收拆解（⚠️ 开业第2-3个月稳定期估算）</h3><table><tr><th>收入来源</th><th>月估算</th><th>计算逻辑</th></tr><tr><td>堂食散客</td><td>¥12-15万</td><td>日均30-40桌 × 人均130 × 70%上座率 ÷ 考虑桌均2.5人</td></tr><tr><td>企业团建</td><td>¥2-4万</td><td>月均5-8单 × 3,500-5,000元/单</td></tr><tr><td>抖音/点评团购</td><td>¥3-5万</td><td>团购引流，核销率按60%计</td></tr><tr><td>夜宵时段增量</td><td>¥2-4万</td><td>22:00后日均800-1,500元 × 25天</td></tr><tr><td><strong>月营收目标</strong></td><td><strong>¥20-28万</strong></td><td>⚠️ 假设值，取决于开业引爆效果和商圈实际客流</td></tr></table><h3>📊 OKR量化目标</h3><h4>O1：开业30天打出口碑基本盘</h4><ul><li>KR1：大众点评评价数 ≥ <strong>50条</strong>，评分 ≥ <strong>4.5分</strong></li><li>KR2：抖音团购核销 ≥ <strong>150单</strong></li><li>KR3：小红书相关笔记 ≥ <strong>10篇</strong>（含达人+素人+自发UGC）</li></ul><h4>O2：首月私域沉淀有效会员</h4><ul><li>KR1：注册会员 ≥ <strong>300人</strong></li><li>KR2：企业客群对接 ≥ <strong>20家</strong>，转化团建消费 ≥ <strong>5单</strong></li><li>KR3：会员二次到店率 ≥ <strong>25%</strong></li></ul><h4>O3：第2-3个月进入稳定盈利</h4><ul><li>KR1：月营收稳定在 <strong>¥20万+</strong></li><li>KR2：食材成本率控制在 <strong>38%以内</strong>（韩烤食材成本率参考35-45%，控低端）</li><li>KR3：大众点评进入滨江区烤肉类<strong>热门榜前10</strong></li></ul><h3>⚠️ 30天复盘节点</h3><p>开业第30天必须做一次全面复盘：① 日均流水是否达到6,000+？② 会员注册是否达300人？③ 点评评价是否达50条？④ 企业BD对接了多少家、转化了几单？<strong>哪项没达标就集中资源补哪项，不要撒胡椒面</strong>。</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>翟卫婷</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>杭州烤肉品类大盘</h3><p>2024年全国烧烤市场规模约<strong>2,840亿元</strong>，门店数达54.1万家，同比增长8.5%。杭州烤肉赛道已进入存量博弈期——中低端（人均80-120）持续内卷，<strong>人均130-180的品质韩烤仍有空间但窗口在收窄</strong>。韩国料理品类整体处于负增长趋势（辰智大数据），市场关店率30%高于开店率23.6%，但品质韩烤因「颜值经济+情绪价值」仍有差异化机会。</p><h3>滨江区客群画像</h3><p>滨江区特征鲜明：<strong>互联网从业者密集</strong>（网易、海康威视、大华、新华三等企业总部聚集），年轻客群占比高、消费意愿强但对「值不值」极敏感。核心消费场景：</p><ul><li><strong>工作日晚餐</strong>：加班后解压型消费（20:00-22:00黄金窗口），2-4人小局为主</li><li><strong>周末聚餐</strong>：朋友/情侣约饭，4-6人为主，客单价容忍度更高</li><li><strong>企业团建</strong>：互联网公司小组团建频繁（6-12人），预算人均100-150元，是大单来源</li></ul><h3>宝龙城商圈定位</h3><p>宝龙城（杭州滨江店）属于区域型商业体，<strong>自然客流不及龙湖天街、星光大道等顶流商圈</strong>，但周边浦沿板块居住密度高，社区消费属性强。烤肉品类在该商圈密度已不低，<strong>必须靠差异化主动拉客</strong>，不能坐等自然流量。价格带建议卡在<strong>人均110-150元</strong>：低于100打不出品质感，高于160在宝龙定位的商圈跑不动。⚠️ 假设人均130元（韩式品质烤肉标准，建议国庆确认）。</p>`,
+    2: `<h3>核心竞对逐一拆解</h3><table><tr><th>竞品名称</th><th>人均</th><th>核心优势</th><th>弱点 / 味潭淳切入机会</th></tr><tr><td><strong>姜虎东白丁烤肉</strong>（龙湖天街店）</td><td>¥130-150</td><td>韩国明星IP背书、品牌认知度高、正宗韩式氛围</td><td>等位久（周末2h+）、套餐灵活性差、离宝龙约3km有距离壁垒 → 味潭淳打「不用等位的品质韩烤」</td></tr><tr><td><strong>酒炉烤肉 / 九田家</strong></td><td>¥90-110</td><td>性价比路线，翻台快，年轻人基础盘大</td><td>食材档次一般、复购靠低价不靠品质、无会员沉淀 → 味潭淳打「食材可视化+品质升级」</td></tr><tr><td><strong>大同门 / 新石器烤肉</strong></td><td>¥100-130</td><td>中规中矩，稳定经营</td><td>无明显记忆点、菜品同质化严重、缺乏社交媒体声量 → 味潭淳打「视觉锤爆品+社交传播」</td></tr><tr><td><strong>宝龙城内自助/融合烤肉</strong></td><td>¥80-120</td><td>价格亲民、品种多</td><td>品质感弱、食材不够透明 → 味潭淳天然区隔，走品质路线</td></tr></table><h3>竞争烈度判断：中高</h3><p>宝龙城自然客流有限，但烤肉品类密度已不低。味潭淳的机会在于<strong>「品质韩烤 + 企业团建场景」的差异化卡位</strong>——姜虎东太远且等位久，酒炉/九田家品质不够，自助烤肉定位不同。味潭淳要做的是<strong>「比姜虎东近、比九田家好、比自助有格调」</strong>的那个选项。</p><h3>⚠️ 核心判断</h3><p>这家店成败关键不在产品（韩烤产品差异有限），<strong>在于开业首月能否用精准投放 + 企业客群BD快速打出口碑基本盘，撑过养店期</strong>。青岛店作为品牌已有门店，建议参考其大众点评评分和热评菜品作为杭州新店的产品优化参考（⚠️ 具体数据需国庆确认青岛店实际表现）。</p>`,
+    3: `<h3>定位逻辑</h3><p>韩烤同质化严重，纯靠「韩式氛围」已无壁垒。味潭淳要在宝龙城活下来，<strong>必须绑定一个具体的消费场景作为品牌锚点</strong>。滨江最大的红利是企业客群——互联网公司小组团建、同事聚餐、项目庆功宴，这些场景频繁、客单高、可复购。</p><h3>品牌锚点：「团建烤肉局」</h3><ul><li><strong>Slogan建议</strong>：「下班后的韩烤社交局」或「滨江人的深夜烤肉局」</li><li><strong>视觉锤</strong>：厚切牛舌整块上桌（可拍照的仪式感菜品）+ 芝士瀑布五花肉（自传播UGC爆点）</li><li><strong>场景锤</strong>：4-6人拼桌套餐（含酒水），人均控在130左右，专为团建/聚餐设计</li></ul><h3>爆品锚点设计（一道菜串联全部营销）</h3><ul><li><strong>首选</strong>：<strong>厚切和牛牛舌</strong>——整块上桌、现场片切、烟雾缭绕，单品定价68-88元，拍照出片率极高</li><li><strong>备选</strong>：<strong>芝士瀑布五花肉</strong>——芝士从上浇下的瞬间是天然短视频素材，成本约8-12元/份</li><li><strong>怎么做</strong>：① 服务员上菜时主动说「这是我们招牌，我帮您拍一个」；② 桌面放「拍照打卡送韩式小菜一碟」立牌（成本3元以内）；③ 所有达人探店视频必拍这道菜</li></ul><h3>套餐定价策略（心理学定价法）</h3><table><tr><th>档位</th><th>定价</th><th>内容</th><th>定位</th></tr><tr><td>双人浪漫局</td><td>¥228</td><td>厚切牛舌+五花肉+石锅拌饭+2杯饮品</td><td>情侣约会</td></tr><tr><td>四人畅吃局（主推）</td><td>¥468</td><td>牛舌+肥牛+五花+鸡肉+4小菜+主食+4杯饮品</td><td>朋友聚餐</td></tr><tr><td>六人团建局</td><td>¥698</td><td>全品类拼盘+啤酒畅饮1h+6小菜+主食</td><td>企业团建（利润最高）</td></tr></table><p>⚠️ 以上为建议定价（假设人均130元），<strong>最贵档不是为了卖，是让468元的四人局显得划算</strong>——这是套餐定价心理学。最终定价请结合食材成本确认。</p>`,
+    4: `<h3>当前阶段判断：新店·零评价·零星级</h3><p>味潭淳处于「尚未开业」阶段，大众点评零评价零评分。新店出星规则：需积累足够数量的真实评价后才能出星。<strong>前30条评价的质量，决定了这家店未来半年的点评命运。</strong></p><h3>⛔ 止血：高强度促评已被平台严打</h3><p>2025年10月后大众点评明确：<strong>高强度促评（评价返现、好评返券等）产生的新评价不产生星级收益</strong>。传统「五星好评送菜」已失效。以下行为<strong>严禁</strong>：① 刷评/买评 ② 评价返现/好评返券 ③ 当面要求给五星。被检测到直接降星+限流。</p><h3>✅ 合规获评路径</h3><h4>第1-7天：种子期——「免费试」攒前15条真评</h4><ul><li><strong>谁来做</strong>：店长统筹，服务员执行引导</li><li><strong>操作</strong>：🔧 大众点评商家后台「营销中心 → 免费试」设置<strong>15个名额</strong>（招募条件：LV3以上、有头像、近30天有评价），每天释放2-3个名额</li><li><strong>话术</strong>：「您好，您是我们免费试的体验官，今天由我们请客，吃完麻烦花1分钟写写真实感受，好坏都行，帮我们改进」</li><li><strong>客人嫌麻烦</strong>：微笑说「没关系，希望您吃得开心」（⛔ 绝不给压力）</li></ul><h4>第8-15天：加速期——「免费菜」制造超预期</h4><ul><li><strong>操作</strong>：🔧「营销中心 → 免费菜」上线韩式蛋卷（成本3-5元），到店消费即可领取</li><li><strong>关键</strong>：免费菜的目的不是促评，是<strong>制造超预期体验</strong>——收到意外赠菜，客人自发分享概率远高于被要求写评价</li></ul><h4>第16-30天：冲榜期</h4><ul><li><strong>目标</strong>：累计<strong>50条以上真实评价</strong>，评分稳在4.5分以上</li><li><strong>榜单路径</strong>：新店榜（开业90天内自动参评）→ 热门榜（需评价量+浏览量）→ 好评榜（中期目标）</li><li><strong>每天必做</strong>：店长检查🔧「评价管理」，差评2小时内回复（真诚道歉+改进措施+邀请再次体验），好评当天回复感谢</li></ul><h3>分享动机打造</h3><p>不靠利诱靠体验：厚切牛舌上桌仪式感（自发拍照）+ 桌面打卡立牌（低成本引导）+ 服务员主动帮拍（降低分享门槛）。目标：<strong>每10桌客人中至少2桌自发发朋友圈/小红书</strong>。</p>`,
+    5: `<h3>核心逻辑</h3><p>韩式烤肉天然具备「颜值高、仪式感强、适合拍照打卡」的社交属性，是年轻客群+网红品类的标准定位。<strong>必须主攻抖音团购+小红书种草</strong>，大众点评团购做承接。</p><h3>① 抖音：达人探店+团购套餐（开业前7天启动）</h3><ul><li><strong>谁来做</strong>：老板/店长负责对接达人，BD协助资源推荐</li><li><strong>第1步（D-7）</strong>：找<strong>3-5个滨江本地美食达人</strong>（粉丝10-50万），预算单条1,500-3,000元</li><li><strong>达人筛选</strong>：近30天有烤肉/火锅类内容、互动率大于3%、粉丝画像以杭州20-35岁为主</li><li><strong>拍摄重点</strong>：<strong>必拍厚切牛舌上桌+芝士瀑布五花肉</strong>，配合slogan「下班后的韩烤社交局」</li><li><strong>第2步（D1开业当天）</strong>：上线抖音团购——「开业5折双人套餐」¥114（原价¥228）限200份</li><li><strong>投放</strong>：达人视频挂团购链接 + DOU+投放首周500元，定向滨江区3公里</li><li><strong>预算</strong>：达人费1-1.5万 + DOU+约2,000元，合计1.2-1.7万</li></ul><h3>② 小红书：素人打卡矩阵（开业同步启动）</h3><ul><li><strong>操作</strong>：邀请5-8个素人博主（500-5,000粉，费用=置换免费餐）到店打卡</li><li><strong>内容方向</strong>：「杭州滨江新开的韩国烤肉｜厚切牛舌太绝了」「下班后和同事来的韩烤局」「宝龙城约会新去处」</li><li><strong>关键词</strong>：#杭州烤肉 #滨江美食 #宝龙城美食 #韩国烤肉 #下班后去哪吃</li><li><strong>预算</strong>：5-8顿免费餐，成本约3,000-5,000元</li></ul><h3>③ 大众点评：团购套餐做承接</h3><ul><li><strong>操作</strong>：🔧 商家后台「团购→创建套餐」，上线3档套餐（双人/四人/六人），价格比门店价低10-15%</li><li><strong>推广通</strong>：开业首月🔧「推广中心→推广通」日预算50-100元，关键词「滨江烤肉」「宝龙城美食」「韩国烤肉」</li></ul><h3>三线联动闭环</h3><p><strong>抖音种草（看到）→ 小红书验证（搜到）→ 大众点评下单（买到）→ 到店体验 → 自发传播</strong>。三个平台不是各自独立，而是一条完整的客户决策链路。</p>`,
+    6: `<h3>核心判断：这家店私域的第一优先级是「企业客群BD」而非储值</h3><p>滨江最大红利是企业客群。互联网公司小组团建频率高（平均每月1-2次）、客单高、可复购。<strong>先用企业BD锁住「大单基本盘」，再用会员系统做散客复购</strong>。</p><h3>① 企业客群BD计划（开业前启动）</h3><ul><li><strong>谁来做</strong>：老板亲自跑（前期最重要的事）</li><li><strong>D-3</strong>：准备「团建烤肉局」A4宣传单页50份（套餐内容+价格+预约方式+位置地图）</li><li><strong>D-1起持续推进</strong>：扫周边1公里企业园区（网易二期、海康威视滨江园区、大华股份、新华三），找前台/HR/行政</li><li><strong>话术</strong>：「我们是宝龙城新开的韩式烤肉，专门为团建设计了套餐，6人局698含啤酒畅饮1小时，方便加个微信，有团建需求随时预约」</li><li><strong>首单钩子</strong>：「首次团建8.5折」（限4人以上）</li><li><strong>对方不响应</strong>：不纠缠，留物料走人；一周后企微再触达：「最近有团建需求吗？本周团建加赠一份厚切牛舌拼盘」</li><li><strong>目标</strong>：首月对接<strong>20家+企业</strong>，转化团建<strong>5-8单</strong>，预估营收3,500-5,600元/单 × 5-8 = <strong>1.8-4.5万</strong></li></ul><h3>② 会员旗舰版运营（已签约，充分用好）</h3><p>味潭淳已签约<strong>会员旗舰版</strong>（4,888元/年），以下是核心工具使用方案：</p><ul><li><strong>团购会员卡（旗舰独有）</strong>：🔧「会员中心→团购会员卡」——团购客到店后自动弹窗邀请注册会员，<strong>注册即送韩式小菜拼盘一份</strong>（成本8元），把一次性团购客转为可触达会员</li><li><strong>潜客营销（旗舰独有）</strong>：🔧「会员中心→潜客营销」——对收藏门店但未消费的用户自动推送优惠券（满200减30），拉动犹豫客群到店</li><li><strong>新会员礼</strong>：注册即送韩式小菜一碟 → <strong>生日礼</strong>：生日月到店赠甜品一份</li></ul><h3>③ 储值方案（⚠️ 开业期不急，养店期再启动）</h3><p><strong>第一性原理判断</strong>：新店开业期核心任务是「拉新+口碑」。客人还没来过就让充值，信任基础不够，转化率极低。建议<strong>开业满2个月、有稳定复购客群后</strong>再启动储值。</p><p>储值思路预埋：「充300送月卡，每次到店免费领韩式小菜拼盘（成本8元）」——用高频到店理由锁复购，比简单打折充值有效10倍。⚠️ 不是不做储值，是时机未到。</p>`,
+    7: `<h3>新店开业30天是生死期——这30天决定能不能撑过养店期</h3><h4>开业前7天（D-7 ~ D-1）：蓄客期</h4><table><tr><th>天数</th><th>关键动作</th><th>谁来做</th><th>具体怎么做</th></tr><tr><td>D-7</td><td>达人探店拍摄</td><td>老板</td><td>邀3-5个本地达人到店拍摄，重点拍厚切牛舌+芝士瀑布五花肉，确认挂抖音团购链接</td></tr><tr><td>D-6</td><td>小红书素人邀约</td><td>老板/店长</td><td>联系5-8个素人博主，确认开业当天-第3天分批到店打卡时间</td></tr><tr><td>D-5</td><td>点评开店+免费试上线</td><td>店长</td><td>🔧 商家后台完善信息（菜单照片/环境照/营业时间）→「营销中心→免费试」设15个名额</td></tr><tr><td>D-4</td><td>抖音团购上线</td><td>老板</td><td>上线「开业5折双人套餐」¥114限200份 + 四人局¥468 → 达人视频挂链接</td></tr><tr><td>D-3</td><td>企业BD物料+试扫</td><td>老板</td><td>印50份A4单页 → 试扫1-2家企业前台练话术</td></tr><tr><td>D-2</td><td>员工话术培训</td><td>店长</td><td>全员背熟3套话术：免费试引导/拍照打卡引导/套餐推荐（每套3句话）</td></tr><tr><td>D-1</td><td>全链路测试</td><td>店长</td><td>🔧 扫码点餐确认菜品+价格正确 → 会员旗舰版设置新会员礼 → 全员扫码下单测试一遍</td></tr></table><h4>开业第1-7天（D1~D7）：爆发期</h4><table><tr><th>天数</th><th>关键动作</th><th>谁来做</th><th>具体怎么做</th></tr><tr><td>D1</td><td>开业引爆</td><td>全员</td><td>达人视频集中发布+朋友圈转发+到店客人引导注册会员（送小菜）</td></tr><tr><td>D1-D3</td><td>素人分批打卡</td><td>老板跟进</td><td>确认到店+发布笔记+带关键词标签</td></tr><tr><td>D1-D7</td><td>免费试释放</td><td>店长</td><td>每天上午10点释放2-3个名额（不要第一天全放完，均匀分布）</td></tr><tr><td>D3</td><td>首轮企业BD</td><td>老板</td><td>扫网易二期+海康威视园区，递物料+加企微，目标对接10家</td></tr><tr><td>每天</td><td>评价管理</td><td>店长</td><td>🔧 评价管理：差评2h内回复，好评当天回复</td></tr></table><h4>第8-30天：稳固期</h4><ul><li><strong>D8-D15</strong>：上线免费菜（韩式蛋卷成本3元）→ 继续企业BD累计对接20家 → 推广通开投日预算50元</li><li><strong>D16-D30</strong>：复盘前15天数据 → 调整套餐（卖不动的砍掉）→ 储值方案筹备（不急上线）</li><li><strong>D30</strong>：首月复盘，对照OKR——哪些达标、差距在哪、下月重点调什么</li></ul>`,
+    8: `<h3>7月暑期旺季开业，天时有利</h3><p>7月是烤肉品类<strong>黄金旺季</strong>——夜宵需求旺盛、学生放假、聚餐频繁（⚠️ 假设7月中下旬开业）。味潭淳选在暑期开业，必须用好这个窗口。</p><h3>活动1：「深夜烤肉局」夜宵专享（7月开业即启动，持续至8月底）</h3><ul><li><strong>谁来做</strong>：店长负责排班调整</li><li><strong>操作</strong>：7-8月延长营业至<strong>凌晨0:00</strong>（视人力调整），推出「深夜烤肉局」菜单</li><li><strong>22:00后专属福利</strong>：啤酒买二送一（啤酒毛利60-70%，送一瓶成本约3-5元）</li><li><strong>夜宵菜单精简</strong>：15-20个SKU，出餐快、毛利高——烤五花+烤牛舌+韩式炸鸡+啤酒套餐（59/79/99三档）</li><li><strong>🔧 操作</strong>：扫码点餐「菜单管理」设置22:00自动切换夜宵菜单 + 外卖平台调整营业时间</li><li><strong>预期</strong>：夜宵时段日均增收约800-1,500元（⚠️ 假设，取决于周边夜间客流）</li></ul><h3>活动2：「七夕韩烤约会夜」（8月上旬，提前7天预热）</h3><ul><li><strong>谁来做</strong>：店长+服务员</li><li><strong>操作</strong>：推出七夕限定双人套餐（¥288，含厚切牛舌+芝士五花+石锅拌饭+2杯特调饮品+赠单支玫瑰）</li><li><strong>仪式感</strong>：LED电子蜡烛（3元/个，可复用）+ 桌面花瓣（2元/桌），成本极低但氛围感拉满</li><li><strong>预售锁定</strong>：提前7天在会员系统push + 社群预售，限50份，定金50元到店抵用</li><li><strong>目标</strong>：七夕当天及前后两天团购核销<strong>30+桌</strong></li></ul><h3>活动3：「贴秋膘·烤肉加码季」（立秋8月7-8日）</h3><ul><li><strong>操作</strong>：立秋当周推「贴秋膘加量不加价」——所有肉品份量+20%（实际成本增加约5-8元/桌），海报写「立秋贴膘，肉量加码」</li><li><strong>🔧 操作</strong>：扫码点餐弹窗「贴秋膘福利」提示 + 会员系统push</li><li><strong>目的</strong>：借势零成本话题营销，制造到店理由（「立秋不吃烤肉亏大了」）</li></ul><h3>暑期营销预算汇总</h3><table><tr><th>项目</th><th>预算</th><th>预期回报</th></tr><tr><td>达人探店（3-5个）</td><td>¥10,000-15,000</td><td>曝光50万+，团购转化200+单</td></tr><tr><td>小红书素人置换</td><td>¥3,000-5,000</td><td>笔记矩阵8-10篇，长尾搜索流量</td></tr><tr><td>DOU+投放（首月）</td><td>¥2,000</td><td>定向滨江区精准曝光</td></tr><tr><td>推广通（首月）</td><td>¥1,500-3,000</td><td>点评搜索排名提升</td></tr><tr><td>免费试/免费菜</td><td>¥1,500-2,000</td><td>15-30条真实评价</td></tr><tr><td>七夕物料</td><td>¥500</td><td>七夕当周集中引爆</td></tr><tr><td><strong>合计</strong></td><td><strong>¥18,500-27,500</strong></td><td>—</td></tr></table>`,
+    9: `<h3>投入产出测算</h3><p>基于以上方案，首月核心投入与预期回报：</p><table><tr><th>投入项</th><th>金额</th><th>说明</th></tr><tr><td>达人探店+DOU+</td><td>¥12,000-17,000</td><td>抖音获客核心预算</td></tr><tr><td>小红书素人置换</td><td>¥3,000-5,000</td><td>长尾搜索流量</td></tr><tr><td>推广通（点评）</td><td>¥1,500-3,000</td><td>搜索排名</td></tr><tr><td>免费试/免费菜</td><td>¥1,500-2,000</td><td>评价积累</td></tr><tr><td>企业BD物料</td><td>¥500</td><td>A4单页+名片</td></tr><tr><td>会员旗舰版</td><td>¥4,888/年</td><td>已签约</td></tr><tr><td><strong>首月营销总投入</strong></td><td><strong>¥18,500-27,500</strong></td><td>—</td></tr></table><h3>预期月营收拆解（⚠️ 开业第2-3个月稳定期估算）</h3><table><tr><th>收入来源</th><th>月估算</th><th>计算逻辑</th></tr><tr><td>堂食散客</td><td>¥12-15万</td><td>日均30-40桌 × 人均130 × 70%上座率 ÷ 考虑桌均2.5人</td></tr><tr><td>企业团建</td><td>¥2-4万</td><td>月均5-8单 × 3,500-5,000元/单</td></tr><tr><td>抖音/点评团购</td><td>¥3-5万</td><td>团购引流，核销率按60%计</td></tr><tr><td>夜宵时段增量</td><td>¥2-4万</td><td>22:00后日均800-1,500元 × 25天</td></tr><tr><td><strong>月营收目标</strong></td><td><strong>¥20-28万</strong></td><td>⚠️ 假设值，取决于开业引爆效果和商圈实际客流</td></tr></table><h3>📊 OKR量化目标</h3><h4>O1：开业30天打出口碑基本盘</h4><ul><li>KR1：大众点评评价数 ≥ <strong>50条</strong>，评分 ≥ <strong>4.5分</strong></li><li>KR2：抖音团购核销 ≥ <strong>150单</strong></li><li>KR3：小红书相关笔记 ≥ <strong>10篇</strong>（含达人+素人+自发UGC）</li></ul><h4>O2：首月私域沉淀有效会员</h4><ul><li>KR1：注册会员 ≥ <strong>300人</strong></li><li>KR2：企业客群对接 ≥ <strong>20家</strong>，转化团建消费 ≥ <strong>5单</strong></li><li>KR3：会员二次到店率 ≥ <strong>25%</strong></li></ul><h4>O3：第2-3个月进入稳定盈利</h4><ul><li>KR1：月营收稳定在 <strong>¥20万+</strong></li><li>KR2：食材成本率控制在 <strong>38%以内</strong>（韩烤食材成本率参考35-45%，控低端）</li><li>KR3：大众点评进入滨江区烤肉类<strong>热门榜前10</strong></li></ul><h3>⚠️ 30天复盘节点</h3><p>开业第30天必须做一次全面复盘：① 日均流水是否达到6,000+？② 会员注册是否达300人？③ 点评评价是否达50条？④ 企业BD对接了多少家、转化了几单？<strong>哪项没达标就集中资源补哪项，不要撒胡椒面</strong>。</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
