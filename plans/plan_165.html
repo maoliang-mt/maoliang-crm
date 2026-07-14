@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>傲饮酒吧 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">酒吧/小酒馆 · 运营提升方案</div>
+  <h1 class="hero-title">傲饮酒吧</h1>
+  <p class="hero-subtitle">翻身社区的夜间社交主场，用复购锁住每一杯回头酒</p>
+  <div class="hero-address">广东省深圳市宝安区翻身</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥80</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">宝安区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察与客群画像', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察与客群画像</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解与差异化定位', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解与差异化定位</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '系统赋能·已签产品用法指南', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">系统赋能·已签产品用法指南</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评口碑·从零搭建线上存在感', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评口碑·从零搭建线上存在感</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '公域获客·抖音+小红书+点评三端引爆', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">公域获客·抖音+小红书+点评三端引爆</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '私域留客·会员体系+周中主题夜', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">私域留客·会员体系+周中主题夜</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '餐+酒融合·降低进店门槛拉新客', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">餐+酒融合·降低进店门槛拉新客</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '投资回报与量化OKR', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">投资回报与量化OKR</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>深圳酒吧赛道大盘</h3><p>2025年深圳酒吧赛道呈现明显分化：<strong>精酿/小酒馆</strong>赛道（海伦司、跳海、猫员外）持续在社区商圈下沉，人均60-90元的「轻社交」小酒馆大量抢占传统酒吧客源；<strong>人均150+的Lounge/清吧</strong>则靠氛围感和调酒师IP守住中高端盘。增长点在「餐+酒」融合和周中女性/情侣场景；风险在于社区型酒吧复购依赖度极高，<strong>一旦新鲜感过去，3-6个月是生死线</strong>。</p><h3>翻身商圈消费力诊断</h3><p>宝安翻身属于<strong>地铁口老城区社区商圈</strong>，消费力中等偏下，周边以刚需餐饮和平价娱乐为主。主流可接受人均在<strong>50-100元</strong>，超过120元客群流失明显。翻身非核心夜经济商圈（不是后海、华强北），总客流池有限，但低门槛小酒馆密度在增加，价格战压力明显。</p><h3>目标客群画像</h3><ul><li><strong>主力客群（60%）：</strong>翻身片区25-35岁下班族/租房族——工作日疲惫后需要一杯酒解压，消费力中等，对价格敏感但愿意为氛围付费</li><li><strong>次要客群（25%）：</strong>周末小聚情侣/闺蜜——3-5人聚会场景，更看重拍照感和社交氛围</li><li><strong>潜力客群（15%）：</strong>周边工厂/产业园团建——10人以上拼桌消费，客单价低但量大</li></ul><h3>消费场景分析</h3><table><tr><th>场景</th><th>时段</th><th>人数</th><th>消费特征</th></tr><tr><td>下班独酌/二人小酌</td><td>周一至四 20:00-23:00</td><td>1-2人</td><td>点1-2杯酒+1份小食，人均50-70元</td></tr><tr><td>闺蜜/兄弟聚会</td><td>周五六 21:00-01:00</td><td>3-6人</td><td>拼整瓶/套餐，人均80-120元</td></tr><tr><td>生日/纪念日</td><td>不定期</td><td>5-10人</td><td>开瓶+蛋糕+布置，人均100-150元</td></tr><tr><td>团建拼桌</td><td>周五六</td><td>10+人</td><td>啤酒畅饮套餐，人均60-80元</td></tr></table><p><strong>⚠️ 假设：</strong>门店人均按翻身商圈社区酒吧定位估算为<strong>80元</strong>（综合啤酒/鸡尾酒/小食消费），月流水按小型社区酒吧参考估算约<strong>8-12万元</strong>（建议核实）。</p></div>
+<div id="modal-content-2" style="display:none"><h3>翻身1.5公里核心竞争格局</h3><table><tr><th>竞品</th><th>人均</th><th>模式</th><th>核心弱点</th><th>傲饮切入机会</th></tr><tr><td>海伦司</td><td>55-70元</td><td>连锁平价酒馆，啤酒9.9元打底</td><td>环境嘈杂、无调酒特色、千店一面无个性</td><td>做有性格的社区酒吧——调酒师现调+主题夜活动，用体验感打价格战</td></tr><tr><td>胡桃里/Perry's等音乐餐吧</td><td>100-130元</td><td>驻唱Live+中西餐</td><td>模式老化、翻台低、人均偏高劝退社区客</td><td>做轻量版有音乐的酒吧——不养驻唱乐队（成本高），用精选歌单+偶尔开放麦替代</td></tr><tr><td>各类独立清吧/威士忌吧</td><td>80-150元</td><td>靠老板个人IP和私域</td><td>品质参差、营销意识弱、数字化几乎为零</td><td>傲饮已签SaaS（POS+扫码+会员），数字化先发优势明显</td></tr></table><h3>傲饮差异化定位建议</h3><p>翻身商圈的客群需要的不是高级，而是<strong>下班后走几步就到、价格舒服、有点意思</strong>。傲饮的差异化核心：</p><ul><li><strong>价格带卡位：</strong>人均75-90元——高于海伦司的千篇一律，低于胡桃里的消费门槛，做品质可感知但不肉疼的中间档</li><li><strong>社区粘性：</strong>不和南山后海抢网红打卡客群，专做翻身片区的客厅酒吧——老板记得常客名字、有固定座位、进门就有归属感</li><li><strong>数字化领先：</strong>已签收银POS+扫码点餐+会员高级版，在同商圈独立酒吧里属于少数派——<strong>用会员体系把来过一次的人变成每周都来的人</strong></li></ul><p><strong>⚠️ 假设：</strong>以上竞品为翻身商圈典型业态参照（基于市场调研简报），实际周边竞品名称建议BD实地确认后更新。</p></div>
+<div id="modal-content-3" style="display:none"><h3>已签产品现状诊断</h3><p>傲饮已签约<strong>收银POS + 扫码点餐 + 会员高级版</strong>，这套组合对酒吧场景非常关键，但关键在于<strong>用法对不对</strong>。下面逐一说清怎么用才对：</p><h3>一、扫码点餐 → 酒吧场景专属优化</h3><p><strong>痛点：</strong>酒吧不像餐厅——客人不是坐下就点餐、吃完就走。客人<strong>分批续杯</strong>（先来2杯啤酒，聊着聊着再加鸡尾酒和小食），传统扫码点完一次模式不够用。</p><p><strong>怎么做：</strong></p><ul><li><strong>谁来做：</strong>老板/店长配置，服务员执行引导</li><li><strong>第1天操作：</strong>进入收银后台→扫码点餐设置→开启「持续加单模式」（客人扫码后可随时加单，不用重新开桌）</li><li><strong>第1天操作：</strong>进入菜单管理→按场景分类——「来一杯」「调酒师推荐」「下酒菜」「生日派对」，让客人3秒找到想喝的</li><li><strong>服务员话术：</strong>上第一轮酒时说——扫桌上这个码随时加单，不用叫我，新品鸡尾酒在调酒师推荐里</li><li><strong>客人不愿扫码：</strong>没关系，您说喝什么我帮您下，不过扫码下单首杯减3元哦（用小优惠推动习惯养成）</li></ul><h3>二、会员高级版 → 建「翻身常客俱乐部」</h3><p><strong>痛点：</strong>社区酒吧3-6个月是生死线，核心原因是<strong>新鲜感消退后没有复购抓手</strong>。</p><ul><li><strong>谁来做：</strong>老板设计规则，店长/收银员执行</li><li><strong>第2-3天操作：</strong>进入会员后台→创建会员等级——<strong>「新朋友」（注册即得）→「老朋友」（消费满500元或来店5次）→「铁杆」（消费满2000元或来店20次）</strong></li><li><strong>等级权益：</strong><br>新朋友：注册送首杯半价券（成本约10-15元，拉首次转化）<br>老朋友：每月1张指定鸡尾酒免费券+生日当天免费蛋糕<br>铁杆：专属座位预留权+新品优先试喝+季度会员专属活动邀请</li><li><strong>话术（买单时）：</strong>加个会员吧，首杯直接半价，以后每月还送你一杯酒，翻身这边的老客都办了</li><li><strong>客人说不需要：</strong>没事没事，扫一下就行不用填资料，下次来直接报手机号就有优惠</li></ul><h3>三、收银POS → 经营数据驾驶舱</h3><p><strong>Why：</strong>酒吧最怕感觉生意还行但不知道钱花在哪了。POS每天自动生成<strong>日营业报表</strong>。</p><p><strong>怎么做：</strong>进入收银后台→报表中心→设置每日自动推送到老板微信。老板每天打烊后花5分钟看报表，<strong>关注3个数字：当日营收、人均消费、TOP3畅销单品</strong>——发现啤酒占比超60%说明鸡尾酒推荐话术要加强，发现周三营收跌破2000说明周中活动该上了。</p></div>
+<div id="modal-content-4" style="display:none"><h3>当前诊断</h3><p>傲饮目前大众点评评分和评价数均<strong>未知</strong>（⚠️ 假设为新店或刚上线状态，评价数不足30条，尚未出星或刚出星）。在翻身商圈，<strong>年轻客群选酒吧前超70%会先刷大众点评/小红书</strong>，没有线上存在感等于放弃了最大的自然流量入口。</p><h3>阶段判断：冷启动期（目标：0→出星→4.0+）</h3><p>目标：<strong>30天内积累50条真实评价，评分稳定在4.0分以上，完成出星</strong>。</p><h3>第一步：止血——停掉无效操作（第1天）</h3><p><strong>谁来做：</strong>老板本人</p><ul><li>停掉一切好评返现、评价送酒操作——2025年10月后，大众点评对高强度促评门店<strong>新评价不计入星级</strong>，促评越多反而越伤</li><li>不找人刷评价、不买评价——平台算法识别率极高，发现直接降权</li><li>唯一合规路径：<strong>让客人自愿想分享</strong>，靠体验驱动而非利益驱动</li></ul><h3>第二步：合规工具——上「免费试」（第2-3天）</h3><p><strong>谁来做：</strong>老板在大众点评商家后台操作，店长执行接待</p><ul><li>进入大众点评商家APP→营销中心→「免费试」→设置体验产品（推荐：招牌鸡尾酒1杯+下酒小食拼盘，成本约20-25元/份）</li><li>设置每周5个名额（月成本约400-500元），吸引点评活跃用户到店体验并自发写评价</li><li>「免费试」是大众点评官方合规工具，产生的评价<strong>正常计入星级</strong>，且自带免费试标签增加可信度</li><li><strong>接待话术（店长对免费试客人）：</strong>欢迎！今天您是我们的体验官，这杯是调酒师的拿手作品，喝完有任何感受随便写，好坏都行~</li></ul><h3>第三步：打造值得拍的分享触点（第3-7天）</h3><p><strong>谁来做：</strong>老板策划，全员执行</p><ul><li>酒吧天然有拍照优势——<strong>设计2-3个必拍点</strong>：吧台调酒过程、霓虹灯/灯光墙、特色杯具摆盘</li><li>每杯鸡尾酒上桌时<strong>附一张小卡片</strong>（成本0.3元/张），正面写酒名和故事，背面印拍照发点评/小红书，下次来报暗号傲饮老友送小食一份</li><li><strong>不是返现，不是强制——是给客人一个分享的理由和一个回来的钩子</strong></li></ul><h3>第四步：差评预防与应对（持续执行）</h3><p><strong>谁来做：</strong>老板/店长每天查看</p><ul><li>进入大众点评商家APP→评价管理→开启新评价提醒</li><li>差评<strong>2小时内回复</strong>，模板：很抱歉这次体验没达到您的预期，我是店长XX，方便的话加我微信，下次来亲自给您调一杯，一定让您满意</li><li><strong>关键：差评回复不是辩解，是展示态度——其他客人看的是你的回复质量</strong></li></ul><p><strong>30天OKR：</strong>评价数≥50条 | 评分≥4.0 | 差评回复率100% | 免费试核销率≥80%</p></div>
+<div id="modal-content-5" style="display:none"><h3>为什么酒吧必须做公域？</h3><p>翻身不是后海/华强北这种自带客流的夜经济商圈。傲饮的自然进店客流有限（⚠️ 假设日均自然进店20-30人），<strong>必须主动从线上把人拉进来</strong>。酒吧品类天然适合视觉内容营销——调酒过程、氛围灯光、社交场景都是出片素材。</p><h3>一、抖音本地生活：团购引流做冷启动</h3><p><strong>谁来做：</strong>老板/店长负责内容，或安排1名员工兼任内容岗</p><p><strong>第1周——上架引流团购：</strong></p><ul><li>进入抖音来客APP→团购管理→创建套餐：<strong>「翻身微醺双人套餐」69.9元</strong>（含2杯指定鸡尾酒+1份炸鸡/薯条拼盘，成本约30-35元，毛利50%）</li><li>定价逻辑：69.9元卡在两个人去酒吧花不到70块的心理甜蜜点，低于海伦司2人消费但体验明显升级</li><li>团购是引流款不是利润款——目的是让第一次来的人体验到这家店值得再来</li></ul><p><strong>第2-3周——3-5条探店短视频：</strong></p><ul><li>邀请<strong>深圳本地万粉级探店达人3-5位</strong>（非大V，单条费用300-800元可控，总预算约2000-3000元）</li><li>重点选题：<strong>翻身地铁口3分钟到的宝藏酒吧</strong>——打地理标签截流附近搜索流量</li><li>视频要素：调酒过程特写15秒→环境氛围扫拍5秒→试喝反应5秒→价格展示+团购链接5秒</li><li>发布时间：<strong>周四/周五 18:00-20:00</strong>（周末出行决策高峰）</li></ul><p><strong>达人效果差怎么办：</strong>先投1位测试ROI，核销率超30%再批量邀请；效果不好就转为老板自拍调酒师日常系列（零成本）</p><h3>二、小红书：打造翻身宝藏小酒馆标签</h3><p><strong>谁来做：</strong>老板或指定1名审美好的员工</p><ul><li><strong>每周发2-3条笔记</strong>，方向：新品鸡尾酒颜值图 / 翻身下班后的第一杯生活方式内容 / 客人聚会现场（征得同意）</li><li>标题公式：<strong>深圳宝安｜翻身地铁口XX的小酒馆</strong>——带地理关键词截流</li><li>小红书重颜值轻促销——<strong>不发打折促销类内容</strong>，只发氛围感+生活方式内容</li></ul><h3>三、大众点评：团购套餐+推广通</h3><ul><li>进入大众点评商家后台→团购→上架<strong>「双人微醺套餐」99元</strong>（2杯酒+2份小食，略高于抖音引流款，点评客群付费意愿更强）</li><li>出星后（评分4.0+、评价50条+）开启<strong>推广通</strong>，日预算50-100元，关键词锁定宝安酒吧、翻身酒吧、宝安清吧</li><li>预计推广通点击成本约2-3元/次，日预算100元约30-50次曝光，转化到店率约10%即3-5桌/天</li></ul><p><strong>公域获客30天OKR：</strong>抖音团购核销≥100单 | 小红书笔记≥12条 | 点评团购上架并开始核销 | 日均线上引流到店≥5桌</p></div>
+<div id="modal-content-6" style="display:none"><h3>社区酒吧的生死命题：复购</h3><p>公域把人拉进来了，但社区酒吧的核心逻辑是<strong>来过的人愿不愿意再来</strong>。翻身片区总客流池有限（⚠️ 假设周边1.5公里常住+租住人口约5-8万），不可能靠无限拉新——<strong>必须让来过的人变成常客</strong>。</p><h3>一、会员触达激活节奏</h3><p>前面第三章已设计好三级会员体系（新朋友→老朋友→铁杆），这里重点说<strong>怎么让会员活起来</strong>：</p><p><strong>每周会员触达节奏（店长负责执行）：</strong></p><ul><li><strong>周三下午16:00：</strong>进入会员后台→消息推送→发送本周活动预告（如本周四女士之夜，指定鸡尾酒买一送一）——周三推是因为周四五的消费决策在周三做</li><li><strong>周日12:00：</strong>推送本周消费排行榜趣味互动（恭喜XX成为本周饮酒冠军，下周到店送神秘小食一份）——让常客有荣誉感</li><li><strong>每月1日：</strong>老朋友/铁杆会员自动发放当月<strong>免费鸡尾酒券1张</strong>——成本约15元/人/月，但能保证常客至少每月来1次</li></ul><h3>二、周中主题夜：把上座率从30%拉到50%</h3><p>酒吧最大痛点是<strong>周中空场</strong>——周五六爆满、周一到四冷清。⚠️ 假设傲饮周中上座率不足30%（行业典型值），必须用主题夜拉频次。</p><table><tr><th>日期</th><th>主题</th><th>具体玩法</th><th>目标客群</th><th>单晚成本</th></tr><tr><td>周二</td><td>女士之夜</td><td>女性客人指定鸡尾酒买一送一（限3款高颜值低成本酒，成本约8元/杯）</td><td>女性（带动男性陪同）</td><td>约120元</td></tr><tr><td>周四</td><td>打工人发薪夜</td><td>消费满100元抽免单（每晚1个名额，成本约100元）</td><td>下班族</td><td>约100元</td></tr></table><p><strong>落地执行细节：</strong></p><ul><li><strong>谁来做：</strong>老板定规则，店长每周执行</li><li><strong>每周一：</strong>店长在门店社群发布本周主题夜预告，配氛围图</li><li><strong>周二女士之夜：</strong>进入收银系统→营销活动→创建女士之夜活动，设置3款买一送一鸡尾酒SKU→活动时间20:00-23:00→自动在扫码点餐页面显示活动标签</li><li><strong>周四抽免单：</strong>进入收银系统→满减活动→设置满100参与抽奖→每晚23:00前现场开奖（增加客人停留时间）</li><li><strong>冷启动前2周：</strong>主动告知每桌今天是女士之夜哦，这三款买一送一；可额外赠送小食拼盘（成本5元）暖场</li></ul><h3>三、社群运营：建「翻身夜猫群」</h3><p><strong>谁来做：</strong>老板/店长建群维护</p><ul><li>目标：<strong>3个月内建起300-500人的翻身片区社群</strong></li><li>入群方式：生成翻身夜猫群入群二维码→贴在吧台+每桌台卡→扫码入群送1张第二杯半价券</li><li>群运营节奏：周三活动预告 / 周五氛围预热 / 偶尔发今晚空位告急制造紧迫感</li><li>群内严禁硬广刷屏——保持朋友圈氛围，偶尔发调酒小知识、酒吧趣事、客人投稿</li></ul><p><strong>私域留客季度OKR：</strong>新增会员≥150人 | 会员月复购率≥35% | 周中主题夜平均上座率≥45% | 社群人数≥300人</p></div>
+<div id="modal-content-7" style="display:none"><h3>为什么酒吧要卖吃的？</h3><p>翻身是社区商圈，客群心理是<strong>今晚吃点什么顺便喝一杯</strong>，而不是今晚专门去喝酒。纯酒吧在社区商圈的获客难度远高于餐+酒模式。⚠️ 假设傲饮目前小食品类较少或占营收比不足20%（社区酒吧常见），需要用餐+酒前置引流策略降低进店心理门槛。</p><h3>一、增加3-5款高性价比小食（第1周落地）</h3><p><strong>谁来做：</strong>老板确定菜品，厨房/吧台执行出品</p><p><strong>选品原则：</strong>出餐快（3分钟内）、毛利高（60%+）、适合下酒、能拍照</p><table><tr><th>小食</th><th>建议定价</th><th>成本</th><th>毛利率</th><th>选品理由</th></tr><tr><td>秘制炸鸡翅（6只）</td><td>28元</td><td>10元</td><td>64%</td><td>万能下酒菜，年轻人最爱</td></tr><tr><td>蒜香烤串拼盘</td><td>25元</td><td>8元</td><td>68%</td><td>适合分享，带动多人点单</td></tr><tr><td>薯条+芝士酱</td><td>18元</td><td>5元</td><td>72%</td><td>低成本高感知，适合拍照</td></tr><tr><td>酸辣鸡爪</td><td>22元</td><td>7元</td><td>68%</td><td>女性最爱，配鸡尾酒绝搭</td></tr><tr><td>日式毛豆</td><td>15元</td><td>3元</td><td>80%</td><td>经典下酒，成本极低</td></tr></table><p><strong>操作步骤：</strong></p><ul><li><strong>第1-2天：</strong>确定3-5款小食+供应商/制作流程</li><li><strong>第3天：</strong>进入扫码点餐后台→菜单管理→创建「下酒菜」分类→上架新品→拍摄菜品图（手机+补光灯即可）</li><li><strong>第4天起：</strong>服务员每桌推荐——喝酒配点小食？我们炸鸡翅是招牌，28块6个</li></ul><h3>二、上架引流套餐（线上+线下同步）</h3><p><strong>核心引流款——「双人微醺套餐」：</strong></p><ul><li><strong>套餐内容：</strong>2杯指定鸡尾酒 + 2份小食（炸鸡翅+薯条） = <strong>标价99元</strong>（单点原价约140元，套餐感知省了40多元）</li><li><strong>成本：</strong>2杯酒约25元 + 2份小食约15元 = 40元，<strong>毛利率约60%</strong></li><li><strong>上架渠道：</strong>大众点评团购 + 抖音团购 + 扫码点餐首页推荐位</li></ul><p><strong>定价心理学：</strong>99元双人套餐的锚点效果——客人看到两个人花不到100块在酒吧喝两杯吃两份小食，对比海伦司2人消费约110-140元（海伦司酒便宜但加了小食总价不低），傲饮套餐反而更划算且体验升级。</p><p><strong>不愿点套餐的客人：</strong>没关系，单点也行，不过套餐比单点省了将近40块，两个人正好合适</p><h3>三、暑期限定——「深夜食堂」模式（7-8月专属）</h3><p>结合7月暑期旺季（Q3营销日历），推出深夜食堂延时营业：</p><ul><li>7-8月延长营业至凌晨1点，22:00后推出夜宵专属菜单（小龙虾+烧烤+啤酒套餐）</li><li>22:00后下单享8折（夜宵菜品毛利高，8折实际利润影响小）</li><li>进入扫码点餐后台→设置<strong>22:00自动切换夜宵菜单</strong></li><li>预估夜宵时段增收：每晚多留/多来5桌×人均60元=<strong>300元/晚，月增收约9000元</strong></li></ul></div>
+<div id="modal-content-8" style="display:none"><h3>当前经营基线（⚠️ 假设值，建议核实）</h3><table><tr><th>指标</th><th>估算值</th><th>数据来源</th></tr><tr><td>月流水</td><td>10万元</td><td>翻身社区酒吧行业参考值，建议核实</td></tr><tr><td>人均消费</td><td>80元</td><td>按啤酒/鸡尾酒/小食综合估算</td></tr><tr><td>日均桌数</td><td>约12-15桌</td><td>日均营收3300元÷桌均消费220元推算</td></tr><tr><td>周中上座率</td><td>约30%</td><td>酒吧行业典型值</td></tr><tr><td>周末上座率</td><td>约80%</td><td>酒吧行业典型值</td></tr></table><h3>方案投入预算</h3><table><tr><th>投入项</th><th>月成本</th><th>说明</th></tr><tr><td>免费试（大众点评）</td><td>400-500元</td><td>每周5个名额×成本20-25元</td></tr><tr><td>抖音探店达人</td><td>2000-3000元（一次性）</td><td>3-5位万粉达人，首月集中投入</td></tr><tr><td>女士之夜成本</td><td>约500元</td><td>每周二约120元×4周</td></tr><tr><td>打工人发薪夜免单</td><td>约400元</td><td>每周四约100元×4周</td></tr><tr><td>会员首杯半价券</td><td>约750元</td><td>月新增50会员×15元/杯</td></tr><tr><td>老会员月度免费券</td><td>约450元</td><td>存量30老朋友×15元</td></tr><tr><td>小卡片/台卡物料</td><td>约100元</td><td>一次性印刷</td></tr><tr><td>推广通（出星后）</td><td>1500-3000元</td><td>日预算50-100元</td></tr><tr><td><strong>月度总投入</strong></td><td><strong>约4500-6000元</strong></td><td>首月含达人费用约6500-9000元</td></tr></table><h3>预期增收测算</h3><table><tr><th>增收来源</th><th>月增收</th><th>计算逻辑</th></tr><tr><td>抖音/点评团购引流</td><td>+15000元</td><td>日均引流5桌×桌均消费100元×30天÷2（非每日均匀）</td></tr><tr><td>周中主题夜拉升</td><td>+12000元</td><td>周中上座率30%→45%，每晚多3桌×桌均200元×4天×4周</td></tr><tr><td>餐+酒小食增量</td><td>+6000元</td><td>日均多卖20份小食×均价20元×30天（按营收计）</td></tr><tr><td>会员复购拉动</td><td>+8000元</td><td>会员月均多来1次×桌均200元×40桌（3个月后累计）</td></tr><tr><td><strong>月度总增收</strong></td><td><strong>+3.5-4万元</strong></td><td>保守估计</td></tr></table><h3>投资回报</h3><ul><li><strong>月度净增利润：</strong>增收3.5万×酒吧综合毛利65%-月投入0.5万 = 约<strong>1.8万元</strong></li><li><strong>投入产出比：</strong>月投入0.5万→月增收3.5万，<strong>ROI约7:1</strong></li><li><strong>首月含达人一次性费用约0.9万</strong>，首月增收约2万（达人引流效果延后），首月即可回本</li></ul><h3>90天量化OKR目标</h3><table><tr><th>指标</th><th>当前（估）</th><th>30天目标</th><th>60天目标</th><th>90天目标</th></tr><tr><td>月营收</td><td>10万元</td><td>12万元</td><td>13.5万元</td><td>15万元</td></tr><tr><td>大众点评评分</td><td>未出星</td><td>出星4.0+</td><td>4.2+</td><td>4.5</td></tr><tr><td>评价数</td><td>不足30条</td><td>50条+</td><td>100条+</td><td>150条+</td></tr><tr><td>会员数</td><td>0</td><td>50人</td><td>120人</td><td>200人</td></tr><tr><td>周中上座率</td><td>约30%</td><td>40%</td><td>45%</td><td>50%</td></tr><tr><td>线上引流到店</td><td>0</td><td>日均3桌</td><td>日均5桌</td><td>日均7桌</td></tr></table><h3>30天关键节点检查</h3><ul><li><strong>第7天：</strong>扫码点餐菜单优化完成+会员体系上线+免费试开启+小食上架</li><li><strong>第14天：</strong>首批探店视频发布+抖音团购核销≥20单+社群≥50人</li><li><strong>第21天：</strong>点评评价≥30条+周中主题夜运行2周+会员≥30人</li><li><strong>第30天：</strong>全面复盘——对照OKR逐项检查，调整下月策略</li></ul></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>邱振伟</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>深圳酒吧赛道大盘</h3><p>2025年深圳酒吧赛道呈现明显分化：<strong>精酿/小酒馆</strong>赛道（海伦司、跳海、猫员外）持续在社区商圈下沉，人均60-90元的「轻社交」小酒馆大量抢占传统酒吧客源；<strong>人均150+的Lounge/清吧</strong>则靠氛围感和调酒师IP守住中高端盘。增长点在「餐+酒」融合和周中女性/情侣场景；风险在于社区型酒吧复购依赖度极高，<strong>一旦新鲜感过去，3-6个月是生死线</strong>。</p><h3>翻身商圈消费力诊断</h3><p>宝安翻身属于<strong>地铁口老城区社区商圈</strong>，消费力中等偏下，周边以刚需餐饮和平价娱乐为主。主流可接受人均在<strong>50-100元</strong>，超过120元客群流失明显。翻身非核心夜经济商圈（不是后海、华强北），总客流池有限，但低门槛小酒馆密度在增加，价格战压力明显。</p><h3>目标客群画像</h3><ul><li><strong>主力客群（60%）：</strong>翻身片区25-35岁下班族/租房族——工作日疲惫后需要一杯酒解压，消费力中等，对价格敏感但愿意为氛围付费</li><li><strong>次要客群（25%）：</strong>周末小聚情侣/闺蜜——3-5人聚会场景，更看重拍照感和社交氛围</li><li><strong>潜力客群（15%）：</strong>周边工厂/产业园团建——10人以上拼桌消费，客单价低但量大</li></ul><h3>消费场景分析</h3><table><tr><th>场景</th><th>时段</th><th>人数</th><th>消费特征</th></tr><tr><td>下班独酌/二人小酌</td><td>周一至四 20:00-23:00</td><td>1-2人</td><td>点1-2杯酒+1份小食，人均50-70元</td></tr><tr><td>闺蜜/兄弟聚会</td><td>周五六 21:00-01:00</td><td>3-6人</td><td>拼整瓶/套餐，人均80-120元</td></tr><tr><td>生日/纪念日</td><td>不定期</td><td>5-10人</td><td>开瓶+蛋糕+布置，人均100-150元</td></tr><tr><td>团建拼桌</td><td>周五六</td><td>10+人</td><td>啤酒畅饮套餐，人均60-80元</td></tr></table><p><strong>⚠️ 假设：</strong>门店人均按翻身商圈社区酒吧定位估算为<strong>80元</strong>（综合啤酒/鸡尾酒/小食消费），月流水按小型社区酒吧参考估算约<strong>8-12万元</strong>（建议核实）。</p>`,
+    2: `<h3>翻身1.5公里核心竞争格局</h3><table><tr><th>竞品</th><th>人均</th><th>模式</th><th>核心弱点</th><th>傲饮切入机会</th></tr><tr><td>海伦司</td><td>55-70元</td><td>连锁平价酒馆，啤酒9.9元打底</td><td>环境嘈杂、无调酒特色、千店一面无个性</td><td>做有性格的社区酒吧——调酒师现调+主题夜活动，用体验感打价格战</td></tr><tr><td>胡桃里/Perry's等音乐餐吧</td><td>100-130元</td><td>驻唱Live+中西餐</td><td>模式老化、翻台低、人均偏高劝退社区客</td><td>做轻量版有音乐的酒吧——不养驻唱乐队（成本高），用精选歌单+偶尔开放麦替代</td></tr><tr><td>各类独立清吧/威士忌吧</td><td>80-150元</td><td>靠老板个人IP和私域</td><td>品质参差、营销意识弱、数字化几乎为零</td><td>傲饮已签SaaS（POS+扫码+会员），数字化先发优势明显</td></tr></table><h3>傲饮差异化定位建议</h3><p>翻身商圈的客群需要的不是高级，而是<strong>下班后走几步就到、价格舒服、有点意思</strong>。傲饮的差异化核心：</p><ul><li><strong>价格带卡位：</strong>人均75-90元——高于海伦司的千篇一律，低于胡桃里的消费门槛，做品质可感知但不肉疼的中间档</li><li><strong>社区粘性：</strong>不和南山后海抢网红打卡客群，专做翻身片区的客厅酒吧——老板记得常客名字、有固定座位、进门就有归属感</li><li><strong>数字化领先：</strong>已签收银POS+扫码点餐+会员高级版，在同商圈独立酒吧里属于少数派——<strong>用会员体系把来过一次的人变成每周都来的人</strong></li></ul><p><strong>⚠️ 假设：</strong>以上竞品为翻身商圈典型业态参照（基于市场调研简报），实际周边竞品名称建议BD实地确认后更新。</p>`,
+    3: `<h3>已签产品现状诊断</h3><p>傲饮已签约<strong>收银POS + 扫码点餐 + 会员高级版</strong>，这套组合对酒吧场景非常关键，但关键在于<strong>用法对不对</strong>。下面逐一说清怎么用才对：</p><h3>一、扫码点餐 → 酒吧场景专属优化</h3><p><strong>痛点：</strong>酒吧不像餐厅——客人不是坐下就点餐、吃完就走。客人<strong>分批续杯</strong>（先来2杯啤酒，聊着聊着再加鸡尾酒和小食），传统扫码点完一次模式不够用。</p><p><strong>怎么做：</strong></p><ul><li><strong>谁来做：</strong>老板/店长配置，服务员执行引导</li><li><strong>第1天操作：</strong>进入收银后台→扫码点餐设置→开启「持续加单模式」（客人扫码后可随时加单，不用重新开桌）</li><li><strong>第1天操作：</strong>进入菜单管理→按场景分类——「来一杯」「调酒师推荐」「下酒菜」「生日派对」，让客人3秒找到想喝的</li><li><strong>服务员话术：</strong>上第一轮酒时说——扫桌上这个码随时加单，不用叫我，新品鸡尾酒在调酒师推荐里</li><li><strong>客人不愿扫码：</strong>没关系，您说喝什么我帮您下，不过扫码下单首杯减3元哦（用小优惠推动习惯养成）</li></ul><h3>二、会员高级版 → 建「翻身常客俱乐部」</h3><p><strong>痛点：</strong>社区酒吧3-6个月是生死线，核心原因是<strong>新鲜感消退后没有复购抓手</strong>。</p><ul><li><strong>谁来做：</strong>老板设计规则，店长/收银员执行</li><li><strong>第2-3天操作：</strong>进入会员后台→创建会员等级——<strong>「新朋友」（注册即得）→「老朋友」（消费满500元或来店5次）→「铁杆」（消费满2000元或来店20次）</strong></li><li><strong>等级权益：</strong><br>新朋友：注册送首杯半价券（成本约10-15元，拉首次转化）<br>老朋友：每月1张指定鸡尾酒免费券+生日当天免费蛋糕<br>铁杆：专属座位预留权+新品优先试喝+季度会员专属活动邀请</li><li><strong>话术（买单时）：</strong>加个会员吧，首杯直接半价，以后每月还送你一杯酒，翻身这边的老客都办了</li><li><strong>客人说不需要：</strong>没事没事，扫一下就行不用填资料，下次来直接报手机号就有优惠</li></ul><h3>三、收银POS → 经营数据驾驶舱</h3><p><strong>Why：</strong>酒吧最怕感觉生意还行但不知道钱花在哪了。POS每天自动生成<strong>日营业报表</strong>。</p><p><strong>怎么做：</strong>进入收银后台→报表中心→设置每日自动推送到老板微信。老板每天打烊后花5分钟看报表，<strong>关注3个数字：当日营收、人均消费、TOP3畅销单品</strong>——发现啤酒占比超60%说明鸡尾酒推荐话术要加强，发现周三营收跌破2000说明周中活动该上了。</p>`,
+    4: `<h3>当前诊断</h3><p>傲饮目前大众点评评分和评价数均<strong>未知</strong>（⚠️ 假设为新店或刚上线状态，评价数不足30条，尚未出星或刚出星）。在翻身商圈，<strong>年轻客群选酒吧前超70%会先刷大众点评/小红书</strong>，没有线上存在感等于放弃了最大的自然流量入口。</p><h3>阶段判断：冷启动期（目标：0→出星→4.0+）</h3><p>目标：<strong>30天内积累50条真实评价，评分稳定在4.0分以上，完成出星</strong>。</p><h3>第一步：止血——停掉无效操作（第1天）</h3><p><strong>谁来做：</strong>老板本人</p><ul><li>停掉一切好评返现、评价送酒操作——2025年10月后，大众点评对高强度促评门店<strong>新评价不计入星级</strong>，促评越多反而越伤</li><li>不找人刷评价、不买评价——平台算法识别率极高，发现直接降权</li><li>唯一合规路径：<strong>让客人自愿想分享</strong>，靠体验驱动而非利益驱动</li></ul><h3>第二步：合规工具——上「免费试」（第2-3天）</h3><p><strong>谁来做：</strong>老板在大众点评商家后台操作，店长执行接待</p><ul><li>进入大众点评商家APP→营销中心→「免费试」→设置体验产品（推荐：招牌鸡尾酒1杯+下酒小食拼盘，成本约20-25元/份）</li><li>设置每周5个名额（月成本约400-500元），吸引点评活跃用户到店体验并自发写评价</li><li>「免费试」是大众点评官方合规工具，产生的评价<strong>正常计入星级</strong>，且自带免费试标签增加可信度</li><li><strong>接待话术（店长对免费试客人）：</strong>欢迎！今天您是我们的体验官，这杯是调酒师的拿手作品，喝完有任何感受随便写，好坏都行~</li></ul><h3>第三步：打造值得拍的分享触点（第3-7天）</h3><p><strong>谁来做：</strong>老板策划，全员执行</p><ul><li>酒吧天然有拍照优势——<strong>设计2-3个必拍点</strong>：吧台调酒过程、霓虹灯/灯光墙、特色杯具摆盘</li><li>每杯鸡尾酒上桌时<strong>附一张小卡片</strong>（成本0.3元/张），正面写酒名和故事，背面印拍照发点评/小红书，下次来报暗号傲饮老友送小食一份</li><li><strong>不是返现，不是强制——是给客人一个分享的理由和一个回来的钩子</strong></li></ul><h3>第四步：差评预防与应对（持续执行）</h3><p><strong>谁来做：</strong>老板/店长每天查看</p><ul><li>进入大众点评商家APP→评价管理→开启新评价提醒</li><li>差评<strong>2小时内回复</strong>，模板：很抱歉这次体验没达到您的预期，我是店长XX，方便的话加我微信，下次来亲自给您调一杯，一定让您满意</li><li><strong>关键：差评回复不是辩解，是展示态度——其他客人看的是你的回复质量</strong></li></ul><p><strong>30天OKR：</strong>评价数≥50条 | 评分≥4.0 | 差评回复率100% | 免费试核销率≥80%</p>`,
+    5: `<h3>为什么酒吧必须做公域？</h3><p>翻身不是后海/华强北这种自带客流的夜经济商圈。傲饮的自然进店客流有限（⚠️ 假设日均自然进店20-30人），<strong>必须主动从线上把人拉进来</strong>。酒吧品类天然适合视觉内容营销——调酒过程、氛围灯光、社交场景都是出片素材。</p><h3>一、抖音本地生活：团购引流做冷启动</h3><p><strong>谁来做：</strong>老板/店长负责内容，或安排1名员工兼任内容岗</p><p><strong>第1周——上架引流团购：</strong></p><ul><li>进入抖音来客APP→团购管理→创建套餐：<strong>「翻身微醺双人套餐」69.9元</strong>（含2杯指定鸡尾酒+1份炸鸡/薯条拼盘，成本约30-35元，毛利50%）</li><li>定价逻辑：69.9元卡在两个人去酒吧花不到70块的心理甜蜜点，低于海伦司2人消费但体验明显升级</li><li>团购是引流款不是利润款——目的是让第一次来的人体验到这家店值得再来</li></ul><p><strong>第2-3周——3-5条探店短视频：</strong></p><ul><li>邀请<strong>深圳本地万粉级探店达人3-5位</strong>（非大V，单条费用300-800元可控，总预算约2000-3000元）</li><li>重点选题：<strong>翻身地铁口3分钟到的宝藏酒吧</strong>——打地理标签截流附近搜索流量</li><li>视频要素：调酒过程特写15秒→环境氛围扫拍5秒→试喝反应5秒→价格展示+团购链接5秒</li><li>发布时间：<strong>周四/周五 18:00-20:00</strong>（周末出行决策高峰）</li></ul><p><strong>达人效果差怎么办：</strong>先投1位测试ROI，核销率超30%再批量邀请；效果不好就转为老板自拍调酒师日常系列（零成本）</p><h3>二、小红书：打造翻身宝藏小酒馆标签</h3><p><strong>谁来做：</strong>老板或指定1名审美好的员工</p><ul><li><strong>每周发2-3条笔记</strong>，方向：新品鸡尾酒颜值图 / 翻身下班后的第一杯生活方式内容 / 客人聚会现场（征得同意）</li><li>标题公式：<strong>深圳宝安｜翻身地铁口XX的小酒馆</strong>——带地理关键词截流</li><li>小红书重颜值轻促销——<strong>不发打折促销类内容</strong>，只发氛围感+生活方式内容</li></ul><h3>三、大众点评：团购套餐+推广通</h3><ul><li>进入大众点评商家后台→团购→上架<strong>「双人微醺套餐」99元</strong>（2杯酒+2份小食，略高于抖音引流款，点评客群付费意愿更强）</li><li>出星后（评分4.0+、评价50条+）开启<strong>推广通</strong>，日预算50-100元，关键词锁定宝安酒吧、翻身酒吧、宝安清吧</li><li>预计推广通点击成本约2-3元/次，日预算100元约30-50次曝光，转化到店率约10%即3-5桌/天</li></ul><p><strong>公域获客30天OKR：</strong>抖音团购核销≥100单 | 小红书笔记≥12条 | 点评团购上架并开始核销 | 日均线上引流到店≥5桌</p>`,
+    6: `<h3>社区酒吧的生死命题：复购</h3><p>公域把人拉进来了，但社区酒吧的核心逻辑是<strong>来过的人愿不愿意再来</strong>。翻身片区总客流池有限（⚠️ 假设周边1.5公里常住+租住人口约5-8万），不可能靠无限拉新——<strong>必须让来过的人变成常客</strong>。</p><h3>一、会员触达激活节奏</h3><p>前面第三章已设计好三级会员体系（新朋友→老朋友→铁杆），这里重点说<strong>怎么让会员活起来</strong>：</p><p><strong>每周会员触达节奏（店长负责执行）：</strong></p><ul><li><strong>周三下午16:00：</strong>进入会员后台→消息推送→发送本周活动预告（如本周四女士之夜，指定鸡尾酒买一送一）——周三推是因为周四五的消费决策在周三做</li><li><strong>周日12:00：</strong>推送本周消费排行榜趣味互动（恭喜XX成为本周饮酒冠军，下周到店送神秘小食一份）——让常客有荣誉感</li><li><strong>每月1日：</strong>老朋友/铁杆会员自动发放当月<strong>免费鸡尾酒券1张</strong>——成本约15元/人/月，但能保证常客至少每月来1次</li></ul><h3>二、周中主题夜：把上座率从30%拉到50%</h3><p>酒吧最大痛点是<strong>周中空场</strong>——周五六爆满、周一到四冷清。⚠️ 假设傲饮周中上座率不足30%（行业典型值），必须用主题夜拉频次。</p><table><tr><th>日期</th><th>主题</th><th>具体玩法</th><th>目标客群</th><th>单晚成本</th></tr><tr><td>周二</td><td>女士之夜</td><td>女性客人指定鸡尾酒买一送一（限3款高颜值低成本酒，成本约8元/杯）</td><td>女性（带动男性陪同）</td><td>约120元</td></tr><tr><td>周四</td><td>打工人发薪夜</td><td>消费满100元抽免单（每晚1个名额，成本约100元）</td><td>下班族</td><td>约100元</td></tr></table><p><strong>落地执行细节：</strong></p><ul><li><strong>谁来做：</strong>老板定规则，店长每周执行</li><li><strong>每周一：</strong>店长在门店社群发布本周主题夜预告，配氛围图</li><li><strong>周二女士之夜：</strong>进入收银系统→营销活动→创建女士之夜活动，设置3款买一送一鸡尾酒SKU→活动时间20:00-23:00→自动在扫码点餐页面显示活动标签</li><li><strong>周四抽免单：</strong>进入收银系统→满减活动→设置满100参与抽奖→每晚23:00前现场开奖（增加客人停留时间）</li><li><strong>冷启动前2周：</strong>主动告知每桌今天是女士之夜哦，这三款买一送一；可额外赠送小食拼盘（成本5元）暖场</li></ul><h3>三、社群运营：建「翻身夜猫群」</h3><p><strong>谁来做：</strong>老板/店长建群维护</p><ul><li>目标：<strong>3个月内建起300-500人的翻身片区社群</strong></li><li>入群方式：生成翻身夜猫群入群二维码→贴在吧台+每桌台卡→扫码入群送1张第二杯半价券</li><li>群运营节奏：周三活动预告 / 周五氛围预热 / 偶尔发今晚空位告急制造紧迫感</li><li>群内严禁硬广刷屏——保持朋友圈氛围，偶尔发调酒小知识、酒吧趣事、客人投稿</li></ul><p><strong>私域留客季度OKR：</strong>新增会员≥150人 | 会员月复购率≥35% | 周中主题夜平均上座率≥45% | 社群人数≥300人</p>`,
+    7: `<h3>为什么酒吧要卖吃的？</h3><p>翻身是社区商圈，客群心理是<strong>今晚吃点什么顺便喝一杯</strong>，而不是今晚专门去喝酒。纯酒吧在社区商圈的获客难度远高于餐+酒模式。⚠️ 假设傲饮目前小食品类较少或占营收比不足20%（社区酒吧常见），需要用餐+酒前置引流策略降低进店心理门槛。</p><h3>一、增加3-5款高性价比小食（第1周落地）</h3><p><strong>谁来做：</strong>老板确定菜品，厨房/吧台执行出品</p><p><strong>选品原则：</strong>出餐快（3分钟内）、毛利高（60%+）、适合下酒、能拍照</p><table><tr><th>小食</th><th>建议定价</th><th>成本</th><th>毛利率</th><th>选品理由</th></tr><tr><td>秘制炸鸡翅（6只）</td><td>28元</td><td>10元</td><td>64%</td><td>万能下酒菜，年轻人最爱</td></tr><tr><td>蒜香烤串拼盘</td><td>25元</td><td>8元</td><td>68%</td><td>适合分享，带动多人点单</td></tr><tr><td>薯条+芝士酱</td><td>18元</td><td>5元</td><td>72%</td><td>低成本高感知，适合拍照</td></tr><tr><td>酸辣鸡爪</td><td>22元</td><td>7元</td><td>68%</td><td>女性最爱，配鸡尾酒绝搭</td></tr><tr><td>日式毛豆</td><td>15元</td><td>3元</td><td>80%</td><td>经典下酒，成本极低</td></tr></table><p><strong>操作步骤：</strong></p><ul><li><strong>第1-2天：</strong>确定3-5款小食+供应商/制作流程</li><li><strong>第3天：</strong>进入扫码点餐后台→菜单管理→创建「下酒菜」分类→上架新品→拍摄菜品图（手机+补光灯即可）</li><li><strong>第4天起：</strong>服务员每桌推荐——喝酒配点小食？我们炸鸡翅是招牌，28块6个</li></ul><h3>二、上架引流套餐（线上+线下同步）</h3><p><strong>核心引流款——「双人微醺套餐」：</strong></p><ul><li><strong>套餐内容：</strong>2杯指定鸡尾酒 + 2份小食（炸鸡翅+薯条） = <strong>标价99元</strong>（单点原价约140元，套餐感知省了40多元）</li><li><strong>成本：</strong>2杯酒约25元 + 2份小食约15元 = 40元，<strong>毛利率约60%</strong></li><li><strong>上架渠道：</strong>大众点评团购 + 抖音团购 + 扫码点餐首页推荐位</li></ul><p><strong>定价心理学：</strong>99元双人套餐的锚点效果——客人看到两个人花不到100块在酒吧喝两杯吃两份小食，对比海伦司2人消费约110-140元（海伦司酒便宜但加了小食总价不低），傲饮套餐反而更划算且体验升级。</p><p><strong>不愿点套餐的客人：</strong>没关系，单点也行，不过套餐比单点省了将近40块，两个人正好合适</p><h3>三、暑期限定——「深夜食堂」模式（7-8月专属）</h3><p>结合7月暑期旺季（Q3营销日历），推出深夜食堂延时营业：</p><ul><li>7-8月延长营业至凌晨1点，22:00后推出夜宵专属菜单（小龙虾+烧烤+啤酒套餐）</li><li>22:00后下单享8折（夜宵菜品毛利高，8折实际利润影响小）</li><li>进入扫码点餐后台→设置<strong>22:00自动切换夜宵菜单</strong></li><li>预估夜宵时段增收：每晚多留/多来5桌×人均60元=<strong>300元/晚，月增收约9000元</strong></li></ul>`,
+    8: `<h3>当前经营基线（⚠️ 假设值，建议核实）</h3><table><tr><th>指标</th><th>估算值</th><th>数据来源</th></tr><tr><td>月流水</td><td>10万元</td><td>翻身社区酒吧行业参考值，建议核实</td></tr><tr><td>人均消费</td><td>80元</td><td>按啤酒/鸡尾酒/小食综合估算</td></tr><tr><td>日均桌数</td><td>约12-15桌</td><td>日均营收3300元÷桌均消费220元推算</td></tr><tr><td>周中上座率</td><td>约30%</td><td>酒吧行业典型值</td></tr><tr><td>周末上座率</td><td>约80%</td><td>酒吧行业典型值</td></tr></table><h3>方案投入预算</h3><table><tr><th>投入项</th><th>月成本</th><th>说明</th></tr><tr><td>免费试（大众点评）</td><td>400-500元</td><td>每周5个名额×成本20-25元</td></tr><tr><td>抖音探店达人</td><td>2000-3000元（一次性）</td><td>3-5位万粉达人，首月集中投入</td></tr><tr><td>女士之夜成本</td><td>约500元</td><td>每周二约120元×4周</td></tr><tr><td>打工人发薪夜免单</td><td>约400元</td><td>每周四约100元×4周</td></tr><tr><td>会员首杯半价券</td><td>约750元</td><td>月新增50会员×15元/杯</td></tr><tr><td>老会员月度免费券</td><td>约450元</td><td>存量30老朋友×15元</td></tr><tr><td>小卡片/台卡物料</td><td>约100元</td><td>一次性印刷</td></tr><tr><td>推广通（出星后）</td><td>1500-3000元</td><td>日预算50-100元</td></tr><tr><td><strong>月度总投入</strong></td><td><strong>约4500-6000元</strong></td><td>首月含达人费用约6500-9000元</td></tr></table><h3>预期增收测算</h3><table><tr><th>增收来源</th><th>月增收</th><th>计算逻辑</th></tr><tr><td>抖音/点评团购引流</td><td>+15000元</td><td>日均引流5桌×桌均消费100元×30天÷2（非每日均匀）</td></tr><tr><td>周中主题夜拉升</td><td>+12000元</td><td>周中上座率30%→45%，每晚多3桌×桌均200元×4天×4周</td></tr><tr><td>餐+酒小食增量</td><td>+6000元</td><td>日均多卖20份小食×均价20元×30天（按营收计）</td></tr><tr><td>会员复购拉动</td><td>+8000元</td><td>会员月均多来1次×桌均200元×40桌（3个月后累计）</td></tr><tr><td><strong>月度总增收</strong></td><td><strong>+3.5-4万元</strong></td><td>保守估计</td></tr></table><h3>投资回报</h3><ul><li><strong>月度净增利润：</strong>增收3.5万×酒吧综合毛利65%-月投入0.5万 = 约<strong>1.8万元</strong></li><li><strong>投入产出比：</strong>月投入0.5万→月增收3.5万，<strong>ROI约7:1</strong></li><li><strong>首月含达人一次性费用约0.9万</strong>，首月增收约2万（达人引流效果延后），首月即可回本</li></ul><h3>90天量化OKR目标</h3><table><tr><th>指标</th><th>当前（估）</th><th>30天目标</th><th>60天目标</th><th>90天目标</th></tr><tr><td>月营收</td><td>10万元</td><td>12万元</td><td>13.5万元</td><td>15万元</td></tr><tr><td>大众点评评分</td><td>未出星</td><td>出星4.0+</td><td>4.2+</td><td>4.5</td></tr><tr><td>评价数</td><td>不足30条</td><td>50条+</td><td>100条+</td><td>150条+</td></tr><tr><td>会员数</td><td>0</td><td>50人</td><td>120人</td><td>200人</td></tr><tr><td>周中上座率</td><td>约30%</td><td>40%</td><td>45%</td><td>50%</td></tr><tr><td>线上引流到店</td><td>0</td><td>日均3桌</td><td>日均5桌</td><td>日均7桌</td></tr></table><h3>30天关键节点检查</h3><ul><li><strong>第7天：</strong>扫码点餐菜单优化完成+会员体系上线+免费试开启+小食上架</li><li><strong>第14天：</strong>首批探店视频发布+抖音团购核销≥20单+社群≥50人</li><li><strong>第21天：</strong>点评评价≥30条+周中主题夜运行2周+会员≥30人</li><li><strong>第30天：</strong>全面复盘——对照OKR逐项检查，调整下月策略</li></ul>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
