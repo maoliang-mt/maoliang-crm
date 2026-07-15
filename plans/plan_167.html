@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>促肉粿条海鲜蒸面 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">面食/快餐（潮汕特色粉面） · 运营提升方案</div>
+  <h1 class="hero-title">促肉粿条海鲜蒸面</h1>
+  <p class="hero-subtitle">潮汕手工粿条×海鲜现蒸，做新安商圈的品类唯一</p>
+  <div class="hero-address">广东省深圳市宝安区新安商圈</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥30</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">宝安区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察·品类机遇', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察·品类机遇</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解·差异化定位', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解·差异化定位</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '开业冲刺·30天作战地图', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">开业冲刺·30天作战地图</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评口碑·新店破冰', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评口碑·新店破冰</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '会员体系·把新客变熟客', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">会员体系·把新客变熟客</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '公域获客·线上三板斧', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">公域获客·线上三板斧</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '系统落地·SaaS实战指南', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">系统落地·SaaS实战指南</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '投资回报·算清账', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">投资回报·算清账</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>深圳粉面快餐大盘</h3><p>2024年全国快餐小吃市场规模突破<strong>1万亿元</strong>，其中粉面汤类门店近<strong>100万家</strong>，同比增长25.3%，是增长最快的细分赛道之一。深圳作为一线城市，粉面快餐主流价格带集中在<strong>15-28元</strong>，海鲜类粉面因食材成本可拉到<strong>28-38元</strong>，属中高段位。</p><h3>宝安新安商圈画像</h3><p>新安商圈是成熟的居住+办公混合区域，海雅缤纷城、宝安中心区周边集聚大量写字楼与社区，<strong>午餐刚需极强</strong>，客群对人均18-35元接受度高。工作日午市11:30-13:30是黄金2小时，客群以25-40岁上班族为主，决策快、要求出餐快、价格敏感但愿为「鲜」买单。</p><h3>品类红利窗口</h3><p>潮汕粿条、海鲜蒸面在深圳有天然认知基础——深圳潮汕籍人口超300万，「鲜」「现做」是溢价逻辑成立的前提。关键发现：<strong>海鲜蒸面品类全国连锁化程度极低</strong>，新安商圈目前没有直接对标的「粿条+海鲜蒸面」组合店，存在<strong>品类稀缺性红利</strong>。这意味着你不是在红海里抢份额，而是在开辟新细分。</p><h3>核心风险提示</h3><ul><li><strong>食材损耗高</strong>：海鲜保鲜期短，日损耗率需控制在5%以内（⚠️ 假设值，建议核实供应链方案）</li><li><strong>出餐效率</strong>：海鲜蒸面出餐比普通面慢2-3分钟，午高峰翻台压力大——必须靠扫码预点单+备菜SOP压缩</li><li><strong>品类教育成本</strong>：非潮汕客群对「粿条」「蒸面」认知弱，需视觉+试吃双管齐下完成首次认知转化</li></ul></div>
+<div id="modal-content-2" style="display:none"><h3>新安商圈3公里竞争格局</h3><table><tr><th>竞品名称</th><th>人均</th><th>核心弱点</th><th>我们的切入机会</th></tr><tr><td><strong>山城李胖胖</strong></td><td>¥20-28</td><td>重庆小面品类，口味同质化，无海鲜差异化，装修偏老旧</td><td>用「海鲜鲜味」打「重油辣味」，错位竞争不正面对抗</td></tr><tr><td><strong>五谷渔粉</strong></td><td>¥22-28</td><td>标准化强但口味无记忆点，「渔粉」概念模糊</td><td>「现蒸」工艺和活海鲜明档是五谷渔粉的反面——看得见的鲜</td></tr><tr><td><strong>遇见小面</strong></td><td>¥25-32</td><td>品牌势能强但价格偏高，午餐性价比不足</td><td>同价位段多了「海鲜」价值感，30元海鲜蒸面比32元小面更有「赚到」感</td></tr><tr><td><strong>潮汕肠粉/粿汁店</strong></td><td>¥15-25</td><td>价格低但品类单一，无法承载正餐需求</td><td>「潮汕风味升级版」，粿条+海鲜蒸面可做正餐</td></tr><tr><td><strong>沙县/兰州/湖南粉面</strong></td><td>¥12-18</td><td>纯低价截流，无品质感</td><td>不比价格，用明档+海鲜品质感拉开档次</td></tr></table><h3>核心判断</h3><p>新安商圈粉面快餐密度大，但<strong>「粿条+海鲜蒸面」这一细分组合直接竞品为零</strong>。山城李胖胖是最近的竞品（同属粉面赛道），但品类完全不同——重庆辣味面vs潮汕鲜味蒸面。<strong>最大的竞争对手不是任何一家店，而是路人「不知道你是谁、不敢进来试」</strong>。开业期一切资源砸在「看到、尝到、记住」三件事上。</p><h3>定位一句话</h3><p><strong>「新安商圈唯一的潮汕手工粿条×海鲜现蒸专门店」</strong>——品类唯一性就是护城河，开业前30天把这句话钉进周边3公里消费者心里。</p></div>
+<div id="modal-content-3" style="display:none"><h3>新店最大的坎：首次进店转化</h3><p>品类稀缺性是最大的牌，但「首次进店转化」是最大的坎。潮汕粿条+海鲜蒸面对非潮汕客群有认知门槛，必须用<strong>视觉冲击+价格破冰+口碑背书</strong>三板斧打穿。</p><h3>开业前7天：蓄水期</h3><ul><li><strong>Day -7~-5 明档视觉锤搭建</strong>：门口设透明蒸柜/明档区，活虾、花甲、鱿鱼<strong>现点现蒸全过程可视</strong>。谁来做：老板亲自盯设备到位+试运行。为什么重要：路过的人3秒内决定进不进，「看得见的海鲜」比任何广告都有效。</li><li><strong>Day -5~-3 大众点评上架+团购预设</strong>：🔧 大众点评商家后台「门店管理→基础信息」完善所有字段（门头照≥3张、菜品照≥10张、营业时间、特色标签选「潮汕」「海鲜」「现做」）。同步上线<strong>9.9元新客尝鲜券</strong>（满30减9.9）。谁来做：老板或店长。</li><li><strong>Day -3~-1 内测试吃+员工培训</strong>：邀请15-20位朋友/写字楼白领试吃。<strong>不要求写评价</strong>（2025.10新规后高强度促评无星级收益），只请「如果觉得好吃，自愿分享朋友圈」。🔧 扫码点餐「美团收银App→扫码点餐→菜品管理」提前配好全部菜品+分类+图片+推荐标签。</li></ul><h3>开业第1-7天：爆破期</h3><ul><li><strong>招牌海鲜蒸面19.9元尝鲜价</strong>（正常定价29-35元），限每日前50份。🔧 收银POS「美团收银App→营销→限时特价」设置活动。谁来做：店长每天早上检查库存和活动状态。话怎么说：服务员上菜时说「这是我们招牌海鲜蒸面，今天开业特价，虾和花甲都是今早到的活货」。客人问以后也这个价吗→「开业7天专属价，您要是喜欢可以办会员锁住折扣」。</li><li><strong>每桌赠送「促肉粿条试吃小份」</strong>：成本约2-3元/份，让点蒸面的客人认识粿条产品线，为复购埋钩子。服务员上菜时说「这是我们手打促肉粿条，请您免费品尝」。</li><li><strong>门口立牌</strong>：「潮汕手工粿条×海鲜现蒸，新安商圈独一家，开业尝鲜价19.9元」——3秒让路人知道你是谁。</li></ul><h3>开业第8-30天：复购锁客期</h3><ul><li><strong>「午市快蒸套餐」</strong>：粿条/蒸面+小食+饮品控在<strong>25-30元</strong>，承诺<strong>12分钟出餐</strong>（⚠️ 假设后厨可提速至12分钟，需实测确认）。🔧 扫码点餐「菜品管理→套餐设置」配3款午市套餐，标注「午市限定·12分钟出餐」。</li><li><strong>会员招募启动</strong>：尝鲜价结束当天启动会员体系，承接开业流量（详见第5章）。</li></ul></div>
+<div id="modal-content-4" style="display:none"><h3>新店点评阶段判断：冷启动期</h3><p>新店未开业，评分和评价数均为零。目标：<strong>开业30天内自然积累30-50条真实评价，冲上新店榜，评分稳在4.5分以上</strong>。</p><h3>⛔ 止血第一条：严禁任何促评行为</h3><p>2025年10月大众点评新规后，<strong>高强度促评（送券求好评、扫码返现等）= 新评价不产生星级收益</strong>。策略不是「求评价」，而是<strong>「让体验好到客人自己想写」</strong>。</p><h3>合规口碑工具</h3><ul><li><strong>大众点评「免费试」</strong>：🔧 商家后台「营销中心→免费试」上架「招牌海鲜蒸面免费试吃」，设20个名额。谁来做：店长开业前3天设置。服务员上菜时说「今天您是试吃体验官，吃完欢迎在点评上分享真实感受，好坏都行」。客人不愿写：不强求，10个试吃客人通常3-5个会自发评价。</li><li><strong>「免费菜」</strong>：🔧 商家后台「营销中心→免费菜」设置「赠送手工促肉粿条小份」（成本2-3元），所有到店顾客可领。目的是让客人多体验一个产品线，增加记忆点和分享欲。</li></ul><h3>分享动机打造</h3><ul><li><strong>视觉爆点</strong>：海鲜蒸面上桌时带蒸汽效果（用蒸笼直接上桌），虾和鱿鱼摆盘讲究——这一幕就是客人拍照发朋友圈的动机。谁来做：后厨统一出品标准，老板第一周每天盯摆盘。</li><li><strong>桌角立牌</strong>：不写「求好评」，写「拍下你的海鲜蒸面，发朋友圈集18赞，下次来送一份粿条」——社交传播不是促评。</li></ul><h3>新店榜冲刺路径</h3><ol><li>开业7天内通过免费试获得10-15条真实评价</li><li>第8-30天通过自然消费+免费菜积累至30-50条</li><li>同步做好点评门店装修（推荐菜标签、精选评价置顶、商家回复统一话术）</li><li>差评2小时内回复：🔧「评价管理→待回复」，话术=「道歉+解释+补偿+邀请再来」</li></ol><h3>量化口碑目标</h3><table><tr><th>指标</th><th>30天目标</th><th>90天目标</th></tr><tr><td>评价总数</td><td>30-50条</td><td>100条+</td></tr><tr><td>评分</td><td>≥4.5分</td><td>稳定4.5分+</td></tr><tr><td>新店榜排名</td><td>进入区域新店榜</td><td>TOP10</td></tr><tr><td>差评回复率</td><td>100%（2h内）</td><td>100%</td></tr></table></div>
+<div id="modal-content-5" style="display:none"><h3>为什么这家店需要会员？</h3><p>快餐品类核心逻辑是<strong>高频复购</strong>——写字楼白领一周午餐5次，锁住3次就赢了。促肉粿条已签约<strong>会员旗舰版</strong>（4,888元/年），具备完整会员工具箱。</p><h3>第一步：开业第8天启动会员招募</h3><p>时机选择：开业前7天尝鲜价引流，第8天尝鲜价结束客人问「以后还有优惠吗」→切入会员。</p><ul><li><strong>注册即享</strong>：扫码点餐时弹窗「注册会员立享9折+赠粿条小份券1张」。🔧 美团收银App→会员→会员权益→设置注册礼。谁来做：店长配置，服务员引导。话怎么说：「您扫码点餐顺手注册下会员，这单直接打9折，还送一份粿条券下次来用。」不注册怎么办：「没关系，下次也随时可以注册。」</li></ul><h3>第二步：会员分层+精准触达</h3><table><tr><th>等级</th><th>条件</th><th>权益</th></tr><tr><td>🥉 新客</td><td>注册即得</td><td>9折+粿条小份券</td></tr><tr><td>🥈 常客</td><td>累计消费满200元</td><td>8.8折+月赠饮品券+生日双倍积分</td></tr><tr><td>🥇 VIP</td><td>累计消费满500元</td><td>8.5折+月赠海鲜蒸面券+优先出餐+生日赠菜</td></tr></table><p>🔧 美团收银App→会员→等级设置→按上表配三级+升级条件+权益。谁来做：店长开业第7天配完，第8天上线。</p><h3>第三步：旗舰版专属能力</h3><ul><li><strong>潜客营销</strong>：🔧 会员旗舰版「潜客营销」自动识别浏览过点评但未到店的潜客，推「首次到店满30减5」券。店长开启即可，系统自动发。</li><li><strong>团购会员卡</strong>：大众点评上架「88元午市畅吃5次卡」（单次约17.6元），买卡即成会员。🔧 会员旗舰版→团购会员卡→创建→设面额88元/5次/30天→上架点评。客人犹豫：「一周来3次就回本，相当于每次不到18块吃海鲜蒸面。」</li></ul><h3>储值方案（可选·非必选）</h3><p>⚠️ 储值不是这家新店第一优先级——新店首月任务是拉新和做口碑，储值适合在<strong>开业第二个月、复购数据跑出来之后</strong>再启动。</p><ul><li><strong>启动时机</strong>：当会员复购率稳定在40%以上时推出</li><li><strong>建议档位</strong>：充200送30（约7次消费回本）/ 充500送100（约12次消费回本），🔧 美团收银App→储值→创建储值活动。</li><li><strong>话怎么说</strong>：「您已经来了好几次了，充200送30相当于每次省4块多，一个月就省回来了。」不充怎么办：「没关系，会员折扣照享。」</li></ul><h3>会员目标（OKR）</h3><table><tr><th>指标</th><th>30天</th><th>90天</th></tr><tr><td>注册数</td><td>200人</td><td>600人</td></tr><tr><td>复购率</td><td>≥40%</td><td>≥50%</td></tr><tr><td>团购会员卡</td><td>50张</td><td>200张</td></tr></table></div>
+<div id="modal-content-6" style="display:none"><h3>公域平台优先级判断</h3><p>促肉粿条海鲜蒸面=<strong>快餐+潮汕特色+海鲜卖点</strong>，各平台优先级：</p><ol><li><strong>大众点评</strong>（最高优先·必做）：新店冷启动核心阵地</li><li><strong>小红书</strong>（强烈推荐）：海鲜蒸面视觉出片率高，「宝安美食」搜索量大</li><li><strong>抖音同城</strong>（推荐）：短视频展示「现蒸」工艺有天然传播力</li><li><strong>美团外卖</strong>（第二个月重点）：写字楼午餐外卖需求强，但首月优先堂食体验</li></ol><h3>大众点评：团购+标签+推广通</h3><ul><li><strong>开业团购三件套</strong>：①9.9元新客券（满30减9.9，纯引流）②29.9元招牌海鲜蒸面单人餐（含饮品，毛利约40%）③59.9元双人分享餐（两碗面+小食拼盘，毛利约45%）。🔧 商家后台「团购→创建套餐」。谁来做：店长创建+拍菜品图（手机自然光+45度俯拍）。</li><li><strong>特色标签</strong>：门店信息勾选「潮汕风味」「海鲜」「现做」「明档」，决定系统推荐匹配的搜索词。</li><li><strong>推广通</strong>：首月投500-800元，定向「宝安区+新安+粉面+海鲜」关键词，预估曝光2-3万次/月。🔧 商家后台「推广通→创建计划→选关键词→日预算20-30元」。（⚠️ 假设预算500-800元/月，ROI预计1:5+，根据实际调整）</li></ul><h3>小红书：打透「潮汕正宗」标签</h3><ul><li><strong>内容策略</strong>：3-5条视频/图文——①「深圳潮汕人认可的粿条」（信任锚点）②「一碗蒸面几种海鲜？」（好奇心钩子）③「手打促肉全过程」（工艺展示）</li><li><strong>达人合作</strong>：2-3个本地美食账号（1-5万粉），500-1500元/条，开业两周内集中释放。谁来做：老板搜「宝安美食博主」私信，或BD帮对接。</li><li><strong>关键词</strong>：标题必带「宝安美食」「深圳粉面」「潮汕粿条」「新安商圈美食」。</li></ul><h3>抖音同城</h3><ul><li>拍「海鲜蒸面出锅·掀盖冒蒸汽·虾和鱿鱼特写」15秒视频，配文案「新安商圈独一家·海鲜现蒸面」。每周2-3条+投100元DOU+定向宝安3公里。</li><li>第2个月上抖音团购（29.9元单人餐），与点评同步。</li></ul><h3>公域目标</h3><table><tr><th>平台</th><th>30天</th><th>90天</th></tr><tr><td>大众点评</td><td>团购核销50单+新店榜上榜</td><td>月核销200单+4.5分</td></tr><tr><td>小红书</td><td>5篇·曝光1万+</td><td>15篇·曝光5万+</td></tr><tr><td>抖音</td><td>10条·曝光5000+</td><td>团购月核销100单</td></tr></table></div>
+<div id="modal-content-7" style="display:none"><h3>已签约模块与落地场景</h3><p>已签约<strong>收银POS+会员旗舰版+扫码点餐</strong>。下面不讲功能清单，只讲每个模块<strong>解决什么具体问题</strong>。</p><h3>收银POS：数据驾驶舱+出餐管控</h3><ul><li><strong>解决问题</strong>：新店缺数据——哪道菜卖得好？午高峰几点最挤？日均流水多少？</li><li><strong>怎么用</strong>：🔧 美团收银App→经营分析→菜品销量排行，每天打烊后看一次，连续7天后知道哪道菜是爆品（主推）、哪道菜滞销（考虑下架换品）。谁来做：店长每天21:00看当天数据截图发老板。</li><li><strong>出餐看板</strong>：🔧 收银机→后厨看板开KDS模式，每单倒计时，超12分钟自动变红催促——倒逼后厨把海鲜蒸面出餐压到12分钟。</li></ul><h3>扫码点餐：压缩排队+提高客单</h3><ul><li><strong>解决问题</strong>：午高峰排队点餐慢→客人等不及走了→少赚一桌</li><li><strong>怎么用</strong>：🔧 美团收银App→扫码点餐→开启→每张桌贴桌码。客人落座扫码直接点，省去排队等点餐环节，高峰期至少省3-5分钟/桌。谁来做：店长开业前贴好桌码+测试点餐流程。</li><li><strong>智能推荐加购</strong>：🔧 扫码点餐→推荐设置→选菜品关联（如点蒸面自动推荐+3元加一份粿条/+5元升级大份海鲜）。客人扫码点餐时弹窗加3元送一份手打粿条，预计<strong>加购率15-20%</strong>，每单提升3-5元客单。</li></ul><h3>会员旗舰版：核心场景复盘</h3><p>注册礼→分层权益→潜客营销→团购会员卡。四个环节环环相扣，从路人→新客→会员→常客的转化链路完整（详见第5章）。</p><h3>系统上线检查清单（开业前必须全部完成）</h3><table><tr><th>检查项</th><th>负责人</th><th>完成时间</th></tr><tr><td>收银POS安装调试+员工培训</td><td>老板+美团安装师傅</td><td>开业前5天</td></tr><tr><td>全部菜品录入扫码点餐+分类+图片</td><td>店长</td><td>开业前3天</td></tr><tr><td>桌码张贴+扫码测试</td><td>店长</td><td>开业前2天</td></tr><tr><td>会员等级+注册礼配置</td><td>店长</td><td>开业前1天</td></tr><tr><td>后厨KDS看板开启</td><td>老板</td><td>开业当天</td></tr><tr><td>大众点评门店信息完善+团购上架</td><td>店长</td><td>开业前3天</td></tr></table></div>
+<div id="modal-content-8" style="display:none"><h3>开业首月营收预估</h3><p>⚠️ 以下基于行业参考值+商圈特征估算，实际以开业数据为准。</p><table><tr><th>指标</th><th>保守估计</th><th>乐观估计</th><th>假设依据</th></tr><tr><td>日均客流</td><td>80人</td><td>120人</td><td>新安商圈午晚两市，快餐60-80㎡店标准（⚠️ 假设门店60-80㎡）</td></tr><tr><td>人均客单</td><td>¥28</td><td>¥32</td><td>海鲜蒸面29-35元+部分粿条15-22元拉低均值</td></tr><tr><td>日均营收</td><td>¥2,240</td><td>¥3,840</td><td>客流x客单</td></tr><tr><td>月营收</td><td>¥6.7万</td><td>¥11.5万</td><td>日均x30天</td></tr></table><h3>增收来源拆解（方案带来的增量）</h3><table><tr><th>增收来源</th><th>月增量</th><th>计算逻辑</th></tr><tr><td>大众点评团购引流</td><td>+¥3,000-5,000</td><td>50单核销x客单30元x40%为增量新客（⚠️ 假设40%为纯新客）</td></tr><tr><td>会员复购提升</td><td>+¥4,000-6,000</td><td>200会员x40%复购率x月均消费2次x30元</td></tr><tr><td>扫码加购提升客单</td><td>+¥1,500-2,500</td><td>日均100单x15%加购率x3元/单x30天</td></tr><tr><td>小红书/抖音引流</td><td>+¥1,000-2,000</td><td>内容曝光带来10-20组新客/月x30元</td></tr><tr><td><strong>合计月增量</strong></td><td><strong>+¥9,500-15,500</strong></td><td></td></tr></table><h3>投入成本</h3><table><tr><th>投入项</th><th>金额</th><th>说明</th></tr><tr><td>会员旗舰版</td><td>¥4,888/年（约408/月）</td><td>已签约</td></tr><tr><td>点评推广通</td><td>¥500-800/月</td><td>首月建议</td></tr><tr><td>达人合作（小红书）</td><td>¥1,500-4,500</td><td>2-3个达人，一次性</td></tr><tr><td>抖音DOU+</td><td>¥400/月</td><td>每周100元</td></tr><tr><td>开业尝鲜价让利</td><td>约¥2,500-3,500</td><td>50份/天x7天x(29-19.9)元，一次性</td></tr><tr><td><strong>首月总投入</strong></td><td><strong>约¥6,500-9,600</strong></td><td>含一次性+月度</td></tr></table><h3>投资回报</h3><p>首月增量营收¥9,500-15,500 vs 总投入¥6,500-9,600，<strong>ROI约1.5:1至2.4:1</strong>，首月即可回本。第二个月起一次性投入归零，月度成本降至约¥1,300-1,600，ROI提升至<strong>6:1至10:1</strong>。</p><h3>季度OKR总表</h3><table><tr><th>目标维度</th><th>30天</th><th>60天</th><th>90天</th></tr><tr><td>月营收</td><td>¥7-9万</td><td>¥9-11万</td><td>¥10-12万</td></tr><tr><td>点评评分</td><td>≥4.3分</td><td>≥4.5分</td><td>稳定4.5分+</td></tr><tr><td>会员数</td><td>200人</td><td>400人</td><td>600人</td></tr><tr><td>团购核销率</td><td>≥60%</td><td>≥70%</td><td>≥75%</td></tr><tr><td>会员复购率</td><td>≥40%</td><td>≥45%</td><td>≥50%</td></tr></table><h3>30天复盘节点</h3><p>开业第30天，BD与老板坐下来过一次数据：①收银后台拉日均流水/客单/人次趋势 ②点评评分+评价数 ③会员注册数+复购率 ④团购核销数。哪个指标没达标→找原因→调策略。这不是年终总结，是月度体检。</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>邱振伟</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>深圳粉面快餐大盘</h3><p>2024年全国快餐小吃市场规模突破<strong>1万亿元</strong>，其中粉面汤类门店近<strong>100万家</strong>，同比增长25.3%，是增长最快的细分赛道之一。深圳作为一线城市，粉面快餐主流价格带集中在<strong>15-28元</strong>，海鲜类粉面因食材成本可拉到<strong>28-38元</strong>，属中高段位。</p><h3>宝安新安商圈画像</h3><p>新安商圈是成熟的居住+办公混合区域，海雅缤纷城、宝安中心区周边集聚大量写字楼与社区，<strong>午餐刚需极强</strong>，客群对人均18-35元接受度高。工作日午市11:30-13:30是黄金2小时，客群以25-40岁上班族为主，决策快、要求出餐快、价格敏感但愿为「鲜」买单。</p><h3>品类红利窗口</h3><p>潮汕粿条、海鲜蒸面在深圳有天然认知基础——深圳潮汕籍人口超300万，「鲜」「现做」是溢价逻辑成立的前提。关键发现：<strong>海鲜蒸面品类全国连锁化程度极低</strong>，新安商圈目前没有直接对标的「粿条+海鲜蒸面」组合店，存在<strong>品类稀缺性红利</strong>。这意味着你不是在红海里抢份额，而是在开辟新细分。</p><h3>核心风险提示</h3><ul><li><strong>食材损耗高</strong>：海鲜保鲜期短，日损耗率需控制在5%以内（⚠️ 假设值，建议核实供应链方案）</li><li><strong>出餐效率</strong>：海鲜蒸面出餐比普通面慢2-3分钟，午高峰翻台压力大——必须靠扫码预点单+备菜SOP压缩</li><li><strong>品类教育成本</strong>：非潮汕客群对「粿条」「蒸面」认知弱，需视觉+试吃双管齐下完成首次认知转化</li></ul>`,
+    2: `<h3>新安商圈3公里竞争格局</h3><table><tr><th>竞品名称</th><th>人均</th><th>核心弱点</th><th>我们的切入机会</th></tr><tr><td><strong>山城李胖胖</strong></td><td>¥20-28</td><td>重庆小面品类，口味同质化，无海鲜差异化，装修偏老旧</td><td>用「海鲜鲜味」打「重油辣味」，错位竞争不正面对抗</td></tr><tr><td><strong>五谷渔粉</strong></td><td>¥22-28</td><td>标准化强但口味无记忆点，「渔粉」概念模糊</td><td>「现蒸」工艺和活海鲜明档是五谷渔粉的反面——看得见的鲜</td></tr><tr><td><strong>遇见小面</strong></td><td>¥25-32</td><td>品牌势能强但价格偏高，午餐性价比不足</td><td>同价位段多了「海鲜」价值感，30元海鲜蒸面比32元小面更有「赚到」感</td></tr><tr><td><strong>潮汕肠粉/粿汁店</strong></td><td>¥15-25</td><td>价格低但品类单一，无法承载正餐需求</td><td>「潮汕风味升级版」，粿条+海鲜蒸面可做正餐</td></tr><tr><td><strong>沙县/兰州/湖南粉面</strong></td><td>¥12-18</td><td>纯低价截流，无品质感</td><td>不比价格，用明档+海鲜品质感拉开档次</td></tr></table><h3>核心判断</h3><p>新安商圈粉面快餐密度大，但<strong>「粿条+海鲜蒸面」这一细分组合直接竞品为零</strong>。山城李胖胖是最近的竞品（同属粉面赛道），但品类完全不同——重庆辣味面vs潮汕鲜味蒸面。<strong>最大的竞争对手不是任何一家店，而是路人「不知道你是谁、不敢进来试」</strong>。开业期一切资源砸在「看到、尝到、记住」三件事上。</p><h3>定位一句话</h3><p><strong>「新安商圈唯一的潮汕手工粿条×海鲜现蒸专门店」</strong>——品类唯一性就是护城河，开业前30天把这句话钉进周边3公里消费者心里。</p>`,
+    3: `<h3>新店最大的坎：首次进店转化</h3><p>品类稀缺性是最大的牌，但「首次进店转化」是最大的坎。潮汕粿条+海鲜蒸面对非潮汕客群有认知门槛，必须用<strong>视觉冲击+价格破冰+口碑背书</strong>三板斧打穿。</p><h3>开业前7天：蓄水期</h3><ul><li><strong>Day -7~-5 明档视觉锤搭建</strong>：门口设透明蒸柜/明档区，活虾、花甲、鱿鱼<strong>现点现蒸全过程可视</strong>。谁来做：老板亲自盯设备到位+试运行。为什么重要：路过的人3秒内决定进不进，「看得见的海鲜」比任何广告都有效。</li><li><strong>Day -5~-3 大众点评上架+团购预设</strong>：🔧 大众点评商家后台「门店管理→基础信息」完善所有字段（门头照≥3张、菜品照≥10张、营业时间、特色标签选「潮汕」「海鲜」「现做」）。同步上线<strong>9.9元新客尝鲜券</strong>（满30减9.9）。谁来做：老板或店长。</li><li><strong>Day -3~-1 内测试吃+员工培训</strong>：邀请15-20位朋友/写字楼白领试吃。<strong>不要求写评价</strong>（2025.10新规后高强度促评无星级收益），只请「如果觉得好吃，自愿分享朋友圈」。🔧 扫码点餐「美团收银App→扫码点餐→菜品管理」提前配好全部菜品+分类+图片+推荐标签。</li></ul><h3>开业第1-7天：爆破期</h3><ul><li><strong>招牌海鲜蒸面19.9元尝鲜价</strong>（正常定价29-35元），限每日前50份。🔧 收银POS「美团收银App→营销→限时特价」设置活动。谁来做：店长每天早上检查库存和活动状态。话怎么说：服务员上菜时说「这是我们招牌海鲜蒸面，今天开业特价，虾和花甲都是今早到的活货」。客人问以后也这个价吗→「开业7天专属价，您要是喜欢可以办会员锁住折扣」。</li><li><strong>每桌赠送「促肉粿条试吃小份」</strong>：成本约2-3元/份，让点蒸面的客人认识粿条产品线，为复购埋钩子。服务员上菜时说「这是我们手打促肉粿条，请您免费品尝」。</li><li><strong>门口立牌</strong>：「潮汕手工粿条×海鲜现蒸，新安商圈独一家，开业尝鲜价19.9元」——3秒让路人知道你是谁。</li></ul><h3>开业第8-30天：复购锁客期</h3><ul><li><strong>「午市快蒸套餐」</strong>：粿条/蒸面+小食+饮品控在<strong>25-30元</strong>，承诺<strong>12分钟出餐</strong>（⚠️ 假设后厨可提速至12分钟，需实测确认）。🔧 扫码点餐「菜品管理→套餐设置」配3款午市套餐，标注「午市限定·12分钟出餐」。</li><li><strong>会员招募启动</strong>：尝鲜价结束当天启动会员体系，承接开业流量（详见第5章）。</li></ul>`,
+    4: `<h3>新店点评阶段判断：冷启动期</h3><p>新店未开业，评分和评价数均为零。目标：<strong>开业30天内自然积累30-50条真实评价，冲上新店榜，评分稳在4.5分以上</strong>。</p><h3>⛔ 止血第一条：严禁任何促评行为</h3><p>2025年10月大众点评新规后，<strong>高强度促评（送券求好评、扫码返现等）= 新评价不产生星级收益</strong>。策略不是「求评价」，而是<strong>「让体验好到客人自己想写」</strong>。</p><h3>合规口碑工具</h3><ul><li><strong>大众点评「免费试」</strong>：🔧 商家后台「营销中心→免费试」上架「招牌海鲜蒸面免费试吃」，设20个名额。谁来做：店长开业前3天设置。服务员上菜时说「今天您是试吃体验官，吃完欢迎在点评上分享真实感受，好坏都行」。客人不愿写：不强求，10个试吃客人通常3-5个会自发评价。</li><li><strong>「免费菜」</strong>：🔧 商家后台「营销中心→免费菜」设置「赠送手工促肉粿条小份」（成本2-3元），所有到店顾客可领。目的是让客人多体验一个产品线，增加记忆点和分享欲。</li></ul><h3>分享动机打造</h3><ul><li><strong>视觉爆点</strong>：海鲜蒸面上桌时带蒸汽效果（用蒸笼直接上桌），虾和鱿鱼摆盘讲究——这一幕就是客人拍照发朋友圈的动机。谁来做：后厨统一出品标准，老板第一周每天盯摆盘。</li><li><strong>桌角立牌</strong>：不写「求好评」，写「拍下你的海鲜蒸面，发朋友圈集18赞，下次来送一份粿条」——社交传播不是促评。</li></ul><h3>新店榜冲刺路径</h3><ol><li>开业7天内通过免费试获得10-15条真实评价</li><li>第8-30天通过自然消费+免费菜积累至30-50条</li><li>同步做好点评门店装修（推荐菜标签、精选评价置顶、商家回复统一话术）</li><li>差评2小时内回复：🔧「评价管理→待回复」，话术=「道歉+解释+补偿+邀请再来」</li></ol><h3>量化口碑目标</h3><table><tr><th>指标</th><th>30天目标</th><th>90天目标</th></tr><tr><td>评价总数</td><td>30-50条</td><td>100条+</td></tr><tr><td>评分</td><td>≥4.5分</td><td>稳定4.5分+</td></tr><tr><td>新店榜排名</td><td>进入区域新店榜</td><td>TOP10</td></tr><tr><td>差评回复率</td><td>100%（2h内）</td><td>100%</td></tr></table>`,
+    5: `<h3>为什么这家店需要会员？</h3><p>快餐品类核心逻辑是<strong>高频复购</strong>——写字楼白领一周午餐5次，锁住3次就赢了。促肉粿条已签约<strong>会员旗舰版</strong>（4,888元/年），具备完整会员工具箱。</p><h3>第一步：开业第8天启动会员招募</h3><p>时机选择：开业前7天尝鲜价引流，第8天尝鲜价结束客人问「以后还有优惠吗」→切入会员。</p><ul><li><strong>注册即享</strong>：扫码点餐时弹窗「注册会员立享9折+赠粿条小份券1张」。🔧 美团收银App→会员→会员权益→设置注册礼。谁来做：店长配置，服务员引导。话怎么说：「您扫码点餐顺手注册下会员，这单直接打9折，还送一份粿条券下次来用。」不注册怎么办：「没关系，下次也随时可以注册。」</li></ul><h3>第二步：会员分层+精准触达</h3><table><tr><th>等级</th><th>条件</th><th>权益</th></tr><tr><td>🥉 新客</td><td>注册即得</td><td>9折+粿条小份券</td></tr><tr><td>🥈 常客</td><td>累计消费满200元</td><td>8.8折+月赠饮品券+生日双倍积分</td></tr><tr><td>🥇 VIP</td><td>累计消费满500元</td><td>8.5折+月赠海鲜蒸面券+优先出餐+生日赠菜</td></tr></table><p>🔧 美团收银App→会员→等级设置→按上表配三级+升级条件+权益。谁来做：店长开业第7天配完，第8天上线。</p><h3>第三步：旗舰版专属能力</h3><ul><li><strong>潜客营销</strong>：🔧 会员旗舰版「潜客营销」自动识别浏览过点评但未到店的潜客，推「首次到店满30减5」券。店长开启即可，系统自动发。</li><li><strong>团购会员卡</strong>：大众点评上架「88元午市畅吃5次卡」（单次约17.6元），买卡即成会员。🔧 会员旗舰版→团购会员卡→创建→设面额88元/5次/30天→上架点评。客人犹豫：「一周来3次就回本，相当于每次不到18块吃海鲜蒸面。」</li></ul><h3>储值方案（可选·非必选）</h3><p>⚠️ 储值不是这家新店第一优先级——新店首月任务是拉新和做口碑，储值适合在<strong>开业第二个月、复购数据跑出来之后</strong>再启动。</p><ul><li><strong>启动时机</strong>：当会员复购率稳定在40%以上时推出</li><li><strong>建议档位</strong>：充200送30（约7次消费回本）/ 充500送100（约12次消费回本），🔧 美团收银App→储值→创建储值活动。</li><li><strong>话怎么说</strong>：「您已经来了好几次了，充200送30相当于每次省4块多，一个月就省回来了。」不充怎么办：「没关系，会员折扣照享。」</li></ul><h3>会员目标（OKR）</h3><table><tr><th>指标</th><th>30天</th><th>90天</th></tr><tr><td>注册数</td><td>200人</td><td>600人</td></tr><tr><td>复购率</td><td>≥40%</td><td>≥50%</td></tr><tr><td>团购会员卡</td><td>50张</td><td>200张</td></tr></table>`,
+    6: `<h3>公域平台优先级判断</h3><p>促肉粿条海鲜蒸面=<strong>快餐+潮汕特色+海鲜卖点</strong>，各平台优先级：</p><ol><li><strong>大众点评</strong>（最高优先·必做）：新店冷启动核心阵地</li><li><strong>小红书</strong>（强烈推荐）：海鲜蒸面视觉出片率高，「宝安美食」搜索量大</li><li><strong>抖音同城</strong>（推荐）：短视频展示「现蒸」工艺有天然传播力</li><li><strong>美团外卖</strong>（第二个月重点）：写字楼午餐外卖需求强，但首月优先堂食体验</li></ol><h3>大众点评：团购+标签+推广通</h3><ul><li><strong>开业团购三件套</strong>：①9.9元新客券（满30减9.9，纯引流）②29.9元招牌海鲜蒸面单人餐（含饮品，毛利约40%）③59.9元双人分享餐（两碗面+小食拼盘，毛利约45%）。🔧 商家后台「团购→创建套餐」。谁来做：店长创建+拍菜品图（手机自然光+45度俯拍）。</li><li><strong>特色标签</strong>：门店信息勾选「潮汕风味」「海鲜」「现做」「明档」，决定系统推荐匹配的搜索词。</li><li><strong>推广通</strong>：首月投500-800元，定向「宝安区+新安+粉面+海鲜」关键词，预估曝光2-3万次/月。🔧 商家后台「推广通→创建计划→选关键词→日预算20-30元」。（⚠️ 假设预算500-800元/月，ROI预计1:5+，根据实际调整）</li></ul><h3>小红书：打透「潮汕正宗」标签</h3><ul><li><strong>内容策略</strong>：3-5条视频/图文——①「深圳潮汕人认可的粿条」（信任锚点）②「一碗蒸面几种海鲜？」（好奇心钩子）③「手打促肉全过程」（工艺展示）</li><li><strong>达人合作</strong>：2-3个本地美食账号（1-5万粉），500-1500元/条，开业两周内集中释放。谁来做：老板搜「宝安美食博主」私信，或BD帮对接。</li><li><strong>关键词</strong>：标题必带「宝安美食」「深圳粉面」「潮汕粿条」「新安商圈美食」。</li></ul><h3>抖音同城</h3><ul><li>拍「海鲜蒸面出锅·掀盖冒蒸汽·虾和鱿鱼特写」15秒视频，配文案「新安商圈独一家·海鲜现蒸面」。每周2-3条+投100元DOU+定向宝安3公里。</li><li>第2个月上抖音团购（29.9元单人餐），与点评同步。</li></ul><h3>公域目标</h3><table><tr><th>平台</th><th>30天</th><th>90天</th></tr><tr><td>大众点评</td><td>团购核销50单+新店榜上榜</td><td>月核销200单+4.5分</td></tr><tr><td>小红书</td><td>5篇·曝光1万+</td><td>15篇·曝光5万+</td></tr><tr><td>抖音</td><td>10条·曝光5000+</td><td>团购月核销100单</td></tr></table>`,
+    7: `<h3>已签约模块与落地场景</h3><p>已签约<strong>收银POS+会员旗舰版+扫码点餐</strong>。下面不讲功能清单，只讲每个模块<strong>解决什么具体问题</strong>。</p><h3>收银POS：数据驾驶舱+出餐管控</h3><ul><li><strong>解决问题</strong>：新店缺数据——哪道菜卖得好？午高峰几点最挤？日均流水多少？</li><li><strong>怎么用</strong>：🔧 美团收银App→经营分析→菜品销量排行，每天打烊后看一次，连续7天后知道哪道菜是爆品（主推）、哪道菜滞销（考虑下架换品）。谁来做：店长每天21:00看当天数据截图发老板。</li><li><strong>出餐看板</strong>：🔧 收银机→后厨看板开KDS模式，每单倒计时，超12分钟自动变红催促——倒逼后厨把海鲜蒸面出餐压到12分钟。</li></ul><h3>扫码点餐：压缩排队+提高客单</h3><ul><li><strong>解决问题</strong>：午高峰排队点餐慢→客人等不及走了→少赚一桌</li><li><strong>怎么用</strong>：🔧 美团收银App→扫码点餐→开启→每张桌贴桌码。客人落座扫码直接点，省去排队等点餐环节，高峰期至少省3-5分钟/桌。谁来做：店长开业前贴好桌码+测试点餐流程。</li><li><strong>智能推荐加购</strong>：🔧 扫码点餐→推荐设置→选菜品关联（如点蒸面自动推荐+3元加一份粿条/+5元升级大份海鲜）。客人扫码点餐时弹窗加3元送一份手打粿条，预计<strong>加购率15-20%</strong>，每单提升3-5元客单。</li></ul><h3>会员旗舰版：核心场景复盘</h3><p>注册礼→分层权益→潜客营销→团购会员卡。四个环节环环相扣，从路人→新客→会员→常客的转化链路完整（详见第5章）。</p><h3>系统上线检查清单（开业前必须全部完成）</h3><table><tr><th>检查项</th><th>负责人</th><th>完成时间</th></tr><tr><td>收银POS安装调试+员工培训</td><td>老板+美团安装师傅</td><td>开业前5天</td></tr><tr><td>全部菜品录入扫码点餐+分类+图片</td><td>店长</td><td>开业前3天</td></tr><tr><td>桌码张贴+扫码测试</td><td>店长</td><td>开业前2天</td></tr><tr><td>会员等级+注册礼配置</td><td>店长</td><td>开业前1天</td></tr><tr><td>后厨KDS看板开启</td><td>老板</td><td>开业当天</td></tr><tr><td>大众点评门店信息完善+团购上架</td><td>店长</td><td>开业前3天</td></tr></table>`,
+    8: `<h3>开业首月营收预估</h3><p>⚠️ 以下基于行业参考值+商圈特征估算，实际以开业数据为准。</p><table><tr><th>指标</th><th>保守估计</th><th>乐观估计</th><th>假设依据</th></tr><tr><td>日均客流</td><td>80人</td><td>120人</td><td>新安商圈午晚两市，快餐60-80㎡店标准（⚠️ 假设门店60-80㎡）</td></tr><tr><td>人均客单</td><td>¥28</td><td>¥32</td><td>海鲜蒸面29-35元+部分粿条15-22元拉低均值</td></tr><tr><td>日均营收</td><td>¥2,240</td><td>¥3,840</td><td>客流x客单</td></tr><tr><td>月营收</td><td>¥6.7万</td><td>¥11.5万</td><td>日均x30天</td></tr></table><h3>增收来源拆解（方案带来的增量）</h3><table><tr><th>增收来源</th><th>月增量</th><th>计算逻辑</th></tr><tr><td>大众点评团购引流</td><td>+¥3,000-5,000</td><td>50单核销x客单30元x40%为增量新客（⚠️ 假设40%为纯新客）</td></tr><tr><td>会员复购提升</td><td>+¥4,000-6,000</td><td>200会员x40%复购率x月均消费2次x30元</td></tr><tr><td>扫码加购提升客单</td><td>+¥1,500-2,500</td><td>日均100单x15%加购率x3元/单x30天</td></tr><tr><td>小红书/抖音引流</td><td>+¥1,000-2,000</td><td>内容曝光带来10-20组新客/月x30元</td></tr><tr><td><strong>合计月增量</strong></td><td><strong>+¥9,500-15,500</strong></td><td></td></tr></table><h3>投入成本</h3><table><tr><th>投入项</th><th>金额</th><th>说明</th></tr><tr><td>会员旗舰版</td><td>¥4,888/年（约408/月）</td><td>已签约</td></tr><tr><td>点评推广通</td><td>¥500-800/月</td><td>首月建议</td></tr><tr><td>达人合作（小红书）</td><td>¥1,500-4,500</td><td>2-3个达人，一次性</td></tr><tr><td>抖音DOU+</td><td>¥400/月</td><td>每周100元</td></tr><tr><td>开业尝鲜价让利</td><td>约¥2,500-3,500</td><td>50份/天x7天x(29-19.9)元，一次性</td></tr><tr><td><strong>首月总投入</strong></td><td><strong>约¥6,500-9,600</strong></td><td>含一次性+月度</td></tr></table><h3>投资回报</h3><p>首月增量营收¥9,500-15,500 vs 总投入¥6,500-9,600，<strong>ROI约1.5:1至2.4:1</strong>，首月即可回本。第二个月起一次性投入归零，月度成本降至约¥1,300-1,600，ROI提升至<strong>6:1至10:1</strong>。</p><h3>季度OKR总表</h3><table><tr><th>目标维度</th><th>30天</th><th>60天</th><th>90天</th></tr><tr><td>月营收</td><td>¥7-9万</td><td>¥9-11万</td><td>¥10-12万</td></tr><tr><td>点评评分</td><td>≥4.3分</td><td>≥4.5分</td><td>稳定4.5分+</td></tr><tr><td>会员数</td><td>200人</td><td>400人</td><td>600人</td></tr><tr><td>团购核销率</td><td>≥60%</td><td>≥70%</td><td>≥75%</td></tr><tr><td>会员复购率</td><td>≥40%</td><td>≥45%</td><td>≥50%</td></tr></table><h3>30天复盘节点</h3><p>开业第30天，BD与老板坐下来过一次数据：①收银后台拉日均流水/客单/人次趋势 ②点评评分+评价数 ③会员注册数+复购率 ④团购核销数。哪个指标没达标→找原因→调策略。这不是年终总结，是月度体检。</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
