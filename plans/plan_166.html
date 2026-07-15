@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>饮雾浔白 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">清吧/特调酒吧 · 运营提升方案</div>
+  <h1 class="hero-title">饮雾浔白</h1>
+  <p class="hero-subtitle">萧山科技城的第三空间，用一杯特调打开下班后的社交场</p>
+  <div class="hero-address">浙江省杭州市萧山区北干街道建设四路与博奥路交汇处·领航汇</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥65</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">萧山区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察与客群画像', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察与客群画像</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解与差异化', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解与差异化</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '开业冲刺30天·冷启动作战', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">开业冲刺30天·冷启动作战</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评口碑·合规冲分路线', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评口碑·合规冲分路线</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '公域获客·三平台矩阵', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">公域获客·三平台矩阵</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '私域留客·社群+轻会员', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">私域留客·社群+轻会员</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '产品策略·特调矩阵', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">产品策略·特调矩阵</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, 'SaaS深度用法·三模块实战', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">SaaS深度用法·三模块实战</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(9, '投资回报与量化OKR', 9)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 09</div>
+      <div class="chapter-title">投资回报与量化OKR</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>萧山科技城·领航汇商圈画像</h3><p>领航汇位于萧山科技城核心区（北干街道建设四路×博奥路），属于<strong>新兴商务办公+社区复合型商业体</strong>。周边集聚科技企业、产业园区及新建住宅，常住人口以25-40岁年轻上班族和新杭州人家庭为主。</p><p>⚠️ <strong>关键判断</strong>：领航汇不是成熟商圈，自然客流有限，但写字楼密度高——<strong>你的客人不是逛街顺路来的，而是要被「拉过来」的</strong>。养店周期比成熟商圈长1-2个月，必须从第一天做主动获客。</p><h3>三类核心客群</h3><table><tr><th>客群</th><th>画像</th><th>场景</th><th>消费力</th></tr><tr><td><strong>主力｜写字楼上班族</strong></td><td>25-35岁，科技/金融</td><td>下班小酌、同事聚会、周五放松</td><td>人均60-80元，2-3人</td></tr><tr><td><strong>次要｜社区年轻住户</strong></td><td>25-35岁情侣/闺蜜</td><td>周末约会、拍照打卡</td><td>人均50-70元，2人</td></tr><tr><td><strong>潜力｜商务轻社交</strong></td><td>30-45岁企业中层</td><td>非正式商务会面</td><td>人均80-120元，2-4人</td></tr></table><h3>品类大盘：清吧赛道现状</h3><ul><li>杭州清吧2024-2025年进入<strong>结构性洗牌期</strong>：纯「氛围+音乐」同质化清吧大量关停，存活门店靠<strong>产品差异化（特调/无酒精/茶酒融合）+场景锁定（下班第三空间）</strong></li><li>萧山科技城板块清吧密度极低（⚠️ 假设），直接竞争弱，但<strong>替代性竞争激烈</strong>——瑞幸/Manner/奶茶店抢占同一「下班后一杯饮品」场景</li><li>行业人均：杭州独立清吧<strong>55-85元</strong>，萧山偏低约50-70元（行业参考值）</li><li>酒水毛利60%-70%，但翻台率低、晚间为主——<strong>坪效压力大，必须拉高客单+利用下午时段</strong></li></ul><p><strong>结论：领航汇有「位置红利」（竞争少），没有「流量红利」（人不会自己来）。饮雾浔白能不能活，取决于开业30天内能否建起私域鱼塘。</strong></p></div>
+<div id="modal-content-2" style="display:none"><h3>周边3公里竞争格局</h3><p>饮雾浔白面临的不是「同行打同行」，而是<strong>跨品类场景争夺战</strong>——抢的是同一批人下班后那1-2小时。</p><table><tr><th>竞品</th><th>人均</th><th>强项</th><th>弱点（你的机会）</th></tr><tr><td><strong>周边刨冰店</strong>（BD提及）</td><td>20-35元</td><td>低价引流、夏季刚需</td><td>无社交空间、无酒精、秋冬断崖</td></tr><tr><td><strong>喜茶/霸王茶姬</strong></td><td>15-22元</td><td>品牌势能、出杯快</td><td>无空间体验、纯外带、无法承载社交</td></tr><tr><td><strong>瑞幸/Manner</strong></td><td>10-25元</td><td>咖啡刚需、高频复购</td><td>空间逼仄、无晚间场景、无酒精</td></tr><tr><td><strong>独立茶室/棋牌</strong></td><td>50-80元</td><td>老客复购、熟人社交</td><td>审美老旧、年轻人不进、无线上运营</td></tr><tr><td><strong>tea'stone/煮叶</strong></td><td>60-90元</td><td>调性高、产品专业</td><td>价格门槛高、萧山渗透极弱</td></tr></table><h3>差异化卡位</h3><ul><li>低于50元 → 全是外带饮品，没有「坐下来」的空间</li><li>高于80元 → 要么老旧，要么萧山没有</li><li><strong>50-80元+年轻审美+社交空间+特调酒饮 = 领航汇的空白</strong></li></ul><p>核心定位：<strong>「写字楼旁的下班酒馆」</strong>——不是闹吧，不是咖啡馆，是让上班族下班后愿意多待1小时、点杯特调、和朋友聊天的地方。</p><h3>对刨冰店竞争策略</h3><ul><li><strong>夏季正面竞争</strong>：推2-3款「冰感特调」（冰沙基底+朗姆/威士忌），用刨冰口感+酒精溢价，人均高出10-15元但体验完胜</li><li><strong>秋冬错位碾压</strong>：刨冰店10月后断崖，饮雾浔白切热饮特调（桂花黄酒煮茶、热红酒），承接换季流量</li><li><strong>话怎么说</strong>：客人问「跟刨冰比」→「刨冰解暑我们解压，场景不一样——想坐一会儿聊聊天，还是买一杯拿走？」</li></ul></div>
+<div id="modal-content-3" style="display:none"><h3>冷启动核心逻辑</h3><p>领航汇自然客流不足，生死线是<strong>30天内建100人私域池</strong>。100老客×月来2次 = 200单，人均65 = <strong>月流水1.3万</strong>（存活底线）。叠加公域新客才能往3万+冲。</p><h3>开业前7天蓄水</h3><table><tr><th>天数</th><th>动作</th><th>谁做</th><th>怎么做</th></tr><tr><td>D-7</td><td>小红书预告</td><td>老板</td><td>拍3-5组装修实景+特调制作视频，发小红书带定位「萧山领航汇」，文案「萧山终于有像样的特调酒馆了」，标签#萧山探店 #领航汇 #特调酒吧</td></tr><tr><td>D-5</td><td>点评上线</td><td>老板</td><td>🔧 点评商家后台→门店管理→完善信息（人均65/标签「清吧」「特调鸡尾酒」「适合拍照」）→上传≥15张高清图</td></tr><tr><td>D-3</td><td>内测体验官</td><td>老板</td><td>小红书/朋友圈招20人免费体验→到店后发带定位笔记或点评（不强制好评，只要真实分享）</td></tr><tr><td>D-1</td><td>写字楼扫楼</td><td>老板+员工</td><td>200张邀请卡（凭卡领迎宾特调1杯）→领航汇+周边写字楼大堂发放→跟前台说「楼下新开酒馆，公司聚会可以来」</td></tr></table><h3>D-Day引爆日</h3><ul><li><strong>首杯免费</strong>（限50名/3款低成本特调≤8元）：🔧 扫码点餐后台→优惠活动→创建「开业首杯」→限量50份<br/><strong>谁做</strong>：调酒师出品，收银POS登记</li><li><strong>加微信送坚果</strong>：买单→扫码加企微→拉群→送坚果拼盘（成本3元）<br/>话术：「加个微信，周五有限定酒会群里提前通知，今天送您坚果」<br/>不愿加：「给您名片，下次报名字打9折」</li><li><strong>拍照打卡</strong>：出片角（灯光+背景墙）发朋友圈带定位→送第二杯半价券（7天有效拉复购）</li></ul><h3>D1-D30养客期</h3><ul><li><strong>第1周</strong>：每晚发群/朋友圈「今日特调+座位实况」</li><li><strong>第2周</strong>：启动「周五特调之夜」每周1款限定→群里预告→制造稀缺</li><li><strong>第3-4周</strong>：反馈调菜单（好留差砍）；启动点评「免费试」</li></ul><p><strong>30天目标</strong>：私域≥100人 | 评价≥25条 | 小红书≥15篇 | 日均≥15桌 | 月流水≥2万</p></div>
+<div id="modal-content-4" style="display:none"><h3>现状：零评价零评分的新店</h3><p>31-60天新店，尚未正式营业。清吧品类点评口碑权重极高——<strong>年轻人选酒馆90%先刷点评/小红书</strong>，没有评价 = 线上获客为零。</p><h3>冲分路线图</h3><table><tr><th>阶段</th><th>时间</th><th>目标</th><th>动作</th></tr><tr><td>🟢 出星</td><td>D1-15</td><td>15条评价</td><td>体验官20人→8-10条 + 自然评价5-8条</td></tr><tr><td>🟡 冲分</td><td>D15-30</td><td>≥4.3分/25条</td><td>「免费试」每周5名额</td></tr><tr><td>🔵 上榜</td><td>D30-60</td><td>新店榜→热门榜</td><td>评价+收藏+浏览综合提升</td></tr></table><h3>「免费试」合规操作</h3><p>⚠️ 2025.10新规后，促评=评价不计星级。好评返券/送礼均违规，<strong>严禁使用</strong>。</p><ul><li><strong>谁做</strong>：老板/店长，每周一上午</li><li><strong>🔧 操作</strong>：点评商家后台→营销中心→免费试→创建活动</li><li><strong>设置</strong>：每周5名额，提供「特调1杯+小食」（成本15-18元/份）</li><li><strong>有效原因</strong>：免费试用户是平台筛选的高质量评价者，评价对星级有正向收益，100%合规</li><li><strong>红线</strong>：不要求好评、不引导内容，只提供好体验</li></ul><h3>分享动机（体验驱动）</h3><ul><li><strong>出片设计</strong>：吧台+卡座各1个打卡场景（灯光/干花/霓虹），让客人<strong>主动</strong>想拍照</li><li><strong>特调命名</strong>：「领航日落」「科技城晚安」「白雾森林」——有趣的名字客人愿意写进评价</li><li><strong>上酒话术</strong>：一句话故事——「这杯用本地桂花蜜，9月桂花季更香」，让评价有内容</li></ul><p><strong>目标</strong>：60天评分≥4.3 | 评价≥40条 | 收藏≥80 | 精选评价≥5条</p></div>
+<div id="modal-content-5" style="display:none"><h3>清吧公域：小红书 > 点评 > 抖音</h3><p>年轻人选酒馆靠<strong>「种草」不靠「搜索」</strong>。</p><h3>① 小红书（核心阵地）</h3><p><strong>谁做</strong>：老板本人</p><p><strong>内容矩阵（每周3-4篇）</strong>：</p><ul><li><strong>出片类40%</strong>：暗调灯光+玻璃杯特写+环境图，标签「萧山探店」「杭州清吧」「领航汇」</li><li><strong>故事类30%</strong>：「为什么在萧山开特调酒馆」「这杯酒的故事」「下班后的第三种选择」</li><li><strong>互动类30%</strong>：「这杯该叫什么名字」「萧山人下班都去哪」</li></ul><p><strong>发布</strong>：周三/周五/周六 18:00-20:00</p><p><strong>月目标</strong>：≥12篇，曝光≥5000，引流≥30人</p><h3>② 大众点评</h3><ul><li><strong>基础建设</strong>：🔧 商家后台→完善信息→15+高清图→4个标签→营业时间+人均</li><li><strong>团购引流</strong>：「特调双人套餐」99元（2杯特调+小食，成本35元）→🔧 商家后台→团购→创建→库存50</li><li><strong>免费试</strong>：每周5名额持续30天</li><li><strong>推广通</strong>（⚠️ 假设可开通）：投放「特调酒吧」「萧山清吧」，日预算30-50元</li></ul><h3>③ 抖音（轻运营）</h3><p>转化链路长，不主投。小红书内容同步发，爆了再追加。</p><h3>公私域联动闭环</h3><p><strong>公域引流→到店体验→加群沉淀→群消息唤醒复购→到店拍照发小红书→新客种草</strong>——形成内容飞轮。</p><p><strong>60天目标</strong>：三平台引流≥80人（小红书30+点评40+抖音10）</p></div>
+<div id="modal-content-6" style="display:none"><h3>清吧私域逻辑</h3><p><strong>高毛利低频</strong>——酒水毛利60-70%，但客人不会天天来。私域核心是<strong>「想喝酒时第一个想到你」</strong>，保持存在感，不是疯狂推优惠。</p><h3>微信私域（D1开始）</h3><p><strong>谁做</strong>：老板/店长</p><ul><li><strong>加粉</strong>：买单→扫码加企微→拉群→送坚果（3元）<br/>🔧 收银POS买单页放企微台卡</li><li><strong>话术</strong>：「加微信，周五限定酒会群里提前通知，今天送您坚果」</li><li><strong>不愿加</strong>：「给您名片，下次报名字9折」——留联系方式也行</li></ul><h3>群运营（每周4条）</h3><table><tr><th>时间</th><th>内容</th><th>目的</th></tr><tr><td>周一18:00</td><td>本周特调预告</td><td>种草</td></tr><tr><td>周三20:00</td><td>周五之夜预告+预约</td><td>锁客</td></tr><tr><td>周五17:30</td><td>「今晚喝什么」投票</td><td>唤醒</td></tr><tr><td>周日15:00</td><td>上周TOP3酒</td><td>沉淀</td></tr></table><p>⚠️ 红线：最多4条/周，不刷屏，「朋友推荐」调性。</p><h3>轻量会员（D15启动）</h3><p>⚠️ 已签扫码+小程序，<strong>未签会员</strong>（⚠️ 假设）。用小程序做：</p><ul><li><strong>老友卡</strong>：🔧 小程序→会员中心→创建「老友卡」→注册送「买3赠1」（消费3次赠特调1杯，成本12元）</li><li><strong>积分</strong>：1元=1分，500分兑小食（成本5元）</li><li><strong>生日</strong>：赠「你的年份酒」（按出生年份调配，仪式感强）</li></ul><h3>储值判断</h3><p>⚠️ <strong>当前不上储值</strong>：①新店客群薄弱②清吧低频（月1-2次）③未签会员模块。<strong>建议3个月后老客≥100人再评估</strong>。届时复购≥25%可上旗舰版（4,888元/年）+轻储值500/800/1200三档。</p><p><strong>目标</strong>：30天群≥100人 | 60天会员≥80 | 互动率≥15%</p></div>
+<div id="modal-content-7" style="display:none"><h3>产品是清吧命脉</h3><p>清吧靠<strong>「这杯酒值得专门来一趟」</strong>。品牌含「雾/白」意象，走<strong>新中式+实验风特调</strong>路线。</p><h3>菜单结构</h3><p>🔧 扫码点餐后台→菜品管理→按分类创建：</p><table><tr><th>分类</th><th>SKU</th><th>定价</th><th>定位</th></tr><tr><td><strong>招牌特调</strong></td><td>5-6款</td><td>48-68元</td><td>利润核心，毛利≥70%，有故事+视觉记忆</td></tr><tr><td><strong>经典鸡尾酒</strong></td><td>8-10款</td><td>38-58元</td><td>莫吉托/长岛/Negroni，基础需求</td></tr><tr><td><strong>无酒精特饮</strong></td><td>4-5款</td><td>28-38元</td><td>覆盖不喝酒同行者</td></tr><tr><td><strong>啤酒/红酒</strong></td><td>5-8款</td><td>25-68元</td><td>精酿+杯卖红酒</td></tr><tr><td><strong>小食拼盘</strong></td><td>6-8款</td><td>28-48元</td><td>坚果/薯条/芝士/鸭脖，提升客单</td></tr></table><h3>3款必点招牌（爆品锚点）</h3><ul><li><strong>「白雾森林」</strong>：干冰烟雾+椰奶+朗姆，<strong>58元</strong>，成本12元，毛利79%——100%拍照发小红书</li><li><strong>「领航日落」</strong>：渐变色（橙汁+石榴+伏特加），<strong>52元</strong>，成本10元——名字绑地标，有归属感</li><li><strong>「科技城晚安」</strong>：洋甘菊+蜂蜜+金酒（低度），<strong>48元</strong>，成本9元——切「放松」场景</li></ul><h3>7-9月夏季限定（对标刨冰）</h3><ul><li>「冰感特调」2-3款：冰沙基底+烈酒，48-58元 vs 刨冰20-35元</li><li>🔧 扫码后台→限时菜单→创建「夏日冰感」→7-9月上线</li><li><strong>谁做</strong>：调酒师研发，老板定稿，开业前出品测试</li></ul><h3>9月桂花季切换</h3><p>杭州9月桂花盛开，研发桂花系列：桂花黄酒煮茶（热饮）、桂花蜜威士忌、热桂花拿铁（无酒精），承接换季+制造小红书话题。</p><p><strong>铁律</strong>：首批≤35个SKU。宁可5款精品让人记住，不要50款平庸。开业1月后POS数据砍末尾20%。</p></div>
+<div id="modal-content-8" style="display:none"><h3>已签：扫码点餐+收银POS+小程序</h3><p>问题不是有没有工具，是<strong>用没用对</strong>。清吧场景用法与正餐不同：</p><h3>① 扫码点餐：「不打扰」体验工具</h3><p>清吧客人最怕被频繁打扰。核心价值 = 自主加单不用喊人。</p><ul><li><strong>🔧 菜单文案</strong>：菜品管理→每款酒加一句话故事（非配方），如「白雾森林：椰奶遇上朗姆的热带雨林，干冰开启微醺之旅」</li><li><strong>🔧 加单引导</strong>：推荐设置→点第一杯后弹窗推小食「配杯酒来份坚果？」→桌均+15-20元</li><li><strong>🔧 限时菜单</strong>：设「夏日冰感」「周五限定」时段菜单自动切换</li></ul><h3>② 收银POS：数据驾驶舱</h3><ul><li><strong>日结3个数</strong>：🔧 经营报表→当日营收/桌均/TOP3热销品（打烊前5分钟看）</li><li><strong>时段分析</strong>：🔧 时段报表→找黄金段（预估19-22点）和弱势段（14-17点）→弱势段推无酒精下午茶</li><li><strong>品类占比</strong>：🔧 每周看一次→酒水应≥65%，小食20-25%；小食太低=加单推荐没做好</li><li><strong>谁做</strong>：老板/店长，每天打烊前5分钟</li></ul><h3>③ 小程序：私域底座</h3><ul><li><strong>会员入口</strong>：🔧 会员中心→创建「老友卡」→首页Banner放入口</li><li><strong>优惠券</strong>：🔧 营销中心→「第二杯半价券」（开业用）+「周五9折券」（群内发）</li><li><strong>门店主页</strong>：上传高清环境图+招牌酒+营业时间+导航</li></ul><h3>后续模块建议</h3><table><tr><th>模块</th><th>时机</th><th>理由</th></tr><tr><td>会员旗舰版4,888元/年</td><td>3个月后老客≥100</td><td>团购会员卡+潜客营销+6大活动</td></tr><tr><td>评价专家</td><td>评价≥30条</td><td>差评预警+自动回复</td></tr></table><p><strong>铁律</strong>：每个功能设置前问——「客人会觉得更舒服还是更烦？」清吧要安静+偶尔惊喜，不要弹窗轰炸。</p></div>
+<div id="modal-content-9" style="display:none"><h3>运营投入估算（前60天）</h3><table><tr><th>项目</th><th>预算</th><th>说明</th></tr><tr><td>内测体验官</td><td>¥400</td><td>20人×20元（特调12+小食8）</td></tr><tr><td>首杯免费</td><td>¥400</td><td>50份×8元</td></tr><tr><td>邀请卡印刷</td><td>¥200</td><td>200张</td></tr><tr><td>免费试8周</td><td>¥720</td><td>5份/周×18元×8周</td></tr><tr><td>推广通60天</td><td>¥1,500-3,000</td><td>日均30-50元（⚠️ 假设可开通）</td></tr><tr><td>群福利</td><td>¥300</td><td>100人×3元坚果</td></tr><tr><td><strong>合计</strong></td><td><strong>¥3,520-5,020</strong></td><td>不含人力/固定成本</td></tr></table><h3>收入预测</h3><table><tr><th>指标</th><th>保守D30</th><th>乐观D60</th><th>依据</th></tr><tr><td>日均桌数</td><td>12桌</td><td>20桌</td><td>领航汇客流有限，靠主动获客</td></tr><tr><td>桌均</td><td>¥130</td><td>¥150</td><td>人均65×2人/桌</td></tr><tr><td>月流水</td><td>¥46,800</td><td>¥90,000</td><td>12×130×30 / 20×150×30</td></tr><tr><td>综合毛利63%</td><td>¥29,484</td><td>¥56,700</td><td>酒水80%×65%+小食20%×50%</td></tr></table><p>⚠️ 不含房租/人工/水电。若月租1.5万+人工1.5万+水电0.3万 = 固定约3.3万，<strong>盈亏平衡≈日均9桌</strong>（⚠️ 假设，需确认租金）。</p><p>运营投入约5,000元，<strong>1个月内回本</strong>。</p><h3>季度OKR</h3><table><tr><th>维度</th><th>30天</th><th>60天</th><th>90天</th></tr><tr><td>月流水</td><td>≥2万</td><td>≥5万</td><td>≥8万</td></tr><tr><td>日均桌</td><td>≥8</td><td>≥15</td><td>≥22</td></tr><tr><td>评分</td><td>出星</td><td>≥4.3</td><td>≥4.5</td></tr><tr><td>评价数</td><td>≥15</td><td>≥40</td><td>≥70</td></tr><tr><td>私域群</td><td>≥100</td><td>≥200</td><td>≥300</td></tr><tr><td>会员</td><td>—</td><td>≥80</td><td>≥150</td></tr><tr><td>复购率</td><td>—</td><td>≥20%</td><td>≥30%</td></tr></table><h3>30天复盘节点</h3><ul><li><strong>D7</strong>：群≥30？点评上线？菜单OK？——不达标调获客策略</li><li><strong>D15</strong>：评价≥15（出星）？日均≥8桌？——不达标加大小红书投入</li><li><strong>D30</strong>：全面复盘流水/客单/复购/评分→决定菜单调整、是否上会员旗舰版</li></ul></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>汪洋</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>萧山科技城·领航汇商圈画像</h3><p>领航汇位于萧山科技城核心区（北干街道建设四路×博奥路），属于<strong>新兴商务办公+社区复合型商业体</strong>。周边集聚科技企业、产业园区及新建住宅，常住人口以25-40岁年轻上班族和新杭州人家庭为主。</p><p>⚠️ <strong>关键判断</strong>：领航汇不是成熟商圈，自然客流有限，但写字楼密度高——<strong>你的客人不是逛街顺路来的，而是要被「拉过来」的</strong>。养店周期比成熟商圈长1-2个月，必须从第一天做主动获客。</p><h3>三类核心客群</h3><table><tr><th>客群</th><th>画像</th><th>场景</th><th>消费力</th></tr><tr><td><strong>主力｜写字楼上班族</strong></td><td>25-35岁，科技/金融</td><td>下班小酌、同事聚会、周五放松</td><td>人均60-80元，2-3人</td></tr><tr><td><strong>次要｜社区年轻住户</strong></td><td>25-35岁情侣/闺蜜</td><td>周末约会、拍照打卡</td><td>人均50-70元，2人</td></tr><tr><td><strong>潜力｜商务轻社交</strong></td><td>30-45岁企业中层</td><td>非正式商务会面</td><td>人均80-120元，2-4人</td></tr></table><h3>品类大盘：清吧赛道现状</h3><ul><li>杭州清吧2024-2025年进入<strong>结构性洗牌期</strong>：纯「氛围+音乐」同质化清吧大量关停，存活门店靠<strong>产品差异化（特调/无酒精/茶酒融合）+场景锁定（下班第三空间）</strong></li><li>萧山科技城板块清吧密度极低（⚠️ 假设），直接竞争弱，但<strong>替代性竞争激烈</strong>——瑞幸/Manner/奶茶店抢占同一「下班后一杯饮品」场景</li><li>行业人均：杭州独立清吧<strong>55-85元</strong>，萧山偏低约50-70元（行业参考值）</li><li>酒水毛利60%-70%，但翻台率低、晚间为主——<strong>坪效压力大，必须拉高客单+利用下午时段</strong></li></ul><p><strong>结论：领航汇有「位置红利」（竞争少），没有「流量红利」（人不会自己来）。饮雾浔白能不能活，取决于开业30天内能否建起私域鱼塘。</strong></p>`,
+    2: `<h3>周边3公里竞争格局</h3><p>饮雾浔白面临的不是「同行打同行」，而是<strong>跨品类场景争夺战</strong>——抢的是同一批人下班后那1-2小时。</p><table><tr><th>竞品</th><th>人均</th><th>强项</th><th>弱点（你的机会）</th></tr><tr><td><strong>周边刨冰店</strong>（BD提及）</td><td>20-35元</td><td>低价引流、夏季刚需</td><td>无社交空间、无酒精、秋冬断崖</td></tr><tr><td><strong>喜茶/霸王茶姬</strong></td><td>15-22元</td><td>品牌势能、出杯快</td><td>无空间体验、纯外带、无法承载社交</td></tr><tr><td><strong>瑞幸/Manner</strong></td><td>10-25元</td><td>咖啡刚需、高频复购</td><td>空间逼仄、无晚间场景、无酒精</td></tr><tr><td><strong>独立茶室/棋牌</strong></td><td>50-80元</td><td>老客复购、熟人社交</td><td>审美老旧、年轻人不进、无线上运营</td></tr><tr><td><strong>tea'stone/煮叶</strong></td><td>60-90元</td><td>调性高、产品专业</td><td>价格门槛高、萧山渗透极弱</td></tr></table><h3>差异化卡位</h3><ul><li>低于50元 → 全是外带饮品，没有「坐下来」的空间</li><li>高于80元 → 要么老旧，要么萧山没有</li><li><strong>50-80元+年轻审美+社交空间+特调酒饮 = 领航汇的空白</strong></li></ul><p>核心定位：<strong>「写字楼旁的下班酒馆」</strong>——不是闹吧，不是咖啡馆，是让上班族下班后愿意多待1小时、点杯特调、和朋友聊天的地方。</p><h3>对刨冰店竞争策略</h3><ul><li><strong>夏季正面竞争</strong>：推2-3款「冰感特调」（冰沙基底+朗姆/威士忌），用刨冰口感+酒精溢价，人均高出10-15元但体验完胜</li><li><strong>秋冬错位碾压</strong>：刨冰店10月后断崖，饮雾浔白切热饮特调（桂花黄酒煮茶、热红酒），承接换季流量</li><li><strong>话怎么说</strong>：客人问「跟刨冰比」→「刨冰解暑我们解压，场景不一样——想坐一会儿聊聊天，还是买一杯拿走？」</li></ul>`,
+    3: `<h3>冷启动核心逻辑</h3><p>领航汇自然客流不足，生死线是<strong>30天内建100人私域池</strong>。100老客×月来2次 = 200单，人均65 = <strong>月流水1.3万</strong>（存活底线）。叠加公域新客才能往3万+冲。</p><h3>开业前7天蓄水</h3><table><tr><th>天数</th><th>动作</th><th>谁做</th><th>怎么做</th></tr><tr><td>D-7</td><td>小红书预告</td><td>老板</td><td>拍3-5组装修实景+特调制作视频，发小红书带定位「萧山领航汇」，文案「萧山终于有像样的特调酒馆了」，标签#萧山探店 #领航汇 #特调酒吧</td></tr><tr><td>D-5</td><td>点评上线</td><td>老板</td><td>🔧 点评商家后台→门店管理→完善信息（人均65/标签「清吧」「特调鸡尾酒」「适合拍照」）→上传≥15张高清图</td></tr><tr><td>D-3</td><td>内测体验官</td><td>老板</td><td>小红书/朋友圈招20人免费体验→到店后发带定位笔记或点评（不强制好评，只要真实分享）</td></tr><tr><td>D-1</td><td>写字楼扫楼</td><td>老板+员工</td><td>200张邀请卡（凭卡领迎宾特调1杯）→领航汇+周边写字楼大堂发放→跟前台说「楼下新开酒馆，公司聚会可以来」</td></tr></table><h3>D-Day引爆日</h3><ul><li><strong>首杯免费</strong>（限50名/3款低成本特调≤8元）：🔧 扫码点餐后台→优惠活动→创建「开业首杯」→限量50份<br/><strong>谁做</strong>：调酒师出品，收银POS登记</li><li><strong>加微信送坚果</strong>：买单→扫码加企微→拉群→送坚果拼盘（成本3元）<br/>话术：「加个微信，周五有限定酒会群里提前通知，今天送您坚果」<br/>不愿加：「给您名片，下次报名字打9折」</li><li><strong>拍照打卡</strong>：出片角（灯光+背景墙）发朋友圈带定位→送第二杯半价券（7天有效拉复购）</li></ul><h3>D1-D30养客期</h3><ul><li><strong>第1周</strong>：每晚发群/朋友圈「今日特调+座位实况」</li><li><strong>第2周</strong>：启动「周五特调之夜」每周1款限定→群里预告→制造稀缺</li><li><strong>第3-4周</strong>：反馈调菜单（好留差砍）；启动点评「免费试」</li></ul><p><strong>30天目标</strong>：私域≥100人 | 评价≥25条 | 小红书≥15篇 | 日均≥15桌 | 月流水≥2万</p>`,
+    4: `<h3>现状：零评价零评分的新店</h3><p>31-60天新店，尚未正式营业。清吧品类点评口碑权重极高——<strong>年轻人选酒馆90%先刷点评/小红书</strong>，没有评价 = 线上获客为零。</p><h3>冲分路线图</h3><table><tr><th>阶段</th><th>时间</th><th>目标</th><th>动作</th></tr><tr><td>🟢 出星</td><td>D1-15</td><td>15条评价</td><td>体验官20人→8-10条 + 自然评价5-8条</td></tr><tr><td>🟡 冲分</td><td>D15-30</td><td>≥4.3分/25条</td><td>「免费试」每周5名额</td></tr><tr><td>🔵 上榜</td><td>D30-60</td><td>新店榜→热门榜</td><td>评价+收藏+浏览综合提升</td></tr></table><h3>「免费试」合规操作</h3><p>⚠️ 2025.10新规后，促评=评价不计星级。好评返券/送礼均违规，<strong>严禁使用</strong>。</p><ul><li><strong>谁做</strong>：老板/店长，每周一上午</li><li><strong>🔧 操作</strong>：点评商家后台→营销中心→免费试→创建活动</li><li><strong>设置</strong>：每周5名额，提供「特调1杯+小食」（成本15-18元/份）</li><li><strong>有效原因</strong>：免费试用户是平台筛选的高质量评价者，评价对星级有正向收益，100%合规</li><li><strong>红线</strong>：不要求好评、不引导内容，只提供好体验</li></ul><h3>分享动机（体验驱动）</h3><ul><li><strong>出片设计</strong>：吧台+卡座各1个打卡场景（灯光/干花/霓虹），让客人<strong>主动</strong>想拍照</li><li><strong>特调命名</strong>：「领航日落」「科技城晚安」「白雾森林」——有趣的名字客人愿意写进评价</li><li><strong>上酒话术</strong>：一句话故事——「这杯用本地桂花蜜，9月桂花季更香」，让评价有内容</li></ul><p><strong>目标</strong>：60天评分≥4.3 | 评价≥40条 | 收藏≥80 | 精选评价≥5条</p>`,
+    5: `<h3>清吧公域：小红书 > 点评 > 抖音</h3><p>年轻人选酒馆靠<strong>「种草」不靠「搜索」</strong>。</p><h3>① 小红书（核心阵地）</h3><p><strong>谁做</strong>：老板本人</p><p><strong>内容矩阵（每周3-4篇）</strong>：</p><ul><li><strong>出片类40%</strong>：暗调灯光+玻璃杯特写+环境图，标签「萧山探店」「杭州清吧」「领航汇」</li><li><strong>故事类30%</strong>：「为什么在萧山开特调酒馆」「这杯酒的故事」「下班后的第三种选择」</li><li><strong>互动类30%</strong>：「这杯该叫什么名字」「萧山人下班都去哪」</li></ul><p><strong>发布</strong>：周三/周五/周六 18:00-20:00</p><p><strong>月目标</strong>：≥12篇，曝光≥5000，引流≥30人</p><h3>② 大众点评</h3><ul><li><strong>基础建设</strong>：🔧 商家后台→完善信息→15+高清图→4个标签→营业时间+人均</li><li><strong>团购引流</strong>：「特调双人套餐」99元（2杯特调+小食，成本35元）→🔧 商家后台→团购→创建→库存50</li><li><strong>免费试</strong>：每周5名额持续30天</li><li><strong>推广通</strong>（⚠️ 假设可开通）：投放「特调酒吧」「萧山清吧」，日预算30-50元</li></ul><h3>③ 抖音（轻运营）</h3><p>转化链路长，不主投。小红书内容同步发，爆了再追加。</p><h3>公私域联动闭环</h3><p><strong>公域引流→到店体验→加群沉淀→群消息唤醒复购→到店拍照发小红书→新客种草</strong>——形成内容飞轮。</p><p><strong>60天目标</strong>：三平台引流≥80人（小红书30+点评40+抖音10）</p>`,
+    6: `<h3>清吧私域逻辑</h3><p><strong>高毛利低频</strong>——酒水毛利60-70%，但客人不会天天来。私域核心是<strong>「想喝酒时第一个想到你」</strong>，保持存在感，不是疯狂推优惠。</p><h3>微信私域（D1开始）</h3><p><strong>谁做</strong>：老板/店长</p><ul><li><strong>加粉</strong>：买单→扫码加企微→拉群→送坚果（3元）<br/>🔧 收银POS买单页放企微台卡</li><li><strong>话术</strong>：「加微信，周五限定酒会群里提前通知，今天送您坚果」</li><li><strong>不愿加</strong>：「给您名片，下次报名字9折」——留联系方式也行</li></ul><h3>群运营（每周4条）</h3><table><tr><th>时间</th><th>内容</th><th>目的</th></tr><tr><td>周一18:00</td><td>本周特调预告</td><td>种草</td></tr><tr><td>周三20:00</td><td>周五之夜预告+预约</td><td>锁客</td></tr><tr><td>周五17:30</td><td>「今晚喝什么」投票</td><td>唤醒</td></tr><tr><td>周日15:00</td><td>上周TOP3酒</td><td>沉淀</td></tr></table><p>⚠️ 红线：最多4条/周，不刷屏，「朋友推荐」调性。</p><h3>轻量会员（D15启动）</h3><p>⚠️ 已签扫码+小程序，<strong>未签会员</strong>（⚠️ 假设）。用小程序做：</p><ul><li><strong>老友卡</strong>：🔧 小程序→会员中心→创建「老友卡」→注册送「买3赠1」（消费3次赠特调1杯，成本12元）</li><li><strong>积分</strong>：1元=1分，500分兑小食（成本5元）</li><li><strong>生日</strong>：赠「你的年份酒」（按出生年份调配，仪式感强）</li></ul><h3>储值判断</h3><p>⚠️ <strong>当前不上储值</strong>：①新店客群薄弱②清吧低频（月1-2次）③未签会员模块。<strong>建议3个月后老客≥100人再评估</strong>。届时复购≥25%可上旗舰版（4,888元/年）+轻储值500/800/1200三档。</p><p><strong>目标</strong>：30天群≥100人 | 60天会员≥80 | 互动率≥15%</p>`,
+    7: `<h3>产品是清吧命脉</h3><p>清吧靠<strong>「这杯酒值得专门来一趟」</strong>。品牌含「雾/白」意象，走<strong>新中式+实验风特调</strong>路线。</p><h3>菜单结构</h3><p>🔧 扫码点餐后台→菜品管理→按分类创建：</p><table><tr><th>分类</th><th>SKU</th><th>定价</th><th>定位</th></tr><tr><td><strong>招牌特调</strong></td><td>5-6款</td><td>48-68元</td><td>利润核心，毛利≥70%，有故事+视觉记忆</td></tr><tr><td><strong>经典鸡尾酒</strong></td><td>8-10款</td><td>38-58元</td><td>莫吉托/长岛/Negroni，基础需求</td></tr><tr><td><strong>无酒精特饮</strong></td><td>4-5款</td><td>28-38元</td><td>覆盖不喝酒同行者</td></tr><tr><td><strong>啤酒/红酒</strong></td><td>5-8款</td><td>25-68元</td><td>精酿+杯卖红酒</td></tr><tr><td><strong>小食拼盘</strong></td><td>6-8款</td><td>28-48元</td><td>坚果/薯条/芝士/鸭脖，提升客单</td></tr></table><h3>3款必点招牌（爆品锚点）</h3><ul><li><strong>「白雾森林」</strong>：干冰烟雾+椰奶+朗姆，<strong>58元</strong>，成本12元，毛利79%——100%拍照发小红书</li><li><strong>「领航日落」</strong>：渐变色（橙汁+石榴+伏特加），<strong>52元</strong>，成本10元——名字绑地标，有归属感</li><li><strong>「科技城晚安」</strong>：洋甘菊+蜂蜜+金酒（低度），<strong>48元</strong>，成本9元——切「放松」场景</li></ul><h3>7-9月夏季限定（对标刨冰）</h3><ul><li>「冰感特调」2-3款：冰沙基底+烈酒，48-58元 vs 刨冰20-35元</li><li>🔧 扫码后台→限时菜单→创建「夏日冰感」→7-9月上线</li><li><strong>谁做</strong>：调酒师研发，老板定稿，开业前出品测试</li></ul><h3>9月桂花季切换</h3><p>杭州9月桂花盛开，研发桂花系列：桂花黄酒煮茶（热饮）、桂花蜜威士忌、热桂花拿铁（无酒精），承接换季+制造小红书话题。</p><p><strong>铁律</strong>：首批≤35个SKU。宁可5款精品让人记住，不要50款平庸。开业1月后POS数据砍末尾20%。</p>`,
+    8: `<h3>已签：扫码点餐+收银POS+小程序</h3><p>问题不是有没有工具，是<strong>用没用对</strong>。清吧场景用法与正餐不同：</p><h3>① 扫码点餐：「不打扰」体验工具</h3><p>清吧客人最怕被频繁打扰。核心价值 = 自主加单不用喊人。</p><ul><li><strong>🔧 菜单文案</strong>：菜品管理→每款酒加一句话故事（非配方），如「白雾森林：椰奶遇上朗姆的热带雨林，干冰开启微醺之旅」</li><li><strong>🔧 加单引导</strong>：推荐设置→点第一杯后弹窗推小食「配杯酒来份坚果？」→桌均+15-20元</li><li><strong>🔧 限时菜单</strong>：设「夏日冰感」「周五限定」时段菜单自动切换</li></ul><h3>② 收银POS：数据驾驶舱</h3><ul><li><strong>日结3个数</strong>：🔧 经营报表→当日营收/桌均/TOP3热销品（打烊前5分钟看）</li><li><strong>时段分析</strong>：🔧 时段报表→找黄金段（预估19-22点）和弱势段（14-17点）→弱势段推无酒精下午茶</li><li><strong>品类占比</strong>：🔧 每周看一次→酒水应≥65%，小食20-25%；小食太低=加单推荐没做好</li><li><strong>谁做</strong>：老板/店长，每天打烊前5分钟</li></ul><h3>③ 小程序：私域底座</h3><ul><li><strong>会员入口</strong>：🔧 会员中心→创建「老友卡」→首页Banner放入口</li><li><strong>优惠券</strong>：🔧 营销中心→「第二杯半价券」（开业用）+「周五9折券」（群内发）</li><li><strong>门店主页</strong>：上传高清环境图+招牌酒+营业时间+导航</li></ul><h3>后续模块建议</h3><table><tr><th>模块</th><th>时机</th><th>理由</th></tr><tr><td>会员旗舰版4,888元/年</td><td>3个月后老客≥100</td><td>团购会员卡+潜客营销+6大活动</td></tr><tr><td>评价专家</td><td>评价≥30条</td><td>差评预警+自动回复</td></tr></table><p><strong>铁律</strong>：每个功能设置前问——「客人会觉得更舒服还是更烦？」清吧要安静+偶尔惊喜，不要弹窗轰炸。</p>`,
+    9: `<h3>运营投入估算（前60天）</h3><table><tr><th>项目</th><th>预算</th><th>说明</th></tr><tr><td>内测体验官</td><td>¥400</td><td>20人×20元（特调12+小食8）</td></tr><tr><td>首杯免费</td><td>¥400</td><td>50份×8元</td></tr><tr><td>邀请卡印刷</td><td>¥200</td><td>200张</td></tr><tr><td>免费试8周</td><td>¥720</td><td>5份/周×18元×8周</td></tr><tr><td>推广通60天</td><td>¥1,500-3,000</td><td>日均30-50元（⚠️ 假设可开通）</td></tr><tr><td>群福利</td><td>¥300</td><td>100人×3元坚果</td></tr><tr><td><strong>合计</strong></td><td><strong>¥3,520-5,020</strong></td><td>不含人力/固定成本</td></tr></table><h3>收入预测</h3><table><tr><th>指标</th><th>保守D30</th><th>乐观D60</th><th>依据</th></tr><tr><td>日均桌数</td><td>12桌</td><td>20桌</td><td>领航汇客流有限，靠主动获客</td></tr><tr><td>桌均</td><td>¥130</td><td>¥150</td><td>人均65×2人/桌</td></tr><tr><td>月流水</td><td>¥46,800</td><td>¥90,000</td><td>12×130×30 / 20×150×30</td></tr><tr><td>综合毛利63%</td><td>¥29,484</td><td>¥56,700</td><td>酒水80%×65%+小食20%×50%</td></tr></table><p>⚠️ 不含房租/人工/水电。若月租1.5万+人工1.5万+水电0.3万 = 固定约3.3万，<strong>盈亏平衡≈日均9桌</strong>（⚠️ 假设，需确认租金）。</p><p>运营投入约5,000元，<strong>1个月内回本</strong>。</p><h3>季度OKR</h3><table><tr><th>维度</th><th>30天</th><th>60天</th><th>90天</th></tr><tr><td>月流水</td><td>≥2万</td><td>≥5万</td><td>≥8万</td></tr><tr><td>日均桌</td><td>≥8</td><td>≥15</td><td>≥22</td></tr><tr><td>评分</td><td>出星</td><td>≥4.3</td><td>≥4.5</td></tr><tr><td>评价数</td><td>≥15</td><td>≥40</td><td>≥70</td></tr><tr><td>私域群</td><td>≥100</td><td>≥200</td><td>≥300</td></tr><tr><td>会员</td><td>—</td><td>≥80</td><td>≥150</td></tr><tr><td>复购率</td><td>—</td><td>≥20%</td><td>≥30%</td></tr></table><h3>30天复盘节点</h3><ul><li><strong>D7</strong>：群≥30？点评上线？菜单OK？——不达标调获客策略</li><li><strong>D15</strong>：评价≥15（出星）？日均≥8桌？——不达标加大小红书投入</li><li><strong>D30</strong>：全面复盘流水/客单/复购/评分→决定菜单调整、是否上会员旗舰版</li></ul>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
