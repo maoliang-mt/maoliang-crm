@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>嵊州小吃 · 耕文路新店运营方案</title>
+<style>
+:root{--p:#C62828;--pl:#EF5350;--a:#FF8F00;--al:#FFB300;--bg:#0F1419;--card:#1A2332;--ch:#1E2A3A;--t1:#E8EAED;--t2:#9AA0A6;--t3:#6B7280;--bd:rgba(255,255,255,.08);--gw:rgba(198,40,40,.3);--ok:#00C853;--wn:#FFB300}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Helvetica Neue','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--t1);line-height:1.75;overflow-x:hidden}
+.ctn{max-width:880px;margin:0 auto;padding:0 20px;position:relative;z-index:1}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:60px 20px;background:radial-gradient(ellipse at 50% 30%,rgba(198,40,40,.12) 0%,transparent 70%)}
+.badge{display:inline-block;padding:6px 20px;background:linear-gradient(135deg,var(--p),var(--pl));border-radius:30px;font-size:13px;font-weight:600;letter-spacing:2px;margin-bottom:24px;box-shadow:0 4px 20px var(--gw)}
+.hero h1{font-size:clamp(2rem,5vw,3rem);font-weight:700;margin-bottom:12px;background:linear-gradient(135deg,#fff,var(--al));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero .sub{font-size:1.15rem;color:var(--t2);margin-bottom:8px}
+.hero .addr{font-size:14px;color:var(--t3);margin-bottom:32px}
+.sr{display:flex;gap:40px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+.si{text-align:center}.sv{font-size:1.8rem;font-weight:700;color:var(--al)}.sl{font-size:13px;color:var(--t3);margin-top:4px}
+.st{font-size:clamp(1.4rem,3vw,1.8rem);text-align:center;margin:60px 0 12px;font-weight:700}
+.sd{text-align:center;color:var(--t2);font-size:14px;margin-bottom:36px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;margin-bottom:40px}
+.cd{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:24px 16px;text-align:center;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+.cd::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--p),var(--a));opacity:0;transition:opacity .3s}
+.cd:hover{background:var(--ch);transform:translateY(-4px);box-shadow:0 8px 30px rgba(0,0,0,.3);border-color:rgba(198,40,40,.3)}
+.cd:hover::before{opacity:1}
+.cd.lk{opacity:.5;cursor:default}.cd.lk:hover{transform:none;box-shadow:none}
+.cn{font-size:2rem;font-weight:700;color:var(--pl);margin-bottom:8px}.cd.lk .cn{color:var(--t3)}
+.ct{font-size:15px;font-weight:500;margin-bottom:8px}
+.tg{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600}
+.tf{background:rgba(0,200,83,.15);color:var(--ok)}.tl{background:rgba(255,179,0,.15);color:var(--wn)}
+.ub{background:linear-gradient(135deg,var(--card),rgba(198,40,40,.08));border:1px solid rgba(198,40,40,.25);border-radius:16px;padding:28px;text-align:center;margin:20px 0 60px}
+.ub h3{font-size:1.15rem;margin-bottom:16px}
+.ur{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.ui{padding:10px 20px;border:1px solid var(--bd);border-radius:10px;background:rgba(255,255,255,.05);color:var(--t1);font-size:15px;width:200px;text-align:center;outline:none}
+.ui:focus{border-color:var(--pl)}
+.ub2{padding:10px 28px;background:linear-gradient(135deg,var(--p),var(--pl));border:none;border-radius:10px;color:#fff;font-size:15px;font-weight:600;cursor:pointer;transition:all .3s}
+.ub2:hover{transform:scale(1.05);box-shadow:0 4px 20px var(--gw)}
+.um{margin-top:12px;font-size:14px;min-height:24px}
+.ov{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.75);z-index:1000;justify-content:center;align-items:flex-start;padding:40px 16px;overflow-y:auto}
+.ov.active{display:flex}
+.md{background:var(--card);border:1px solid var(--bd);border-radius:20px;max-width:860px;width:95vw;padding:40px;position:relative;animation:mi .3s ease;margin:auto}
+@keyframes mi{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+.mc{position:absolute;top:16px;right:20px;font-size:24px;cursor:pointer;color:var(--t3);background:none;border:none;z-index:10}.mc:hover{color:var(--t1)}
+.mh{display:flex;align-items:center;gap:16px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--bd)}
+.mn{font-size:2rem;font-weight:700;color:var(--pl)}.mt2{font-size:1.4rem;font-weight:700}
+.mb h3{font-size:1.1rem;color:var(--al);margin:28px 0 12px;padding-left:12px;border-left:3px solid var(--p)}
+.mb h4{font-size:1rem;color:var(--t1);margin:20px 0 8px;font-weight:600}
+.mb p{color:var(--t2);margin-bottom:12px}.mb ul,.mb ol{color:var(--t2);padding-left:20px;margin-bottom:12px}.mb li{margin-bottom:6px}.mb strong{color:var(--t1)}
+.mb table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+.mb th{background:rgba(198,40,40,.12);color:var(--al);padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid rgba(198,40,40,.25)}
+.mb td{padding:10px 12px;border-bottom:1px solid var(--bd);color:var(--t2)}.mb tr:hover td{background:rgba(255,255,255,.02)}
+.hb{background:rgba(198,40,40,.06);border:1px solid rgba(198,40,40,.18);border-radius:12px;padding:16px 20px;margin:16px 0;color:var(--t2)}
+.hw{background:rgba(255,179,0,.06);border-color:rgba(255,179,0,.18)}.ho{background:rgba(0,200,83,.06);border-color:rgba(0,200,83,.18)}
+.sc{background:rgba(255,255,255,.03);border:1px solid var(--bd);border-radius:12px;padding:16px 20px;margin:12px 0}
+.ft{text-align:center;padding:60px 20px;border-top:1px solid var(--bd);margin-top:40px}
+.ft .br{font-size:1.1rem;color:var(--t3);margin-bottom:8px}.ft .dt{font-size:13px;color:var(--t3)}
+@media(max-width:767px){.grid{grid-template-columns:repeat(2,1fr)}.ctn{padding:0 12px}.md{padding:24px 16px}.sr{gap:24px}}
+</style>
+</head>
+<body>
+<div class="hero">
+<div class="badge">新店运营方案</div>
+<h1>嵊州小吃 · 耕文路店</h1>
+<div class="sub">正宗嵊州味道 · 社区高频复购型运营方案</div>
+<div class="addr">📍 杭州萧山区宁围街道耕文路</div>
+<div class="sr">
+<div class="si"><div class="sv">¥15-22</div><div class="sl">人均消费</div></div>
+<div class="si"><div class="sv">社区店</div><div class="sl">门店定位</div></div>
+<div class="si"><div class="sv">宁围街道</div><div class="sl">所在商圈</div></div>
+</div>
+</div>
+<div class="ctn">
+<div class="st">📑 方案目录</div>
+<div class="sd">前3章免费预览 · 签约后解锁完整方案</div>
+<div class="grid" id="G"></div>
+<div class="ub">
+<h3>🔐 签约解锁完整方案</h3>
+<div class="ur"><input class="ui" id="P" type="password" placeholder="请输入解锁密码"><button class="ub2" onclick="U()">解锁全部</button></div>
+<div class="um" id="M"></div>
+</div>
+<div class="ft"><div class="br">美团餐饮SaaS运营策划团队</div><div class="dt">2026年7月</div></div>
+</div>
+<div class="ov" id="O" onclick="if(event.target===this)C()">
+<div class="md"><button class="mc" onclick="C()">✕</button><div class="mh"><span class="mn" id="mN"></span><span class="mt2" id="mT"></span></div><div class="mb" id="mB"></div></div>
+</div>
+<script>
+
+const PWD='123456';
+let unlocked=false;
+
+const CH=[
+{id:1,title:'商圈洞察与竞品分析',tag:'免费预览',locked:false,content:`
+<h3>3公里商圈画像</h3>
+<p>耕文路位于萧山区宁围街道核心居住区，周边以住宅小区为主，常住人口密集。<strong>日常早餐+午餐是最高频的消费场景</strong>。</p>
+<table><tr><th>客群类型</th><th>占比</th><th>核心场景</th><th>客单</th><th>频次</th></tr>
+<tr><td><strong>社区居民</strong></td><td>55-60%</td><td>早餐+午餐+晚餐带走</td><td>¥12-18</td><td>每周3-5次</td></tr>
+<tr><td><strong>周边上班族</strong></td><td>25-30%</td><td>工作日午餐</td><td>¥15-25</td><td>每周3-4次</td></tr>
+<tr><td><strong>外卖/路过客</strong></td><td>10-15%</td><td>外卖/偶然路过</td><td>¥20-30</td><td>每月2-4次</td></tr></table>
+<div class="ho hb"><strong>💡 关键洞察：</strong>人均¥15-22的社区小吃店，核心竞争力=<strong>高频复购</strong>。一个忠实居民月来10次×¥15=¥150/月，远超一个高客单路过客。整套方案核心：<strong>把3公里内居民变成"每周来3次"的固定客人</strong>。</div>
+<h3>🏪 周边竞品分析</h3>
+<table><tr><th>竞品</th><th>人均</th><th>弱点</th><th>我们的切入点</th></tr>
+<tr><td>老友鱼汤面（同街）</td><td>¥15-20</td><td>品类单一，早餐弱</td><td>完全差异化赛道，可互补引流</td></tr>
+<tr><td>周边早餐店</td><td>¥8-15</td><td>品质一般，无特色</td><td>「嵊州」地域标签=正宗手工溢价</td></tr>
+<tr><td>其他嵊州小吃店</td><td>¥15-22</td><td>无品牌意识，不做线上</td><td>新装修+外卖+会员+点评=2.0版</td></tr></table>
+<h3>⚠️ 新店四大挑战</h3>
+<ul><li><strong>知名度=0</strong>——最大问题不是口味，是「没人知道你开了」</li>
+<li><strong>信任为零</strong>——居民有固定早餐店，凭什么换</li>
+<li><strong>点评空白</strong>——无评价无星级，线上看不见</li>
+<li><strong>外卖从零</strong>——新店需快速冲量获得算法推荐</li></ul>
+<p>👉 <strong>30天目标：让3公里居民「知道→来过→记住→再来→推荐」。</strong></p>`},
+
+{id:2,title:'爆品策略与菜单设计',tag:'免费预览',locked:false,content:`
+<h3>🥟 一个爆品锚定品牌记忆</h3>
+<p>嵊州小吃SKU丰富（小笼包/年糕/榨面/豆腐包/春饼），但品类多≠记忆点多。社区店品牌记忆只能靠<strong>一道菜反复打</strong>。</p>
+<div class="ho hb"><strong>🏆 推荐爆品：嵊州小笼包</strong><br>Why：①杭州有认知度，自带搜索流量 ②出餐快（蒸3-5分钟） ③皮薄汁多适合拍照传播 ④成本可控毛利60%+<br>How：所有对外宣传统一主打小笼包，其他品类作为「来了之后的惊喜」。</div>
+<h3>📋 菜单结构（三区法）</h3>
+<table><tr><th>区域</th><th>定位</th><th>产品</th><th>定价</th><th>作用</th></tr>
+<tr><td>🔥 爆款区</td><td>引流+记忆</td><td>小笼包6只¥8/10只¥12、豆腐包¥3/个</td><td>¥3-12</td><td>拉客进门</td></tr>
+<tr><td>🍜 主力区</td><td>利润+饱腹</td><td>榨面¥12-15、炒年糕¥12-15、春饼¥10-12</td><td>¥10-15</td><td>利润核心</td></tr>
+<tr><td>🥤 搭配区</td><td>拉客单</td><td>豆浆¥3、蛋花汤¥4、卤蛋¥2、小菜¥3-5</td><td>¥2-5</td><td>高毛利加单</td></tr></table>
+<h3>🍱 套餐设计</h3>
+<table><tr><th>套餐</th><th>内容</th><th>单点价</th><th>套餐价</th><th>定位</th></tr>
+<tr><td>🅰️经典早餐</td><td>小笼包6只+豆浆</td><td>¥11</td><td><strong>¥9.9</strong></td><td>早餐引流款</td></tr>
+<tr><td>🅱️双拼午餐</td><td>榨面/年糕二选一+小笼4只+豆浆</td><td>¥20-22</td><td><strong>¥16.9</strong></td><td>午餐主推款</td></tr>
+<tr><td>🅲全家福</td><td>小笼10只+榨面+豆腐包2个+小菜</td><td>¥30+</td><td><strong>¥25.9</strong></td><td>2人以上</td></tr></table>
+<div class="hb"><strong>💡 套餐落地How</strong>：①老板定菜单→BD在🔧收银后台→菜品管理→新建套餐 ②开业前3天配置完成 ③服务员话术「套餐比单点省3-5块」④不点也不追，扫码点餐页面自动排前</div>`},
+
+{id:3,title:'SaaS四件套系统方案',tag:'免费预览',locked:false,content:`
+<h3>🔧 已签约产品全景</h3>
+<div class="ho hb"><strong>💡 一体化优势：</strong>一个后台统管堂食收银+外卖接单+团购核销+会员运营。不用切多个系统，员工培训一次到位，数据全打通。</div>
+<table><tr><th>产品</th><th>核心功能</th><th>解决什么问题</th><th>协同</th></tr>
+<tr><td><strong>①主收银</strong> ¥3,688</td><td>收银点餐+外卖接单+团购核销</td><td>堂食扫码点餐、快速结账、接外卖单、核销团购券</td><td>→旗舰会员/→外卖中心</td></tr>
+<tr><td><strong>②三方聚合</strong> ¥368</td><td>美团+饿了么+抖音统一接单</td><td>一台打印机出所有平台单，不漏不错</td><td>→外卖中心AI诊断</td></tr>
+<tr><td><strong>③外卖中心</strong> ¥360</td><td>回评发券+AI诊断</td><td>好评自动回复发券；AI分析找增长点</td><td>→拉复购率</td></tr>
+<tr><td><strong>④旗舰会员</strong> ¥4,888</td><td>潜客发券+团购会员卡+多平台打通</td><td>浏览未消费→自动发券；团购核销→自动转会员</td><td>←收银/←团购</td></tr></table>
+<h3>📋 开业前配置Checklist</h3>
+<div class="hw hb"><strong>⚠️</strong> 以下由BD陈国庆协助，开业前3天全部就绪并测试通过！</div>
+<table><tr><th>时间</th><th>事项</th><th>执行人</th><th>验收</th></tr>
+<tr><td><strong>前7天</strong></td><td>收银机安装联网+录入菜单+桌码打印</td><td>BD+安装员+老板</td><td>扫码可点餐，小票正常</td></tr>
+<tr><td><strong>前5天</strong></td><td>外卖店铺开通+三方聚合绑定+外卖中心配置+会员系统配置</td><td>BD陈国庆</td><td>三平台接单出票正常，入会流程通</td></tr>
+<tr><td><strong>前3天</strong></td><td>团购券上线+潜客发券开启+全流程联调</td><td>BD+老板+1员工</td><td>堂食→结账→入会、外卖→出餐→回评 全跑通</td></tr>
+<tr><td><strong>前1天</strong></td><td>员工操作培训</td><td>BD现场</td><td>每人独立完成收银/扫码/核销/推会员</td></tr></table>`},
+
+{id:4,title:'开业冷启动30天作战',tag:'签约解锁',locked:true,content:`
+<h3>30天总览</h3>
+<table><tr><th>阶段</th><th>时间</th><th>目标</th><th>关键指标</th></tr>
+<tr><td>🔥预热</td><td>开业前7天</td><td>让居民知道要开嵊州小吃</td><td>朋友圈500+曝光、社区群3个+</td></tr>
+<tr><td>💥爆发</td><td>第1-14天</td><td>排队效应+首批好评+会员</td><td>日均80+客流、20+好评、100+会员</td></tr>
+<tr><td>📈稳定</td><td>第15-30天</td><td>复购率+外卖量上升</td><td>复购率≥30%、外卖15单+/天、200+会员</td></tr></table>
+<h3>🔥 预热期（开业前7天）</h3>
+<h4>动作一：朋友圈预热</h4>
+<table><tr><th>天</th><th>内容</th></tr>
+<tr><td>Day-7</td><td>「耕文路要开正宗嵊州小吃了！小笼包豆腐包榨面年糕…都是嵊州老师傅手艺。装修中先馋一下🤤」配装修照+美食图</td></tr>
+<tr><td>Day-5</td><td>「后厨试菜！小笼包馅料配了8次就为那口嵊州味。倒计时5天⏳」配后厨照</td></tr>
+<tr><td>Day-3</td><td>「剧透：开业当天小笼包买一笼送一笼！前50位。耕文路XX号📍」</td></tr>
+<tr><td>Day-1</td><td>「明天开业！6:30开门。转发到店送一碗热榨面🍜」</td></tr></table>
+<h4>动作二：社区群渗透</h4>
+<div class="sc"><div style="color:var(--al);font-weight:600">📍 老板在社区群发开业预告</div><div style="color:var(--t1);font-style:italic;margin-top:8px">「大家好！我是嵊州人，在耕文路XX号开了家嵊州小吃。小笼包豆腐包榨面都是家传手艺。开业前3天小笼包买一送一，欢迎邻居来尝！」</div><div style="color:var(--t3);font-size:13px;margin-top:8px">🔄 群主不让发广告→私信说明/请群里认识的邻居帮转</div></div>
+<h4>动作三：地推传单（500张）</h4>
+<table><tr><th>点位</th><th>时间</th><th>话术</th></tr>
+<tr><td>菜市场入口</td><td>早7-8:30</td><td>「阿姨早！耕文路新开嵊州小吃，正宗小笼包，开业买一送一，走过来5分钟！」</td></tr>
+<tr><td>小区门口</td><td>晚17-18:30</td><td>「嵊州小吃明天开业，早餐不用做了，来一笼小笼方便又实惠！」</td></tr></table>
+<h3>💥 爆发期（第1-14天）</h3>
+<h4>开业当天活动</h4>
+<table><tr><th>活动</th><th>规则</th><th>目的</th><th>成本</th></tr>
+<tr><td>🎉小笼买一送一</td><td>前50位，每人限1次</td><td>排队效应</td><td>~¥200</td></tr>
+<tr><td>🧧进店送豆浆</td><td>每位到店送1杯</td><td>降低进店门槛</td><td>~¥50/天</td></tr>
+<tr><td>📱扫码入会送券</td><td>成为会员送¥3券</td><td>当天转化会员</td><td>~¥1-2/人</td></tr>
+<tr><td>🎊朋友圈集赞</td><td>带定位集20赞送年糕</td><td>社交裂变</td><td>~¥3/份</td></tr></table>
+<h4>好评积累计划（前30条）</h4>
+<table><tr><th>来源</th><th>目标</th><th>怎么做</th></tr>
+<tr><td>亲友团</td><td>10条</td><td>开业前3天邀亲友到店，饭后当面请求写点评：「帮我写个真实评价，刚开店攒人气」</td></tr>
+<tr><td>堂食引导</td><td>15条</td><td>结账时：「觉得不错方便点评写个评价吗？写完送饮料！」桌上放引导台卡</td></tr>
+<tr><td>外卖好评</td><td>5条</td><td>出餐放好评卡：「五星截图给老板微信，下次减2元」</td></tr></table>
+<div class="hw hb"><strong>⚠️ 红线：</strong>好评必须基于真实消费，严禁刷单！点评反作弊很严，被抓降星降权。</div>
+<h3>📈 稳定期（第15-30天）</h3>
+<table><tr><th>动作</th><th>执行人</th><th>具体做法</th></tr>
+<tr><td>复购激活</td><td>系统自动</td><td>旗舰会员对7天未到店会员推送「老顾客回馈券」满15减3</td></tr>
+<tr><td>外卖冲量</td><td>老板+BD</td><td>参考外卖中心AI诊断优化满减和主图</td></tr>
+<tr><td>菜单微调</td><td>老板</td><td>砍掉点击率<5%的菜品，重点推爆款</td></tr>
+<tr><td>社区关系</td><td>老板</td><td>给周边店主送小笼尝鲜，互相引流</td></tr></table>
+<div class="ho hb"><strong>✅ 30天复盘指标：</strong>①会员≥200 ②点评好评≥30 ③外卖日均≥15单 ④7日复购率≥30% ⑤日均营业额≥¥1500。达标=冷启动成功。</div>`},
+
+{id:5,title:'外卖运营全案',tag:'签约解锁',locked:true,content:`
+<h3>📦 外卖上线准备</h3>
+<div class="hb"><strong>📋 核心认知：</strong>社区小吃客单低（¥15-22），外卖要赚钱靠<strong>高出单量+合理满减</strong>。小笼包/榨面出餐快、标准化高，天然适合外卖。</div>
+<h4>主图与菜单</h4>
+<table><tr><th>项目</th><th>标准</th><th>建议</th></tr>
+<tr><td>店铺主图</td><td>1:1正方形</td><td>一笼热气腾腾小笼包特写，左上标「嵊州小吃」</td></tr>
+<tr><td>菜品图片</td><td>每品必有图</td><td>手机实拍，小笼拍「夹起来有汤汁」，榨面拍「浇头满满」</td></tr>
+<tr><td>分类</td><td>≤5个</td><td>招牌必点 / 面食粉类 / 套餐专区 / 饮品小食 / 加料区</td></tr>
+<tr><td>SKU</td><td>15-20个</td><td>不贪多，社区外卖顾客决策要快</td></tr></table>
+<h4>定价与满减</h4>
+<table><tr><th>策略</th><th>方案</th><th>逻辑</th></tr>
+<tr><td>菜品定价</td><td>外卖=堂食×1.15-1.2</td><td>覆盖佣金（堂食小笼¥8→外卖¥10）</td></tr>
+<tr><td>满减一档</td><td>满20减3</td><td>1人份即达，吸引新客</td></tr>
+<tr><td>满减二档</td><td>满35减6</td><td>2人份/加料达标，提客单</td></tr>
+<tr><td>满减三档</td><td>满50减10</td><td>家庭/拼单场景</td></tr></table>
+<h3>🛵 外卖套餐设计（与堂食差异化）</h3>
+<table><tr><th>套餐</th><th>内容</th><th>外卖价</th><th>逻辑</th></tr>
+<tr><td>一人食早餐</td><td>小笼6只+豆浆+卤蛋</td><td>¥13.9</td><td>凑满减第一档，降低配送费占比感</td></tr>
+<tr><td>午餐能量餐</td><td>炒年糕/榨面+小笼4只+小菜</td><td>¥19.9</td><td>接近满减一档，吃饱+有小吃搭配</td></tr>
+<tr><td>双人共享</td><td>小笼10只+榨面+豆腐包2+饮品2</td><td>¥35.9</td><td>精准卡满减二档</td></tr></table>
+<h3>🚀 新店外卖冲量（前14天）</h3>
+<ol>
+<li><strong>Day1-3</strong>：新店流量红利期，开启新客立减¥5（🔧商家后台→营销中心→新客立减），配合满减吸引首单</li>
+<li><strong>Day4-7</strong>：参加平台「新店冲刺」活动（🔧商家后台→活动中心→新店加速），争取曝光位</li>
+<li><strong>Day8-14</strong>：根据外卖中心AI诊断🔧调整满减梯度和主图排序，重点关注「转化率」和「复购率」两个指标</li>
+</ol>
+<h3>📝 差评应对预案</h3>
+<table><tr><th>差评类型</th><th>回复模板</th><th>内部动作</th></tr>
+<tr><td>出餐慢</td><td>「非常抱歉让您久等了！我们已优化出餐流程，下次一定快。送您一张¥3券补偿🙏」</td><td>排查出餐流程，高峰期预蒸小笼备货</td></tr>
+<tr><td>口味不合</td><td>「感谢反馈！每个人口味不同，我们虚心接受。欢迎再来试试其他品类🥟」</td><td>统计同类差评数量，超3条需调整配方</td></tr>
+<tr><td>配送问题</td><td>「配送由平台负责，我们已反馈。给您发一张¥3券，下次体验更好！」</td><td>联系平台客服投诉骑手</td></tr></table>
+<div class="hb"><strong>How落地</strong>：①外卖中心🔧自动回评功能设置好评/差评模板 ②差评2小时内回复（老板手机设闹钟10:00/14:00/20:00查） ③每周日复盘外卖数据（单量/评分/差评TOP3原因）</div>`},
+
+{id:6,title:'会员运营与活动策划',tag:'签约解锁',locked:true,content:`
+<h3>💳 旗舰会员系统配置</h3>
+<h4>会员卡设计</h4>
+<table><tr><th>项目</th><th>设置</th><th>Why</th></tr>
+<tr><td>入会方式</td><td>扫码免费入会（零门槛）</td><td>社区小吃¥15客单，收费入会劝退率极高</td></tr>
+<tr><td>入会礼</td><td>¥3无门槛券（3天有效）</td><td>短有效期促快速二次消费</td></tr>
+<tr><td>积分规则</td><td>消费1元=1积分，100积分=¥1</td><td>简单好懂，1%回馈率成本可控</td></tr>
+<tr><td>会员日</td><td>每周三「会员日」小笼加1只</td><td>固定一天拉客，培养消费习惯</td></tr></table>
+<div class="hb"><strong>🔧 操作路径</strong>：美团商家后台→旗舰会员→会员卡设置→免费入会→设入会礼（¥3券/3天有效）→开启积分→设会员日</div>
+
+<h3>🎯 潜客发券（旗舰会员核心功能）</h3>
+<p><strong>What</strong>：浏览过门店但未消费的顾客，系统自动推送优惠券吸引首次到店。</p>
+<p><strong>How</strong>：🔧 旗舰会员→智能营销→潜客发券→设券面额¥3满15可用→开启。<strong>这是无成本获客</strong>——只对真来消费的人核销，没来的不花一分钱。</p>
+
+<h3>🎫 团购会员卡（团购→会员转化链路）</h3>
+<p><strong>What</strong>：顾客买团购券→到店核销→自动变会员。不需要额外动作，核销就入会。</p>
+<p><strong>How</strong>：🔧 旗舰会员→会员卡设置→开启「团购自动入会」→选择入会礼。配合大众点评上设「嵊州经典早餐¥9.9」团购套餐，一石二鸟——团购拉新客+自动转会员。</p>
+
+<h3>📅 7-9月活动日历</h3>
+<table><tr><th>月份</th><th>节点</th><th>活动</th><th>目标</th></tr>
+<tr><td rowspan="2">7月</td><td>开业首月</td><td>开业系列活动（买一送一/集赞/入会送券）</td><td>会员200+、好评30+</td></tr>
+<tr><td>暑假</td><td>「亲子套餐」小笼+豆浆+卤蛋¥12.9，儿童免费加一杯豆浆</td><td>拉家庭客群</td></tr>
+<tr><td rowspan="2">8月</td><td>七夕(8/22)</td><td>双人套餐¥29.9（小笼+榨面+饮品×2），情侣到店合影发圈送年糕</td><td>提客单+社交传播</td></tr>
+<tr><td>开学季</td><td>「开学能量早餐」套餐：连续打卡5天早餐送第6天免费</td><td>培养早餐复购习惯</td></tr>
+<tr><td rowspan="2">9月</td><td>中秋(9/21)</td><td>消费满¥30送嵊州特色手工月饼1个（限量100个）</td><td>提客单+节日氛围</td></tr>
+<tr><td>秋分</td><td>「秋日暖食」推出季节限定：桂花年糕¥15</td><td>季节新品引话题</td></tr></table>
+<div class="hb"><strong>How</strong>：每个活动提前3天在🔧商家后台→营销中心设置好券/套餐，提前2天朋友圈预热，活动结束当天复盘数据（核销率/新增会员/客单变化）。</div>
+
+<h3>💰 储值方案（低客单慎用，仅做备选）</h3>
+<div class="hw hb"><strong>⚠️ 重要提醒：</strong>人均¥15-22的小吃店，储值不是主菜。强推高额储值会让老板客户都不舒服。以下方案仅在老板有意愿时推出，<strong>绝不硬塞</strong>。</div>
+<table><tr><th>档位</th><th>充值</th><th>赠送</th><th>实际折扣</th><th>适合谁</th></tr>
+<tr><td>轻量档</td><td>¥50</td><td>送¥5</td><td>9.1折</td><td>试探型顾客，约3-4次消费</td></tr>
+<tr><td>常客档</td><td>¥100</td><td>送¥12</td><td>8.9折</td><td>固定吃早餐的居民，约7次消费</td></tr></table>
+<p><strong>话术</strong>：「您经常来的话充100送12比较划算，大概吃7次就用完。不充也完全没关系，会员积分也在攒着呢。」——<strong>给选择权，不施压</strong>。</p>`},
+
+{id:7,title:'投资回报与OKR',tag:'签约解锁',locked:true,content:`
+<h3>💰 投入产出预估</h3>
+<h4>SaaS投入</h4>
+<table><tr><th>项目</th><th>费用</th><th>说明</th></tr>
+<tr><td>四件套SaaS（年费）</td><td>¥3,500</td><td>原价¥9,304，3.8折</td></tr>
+<tr><td>开业活动预算</td><td>¥800-1,200</td><td>买一送一+传单+赠品</td></tr>
+<tr><td><strong>总投入</strong></td><td><strong>¥4,300-4,700</strong></td><td>首年一次性</td></tr></table>
+<h4>月增收预估（稳定期）</h4>
+<table><tr><th>增收来源</th><th>月增收</th><th>计算逻辑</th></tr>
+<tr><td>外卖新增</td><td>¥4,500-6,000</td><td>日均15-20单×¥20客单×30天×50%毛利</td></tr>
+<tr><td>会员复购提升</td><td>¥2,000-3,000</td><td>200会员×30%激活×月均多消费1次×¥15</td></tr>
+<tr><td>团购引流新客</td><td>¥1,500-2,000</td><td>月30单团购×¥15×30%成为回头客</td></tr>
+<tr><td>潜客发券转化</td><td>¥800-1,200</td><td>月200张券×20%核销×¥15</td></tr>
+<tr><td><strong>合计月增收</strong></td><td><strong>¥8,800-12,200</strong></td><td></td></tr></table>
+<div class="ho hb"><strong>✅ 回本周期：约15-20天</strong>（SaaS投入¥3,500 ÷ 月增收¥8,800 ≈ 0.4个月）。开业活动费用在首月通过新客转化即可覆盖。</div>
+<h3>📊 季度OKR</h3>
+<table><tr><th>指标</th><th>第1个月</th><th>第2个月</th><th>第3个月</th></tr>
+<tr><td>月营业额</td><td>¥35,000-40,000</td><td>¥45,000-50,000</td><td>¥55,000-60,000</td></tr>
+<tr><td>会员数</td><td>200+</td><td>400+</td><td>600+</td></tr>
+<tr><td>点评评分</td><td>4.0+（30条评价）</td><td>4.2+（60条）</td><td>4.5+（100条）</td></tr>
+<tr><td>外卖日均</td><td>15单+</td><td>25单+</td><td>35单+</td></tr>
+<tr><td>7日复购率</td><td>≥25%</td><td>≥30%</td><td>≥35%</td></tr></table>
+<p><strong>⚠️ 以上数据为行业基准估算，实际以门店经营数据为准。</strong></p>`},
+
+{id:8,title:'执行手册（话术+SOP+检查表）',tag:'签约解锁',locked:true,content:`
+<h3>📋 每日SOP（开店→营业→打烊）</h3>
+<table><tr><th>时间</th><th>事项</th><th>责任人</th><th>标准</th></tr>
+<tr><td>6:00</td><td>开机：收银机+打印机+外卖接单</td><td>早班员工</td><td>设备全部在线，外卖开始接单</td></tr>
+<tr><td>6:15</td><td>备料检查：小笼包馅/面皮/豆浆/年糕</td><td>厨房</td><td>早高峰备量≥100笼小笼包</td></tr>
+<tr><td>10:00</td><td>查外卖评价+回复</td><td>老板/店长</td><td>差评2小时内回复</td></tr>
+<tr><td>11:00</td><td>午高峰前补货+外卖套餐检查</td><td>厨房</td><td>午餐热卖品备足</td></tr>
+<tr><td>14:00</td><td>查大众点评新评价+回复</td><td>老板</td><td>好评感谢，差评2小时解决</td></tr>
+<tr><td>20:00</td><td>晚班收尾：查外卖最后一波评价+关机</td><td>晚班员工</td><td>所有差评已处理</td></tr>
+<tr><td>20:30</td><td>日结：看收银日报（堂食/外卖/团购分拆）</td><td>老板</td><td>对账无误，记录当日异常</td></tr></table>
+
+<h3>💬 五大场景话术卡</h3>
+
+<div class="sc"><div style="color:var(--al);font-weight:600">场景1⃣ 推套餐（点餐时）</div><div style="color:var(--t1);font-style:italic;margin-top:8px">「您好，我们有个嵊州双拼午餐¥16.9，一份榨面/年糕加4只小笼再送豆浆，比单点省3-5块，您看要不要试试？」</div><div style="color:var(--t3);font-size:13px;margin-top:8px">不选→不追，微笑说「好的那单点也行」</div></div>
+
+<div class="sc"><div style="color:var(--al);font-weight:600">场景2⃣ 推会员（结账时）</div><div style="color:var(--t1);font-style:italic;margin-top:8px">「扫一下这个码免费成为会员，今天直接送您一张3块钱券，下次来就能用。」</div><div style="color:var(--t3);font-size:13px;margin-top:8px">嫌麻烦→「就扫一下就好，不用填信息，2秒钟」</div></div>
+
+<div class="sc"><div style="color:var(--al);font-weight:600">场景3⃣ 好评引导（餐后）</div><div style="color:var(--t1);font-style:italic;margin-top:8px">「味道还合口味吗？如果觉得不错方便在大众点评写两句吗？写完送您一杯豆浆！」</div><div style="color:var(--t3);font-size:13px;margin-top:8px">不愿意→不强求，微笑说「没关系，欢迎下次再来」</div></div>
+
+<div class="sc"><div style="color:var(--al);font-weight:600">场景4⃣ 外卖出餐（打包时）</div><div style="color:var(--t1);font-style:italic;margin-top:8px">包装袋里放好评卡：「亲～五星好评截图发给老板微信，下次点餐立减2元哦！」</div><div style="color:var(--t3);font-size:13px;margin-top:8px">好评卡成本<¥0.1/张，转化率约10-15%</div></div>
+
+<div class="sc"><div style="color:var(--al);font-weight:600">场景5⃣ 处理投诉</div><div style="color:var(--t1);font-style:italic;margin-top:8px">「真的很抱歉给您带来不好的体验。这个问题是我们的责任，我马上帮您处理。给您补一份/退款/送一张券，您看可以吗？」</div><div style="color:var(--t3);font-size:13px;margin-top:8px">原则：先道歉→承认问题→给方案。绝不争辩。</div></div>
+
+<h3>📝 每周检查表（老板/店长用）</h3>
+<table><tr><th>检查项</th><th>频率</th><th>达标标准</th><th>不达标怎么办</th></tr>
+<tr><td>点评新评价数</td><td>每周</td><td>≥5条/周</td><td>加强结账时引导话术，台卡是否醒目</td></tr>
+<tr><td>外卖评分</td><td>每周</td><td>≥4.5分</td><td>分析差评TOP3原因，逐个解决</td></tr>
+<tr><td>会员新增数</td><td>每周</td><td>≥30人/周</td><td>检查员工是否在推，扫码台卡是否到位</td></tr>
+<tr><td>外卖日均单量</td><td>每周</td><td>趋势上升</td><td>查外卖中心AI诊断，调整满减/主图</td></tr>
+<tr><td>复购率</td><td>每月</td><td>≥30%</td><td>检查会员券是否按时发放，菜品品质是否稳定</td></tr></table>`}
+];
+
+
+function render(){
+  const g=document.getElementById('G');
+  g.innerHTML='';
+  CH.forEach(c=>{
+    const show=!c.locked||unlocked;
+    const d=document.createElement('div');
+    d.className='cd'+(c.locked&&!unlocked?' lk':'');
+    d.innerHTML='<div class="cn">'+(c.locked&&!unlocked?'\u{1F512}':('0'+c.id))+'</div><div class="ct">'+c.title+'</div><span class="tg '+(c.locked?'tl':'tf')+'">'+c.tag+'</span>';
+    if(show) d.onclick=()=>openCh(c);
+    g.appendChild(d);
+  });
+}
+
+function openCh(c){
+  document.getElementById('mN').textContent='0'+c.id;
+  document.getElementById('mT').textContent=c.title;
+  document.getElementById('mB').innerHTML=c.content;
+  document.getElementById('O').classList.add('active');
+  document.body.style.overflow='hidden';
+}
+
+function C(){
+  document.getElementById('O').classList.remove('active');
+  document.body.style.overflow='';
+}
+
+function U(){
+  const v=document.getElementById('P').value;
+  const m=document.getElementById('M');
+  if(v===PWD){unlocked=true;render();m.innerHTML='<span style="color:var(--ok)">\u2705 解锁成功！点击任意章节查看完整方案</span>';document.querySelector('.ub').style.borderColor='rgba(0,200,83,.4)';}
+  else{m.innerHTML='<span style="color:var(--pl)">\u274C 密码错误，请联系BD获取</span>';}
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape')C();});
+render();
+
+</script>
+</body>
+</html>
