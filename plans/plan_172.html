@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lu水晶&amp;咖啡 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">水晶零售+咖啡复合店 · 运营提升方案</div>
+  <h1 class="hero-title">Lu水晶&amp;咖啡</h1>
+  <p class="hero-subtitle">用水晶的玄学温度，让每杯咖啡都值得发朋友圈</p>
+  <div class="hero-address">浙江省杭州市萧山区北干街道工人路1147号</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥35</span>
+      <div class="hero-stat-label">预估人均（咖啡端）</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">萧山区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察与客群画像', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察与客群画像</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解与差异化定位', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解与差异化定位</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '系统落地方案', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">系统落地方案</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评口碑冷启动', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评口碑冷启动</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '开业冲刺30天作战计划', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">开业冲刺30天作战计划</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '公域引流矩阵', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">公域引流矩阵</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '私域会员与体验课体系', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">私域会员与体验课体系</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '7-8月营销日历与活动企划', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">7-8月营销日历与活动企划</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(9, '投资回报与OKR目标', 9)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 09</div>
+      <div class="chapter-title">投资回报与OKR目标</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>「水晶+咖啡」复合业态——萧山的蓝海窗口</h3><p>2024-2025年，「体验零售+咖啡」复合业态在杭州、成都等新一线城市快速冒头。本质商业逻辑：<strong>咖啡做低客单引流（15-30元），水晶零售和DIY手作做高客单变现（80-300元/单）</strong>。两端毛利都高——咖啡毛利65-75%，水晶零售毛利60-80%——关键在于能否把「进店喝一杯」的人转化成「顺手买一串」的人。</p><h3>目标客群精准画像</h3><table><tr><th>客群层级</th><th>画像</th><th>消费场景</th><th>预估占比</th></tr><tr><td><strong>核心客群</strong></td><td>25-40岁女性白领/自由职业者</td><td>下午茶+逛水晶、闺蜜约会、小红书打卡</td><td>55%</td></tr><tr><td><strong>增量客群</strong></td><td>18-25岁大学生/年轻职场新人</td><td>DIY手作体验、社交拍照、情绪消费</td><td>25%</td></tr><tr><td><strong>长尾客群</strong></td><td>企业HR/团建负责人</td><td>10人以上团建/闺蜜局/生日派对</td><td>15%</td></tr><tr><td><strong>随机客群</strong></td><td>路过咖啡刚需用户</td><td>外带咖啡、工作日早晚高峰</td><td>5%</td></tr></table><h3>萧山北干商圈特征</h3><p>北干街道是萧山老城核心商务区，工人路沿线写字楼密集，消费力中等偏上。<strong>⚠️ 假设</strong>：工人路日均人流量约3000-5000人次（老城商务区工作日水平），25-40岁女性占比约35%。周边暂无直接对标的「水晶+咖啡」复合店，<strong>短期竞争烈度低，但壁垒也低</strong>——核心看能否在3-6个月内建立本地社群粘性。</p><h3>品类增长驱动力</h3><ul><li><strong>情绪消费/悦己经济仍在上行</strong>：水晶品类自带「玄学+颜值」社交货币属性</li><li><strong>小红书种草转化路径成熟</strong>：「水晶手串DIY」在小红书笔记量年增200%+</li><li><strong>风险提示</strong>：品类认知门槛低、供应链同质化快，纯靠「氛围感」撑不过6个月新鲜期，复购依赖社群运营深度</li></ul></div>
+<div id="modal-content-2" style="display:none"><h3>周边3公里真实竞争格局</h3><p>Lu水晶&咖啡的竞争不是单一维度的——咖啡端和水晶端各有不同对手，关键是找到「两个对手都给不了」的差异化价值。</p><table><tr><th>竞品名称</th><th>品类</th><th>人均</th><th>核心弱点</th><th>Lu的切入机会</th></tr><tr><td><strong>瑞幸咖啡</strong>（工人路周边）</td><td>平价咖啡</td><td>9.9-15元</td><td>纯功能性饮品，无社交场景，不适合停留</td><td>Lu不跟瑞幸卷价格，卖的是「坐下来+体验」的时光</td></tr><tr><td><strong>星巴克银隆店</strong></td><td>商务咖啡</td><td>35元</td><td>标准化体验，无差异化记忆点，年轻客群流失</td><td>用水晶DIY+玄学氛围创造星巴克给不了的「新鲜感」</td></tr><tr><td><strong>本地独立咖啡馆</strong>（若干）</td><td>精品咖啡</td><td>25-35元</td><td>同质化严重，只有咖啡无附加体验</td><td>「水晶+咖啡」双标签天然差异化，小红书搜索独占</td></tr><tr><td><strong>ACC超级饰/BA饰物局</strong>（万象汇）</td><td>饰品集合店</td><td>50-150元</td><td>标品为主，无体验感，无社交属性</td><td>Lu的水晶是「DIY+故事+玄学」，不是货架标品</td></tr><tr><td><strong>拼多多/1688水晶直播间</strong></td><td>线上水晶</td><td>20-200元</td><td>价格屠夫，但无法提供触摸体验和即时满足</td><td>线下体验+即买即戴+专业选石指导是线上给不了的</td></tr></table><h3>Lu水晶&咖啡的核心定位</h3><p><strong>一句话定位：萧山首家水晶咖啡体验馆——喝一杯好咖啡，选一颗属于你的水晶</strong></p><ul><li><strong>卖的不是咖啡，也不是水晶</strong>：卖的是「一段有仪式感的治愈时光」</li><li><strong>咖啡是低门槛引流器</strong>：定价20-30元（锚定瑞幸以上、星巴克以下），让客人「因为咖啡进门」</li><li><strong>水晶是高毛利转化器</strong>：裸石/成品零售80-300元主力带，DIY体验课58-168元/人——靠「边喝边逛边做」的沉浸感自然转化</li><li><strong>社群是复购绑定器</strong>：水晶的「玄学属性」天然适合社群运营（每周星座运势+水晶推荐、新品到货通知、消磁提醒）</li></ul><h3>与客如云的竞争应对</h3><p>了解到客如云也在接触该门店。客如云收银系统在连锁餐饮有一定覆盖，但在<strong>会员深度运营、扫码点餐体验、小程序私域闭环</strong>上弱于美团SaaS旗舰版。尤其对「水晶+咖啡」这种需要<strong>体验课预约+会员积分兑水晶+社群触达</strong>的复合业态，美团会员旗舰版的「团购会员卡+潜客营销+6大特有活动」是客如云不具备的能力。</p></div>
+<div id="modal-content-3" style="display:none"><h3>已签约SaaS模块的精准用法</h3><p>Lu水晶&咖啡已签约：<strong>收银POS + 扫码点餐 + 小程序 + 会员旗舰版</strong>。这四个工具正好覆盖了复合业态的核心需求——关键不在「有没有」，在「怎么用对」。</p><h3>① 收银POS：双业态分账管理</h3><p><strong>痛点</strong>：水晶零售和咖啡饮品是两套完全不同的毛利结构和库存逻辑，混在一起算账会看不清哪块赚钱。</p><ul><li><strong>谁来做</strong>：老板/店长，开业前3天设置完毕</li><li><strong>怎么做</strong>：在收银POS后台 🔧「商品管理 → 商品分类」建两个一级分类：「☕咖啡饮品」和「💎水晶/手作」，所有SKU归入对应分类</li><li><strong>关键设置</strong>：水晶零售类商品用「称重/手动输入价格」模式（每颗裸石价格不同），咖啡类用标准定价模式</li><li><strong>每日查账</strong>：🔧「报表 → 分类销售统计」一键看两个品类各自营收、毛利</li></ul><h3>② 扫码点餐：咖啡端效率倍增</h3><p><strong>痛点</strong>：140㎡空间，客人分散在不同区域（喝咖啡区/水晶展示区/DIY手作区），服务员叫号送餐效率低。</p><ul><li><strong>谁来做</strong>：店长配置（开业前2天），服务员日常执行</li><li><strong>怎么做</strong>：每张桌贴桌码，🔧「扫码点餐 → 桌台管理」按区域编号（A区咖啡1-8桌/B区手作1-4桌/C区水晶展示沙发区1-6桌）</li><li><strong>菜单设计</strong>：扫码后首屏展示「☕本周特调」+「💎本周新到水晶」，视觉引导「点完咖啡顺便看水晶」</li><li><strong>体验课入口</strong>：扫码菜单底部加「DIY体验课报名」入口（链接到小程序预约页），客人喝咖啡时看到就能随手报名</li></ul><h3>③ 小程序：私域流量主阵地</h3><ul><li><strong>谁来做</strong>：老板规划内容框架，店长日常维护更新</li><li><strong>首页布局</strong>：🔧「小程序 → 页面装修」设置四个核心板块——① 在线点单（咖啡外带/外卖）② 水晶商城（精选SKU上线，支持快递）③ 体验课预约（DIY手串/消磁冥想）④ 会员中心（积分/优惠券/储值）</li><li><strong>关键动作</strong>：每周四更新「本周新到水晶」图文（带价格+功效故事），用小程序消息推送触达已关注用户</li></ul><h3>④ 会员旗舰版：水晶复购引擎</h3><ul><li><strong>谁来做</strong>：老板设计会员权益（开业前1周），收银员日常引导开卡</li><li><strong>会员等级设计</strong>：🔧「会员 → 等级设置」三级——水晶入门（免费注册，每杯咖啡积1分，30分兑一次免费消磁服务）/ 水晶玩家（累计消费满500元自动升级，享水晶零售9.5折+生日月赠水晶盲盒1个）/ 水晶藏家（累计消费满2000元，享9折+新品优先选+专属选石顾问1v1）</li><li><strong>开卡话术</strong>（收银员买单时说）：「姐/帅哥，扫码免费注册会员，今天这杯咖啡就开始积分了，攒满30分可以免费做一次水晶消磁哦～」</li><li><strong>客人不愿注册怎么办</strong>：「没关系，加我们微信也行，每周会发新到水晶和体验课信息～」（引导进社群，兜底不丢客）</li></ul></div>
+<div id="modal-content-4" style="display:none"><h3>新店点评现状判断</h3><p>Lu水晶&咖啡处于<strong>0-7天极早期新店阶段</strong>（尚未开业），大众点评零评价、无星级。目标：<strong>开业30天内攒满50条真实评价，冲上新店榜并维持4.5+评分</strong>。</p><h3>2025年10月后点评新规（铁律，必须遵守）</h3><p>大众点评已严厉打击高强度促评行为——<strong>高强度促评的评价将不产生星级收益</strong>。这意味着：</p><ul><li>❌ 禁止「好评返现/好评送菜/评价截图领奖」等直接利诱行为</li><li>❌ 禁止服务员盯着客人写评价、要求客人当场展示评价内容</li><li>✅ 合规方向：打造「值得分享的体验」，让客人<strong>自发想发</strong></li></ul><h3>三步走：止血 → 合规工具 → 分享动机</h3><h4>第一步·止血（开业前完成）</h4><ul><li><strong>谁来做</strong>：老板，开业前2天</li><li><strong>怎么做</strong>：在大众点评商家后台 🔧「店铺管理 → 基础信息」完善所有字段——门店照片（至少10张，含门头/内景/水晶展示柜/咖啡吧台/DIY工位）、营业时间、特色标签（勾选「手作体验/水晶/精品咖啡/适合拍照」）</li><li><strong>关键</strong>：首图必须是「水晶+咖啡同框」的高颜值照片（自然光+45度角），这张图决定客人点不点进你的店</li></ul><h4>第二步·合规工具发力（开业第1天起）</h4><ul><li><strong>免费试</strong>：🔧 大众点评商家后台「营销中心 → 免费试」，设置「招牌水晶特调咖啡」5份/天免费试饮名额。成本约5×8元=40元/天，换来高质量的体验型评价</li><li><strong>谁来做</strong>：店长每天早上10点放名额，下午查看核销情况</li><li><strong>接待话术</strong>：「欢迎来体验我们的招牌水晶特调～这杯用的是紫水晶冷萃+燕麦奶，灵感来自能量疗愈的概念。您慢慢品～旁边展示柜可以随便看随便拍～」（自然引导体验+拍照，不提评价）</li></ul><h4>第三步·打造「值得拍」的分享动机（长期）</h4><ul><li><strong>拍照点设计</strong>：设置3个「不拍不行」的打卡点——① 入口水晶矿洞展示墙（用大块紫晶洞/白晶簇，打光）② 咖啡吧台水晶展示台（杯垫嵌水晶碎石）③ DIY手作桌拍摄角度引导牌</li><li><strong>谁来做</strong>：老板设计+采购装饰（水晶洞用店内在售大件即可），装修阶段同步完成</li><li><strong>成本</strong>：射灯打光约200-500元，其余用在售商品展示</li><li><strong>客人不愿拍怎么办</strong>：不主动要求。服务员可自然引导「这个角度拍水晶特别好看哦～」，不提发评价</li></ul><h3>量化目标</h3><table><tr><th>指标</th><th>30天目标</th><th>90天目标</th></tr><tr><td>评价总数</td><td>50条</td><td>150条</td></tr><tr><td>平均评分</td><td>4.5+</td><td>4.5+</td></tr><tr><td>新店榜</td><td>进入萧山区新店榜</td><td>冲击热门榜TOP20</td></tr><tr><td>差评响应</td><td>2小时内回复</td><td>2小时内回复</td></tr></table></div>
+<div id="modal-content-5" style="display:none"><h3>开业不是「某一天开门」，是一场从D-28开始的蓄水战役</h3><p>按调研建议：<strong>先蓄客500人再开业</strong>。以下是每周具体任务拆解。</p><h4>D-28到D-21：小红书养号+社群建立</h4><ul><li><strong>谁来做</strong>：老板本人（水晶专业人设必须老板亲自立）</li><li><strong>小红书</strong>：注册账号「Lu水晶工作室」，定位「萧山·水晶科普·咖啡日常」。本周发3条笔记——① 装修现场vlog「我在萧山开了一家水晶咖啡馆」② 水晶科普「粉水晶真的能招桃花吗？矿物学角度解读」③ 选品开箱「今天到了一批巴西紫晶，来选适合你的那颗」</li><li><strong>微信社群</strong>：建第1个群「Lu水晶·萧山粉丝群」，群规——欢迎聊水晶/咖啡/玄学，每周四晚8点分享一颗水晶的故事</li><li><strong>目标</strong>：小红书粉丝破200，微信群满100人</li></ul><h4>D-21到D-14：内容矩阵+钩子设计</h4><ul><li><strong>小红书加码</strong>：隔天发1条（共4条），主题轮换——水晶知识/装修进度/咖啡测试/DIY过程。标题必带「萧山首家」「水晶咖啡馆」</li><li><strong>钩子设计</strong>：准备开业福利——「9.9元开业咖啡券」100张 + 「免费水晶手串DIY体验名额」30个，群内发预告抽奖</li><li><strong>目标</strong>：群扩到2个共200人，咖啡券预约50张</li></ul><h4>D-14到D-7：试营业+KOC邀请</h4><ul><li><strong>试营业3天</strong>：邀请群内粉丝免费体验，目的——磨合出品流程+收集反馈+产出用户拍照素材</li><li><strong>KOC邀请</strong>：联系萧山本地3-5个小红书博主（粉丝1000-5000即可），免费体验换一条探店笔记。预算约500元</li><li><strong>大众点评上线</strong>：门店信息完善、照片上传、菜单同步，开通免费试5份/天</li><li><strong>目标</strong>：群扩到3个共350人，收到5条以上KOC笔记</li></ul><h4>D-7到D-1：预热冲刺</h4><ul><li><strong>社群全量推送</strong>：「X月X日正式开业，前3天到店消费赠水晶盲盒一个（价值39-99元随机）」</li><li><strong>钩子兑现</strong>：9.9元咖啡券改为「开业当天到店可用」，锁定首日客流</li><li><strong>物料检查</strong>：菜单/价目牌/桌码/水晶陈列/打卡墙/DIY工位物料全部就位</li><li><strong>系统调试</strong>：POS收银、扫码点餐、小程序、会员系统全链路测试一遍</li><li><strong>目标</strong>：群满3个共500人，开业当天预约到店≥60人</li></ul><h4>开业第1-3天：引爆期</h4><ul><li><strong>水晶盲盒</strong>：到店消费赠一个（⚠️ 假设成本8-15元/个，含一颗小水晶裸石+功效卡片），前3天每天限50个</li><li><strong>全员引导注册会员</strong>：收银时说——「扫码注册会员，今天消费双倍积分哦～」</li><li><strong>社群直播</strong>：开业当天老板在群里发现场短视频3分钟，展示人气</li><li><strong>目标</strong>：3天到店≥150人次，注册会员≥80人，点评新增评价≥15条</li></ul><h4>开业第4-30天：稳量期</h4><ul><li><strong>每周固定活动</strong>：周三晚「打工人减压·水晶手串DIY」58元含饮品 + 周六下午「水晶消磁冥想体验」39元含美式</li><li><strong>小红书持续更新</strong>：每周3条（水晶到货/客人DIY作品/咖啡特调）</li><li><strong>大众点评免费试</strong>：每天5份持续投放</li><li><strong>社群运营</strong>：每周四晚8点「水晶小课堂」，老板在群里分享一种水晶的故事+功效</li><li><strong>目标</strong>：月到店客流≥800人次，注册会员≥200人</li></ul></div>
+<div id="modal-content-6" style="display:none"><h3>公域平台打法——精准选择，集中火力</h3><p>复合体验店的公域引流不能撒胡椒面，必须集中火力在最匹配的平台。</p><h3>① 小红书（最核心阵地，必须重投）</h3><p><strong>为什么是核心</strong>：水晶品类70%的种草发生在小红书。「水晶手串DIY」「水晶咖啡馆」搜索量年增200%+，且Lu的目标客群（25-40岁女性）与小红书用户高度重合。</p><ul><li><strong>谁来做</strong>：老板本人运营账号（水晶专业人设），每周发3条笔记</li><li><strong>内容公式</strong>：① 水晶科普（「这种水晶千万别戴着睡觉」——知识爆款）② 到店体验（「萧山找到一家边喝咖啡边做手串的店」——场景种草）③ 客人作品展示（「今天客人做的紫晶手串太美了」——UGC引导）</li><li><strong>标题铁律</strong>：每条必带「萧山」+「水晶咖啡」关键词，抢占本地搜索</li><li><strong>投流预算</strong>：⚠️ 假设月投放500-1000元薯条推广，优先推体验类笔记，预计获客100-200人/月</li><li><strong>不起量怎么办</strong>：检查封面图是否「水晶质感」（暖光+特写+手持），标题是否有悬念感。30天粉丝不破500 → 换方向增加「测评/避坑」类内容</li></ul><h3>② 大众点评（到店转化必备）</h3><ul><li><strong>团购套餐设计</strong>（开业第2周上线）：引流款——「水晶特调咖啡+水晶小挂件」套餐 29.9元（原价58元），让没来过的人花30块试一试；体验款——「双人下午茶+水晶手串DIY」套餐 128元（原价196元），闺蜜约会场景；高客单款——「4人团建局套餐」399元（含4杯饮品+4条DIY手串+1份水晶伴手礼），企业团建/生日派对场景</li><li><strong>谁来做</strong>：老板定套餐内容和定价，店长在商家后台 🔧「团购 → 创建套餐」上线</li><li><strong>上线节奏</strong>：开业第2周先上引流款（冲销量），第4周上体验款和高客单款（拉客单价）</li></ul><h3>③ 抖音（辅助阵地，轻投入）</h3><ul><li><strong>定位</strong>：不做日常运营，只做「事件型引爆」——开业第一天拍一条「萧山终于有水晶咖啡馆了」的探店视频，投100元DOU+测试</li><li><strong>谁来做</strong>：邀请1个本地抖音达人（500-2000粉丝即可）免费体验+拍视频</li><li><strong>如果爆了</strong>：追投DOU+500元，趁热上抖音团购套餐（与大众点评同款）</li><li><strong>如果没爆</strong>：放弃抖音，把精力全部集中在小红书，不分散</li></ul><h3>公私域联动闭环</h3><p><strong>公域获客路径</strong>：小红书种草/大众点评搜索 → 到店体验 → 扫码注册会员/加微信群 → 进入私域<br><strong>私域反哺公域</strong>：社群粉丝的DIY作品发小红书@门店账号 → UGC内容 → 更多人搜索到店</p><p>⚠️ 假设：按此公私域联动模型，开业首月公域引流占到店客流的40%（小红书20%+大众点评15%+抖音5%），私域（社群+老带新）占30%，自然路过占30%。3个月后目标：私域占比提升到50%以上。</p></div>
+<div id="modal-content-7" style="display:none"><h3>私域运营的核心逻辑</h3><p>水晶+咖啡的复合业态，<strong>私域价值远大于纯咖啡店</strong>——因为水晶消费有「玄学社群粘性」和「收藏复购属性」。一个被水晶吸引进店的客人，如果只买了一杯咖啡就走了，你亏了；如果她加了群、上了一次DIY课、买了第一条手串——她大概率会成为持续复购的「水晶迷」。</p><h3>① 社群运营体系（微信群，核心私域池）</h3><ul><li><strong>群矩阵</strong>：3个群，每群200人封顶——群1「Lu水晶·新品首发」（到货通知+抢先选石）/ 群2「Lu水晶·手作交流」（DIY分享+体验课报名）/ 群3「Lu水晶·玄学研究所」（星座运势+水晶搭配+能量话题）</li><li><strong>谁来做</strong>：老板负责群3（玄学人设=老板本人最有说服力），店长负责群1和群2日常</li><li><strong>每周固定动作</strong>：周一——本周新到水晶预告（带图+价格，限量标注）；周四晚8点——水晶小课堂（老板语音/文字分享一种水晶的故事，5分钟）；周六——体验课名额开放预约</li><li><strong>群活跃技巧</strong>：每天抛一个互动话题（「你觉得粉水晶和草莓晶哪个更招桃花？」「今天的星座运势适合戴什么水晶？」），水晶的玄学属性天然自带讨论热度</li><li><strong>群冷了怎么办</strong>：① 发一轮「水晶盲盒福利」（群内接龙满20人，每人19.9元随机发一颗水晶，成本5-8元/颗）② 做一次线下沙龙邀请群友到店</li></ul><h3>② 体验课体系（到店转化核武器）</h3><p>体验课<strong>不靠课程本身赚钱</strong>，靠的是「到店后的水晶零售转化」。设计原则：<strong>低门槛进来 → 沉浸式体验 → 自然消费</strong>。</p><table><tr><th>体验课</th><th>时间</th><th>定价</th><th>内容</th><th>转化设计</th></tr><tr><td><strong>打工人减压·水晶手串DIY</strong></td><td>每周三 19:00-21:00</td><td>58元/人（含1杯饮品+材料包）</td><td>选珠→穿串→系结→开光祝福，全程1.5-2小时</td><td>桌面摆放高品质裸石供升级选购（「这颗天河石加进去特别好看，加一颗只要39元」）</td></tr><tr><td><strong>水晶消磁冥想体验</strong></td><td>每周六 15:00-16:30</td><td>39元/人（含1杯美式）</td><td>冥想引导+水晶消磁仪式+能量解读</td><td>现场推荐适合个人的「护身水晶」搭配，自然过渡到零售</td></tr><tr><td><strong>闺蜜/团建定制局</strong></td><td>预约制（4人起）</td><td>128元/人（含饮品+DIY+伴手礼）</td><td>团队水晶手作+合影+水晶伴手礼</td><td>团建结束时推「会员注册」，锁定后续个人消费</td></tr></table><ul><li><strong>谁来做</strong>：老板担任「水晶导师」角色（专业感和信任感），店员协助准备材料和服务饮品</li><li><strong>体验课不满员怎么办</strong>：① 在群里提前3天发报名接龙 ② 满4人即开课（不需要等满员）③ 不满4人 → 取消本次并给已报名者一杯免费咖啡补偿</li><li><strong>⚠️ 假设</strong>：体验课转化率约40%（10人到课，4人额外购买水晶零售），人均零售消费120元。每周2场 × 平均6人 × 40% × 120元 = 周零售增量约576元</li></ul><h3>③ 关于储值的判断</h3><p><strong>储值目前不是Lu水晶&咖啡的第一优先级</strong>。原因：① 新店阶段客人还没形成消费习惯，过早推储值会让客人觉得「还没喝过就让我充钱」② 水晶零售客单价波动大（几十到几百），不适合固定金额储值卡。<strong>建议开业3个月后、会员超300人时再考虑推储值</strong>，届时可设计「水晶藏家储值卡」：充500送50（含5次免费消磁），用消磁服务绑定复购。</p></div>
+<div id="modal-content-8" style="display:none"><h3>结合开业时机的7-8月营销节点</h3><p>Lu水晶&咖啡即将在盛夏开业，正好赶上暑期旺季。以下营销活动按时间线排列，与开业冲刺计划联动。</p><h3>7月·暑期开业季</h3><h4>① 开业即绑「暑期减压」主题</h4><ul><li><strong>活动主题</strong>：「这个夏天，给自己一杯治愈」——开业首月所有体验课打9折，首杯咖啡赠水晶能量贴纸1张（集齐5张换一次免费消磁）</li><li><strong>谁来做</strong>：老板定主题和物料文案，店长配置 🔧「会员 → 活动管理 → 集章活动」设置水晶能量贴纸集章规则</li><li><strong>成本</strong>：贴纸约0.3元/张（淘宝定制），9折让利约10%</li><li><strong>目标</strong>：首月集章参与≥100人（=100个确定会来5次的客人）</li></ul><h4>② 大暑特别企划（7月22-23日）</h4><ul><li><strong>活动</strong>：「大暑消暑·水晶冰饮节」——推出3款限定水晶冰饮（紫晶葡萄冰沙/粉晶蜜桃冰茶/白晶椰青冷萃），定价22-28元。到店消费任意饮品赠「水晶冰块」1颗（水晶碎石冻在冰块里，喝完可以带走水晶）</li><li><strong>谁来做</strong>：老板研发饮品配方（提前1周测试），店员出品</li><li><strong>成本</strong>：水晶冰块成本约1-2元/颗（碎石+制冰模具），限定冰饮正常定价盈利</li><li><strong>社交传播</strong>：「水晶冰块」自带拍照传播属性（透明冰块里镶嵌水晶，颜值极高），引导客人发小红书/朋友圈</li><li><strong>不想发朋友圈的客人怎么办</strong>：没关系，水晶冰块本身就是一次「惊喜感」体验，下次她会带朋友来体验</li></ul><h4>③ 七夕预热（7月25日起）</h4><ul><li><strong>活动</strong>：「七夕定制·为TA选一颗守护石」——推出「水晶告白礼盒」预售（含1条定制手串+1杯咖啡+手写祝福卡），定价168/268两档。限量30份，预售锁定七夕消费</li><li><strong>谁来做</strong>：老板设计礼盒内容和定价，在群内/小红书/小程序同步预售</li><li><strong>预售定金</strong>：50元定金，到店消费时抵用。🔧「小程序 → 商城 → 预售」功能配置</li><li><strong>目标</strong>：预售15份以上（锁定15组七夕到店客流）</li></ul><h3>8月·七夕+立秋双节</h3><h4>④ 七夕正日（8月上中旬）</h4><ul><li><strong>活动</strong>：「七夕水晶约会夜」——当天门店延长营业至22:00，布置LED星光灯+水晶展示灯光。预售礼盒客人到店领取+现场DIY刻字服务（在水晶挂件上刻名字首字母，成本约3元/个）</li><li><strong>加码</strong>：单身客人当天到店赠「桃花水晶」1小颗（粉水晶碎石，成本0.5元）+ 可参加「水晶配对盲盒」互动（写下联系方式放入盲盒随机配对，增加趣味性）</li><li><strong>谁来做</strong>：老板现场担任「水晶爱情顾问」角色，店员协助布置和服务</li></ul><h4>⑤ 立秋换季（8月7-8日）</h4><ul><li><strong>活动</strong>：「秋日能量·水晶养生季」——推出秋季限定「桂花拿铁+养生水晶手链」套餐，手链用虎眼石/黄水晶/茶晶等「秋季暖色系」水晶。同步上线「秋季养生水晶指南」小红书系列内容</li><li><strong>谁来做</strong>：老板调整水晶展示区陈列（暖色系水晶前移），研发桂花拿铁配方</li><li><strong>社群推送</strong>：🔧「会员 → 消息推送」发送「立秋换季·你的水晶也该换季了」推文</li></ul><h3>活动ROI估算</h3><table><tr><th>活动</th><th>预估成本</th><th>预估增收</th><th>ROI</th></tr><tr><td>开业水晶盲盒（150个）</td><td>1,500元</td><td>到店消费150人×平均50元=7,500元</td><td>5:1</td></tr><tr><td>大暑冰饮节</td><td>300元</td><td>限定冰饮50杯×25元=1,250元</td><td>4.2:1</td></tr><tr><td>七夕预售礼盒（15份）</td><td>750元</td><td>15×218元（均价）=3,270元</td><td>4.4:1</td></tr><tr><td>月度体验课（8场）</td><td>960元（材料+饮品）</td><td>课费收入2,880元+零售转化2,304元</td><td>5.4:1</td></tr></table></div>
+<div id="modal-content-9" style="display:none"><h3>营收结构预估</h3><p>Lu水晶&咖啡的营收由三个引擎驱动，<strong>咖啡是流量入口，水晶零售是利润主体，体验课是转化催化剂</strong>。</p><table><tr><th>营收来源</th><th>月均预估</th><th>毛利率</th><th>月毛利</th><th>占比</th></tr><tr><td>☕ 咖啡饮品</td><td>24,000元（⚠️ 假设日均30杯×均价27元×30天，含外卖）</td><td>70%</td><td>16,800元</td><td>35%</td></tr><tr><td>💎 水晶零售</td><td>30,000元（⚠️ 假设日均3-4单×均价280元×30天）</td><td>65%</td><td>19,500元</td><td>44%</td></tr><tr><td>🎨 体验课</td><td>6,000元（⚠️ 假设月8场×均6人×均价55元+零售转化2,300元）</td><td>55%</td><td>3,300元</td><td>9%</td></tr><tr><td>🎁 企业团建/定制</td><td>5,000元（⚠️ 假设月2单×均价2,500元）</td><td>50%</td><td>2,500元</td><td>7%</td></tr><tr><td>📦 小程序水晶商城（线上快递）</td><td>3,000元（⚠️ 假设月15单×均价200元）</td><td>60%</td><td>1,800元</td><td>4%</td></tr><tr><td><strong>合计</strong></td><td><strong>68,000元</strong></td><td>—</td><td><strong>43,900元</strong></td><td>100%</td></tr></table><h3>成本结构估算</h3><table><tr><th>成本项</th><th>月均预估</th><th>说明</th></tr><tr><td>房租</td><td>12,000元</td><td>⚠️ 假设：萧山北干工人路140㎡，约85元/㎡/月</td></tr><tr><td>人力</td><td>15,000元</td><td>⚠️ 假设：老板+1名咖啡师+1名店员，含社保</td></tr><tr><td>原材料（咖啡豆/奶/杯材）</td><td>7,200元</td><td>咖啡端原材料成本约30%</td></tr><tr><td>水晶采购成本</td><td>10,500元</td><td>零售毛利65%，采购成本=30,000×35%</td></tr><tr><td>体验课材料</td><td>1,500元</td><td>串珠/线材/包装等</td></tr><tr><td>水电杂费</td><td>2,500元</td><td>含空调/照明/设备折旧</td></tr><tr><td>营销费用</td><td>1,500元</td><td>小红书投流+物料+KOC合作</td></tr><tr><td><strong>合计</strong></td><td><strong>50,200元</strong></td><td>—</td></tr></table><h3>盈利测算</h3><ul><li><strong>月预估营收</strong>：68,000元</li><li><strong>月预估总成本</strong>：50,200元</li><li><strong>月预估净利润</strong>：17,800元</li><li><strong>净利润率</strong>：约26%</li><li><strong>⚠️ 以上为稳定期（开业3-6个月后）预估</strong>。开业首月因盲盒/折扣/KOC等推广投入，净利润约8,000-12,000元</li></ul><h3>月度/季度OKR量化目标</h3><table><tr><th>维度</th><th>首月目标</th><th>第3个月目标</th><th>第6个月目标</th></tr><tr><td>月营收</td><td>45,000元</td><td>68,000元</td><td>85,000元</td></tr><tr><td>大众点评评分</td><td>4.5分（50条评价）</td><td>4.5分+（150条评价）</td><td>冲4.7分（300条评价）</td></tr><tr><td>注册会员数</td><td>200人</td><td>500人</td><td>1,000人</td></tr><tr><td>社群粉丝数</td><td>500人</td><td>800人</td><td>1,200人</td></tr><tr><td>小红书粉丝</td><td>500人</td><td>1,500人</td><td>3,000人</td></tr><tr><td>体验课满员率</td><td>60%</td><td>80%</td><td>90%+</td></tr><tr><td>水晶零售占营收比</td><td>35%</td><td>44%</td><td>50%</td></tr><tr><td>企业团建订单</td><td>1单/月</td><td>2单/月</td><td>4单/月</td></tr></table><h3>增长曲线（比终点数字更有说服力）</h3><p><strong>第1个月（冷启动期）</strong>：靠开业活动+社群蓄水冲到4.5万营收，重点是「认识你」——让萧山女性知道有这么一家店。<br><strong>第2-3个月（口碑建设期）</strong>：靠点评口碑+小红书持续种草+体验课口碑传播，营收爬坡到6.8万。重点是「记住你」——形成「萧山水晶=Lu」的心智。<br><strong>第4-6个月（私域变现期）</strong>：社群超800人+会员超500人，私域复购开始贡献主力营收。水晶零售占比从35%提升到50%。可以考虑启动储值体系。重点是「离不开你」——水晶社群粘性+会员积分锁定长期复购。</p><h3>SaaS投入回报</h3><ul><li><strong>已签约SaaS年费</strong>：⚠️ 假设约8,000-12,000元/年（收银POS+扫码点餐+小程序+会员旗舰版4,888元）</li><li><strong>SaaS带来的增收</strong>：会员复购提升预估月增5,000元 + 扫码点餐效率提升节省0.5人力月省2,500元 + 小程序线上零售月增3,000元 = <strong>月增收约10,500元</strong></li><li><strong>回本周期</strong>：约1-1.5个月即可覆盖年费</li></ul></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>查述凌</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>「水晶+咖啡」复合业态——萧山的蓝海窗口</h3><p>2024-2025年，「体验零售+咖啡」复合业态在杭州、成都等新一线城市快速冒头。本质商业逻辑：<strong>咖啡做低客单引流（15-30元），水晶零售和DIY手作做高客单变现（80-300元/单）</strong>。两端毛利都高——咖啡毛利65-75%，水晶零售毛利60-80%——关键在于能否把「进店喝一杯」的人转化成「顺手买一串」的人。</p><h3>目标客群精准画像</h3><table><tr><th>客群层级</th><th>画像</th><th>消费场景</th><th>预估占比</th></tr><tr><td><strong>核心客群</strong></td><td>25-40岁女性白领/自由职业者</td><td>下午茶+逛水晶、闺蜜约会、小红书打卡</td><td>55%</td></tr><tr><td><strong>增量客群</strong></td><td>18-25岁大学生/年轻职场新人</td><td>DIY手作体验、社交拍照、情绪消费</td><td>25%</td></tr><tr><td><strong>长尾客群</strong></td><td>企业HR/团建负责人</td><td>10人以上团建/闺蜜局/生日派对</td><td>15%</td></tr><tr><td><strong>随机客群</strong></td><td>路过咖啡刚需用户</td><td>外带咖啡、工作日早晚高峰</td><td>5%</td></tr></table><h3>萧山北干商圈特征</h3><p>北干街道是萧山老城核心商务区，工人路沿线写字楼密集，消费力中等偏上。<strong>⚠️ 假设</strong>：工人路日均人流量约3000-5000人次（老城商务区工作日水平），25-40岁女性占比约35%。周边暂无直接对标的「水晶+咖啡」复合店，<strong>短期竞争烈度低，但壁垒也低</strong>——核心看能否在3-6个月内建立本地社群粘性。</p><h3>品类增长驱动力</h3><ul><li><strong>情绪消费/悦己经济仍在上行</strong>：水晶品类自带「玄学+颜值」社交货币属性</li><li><strong>小红书种草转化路径成熟</strong>：「水晶手串DIY」在小红书笔记量年增200%+</li><li><strong>风险提示</strong>：品类认知门槛低、供应链同质化快，纯靠「氛围感」撑不过6个月新鲜期，复购依赖社群运营深度</li></ul>`,
+    2: `<h3>周边3公里真实竞争格局</h3><p>Lu水晶&咖啡的竞争不是单一维度的——咖啡端和水晶端各有不同对手，关键是找到「两个对手都给不了」的差异化价值。</p><table><tr><th>竞品名称</th><th>品类</th><th>人均</th><th>核心弱点</th><th>Lu的切入机会</th></tr><tr><td><strong>瑞幸咖啡</strong>（工人路周边）</td><td>平价咖啡</td><td>9.9-15元</td><td>纯功能性饮品，无社交场景，不适合停留</td><td>Lu不跟瑞幸卷价格，卖的是「坐下来+体验」的时光</td></tr><tr><td><strong>星巴克银隆店</strong></td><td>商务咖啡</td><td>35元</td><td>标准化体验，无差异化记忆点，年轻客群流失</td><td>用水晶DIY+玄学氛围创造星巴克给不了的「新鲜感」</td></tr><tr><td><strong>本地独立咖啡馆</strong>（若干）</td><td>精品咖啡</td><td>25-35元</td><td>同质化严重，只有咖啡无附加体验</td><td>「水晶+咖啡」双标签天然差异化，小红书搜索独占</td></tr><tr><td><strong>ACC超级饰/BA饰物局</strong>（万象汇）</td><td>饰品集合店</td><td>50-150元</td><td>标品为主，无体验感，无社交属性</td><td>Lu的水晶是「DIY+故事+玄学」，不是货架标品</td></tr><tr><td><strong>拼多多/1688水晶直播间</strong></td><td>线上水晶</td><td>20-200元</td><td>价格屠夫，但无法提供触摸体验和即时满足</td><td>线下体验+即买即戴+专业选石指导是线上给不了的</td></tr></table><h3>Lu水晶&咖啡的核心定位</h3><p><strong>一句话定位：萧山首家水晶咖啡体验馆——喝一杯好咖啡，选一颗属于你的水晶</strong></p><ul><li><strong>卖的不是咖啡，也不是水晶</strong>：卖的是「一段有仪式感的治愈时光」</li><li><strong>咖啡是低门槛引流器</strong>：定价20-30元（锚定瑞幸以上、星巴克以下），让客人「因为咖啡进门」</li><li><strong>水晶是高毛利转化器</strong>：裸石/成品零售80-300元主力带，DIY体验课58-168元/人——靠「边喝边逛边做」的沉浸感自然转化</li><li><strong>社群是复购绑定器</strong>：水晶的「玄学属性」天然适合社群运营（每周星座运势+水晶推荐、新品到货通知、消磁提醒）</li></ul><h3>与客如云的竞争应对</h3><p>了解到客如云也在接触该门店。客如云收银系统在连锁餐饮有一定覆盖，但在<strong>会员深度运营、扫码点餐体验、小程序私域闭环</strong>上弱于美团SaaS旗舰版。尤其对「水晶+咖啡」这种需要<strong>体验课预约+会员积分兑水晶+社群触达</strong>的复合业态，美团会员旗舰版的「团购会员卡+潜客营销+6大特有活动」是客如云不具备的能力。</p>`,
+    3: `<h3>已签约SaaS模块的精准用法</h3><p>Lu水晶&咖啡已签约：<strong>收银POS + 扫码点餐 + 小程序 + 会员旗舰版</strong>。这四个工具正好覆盖了复合业态的核心需求——关键不在「有没有」，在「怎么用对」。</p><h3>① 收银POS：双业态分账管理</h3><p><strong>痛点</strong>：水晶零售和咖啡饮品是两套完全不同的毛利结构和库存逻辑，混在一起算账会看不清哪块赚钱。</p><ul><li><strong>谁来做</strong>：老板/店长，开业前3天设置完毕</li><li><strong>怎么做</strong>：在收银POS后台 🔧「商品管理 → 商品分类」建两个一级分类：「☕咖啡饮品」和「💎水晶/手作」，所有SKU归入对应分类</li><li><strong>关键设置</strong>：水晶零售类商品用「称重/手动输入价格」模式（每颗裸石价格不同），咖啡类用标准定价模式</li><li><strong>每日查账</strong>：🔧「报表 → 分类销售统计」一键看两个品类各自营收、毛利</li></ul><h3>② 扫码点餐：咖啡端效率倍增</h3><p><strong>痛点</strong>：140㎡空间，客人分散在不同区域（喝咖啡区/水晶展示区/DIY手作区），服务员叫号送餐效率低。</p><ul><li><strong>谁来做</strong>：店长配置（开业前2天），服务员日常执行</li><li><strong>怎么做</strong>：每张桌贴桌码，🔧「扫码点餐 → 桌台管理」按区域编号（A区咖啡1-8桌/B区手作1-4桌/C区水晶展示沙发区1-6桌）</li><li><strong>菜单设计</strong>：扫码后首屏展示「☕本周特调」+「💎本周新到水晶」，视觉引导「点完咖啡顺便看水晶」</li><li><strong>体验课入口</strong>：扫码菜单底部加「DIY体验课报名」入口（链接到小程序预约页），客人喝咖啡时看到就能随手报名</li></ul><h3>③ 小程序：私域流量主阵地</h3><ul><li><strong>谁来做</strong>：老板规划内容框架，店长日常维护更新</li><li><strong>首页布局</strong>：🔧「小程序 → 页面装修」设置四个核心板块——① 在线点单（咖啡外带/外卖）② 水晶商城（精选SKU上线，支持快递）③ 体验课预约（DIY手串/消磁冥想）④ 会员中心（积分/优惠券/储值）</li><li><strong>关键动作</strong>：每周四更新「本周新到水晶」图文（带价格+功效故事），用小程序消息推送触达已关注用户</li></ul><h3>④ 会员旗舰版：水晶复购引擎</h3><ul><li><strong>谁来做</strong>：老板设计会员权益（开业前1周），收银员日常引导开卡</li><li><strong>会员等级设计</strong>：🔧「会员 → 等级设置」三级——水晶入门（免费注册，每杯咖啡积1分，30分兑一次免费消磁服务）/ 水晶玩家（累计消费满500元自动升级，享水晶零售9.5折+生日月赠水晶盲盒1个）/ 水晶藏家（累计消费满2000元，享9折+新品优先选+专属选石顾问1v1）</li><li><strong>开卡话术</strong>（收银员买单时说）：「姐/帅哥，扫码免费注册会员，今天这杯咖啡就开始积分了，攒满30分可以免费做一次水晶消磁哦～」</li><li><strong>客人不愿注册怎么办</strong>：「没关系，加我们微信也行，每周会发新到水晶和体验课信息～」（引导进社群，兜底不丢客）</li></ul>`,
+    4: `<h3>新店点评现状判断</h3><p>Lu水晶&咖啡处于<strong>0-7天极早期新店阶段</strong>（尚未开业），大众点评零评价、无星级。目标：<strong>开业30天内攒满50条真实评价，冲上新店榜并维持4.5+评分</strong>。</p><h3>2025年10月后点评新规（铁律，必须遵守）</h3><p>大众点评已严厉打击高强度促评行为——<strong>高强度促评的评价将不产生星级收益</strong>。这意味着：</p><ul><li>❌ 禁止「好评返现/好评送菜/评价截图领奖」等直接利诱行为</li><li>❌ 禁止服务员盯着客人写评价、要求客人当场展示评价内容</li><li>✅ 合规方向：打造「值得分享的体验」，让客人<strong>自发想发</strong></li></ul><h3>三步走：止血 → 合规工具 → 分享动机</h3><h4>第一步·止血（开业前完成）</h4><ul><li><strong>谁来做</strong>：老板，开业前2天</li><li><strong>怎么做</strong>：在大众点评商家后台 🔧「店铺管理 → 基础信息」完善所有字段——门店照片（至少10张，含门头/内景/水晶展示柜/咖啡吧台/DIY工位）、营业时间、特色标签（勾选「手作体验/水晶/精品咖啡/适合拍照」）</li><li><strong>关键</strong>：首图必须是「水晶+咖啡同框」的高颜值照片（自然光+45度角），这张图决定客人点不点进你的店</li></ul><h4>第二步·合规工具发力（开业第1天起）</h4><ul><li><strong>免费试</strong>：🔧 大众点评商家后台「营销中心 → 免费试」，设置「招牌水晶特调咖啡」5份/天免费试饮名额。成本约5×8元=40元/天，换来高质量的体验型评价</li><li><strong>谁来做</strong>：店长每天早上10点放名额，下午查看核销情况</li><li><strong>接待话术</strong>：「欢迎来体验我们的招牌水晶特调～这杯用的是紫水晶冷萃+燕麦奶，灵感来自能量疗愈的概念。您慢慢品～旁边展示柜可以随便看随便拍～」（自然引导体验+拍照，不提评价）</li></ul><h4>第三步·打造「值得拍」的分享动机（长期）</h4><ul><li><strong>拍照点设计</strong>：设置3个「不拍不行」的打卡点——① 入口水晶矿洞展示墙（用大块紫晶洞/白晶簇，打光）② 咖啡吧台水晶展示台（杯垫嵌水晶碎石）③ DIY手作桌拍摄角度引导牌</li><li><strong>谁来做</strong>：老板设计+采购装饰（水晶洞用店内在售大件即可），装修阶段同步完成</li><li><strong>成本</strong>：射灯打光约200-500元，其余用在售商品展示</li><li><strong>客人不愿拍怎么办</strong>：不主动要求。服务员可自然引导「这个角度拍水晶特别好看哦～」，不提发评价</li></ul><h3>量化目标</h3><table><tr><th>指标</th><th>30天目标</th><th>90天目标</th></tr><tr><td>评价总数</td><td>50条</td><td>150条</td></tr><tr><td>平均评分</td><td>4.5+</td><td>4.5+</td></tr><tr><td>新店榜</td><td>进入萧山区新店榜</td><td>冲击热门榜TOP20</td></tr><tr><td>差评响应</td><td>2小时内回复</td><td>2小时内回复</td></tr></table>`,
+    5: `<h3>开业不是「某一天开门」，是一场从D-28开始的蓄水战役</h3><p>按调研建议：<strong>先蓄客500人再开业</strong>。以下是每周具体任务拆解。</p><h4>D-28到D-21：小红书养号+社群建立</h4><ul><li><strong>谁来做</strong>：老板本人（水晶专业人设必须老板亲自立）</li><li><strong>小红书</strong>：注册账号「Lu水晶工作室」，定位「萧山·水晶科普·咖啡日常」。本周发3条笔记——① 装修现场vlog「我在萧山开了一家水晶咖啡馆」② 水晶科普「粉水晶真的能招桃花吗？矿物学角度解读」③ 选品开箱「今天到了一批巴西紫晶，来选适合你的那颗」</li><li><strong>微信社群</strong>：建第1个群「Lu水晶·萧山粉丝群」，群规——欢迎聊水晶/咖啡/玄学，每周四晚8点分享一颗水晶的故事</li><li><strong>目标</strong>：小红书粉丝破200，微信群满100人</li></ul><h4>D-21到D-14：内容矩阵+钩子设计</h4><ul><li><strong>小红书加码</strong>：隔天发1条（共4条），主题轮换——水晶知识/装修进度/咖啡测试/DIY过程。标题必带「萧山首家」「水晶咖啡馆」</li><li><strong>钩子设计</strong>：准备开业福利——「9.9元开业咖啡券」100张 + 「免费水晶手串DIY体验名额」30个，群内发预告抽奖</li><li><strong>目标</strong>：群扩到2个共200人，咖啡券预约50张</li></ul><h4>D-14到D-7：试营业+KOC邀请</h4><ul><li><strong>试营业3天</strong>：邀请群内粉丝免费体验，目的——磨合出品流程+收集反馈+产出用户拍照素材</li><li><strong>KOC邀请</strong>：联系萧山本地3-5个小红书博主（粉丝1000-5000即可），免费体验换一条探店笔记。预算约500元</li><li><strong>大众点评上线</strong>：门店信息完善、照片上传、菜单同步，开通免费试5份/天</li><li><strong>目标</strong>：群扩到3个共350人，收到5条以上KOC笔记</li></ul><h4>D-7到D-1：预热冲刺</h4><ul><li><strong>社群全量推送</strong>：「X月X日正式开业，前3天到店消费赠水晶盲盒一个（价值39-99元随机）」</li><li><strong>钩子兑现</strong>：9.9元咖啡券改为「开业当天到店可用」，锁定首日客流</li><li><strong>物料检查</strong>：菜单/价目牌/桌码/水晶陈列/打卡墙/DIY工位物料全部就位</li><li><strong>系统调试</strong>：POS收银、扫码点餐、小程序、会员系统全链路测试一遍</li><li><strong>目标</strong>：群满3个共500人，开业当天预约到店≥60人</li></ul><h4>开业第1-3天：引爆期</h4><ul><li><strong>水晶盲盒</strong>：到店消费赠一个（⚠️ 假设成本8-15元/个，含一颗小水晶裸石+功效卡片），前3天每天限50个</li><li><strong>全员引导注册会员</strong>：收银时说——「扫码注册会员，今天消费双倍积分哦～」</li><li><strong>社群直播</strong>：开业当天老板在群里发现场短视频3分钟，展示人气</li><li><strong>目标</strong>：3天到店≥150人次，注册会员≥80人，点评新增评价≥15条</li></ul><h4>开业第4-30天：稳量期</h4><ul><li><strong>每周固定活动</strong>：周三晚「打工人减压·水晶手串DIY」58元含饮品 + 周六下午「水晶消磁冥想体验」39元含美式</li><li><strong>小红书持续更新</strong>：每周3条（水晶到货/客人DIY作品/咖啡特调）</li><li><strong>大众点评免费试</strong>：每天5份持续投放</li><li><strong>社群运营</strong>：每周四晚8点「水晶小课堂」，老板在群里分享一种水晶的故事+功效</li><li><strong>目标</strong>：月到店客流≥800人次，注册会员≥200人</li></ul>`,
+    6: `<h3>公域平台打法——精准选择，集中火力</h3><p>复合体验店的公域引流不能撒胡椒面，必须集中火力在最匹配的平台。</p><h3>① 小红书（最核心阵地，必须重投）</h3><p><strong>为什么是核心</strong>：水晶品类70%的种草发生在小红书。「水晶手串DIY」「水晶咖啡馆」搜索量年增200%+，且Lu的目标客群（25-40岁女性）与小红书用户高度重合。</p><ul><li><strong>谁来做</strong>：老板本人运营账号（水晶专业人设），每周发3条笔记</li><li><strong>内容公式</strong>：① 水晶科普（「这种水晶千万别戴着睡觉」——知识爆款）② 到店体验（「萧山找到一家边喝咖啡边做手串的店」——场景种草）③ 客人作品展示（「今天客人做的紫晶手串太美了」——UGC引导）</li><li><strong>标题铁律</strong>：每条必带「萧山」+「水晶咖啡」关键词，抢占本地搜索</li><li><strong>投流预算</strong>：⚠️ 假设月投放500-1000元薯条推广，优先推体验类笔记，预计获客100-200人/月</li><li><strong>不起量怎么办</strong>：检查封面图是否「水晶质感」（暖光+特写+手持），标题是否有悬念感。30天粉丝不破500 → 换方向增加「测评/避坑」类内容</li></ul><h3>② 大众点评（到店转化必备）</h3><ul><li><strong>团购套餐设计</strong>（开业第2周上线）：引流款——「水晶特调咖啡+水晶小挂件」套餐 29.9元（原价58元），让没来过的人花30块试一试；体验款——「双人下午茶+水晶手串DIY」套餐 128元（原价196元），闺蜜约会场景；高客单款——「4人团建局套餐」399元（含4杯饮品+4条DIY手串+1份水晶伴手礼），企业团建/生日派对场景</li><li><strong>谁来做</strong>：老板定套餐内容和定价，店长在商家后台 🔧「团购 → 创建套餐」上线</li><li><strong>上线节奏</strong>：开业第2周先上引流款（冲销量），第4周上体验款和高客单款（拉客单价）</li></ul><h3>③ 抖音（辅助阵地，轻投入）</h3><ul><li><strong>定位</strong>：不做日常运营，只做「事件型引爆」——开业第一天拍一条「萧山终于有水晶咖啡馆了」的探店视频，投100元DOU+测试</li><li><strong>谁来做</strong>：邀请1个本地抖音达人（500-2000粉丝即可）免费体验+拍视频</li><li><strong>如果爆了</strong>：追投DOU+500元，趁热上抖音团购套餐（与大众点评同款）</li><li><strong>如果没爆</strong>：放弃抖音，把精力全部集中在小红书，不分散</li></ul><h3>公私域联动闭环</h3><p><strong>公域获客路径</strong>：小红书种草/大众点评搜索 → 到店体验 → 扫码注册会员/加微信群 → 进入私域<br><strong>私域反哺公域</strong>：社群粉丝的DIY作品发小红书@门店账号 → UGC内容 → 更多人搜索到店</p><p>⚠️ 假设：按此公私域联动模型，开业首月公域引流占到店客流的40%（小红书20%+大众点评15%+抖音5%），私域（社群+老带新）占30%，自然路过占30%。3个月后目标：私域占比提升到50%以上。</p>`,
+    7: `<h3>私域运营的核心逻辑</h3><p>水晶+咖啡的复合业态，<strong>私域价值远大于纯咖啡店</strong>——因为水晶消费有「玄学社群粘性」和「收藏复购属性」。一个被水晶吸引进店的客人，如果只买了一杯咖啡就走了，你亏了；如果她加了群、上了一次DIY课、买了第一条手串——她大概率会成为持续复购的「水晶迷」。</p><h3>① 社群运营体系（微信群，核心私域池）</h3><ul><li><strong>群矩阵</strong>：3个群，每群200人封顶——群1「Lu水晶·新品首发」（到货通知+抢先选石）/ 群2「Lu水晶·手作交流」（DIY分享+体验课报名）/ 群3「Lu水晶·玄学研究所」（星座运势+水晶搭配+能量话题）</li><li><strong>谁来做</strong>：老板负责群3（玄学人设=老板本人最有说服力），店长负责群1和群2日常</li><li><strong>每周固定动作</strong>：周一——本周新到水晶预告（带图+价格，限量标注）；周四晚8点——水晶小课堂（老板语音/文字分享一种水晶的故事，5分钟）；周六——体验课名额开放预约</li><li><strong>群活跃技巧</strong>：每天抛一个互动话题（「你觉得粉水晶和草莓晶哪个更招桃花？」「今天的星座运势适合戴什么水晶？」），水晶的玄学属性天然自带讨论热度</li><li><strong>群冷了怎么办</strong>：① 发一轮「水晶盲盒福利」（群内接龙满20人，每人19.9元随机发一颗水晶，成本5-8元/颗）② 做一次线下沙龙邀请群友到店</li></ul><h3>② 体验课体系（到店转化核武器）</h3><p>体验课<strong>不靠课程本身赚钱</strong>，靠的是「到店后的水晶零售转化」。设计原则：<strong>低门槛进来 → 沉浸式体验 → 自然消费</strong>。</p><table><tr><th>体验课</th><th>时间</th><th>定价</th><th>内容</th><th>转化设计</th></tr><tr><td><strong>打工人减压·水晶手串DIY</strong></td><td>每周三 19:00-21:00</td><td>58元/人（含1杯饮品+材料包）</td><td>选珠→穿串→系结→开光祝福，全程1.5-2小时</td><td>桌面摆放高品质裸石供升级选购（「这颗天河石加进去特别好看，加一颗只要39元」）</td></tr><tr><td><strong>水晶消磁冥想体验</strong></td><td>每周六 15:00-16:30</td><td>39元/人（含1杯美式）</td><td>冥想引导+水晶消磁仪式+能量解读</td><td>现场推荐适合个人的「护身水晶」搭配，自然过渡到零售</td></tr><tr><td><strong>闺蜜/团建定制局</strong></td><td>预约制（4人起）</td><td>128元/人（含饮品+DIY+伴手礼）</td><td>团队水晶手作+合影+水晶伴手礼</td><td>团建结束时推「会员注册」，锁定后续个人消费</td></tr></table><ul><li><strong>谁来做</strong>：老板担任「水晶导师」角色（专业感和信任感），店员协助准备材料和服务饮品</li><li><strong>体验课不满员怎么办</strong>：① 在群里提前3天发报名接龙 ② 满4人即开课（不需要等满员）③ 不满4人 → 取消本次并给已报名者一杯免费咖啡补偿</li><li><strong>⚠️ 假设</strong>：体验课转化率约40%（10人到课，4人额外购买水晶零售），人均零售消费120元。每周2场 × 平均6人 × 40% × 120元 = 周零售增量约576元</li></ul><h3>③ 关于储值的判断</h3><p><strong>储值目前不是Lu水晶&咖啡的第一优先级</strong>。原因：① 新店阶段客人还没形成消费习惯，过早推储值会让客人觉得「还没喝过就让我充钱」② 水晶零售客单价波动大（几十到几百），不适合固定金额储值卡。<strong>建议开业3个月后、会员超300人时再考虑推储值</strong>，届时可设计「水晶藏家储值卡」：充500送50（含5次免费消磁），用消磁服务绑定复购。</p>`,
+    8: `<h3>结合开业时机的7-8月营销节点</h3><p>Lu水晶&咖啡即将在盛夏开业，正好赶上暑期旺季。以下营销活动按时间线排列，与开业冲刺计划联动。</p><h3>7月·暑期开业季</h3><h4>① 开业即绑「暑期减压」主题</h4><ul><li><strong>活动主题</strong>：「这个夏天，给自己一杯治愈」——开业首月所有体验课打9折，首杯咖啡赠水晶能量贴纸1张（集齐5张换一次免费消磁）</li><li><strong>谁来做</strong>：老板定主题和物料文案，店长配置 🔧「会员 → 活动管理 → 集章活动」设置水晶能量贴纸集章规则</li><li><strong>成本</strong>：贴纸约0.3元/张（淘宝定制），9折让利约10%</li><li><strong>目标</strong>：首月集章参与≥100人（=100个确定会来5次的客人）</li></ul><h4>② 大暑特别企划（7月22-23日）</h4><ul><li><strong>活动</strong>：「大暑消暑·水晶冰饮节」——推出3款限定水晶冰饮（紫晶葡萄冰沙/粉晶蜜桃冰茶/白晶椰青冷萃），定价22-28元。到店消费任意饮品赠「水晶冰块」1颗（水晶碎石冻在冰块里，喝完可以带走水晶）</li><li><strong>谁来做</strong>：老板研发饮品配方（提前1周测试），店员出品</li><li><strong>成本</strong>：水晶冰块成本约1-2元/颗（碎石+制冰模具），限定冰饮正常定价盈利</li><li><strong>社交传播</strong>：「水晶冰块」自带拍照传播属性（透明冰块里镶嵌水晶，颜值极高），引导客人发小红书/朋友圈</li><li><strong>不想发朋友圈的客人怎么办</strong>：没关系，水晶冰块本身就是一次「惊喜感」体验，下次她会带朋友来体验</li></ul><h4>③ 七夕预热（7月25日起）</h4><ul><li><strong>活动</strong>：「七夕定制·为TA选一颗守护石」——推出「水晶告白礼盒」预售（含1条定制手串+1杯咖啡+手写祝福卡），定价168/268两档。限量30份，预售锁定七夕消费</li><li><strong>谁来做</strong>：老板设计礼盒内容和定价，在群内/小红书/小程序同步预售</li><li><strong>预售定金</strong>：50元定金，到店消费时抵用。🔧「小程序 → 商城 → 预售」功能配置</li><li><strong>目标</strong>：预售15份以上（锁定15组七夕到店客流）</li></ul><h3>8月·七夕+立秋双节</h3><h4>④ 七夕正日（8月上中旬）</h4><ul><li><strong>活动</strong>：「七夕水晶约会夜」——当天门店延长营业至22:00，布置LED星光灯+水晶展示灯光。预售礼盒客人到店领取+现场DIY刻字服务（在水晶挂件上刻名字首字母，成本约3元/个）</li><li><strong>加码</strong>：单身客人当天到店赠「桃花水晶」1小颗（粉水晶碎石，成本0.5元）+ 可参加「水晶配对盲盒」互动（写下联系方式放入盲盒随机配对，增加趣味性）</li><li><strong>谁来做</strong>：老板现场担任「水晶爱情顾问」角色，店员协助布置和服务</li></ul><h4>⑤ 立秋换季（8月7-8日）</h4><ul><li><strong>活动</strong>：「秋日能量·水晶养生季」——推出秋季限定「桂花拿铁+养生水晶手链」套餐，手链用虎眼石/黄水晶/茶晶等「秋季暖色系」水晶。同步上线「秋季养生水晶指南」小红书系列内容</li><li><strong>谁来做</strong>：老板调整水晶展示区陈列（暖色系水晶前移），研发桂花拿铁配方</li><li><strong>社群推送</strong>：🔧「会员 → 消息推送」发送「立秋换季·你的水晶也该换季了」推文</li></ul><h3>活动ROI估算</h3><table><tr><th>活动</th><th>预估成本</th><th>预估增收</th><th>ROI</th></tr><tr><td>开业水晶盲盒（150个）</td><td>1,500元</td><td>到店消费150人×平均50元=7,500元</td><td>5:1</td></tr><tr><td>大暑冰饮节</td><td>300元</td><td>限定冰饮50杯×25元=1,250元</td><td>4.2:1</td></tr><tr><td>七夕预售礼盒（15份）</td><td>750元</td><td>15×218元（均价）=3,270元</td><td>4.4:1</td></tr><tr><td>月度体验课（8场）</td><td>960元（材料+饮品）</td><td>课费收入2,880元+零售转化2,304元</td><td>5.4:1</td></tr></table>`,
+    9: `<h3>营收结构预估</h3><p>Lu水晶&咖啡的营收由三个引擎驱动，<strong>咖啡是流量入口，水晶零售是利润主体，体验课是转化催化剂</strong>。</p><table><tr><th>营收来源</th><th>月均预估</th><th>毛利率</th><th>月毛利</th><th>占比</th></tr><tr><td>☕ 咖啡饮品</td><td>24,000元（⚠️ 假设日均30杯×均价27元×30天，含外卖）</td><td>70%</td><td>16,800元</td><td>35%</td></tr><tr><td>💎 水晶零售</td><td>30,000元（⚠️ 假设日均3-4单×均价280元×30天）</td><td>65%</td><td>19,500元</td><td>44%</td></tr><tr><td>🎨 体验课</td><td>6,000元（⚠️ 假设月8场×均6人×均价55元+零售转化2,300元）</td><td>55%</td><td>3,300元</td><td>9%</td></tr><tr><td>🎁 企业团建/定制</td><td>5,000元（⚠️ 假设月2单×均价2,500元）</td><td>50%</td><td>2,500元</td><td>7%</td></tr><tr><td>📦 小程序水晶商城（线上快递）</td><td>3,000元（⚠️ 假设月15单×均价200元）</td><td>60%</td><td>1,800元</td><td>4%</td></tr><tr><td><strong>合计</strong></td><td><strong>68,000元</strong></td><td>—</td><td><strong>43,900元</strong></td><td>100%</td></tr></table><h3>成本结构估算</h3><table><tr><th>成本项</th><th>月均预估</th><th>说明</th></tr><tr><td>房租</td><td>12,000元</td><td>⚠️ 假设：萧山北干工人路140㎡，约85元/㎡/月</td></tr><tr><td>人力</td><td>15,000元</td><td>⚠️ 假设：老板+1名咖啡师+1名店员，含社保</td></tr><tr><td>原材料（咖啡豆/奶/杯材）</td><td>7,200元</td><td>咖啡端原材料成本约30%</td></tr><tr><td>水晶采购成本</td><td>10,500元</td><td>零售毛利65%，采购成本=30,000×35%</td></tr><tr><td>体验课材料</td><td>1,500元</td><td>串珠/线材/包装等</td></tr><tr><td>水电杂费</td><td>2,500元</td><td>含空调/照明/设备折旧</td></tr><tr><td>营销费用</td><td>1,500元</td><td>小红书投流+物料+KOC合作</td></tr><tr><td><strong>合计</strong></td><td><strong>50,200元</strong></td><td>—</td></tr></table><h3>盈利测算</h3><ul><li><strong>月预估营收</strong>：68,000元</li><li><strong>月预估总成本</strong>：50,200元</li><li><strong>月预估净利润</strong>：17,800元</li><li><strong>净利润率</strong>：约26%</li><li><strong>⚠️ 以上为稳定期（开业3-6个月后）预估</strong>。开业首月因盲盒/折扣/KOC等推广投入，净利润约8,000-12,000元</li></ul><h3>月度/季度OKR量化目标</h3><table><tr><th>维度</th><th>首月目标</th><th>第3个月目标</th><th>第6个月目标</th></tr><tr><td>月营收</td><td>45,000元</td><td>68,000元</td><td>85,000元</td></tr><tr><td>大众点评评分</td><td>4.5分（50条评价）</td><td>4.5分+（150条评价）</td><td>冲4.7分（300条评价）</td></tr><tr><td>注册会员数</td><td>200人</td><td>500人</td><td>1,000人</td></tr><tr><td>社群粉丝数</td><td>500人</td><td>800人</td><td>1,200人</td></tr><tr><td>小红书粉丝</td><td>500人</td><td>1,500人</td><td>3,000人</td></tr><tr><td>体验课满员率</td><td>60%</td><td>80%</td><td>90%+</td></tr><tr><td>水晶零售占营收比</td><td>35%</td><td>44%</td><td>50%</td></tr><tr><td>企业团建订单</td><td>1单/月</td><td>2单/月</td><td>4单/月</td></tr></table><h3>增长曲线（比终点数字更有说服力）</h3><p><strong>第1个月（冷启动期）</strong>：靠开业活动+社群蓄水冲到4.5万营收，重点是「认识你」——让萧山女性知道有这么一家店。<br><strong>第2-3个月（口碑建设期）</strong>：靠点评口碑+小红书持续种草+体验课口碑传播，营收爬坡到6.8万。重点是「记住你」——形成「萧山水晶=Lu」的心智。<br><strong>第4-6个月（私域变现期）</strong>：社群超800人+会员超500人，私域复购开始贡献主力营收。水晶零售占比从35%提升到50%。可以考虑启动储值体系。重点是「离不开你」——水晶社群粘性+会员积分锁定长期复购。</p><h3>SaaS投入回报</h3><ul><li><strong>已签约SaaS年费</strong>：⚠️ 假设约8,000-12,000元/年（收银POS+扫码点餐+小程序+会员旗舰版4,888元）</li><li><strong>SaaS带来的增收</strong>：会员复购提升预估月增5,000元 + 扫码点餐效率提升节省0.5人力月省2,500元 + 小程序线上零售月增3,000元 = <strong>月增收约10,500元</strong></li><li><strong>回本周期</strong>：约1-1.5个月即可覆盖年费</li></ul>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
