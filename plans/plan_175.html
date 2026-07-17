@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>四季茗养元茶室 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #C47A3A;
+      --primary-light: #D4894A;
+      --accent: #E8A87C;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #C47A3A40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">休闲娱乐/茶馆·养生茶饮 · 运营提升方案</div>
+  <h1 class="hero-title">四季茗养元茶室</h1>
+  <p class="hero-subtitle">以茶养元，用专业医学背书做社区养生第三空间</p>
+  <div class="hero-address">浙江省杭州市萧山区盈丰街道宁巢美地公寓四区3-4号</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥40</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">萧山区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察·养生茶饮赛道', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察·养生茶饮赛道</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解·周边格局', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解·周边格局</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '品牌定位·独特资产挖掘', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">品牌定位·独特资产挖掘</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评口碑·新店冷启动', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评口碑·新店冷启动</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '开业冲刺·30天作战计划', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">开业冲刺·30天作战计划</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '会员体系·从尝鲜到习惯', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">会员体系·从尝鲜到习惯</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '公私域联动·线上获客闭环', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">公私域联动·线上获客闭环</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '营销日历·7-9月活动排期', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">营销日历·7-9月活动排期</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(9, '投资回报·OKR量化目标', 9)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 09</div>
+      <div class="chapter-title">投资回报·OKR量化目标</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>养生茶饮：概念升温但模型待跑通</h3><p>2024年全国茶饮市场规模达<strong>1,757亿元</strong>，同比增长8.2%，但行业已进入洗牌调整期——全年闭店近20万家。养生茶饮作为新兴细分赛道正在升温：人参、枸杞、燕窝、黄芪等药食同源食材入茶成为头部品牌创新方向，杭州健康消费氛围尤其利好这一品类。</p><h3>40元人均的战略卡位</h3><p>四季茗养元的人均<strong>¥40</strong>，精准卡在一个差异化窗口：新茶饮（霸王茶姬/茶百道）客单15-22元，卖的是「快速带走」；传统茶馆（隐溪等）人均80-120元，卖的是「商务空间」。40元档必须回答一个核心问题——<strong>「顾客到底买的是什么？」</strong></p><p>答案是：<strong>功能性养生茶饮 + 社区轻社交空间</strong>。顾客花40元买的不是一杯水，是「有医学博士背书的个性化养生方案 + 家门口坐一坐的舒适感」。这就是四季茗养元的核心价值主张。</p><h3>盈丰板块客群画像</h3><ul><li><strong>主力客群（60%）</strong>：宁巢美地公寓住户，25-45岁年轻刚需住户，对健康养生有朦胧需求但缺乏专业指导</li><li><strong>次要客群（25%）</strong>：周边万象汇/开元广场白领，午后下午茶、下班后减压场景</li><li><strong>高价值客群（15%）</strong>：注重健康管理的中年群体，愿意为「专业定制」付费，客单可达80-120元（周期茶饮订阅）</li></ul><h3>核心风险提示</h3><p>养生品类最大痛点是<strong>「尝鲜高、留存低」</strong>——顾客觉得有道理但不会天天来。必须用「28天养生打卡」等机制把尝鲜转化为习惯，否则开业热闹过后客流会断崖式下跌。</p></div>
+<div id="modal-content-2" style="display:none"><h3>3公里竞争格局：竞争烈度中低，但自然流量有限</h3><p>宁巢美地公寓属于社区底商，非核心商圈选址。好消息是<strong>与商圈大店错位竞争</strong>，坏消息是<strong>必须主动获客</strong>，靠自然客流撑不起日营业额。</p><h3>直接竞品逐一分析</h3><table><tr><th>竞品</th><th>人均</th><th>核心优势</th><th>致命弱点</th><th>四季茗养元切入点</th></tr><tr><td><strong>隐溪茶馆</strong>（萧山有布点）</td><td>¥80-120</td><td>空间感强，商务社交成熟</td><td>价格高，年轻客群覆盖弱，无养生概念</td><td>用1/3价格提供「养生+社交」双重价值，抢社区场景</td></tr><tr><td><strong>霸王茶姬/茶百道</strong>（周边密集）</td><td>¥15-22</td><td>品牌势能强，出杯快</td><td>纯外带，无空间体验，无养生功能</td><td>差异化明显：「坐下来喝」vs「带走喝」，不正面竞争</td></tr><tr><td><strong>tea'stone/煮叶类</strong>新中式茶馆</td><td>¥50-70</td><td>品牌调性高，产品线丰富</td><td>萧山渗透率极低，短期非直接威胁</td><td>抢先占位萧山「养生茶空间」心智</td></tr><tr><td><strong>周边咖啡店</strong>（瑞幸/独立店）</td><td>¥15-35</td><td>下午茶场景成熟</td><td>产品同质化，无健康概念</td><td>用「养生咖啡+0添加冰淇淋」截流咖啡客群</td></tr></table><h3>竞争结论</h3><p>四季茗养元的<strong>真正护城河不是茶本身，而是「医学博士定制+中药食材有证可查」</strong>。这是周边所有竞品都没有的——隐溪卖空间不卖专业，霸王茶姬卖品牌不卖功能。抓住这个差异点，就能在「养生」二字上建立不可替代性。</p><p><strong>⚠️ 假设</strong>：以上竞品判断基于盈丰板块商圈特征推导，建议翟卫婷实地确认宁巢美地500米内有无同类养生茶馆。</p></div>
+<div id="modal-content-3" style="display:none"><h3>四季茗养元的三大独特资产</h3><p>每家店都有自己的杠杆——好方案第一步是找到它。四季茗养元的杠杆异常清晰：</p><ul><li><strong>资产一·专业医学博士</strong>：可根据用户身体情况定制周期茶饮——这不是「茶馆加了养生噱头」，是「有真正医学背景的健康服务商碰巧用茶作为载体」。这是核心壁垒，必须放大10倍传播。</li><li><strong>资产二·中药食材有证可查</strong>：每味食材都有溯源证书——在「科技与狠活」焦虑遍地的今天，「有证可查」四个字就是最好的信任状。</li><li><strong>资产三·0添加冰淇淋+养生咖啡</strong>：降低进店门槛——不喝茶的人也有理由来，扩大客群覆盖面。</li></ul><h3>品牌定位建议</h3><p><strong>一句话定位</strong>：「你家门口的养生茶医馆」——不是茶馆，是用茶做介质的社区健康服务站。</p><p><strong>品牌故事核心</strong>：「四季对症，以茶养元」——春养肝、夏养心、秋养肺、冬养肾，每个季节喝对的茶。医学博士不是噱头，是让你「喝明白」的人。</p><h3>爆品锚点策略</h3><p>根据「一道菜串联全部营销」原则，四季茗养元需要一款<strong>超级爆品</strong>作为品牌记忆点：</p><p><strong>推荐爆品：「祛湿养元茶」（赤小豆+薏仁+茯苓煮茶，定价28元）</strong></p><ul><li><strong>为什么选它</strong>：①杭州梅雨季+盛夏湿气重，「祛湿」是全民痛点 ②食材成本约3-4元，毛利85%+ ③名字直击功能，零决策门槛 ④可做冷/热两版，覆盖全年</li><li><strong>怎么做爆品</strong>：大众点评首页推荐菜第一位、小红书所有内容都带它、进店第一杯试饮就是它、储值卡绑定它（充值送3杯）</li></ul></div>
+<div id="modal-content-4" style="display:none"><h3>当前状态判断：新店零评价阶段</h3><p>四季茗养元尚未开业，大众点评评分和评价数均为零。新店冷启动阶段（0-30天）是<strong>决定未来6个月口碑走向的黄金窗口</strong>——前10条评价的质量直接决定所有后续顾客的第一印象。</p><h3>止血：开业前必须知道的红线</h3><ul><li><strong>严禁高强度促评/邀评</strong>：2025年10月后，高强度促评行为会导致新评价不产生星级收益</li><li><strong>严禁好评返现</strong>：平台严查，一旦被标记，所有评价权重清零</li><li><strong>严禁刷单</strong>：养生品类容易被标记「异常交易」，风控更严</li></ul><h3>合规冷启动四步走</h3><p><strong>第一步（开业前7天）：完善门店信息</strong></p><ul><li><strong>谁来做</strong>：老板娘（注重线上运营，适合亲自把关）</li><li><strong>怎么做</strong>：🔧 大众点评商家后台→「门店管理」→上传15-20张高质量门店照片（空间全景3张+茶品特写5张+食材溯源证书3张+医学博士坐诊场景2张+冰淇淋/咖啡2张+环境细节5张）</li><li><strong>关键细节</strong>：食材溯源证书照片是核心差异化内容——别的茶馆都在拍环境，你拍证书，信任感拉满</li></ul><p><strong>第二步（开业第1-3天）：「免费试」功能启用</strong></p><ul><li><strong>谁来做</strong>：老板娘后台操作，服务员现场引导</li><li><strong>怎么做</strong>：🔧 大众点评商家后台→「营销中心」→「免费试」→设置「祛湿养元茶体验」名额20个，要求到店体验后写满15字真实感受</li><li><strong>话怎么说</strong>：「今天您是我们的试饮嘉宾，这杯祛湿养元茶是医学博士专门调配的，喝完花1分钟写写真实感受就好，好坏都行~」</li><li><strong>客人嫌麻烦怎么办</strong>：「完全理解，那您扫这个码关注我们就好，下次来送您一份茯苓糕」</li></ul><p><strong>第三步（开业第4-14天）：「免费菜」持续拉评价</strong></p><ul><li><strong>怎么做</strong>：🔧 商家后台→「营销中心」→「免费菜」→设置「0添加冰淇淋一球」为免费菜（成本约2元），顾客点评下单后到店即享</li><li><strong>为什么选冰淇淋</strong>：7月盛夏冰淇淋是刚需+拍照利器（小红书传播性强）+成本极低+降低养生茶馆的「严肃感」</li></ul><p><strong>第四步（持续）：差评2小时响应机制</strong></p><ul><li><strong>谁来做</strong>：老板娘每天早/晚各刷一次评价</li><li><strong>回复模板</strong>：「感谢您的反馈，我们的[具体问题]确实需要改进。已安排[具体措施]，期待您再次光临体验改进后的效果~」</li><li><strong>铁律</strong>：差评回复不辩解、不甩锅，只说「我们怎么改」</li></ul><h3>量化目标</h3><ul><li>开业30天内积累<strong>30条以上</strong>真实评价</li><li>目标评分<strong>4.5分以上</strong></li><li>60天冲<strong>新店榜</strong>，90天进入<strong>热门榜前10</strong></li></ul></div>
+<div id="modal-content-5" style="display:none"><h3>开业前7天：蓄水期</h3><p><strong>Day -7 至 Day -5：线上阵地搭建</strong></p><ul><li><strong>谁来做</strong>：老板娘主导（后续运营团队到位后移交）</li><li><strong>具体动作</strong>：①小红书开账号，发3条预热笔记——「杭州萧山居然有医学博士开的茶馆」「中药食材每味都有证可查」「0添加冰淇淋+养生茶=夏天最佳搭档」 ②大众点评完善门店信息 ③微信朋友圈连发3天预热（宁巢美地业主群重点发）</li><li><strong>物料准备</strong>：食材溯源证书展示墙（A4裱框放吧台）、「四季养元」品类解说卡（A5立牌每桌1个）</li></ul><p><strong>Day -3 至 Day -1：社区地推</strong></p><ul><li><strong>谁来做</strong>：老板娘+1名员工</li><li><strong>怎么做</strong>：宁巢美地公寓四个区大门口各摆1天，提供免费试饮「祛湿养元茶」小杯装（成本0.5元/杯），扫码加微信群即送开业当天8折券</li><li><strong>话怎么说</strong>：「您好，我们是楼下新开的养生茶室，这杯祛湿茶是医学博士配的方子，您尝尝~加个群开业有8折福利」</li><li><strong>目标</strong>：3天蓄水微信群<strong>150人以上</strong></li></ul><h3>开业第1-7天：爆发期</h3><p><strong>Day 1-3：开业三件套</strong></p><ul><li><strong>全场8折</strong>（限堂食3天）：🔧 收银系统→「折扣设置」→创建「开业8折」活动</li><li><strong>进店送「养生体检卡」</strong>：A5卡片正面印9大体质自测题（来自医学博士），背面印对应推荐茶饮。顾客填完卡片服务员帮忙「解读」推荐茶——<strong>把「点单」变成「问诊」体验</strong>，制造记忆点。印刷成本0.3元/张</li><li><strong>朋友圈集赞</strong>：拍门店照发朋友圈集满18赞送「0添加冰淇淋」1份（成本2元换一次曝光）</li></ul><p><strong>Day 4-7：「28天养生打卡」正式启动</strong></p><ul><li><strong>核心机制</strong>：充值200元得280元，额外80元分28天解锁——每天到店打卡扫码解锁约10元余额，相当于每天一杯养生茶只花7元</li><li><strong>谁来推</strong>：收银员在结账时推荐</li><li><strong>话怎么说</strong>：「姐/哥，充200送80，关键是分28天打卡解锁——每天一杯养生茶只要7块，28天养成习惯比去健身房靠谱」</li><li><strong>客人犹豫</strong>：「没关系先体验，觉得好随时充。我们的食材都有证书，博士调的配方」</li><li><strong>操作路径</strong>：🔧 会员高级版→「储值方案」→创建「28天养生打卡卡」</li><li><strong>目标</strong>：首月锁定<strong>80-100个</strong>储值用户</li></ul><h3>开业第8-30天：稳流期</h3><ul><li><strong>每周六「博士坐诊日」</strong>（14:00-17:00）：博士现场做体质分析+定制茶饮方案，提前3天微信群/小红书预告，每次限8名额——制造稀缺感+专业仪式感</li><li><strong>晚间「夜茶社交」</strong>：19:00后推双人夜茶套餐（一壶茶+茯苓糕，58元），配棋牌桌/阅读角，让公寓住户有「家门口坐坐」的理由（⚠️ 假设100平可容纳2-3张棋牌桌）</li><li><strong>小红书持续更新</strong>：每周2-3篇，方向：博士科普/食材溯源/顾客打卡日记/高颜值出品图</li></ul></div>
+<div id="modal-content-6" style="display:none"><h3>养生品类会员设计的核心逻辑</h3><p>养生茶饮最大挑战是<strong>「尝鲜高、留存低」</strong>——顾客第一次来觉得新鲜，第二次就忘了。会员体系核心目标不是「卖卡赚钱」，而是<strong>把尝鲜转化为习惯</strong>。</p><h3>三层会员结构</h3><p><strong>第一层：普通会员（免费注册）</strong></p><ul><li><strong>获取方式</strong>：🔧 扫码点餐自动注册（扫码即会员，零门槛）</li><li><strong>权益</strong>：消费积分（1元=1分）、生日免费养生茶1杯、每月会员专属价茶品1款（比菜单低3-5元）</li><li><strong>目的</strong>：收集手机号和消费数据，为精准营销打基础</li></ul><p><strong>第二层：养元卡会员（28天打卡卡·充200得280）</strong></p><ul><li>详见第5章「28天养生打卡」——人均客单¥40，充200元约5次消费，加赠送金可消费7次。28天打卡机制把5次消费拉成28天日均到店，<strong>从「偶尔来」变成「每天来」</strong></li></ul><p><strong>第三层：四季养元VIP（高价值客群专属）</strong></p><ul><li><strong>产品</strong>：「季度定制周期茶饮」套餐 ¥680/季度（12周，每周3次到店取博士按体质定制的茶饮）</li><li><strong>谁来做</strong>：医学博士初次面诊→出体质报告→定制12周茶饮方案→每周配3份茶包到店自取</li><li><strong>权益</strong>：专属体质档案+每季度1次博士复诊调方+0添加冰淇淋每周1杯免费+专属微信群博士答疑</li><li><strong>为什么定680</strong>：12周x3次=36次到店，均次约19元（远低于40元客单），顾客觉得超值；食材成本约5元/次x36=180元+博士200元/季度，毛利约300元/人，且锁定3个月高频到店</li><li><strong>目标</strong>：首季度发展<strong>15-20个VIP</strong>（贡献月均约3,400元）</li></ul><h3>会员运营节奏</h3><table><tr><th>时间</th><th>动作</th><th>操作路径</th></tr><tr><td>每周一</td><td>push本周特调茶品预告</td><td>🔧 会员高级版→「消息推送」→「本周新品」</td></tr><tr><td>每月1日</td><td>月度会员专属价茶品上线</td><td>🔧 扫码点餐→「会员专属」标签更新</td></tr><tr><td>会员生日</td><td>自动发放免费茶饮券</td><td>🔧 会员高级版→「生日营销」→开启自动发券</td></tr><tr><td>打卡断签3天</td><td>push「养生不能停」提醒</td><td>🔧 会员高级版→「流失预警」→3天未到店触发</td></tr></table></div>
+<div id="modal-content-7" style="display:none"><h3>公域：三平台协同获客</h3><p>养生茶室品类，<strong>小红书是第一战场</strong>（养生/健康/生活方式天然适合），大众点评是转化阵地，抖音视情况布局。</p><p><strong>① 小红书（核心阵地·每周2-3篇）</strong></p><ul><li><strong>谁来做</strong>：开业初老板娘亲自发（真人出镜信任感强），运营团队到位后移交</li><li><strong>内容方向（按优先级）</strong>：「博士教你看体质」系列科普→专业人设 | 「食材溯源」系列拍证书→信任背书 | 「顾客打卡日记」UGC转发→社交证明 | 「0添加冰淇淋+养生茶」高颜值出片→吸引年轻客群</li><li><strong>发布节奏</strong>：每周二/四/六各1篇，标题带「杭州萧山」「养生茶」地域+品类关键词</li><li><strong>投流</strong>：前3个月每月500-800元「薯条」推广，锁定萧山区+25-45岁+女性+健康养生标签</li></ul><p><strong>② 大众点评（转化阵地）</strong></p><ul><li><strong>团购设计</strong>：引流款「养生茶初体验」19.9元（祛湿养元茶1杯+茯苓糕1份，门店价40元，5折引流）→ 🔧 商家后台→「团购」创建 | 利润款「双人养生下午茶」68元（2杯茶+点心拼盘+冰淇淋2球，门店价约110元）</li><li><strong>推广通</strong>：月预算300-500元，关键词「萧山养生」「萧山茶馆」「萧山下午茶」，锁定3公里</li></ul><p><strong>③ 抖音（辅助·暂缓）</strong></p><ul><li>养生茶室视觉冲击力有限，<strong>不急做抖音</strong>。除非医学博士愿出镜拍「1分钟养生知识」短视频——若愿意这类内容极具传播力，可作第二阶段（3个月后）重点突破</li></ul><h3>私域：微信群+打卡机制形成闭环</h3><p><strong>社群搭建（开业前完成）</strong></p><ul><li>建1个核心群「四季茗养元·养生圈」，群规：每日分享1条养生小知识（博士提供）+每周预告坐诊日+新品/活动通知</li><li><strong>拉人路径</strong>：地推扫码→进群领8折券→开业到店→扫码点餐→成为会员→打卡留存</li></ul><p><strong>公私域联动闭环</strong></p><table><tr><th>公域动作</th><th>私域承接</th><th>转化目标</th></tr><tr><td>小红书种草「博士体质科普」</td><td>评论区引导加微信群</td><td>进群→到店→充值</td></tr><tr><td>点评团购「19.9元体验」</td><td>到店扫码→自动入会员</td><td>体验→复购→打卡卡</td></tr><tr><td>推广通搜索「萧山养生」</td><td>到店→养生体检卡→加群</td><td>路人→认知→留存</td></tr></table><p><strong>关键指标</strong>：开业30天内微信群<strong>300人以上</strong>，群内每日互动率<strong>15%以上</strong>（每天至少45人发言/点赞/接龙）</p></div>
+<div id="modal-content-8" style="display:none"><h3>暑期营销黄金档（7-9月）</h3><p>开业正值暑期旺季，杭州盛夏28-38°C高温下，冷饮+养生茶+社区第三空间需求叠加，是最佳开业窗口。以下按月排布，每个活动都有具体执行要点：</p><h3>7月：开业月·冲人气</h3><table><tr><th>节点</th><th>活动</th><th>执行细节</th><th>预算</th></tr><tr><td>7月开业周</td><td>开业8折+养生体检卡+集赞送冰淇淋</td><td>见第5章完整SOP</td><td>约500元</td></tr><tr><td>7月中旬</td><td>「消暑养生茶」系列上新</td><td>推3款冷泡养生茶（冷泡祛湿茶/冷泡菊花枸杞/冷泡桂花乌龙），定价22-28元。🔧 扫码点餐→「夏日限定」标签。每杯配一张「消暑小贴士」卡片（博士手写）</td><td>卡片印刷100元</td></tr><tr><td>大暑（7.22）</td><td>「大暑清凉日」到店赠冰粉</td><td>当天到店消费赠手工冰粉1份（成本0.5元/份）。朋友圈文案：「大暑天，来四季茗养元喝杯祛湿茶+吃碗手工冰粉，花40元买个凉快和健康」</td><td>约50元</td></tr></table><h3>8月：锁客月·深耕复购</h3><table><tr><th>节点</th><th>活动</th><th>执行细节</th><th>预算</th></tr><tr><td>七夕（8月上旬）</td><td>「养生七夕·为TA定制一杯茶」</td><td>七夕当天推「双人定制茶」套餐88元——博士现场按两人体质各配1杯专属茶+1份茯苓糕+手写体质卡。赠桂花香囊1枚（成本2元）。🔧 会员系统push「七夕定制」+ 扫码弹窗预约入口</td><td>香囊约100元</td></tr><tr><td>立秋（8.7）</td><td>「秋养肺·润燥养元茶」上新</td><td>推出秋季养生线：雪梨银耳润肺茶/百合莲子安神茶/山药枸杞补气茶，定价28-35元。同步撤掉冷泡系列，完成夏秋菜单切换。🔧 扫码点餐更新菜单+会员push「秋季上新」</td><td>菜单物料200元</td></tr><tr><td>8月下旬</td><td>「28天打卡毕业礼」</td><td>首批28天打卡卡用户到期，发「毕业证书」+升级邀请：续充300元得400元（老客专属），或升级为季度VIP（680元）。🔧 会员高级版→筛选打卡满28天用户→push「毕业福利」</td><td>证书印刷50元</td></tr></table><h3>9月：升级月·冲评分</h3><table><tr><th>节点</th><th>活动</th><th>执行细节</th><th>预算</th></tr><tr><td>开学季（9.1）</td><td>「开学养生季」教师/学生福利</td><td>教师凭教师证享养生茶买一送一；学生凭学生证9折。话术：「老师辛苦了，这杯润喉茶送您」。🔧 扫码弹窗「教师节快乐」</td><td>成本约3元/杯</td></tr><tr><td>中秋（9月中下旬）</td><td>「中秋养生茶礼盒」</td><td>推出「四季养元·中秋礼盒」：4款养生茶包+1盒桂花糕+1张体质测评卡，定价128元（成本约35元，毛利73%）。适合送礼场景+企业团购。提前1个月预售——🔧 会员push「中秋茶礼预售」+ 微信群接龙</td><td>礼盒包装500元</td></tr><tr><td>桂花季（9月中旬起）</td><td>「桂花入茶」杭州限定系列</td><td>杭州桂花季特色——推桂花乌龙/桂花红枣茶/桂花酒酿圆子，限定2个月。门店摆新鲜桂花枝装饰（公园免费采）。小红书发「杭州桂花季·在茶室闻桂花香」内容</td><td>约100元</td></tr></table></div>
+<div id="modal-content-9" style="display:none"><h3>门店经营基础测算</h3><p><strong>⚠️ 以下基于行业基准值估算，建议翟卫婷与老板确认实际租金和人员配置</strong></p><table><tr><th>项目</th><th>估算值</th><th>说明</th></tr><tr><td>面积</td><td>100㎡</td><td>已知</td></tr><tr><td>人均客单</td><td>¥40</td><td>已知</td></tr><tr><td>日均座位数</td><td>约25-30个</td><td>100㎡按每4㎡1座估算（含吧台+散座+棋牌区）</td></tr><tr><td>⚠️ 假设月租金</td><td>¥8,000-12,000</td><td>萧山盈丰社区底商参考（⚠️ 请核实）</td></tr><tr><td>⚠️ 假设人员配置</td><td>3人（老板娘+2员工）</td><td>100㎡茶室标配（⚠️ 请核实）</td></tr><tr><td>⚠️ 假设人力月成本</td><td>¥15,000</td><td>2名员工月薪各5K+老板娘不计薪+社保约5K（⚠️ 请核实）</td></tr><tr><td>原材料成本率</td><td>25%-30%</td><td>养生茶饮行业基准（茶叶/中药食材成本相对稳定）</td></tr></table><h3>月营收测算（三档场景）</h3><table><tr><th>场景</th><th>日均客流</th><th>日均营收</th><th>月营收</th><th>月净利润（扣租金+人力+原材料+杂费）</th></tr><tr><td>保守（开业前2月）</td><td>20人</td><td>¥800</td><td>¥24,000</td><td>约-¥2,000至¥1,000（持平或微亏，属正常爬坡期）</td></tr><tr><td>正常（第3-6月）</td><td>35人</td><td>¥1,400</td><td>¥42,000</td><td>约¥5,000-8,000（开始盈利）</td></tr><tr><td>目标（第6月+）</td><td>50人</td><td>¥2,000</td><td>¥60,000</td><td>约¥12,000-15,000（良性盈利）</td></tr></table><h3>增收来源拆解（正常场景¥42,000/月）</h3><ul><li><strong>堂食散客</strong>：日均15人×¥40=¥600/天→¥18,000/月（43%）</li><li><strong>28天打卡卡会员</strong>：80人×¥200充值=首月入账¥16,000（日均消耗约¥8,000/月）（19%）</li><li><strong>四季VIP订阅</strong>：15人×¥680/季度=¥10,200/季度→月均¥3,400（8%）</li><li><strong>团购引流</strong>：日均5单×¥40实收≈¥6,000/月（14%）</li><li><strong>中秋茶礼等节日</strong>：季度约¥5,000-8,000（均摊月约¥2,000）（5%）</li><li><strong>晚间夜茶套餐</strong>：日均3桌×¥58=¥174/天→¥5,200/月（11%）</li></ul><h3>SaaS投入与回报</h3><table><tr><th>已签约产品</th><th>功能价值</th><th>预估月增收贡献</th></tr><tr><td>供应链</td><td>中药食材采购管理，降低损耗和断货风险</td><td>减少损耗约¥500-800/月</td></tr><tr><td>会员高级版</td><td>28天打卡卡+生日营销+流失预警+push推送</td><td>储值+复购拉动约¥8,000-12,000/月</td></tr><tr><td>扫码点餐</td><td>3人配置下减少点单压力，提升翻台效率</td><td>人效提升≈节省0.5人≈¥2,500/月</td></tr></table><h3>90天OKR量化目标</h3><table><tr><th>指标</th><th>30天</th><th>60天</th><th>90天</th></tr><tr><td>月营收</td><td>¥24,000</td><td>¥35,000</td><td>¥42,000</td></tr><tr><td>大众点评评分</td><td>4.3分（冷启动期）</td><td>4.5分</td><td>4.5分+冲热门榜</td></tr><tr><td>评价数</td><td>30条</td><td>60条</td><td>100条</td></tr><tr><td>会员总数</td><td>150人</td><td>300人</td><td>500人</td></tr><tr><td>储值会员数</td><td>80人</td><td>150人</td><td>200人</td></tr><tr><td>VIP订阅</td><td>5人</td><td>10人</td><td>15-20人</td></tr><tr><td>微信群人数</td><td>300人</td><td>500人</td><td>800人</td></tr><tr><td>小红书粉丝</td><td>200</td><td>500</td><td>1,000</td></tr></table><p><strong>增长曲线比终点数字更有说服力</strong>：第1个月是「活下来」（保本或微亏正常），第2-3个月是「跑出来」（打卡卡+VIP发力），第4个月起进入稳定盈利期。给老板画的预期：<strong>3个月回本、6个月稳定盈利</strong>。</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>翟卫婷</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>养生茶饮：概念升温但模型待跑通</h3><p>2024年全国茶饮市场规模达<strong>1,757亿元</strong>，同比增长8.2%，但行业已进入洗牌调整期——全年闭店近20万家。养生茶饮作为新兴细分赛道正在升温：人参、枸杞、燕窝、黄芪等药食同源食材入茶成为头部品牌创新方向，杭州健康消费氛围尤其利好这一品类。</p><h3>40元人均的战略卡位</h3><p>四季茗养元的人均<strong>¥40</strong>，精准卡在一个差异化窗口：新茶饮（霸王茶姬/茶百道）客单15-22元，卖的是「快速带走」；传统茶馆（隐溪等）人均80-120元，卖的是「商务空间」。40元档必须回答一个核心问题——<strong>「顾客到底买的是什么？」</strong></p><p>答案是：<strong>功能性养生茶饮 + 社区轻社交空间</strong>。顾客花40元买的不是一杯水，是「有医学博士背书的个性化养生方案 + 家门口坐一坐的舒适感」。这就是四季茗养元的核心价值主张。</p><h3>盈丰板块客群画像</h3><ul><li><strong>主力客群（60%）</strong>：宁巢美地公寓住户，25-45岁年轻刚需住户，对健康养生有朦胧需求但缺乏专业指导</li><li><strong>次要客群（25%）</strong>：周边万象汇/开元广场白领，午后下午茶、下班后减压场景</li><li><strong>高价值客群（15%）</strong>：注重健康管理的中年群体，愿意为「专业定制」付费，客单可达80-120元（周期茶饮订阅）</li></ul><h3>核心风险提示</h3><p>养生品类最大痛点是<strong>「尝鲜高、留存低」</strong>——顾客觉得有道理但不会天天来。必须用「28天养生打卡」等机制把尝鲜转化为习惯，否则开业热闹过后客流会断崖式下跌。</p>`,
+    2: `<h3>3公里竞争格局：竞争烈度中低，但自然流量有限</h3><p>宁巢美地公寓属于社区底商，非核心商圈选址。好消息是<strong>与商圈大店错位竞争</strong>，坏消息是<strong>必须主动获客</strong>，靠自然客流撑不起日营业额。</p><h3>直接竞品逐一分析</h3><table><tr><th>竞品</th><th>人均</th><th>核心优势</th><th>致命弱点</th><th>四季茗养元切入点</th></tr><tr><td><strong>隐溪茶馆</strong>（萧山有布点）</td><td>¥80-120</td><td>空间感强，商务社交成熟</td><td>价格高，年轻客群覆盖弱，无养生概念</td><td>用1/3价格提供「养生+社交」双重价值，抢社区场景</td></tr><tr><td><strong>霸王茶姬/茶百道</strong>（周边密集）</td><td>¥15-22</td><td>品牌势能强，出杯快</td><td>纯外带，无空间体验，无养生功能</td><td>差异化明显：「坐下来喝」vs「带走喝」，不正面竞争</td></tr><tr><td><strong>tea'stone/煮叶类</strong>新中式茶馆</td><td>¥50-70</td><td>品牌调性高，产品线丰富</td><td>萧山渗透率极低，短期非直接威胁</td><td>抢先占位萧山「养生茶空间」心智</td></tr><tr><td><strong>周边咖啡店</strong>（瑞幸/独立店）</td><td>¥15-35</td><td>下午茶场景成熟</td><td>产品同质化，无健康概念</td><td>用「养生咖啡+0添加冰淇淋」截流咖啡客群</td></tr></table><h3>竞争结论</h3><p>四季茗养元的<strong>真正护城河不是茶本身，而是「医学博士定制+中药食材有证可查」</strong>。这是周边所有竞品都没有的——隐溪卖空间不卖专业，霸王茶姬卖品牌不卖功能。抓住这个差异点，就能在「养生」二字上建立不可替代性。</p><p><strong>⚠️ 假设</strong>：以上竞品判断基于盈丰板块商圈特征推导，建议翟卫婷实地确认宁巢美地500米内有无同类养生茶馆。</p>`,
+    3: `<h3>四季茗养元的三大独特资产</h3><p>每家店都有自己的杠杆——好方案第一步是找到它。四季茗养元的杠杆异常清晰：</p><ul><li><strong>资产一·专业医学博士</strong>：可根据用户身体情况定制周期茶饮——这不是「茶馆加了养生噱头」，是「有真正医学背景的健康服务商碰巧用茶作为载体」。这是核心壁垒，必须放大10倍传播。</li><li><strong>资产二·中药食材有证可查</strong>：每味食材都有溯源证书——在「科技与狠活」焦虑遍地的今天，「有证可查」四个字就是最好的信任状。</li><li><strong>资产三·0添加冰淇淋+养生咖啡</strong>：降低进店门槛——不喝茶的人也有理由来，扩大客群覆盖面。</li></ul><h3>品牌定位建议</h3><p><strong>一句话定位</strong>：「你家门口的养生茶医馆」——不是茶馆，是用茶做介质的社区健康服务站。</p><p><strong>品牌故事核心</strong>：「四季对症，以茶养元」——春养肝、夏养心、秋养肺、冬养肾，每个季节喝对的茶。医学博士不是噱头，是让你「喝明白」的人。</p><h3>爆品锚点策略</h3><p>根据「一道菜串联全部营销」原则，四季茗养元需要一款<strong>超级爆品</strong>作为品牌记忆点：</p><p><strong>推荐爆品：「祛湿养元茶」（赤小豆+薏仁+茯苓煮茶，定价28元）</strong></p><ul><li><strong>为什么选它</strong>：①杭州梅雨季+盛夏湿气重，「祛湿」是全民痛点 ②食材成本约3-4元，毛利85%+ ③名字直击功能，零决策门槛 ④可做冷/热两版，覆盖全年</li><li><strong>怎么做爆品</strong>：大众点评首页推荐菜第一位、小红书所有内容都带它、进店第一杯试饮就是它、储值卡绑定它（充值送3杯）</li></ul>`,
+    4: `<h3>当前状态判断：新店零评价阶段</h3><p>四季茗养元尚未开业，大众点评评分和评价数均为零。新店冷启动阶段（0-30天）是<strong>决定未来6个月口碑走向的黄金窗口</strong>——前10条评价的质量直接决定所有后续顾客的第一印象。</p><h3>止血：开业前必须知道的红线</h3><ul><li><strong>严禁高强度促评/邀评</strong>：2025年10月后，高强度促评行为会导致新评价不产生星级收益</li><li><strong>严禁好评返现</strong>：平台严查，一旦被标记，所有评价权重清零</li><li><strong>严禁刷单</strong>：养生品类容易被标记「异常交易」，风控更严</li></ul><h3>合规冷启动四步走</h3><p><strong>第一步（开业前7天）：完善门店信息</strong></p><ul><li><strong>谁来做</strong>：老板娘（注重线上运营，适合亲自把关）</li><li><strong>怎么做</strong>：🔧 大众点评商家后台→「门店管理」→上传15-20张高质量门店照片（空间全景3张+茶品特写5张+食材溯源证书3张+医学博士坐诊场景2张+冰淇淋/咖啡2张+环境细节5张）</li><li><strong>关键细节</strong>：食材溯源证书照片是核心差异化内容——别的茶馆都在拍环境，你拍证书，信任感拉满</li></ul><p><strong>第二步（开业第1-3天）：「免费试」功能启用</strong></p><ul><li><strong>谁来做</strong>：老板娘后台操作，服务员现场引导</li><li><strong>怎么做</strong>：🔧 大众点评商家后台→「营销中心」→「免费试」→设置「祛湿养元茶体验」名额20个，要求到店体验后写满15字真实感受</li><li><strong>话怎么说</strong>：「今天您是我们的试饮嘉宾，这杯祛湿养元茶是医学博士专门调配的，喝完花1分钟写写真实感受就好，好坏都行~」</li><li><strong>客人嫌麻烦怎么办</strong>：「完全理解，那您扫这个码关注我们就好，下次来送您一份茯苓糕」</li></ul><p><strong>第三步（开业第4-14天）：「免费菜」持续拉评价</strong></p><ul><li><strong>怎么做</strong>：🔧 商家后台→「营销中心」→「免费菜」→设置「0添加冰淇淋一球」为免费菜（成本约2元），顾客点评下单后到店即享</li><li><strong>为什么选冰淇淋</strong>：7月盛夏冰淇淋是刚需+拍照利器（小红书传播性强）+成本极低+降低养生茶馆的「严肃感」</li></ul><p><strong>第四步（持续）：差评2小时响应机制</strong></p><ul><li><strong>谁来做</strong>：老板娘每天早/晚各刷一次评价</li><li><strong>回复模板</strong>：「感谢您的反馈，我们的[具体问题]确实需要改进。已安排[具体措施]，期待您再次光临体验改进后的效果~」</li><li><strong>铁律</strong>：差评回复不辩解、不甩锅，只说「我们怎么改」</li></ul><h3>量化目标</h3><ul><li>开业30天内积累<strong>30条以上</strong>真实评价</li><li>目标评分<strong>4.5分以上</strong></li><li>60天冲<strong>新店榜</strong>，90天进入<strong>热门榜前10</strong></li></ul>`,
+    5: `<h3>开业前7天：蓄水期</h3><p><strong>Day -7 至 Day -5：线上阵地搭建</strong></p><ul><li><strong>谁来做</strong>：老板娘主导（后续运营团队到位后移交）</li><li><strong>具体动作</strong>：①小红书开账号，发3条预热笔记——「杭州萧山居然有医学博士开的茶馆」「中药食材每味都有证可查」「0添加冰淇淋+养生茶=夏天最佳搭档」 ②大众点评完善门店信息 ③微信朋友圈连发3天预热（宁巢美地业主群重点发）</li><li><strong>物料准备</strong>：食材溯源证书展示墙（A4裱框放吧台）、「四季养元」品类解说卡（A5立牌每桌1个）</li></ul><p><strong>Day -3 至 Day -1：社区地推</strong></p><ul><li><strong>谁来做</strong>：老板娘+1名员工</li><li><strong>怎么做</strong>：宁巢美地公寓四个区大门口各摆1天，提供免费试饮「祛湿养元茶」小杯装（成本0.5元/杯），扫码加微信群即送开业当天8折券</li><li><strong>话怎么说</strong>：「您好，我们是楼下新开的养生茶室，这杯祛湿茶是医学博士配的方子，您尝尝~加个群开业有8折福利」</li><li><strong>目标</strong>：3天蓄水微信群<strong>150人以上</strong></li></ul><h3>开业第1-7天：爆发期</h3><p><strong>Day 1-3：开业三件套</strong></p><ul><li><strong>全场8折</strong>（限堂食3天）：🔧 收银系统→「折扣设置」→创建「开业8折」活动</li><li><strong>进店送「养生体检卡」</strong>：A5卡片正面印9大体质自测题（来自医学博士），背面印对应推荐茶饮。顾客填完卡片服务员帮忙「解读」推荐茶——<strong>把「点单」变成「问诊」体验</strong>，制造记忆点。印刷成本0.3元/张</li><li><strong>朋友圈集赞</strong>：拍门店照发朋友圈集满18赞送「0添加冰淇淋」1份（成本2元换一次曝光）</li></ul><p><strong>Day 4-7：「28天养生打卡」正式启动</strong></p><ul><li><strong>核心机制</strong>：充值200元得280元，额外80元分28天解锁——每天到店打卡扫码解锁约10元余额，相当于每天一杯养生茶只花7元</li><li><strong>谁来推</strong>：收银员在结账时推荐</li><li><strong>话怎么说</strong>：「姐/哥，充200送80，关键是分28天打卡解锁——每天一杯养生茶只要7块，28天养成习惯比去健身房靠谱」</li><li><strong>客人犹豫</strong>：「没关系先体验，觉得好随时充。我们的食材都有证书，博士调的配方」</li><li><strong>操作路径</strong>：🔧 会员高级版→「储值方案」→创建「28天养生打卡卡」</li><li><strong>目标</strong>：首月锁定<strong>80-100个</strong>储值用户</li></ul><h3>开业第8-30天：稳流期</h3><ul><li><strong>每周六「博士坐诊日」</strong>（14:00-17:00）：博士现场做体质分析+定制茶饮方案，提前3天微信群/小红书预告，每次限8名额——制造稀缺感+专业仪式感</li><li><strong>晚间「夜茶社交」</strong>：19:00后推双人夜茶套餐（一壶茶+茯苓糕，58元），配棋牌桌/阅读角，让公寓住户有「家门口坐坐」的理由（⚠️ 假设100平可容纳2-3张棋牌桌）</li><li><strong>小红书持续更新</strong>：每周2-3篇，方向：博士科普/食材溯源/顾客打卡日记/高颜值出品图</li></ul>`,
+    6: `<h3>养生品类会员设计的核心逻辑</h3><p>养生茶饮最大挑战是<strong>「尝鲜高、留存低」</strong>——顾客第一次来觉得新鲜，第二次就忘了。会员体系核心目标不是「卖卡赚钱」，而是<strong>把尝鲜转化为习惯</strong>。</p><h3>三层会员结构</h3><p><strong>第一层：普通会员（免费注册）</strong></p><ul><li><strong>获取方式</strong>：🔧 扫码点餐自动注册（扫码即会员，零门槛）</li><li><strong>权益</strong>：消费积分（1元=1分）、生日免费养生茶1杯、每月会员专属价茶品1款（比菜单低3-5元）</li><li><strong>目的</strong>：收集手机号和消费数据，为精准营销打基础</li></ul><p><strong>第二层：养元卡会员（28天打卡卡·充200得280）</strong></p><ul><li>详见第5章「28天养生打卡」——人均客单¥40，充200元约5次消费，加赠送金可消费7次。28天打卡机制把5次消费拉成28天日均到店，<strong>从「偶尔来」变成「每天来」</strong></li></ul><p><strong>第三层：四季养元VIP（高价值客群专属）</strong></p><ul><li><strong>产品</strong>：「季度定制周期茶饮」套餐 ¥680/季度（12周，每周3次到店取博士按体质定制的茶饮）</li><li><strong>谁来做</strong>：医学博士初次面诊→出体质报告→定制12周茶饮方案→每周配3份茶包到店自取</li><li><strong>权益</strong>：专属体质档案+每季度1次博士复诊调方+0添加冰淇淋每周1杯免费+专属微信群博士答疑</li><li><strong>为什么定680</strong>：12周x3次=36次到店，均次约19元（远低于40元客单），顾客觉得超值；食材成本约5元/次x36=180元+博士200元/季度，毛利约300元/人，且锁定3个月高频到店</li><li><strong>目标</strong>：首季度发展<strong>15-20个VIP</strong>（贡献月均约3,400元）</li></ul><h3>会员运营节奏</h3><table><tr><th>时间</th><th>动作</th><th>操作路径</th></tr><tr><td>每周一</td><td>push本周特调茶品预告</td><td>🔧 会员高级版→「消息推送」→「本周新品」</td></tr><tr><td>每月1日</td><td>月度会员专属价茶品上线</td><td>🔧 扫码点餐→「会员专属」标签更新</td></tr><tr><td>会员生日</td><td>自动发放免费茶饮券</td><td>🔧 会员高级版→「生日营销」→开启自动发券</td></tr><tr><td>打卡断签3天</td><td>push「养生不能停」提醒</td><td>🔧 会员高级版→「流失预警」→3天未到店触发</td></tr></table>`,
+    7: `<h3>公域：三平台协同获客</h3><p>养生茶室品类，<strong>小红书是第一战场</strong>（养生/健康/生活方式天然适合），大众点评是转化阵地，抖音视情况布局。</p><p><strong>① 小红书（核心阵地·每周2-3篇）</strong></p><ul><li><strong>谁来做</strong>：开业初老板娘亲自发（真人出镜信任感强），运营团队到位后移交</li><li><strong>内容方向（按优先级）</strong>：「博士教你看体质」系列科普→专业人设 | 「食材溯源」系列拍证书→信任背书 | 「顾客打卡日记」UGC转发→社交证明 | 「0添加冰淇淋+养生茶」高颜值出片→吸引年轻客群</li><li><strong>发布节奏</strong>：每周二/四/六各1篇，标题带「杭州萧山」「养生茶」地域+品类关键词</li><li><strong>投流</strong>：前3个月每月500-800元「薯条」推广，锁定萧山区+25-45岁+女性+健康养生标签</li></ul><p><strong>② 大众点评（转化阵地）</strong></p><ul><li><strong>团购设计</strong>：引流款「养生茶初体验」19.9元（祛湿养元茶1杯+茯苓糕1份，门店价40元，5折引流）→ 🔧 商家后台→「团购」创建 | 利润款「双人养生下午茶」68元（2杯茶+点心拼盘+冰淇淋2球，门店价约110元）</li><li><strong>推广通</strong>：月预算300-500元，关键词「萧山养生」「萧山茶馆」「萧山下午茶」，锁定3公里</li></ul><p><strong>③ 抖音（辅助·暂缓）</strong></p><ul><li>养生茶室视觉冲击力有限，<strong>不急做抖音</strong>。除非医学博士愿出镜拍「1分钟养生知识」短视频——若愿意这类内容极具传播力，可作第二阶段（3个月后）重点突破</li></ul><h3>私域：微信群+打卡机制形成闭环</h3><p><strong>社群搭建（开业前完成）</strong></p><ul><li>建1个核心群「四季茗养元·养生圈」，群规：每日分享1条养生小知识（博士提供）+每周预告坐诊日+新品/活动通知</li><li><strong>拉人路径</strong>：地推扫码→进群领8折券→开业到店→扫码点餐→成为会员→打卡留存</li></ul><p><strong>公私域联动闭环</strong></p><table><tr><th>公域动作</th><th>私域承接</th><th>转化目标</th></tr><tr><td>小红书种草「博士体质科普」</td><td>评论区引导加微信群</td><td>进群→到店→充值</td></tr><tr><td>点评团购「19.9元体验」</td><td>到店扫码→自动入会员</td><td>体验→复购→打卡卡</td></tr><tr><td>推广通搜索「萧山养生」</td><td>到店→养生体检卡→加群</td><td>路人→认知→留存</td></tr></table><p><strong>关键指标</strong>：开业30天内微信群<strong>300人以上</strong>，群内每日互动率<strong>15%以上</strong>（每天至少45人发言/点赞/接龙）</p>`,
+    8: `<h3>暑期营销黄金档（7-9月）</h3><p>开业正值暑期旺季，杭州盛夏28-38°C高温下，冷饮+养生茶+社区第三空间需求叠加，是最佳开业窗口。以下按月排布，每个活动都有具体执行要点：</p><h3>7月：开业月·冲人气</h3><table><tr><th>节点</th><th>活动</th><th>执行细节</th><th>预算</th></tr><tr><td>7月开业周</td><td>开业8折+养生体检卡+集赞送冰淇淋</td><td>见第5章完整SOP</td><td>约500元</td></tr><tr><td>7月中旬</td><td>「消暑养生茶」系列上新</td><td>推3款冷泡养生茶（冷泡祛湿茶/冷泡菊花枸杞/冷泡桂花乌龙），定价22-28元。🔧 扫码点餐→「夏日限定」标签。每杯配一张「消暑小贴士」卡片（博士手写）</td><td>卡片印刷100元</td></tr><tr><td>大暑（7.22）</td><td>「大暑清凉日」到店赠冰粉</td><td>当天到店消费赠手工冰粉1份（成本0.5元/份）。朋友圈文案：「大暑天，来四季茗养元喝杯祛湿茶+吃碗手工冰粉，花40元买个凉快和健康」</td><td>约50元</td></tr></table><h3>8月：锁客月·深耕复购</h3><table><tr><th>节点</th><th>活动</th><th>执行细节</th><th>预算</th></tr><tr><td>七夕（8月上旬）</td><td>「养生七夕·为TA定制一杯茶」</td><td>七夕当天推「双人定制茶」套餐88元——博士现场按两人体质各配1杯专属茶+1份茯苓糕+手写体质卡。赠桂花香囊1枚（成本2元）。🔧 会员系统push「七夕定制」+ 扫码弹窗预约入口</td><td>香囊约100元</td></tr><tr><td>立秋（8.7）</td><td>「秋养肺·润燥养元茶」上新</td><td>推出秋季养生线：雪梨银耳润肺茶/百合莲子安神茶/山药枸杞补气茶，定价28-35元。同步撤掉冷泡系列，完成夏秋菜单切换。🔧 扫码点餐更新菜单+会员push「秋季上新」</td><td>菜单物料200元</td></tr><tr><td>8月下旬</td><td>「28天打卡毕业礼」</td><td>首批28天打卡卡用户到期，发「毕业证书」+升级邀请：续充300元得400元（老客专属），或升级为季度VIP（680元）。🔧 会员高级版→筛选打卡满28天用户→push「毕业福利」</td><td>证书印刷50元</td></tr></table><h3>9月：升级月·冲评分</h3><table><tr><th>节点</th><th>活动</th><th>执行细节</th><th>预算</th></tr><tr><td>开学季（9.1）</td><td>「开学养生季」教师/学生福利</td><td>教师凭教师证享养生茶买一送一；学生凭学生证9折。话术：「老师辛苦了，这杯润喉茶送您」。🔧 扫码弹窗「教师节快乐」</td><td>成本约3元/杯</td></tr><tr><td>中秋（9月中下旬）</td><td>「中秋养生茶礼盒」</td><td>推出「四季养元·中秋礼盒」：4款养生茶包+1盒桂花糕+1张体质测评卡，定价128元（成本约35元，毛利73%）。适合送礼场景+企业团购。提前1个月预售——🔧 会员push「中秋茶礼预售」+ 微信群接龙</td><td>礼盒包装500元</td></tr><tr><td>桂花季（9月中旬起）</td><td>「桂花入茶」杭州限定系列</td><td>杭州桂花季特色——推桂花乌龙/桂花红枣茶/桂花酒酿圆子，限定2个月。门店摆新鲜桂花枝装饰（公园免费采）。小红书发「杭州桂花季·在茶室闻桂花香」内容</td><td>约100元</td></tr></table>`,
+    9: `<h3>门店经营基础测算</h3><p><strong>⚠️ 以下基于行业基准值估算，建议翟卫婷与老板确认实际租金和人员配置</strong></p><table><tr><th>项目</th><th>估算值</th><th>说明</th></tr><tr><td>面积</td><td>100㎡</td><td>已知</td></tr><tr><td>人均客单</td><td>¥40</td><td>已知</td></tr><tr><td>日均座位数</td><td>约25-30个</td><td>100㎡按每4㎡1座估算（含吧台+散座+棋牌区）</td></tr><tr><td>⚠️ 假设月租金</td><td>¥8,000-12,000</td><td>萧山盈丰社区底商参考（⚠️ 请核实）</td></tr><tr><td>⚠️ 假设人员配置</td><td>3人（老板娘+2员工）</td><td>100㎡茶室标配（⚠️ 请核实）</td></tr><tr><td>⚠️ 假设人力月成本</td><td>¥15,000</td><td>2名员工月薪各5K+老板娘不计薪+社保约5K（⚠️ 请核实）</td></tr><tr><td>原材料成本率</td><td>25%-30%</td><td>养生茶饮行业基准（茶叶/中药食材成本相对稳定）</td></tr></table><h3>月营收测算（三档场景）</h3><table><tr><th>场景</th><th>日均客流</th><th>日均营收</th><th>月营收</th><th>月净利润（扣租金+人力+原材料+杂费）</th></tr><tr><td>保守（开业前2月）</td><td>20人</td><td>¥800</td><td>¥24,000</td><td>约-¥2,000至¥1,000（持平或微亏，属正常爬坡期）</td></tr><tr><td>正常（第3-6月）</td><td>35人</td><td>¥1,400</td><td>¥42,000</td><td>约¥5,000-8,000（开始盈利）</td></tr><tr><td>目标（第6月+）</td><td>50人</td><td>¥2,000</td><td>¥60,000</td><td>约¥12,000-15,000（良性盈利）</td></tr></table><h3>增收来源拆解（正常场景¥42,000/月）</h3><ul><li><strong>堂食散客</strong>：日均15人×¥40=¥600/天→¥18,000/月（43%）</li><li><strong>28天打卡卡会员</strong>：80人×¥200充值=首月入账¥16,000（日均消耗约¥8,000/月）（19%）</li><li><strong>四季VIP订阅</strong>：15人×¥680/季度=¥10,200/季度→月均¥3,400（8%）</li><li><strong>团购引流</strong>：日均5单×¥40实收≈¥6,000/月（14%）</li><li><strong>中秋茶礼等节日</strong>：季度约¥5,000-8,000（均摊月约¥2,000）（5%）</li><li><strong>晚间夜茶套餐</strong>：日均3桌×¥58=¥174/天→¥5,200/月（11%）</li></ul><h3>SaaS投入与回报</h3><table><tr><th>已签约产品</th><th>功能价值</th><th>预估月增收贡献</th></tr><tr><td>供应链</td><td>中药食材采购管理，降低损耗和断货风险</td><td>减少损耗约¥500-800/月</td></tr><tr><td>会员高级版</td><td>28天打卡卡+生日营销+流失预警+push推送</td><td>储值+复购拉动约¥8,000-12,000/月</td></tr><tr><td>扫码点餐</td><td>3人配置下减少点单压力，提升翻台效率</td><td>人效提升≈节省0.5人≈¥2,500/月</td></tr></table><h3>90天OKR量化目标</h3><table><tr><th>指标</th><th>30天</th><th>60天</th><th>90天</th></tr><tr><td>月营收</td><td>¥24,000</td><td>¥35,000</td><td>¥42,000</td></tr><tr><td>大众点评评分</td><td>4.3分（冷启动期）</td><td>4.5分</td><td>4.5分+冲热门榜</td></tr><tr><td>评价数</td><td>30条</td><td>60条</td><td>100条</td></tr><tr><td>会员总数</td><td>150人</td><td>300人</td><td>500人</td></tr><tr><td>储值会员数</td><td>80人</td><td>150人</td><td>200人</td></tr><tr><td>VIP订阅</td><td>5人</td><td>10人</td><td>15-20人</td></tr><tr><td>微信群人数</td><td>300人</td><td>500人</td><td>800人</td></tr><tr><td>小红书粉丝</td><td>200</td><td>500</td><td>1,000</td></tr></table><p><strong>增长曲线比终点数字更有说服力</strong>：第1个月是「活下来」（保本或微亏正常），第2-3个月是「跑出来」（打卡卡+VIP发力），第4个月起进入稳定盈利期。给老板画的预期：<strong>3个月回本、6个月稳定盈利</strong>。</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
