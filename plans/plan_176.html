@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>胡老二市井大排档 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #8B4513;
+      --primary-light: #A0522D;
+      --accent: #D2B48C;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #8B451340;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">烧烤/大排档 · 运营提升方案</div>
+  <h1 class="hero-title">胡老二市井大排档</h1>
+  <p class="hero-subtitle">开业首月沉淀500个回头客，用一道爆品打透共乐夜宵圈</p>
+  <div class="hero-address">广东省深圳市宝安区共乐商圈</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥70</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">宝安区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察·宝安夜宵战场', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察·宝安夜宵战场</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解·共乐1.5公里作战地图', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解·共乐1.5公里作战地图</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '品牌定位·爆品锚点策略', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">品牌定位·爆品锚点策略</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '开业冲刺·30天作战计划', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">开业冲刺·30天作战计划</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '点评口碑·新店出星攻略', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">点评口碑·新店出星攻略</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '会员体系·把路人变回头客', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">会员体系·把路人变回头客</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '深夜时段·23:00后差异化战场', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">深夜时段·23:00后差异化战场</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '公私域联动·流量闭环设计', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">公私域联动·流量闭环设计</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(9, '投资回报·算清这笔账', 9)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 09</div>
+      <div class="chapter-title">投资回报·算清这笔账</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>深圳烧烤大排档品类大盘</h3><p>2024年全国烧烤市场规模约<strong>2,840亿元</strong>，门店数54.1万家同比+8.5%，近3年开店率持续高于关店率，是少有的仍在扩容的餐饮品类。深圳宝安区常住人口超<strong>500万</strong>，是全市人口第一大区，夜经济需求旺盛——烧烤大排档在此属于<strong>刚需高频</strong>品类。</p><h3>共乐商圈消费画像</h3><p>共乐商圈属<strong>社区+工业混合型</strong>商圈，周边有大量工厂及物流从业者：</p><ul><li><strong>主力客群（60%）：</strong>25-40岁工厂/物流/仓储员工，下班时间晚（21:00后），消费预算人均50-80元，追求「吃饱+社交+烟火气」</li><li><strong>次要客群（25%）：</strong>周边社区家庭，周末及节假日聚餐需求，人均70-90元，关注「干净+实惠+有特色」</li><li><strong>潜力客群（15%）：</strong>年轻租客/情侣，受小红书/抖音种草驱动，追求「出片+氛围感+特色菜品」</li></ul><h3>价格带分析</h3><p>深圳烧烤/大排档主流价格带为<strong>人均60-90元（含酒水）</strong>，低于80元是走量甜区。「市井风」定位近两年被过度使用，同质化严重，<strong>单靠装修氛围已无壁垒</strong>。胡老二的突破口不在「装修比谁更市井」，而在「产品记忆点+服务温度+深夜时段差异化」。</p><h3>关键风险提示</h3><p>宝安区烧烤存量门店密度高，<strong>新店6个月淘汰率约35%</strong>。外卖对烧烤品质损耗大，<strong>堂食引流能力决定生死</strong>。开业首月的核心任务不是「营收最大化」，而是「沉淀可重复消费的真实老客」。</p></div>
+<div id="modal-content-2" style="display:none"><h3>周边核心竞对逐一拆解</h3><table><tr><th>竞品</th><th>人均</th><th>强项</th><th>弱点</th><th>胡老二切入点</th></tr><tr><td><strong>木屋烧烤</strong></td><td>¥75-90</td><td>品牌认知强、供应链成熟、出品稳定</td><td>标准化导致缺少「烟火气」，氛围偏连锁感，菜品无记忆爆款</td><td>用「明火现烤+鲜切现穿」打烟火气差异；用爆品建立独有记忆</td></tr><tr><td><strong>丰茂烤串</strong></td><td>¥80-100</td><td>羊肉品质突出、客群消费力强</td><td>价格偏高不够接地气，不做深夜档</td><td>人均低20-30元「高性价比社交场」；延时到凌晨2:00抢夜宵真空期</td></tr><tr><td><strong>周边个体大排档</strong></td><td>¥50-70</td><td>价格低、老客粘性强</td><td>环境差、无品牌感、线上运营约等于零、无会员体系</td><td>「干净的大排档」——同样烟火气但卫生感知更好；线上运营全面压制</td></tr></table><h3>竞争格局核心判断</h3><p>竞争烈度：<strong>中高</strong>。胡老二需在木屋（品牌连锁）和个体排档（极致低价）之间找到<strong>「品质感+烟火气+高性价比」</strong>的卡位——比木屋接地气、比个体排档干净有品质。</p><h3>胡老二的差异化三板斧</h3><ul><li><strong>产品差异：</strong>打造1-2个「必点记忆锚点」菜品（详见第三章），木屋和丰茂都没有强爆品，这是空白机会</li><li><strong>时段差异：</strong>锁定23:00-凌晨2:00深夜档，丰茂不做这个时段，个体排档多数凌晨前打烊，竞争密度骤降</li><li><strong>体验差异：</strong>「市井烟火气」+「让人放心的干净」，不做精致餐厅也不做脏摊，做「最干净的大排档」</li></ul></div>
+<div id="modal-content-3" style="display:none"><h3>一句话定位</h3><p><strong>「共乐商圈最有烟火气的深夜食堂——比连锁店接地气，比路边摊更放心」</strong></p><p>这个定位不靠装修支撑（100㎡不需要搞大投入），靠三件事：①出品鲜切现穿看得见 ②明档厨房看得到 ③老板人格化IP经营。</p><h3>核心记忆爆品：「胡老二招牌·整只烤脆皮五花」</h3><p>大排档本质是<strong>复购生意</strong>，「这家店有什么非来不可的理由」是生死线。打造一个让人吃了想发朋友圈的<strong>视觉锚点产品</strong>：</p><ul><li><strong>产品设计：</strong>整条五花肉明火现烤至皮脆肉嫩，上桌现片，配蒜泥+灵魂辣酱+生菜包裹，定价<strong>¥35/份</strong></li><li><strong>成本拆解：</strong>五花肉500g约¥8-10 + 配料¥2-3 + 炭火¥1 = 总成本约¥12-14，<strong>毛利约60%</strong></li><li><strong>为什么选这道：</strong>①视觉冲击——整条上桌现片，拍照传播率极高 ②成本可控——不依赖昂贵食材 ③出品稳定——不像海鲜受价格波动 ④木屋/丰茂都没有这类「视觉仪式感」单品</li></ul><h3>菜单结构设计</h3><ul><li><strong>扫码点餐首屏：</strong>设「老二必点榜」专区（3-5款），降低新客决策成本——扫码点餐后台→菜品管理→新建分类「老二必点榜」→置顶</li><li><strong>定价结构：</strong>烤串3-8元/串（走量，主力5元/串）| 招牌大菜29-45元（锚点）| 小炒/凉菜18-28元 | 啤酒8-12元/瓶（毛利60%+）</li><li><strong>套餐心理学：</strong>设3档套餐——最贵档¥199不是为了卖，是让¥99的「兄弟局」显得划算（⚠️ 假设人均约¥70含酒水，卡在60-80元走量甜区中段）</li></ul></div>
+<div id="modal-content-4" style="display:none"><h3>开业倒计时30天关键动作表</h3><h4>开业前15天：蓄水期</h4><table><tr><th>时间</th><th>动作</th><th>谁来做</th><th>怎么做</th></tr><tr><td>D-15</td><td>大众点评商户入驻</td><td>老板</td><td>打开「美团开店宝」App→新店入驻→上传营业执照+门头照+菜品图（至少6张高清特写）→等审核。门店名「胡老二市井大排档(共乐店)」</td></tr><tr><td>D-15</td><td>建企微社群</td><td>老板</td><td>创建「胡老二·老客专属群」，群公告写「开业当天群内专属福利」。二维码贴门口+收银台+外卖卡片</td></tr><tr><td>D-14至D-8</td><td>免费试投放50份</td><td>老板+店长</td><td>大众点评商家后台→营销中心→免费试→设50份招牌脆皮五花，预算约¥1,750。到店引导加群，话术：「您是第一批试吃官，群里开业当天有专属福利」。嫌麻烦→「扫码入群送凉菜，不用发朋友圈」</td></tr><tr><td>D-14至D-8</td><td>抖音/小红书达人合作</td><td>老板</td><td>找3-5个宝安探店达人（粉丝5K-2W），每人¥200-500，拍脆皮五花出品视频，标签 #深圳烧烤 #宝安夜宵 #共乐美食</td></tr><tr><td>D-7至D-3</td><td>内部试营业</td><td>全员</td><td>邀亲友50人分3天体验，每桌走完整流程：扫码→点餐→出餐→结账→入群。磨合出餐+测试系统</td></tr><tr><td>D-3</td><td>扫码点餐压测</td><td>店长</td><td>美团收银后台→扫码点餐→检查分类/图片/价格/库存。模拟20桌同时下单。设「老二必点榜」首屏</td></tr></table><h4>开业当天：引爆日</h4><ul><li><strong>企微群专属福利</strong>（店长，前一晚群里预告）：前50名到店群友送「啤酒畅饮1小时」券（成本约¥8-10/人）。暗号「老二请我喝酒」</li><li><strong>招牌爆品限量推：</strong>「烤脆皮五花」开业价¥29（原价¥35），限前30桌——让尽可能多人拍照传播</li><li><strong>全员服务节奏：</strong>每桌上菜说「这是招牌脆皮五花，现烤现片，拍照特好看！」——不要求发圈，只制造拍照冲动</li></ul><h4>开业后D+1至D+30：沉淀期</h4><ul><li><strong>每天盯数据</strong>（店长，打烊后10分钟）：美团收银→经营报表→日营收/桌均/菜品TOP10。重点：爆品点单率>40%？人均60-80？</li><li><strong>差评2小时内回复</strong>（老板/店长）：大众点评商家版→评价管理→差评优先。话术：「XX您好，非常抱歉！[针对具体问题]。我是老板老二，下次来亲自给您烤招牌五花肉！」</li><li><strong>企微群周二/五固定福利</strong>（店长）：「本周隐藏菜单」——1道特价菜仅群内可见，养成看群习惯</li></ul></div>
+<div id="modal-content-5" style="display:none"><h3>当前阶段：新店冷启动期（0-90天）</h3><p>胡老二作为新店，点评评分和评价量从零起步。核心目标不是「冲高分」，而是<strong>「快速积累真实评价，建立可信口碑基础」</strong>。</p><h3>数值目标</h3><ul><li><strong>30天内：</strong>积累≥50条真实评价（含图评≥20条），目标评分4.3+</li><li><strong>60天内：</strong>评价总数≥120条，争取出星（点评星级），冲新店榜前10</li><li><strong>90天内：</strong>评分稳定在4.5+，上线「免费试」冲热门榜</li></ul><h3>升级路线：新店→新店榜→热门榜→好评榜</h3><table><tr><th>阶段</th><th>目标</th><th>关键动作</th><th>周期</th></tr><tr><td>出星</td><td>积累足够评价出星级</td><td>保证出品稳定+服务到位，真实体验驱动自然好评</td><td>0-60天</td></tr><tr><td>新店榜</td><td>进入宝安区新店榜前10</td><td>高频次上线免费试/免费菜活动+评价积累</td><td>30-90天</td></tr><tr><td>热门榜</td><td>进入宝安烧烤热门榜</td><td>提升收藏/浏览/下单转化率，稳定4.5+评分</td><td>90-180天</td></tr></table><h3>合规红线（2025年10月新规后）</h3><p><strong>严禁任何形式的促评/邀评。</strong>高强度促评=新评价不产生星级收益。以下绝不能做：</p><ul><li>❌ 好评返现/好评送菜/好评打折</li><li>❌ 服务员引导「给个五星好评」</li><li>❌ 桌上摆「好评送XX」台卡</li></ul><h3>合规做法：让客人「自愿想分享」</h3><ul><li><strong>①打造分享动机（店长）：</strong>「烤脆皮五花」上桌现片的仪式感本身就是拍照点。服务员只说「拍照特好看」，不说「帮写评价」</li><li><strong>②善用「免费试」（老板，开业第15天）：</strong>大众点评商家后台→营销中心→免费试→设「招牌烤脆皮五花」为免费试品，每天5份。免费试用户自带高评价率且完全合规</li><li><strong>③差评快速止血（老板/店长，实时）：</strong>大众点评商家版→评价管理→筛选差评→2小时内回复。回复针对具体问题（等太久→已增人手；口味淡→已调配方），不复制粘贴</li><li><strong>④评价数据周复盘（店长，每周一）：</strong>大众点评商家版→数据中心→本周新增评价数/好评率/差评关键词。连续两周好评率低于85%→排查出品或服务</li></ul></div>
+<div id="modal-content-6" style="display:none"><h3>为什么先做会员而不是储值？</h3><p>胡老二是<strong>新店未开业</strong>，客户基础为零。新店最大痛点是「来一次就走、不回头」，而不是「老客不充钱」。<strong>储值需要信任基础，信任需要时间</strong>——从没吃过的店就让人充钱，心理门槛极高。所以前3个月核心是<strong>「用会员体系沉淀回头客」</strong>，储值放在第二阶段（3个月后有稳定客群再推）。</p><h3>会员旗舰版能力部署（已签约¥4,888/年）</h3><table><tr><th>旗舰功能</th><th>怎么用</th><th>谁来做/什么时候</th><th>操作路径</th></tr><tr><td>团购会员卡</td><td>上线「胡老二吃货卡」：¥9.9购买，享全场9折+生日赠招牌菜+每月1张啤酒券。首月目标售出200张</td><td>店长/开业第1天</td><td>会员旗舰版后台→团购会员卡→设权益包→定价¥9.9→关联点评上架</td></tr><tr><td>潜客营销</td><td>对浏览门店但未消费的潜客自动发「新店尝鲜券」（¥10无门槛）</td><td>店长配置一次/开业第3天</td><td>会员旗舰版→潜客营销→设触达规则→选¥10券→开启</td></tr><tr><td>沉睡唤醒</td><td>15天未到店会员自动推送「老二想你了」+¥8回头券</td><td>系统自动/开业第20天开启</td><td>会员旗舰版→智能营销→沉睡唤醒→设15天阈值→选¥8券→开启</td></tr><tr><td>6大特有活动</td><td>首月先跑「新客礼」（注册送¥5券）+「消费满赠」（满¥100送¥8券）</td><td>店长/开业前3天</td><td>会员旗舰版→活动中心→选模板→设金额→开启</td></tr></table><h3>会员注册路径</h3><ul><li><strong>主路径——扫码点餐弹窗（店长，开业前3天）：</strong>扫码点餐后台→营销弹窗→设「首次扫码注册送¥5券」，一键注册不打断点餐</li><li><strong>辅路径——结账引导：</strong>话术「消费XX元，注册会员下次9折，扫码3秒搞定」。犹豫→「不用充钱，打折身份，以后都便宜」</li></ul><h3>关键指标（店长每周一看）</h3><ul><li>周新增会员：目标≥50人/周（首月200+）</li><li>会员复购率：目标≥30%</li><li>团购会员卡核销率：目标≥60%</li></ul><h3>第二阶段预告：储值（第4个月启动）</h3><p>会员池500+、复购率稳定30%后再推储值。预设：储值300送50（约7次消费回本，匹配烧烤复购频率）。<strong>现在不急，先让客人信任你</strong>。</p></div>
+<div id="modal-content-7" style="display:none"><h3>为什么深夜档是胡老二必争之地？</h3><p>共乐商圈周边工厂/物流从业者众多，下班时间普遍21:00-22:00。23:00后本片区烧烤竞争密度<strong>骤降</strong>——木屋烧烤多数23:00打烊，丰茂不做深夜档，个体排档凌晨前收摊。<strong>这是低成本获客窗口</strong>。</p><h3>深夜档套餐设计</h3><table><tr><th>套餐名</th><th>内容</th><th>定价</th><th>成本</th><th>毛利</th></tr><tr><td>下班来一顿（1人）</td><td>10串烤串+炒粉/面+啤酒1瓶</td><td>¥45</td><td>约¥18</td><td>60%</td></tr><tr><td>兄弟局（2人）</td><td>20串+小炒+凉菜+啤酒4瓶</td><td>¥99</td><td>约¥38</td><td>62%</td></tr><tr><td>深夜畅撸（3-4人）</td><td>40串+招牌脆皮五花+小炒2份+啤酒6瓶</td><td>¥199</td><td>约¥78</td><td>61%</td></tr></table><h3>执行细节</h3><ul><li><strong>营业至凌晨2:00</strong>（⚠️ 假设物业允许，建议确认）。深夜班排2人（1烤工+1服务员），菜品精简至15-20款快出品</li><li><strong>扫码点餐自动切菜单（店长配置）：</strong>扫码点餐后台→分时菜单→设22:00自动切换「深夜食堂菜单」，只显示套餐和快出品单品</li><li><strong>线上标签优化（老板，开业第1天）：</strong>美团/大众点评商家后台→门店信息→营业时间标注「至凌晨2:00」，标签加「凌晨营业」「深夜食堂」「夜宵」</li><li><strong>抖音深夜内容（老板/店长，每周1条）：</strong>拍15秒凌晨烤架画面+字幕「胡老二凌晨2点还在等你」，22:00发布定位宝安区，免费发不花钱</li></ul><h3>深夜档营收预估</h3><p>⚠️ 假设日均8桌，桌均¥95：</p><ul><li>日均深夜档营收：8 × ¥95 = ¥760</li><li>月深夜档营收：¥760 × 30 = <strong>¥22,800</strong></li><li>占预估月总营收约<strong>15-18%</strong>——竞对让出的纯增量</li></ul></div>
+<div id="modal-content-8" style="display:none"><h3>公域引流矩阵</h3><h4>① 大众点评（基本盘）</h4><ul><li><strong>团购套餐上线（老板+店长，开业前3天）：</strong>大众点评商家后台→团购管理→创建2款套餐：双人¥128（原价¥168）——20串+招牌脆皮五花+凉菜+2瓶啤酒；4人¥238（原价¥318）——40串+脆皮五花+小炒2份+凉菜+6瓶啤酒。让利20-25%</li><li><strong>门店页面装修（开业前5天）：</strong>大众点评商家版→门店装修→上传门头照（白天+夜晚各1张）、菜品图至少8张（含脆皮五花现烤过程）、环境图3张、推荐菜标注前3名</li></ul><h4>② 抖音本地生活</h4><ul><li><strong>达人合作（开业前14天）：</strong>找3-5个宝安探店达人（粉丝5K-2W），每人¥200-500，拍脆皮五花出品过程。标签 #深圳烧烤 #宝安夜宵 #共乐美食</li><li><strong>老板自播（每周2-3条）：</strong>手机拍烤架烟火气+老板出镜讲食材。15秒竖版，22:00发布蹭夜宵流量</li></ul><h4>③ 小红书（种草，年轻客群）</h4><ul><li>邀2-3个本地美食博主（粉丝3K-1W），免费体验出图文。关键词「深圳宝安烧烤推荐」「深圳夜宵」</li></ul><h3>私域留客矩阵</h3><h4>① 企微社群（核心阵地）</h4><ul><li><strong>入群路径：</strong>扫码点餐完成页+结账小票+外卖卡片，三触点放群二维码</li><li><strong>群运营节奏（店长）：</strong>周二「隐藏菜品」仅群内 | 周五「深夜档限时福利」| 不定期老板短视频</li><li><strong>群规模目标：</strong>30天→300人 | 60天→500人</li></ul><h4>② 会员系统（旗舰版，详见第六章）</h4><p>团购会员卡¥9.9→9折+生日菜+月啤酒券，首月200张目标</p><h4>③ 公私域联动闭环</h4><p>公域（点评/抖音/小红书）引新客到店→扫码点餐自动注册会员+引导入群→群内活动驱动复购→会员旗舰版沉睡唤醒拉回15天未到店客人→老客晒图产生新公域内容。<strong>每个环节都有明确负责人、有SaaS工具支撑、有数据指标可追踪</strong>。</p></div>
+<div id="modal-content-9" style="display:none"><h3>开业首月营收预估</h3><p>⚠️ 以下基于行业基准+共乐商圈特征估算，建议开业后用实际数据修正。</p><table><tr><th>指标</th><th>预估值</th><th>计算依据</th></tr><tr><td>100㎡可摆桌数</td><td>约20桌（2人桌8+4人桌12）</td><td>烧烤排档桌距紧凑，约5㎡/桌</td></tr><tr><td>日均翻台</td><td>1.5次（晚市1+夜宵0.5）</td><td>烧烤品类晚市为主+深夜档增量</td></tr><tr><td>日均桌数</td><td>30桌</td><td>20桌×1.5次</td></tr><tr><td>桌均消费</td><td>¥140（约2人×¥70人均）</td><td>大排档以2-4人桌为主</td></tr><tr><td>日均营收</td><td>¥4,200</td><td>30桌×¥140</td></tr><tr><td>月营收</td><td>约¥126,000</td><td>¥4,200×30天</td></tr></table><h3>成本结构预估</h3><table><tr><th>成本项</th><th>占比</th><th>月金额</th></tr><tr><td>食材成本</td><td>38%</td><td>¥47,880</td></tr><tr><td>人力成本</td><td>22%</td><td>¥27,720</td></tr><tr><td>房租</td><td>10%</td><td>¥12,600</td></tr><tr><td>炭/燃气</td><td>3%</td><td>¥3,780</td></tr><tr><td>水电杂费</td><td>4%</td><td>¥5,040</td></tr><tr><td>SaaS年费分摊</td><td>—</td><td>约¥800/月</td></tr><tr><td><strong>月净利润</strong></td><td><strong>约23%</strong></td><td><strong>约¥28,180</strong></td></tr></table><h3>开业获客投入</h3><table><tr><th>投入项</th><th>金额</th><th>说明</th></tr><tr><td>免费试/霸王餐</td><td>¥1,750</td><td>50份×¥35</td></tr><tr><td>达人合作</td><td>¥1,500-2,500</td><td>5人×¥300-500</td></tr><tr><td>开业当天活动</td><td>约¥800</td><td>啤酒畅饮+爆品折扣</td></tr><tr><td>团购会员卡让利</td><td>约¥600/月</td><td>9折让利×核销量</td></tr><tr><td><strong>首月获客总投入</strong></td><td><strong>约¥5,000-6,000</strong></td><td>不到月净利的20%</td></tr></table><h3>OKR量化目标</h3><table><tr><th>维度</th><th>首月</th><th>第3个月</th><th>第6个月</th></tr><tr><td>月营收</td><td>¥126,000</td><td>¥150,000</td><td>¥180,000</td></tr><tr><td>点评评分</td><td>4.3+</td><td>4.5+（出星）</td><td>4.5+（冲热门榜）</td></tr><tr><td>会员数</td><td>200+</td><td>500+</td><td>1,000+</td></tr><tr><td>企微群</td><td>300人</td><td>500人</td><td>800人</td></tr><tr><td>会员复购率</td><td>≥25%</td><td>≥30%</td><td>≥35%</td></tr><tr><td>深夜档营收占比</td><td>15%</td><td>18%</td><td>20%</td></tr></table><h3>核心结论</h3><p><strong>这家店的胜负手不在装修和概念，在于「开业首月能否沉淀500个企微老客+打出一个记忆爆品」</strong>。大排档本质是复购生意，首月留不住人三个月后很难翻盘。好消息：胡老二已签约收银POS+扫码点餐+会员旗舰版，工具齐全——关键是<strong>用起来</strong>，把每一个到店客人变成可触达、可唤醒的老客。</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>邱振伟</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>深圳烧烤大排档品类大盘</h3><p>2024年全国烧烤市场规模约<strong>2,840亿元</strong>，门店数54.1万家同比+8.5%，近3年开店率持续高于关店率，是少有的仍在扩容的餐饮品类。深圳宝安区常住人口超<strong>500万</strong>，是全市人口第一大区，夜经济需求旺盛——烧烤大排档在此属于<strong>刚需高频</strong>品类。</p><h3>共乐商圈消费画像</h3><p>共乐商圈属<strong>社区+工业混合型</strong>商圈，周边有大量工厂及物流从业者：</p><ul><li><strong>主力客群（60%）：</strong>25-40岁工厂/物流/仓储员工，下班时间晚（21:00后），消费预算人均50-80元，追求「吃饱+社交+烟火气」</li><li><strong>次要客群（25%）：</strong>周边社区家庭，周末及节假日聚餐需求，人均70-90元，关注「干净+实惠+有特色」</li><li><strong>潜力客群（15%）：</strong>年轻租客/情侣，受小红书/抖音种草驱动，追求「出片+氛围感+特色菜品」</li></ul><h3>价格带分析</h3><p>深圳烧烤/大排档主流价格带为<strong>人均60-90元（含酒水）</strong>，低于80元是走量甜区。「市井风」定位近两年被过度使用，同质化严重，<strong>单靠装修氛围已无壁垒</strong>。胡老二的突破口不在「装修比谁更市井」，而在「产品记忆点+服务温度+深夜时段差异化」。</p><h3>关键风险提示</h3><p>宝安区烧烤存量门店密度高，<strong>新店6个月淘汰率约35%</strong>。外卖对烧烤品质损耗大，<strong>堂食引流能力决定生死</strong>。开业首月的核心任务不是「营收最大化」，而是「沉淀可重复消费的真实老客」。</p>`,
+    2: `<h3>周边核心竞对逐一拆解</h3><table><tr><th>竞品</th><th>人均</th><th>强项</th><th>弱点</th><th>胡老二切入点</th></tr><tr><td><strong>木屋烧烤</strong></td><td>¥75-90</td><td>品牌认知强、供应链成熟、出品稳定</td><td>标准化导致缺少「烟火气」，氛围偏连锁感，菜品无记忆爆款</td><td>用「明火现烤+鲜切现穿」打烟火气差异；用爆品建立独有记忆</td></tr><tr><td><strong>丰茂烤串</strong></td><td>¥80-100</td><td>羊肉品质突出、客群消费力强</td><td>价格偏高不够接地气，不做深夜档</td><td>人均低20-30元「高性价比社交场」；延时到凌晨2:00抢夜宵真空期</td></tr><tr><td><strong>周边个体大排档</strong></td><td>¥50-70</td><td>价格低、老客粘性强</td><td>环境差、无品牌感、线上运营约等于零、无会员体系</td><td>「干净的大排档」——同样烟火气但卫生感知更好；线上运营全面压制</td></tr></table><h3>竞争格局核心判断</h3><p>竞争烈度：<strong>中高</strong>。胡老二需在木屋（品牌连锁）和个体排档（极致低价）之间找到<strong>「品质感+烟火气+高性价比」</strong>的卡位——比木屋接地气、比个体排档干净有品质。</p><h3>胡老二的差异化三板斧</h3><ul><li><strong>产品差异：</strong>打造1-2个「必点记忆锚点」菜品（详见第三章），木屋和丰茂都没有强爆品，这是空白机会</li><li><strong>时段差异：</strong>锁定23:00-凌晨2:00深夜档，丰茂不做这个时段，个体排档多数凌晨前打烊，竞争密度骤降</li><li><strong>体验差异：</strong>「市井烟火气」+「让人放心的干净」，不做精致餐厅也不做脏摊，做「最干净的大排档」</li></ul>`,
+    3: `<h3>一句话定位</h3><p><strong>「共乐商圈最有烟火气的深夜食堂——比连锁店接地气，比路边摊更放心」</strong></p><p>这个定位不靠装修支撑（100㎡不需要搞大投入），靠三件事：①出品鲜切现穿看得见 ②明档厨房看得到 ③老板人格化IP经营。</p><h3>核心记忆爆品：「胡老二招牌·整只烤脆皮五花」</h3><p>大排档本质是<strong>复购生意</strong>，「这家店有什么非来不可的理由」是生死线。打造一个让人吃了想发朋友圈的<strong>视觉锚点产品</strong>：</p><ul><li><strong>产品设计：</strong>整条五花肉明火现烤至皮脆肉嫩，上桌现片，配蒜泥+灵魂辣酱+生菜包裹，定价<strong>¥35/份</strong></li><li><strong>成本拆解：</strong>五花肉500g约¥8-10 + 配料¥2-3 + 炭火¥1 = 总成本约¥12-14，<strong>毛利约60%</strong></li><li><strong>为什么选这道：</strong>①视觉冲击——整条上桌现片，拍照传播率极高 ②成本可控——不依赖昂贵食材 ③出品稳定——不像海鲜受价格波动 ④木屋/丰茂都没有这类「视觉仪式感」单品</li></ul><h3>菜单结构设计</h3><ul><li><strong>扫码点餐首屏：</strong>设「老二必点榜」专区（3-5款），降低新客决策成本——扫码点餐后台→菜品管理→新建分类「老二必点榜」→置顶</li><li><strong>定价结构：</strong>烤串3-8元/串（走量，主力5元/串）| 招牌大菜29-45元（锚点）| 小炒/凉菜18-28元 | 啤酒8-12元/瓶（毛利60%+）</li><li><strong>套餐心理学：</strong>设3档套餐——最贵档¥199不是为了卖，是让¥99的「兄弟局」显得划算（⚠️ 假设人均约¥70含酒水，卡在60-80元走量甜区中段）</li></ul>`,
+    4: `<h3>开业倒计时30天关键动作表</h3><h4>开业前15天：蓄水期</h4><table><tr><th>时间</th><th>动作</th><th>谁来做</th><th>怎么做</th></tr><tr><td>D-15</td><td>大众点评商户入驻</td><td>老板</td><td>打开「美团开店宝」App→新店入驻→上传营业执照+门头照+菜品图（至少6张高清特写）→等审核。门店名「胡老二市井大排档(共乐店)」</td></tr><tr><td>D-15</td><td>建企微社群</td><td>老板</td><td>创建「胡老二·老客专属群」，群公告写「开业当天群内专属福利」。二维码贴门口+收银台+外卖卡片</td></tr><tr><td>D-14至D-8</td><td>免费试投放50份</td><td>老板+店长</td><td>大众点评商家后台→营销中心→免费试→设50份招牌脆皮五花，预算约¥1,750。到店引导加群，话术：「您是第一批试吃官，群里开业当天有专属福利」。嫌麻烦→「扫码入群送凉菜，不用发朋友圈」</td></tr><tr><td>D-14至D-8</td><td>抖音/小红书达人合作</td><td>老板</td><td>找3-5个宝安探店达人（粉丝5K-2W），每人¥200-500，拍脆皮五花出品视频，标签 #深圳烧烤 #宝安夜宵 #共乐美食</td></tr><tr><td>D-7至D-3</td><td>内部试营业</td><td>全员</td><td>邀亲友50人分3天体验，每桌走完整流程：扫码→点餐→出餐→结账→入群。磨合出餐+测试系统</td></tr><tr><td>D-3</td><td>扫码点餐压测</td><td>店长</td><td>美团收银后台→扫码点餐→检查分类/图片/价格/库存。模拟20桌同时下单。设「老二必点榜」首屏</td></tr></table><h4>开业当天：引爆日</h4><ul><li><strong>企微群专属福利</strong>（店长，前一晚群里预告）：前50名到店群友送「啤酒畅饮1小时」券（成本约¥8-10/人）。暗号「老二请我喝酒」</li><li><strong>招牌爆品限量推：</strong>「烤脆皮五花」开业价¥29（原价¥35），限前30桌——让尽可能多人拍照传播</li><li><strong>全员服务节奏：</strong>每桌上菜说「这是招牌脆皮五花，现烤现片，拍照特好看！」——不要求发圈，只制造拍照冲动</li></ul><h4>开业后D+1至D+30：沉淀期</h4><ul><li><strong>每天盯数据</strong>（店长，打烊后10分钟）：美团收银→经营报表→日营收/桌均/菜品TOP10。重点：爆品点单率>40%？人均60-80？</li><li><strong>差评2小时内回复</strong>（老板/店长）：大众点评商家版→评价管理→差评优先。话术：「XX您好，非常抱歉！[针对具体问题]。我是老板老二，下次来亲自给您烤招牌五花肉！」</li><li><strong>企微群周二/五固定福利</strong>（店长）：「本周隐藏菜单」——1道特价菜仅群内可见，养成看群习惯</li></ul>`,
+    5: `<h3>当前阶段：新店冷启动期（0-90天）</h3><p>胡老二作为新店，点评评分和评价量从零起步。核心目标不是「冲高分」，而是<strong>「快速积累真实评价，建立可信口碑基础」</strong>。</p><h3>数值目标</h3><ul><li><strong>30天内：</strong>积累≥50条真实评价（含图评≥20条），目标评分4.3+</li><li><strong>60天内：</strong>评价总数≥120条，争取出星（点评星级），冲新店榜前10</li><li><strong>90天内：</strong>评分稳定在4.5+，上线「免费试」冲热门榜</li></ul><h3>升级路线：新店→新店榜→热门榜→好评榜</h3><table><tr><th>阶段</th><th>目标</th><th>关键动作</th><th>周期</th></tr><tr><td>出星</td><td>积累足够评价出星级</td><td>保证出品稳定+服务到位，真实体验驱动自然好评</td><td>0-60天</td></tr><tr><td>新店榜</td><td>进入宝安区新店榜前10</td><td>高频次上线免费试/免费菜活动+评价积累</td><td>30-90天</td></tr><tr><td>热门榜</td><td>进入宝安烧烤热门榜</td><td>提升收藏/浏览/下单转化率，稳定4.5+评分</td><td>90-180天</td></tr></table><h3>合规红线（2025年10月新规后）</h3><p><strong>严禁任何形式的促评/邀评。</strong>高强度促评=新评价不产生星级收益。以下绝不能做：</p><ul><li>❌ 好评返现/好评送菜/好评打折</li><li>❌ 服务员引导「给个五星好评」</li><li>❌ 桌上摆「好评送XX」台卡</li></ul><h3>合规做法：让客人「自愿想分享」</h3><ul><li><strong>①打造分享动机（店长）：</strong>「烤脆皮五花」上桌现片的仪式感本身就是拍照点。服务员只说「拍照特好看」，不说「帮写评价」</li><li><strong>②善用「免费试」（老板，开业第15天）：</strong>大众点评商家后台→营销中心→免费试→设「招牌烤脆皮五花」为免费试品，每天5份。免费试用户自带高评价率且完全合规</li><li><strong>③差评快速止血（老板/店长，实时）：</strong>大众点评商家版→评价管理→筛选差评→2小时内回复。回复针对具体问题（等太久→已增人手；口味淡→已调配方），不复制粘贴</li><li><strong>④评价数据周复盘（店长，每周一）：</strong>大众点评商家版→数据中心→本周新增评价数/好评率/差评关键词。连续两周好评率低于85%→排查出品或服务</li></ul>`,
+    6: `<h3>为什么先做会员而不是储值？</h3><p>胡老二是<strong>新店未开业</strong>，客户基础为零。新店最大痛点是「来一次就走、不回头」，而不是「老客不充钱」。<strong>储值需要信任基础，信任需要时间</strong>——从没吃过的店就让人充钱，心理门槛极高。所以前3个月核心是<strong>「用会员体系沉淀回头客」</strong>，储值放在第二阶段（3个月后有稳定客群再推）。</p><h3>会员旗舰版能力部署（已签约¥4,888/年）</h3><table><tr><th>旗舰功能</th><th>怎么用</th><th>谁来做/什么时候</th><th>操作路径</th></tr><tr><td>团购会员卡</td><td>上线「胡老二吃货卡」：¥9.9购买，享全场9折+生日赠招牌菜+每月1张啤酒券。首月目标售出200张</td><td>店长/开业第1天</td><td>会员旗舰版后台→团购会员卡→设权益包→定价¥9.9→关联点评上架</td></tr><tr><td>潜客营销</td><td>对浏览门店但未消费的潜客自动发「新店尝鲜券」（¥10无门槛）</td><td>店长配置一次/开业第3天</td><td>会员旗舰版→潜客营销→设触达规则→选¥10券→开启</td></tr><tr><td>沉睡唤醒</td><td>15天未到店会员自动推送「老二想你了」+¥8回头券</td><td>系统自动/开业第20天开启</td><td>会员旗舰版→智能营销→沉睡唤醒→设15天阈值→选¥8券→开启</td></tr><tr><td>6大特有活动</td><td>首月先跑「新客礼」（注册送¥5券）+「消费满赠」（满¥100送¥8券）</td><td>店长/开业前3天</td><td>会员旗舰版→活动中心→选模板→设金额→开启</td></tr></table><h3>会员注册路径</h3><ul><li><strong>主路径——扫码点餐弹窗（店长，开业前3天）：</strong>扫码点餐后台→营销弹窗→设「首次扫码注册送¥5券」，一键注册不打断点餐</li><li><strong>辅路径——结账引导：</strong>话术「消费XX元，注册会员下次9折，扫码3秒搞定」。犹豫→「不用充钱，打折身份，以后都便宜」</li></ul><h3>关键指标（店长每周一看）</h3><ul><li>周新增会员：目标≥50人/周（首月200+）</li><li>会员复购率：目标≥30%</li><li>团购会员卡核销率：目标≥60%</li></ul><h3>第二阶段预告：储值（第4个月启动）</h3><p>会员池500+、复购率稳定30%后再推储值。预设：储值300送50（约7次消费回本，匹配烧烤复购频率）。<strong>现在不急，先让客人信任你</strong>。</p>`,
+    7: `<h3>为什么深夜档是胡老二必争之地？</h3><p>共乐商圈周边工厂/物流从业者众多，下班时间普遍21:00-22:00。23:00后本片区烧烤竞争密度<strong>骤降</strong>——木屋烧烤多数23:00打烊，丰茂不做深夜档，个体排档凌晨前收摊。<strong>这是低成本获客窗口</strong>。</p><h3>深夜档套餐设计</h3><table><tr><th>套餐名</th><th>内容</th><th>定价</th><th>成本</th><th>毛利</th></tr><tr><td>下班来一顿（1人）</td><td>10串烤串+炒粉/面+啤酒1瓶</td><td>¥45</td><td>约¥18</td><td>60%</td></tr><tr><td>兄弟局（2人）</td><td>20串+小炒+凉菜+啤酒4瓶</td><td>¥99</td><td>约¥38</td><td>62%</td></tr><tr><td>深夜畅撸（3-4人）</td><td>40串+招牌脆皮五花+小炒2份+啤酒6瓶</td><td>¥199</td><td>约¥78</td><td>61%</td></tr></table><h3>执行细节</h3><ul><li><strong>营业至凌晨2:00</strong>（⚠️ 假设物业允许，建议确认）。深夜班排2人（1烤工+1服务员），菜品精简至15-20款快出品</li><li><strong>扫码点餐自动切菜单（店长配置）：</strong>扫码点餐后台→分时菜单→设22:00自动切换「深夜食堂菜单」，只显示套餐和快出品单品</li><li><strong>线上标签优化（老板，开业第1天）：</strong>美团/大众点评商家后台→门店信息→营业时间标注「至凌晨2:00」，标签加「凌晨营业」「深夜食堂」「夜宵」</li><li><strong>抖音深夜内容（老板/店长，每周1条）：</strong>拍15秒凌晨烤架画面+字幕「胡老二凌晨2点还在等你」，22:00发布定位宝安区，免费发不花钱</li></ul><h3>深夜档营收预估</h3><p>⚠️ 假设日均8桌，桌均¥95：</p><ul><li>日均深夜档营收：8 × ¥95 = ¥760</li><li>月深夜档营收：¥760 × 30 = <strong>¥22,800</strong></li><li>占预估月总营收约<strong>15-18%</strong>——竞对让出的纯增量</li></ul>`,
+    8: `<h3>公域引流矩阵</h3><h4>① 大众点评（基本盘）</h4><ul><li><strong>团购套餐上线（老板+店长，开业前3天）：</strong>大众点评商家后台→团购管理→创建2款套餐：双人¥128（原价¥168）——20串+招牌脆皮五花+凉菜+2瓶啤酒；4人¥238（原价¥318）——40串+脆皮五花+小炒2份+凉菜+6瓶啤酒。让利20-25%</li><li><strong>门店页面装修（开业前5天）：</strong>大众点评商家版→门店装修→上传门头照（白天+夜晚各1张）、菜品图至少8张（含脆皮五花现烤过程）、环境图3张、推荐菜标注前3名</li></ul><h4>② 抖音本地生活</h4><ul><li><strong>达人合作（开业前14天）：</strong>找3-5个宝安探店达人（粉丝5K-2W），每人¥200-500，拍脆皮五花出品过程。标签 #深圳烧烤 #宝安夜宵 #共乐美食</li><li><strong>老板自播（每周2-3条）：</strong>手机拍烤架烟火气+老板出镜讲食材。15秒竖版，22:00发布蹭夜宵流量</li></ul><h4>③ 小红书（种草，年轻客群）</h4><ul><li>邀2-3个本地美食博主（粉丝3K-1W），免费体验出图文。关键词「深圳宝安烧烤推荐」「深圳夜宵」</li></ul><h3>私域留客矩阵</h3><h4>① 企微社群（核心阵地）</h4><ul><li><strong>入群路径：</strong>扫码点餐完成页+结账小票+外卖卡片，三触点放群二维码</li><li><strong>群运营节奏（店长）：</strong>周二「隐藏菜品」仅群内 | 周五「深夜档限时福利」| 不定期老板短视频</li><li><strong>群规模目标：</strong>30天→300人 | 60天→500人</li></ul><h4>② 会员系统（旗舰版，详见第六章）</h4><p>团购会员卡¥9.9→9折+生日菜+月啤酒券，首月200张目标</p><h4>③ 公私域联动闭环</h4><p>公域（点评/抖音/小红书）引新客到店→扫码点餐自动注册会员+引导入群→群内活动驱动复购→会员旗舰版沉睡唤醒拉回15天未到店客人→老客晒图产生新公域内容。<strong>每个环节都有明确负责人、有SaaS工具支撑、有数据指标可追踪</strong>。</p>`,
+    9: `<h3>开业首月营收预估</h3><p>⚠️ 以下基于行业基准+共乐商圈特征估算，建议开业后用实际数据修正。</p><table><tr><th>指标</th><th>预估值</th><th>计算依据</th></tr><tr><td>100㎡可摆桌数</td><td>约20桌（2人桌8+4人桌12）</td><td>烧烤排档桌距紧凑，约5㎡/桌</td></tr><tr><td>日均翻台</td><td>1.5次（晚市1+夜宵0.5）</td><td>烧烤品类晚市为主+深夜档增量</td></tr><tr><td>日均桌数</td><td>30桌</td><td>20桌×1.5次</td></tr><tr><td>桌均消费</td><td>¥140（约2人×¥70人均）</td><td>大排档以2-4人桌为主</td></tr><tr><td>日均营收</td><td>¥4,200</td><td>30桌×¥140</td></tr><tr><td>月营收</td><td>约¥126,000</td><td>¥4,200×30天</td></tr></table><h3>成本结构预估</h3><table><tr><th>成本项</th><th>占比</th><th>月金额</th></tr><tr><td>食材成本</td><td>38%</td><td>¥47,880</td></tr><tr><td>人力成本</td><td>22%</td><td>¥27,720</td></tr><tr><td>房租</td><td>10%</td><td>¥12,600</td></tr><tr><td>炭/燃气</td><td>3%</td><td>¥3,780</td></tr><tr><td>水电杂费</td><td>4%</td><td>¥5,040</td></tr><tr><td>SaaS年费分摊</td><td>—</td><td>约¥800/月</td></tr><tr><td><strong>月净利润</strong></td><td><strong>约23%</strong></td><td><strong>约¥28,180</strong></td></tr></table><h3>开业获客投入</h3><table><tr><th>投入项</th><th>金额</th><th>说明</th></tr><tr><td>免费试/霸王餐</td><td>¥1,750</td><td>50份×¥35</td></tr><tr><td>达人合作</td><td>¥1,500-2,500</td><td>5人×¥300-500</td></tr><tr><td>开业当天活动</td><td>约¥800</td><td>啤酒畅饮+爆品折扣</td></tr><tr><td>团购会员卡让利</td><td>约¥600/月</td><td>9折让利×核销量</td></tr><tr><td><strong>首月获客总投入</strong></td><td><strong>约¥5,000-6,000</strong></td><td>不到月净利的20%</td></tr></table><h3>OKR量化目标</h3><table><tr><th>维度</th><th>首月</th><th>第3个月</th><th>第6个月</th></tr><tr><td>月营收</td><td>¥126,000</td><td>¥150,000</td><td>¥180,000</td></tr><tr><td>点评评分</td><td>4.3+</td><td>4.5+（出星）</td><td>4.5+（冲热门榜）</td></tr><tr><td>会员数</td><td>200+</td><td>500+</td><td>1,000+</td></tr><tr><td>企微群</td><td>300人</td><td>500人</td><td>800人</td></tr><tr><td>会员复购率</td><td>≥25%</td><td>≥30%</td><td>≥35%</td></tr><tr><td>深夜档营收占比</td><td>15%</td><td>18%</td><td>20%</td></tr></table><h3>核心结论</h3><p><strong>这家店的胜负手不在装修和概念，在于「开业首月能否沉淀500个企微老客+打出一个记忆爆品」</strong>。大排档本质是复购生意，首月留不住人三个月后很难翻盘。好消息：胡老二已签约收银POS+扫码点餐+会员旗舰版，工具齐全——关键是<strong>用起来</strong>，把每一个到店客人变成可触达、可唤醒的老客。</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
