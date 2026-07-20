@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>衢味小厨 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #8B0000;
+      --primary-light: #B22222;
+      --accent: #D4A574;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #8B000040;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">浙菜/杭帮菜（衢州菜） · 运营提升方案</div>
+  <h1 class="hero-title">衢味小厨</h1>
+  <p class="hero-subtitle">把衢州味道打透，让萧山人记住这条街的辣</p>
+  <div class="hero-address">浙江省杭州市萧山区顺福路与钱环路交叉口东南40米</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥60</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">萧山区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察·衢州菜在杭州的机会窗口', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察·衢州菜在杭州的机会窗口</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '品牌定位·从浙菜馆到衢州味道专门店', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">品牌定位·从浙菜馆到衢州味道专门店</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '开业冲刺·新店30天作战地图', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">开业冲刺·新店30天作战地图</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评口碑·新店出星与合规获评', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评口碑·新店出星与合规获评</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '午市救命·烤饼+浇头饭快餐档口模式', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">午市救命·烤饼+浇头饭快餐档口模式</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '会员体系·辣度分级特色会员设计', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">会员体系·辣度分级特色会员设计</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '公域引流·大众点评+小红书+抖音组合拳', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">公域引流·大众点评+小红书+抖音组合拳</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '系统赋能·让已签约工具真正跑起来', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">系统赋能·让已签约工具真正跑起来</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(9, '投资回报·90天OKR与盈利预测', 9)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 09</div>
+      <div class="chapter-title">投资回报·90天OKR与盈利预测</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>品类大盘：衢州菜是浙菜赛道最锐的刀</h3><p>杭州浙菜/杭帮菜门店超过<strong>5,000家</strong>，但绝大多数是外婆家、绿茶、弄堂里式的标准杭帮菜——西湖醋鱼、龙井虾仁、宋嫂鱼羹，菜品高度同质化，消费者审美疲劳。而<strong>衢州菜（三头一掌、衢州烤饼、兔头）近两年在杭州热度持续上升</strong>，属于浙菜中辨识度最强的子品类，差异化优势明显。</p><p>关键数据支撑：</p><ul><li>江浙菜全国门店占比<strong>9.4%</strong>，市场规模超<strong>1,000亿元</strong>（红餐大数据）</li><li>地方小炒在杭州极受欢迎——江西小炒增速<strong>+91.3%</strong>，地域风味细分是当前最大增长点</li><li>人均50-80元的轻正餐模式最有生命力，衢味小厨锚定<strong>人均55-75元</strong>正好卡位</li></ul><h3>萧山南部片区竞争格局</h3><p>顺福路-钱环路交叉口偏社区/次商业属性，客流依赖周边住宅和产业园。以下是<strong>周边3-5公里真实竞争对手</strong>：</p><table><tr><th>竞品名称</th><th>人均</th><th>核心弱点</th><th>衢味小厨的切入机会</th></tr><tr><td>老头儿油爆虾</td><td>¥75-90</td><td>品牌标准化导致家常感弱</td><td>衢州菜烟火气和辣味冲击力形成差异</td></tr><tr><td>弄堂里</td><td>¥70-85</td><td>口味同质化严重</td><td>衢州菜品类认知完全不同于杭帮菜</td></tr><tr><td>各类衢州菜夫妻店</td><td>¥40-55</td><td>环境差、卫生堪忧、无品牌感</td><td>同味道+干净品质感+系统化运营=降维打击</td></tr><tr><td>社区湘菜/川菜馆</td><td>¥45-60</td><td>争夺重口味客群但无地域文化加持</td><td>衢州辣有独特记忆点</td></tr></table><h3>核心判断</h3><p><strong>这家店最大的牌不是杭帮菜，而是衢州味。</strong>务必在门头、菜单、传播上把衢州标签打透，和满大街杭帮菜彻底切割。萧山这个位置，做最正宗的衢州菜馆比做又一家浙菜馆有十倍胜算。</p><p>风险提示：社区位置午市客流弱，纯正餐模型午市撑不起翻台，<strong>必须用快餐档口模式救午市</strong>——下文第5章详述。</p></div>
+<div id="modal-content-2" style="display:none"><h3>定位诊断：你的店名已经说对了一半</h3><p>衢味小厨这个名字本身就在强调衢州——<strong>这是你最大的资产，必须用到极致。</strong></p><p>当前问题（基于同类新店常见情况）：</p><ul><li>门头品类标注可能写的是浙菜/杭帮菜——让顾客以为和外婆家差不多，丧失差异化</li><li>菜单里可能混了不少杭帮菜常规菜品——稀释了衢州特色</li><li>没有一个1秒记住的爆品锚点</li></ul><h3>定位三板斧（老板本周就能做）</h3><h4>第一斧：门头改品类标注</h4><p><strong>谁来做</strong>：老板决策，找广告店改字（约200-500元）<br><strong>第几天做</strong>：本周内完成<br><strong>怎么做</strong>：品类标注从浙菜/杭帮菜改为<strong>「衢州菜·三头一掌」</strong>或<strong>「正宗衢州味道」</strong>。六个字让路过的人一眼知道这家不一样。大众点评品类可保留浙菜不影响搜索流量，但门头视觉必须打衢州标签。</p><h4>第二斧：确立爆品锚点——衢州兔头</h4><p><strong>谁来做</strong>：老板+厨师长<br><strong>第几天做</strong>：立即执行<br><strong>怎么做</strong>：菜单首页放大「招牌衢州兔头」，定价<strong>¥18/个</strong>（成本约7-8元，毛利55%+），每桌服务员主推。<br><strong>在哪操作</strong>：扫码点餐🔧「菜品管理→置顶推荐」将兔头设为首位推荐菜品<br><strong>话术</strong>：「我们家兔头是衢州老师傅的方子，辣度可以选微辣/中辣/变态辣，第一次来建议先试中辣~」<br><strong>客人犹豫</strong>：「兔头先来一个试试，不好吃不要钱」（成本仅7元，换一次深度体验）</p><h4>第三斧：菜单做减法</h4><p><strong>谁来做</strong>：老板+厨师长，3天内完成<br><strong>怎么做</strong>：SKU控制在<strong>35-45道</strong>，其中<strong>衢州特色菜占60%以上</strong>：三头一掌（鱼头/鸭头/兔头+鸭掌）、衢州烤饼、辣炒年糕、开化青蛳、衢州醅糕。剩下40%放家常菜兜底（炒时蔬/番茄蛋汤/米饭等），<strong>不放西湖醋鱼、龙井虾仁等杭帮菜经典菜</strong>。<br><strong>在哪操作</strong>：扫码点餐🔧「菜品管理→分类管理」，创建「衢州招牌」「衢州小食」「家常时蔬」三个分类<br><strong>预期效果</strong>：后厨效率提升（减少备料种类）、出品质量稳定、品牌记忆点更集中。</p></div>
+<div id="modal-content-3" style="display:none"><h3>现状诊断</h3><p>衢味小厨已开业31-60天，日均流水<strong>1千以下</strong>。按人均60元估算，日均客流仅<strong>15-17人</strong>（约4-5桌），120平方米门店翻台率不足<strong>0.3次</strong>。这个数字说明：<strong>客流严重不足，不是菜品问题，是没人知道这家店。</strong></p><p>好消息：老板之前开过同类型店，有衢州菜出品经验，产品力不是短板。问题纯粹在<strong>流量获取和客户沉淀</strong>上。</p><h3>未来30天冲刺计划</h3><h4>第1-3天：基础设施补齐</h4><ul><li><strong>谁来做</strong>：老板+店长</li><li><strong>做什么①</strong>：大众点评商家后台🔧「门店管理→基础信息」完善——上传10张高质量图片（门头/招牌兔头/鱼头煲/烤饼/环境），商家介绍突出衢州老师傅、三头一掌、正宗衢州辣</li><li><strong>做什么②</strong>：确认美团收录品类标签，特色标签加衢州菜、三头一掌、兔头</li><li><strong>做什么③</strong>：检查扫码点餐🔧菜单完整上线（已签约，确保菜品图片+描述齐全）</li><li><strong>做什么④</strong>：开通「免费试」🔧「营销中心→免费试」——新店最合规好评积累方式，每期10个名额，产品选兔头+烤饼套餐（成本约15元/份）</li></ul><h4>第4-10天：引爆期</h4><ul><li><strong>谁来做</strong>：老板主导，服务员全员执行</li><li><strong>做什么①</strong>：门口摆「衢州烤饼现烤」明档窗口（一个烤饼炉+操作台，投入约500元），让烤饼香味飘到街上——嗅觉引流零成本。原味¥5/梅干菜肉¥8，每天目标100个+</li><li><strong>做什么②</strong>：大众点评上线「1元兔头」限时体验券🔧「营销中心→团购→新建」——原价18元兔头1元限量体验（每天限10份），核销时引导加微信入群</li><li><strong>话术</strong>：「兔头好吃吗？老板微信群里每周五晚兔头半价秒杀，扫一下加进去~」</li><li><strong>客人不想加群</strong>：「没关系，下次来直接报手机号也有会员价~」</li></ul><h4>第11-20天：口碑发酵</h4><ul><li><strong>谁来做</strong>：店长负责跟进</li><li><strong>做什么①</strong>：免费试持续运营，保持每周5条新评价节奏</li><li><strong>做什么②</strong>：邀请3-5位本地素人博主（小红书粉丝1000-5000）到店拍短视频，费用=免费请吃（人均60元x2人=120元/位），总成本360-600元换3-5条真实探店内容</li><li><strong>做什么③</strong>：店内设衢州辣度挑战墙——吃完变态辣兔头拍照打卡，照片贴墙上，发朋友圈送烤饼1个</li></ul><h4>第21-30天：稳定冲量</h4><ul><li><strong>目标</strong>：日均流水突破<strong>¥3,000</strong>（日均50人，约12-15桌），月流水达<strong>¥9万</strong></li><li><strong>做什么①</strong>：复盘前20天数据，优化菜单</li><li><strong>做什么②</strong>：启动会员体系（详见第6章）</li><li><strong>做什么③</strong>：大众点评团购常态化——设一款<strong>¥99双人套餐</strong>（兔头+鱼头煲+烤饼2个+时蔬+米饭，成本约42元，毛利58%），作为长期引流款</li></ul></div>
+<div id="modal-content-4" style="display:none"><h3>当前阶段判断：新店冷启动期（31-60天）</h3><p>衢味小厨开业31-60天，点评评分和评价数未知（⚠️ 假设当前评价数不足20条，尚未稳定出星）。核心任务：<strong>先攒够有效评价基数，让系统有足够数据稳定出星</strong>。</p><h3>止血：停掉所有无效促评动作</h3><p><strong>谁来做</strong>：老板，立即执行<br>如果目前有以下行为，<strong>今天就停</strong>：</p><ul><li>给顾客发好评返现5元卡片——2025年10月后高强度促评=新评价不产生星级收益，白花钱</li><li>让朋友/亲戚刷好评——平台算法能识别，刷的评价不计入星级</li><li>服务员反复催顾客写好评——造成反感，适得其反</li></ul><h3>合规获评三步走</h3><h4>第一步：「免费试」持续运营（最核心）</h4><p><strong>谁来做</strong>：店长操作后台，服务员接待<br><strong>在哪操作</strong>：大众点评商家后台🔧「营销中心→免费试」<br><strong>怎么做</strong>：每期10个名额，体验产品选招牌兔头+烤饼组合（成本约15元/份），不要求必须写好评，只要求写真实感受。每期出评率约60-70%，每月可稳定产出<strong>15-20条真实评价</strong>。<br><strong>话术</strong>：「今天兔头和烤饼是免费体验的，吃完花1分钟在点评写写真实感受就行，好坏都可以~」</p><h4>第二步：打造自发分享动机</h4><p><strong>谁来做</strong>：老板设计，服务员引导<br><strong>怎么做</strong>：让菜品具备拍照冲动——</p><ul><li>兔头上桌用竹编小篮装盘+垫油纸+撒辣椒碎（成本增加¥0.5），视觉冲击力拉满</li><li>烤饼出炉冒热气，服务员端到桌边说「刚出炉的小心烫」——热气画面天然适合拍视频</li><li>衢州辣度挑战榜墙面：吃完变态辣拍照上榜+发朋友圈送烤饼1个（成本¥1.5）</li></ul><p><strong>客人不愿意拍照</strong>：完全不勉强，核心是让愿意拍的人有素材可拍。</p><h4>第三步：差评2小时响应机制</h4><p><strong>谁来做</strong>：老板/店长，每天查看2次点评后台<br><strong>在哪操作</strong>：大众点评商家后台🔧「评价管理」<br><strong>怎么做</strong>：每条差评2小时内回复，针对具体问题回应，禁止模板化群发。</p><h3>出星路径与量化目标</h3><table><tr><th>时间节点</th><th>评价数目标</th><th>评分目标</th><th>关键动作</th></tr><tr><td>第30天</td><td>30条</td><td>出星4.0+</td><td>免费试+自然评价积累</td></tr><tr><td>第60天</td><td>60条</td><td>4.3分</td><td>团购引流+好评自然增长</td></tr><tr><td>第90天</td><td>100条</td><td>4.5分</td><td>冲击新店榜/热门榜</td></tr></table><p><strong>榜单升级路线</strong>：新店榜（60天内自动参评）→ 热门榜（评价数+热度达标）→ 好评榜（评分+评价质量）。</p></div>
+<div id="modal-content-5" style="display:none"><h3>诊断：午市是这家店最大的隐患</h3><p>顺福路-钱环路交叉口属社区/次商业位置，周边有产业园和住宅区。<strong>午市特征</strong>：产业园员工午餐要快、便宜、吃饱（人均15-25元），不是正餐体验（人均60元+，等菜20分钟）。如果午市只做正餐，120平方米门店午间可能只有2-3桌。</p><p>⚠️ 假设月房租约<strong>¥8,000-12,000</strong>（萧山社区位置参考值），日房租约¥300-400。午市只做3桌（营收约¥180），扣掉食材成本，午市=<strong>纯亏</strong>。</p><h3>解决方案：门口设快餐档口</h3><h4>档口设置（一次性投入约¥500-800）</h4><p><strong>谁来做</strong>：老板决策+采购，3天内完成<br><strong>怎么做</strong>：门口设一个操作台+烤饼炉（不需装修，摆在门口即可），上方挂灯箱菜单牌。</p><h4>快餐菜单设计（仅午市11:00-14:00供应）</h4><table><tr><th>品名</th><th>售价</th><th>成本</th><th>毛利</th></tr><tr><td>原味衢州烤饼</td><td>¥5</td><td>¥1.5</td><td>70%</td></tr><tr><td>梅干菜肉烤饼</td><td>¥8</td><td>¥3</td><td>62%</td></tr><tr><td>辣肉浇头饭</td><td>¥18</td><td>¥6</td><td>67%</td></tr><tr><td>鸭头浇头饭</td><td>¥22</td><td>¥8</td><td>64%</td></tr><tr><td>烤饼+浇头饭套餐</td><td>¥20</td><td>¥7</td><td>65%</td></tr></table><p><strong>出餐要求</strong>：烤饼现烤3分钟/炉（每炉8个），浇头提前备好，点单后30秒出餐。<br><strong>在哪操作</strong>：扫码点餐🔧「菜品管理→分时菜单」设置11:00-14:00自动切换快餐菜单，14:00后恢复正餐。</p><h4>午市目标</h4><p>日均烤饼<strong>100个</strong>（营收¥500-800）+ 浇头饭<strong>20份</strong>（营收¥360-440）= 午市档口日营收<strong>¥860-1,240</strong>。<strong>让午市从纯亏变成日赚¥500+</strong>，烤饼香味是最好的广告——路过的人闻到了，晚上就来吃正餐。</p><h4>外卖同步上线</h4><p><strong>在哪操作</strong>：美团外卖商家后台🔧「菜品管理」上线烤饼+浇头饭<br><strong>怎么做</strong>：起送价设¥15，覆盖周边产业园午餐需求。新店有流量扶持期要抓紧利用。打包盒用牛皮纸（成本¥0.5/个），外带比例预计达60%+。</p></div>
+<div id="modal-content-6" style="display:none"><h3>已签约模块盘点</h3><p>衢味小厨已签约<strong>会员高级版</strong>和<strong>扫码点餐</strong>。老板之前采购过美团S1但后续没使用——不是不愿意用系统，是<strong>没人教怎么用、没看到效果就放弃了</strong>。这次关键不是推新系统，而是<strong>把已有的会员高级版真正用活</strong>。</p><h3>辣度分级三级会员体系</h3><p>衢州菜核心是辣，用辣度做会员等级——比积分体系有趣100倍。</p><table><tr><th>等级</th><th>名称</th><th>升级条件</th><th>权益</th></tr><tr><td>Lv.1</td><td>🌶 微辣新客</td><td>首次扫码点餐自动注册</td><td>注册即送烤饼1个（成本¥1.5）</td></tr><tr><td>Lv.2</td><td>🌶🌶 中辣常客</td><td>累计消费满3次或满¥200</td><td>每次到店送饮品1杯（成本¥2）+ 生日当月8折</td></tr><tr><td>Lv.3</td><td>🌶🌶🌶 变态辣铁粉</td><td>累计消费满8次或满¥500</td><td>解锁隐藏菜单（秘制鸭头/土猪肉锅）+ 每月满100减15券 + 优先订座</td></tr></table><h4>怎么落地</h4><p><strong>谁来做</strong>：店长负责后台配置（1小时可完成），服务员执行话术<br><strong>在哪操作</strong>：会员高级版后台🔧「会员等级→新建等级」按上表创建3个等级+对应权益<br><strong>第几天做</strong>：开业第21天启动（先用前20天积累基础客流）<br><strong>话术</strong>（每桌结账时固定说）：「扫码就是我们会员了，今天送您一个烤饼，下次来就是中辣常客了，有免费饮品~」<br><strong>客人不想注册</strong>：「没关系，扫码点餐已经自动注册了，下次来报手机号就行~」（扫码点餐=自动沉淀会员数据，零摩擦）</p><h3>社群运营（私域留客核心）</h3><p><strong>谁来做</strong>：老板/店长管理微信群<br><strong>第几天做</strong>：开业第7天开始建群<br><strong>怎么做</strong>：</p><ul><li>每桌结账引导加老板娘微信入群，话术：「加老板娘微信，下次来报暗号送烤饼」</li><li>群内每周五晚8点发兔头半价秒杀（限10份，先到先得），制造固定期待</li><li>群内分享衢州菜文化故事（1周1条），建立品牌温度</li><li>会员生日当月群内@祝福+私聊发8折券</li></ul><h3>会员目标（量化OKR）</h3><table><tr><th>时间</th><th>会员数</th><th>复购率</th><th>社群人数</th></tr><tr><td>第30天</td><td>100人</td><td>积累期</td><td>50人</td></tr><tr><td>第60天</td><td>250人</td><td>25%</td><td>150人</td></tr><tr><td>第90天</td><td>400人</td><td>30%</td><td>250人</td></tr></table></div>
+<div id="modal-content-7" style="display:none"><h3>公域策略总览</h3><p>衢州菜的视觉冲击力（兔头、鱼头、鸭掌）天然适合社交媒体传播。三平台各有分工：</p><table><tr><th>平台</th><th>定位</th><th>核心动作</th><th>预算/月</th></tr><tr><td>大众点评</td><td>搜索流量入口+口碑阵地</td><td>团购套餐+免费试+评价运营</td><td>¥500</td></tr><tr><td>小红书</td><td>种草+探店+内容沉淀</td><td>素人博主合作+打卡话题</td><td>¥600</td></tr><tr><td>抖音本地生活</td><td>爆发式引流+团购核销</td><td>9.9元引流券+达人短视频</td><td>¥800</td></tr></table><h3>大众点评（最核心）</h3><h4>团购套餐设计</h4><p><strong>谁来做</strong>：老板定价，BD协助上线<br><strong>在哪操作</strong>：大众点评商家后台🔧「营销中心→团购」</p><ul><li><strong>引流款</strong>：¥99双人套餐（兔头+鱼头煲+烤饼2个+时蔬+米饭，成本¥42，毛利58%）——拉新客进店</li><li><strong>利润款</strong>：¥199四人套餐（三头一掌+烤饼4个+凉菜拼盘+时蔬2份+米饭，成本¥85，毛利57%）——提客单</li><li><strong>体验款</strong>：¥9.9单人烤饼+饮品套餐（烤饼2个+酸梅汤，成本¥5，毛利49%）——午市引流</li></ul><h3>小红书（种草利器）</h3><p><strong>谁来做</strong>：老板/店长拍素材，或邀请素人博主<br><strong>第几天做</strong>：开业第7天起持续运营<br><strong>怎么做</strong>：</p><ul><li>每周发2-3条笔记，主题轮换：①兔头特写+辣度测评 ②烤饼出炉过程 ③萧山隐藏衢州菜馆探店风格</li><li>话题标签固定：#杭州美食 #萧山美食 #衢州菜 #兔头 #衢州烤饼 #杭州探店</li><li>邀请3位素人博主/月（粉丝1000-5000），费用=免费请吃（¥120-200/位），换1条图文笔记</li></ul><p><strong>选题灵感</strong>：</p><ul><li>「在杭州找到正宗衢州兔头！辣度分三级你敢挑战吗」</li><li>「萧山这家店的衢州烤饼，排队的全是本地人」</li><li>「闺蜜聚餐新去处！三头一掌太上瘾了」</li></ul><h3>抖音本地生活（爆发引流）</h3><p><strong>谁来做</strong>：BD协助开通抖音来客🔧，老板确认套餐<br><strong>第几天做</strong>：开业第14天上线<br><strong>怎么做</strong>：上架<strong>¥9.9元引流券</strong>（到店消费满50元抵20元），限量500张。配合2-3位本地达人到店拍摄短视频（达人费用约¥200-300/位或免费请吃），视频重点拍兔头啃食过程+烤饼出炉热气——<strong>衢州菜的画面感就是流量</strong>。</p><h4>公私域联动闭环</h4><p>公域（点评/小红书/抖音）引流到店 → 扫码点餐自动注册会员 → 服务员引导加群 → 群内复购+裂变 → 老客带新客回到点评写评价。<strong>形成「公域拉新→私域锁客→口碑裂变」正循环。</strong></p></div>
+<div id="modal-content-8" style="display:none"><h3>核心问题：买了没用，不是不想用，是没人带着用</h3><p>老板之前采购过美团S1但后续没使用。两个信号：①对数字化工具不排斥（愿意花钱买）②没感受到价值就放弃了。这次机会：<strong>用已签约的扫码点餐+会员高级版，让老板第一个月就看到可量化效果</strong>。</p><h3>扫码点餐：不只是省人工，是数据入口</h3><h4>基础配置（第1天完成）</h4><p><strong>谁来做</strong>：店长配置，BD首次指导<br><strong>在哪操作</strong>：扫码点餐管理后台🔧「桌台管理」<br><strong>怎么做</strong>：</p><ul><li>120平方米门店，按15张桌子配置桌台码（4人桌10张+6人桌3张+2人桌2张）</li><li>每张桌台卡：正面扫码点餐二维码，背面印「扫码点餐即送烤饼1个」</li><li>菜品图片全部上传，无图菜品点单率下降40%</li></ul><h4>智能推荐配置</h4><p><strong>在哪操作</strong>：扫码点餐🔧「智能推荐→推荐菜品」<br><strong>怎么做</strong>：设置必点推荐前3位：①招牌衢州兔头¥18 ②衢州鱼头煲¥48 ③梅干菜肉烤饼¥8。顾客扫码后第一屏看到这三道，<strong>引导客单价从¥45提升到¥60+</strong>。</p><h4>分时菜单配置</h4><p><strong>在哪操作</strong>：扫码点餐🔧「菜品管理→分时菜单」<br><strong>怎么做</strong>：11:00-14:00显示午市快餐菜单，14:00后自动切回正餐菜单。一键切换，不需要手动改。</p><h3>会员高级版：把数据变成钱</h3><h4>精准营销功能（第30天起启用）</h4><p><strong>在哪操作</strong>：会员后台🔧「营销中心→智能营销」<br><strong>怎么做</strong>：</p><ul><li>设置「沉睡唤醒」：7天未到店会员自动推送满50减8券（成本¥8/张，唤醒率约15%）</li><li>设置「生日营销」：会员生日当月自动推送8折全单券+生日当天到店免费送寿面一碗</li><li>设置「消费达标奖励」：累计消费满¥500自动升级Lv.3+推送专属权益通知</li></ul><h3>系统价值量化预期</h3><table><tr><th>功能</th><th>量化效果</th><th>月增收估算</th></tr><tr><td>扫码点餐推荐</td><td>客单价提升15%（¥52→¥60）</td><td>¥3,600（按月600人次）</td></tr><tr><td>会员复购唤醒</td><td>沉睡客户唤醒率15%</td><td>¥1,800（月唤醒20人，人均¥90）</td></tr><tr><td>生日营销</td><td>带动约3桌/月家庭聚餐</td><td>¥900（人均¥60x5人/桌x3桌）</td></tr></table><p><strong>系统赋能月增收合计：约¥6,300</strong>（保守估算），美团系统独特优势在于：扫码点餐+会员+点评+外卖数据全打通，一套系统解决从流量到留客的闭环——这是传统收银机做不到的。老板之前S1没用起来，不是系统不好，是缺了运营指导。这次有BD持续跟进，效果完全不同。</p></div>
+<div id="modal-content-9" style="display:none"><h3>投入总览</h3><table><tr><th>投入项</th><th>金额</th><th>频率</th><th>说明</th></tr><tr><td>烤饼档口设备</td><td>¥500-800</td><td>一次性</td><td>烤饼炉+操作台+灯箱</td></tr><tr><td>1元兔头引流（前10天）</td><td>¥700</td><td>一次性</td><td>10天x10份x¥7成本</td></tr><tr><td>免费试</td><td>¥450/月</td><td>持续</td><td>3期x10份x¥15成本</td></tr><tr><td>素人博主合作</td><td>¥600/月</td><td>持续</td><td>3位x¥200/位</td></tr><tr><td>抖音达人合作</td><td>¥800/月</td><td>持续</td><td>2-3位达人</td></tr><tr><td>会员权益成本</td><td>¥500/月</td><td>持续</td><td>烤饼+饮品赠送</td></tr><tr><td>门头改字</td><td>¥300-500</td><td>一次性</td><td>品类标注改为衢州菜</td></tr><tr><td><strong>首月总投入</strong></td><td><strong>¥3,850-4,550</strong></td><td></td><td></td></tr><tr><td><strong>后续月均投入</strong></td><td><strong>¥2,350</strong></td><td></td><td></td></tr></table><h3>营收预测（90天阶梯增长）</h3><table><tr><th>阶段</th><th>日均流水</th><th>月流水</th><th>增长来源</th></tr><tr><td>当前</td><td>不足¥1,000</td><td>不足¥3万</td><td>—</td></tr><tr><td>第30天</td><td>¥3,000</td><td>¥9万</td><td>烤饼档口+团购引流+口碑发酵</td></tr><tr><td>第60天</td><td>¥4,500</td><td>¥13.5万</td><td>会员复购+小红书/抖音引流+评分提升</td></tr><tr><td>第90天</td><td>¥6,000</td><td>¥18万</td><td>品牌口碑+会员稳定复购+团购常态化</td></tr></table><h3>盈利估算（第90天稳态）</h3><table><tr><th>项目</th><th>金额/月</th><th>占比</th></tr><tr><td>月营收</td><td>¥180,000</td><td>100%</td></tr><tr><td>食材成本（35%）</td><td>¥63,000</td><td>35%</td></tr><tr><td>人工成本（25%）</td><td>¥45,000</td><td>25%</td></tr><tr><td>房租（⚠️假设¥10,000）</td><td>¥10,000</td><td>5.6%</td></tr><tr><td>水电杂费</td><td>¥8,000</td><td>4.4%</td></tr><tr><td>营销投入</td><td>¥2,350</td><td>1.3%</td></tr><tr><td><strong>月净利润</strong></td><td><strong>¥51,650</strong></td><td><strong>28.7%</strong></td></tr></table><p>⚠️ 以上净利润率28.7%高于行业均值（正餐5-12%），主要因为假设房租偏低（社区位置优势）。实际净利润率预计在<strong>15-20%</strong>区间（考虑装修摊销、损耗等未计入项），月净利润约<strong>¥2.7-3.6万</strong>。</p><h3>90天OKR目标</h3><table><tr><th>指标</th><th>30天</th><th>60天</th><th>90天</th></tr><tr><td>月营收</td><td>¥9万</td><td>¥13.5万</td><td>¥18万</td></tr><tr><td>大众点评评分</td><td>出星4.0+</td><td>4.3分</td><td>4.5分</td></tr><tr><td>会员数</td><td>100人</td><td>250人</td><td>400人</td></tr><tr><td>评价数</td><td>30条</td><td>60条</td><td>100条</td></tr><tr><td>复购率</td><td>—</td><td>25%</td><td>30%</td></tr><tr><td>午市日均营收</td><td>¥800</td><td>¥1,200</td><td>¥1,500</td></tr><tr><td>社群人数</td><td>50人</td><td>150人</td><td>250人</td></tr></table><h3>回本周期</h3><p>首月总投入约¥4,200（取中值），第30天起月增收约¥6万（从不足¥3万→¥9万），<strong>首月即可覆盖全部营销投入</strong>。真正的投资回报不是营销费用的回本，而是让日均流水从不足¥1,000提升到¥6,000——<strong>这是月增15万营收的生意</strong>。</p><h3>复盘节奏</h3><ul><li>每周一复盘：上周流水/客流/团购核销/评价数（店长做，10分钟搞定）</li><li>每月1号总结：对照OKR目标表逐项打分，调整下月策略</li><li>第30天/60天/90天：关键节点深度复盘，BD协助分析数据</li></ul></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>翟卫婷</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>品类大盘：衢州菜是浙菜赛道最锐的刀</h3><p>杭州浙菜/杭帮菜门店超过<strong>5,000家</strong>，但绝大多数是外婆家、绿茶、弄堂里式的标准杭帮菜——西湖醋鱼、龙井虾仁、宋嫂鱼羹，菜品高度同质化，消费者审美疲劳。而<strong>衢州菜（三头一掌、衢州烤饼、兔头）近两年在杭州热度持续上升</strong>，属于浙菜中辨识度最强的子品类，差异化优势明显。</p><p>关键数据支撑：</p><ul><li>江浙菜全国门店占比<strong>9.4%</strong>，市场规模超<strong>1,000亿元</strong>（红餐大数据）</li><li>地方小炒在杭州极受欢迎——江西小炒增速<strong>+91.3%</strong>，地域风味细分是当前最大增长点</li><li>人均50-80元的轻正餐模式最有生命力，衢味小厨锚定<strong>人均55-75元</strong>正好卡位</li></ul><h3>萧山南部片区竞争格局</h3><p>顺福路-钱环路交叉口偏社区/次商业属性，客流依赖周边住宅和产业园。以下是<strong>周边3-5公里真实竞争对手</strong>：</p><table><tr><th>竞品名称</th><th>人均</th><th>核心弱点</th><th>衢味小厨的切入机会</th></tr><tr><td>老头儿油爆虾</td><td>¥75-90</td><td>品牌标准化导致家常感弱</td><td>衢州菜烟火气和辣味冲击力形成差异</td></tr><tr><td>弄堂里</td><td>¥70-85</td><td>口味同质化严重</td><td>衢州菜品类认知完全不同于杭帮菜</td></tr><tr><td>各类衢州菜夫妻店</td><td>¥40-55</td><td>环境差、卫生堪忧、无品牌感</td><td>同味道+干净品质感+系统化运营=降维打击</td></tr><tr><td>社区湘菜/川菜馆</td><td>¥45-60</td><td>争夺重口味客群但无地域文化加持</td><td>衢州辣有独特记忆点</td></tr></table><h3>核心判断</h3><p><strong>这家店最大的牌不是杭帮菜，而是衢州味。</strong>务必在门头、菜单、传播上把衢州标签打透，和满大街杭帮菜彻底切割。萧山这个位置，做最正宗的衢州菜馆比做又一家浙菜馆有十倍胜算。</p><p>风险提示：社区位置午市客流弱，纯正餐模型午市撑不起翻台，<strong>必须用快餐档口模式救午市</strong>——下文第5章详述。</p>`,
+    2: `<h3>定位诊断：你的店名已经说对了一半</h3><p>衢味小厨这个名字本身就在强调衢州——<strong>这是你最大的资产，必须用到极致。</strong></p><p>当前问题（基于同类新店常见情况）：</p><ul><li>门头品类标注可能写的是浙菜/杭帮菜——让顾客以为和外婆家差不多，丧失差异化</li><li>菜单里可能混了不少杭帮菜常规菜品——稀释了衢州特色</li><li>没有一个1秒记住的爆品锚点</li></ul><h3>定位三板斧（老板本周就能做）</h3><h4>第一斧：门头改品类标注</h4><p><strong>谁来做</strong>：老板决策，找广告店改字（约200-500元）<br><strong>第几天做</strong>：本周内完成<br><strong>怎么做</strong>：品类标注从浙菜/杭帮菜改为<strong>「衢州菜·三头一掌」</strong>或<strong>「正宗衢州味道」</strong>。六个字让路过的人一眼知道这家不一样。大众点评品类可保留浙菜不影响搜索流量，但门头视觉必须打衢州标签。</p><h4>第二斧：确立爆品锚点——衢州兔头</h4><p><strong>谁来做</strong>：老板+厨师长<br><strong>第几天做</strong>：立即执行<br><strong>怎么做</strong>：菜单首页放大「招牌衢州兔头」，定价<strong>¥18/个</strong>（成本约7-8元，毛利55%+），每桌服务员主推。<br><strong>在哪操作</strong>：扫码点餐🔧「菜品管理→置顶推荐」将兔头设为首位推荐菜品<br><strong>话术</strong>：「我们家兔头是衢州老师傅的方子，辣度可以选微辣/中辣/变态辣，第一次来建议先试中辣~」<br><strong>客人犹豫</strong>：「兔头先来一个试试，不好吃不要钱」（成本仅7元，换一次深度体验）</p><h4>第三斧：菜单做减法</h4><p><strong>谁来做</strong>：老板+厨师长，3天内完成<br><strong>怎么做</strong>：SKU控制在<strong>35-45道</strong>，其中<strong>衢州特色菜占60%以上</strong>：三头一掌（鱼头/鸭头/兔头+鸭掌）、衢州烤饼、辣炒年糕、开化青蛳、衢州醅糕。剩下40%放家常菜兜底（炒时蔬/番茄蛋汤/米饭等），<strong>不放西湖醋鱼、龙井虾仁等杭帮菜经典菜</strong>。<br><strong>在哪操作</strong>：扫码点餐🔧「菜品管理→分类管理」，创建「衢州招牌」「衢州小食」「家常时蔬」三个分类<br><strong>预期效果</strong>：后厨效率提升（减少备料种类）、出品质量稳定、品牌记忆点更集中。</p>`,
+    3: `<h3>现状诊断</h3><p>衢味小厨已开业31-60天，日均流水<strong>1千以下</strong>。按人均60元估算，日均客流仅<strong>15-17人</strong>（约4-5桌），120平方米门店翻台率不足<strong>0.3次</strong>。这个数字说明：<strong>客流严重不足，不是菜品问题，是没人知道这家店。</strong></p><p>好消息：老板之前开过同类型店，有衢州菜出品经验，产品力不是短板。问题纯粹在<strong>流量获取和客户沉淀</strong>上。</p><h3>未来30天冲刺计划</h3><h4>第1-3天：基础设施补齐</h4><ul><li><strong>谁来做</strong>：老板+店长</li><li><strong>做什么①</strong>：大众点评商家后台🔧「门店管理→基础信息」完善——上传10张高质量图片（门头/招牌兔头/鱼头煲/烤饼/环境），商家介绍突出衢州老师傅、三头一掌、正宗衢州辣</li><li><strong>做什么②</strong>：确认美团收录品类标签，特色标签加衢州菜、三头一掌、兔头</li><li><strong>做什么③</strong>：检查扫码点餐🔧菜单完整上线（已签约，确保菜品图片+描述齐全）</li><li><strong>做什么④</strong>：开通「免费试」🔧「营销中心→免费试」——新店最合规好评积累方式，每期10个名额，产品选兔头+烤饼套餐（成本约15元/份）</li></ul><h4>第4-10天：引爆期</h4><ul><li><strong>谁来做</strong>：老板主导，服务员全员执行</li><li><strong>做什么①</strong>：门口摆「衢州烤饼现烤」明档窗口（一个烤饼炉+操作台，投入约500元），让烤饼香味飘到街上——嗅觉引流零成本。原味¥5/梅干菜肉¥8，每天目标100个+</li><li><strong>做什么②</strong>：大众点评上线「1元兔头」限时体验券🔧「营销中心→团购→新建」——原价18元兔头1元限量体验（每天限10份），核销时引导加微信入群</li><li><strong>话术</strong>：「兔头好吃吗？老板微信群里每周五晚兔头半价秒杀，扫一下加进去~」</li><li><strong>客人不想加群</strong>：「没关系，下次来直接报手机号也有会员价~」</li></ul><h4>第11-20天：口碑发酵</h4><ul><li><strong>谁来做</strong>：店长负责跟进</li><li><strong>做什么①</strong>：免费试持续运营，保持每周5条新评价节奏</li><li><strong>做什么②</strong>：邀请3-5位本地素人博主（小红书粉丝1000-5000）到店拍短视频，费用=免费请吃（人均60元x2人=120元/位），总成本360-600元换3-5条真实探店内容</li><li><strong>做什么③</strong>：店内设衢州辣度挑战墙——吃完变态辣兔头拍照打卡，照片贴墙上，发朋友圈送烤饼1个</li></ul><h4>第21-30天：稳定冲量</h4><ul><li><strong>目标</strong>：日均流水突破<strong>¥3,000</strong>（日均50人，约12-15桌），月流水达<strong>¥9万</strong></li><li><strong>做什么①</strong>：复盘前20天数据，优化菜单</li><li><strong>做什么②</strong>：启动会员体系（详见第6章）</li><li><strong>做什么③</strong>：大众点评团购常态化——设一款<strong>¥99双人套餐</strong>（兔头+鱼头煲+烤饼2个+时蔬+米饭，成本约42元，毛利58%），作为长期引流款</li></ul>`,
+    4: `<h3>当前阶段判断：新店冷启动期（31-60天）</h3><p>衢味小厨开业31-60天，点评评分和评价数未知（⚠️ 假设当前评价数不足20条，尚未稳定出星）。核心任务：<strong>先攒够有效评价基数，让系统有足够数据稳定出星</strong>。</p><h3>止血：停掉所有无效促评动作</h3><p><strong>谁来做</strong>：老板，立即执行<br>如果目前有以下行为，<strong>今天就停</strong>：</p><ul><li>给顾客发好评返现5元卡片——2025年10月后高强度促评=新评价不产生星级收益，白花钱</li><li>让朋友/亲戚刷好评——平台算法能识别，刷的评价不计入星级</li><li>服务员反复催顾客写好评——造成反感，适得其反</li></ul><h3>合规获评三步走</h3><h4>第一步：「免费试」持续运营（最核心）</h4><p><strong>谁来做</strong>：店长操作后台，服务员接待<br><strong>在哪操作</strong>：大众点评商家后台🔧「营销中心→免费试」<br><strong>怎么做</strong>：每期10个名额，体验产品选招牌兔头+烤饼组合（成本约15元/份），不要求必须写好评，只要求写真实感受。每期出评率约60-70%，每月可稳定产出<strong>15-20条真实评价</strong>。<br><strong>话术</strong>：「今天兔头和烤饼是免费体验的，吃完花1分钟在点评写写真实感受就行，好坏都可以~」</p><h4>第二步：打造自发分享动机</h4><p><strong>谁来做</strong>：老板设计，服务员引导<br><strong>怎么做</strong>：让菜品具备拍照冲动——</p><ul><li>兔头上桌用竹编小篮装盘+垫油纸+撒辣椒碎（成本增加¥0.5），视觉冲击力拉满</li><li>烤饼出炉冒热气，服务员端到桌边说「刚出炉的小心烫」——热气画面天然适合拍视频</li><li>衢州辣度挑战榜墙面：吃完变态辣拍照上榜+发朋友圈送烤饼1个（成本¥1.5）</li></ul><p><strong>客人不愿意拍照</strong>：完全不勉强，核心是让愿意拍的人有素材可拍。</p><h4>第三步：差评2小时响应机制</h4><p><strong>谁来做</strong>：老板/店长，每天查看2次点评后台<br><strong>在哪操作</strong>：大众点评商家后台🔧「评价管理」<br><strong>怎么做</strong>：每条差评2小时内回复，针对具体问题回应，禁止模板化群发。</p><h3>出星路径与量化目标</h3><table><tr><th>时间节点</th><th>评价数目标</th><th>评分目标</th><th>关键动作</th></tr><tr><td>第30天</td><td>30条</td><td>出星4.0+</td><td>免费试+自然评价积累</td></tr><tr><td>第60天</td><td>60条</td><td>4.3分</td><td>团购引流+好评自然增长</td></tr><tr><td>第90天</td><td>100条</td><td>4.5分</td><td>冲击新店榜/热门榜</td></tr></table><p><strong>榜单升级路线</strong>：新店榜（60天内自动参评）→ 热门榜（评价数+热度达标）→ 好评榜（评分+评价质量）。</p>`,
+    5: `<h3>诊断：午市是这家店最大的隐患</h3><p>顺福路-钱环路交叉口属社区/次商业位置，周边有产业园和住宅区。<strong>午市特征</strong>：产业园员工午餐要快、便宜、吃饱（人均15-25元），不是正餐体验（人均60元+，等菜20分钟）。如果午市只做正餐，120平方米门店午间可能只有2-3桌。</p><p>⚠️ 假设月房租约<strong>¥8,000-12,000</strong>（萧山社区位置参考值），日房租约¥300-400。午市只做3桌（营收约¥180），扣掉食材成本，午市=<strong>纯亏</strong>。</p><h3>解决方案：门口设快餐档口</h3><h4>档口设置（一次性投入约¥500-800）</h4><p><strong>谁来做</strong>：老板决策+采购，3天内完成<br><strong>怎么做</strong>：门口设一个操作台+烤饼炉（不需装修，摆在门口即可），上方挂灯箱菜单牌。</p><h4>快餐菜单设计（仅午市11:00-14:00供应）</h4><table><tr><th>品名</th><th>售价</th><th>成本</th><th>毛利</th></tr><tr><td>原味衢州烤饼</td><td>¥5</td><td>¥1.5</td><td>70%</td></tr><tr><td>梅干菜肉烤饼</td><td>¥8</td><td>¥3</td><td>62%</td></tr><tr><td>辣肉浇头饭</td><td>¥18</td><td>¥6</td><td>67%</td></tr><tr><td>鸭头浇头饭</td><td>¥22</td><td>¥8</td><td>64%</td></tr><tr><td>烤饼+浇头饭套餐</td><td>¥20</td><td>¥7</td><td>65%</td></tr></table><p><strong>出餐要求</strong>：烤饼现烤3分钟/炉（每炉8个），浇头提前备好，点单后30秒出餐。<br><strong>在哪操作</strong>：扫码点餐🔧「菜品管理→分时菜单」设置11:00-14:00自动切换快餐菜单，14:00后恢复正餐。</p><h4>午市目标</h4><p>日均烤饼<strong>100个</strong>（营收¥500-800）+ 浇头饭<strong>20份</strong>（营收¥360-440）= 午市档口日营收<strong>¥860-1,240</strong>。<strong>让午市从纯亏变成日赚¥500+</strong>，烤饼香味是最好的广告——路过的人闻到了，晚上就来吃正餐。</p><h4>外卖同步上线</h4><p><strong>在哪操作</strong>：美团外卖商家后台🔧「菜品管理」上线烤饼+浇头饭<br><strong>怎么做</strong>：起送价设¥15，覆盖周边产业园午餐需求。新店有流量扶持期要抓紧利用。打包盒用牛皮纸（成本¥0.5/个），外带比例预计达60%+。</p>`,
+    6: `<h3>已签约模块盘点</h3><p>衢味小厨已签约<strong>会员高级版</strong>和<strong>扫码点餐</strong>。老板之前采购过美团S1但后续没使用——不是不愿意用系统，是<strong>没人教怎么用、没看到效果就放弃了</strong>。这次关键不是推新系统，而是<strong>把已有的会员高级版真正用活</strong>。</p><h3>辣度分级三级会员体系</h3><p>衢州菜核心是辣，用辣度做会员等级——比积分体系有趣100倍。</p><table><tr><th>等级</th><th>名称</th><th>升级条件</th><th>权益</th></tr><tr><td>Lv.1</td><td>🌶 微辣新客</td><td>首次扫码点餐自动注册</td><td>注册即送烤饼1个（成本¥1.5）</td></tr><tr><td>Lv.2</td><td>🌶🌶 中辣常客</td><td>累计消费满3次或满¥200</td><td>每次到店送饮品1杯（成本¥2）+ 生日当月8折</td></tr><tr><td>Lv.3</td><td>🌶🌶🌶 变态辣铁粉</td><td>累计消费满8次或满¥500</td><td>解锁隐藏菜单（秘制鸭头/土猪肉锅）+ 每月满100减15券 + 优先订座</td></tr></table><h4>怎么落地</h4><p><strong>谁来做</strong>：店长负责后台配置（1小时可完成），服务员执行话术<br><strong>在哪操作</strong>：会员高级版后台🔧「会员等级→新建等级」按上表创建3个等级+对应权益<br><strong>第几天做</strong>：开业第21天启动（先用前20天积累基础客流）<br><strong>话术</strong>（每桌结账时固定说）：「扫码就是我们会员了，今天送您一个烤饼，下次来就是中辣常客了，有免费饮品~」<br><strong>客人不想注册</strong>：「没关系，扫码点餐已经自动注册了，下次来报手机号就行~」（扫码点餐=自动沉淀会员数据，零摩擦）</p><h3>社群运营（私域留客核心）</h3><p><strong>谁来做</strong>：老板/店长管理微信群<br><strong>第几天做</strong>：开业第7天开始建群<br><strong>怎么做</strong>：</p><ul><li>每桌结账引导加老板娘微信入群，话术：「加老板娘微信，下次来报暗号送烤饼」</li><li>群内每周五晚8点发兔头半价秒杀（限10份，先到先得），制造固定期待</li><li>群内分享衢州菜文化故事（1周1条），建立品牌温度</li><li>会员生日当月群内@祝福+私聊发8折券</li></ul><h3>会员目标（量化OKR）</h3><table><tr><th>时间</th><th>会员数</th><th>复购率</th><th>社群人数</th></tr><tr><td>第30天</td><td>100人</td><td>积累期</td><td>50人</td></tr><tr><td>第60天</td><td>250人</td><td>25%</td><td>150人</td></tr><tr><td>第90天</td><td>400人</td><td>30%</td><td>250人</td></tr></table>`,
+    7: `<h3>公域策略总览</h3><p>衢州菜的视觉冲击力（兔头、鱼头、鸭掌）天然适合社交媒体传播。三平台各有分工：</p><table><tr><th>平台</th><th>定位</th><th>核心动作</th><th>预算/月</th></tr><tr><td>大众点评</td><td>搜索流量入口+口碑阵地</td><td>团购套餐+免费试+评价运营</td><td>¥500</td></tr><tr><td>小红书</td><td>种草+探店+内容沉淀</td><td>素人博主合作+打卡话题</td><td>¥600</td></tr><tr><td>抖音本地生活</td><td>爆发式引流+团购核销</td><td>9.9元引流券+达人短视频</td><td>¥800</td></tr></table><h3>大众点评（最核心）</h3><h4>团购套餐设计</h4><p><strong>谁来做</strong>：老板定价，BD协助上线<br><strong>在哪操作</strong>：大众点评商家后台🔧「营销中心→团购」</p><ul><li><strong>引流款</strong>：¥99双人套餐（兔头+鱼头煲+烤饼2个+时蔬+米饭，成本¥42，毛利58%）——拉新客进店</li><li><strong>利润款</strong>：¥199四人套餐（三头一掌+烤饼4个+凉菜拼盘+时蔬2份+米饭，成本¥85，毛利57%）——提客单</li><li><strong>体验款</strong>：¥9.9单人烤饼+饮品套餐（烤饼2个+酸梅汤，成本¥5，毛利49%）——午市引流</li></ul><h3>小红书（种草利器）</h3><p><strong>谁来做</strong>：老板/店长拍素材，或邀请素人博主<br><strong>第几天做</strong>：开业第7天起持续运营<br><strong>怎么做</strong>：</p><ul><li>每周发2-3条笔记，主题轮换：①兔头特写+辣度测评 ②烤饼出炉过程 ③萧山隐藏衢州菜馆探店风格</li><li>话题标签固定：#杭州美食 #萧山美食 #衢州菜 #兔头 #衢州烤饼 #杭州探店</li><li>邀请3位素人博主/月（粉丝1000-5000），费用=免费请吃（¥120-200/位），换1条图文笔记</li></ul><p><strong>选题灵感</strong>：</p><ul><li>「在杭州找到正宗衢州兔头！辣度分三级你敢挑战吗」</li><li>「萧山这家店的衢州烤饼，排队的全是本地人」</li><li>「闺蜜聚餐新去处！三头一掌太上瘾了」</li></ul><h3>抖音本地生活（爆发引流）</h3><p><strong>谁来做</strong>：BD协助开通抖音来客🔧，老板确认套餐<br><strong>第几天做</strong>：开业第14天上线<br><strong>怎么做</strong>：上架<strong>¥9.9元引流券</strong>（到店消费满50元抵20元），限量500张。配合2-3位本地达人到店拍摄短视频（达人费用约¥200-300/位或免费请吃），视频重点拍兔头啃食过程+烤饼出炉热气——<strong>衢州菜的画面感就是流量</strong>。</p><h4>公私域联动闭环</h4><p>公域（点评/小红书/抖音）引流到店 → 扫码点餐自动注册会员 → 服务员引导加群 → 群内复购+裂变 → 老客带新客回到点评写评价。<strong>形成「公域拉新→私域锁客→口碑裂变」正循环。</strong></p>`,
+    8: `<h3>核心问题：买了没用，不是不想用，是没人带着用</h3><p>老板之前采购过美团S1但后续没使用。两个信号：①对数字化工具不排斥（愿意花钱买）②没感受到价值就放弃了。这次机会：<strong>用已签约的扫码点餐+会员高级版，让老板第一个月就看到可量化效果</strong>。</p><h3>扫码点餐：不只是省人工，是数据入口</h3><h4>基础配置（第1天完成）</h4><p><strong>谁来做</strong>：店长配置，BD首次指导<br><strong>在哪操作</strong>：扫码点餐管理后台🔧「桌台管理」<br><strong>怎么做</strong>：</p><ul><li>120平方米门店，按15张桌子配置桌台码（4人桌10张+6人桌3张+2人桌2张）</li><li>每张桌台卡：正面扫码点餐二维码，背面印「扫码点餐即送烤饼1个」</li><li>菜品图片全部上传，无图菜品点单率下降40%</li></ul><h4>智能推荐配置</h4><p><strong>在哪操作</strong>：扫码点餐🔧「智能推荐→推荐菜品」<br><strong>怎么做</strong>：设置必点推荐前3位：①招牌衢州兔头¥18 ②衢州鱼头煲¥48 ③梅干菜肉烤饼¥8。顾客扫码后第一屏看到这三道，<strong>引导客单价从¥45提升到¥60+</strong>。</p><h4>分时菜单配置</h4><p><strong>在哪操作</strong>：扫码点餐🔧「菜品管理→分时菜单」<br><strong>怎么做</strong>：11:00-14:00显示午市快餐菜单，14:00后自动切回正餐菜单。一键切换，不需要手动改。</p><h3>会员高级版：把数据变成钱</h3><h4>精准营销功能（第30天起启用）</h4><p><strong>在哪操作</strong>：会员后台🔧「营销中心→智能营销」<br><strong>怎么做</strong>：</p><ul><li>设置「沉睡唤醒」：7天未到店会员自动推送满50减8券（成本¥8/张，唤醒率约15%）</li><li>设置「生日营销」：会员生日当月自动推送8折全单券+生日当天到店免费送寿面一碗</li><li>设置「消费达标奖励」：累计消费满¥500自动升级Lv.3+推送专属权益通知</li></ul><h3>系统价值量化预期</h3><table><tr><th>功能</th><th>量化效果</th><th>月增收估算</th></tr><tr><td>扫码点餐推荐</td><td>客单价提升15%（¥52→¥60）</td><td>¥3,600（按月600人次）</td></tr><tr><td>会员复购唤醒</td><td>沉睡客户唤醒率15%</td><td>¥1,800（月唤醒20人，人均¥90）</td></tr><tr><td>生日营销</td><td>带动约3桌/月家庭聚餐</td><td>¥900（人均¥60x5人/桌x3桌）</td></tr></table><p><strong>系统赋能月增收合计：约¥6,300</strong>（保守估算），美团系统独特优势在于：扫码点餐+会员+点评+外卖数据全打通，一套系统解决从流量到留客的闭环——这是传统收银机做不到的。老板之前S1没用起来，不是系统不好，是缺了运营指导。这次有BD持续跟进，效果完全不同。</p>`,
+    9: `<h3>投入总览</h3><table><tr><th>投入项</th><th>金额</th><th>频率</th><th>说明</th></tr><tr><td>烤饼档口设备</td><td>¥500-800</td><td>一次性</td><td>烤饼炉+操作台+灯箱</td></tr><tr><td>1元兔头引流（前10天）</td><td>¥700</td><td>一次性</td><td>10天x10份x¥7成本</td></tr><tr><td>免费试</td><td>¥450/月</td><td>持续</td><td>3期x10份x¥15成本</td></tr><tr><td>素人博主合作</td><td>¥600/月</td><td>持续</td><td>3位x¥200/位</td></tr><tr><td>抖音达人合作</td><td>¥800/月</td><td>持续</td><td>2-3位达人</td></tr><tr><td>会员权益成本</td><td>¥500/月</td><td>持续</td><td>烤饼+饮品赠送</td></tr><tr><td>门头改字</td><td>¥300-500</td><td>一次性</td><td>品类标注改为衢州菜</td></tr><tr><td><strong>首月总投入</strong></td><td><strong>¥3,850-4,550</strong></td><td></td><td></td></tr><tr><td><strong>后续月均投入</strong></td><td><strong>¥2,350</strong></td><td></td><td></td></tr></table><h3>营收预测（90天阶梯增长）</h3><table><tr><th>阶段</th><th>日均流水</th><th>月流水</th><th>增长来源</th></tr><tr><td>当前</td><td>不足¥1,000</td><td>不足¥3万</td><td>—</td></tr><tr><td>第30天</td><td>¥3,000</td><td>¥9万</td><td>烤饼档口+团购引流+口碑发酵</td></tr><tr><td>第60天</td><td>¥4,500</td><td>¥13.5万</td><td>会员复购+小红书/抖音引流+评分提升</td></tr><tr><td>第90天</td><td>¥6,000</td><td>¥18万</td><td>品牌口碑+会员稳定复购+团购常态化</td></tr></table><h3>盈利估算（第90天稳态）</h3><table><tr><th>项目</th><th>金额/月</th><th>占比</th></tr><tr><td>月营收</td><td>¥180,000</td><td>100%</td></tr><tr><td>食材成本（35%）</td><td>¥63,000</td><td>35%</td></tr><tr><td>人工成本（25%）</td><td>¥45,000</td><td>25%</td></tr><tr><td>房租（⚠️假设¥10,000）</td><td>¥10,000</td><td>5.6%</td></tr><tr><td>水电杂费</td><td>¥8,000</td><td>4.4%</td></tr><tr><td>营销投入</td><td>¥2,350</td><td>1.3%</td></tr><tr><td><strong>月净利润</strong></td><td><strong>¥51,650</strong></td><td><strong>28.7%</strong></td></tr></table><p>⚠️ 以上净利润率28.7%高于行业均值（正餐5-12%），主要因为假设房租偏低（社区位置优势）。实际净利润率预计在<strong>15-20%</strong>区间（考虑装修摊销、损耗等未计入项），月净利润约<strong>¥2.7-3.6万</strong>。</p><h3>90天OKR目标</h3><table><tr><th>指标</th><th>30天</th><th>60天</th><th>90天</th></tr><tr><td>月营收</td><td>¥9万</td><td>¥13.5万</td><td>¥18万</td></tr><tr><td>大众点评评分</td><td>出星4.0+</td><td>4.3分</td><td>4.5分</td></tr><tr><td>会员数</td><td>100人</td><td>250人</td><td>400人</td></tr><tr><td>评价数</td><td>30条</td><td>60条</td><td>100条</td></tr><tr><td>复购率</td><td>—</td><td>25%</td><td>30%</td></tr><tr><td>午市日均营收</td><td>¥800</td><td>¥1,200</td><td>¥1,500</td></tr><tr><td>社群人数</td><td>50人</td><td>150人</td><td>250人</td></tr></table><h3>回本周期</h3><p>首月总投入约¥4,200（取中值），第30天起月增收约¥6万（从不足¥3万→¥9万），<strong>首月即可覆盖全部营销投入</strong>。真正的投资回报不是营销费用的回本，而是让日均流水从不足¥1,000提升到¥6,000——<strong>这是月增15万营收的生意</strong>。</p><h3>复盘节奏</h3><ul><li>每周一复盘：上周流水/客流/团购核销/评价数（店长做，10分钟搞定）</li><li>每月1号总结：对照OKR目标表逐项打分，调整下月策略</li><li>第30天/60天/90天：关键节点深度复盘，BD协助分析数据</li></ul>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
