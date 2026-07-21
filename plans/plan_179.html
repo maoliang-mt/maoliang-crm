@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wish Coffee · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">咖啡 · 运营提升方案</div>
+  <h1 class="hero-title">Wish Coffee</h1>
+  <p class="hero-subtitle">城中村里的咖啡暗号，用一杯好咖啡锁住上沙的每个早晨</p>
+  <div class="hero-address">广东省深圳市福田区上沙</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥18</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">福田区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察与商圈诊断', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察与商圈诊断</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解与差异化定位', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解与差异化定位</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '新店冷启动·开业30天作战图', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">新店冷启动·开业30天作战图</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评口碑·新店出星攻略', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评口碑·新店出星攻略</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '公域引流·三平台矩阵打法', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">公域引流·三平台矩阵打法</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '私域锁客·会员+储值+社群', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">私域锁客·会员+储值+社群</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '产品策略·菜单设计与爆品打造', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">产品策略·菜单设计与爆品打造</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, 'SaaS系统落地·已签模块实战指南', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">SaaS系统落地·已签模块实战指南</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(9, '投资回报与OKR目标', 9)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 09</div>
+      <div class="chapter-title">投资回报与OKR目标</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>深圳咖啡大盘：1177亿赛道里找到你的缝隙</h3><p>2024年全国咖饮市场规模达<strong>1,177亿元</strong>（同比+15.4%），门店数突破<strong>25.5万家</strong>。深圳作为一线城市，咖啡消费频次全国领先，但赛道已极度内卷——<strong>主流价格带被压至8-15元</strong>（库迪/幸运咖长期9.9，瑞幸稳在9.9-13.9），独立品牌在价格战正面交锋中几乎没有胜算。</p><h3>上沙商圈特征</h3><p>上沙属于<strong>城中村+密集居住区</strong>，周边覆盖上沙、下沙社区及沙嘴片区。人群结构：<strong>白领与租住年轻人混合</strong>，消费力中等偏实惠。城中村租金虽低（⚠️ 假设月租约6000-10000元，建议核实），但客单也低，周边人群对价格极敏感。</p><p><strong>核心机会</strong>：上沙大量年轻租客有早起通勤咖啡刚需，但瑞幸/库迪的门店体验感差（纯自提/等位），独立咖啡店可以<strong>用空间体验+鲜食组合切入</strong>，做「社区咖啡第三空间」，避开纯价格战。</p><h3>客群画像</h3><ul><li><strong>主力客群（60%）</strong>：上沙/下沙租住年轻白领（22-32岁），早八通勤+午后续命是刚需场景，价格敏感但愿为「好喝+坐得下」多付3-5元</li><li><strong>次要客群（25%）</strong>：周边创业者/自由职业者，需要长时间驻留的「办公第三空间」，客单价较高（咖啡+轻食约25-35元）</li><li><strong>潜力客群（15%）</strong>：周末拍照打卡人群，小红书「城中村宝藏咖啡馆」内容有天然传播力</li></ul></div>
+<div id="modal-content-2" style="display:none"><h3>上沙1公里竞争格局（真实竞品逐一拆解）</h3><table><tr><th>竞品</th><th>人均</th><th>核心优势</th><th>核心弱点</th><th>Wish Coffee切入机会</th></tr><tr><td><strong>瑞幸</strong>（沙嘴/上沙周边多店）</td><td>¥12-16</td><td>品牌认知强、APP复购闭环、出杯效率高</td><td>门店体验感差、纯自提无座位、产品同质化</td><td>「坐下来喝一杯」的空间价值是瑞幸给不了的</td></tr><tr><td><strong>库迪</strong>（福田多点布局）</td><td>¥9.9</td><td>极致低价引流、覆盖密度高</td><td>品质口碑一般、复购靠补贴不靠味道、无社交场景</td><td>产品力碾压（精品豆vs工业拼配），做口碑传播</td></tr><tr><td><strong>幸运咖</strong>（蜜雪系）</td><td>¥6-10</td><td>下沉价格带直接卡死低端</td><td>品质定位最低、目标客群与精品咖啡不重叠</td><td>不是直接竞争对手，但会分流价格极敏感用户</td></tr><tr><td><strong>周边独立小店</strong>（⚠️ 假设2-3家）</td><td>¥15-25</td><td>氛围感、拍照出片</td><td>产品力参差、无数字化会员、复购全靠缘分</td><td>用SaaS会员体系+小程序复购建立系统性优势</td></tr></table><h3>Wish Coffee的差异化定位</h3><p>在瑞幸/库迪已经把价格锚点压到10元以下的战场里，Wish Coffee<strong>绝不能打价格战</strong>——没有供应链规模优势，9.9元必死。正确定位：</p><ul><li><strong>价格带</strong>：基础美式/拿铁定价12-16元（比瑞幸略低或持平，用品质感支撑）；特调/果咖定价18-25元（拉客单价的利润品）</li><li><strong>一句话定位</strong>：「上沙年轻人的第三空间——好咖啡+坐得下+吃得到」</li><li><strong>核心差异</strong>：①有座位有空间（瑞幸/库迪没有）②有鲜食轻食（帕尼尼/贝果/三明治，竞品真空地带）③有温度有社区感（店员叫得出常客名字）</li></ul><p><strong>⚠️ 关键判断</strong>：上沙城中村场景下，Wish Coffee的人均应控制在<strong>15-22元</strong>（⚠️ 假设值，建议核实菜单定价）。低于15元没利润，高于25元城中村客群接受度骤降。</p></div>
+<div id="modal-content-3" style="display:none"><h3>开业前15天：蓄水期（现在就要开始干）</h3><p><strong>目标</strong>：开业当天朋友圈已有100+人知道「上沙开了一家叫Wish Coffee的店」</p><ul><li><strong>Day -15至-10｜小红书+抖音内容爆破</strong><br>① <strong>谁来做</strong>：老板本人+1名员工拍摄，或找3-5个深圳本地探店号（粉丝1-5万，成本200-500元/条）<br>② <strong>怎么做</strong>：拍「上沙城中村里藏了一家咖啡馆」主题短视频/图文，突出城中村反差感（巷子里推开门是精致咖啡馆），标题带「深圳福田上沙」「城中村咖啡」关键词<br>③ <strong>预算</strong>：探店号3-5条=600-2500元（⚠️ 假设值，建议核实本地探店号报价）<br>④ <strong>量化目标</strong>：开业前小红书笔记≥5篇、抖音视频≥3条、总曝光≥1万次</li><li><strong>Day -10至-3｜抖音团购上线</strong><br>① <strong>谁来做</strong>：老板在抖音来客后台操作<br>② <strong>怎么做</strong>：上架「9.9元新店尝鲜·美式/拿铁任选」引流券（限量200份），同步上架「双人下午茶套餐29.9元」（含2杯饮品+1份甜品，原价约50元）<br>③ <strong>话术参考</strong>：「上沙新开的Wish Coffee，9块9喝一杯精品美式，城中村里也能有好咖啡」<br>④ <strong>预估ROI</strong>：9.9元券成本约5-6元/杯（咖啡边际成本低），200份引流成本约1000-1200元，目标转化到店≥120人</li><li><strong>Day -3至-1｜企微私域搭建</strong><br>① <strong>谁来做</strong>：老板注册企业微信，设置自动欢迎语<br>② <strong>怎么做</strong>：制作「加微信领开业福利」台卡（🔧 小程序后台→门店设置→桌台码生成，打印放吧台）；企微自动回复设置为「Hi，我是Wish Coffee☕ 开业期间加好友领5元无门槛券，每周三还有半价第二杯哦！」<br>③ <strong>目标</strong>：开业首周加微信≥50人</li></ul><h3>开业Day 1-7：爆发期</h3><ul><li><strong>Day 1-3｜开业引爆</strong><br>① 全场饮品<strong>买一送一</strong>（限前100杯/天，成本可控），用流量换口碑<br>② 每位到店客户引导加企微（话术：「加好友下次来直接报暗号打9折」）<br>③ 到店客户引导小程序下单（🔧 美团小程序→扫桌台码→首单立减3元），沉淀为小程序用户<br>④ <strong>目标</strong>：日出杯≥80杯，小程序新用户≥30人/天</li><li><strong>Day 4-7｜口碑沉淀</strong><br>① 停止买一送一，切换为「小程序首单立减5元」（🔧 小程序后台→营销中心→新客优惠券）<br>② 鼓励客户大众点评写真实评价（<strong>严禁直接促评/邀评</strong>），用「免费试」合规工具（详见点评章节）<br>③ <strong>目标</strong>：7天内大众点评积累≥15条真实评价</li></ul><h3>Day 8-30：稳定期</h3><ul><li>每周三企微推送「私域专属·第二杯半价」（🔧 企业微信→群发助手→选择标签「Wish会员」），拉动周中淡场</li><li>每周上新1款特调（社交媒体同步发布），保持话题热度</li><li>月底复盘：统计日均出杯量、小程序用户数、企微好友数、点评评价数，调整下月策略</li><li><strong>30天目标</strong>：日均出杯≥60杯、小程序累计用户≥200人、企微好友≥150人、点评评价≥30条</li></ul></div>
+<div id="modal-content-4" style="display:none"><h3>当前阶段判断：新店冷启动期</h3><p>Wish Coffee尚未开业，大众点评评分/评价数均为零。新店出星需要一定数量的真实评价积累（通常≥15条有内容的评价才会显示星级）。<strong>前10条评价的质量决定了后续所有顾客的第一印象</strong>——这是最关键的窗口期。</p><h3>⛔ 止血：这些事绝对不能做</h3><ul><li><strong>严禁好评返现/返券</strong>：2025年10月后，高强度促评=新评价不产生星级收益，平台识别精准度极高</li><li><strong>严禁刷评/代写</strong>：AIGC评价/批量好评会被系统标记，严重的直接降权</li><li><strong>严禁「给好评送XX」</strong>：任何形式的直接利益交换都属于违规促评</li></ul><h3>✅ 合规工具：用「免费试」+「分享动机」攒真实好评</h3><p><strong>工具一：大众点评「免费试」</strong></p><ul><li><strong>谁来做</strong>：老板/店长，在大众点评商家后台操作</li><li><strong>第几天做</strong>：开业前1天设置，开业当天生效</li><li><strong>在哪操作</strong>：🔧 大众点评商家后台→营销中心→免费试→创建活动</li><li><strong>怎么设</strong>：上架「招牌特调免费试」（选店内最出片的1款特调），设置20个名额/周，体验者到店免费品尝并自愿写真实评价（平台规则：免费试评价标记为「免费试用」，不强制好评）</li><li><strong>预算</strong>：特调成本约5-8元/杯，20份/周=100-160元/周（⚠️ 假设值）</li><li><strong>预期效果</strong>：每周新增8-12条真实评价（免费试到评率约40-60%），30天累计≥30条</li></ul><p><strong>工具二：打造「分享动机」而非「利诱好评」</strong></p><ul><li><strong>出片设计</strong>：吧台/角落设置1个拍照打卡点（成本约50-100元，城中村窗景+咖啡杯+绿植），让客户自发拍照发朋友圈/小红书</li><li><strong>杯身设计</strong>：外带杯印「Wish Coffee · 上沙」+一句有态度的话（如「城中村也有好咖啡」），激发拍照分享欲</li><li><strong>话术引导</strong>（服务员出杯时说）：「这杯是我们的招牌XX，如果喜欢的话欢迎在点评上分享给更多人，好坏都行~」——<strong>注意：只说「分享」不说「好评」，不给任何利益承诺</strong></li></ul><h3>出星路径规划</h3><table><tr><th>阶段</th><th>时间</th><th>目标</th><th>关键动作</th></tr><tr><td>冷启动</td><td>开业1-30天</td><td>攒够30条真实评价、出星≥4.0</td><td>免费试20份/周+出片设计+服务员话术引导</td></tr><tr><td>成长期</td><td>31-90天</td><td>评价累计80+、评分稳定≥4.3</td><td>持续免费试+差评2小时内回复+菜品优化</td></tr><tr><td>冲榜期</td><td>91-180天</td><td>冲新店榜/热门榜前10</td><td>报名平台活动+小红书持续内容+优化关键词</td></tr></table><p><strong>差评应急预案</strong>：收到差评后<strong>2小时内回复</strong>（🔧 大众点评商家后台→评价管理→回复），回复模板：「非常感谢您的反馈！[具体问题]我们已经在改进，下次来店里请找我，请您再给我们一次机会☕」——态度真诚+针对性回应+邀请复访。</p></div>
+<div id="modal-content-5" style="display:none"><h3>平台一：大众点评——新店基建必做</h3><p><strong>为什么必须做</strong>：上沙周边年轻人找店喝咖啡，第一反应是打开大众点评看评分。新店没评分=不存在。</p><ul><li><strong>门店信息完善</strong>（开业前3天完成）<br>① <strong>谁来做</strong>：老板本人<br>② <strong>在哪操作</strong>：🔧 大众点评商家后台→门店管理→基础信息<br>③ <strong>必填项</strong>：门店照片≥9张（门头1+吧台1+座位区2+产品4+菜单1）、营业时间、人均价格、推荐菜≥3个、WiFi/充电/宠物友好等标签全部勾选<br>④ <strong>不配合怎么办</strong>：这一步不涉及客人，老板自己操作即可</li><li><strong>团购套餐上架</strong>（开业前1天）<br>① <strong>在哪操作</strong>：🔧 大众点评商家后台→团购→创建团购<br>② <strong>套餐设计</strong>：引流款「9.9元美式/拿铁」（限量，日均20份）+ 利润款「双人下午茶套餐39.9元」（2杯饮品+1份甜品，原价约55元）<br>③ <strong>定价逻辑</strong>：引流款亏本但引流到店（边际成本仅5-6元），利润款毛利率≥50%<br>④ <strong>预期效果</strong>：团购核销带来日均新客≥10人（⚠️ 假设值）</li></ul><h3>平台二：小红书——城中村咖啡天然传播场</h3><p><strong>为什么必须做</strong>：深圳小红书用户对「城中村宝藏小店」有天然传播欲，这是Wish Coffee最大的免费流量杠杆。</p><ul><li><strong>内容策略</strong>（开业前15天启动）<br>① <strong>谁来做</strong>：老板/员工自拍+找3-5个本地探店博主<br>② <strong>内容方向</strong>：「在上沙城中村里开了一家咖啡馆」系列——装修过程vlog、开业倒计时、菜单揭秘、第一杯咖啡<br>③ <strong>关键词标签</strong>：#深圳咖啡 #福田咖啡 #上沙美食 #城中村咖啡 #深圳探店<br>④ <strong>发布频率</strong>：开业前每3天1篇，开业后每周2篇<br>⑤ <strong>探店博主选择</strong>：粉丝1-5万的本地博主（性价比最高），200-500元/条（⚠️ 假设值）<br>⑥ <strong>目标</strong>：开业首月小红书曝光≥5万次</li></ul><h3>平台三：抖音——团购券引爆首周</h3><ul><li><strong>团购券设计</strong><br>① <strong>在哪操作</strong>：抖音来客后台→团购→创建商品<br>② <strong>引流品</strong>：9.9元精品美式（限量200份），标题「上沙城中村｜9.9喝精品咖啡」<br>③ <strong>利润品</strong>：29.9元双人套餐（2杯+1份轻食）<br>④ <strong>核销提醒</strong>：到店核销时引导加企微（话术：「加微信下次来报暗号打9折」）<br>⑤ <strong>预期效果</strong>：200份引流券到店转化≥120人，其中≥40人加企微（⚠️ 假设值）</li></ul><h3>三平台联动逻辑</h3><p><strong>抖音引首次到店</strong>（9.9元冲动消费）→ <strong>到店体验后引导加企微</strong>（沉淀私域）→ <strong>小红书自发传播</strong>（出片打卡）→ <strong>大众点评口碑沉淀</strong>（评分提升吸引自然流量）→ 形成「公域引流→私域锁客→口碑裂变」的正循环。</p></div>
+<div id="modal-content-6" style="display:none"><h3>为什么Wish Coffee必须做私域？</h3><p>城中村咖啡店的命脉不是路过的游客，是<strong>住在附近、天天要喝咖啡的人</strong>。咖啡成瘾性高、复购频次高（核心用户3-5次/周），但如果没有私域锁定，这些人随时会被隔壁新开的瑞幸/库迪截走。<strong>私域的本质=让客户下次喝咖啡时第一个想到你</strong>。</p><h3>第一层：会员旗舰版（已签约✅）——系统化管理复购</h3><p>Wish Coffee已签约<strong>会员旗舰版</strong>（4,888元/年），这是独立咖啡店对抗连锁品牌的核武器。</p><ul><li><strong>团购会员卡</strong>（拉新神器）<br>① <strong>谁来做</strong>：老板在会员后台设置<br>② <strong>在哪操作</strong>：🔧 会员旗舰版后台→团购会员卡→创建<br>③ <strong>设计方案</strong>：「Wish月卡」售价49元/月，权益=每天1杯指定饮品半价（美式/拿铁）+每月2张5元无门槛券<br>④ <strong>定价逻辑</strong>：半价美式约6-8元/杯，月卡用户月均消费15-20杯=90-160元，月卡49元覆盖让利成本绰绰有余<br>⑤ <strong>预期效果</strong>：首月售出≥30张月卡（⚠️ 假设值），月卡用户复购频次提升至3-4次/周</li><li><strong>潜客营销</strong>（唤醒沉睡用户）<br>① <strong>在哪操作</strong>：🔧 会员旗舰版后台→潜客营销→设置触达规则<br>② <strong>规则</strong>：7天未到店→自动推送「好久不见，送你一杯美式」优惠券<br>③ <strong>预期效果</strong>：沉睡用户唤醒率≥15%（⚠️ 行业参考值）</li></ul><h3>第二层：储值——适度推，不强推</h3><p><strong>⚠️ 第一性原理判断</strong>：Wish Coffee是新店，客户信任度尚未建立，<strong>开业首月不推储值</strong>。先用月卡+会员积分培养消费习惯，等复购客群稳定后（开业60天后）再推储值。</p><ul><li><strong>开业60天后上线储值方案</strong><br>① <strong>储值档位设计</strong>：<br>- 体验档：充100送15（约7次消费，门槛低）<br>- 主推档：充300送60（约20次消费，锁定1个月）<br>- 尊享档：充500送120（约35次消费，锁定2个月）<br>② <strong>在哪操作</strong>：🔧 会员旗舰版后台→智能储值→创建储值活动<br>③ <strong>话术</strong>（收银员出杯时说）：「您是我们的老朋友了，充300送60，算下来每杯不到12块，比瑞幸还划算」<br>④ <strong>客人犹豫怎么办</strong>：「没关系，先充100试试，送15元，下次来直接扫码就行」<br>⑤ <strong>预期效果</strong>：开业90天内储值会员≥50人，月储值入账≥8000元（⚠️ 假设值）</li></ul><h3>第三层：企微社群——社区咖啡店的复购发动机</h3><ul><li><strong>建群时机</strong>：开业Day 1开始拉群<br>① <strong>群名</strong>：「Wish Coffee·上沙咖啡暗号群」<br>② <strong>入群钩子</strong>：「加群立享：①每周三第二杯半价 ②新品优先试喝 ③生日当天免费1杯」<br>③ <strong>每周三固定推送</strong>（🔧 企业微信→群发助手→定时发送）：「今天周三☕ Wish暗号日！到店报暗号『Wish Wednesday』第二杯半价，限今天哦」<br>④ <strong>群运营节奏</strong>：周一新品预告→周三暗号日→周五周末特饮推荐→不定期抽奖<br>⑤ <strong>目标</strong>：3个月内沉淀≥300人社群，周三暗号日到店≥20人</li></ul><h3>公私域联动闭环</h3><p><strong>公域（抖音/小红书/点评）引来的每一个新客</strong> → 到店后引导加企微进群 → 群内培养消费习惯（月卡+暗号日） → 60天后引导储值 → 储值用户成为高频复购铁粉 → 铁粉自发在小红书/朋友圈推荐 → 带来更多新客。<strong>这个飞轮一旦转起来，独立咖啡店就不再依赖平台流量，真正活下来。</strong></p></div>
+<div id="modal-content-7" style="display:none"><h3>菜单定价原则：三档定价法</h3><p>上沙城中村场景下，Wish Coffee的菜单必须精准卡位——<strong>比瑞幸贵一点但贵得有道理，比精品咖啡馆便宜但不掉格调</strong>。</p><table><tr><th>档位</th><th>品类</th><th>定价</th><th>毛利率</th><th>战略角色</th></tr><tr><td>引流款</td><td>美式/冰美式</td><td>¥12-14</td><td>约65-70%</td><td>与瑞幸正面PK的「最低门槛」，用品质感赢</td></tr><tr><td>主力款</td><td>拿铁/燕麦拿铁/生椰拿铁</td><td>¥16-20</td><td>约60-65%</td><td>贡献主营收，月销占比目标≥50%</td></tr><tr><td>利润款</td><td>创意特调/果咖/气泡咖啡</td><td>¥22-28</td><td>约55-65%</td><td>拉高客单价+做小红书出片内容</td></tr></table><h3>爆品策略：找到Wish Coffee的「记忆锚点」</h3><p><strong>核心逻辑</strong>：品牌记忆靠重复一个点。Wish Coffee需要一款「提起上沙咖啡就想到它」的招牌产品。</p><ul><li><strong>建议爆品方向</strong>：「Wish特调·生椰XX」系列（⚠️ 具体口味需老板确认）<br>① <strong>为什么选生椰</strong>：深圳天热，生椰系列全年热销（不像热饮有季节性），成本可控（椰浆约2-3元/杯），且年轻客群接受度最高<br>② <strong>定价</strong>：¥22/杯（对标瑞幸生椰拿铁16元，但用鲜椰浆+手冲工艺做出差异化，价格差6元靠品质感支撑）<br>③ <strong>出片设计</strong>：透明杯+分层效果+椰子片装饰，自带小红书传播力<br>④ <strong>话术</strong>（服务员推荐时）：「我们的生椰用的是鲜椰浆，不是椰浆粉，喝起来完全不一样，推荐您试试」<br>⑤ <strong>客人嫌贵怎么办</strong>：「第一次试可以点小杯16元的，好喝下次再升大杯」</li></ul><h3>轻食——瑞幸/库迪的真空地带</h3><p><strong>为什么必须做轻食</strong>：上沙年轻租客的早餐场景是Wish Coffee最大的增量市场。瑞幸/库迪/幸运咖<strong>全部没有鲜食</strong>，这是独立咖啡店的独家武器。</p><ul><li><strong>早鸟套餐</strong>（7:00-9:30限时）<br>① <strong>组合</strong>：咖啡+帕尼尼/贝果=12.9元（原价分开买约20-22元）<br>② <strong>成本</strong>：咖啡约4元+帕尼尼约3-4元=7-8元，毛利率约38-40%<br>③ <strong>在哪操作</strong>：🔧 小程序后台→营销中心→限时套餐→设定7:00-9:30时段<br>④ <strong>目标</strong>：早鸟套餐日均售出≥15份（⚠️ 假设值），拉动早间时段出杯量</li><li><strong>下午茶套餐</strong>（14:00-17:00限时）<br>① <strong>组合</strong>：任意饮品+蛋糕/曲奇=19.9元<br>② <strong>战略目的</strong>：填补午后淡场，吸引自由职业者长时间驻留（高客单价+翻台不敏感）</li></ul><h3>季节限定策略（7-9月暑期档）</h3><ul><li><strong>7月｜「冰感特调」系列</strong>：冰博克美式、杨枝甘露咖啡、西瓜气泡咖啡（深圳盛夏37°C+，冰品刚需）</li><li><strong>8月｜七夕限定</strong>：「Wish for Two」双人特调套餐（粉色系拿铁+蓝色系气泡咖啡），社交媒体传播力强</li><li><strong>9月｜秋日限定</strong>：桂花拿铁、栗子拿铁（换季感+秋天仪式感），搭配南瓜/栗子轻食</li></ul></div>
+<div id="modal-content-8" style="display:none"><h3>已签约模块盘点（3个核心武器）</h3><table><tr><th>模块</th><th>状态</th><th>核心用法</th><th>对Wish Coffee的价值</th></tr><tr><td>小程序</td><td>✅ 已签</td><td>线上点单+外卖+营销</td><td>沉淀用户数据，线上复购主阵地</td></tr><tr><td>会员旗舰版</td><td>✅ 已签</td><td>团购会员卡+潜客营销+储值</td><td>锁客复购，对抗瑞幸APP的核心武器</td></tr><tr><td>收银POS</td><td>✅ 已签</td><td>收银+数据看板+报表</td><td>经营数据实时可见，辅助决策</td></tr></table><h3>小程序·让每一杯咖啡都留下数据</h3><ul><li><strong>开业前配置（3件事必做）</strong><br>① <strong>菜单上线</strong>（🔧 小程序后台→菜品管理→批量导入）：按引流款/主力款/利润款分类上架，每个产品配高清图+15字卖点描述<br>② <strong>新客立减</strong>（🔧 小程序后台→营销中心→新客券）：设置「首单立减5元」券，自动弹窗发放<br>③ <strong>桌台码生成</strong>（🔧 小程序后台→门店设置→桌台管理→生成二维码）：每张桌子贴码，扫码直接进小程序点单</li><li><strong>日常运营</strong><br>① 每周查看「用户分析」（🔧 小程序后台→数据中心→用户分析），关注新客/回头客占比<br>② 每月设置1次「满减活动」（🔧 营销中心→满减→满30减3），拉动客单价<br>③ 外卖时段（10:00-14:00、15:00-17:00）重点关注订单响应速度，接单后5分钟内出杯</li></ul><h3>会员旗舰版·六大独有功能实战部署</h3><ul><li><strong>功能1：团购会员卡</strong>（详见私域章节）——把大众点评/美团团购来的新客直接转化为会员</li><li><strong>功能2：潜客营销</strong>——7天未到店自动触达，唤醒率≥15%</li><li><strong>功能3：会员等级</strong>（🔧 会员后台→等级管理）<br>设3级：银卡（注册即得，9.5折）→ 金卡（消费满500元，9折+生日免费1杯）→ 黑卡（消费满2000元，8.8折+每月1杯免费+新品优先试）<br>升级通知话术：「恭喜！您已升级为Wish金卡会员，生日当天到店享免费1杯☕」</li><li><strong>功能4：积分商城</strong>（🔧 会员后台→积分管理）<br>消费1元=1积分，100积分兑5元券，500积分兑免费饮品1杯<br>让每一杯消费都有「攒积分」的获得感</li><li><strong>功能5：生日营销</strong>——生日当月自动推送免费1杯券，到店核销率约30%（⚠️ 行业参考值）</li><li><strong>功能6：标签管理</strong>——给用户打标签（早鸟族/下午茶族/轻食党/储值VIP），精准推送不同内容</li></ul><h3>收银POS·数据驾驶舱</h3><ul><li><strong>每日必看</strong>（🔧 收银POS→首页→今日概览）：营业额、出杯量、客单价、时段分布</li><li><strong>每周必看</strong>（🔧 收银POS→报表中心→周报）：热销TOP10产品、滞销品、时段客流分布</li><li><strong>决策参考</strong>：滞销品连续2周排名末3 → 考虑下架或改配方；某时段客流持续偏低 → 针对性做限时优惠</li></ul></div>
+<div id="modal-content-9" style="display:none"><h3>投入预算估算</h3><table><tr><th>投入项</th><th>金额</th><th>说明</th></tr><tr><td>开业引流（买一送一3天）</td><td>约¥1,500</td><td>100杯/天×3天×边际成本5元</td></tr><tr><td>抖音团购引流券</td><td>约¥1,200</td><td>200份×(9.9-补贴成本)，平台分佣另计</td></tr><tr><td>小红书/抖音探店</td><td>约¥1,500-2,500</td><td>3-5个本地博主×300-500元/条（⚠️ 假设值）</td></tr><tr><td>免费试（点评合规引流）</td><td>约¥640/月</td><td>20份/周×4周×8元/份</td></tr><tr><td>社群运营物料</td><td>约¥200/月</td><td>台卡打印+抽奖奖品</td></tr><tr><td>拍照打卡点搭建</td><td>约¥100</td><td>绿植+装饰+灯光（一次性）</td></tr><tr><td><strong>首月总投入</strong></td><td><strong>约¥5,140-6,140</strong></td><td>（⚠️ 均为估算，建议核实本地实际报价）</td></tr></table><h3>预期收益（基于合理假设）</h3><p><strong>⚠️ 以下数据基于行业参考值+商圈判断，实际以开业后数据为准</strong></p><table><tr><th>指标</th><th>开业首月</th><th>第2-3个月</th><th>第4-6个月</th></tr><tr><td>日均出杯量</td><td>60杯（⚠️ 假设）</td><td>80杯</td><td>100杯</td></tr><tr><td>客单价</td><td>¥18（⚠️ 假设）</td><td>¥20</td><td>¥22</td></tr><tr><td>月营收</td><td>约¥32,400</td><td>约¥48,000</td><td>约¥66,000</td></tr><tr><td>毛利率</td><td>约60%</td><td>约62%</td><td>约65%</td></tr><tr><td>月毛利</td><td>约¥19,440</td><td>约¥29,760</td><td>约¥42,900</td></tr></table><p><strong>增收来源拆解（第3个月起稳定态）</strong></p><ul><li><strong>早鸟套餐</strong>：日均15份×12.9元×30天=¥5,805/月（新增量，瑞幸/库迪没有的场景）</li><li><strong>会员月卡复购拉动</strong>：30张月卡×月均消费120元=¥3,600/月（锁定消费）</li><li><strong>私域暗号日（周三半价第二杯）</strong>：20人/周×4周×9元=¥720/月（淡场激活）</li><li><strong>团购核销到店转化</strong>：日均10人×客单价20元×30天=¥6,000/月（公域引流）</li></ul><h3>投资回报周期</h3><p>首月营销投入约¥5,000-6,000，首月毛利约¥19,440 → <strong>首月即可覆盖营销成本</strong>（⚠️ 未含房租/人力等固定成本，需根据实际情况计算净利）。按行业参考净利率10-20%估算，月净利约¥3,200-6,400（首月）→ ¥6,600-13,200（第4-6个月）。</p><h3>OKR目标（量化考核）</h3><table><tr><th>维度</th><th>30天目标</th><th>90天目标</th><th>180天目标</th></tr><tr><td>月营收</td><td>≥¥30,000</td><td>≥¥48,000</td><td>≥¥66,000</td></tr><tr><td>日均出杯</td><td>≥60杯</td><td>≥80杯</td><td>≥100杯</td></tr><tr><td>大众点评评分</td><td>出星≥4.0</td><td>稳定≥4.3</td><td>≥4.5（冲新店榜）</td></tr><tr><td>点评评价数</td><td>≥30条</td><td>≥80条</td><td>≥150条</td></tr><tr><td>小程序用户</td><td>≥200人</td><td>≥600人</td><td>≥1200人</td></tr><tr><td>企微私域</td><td>≥150人</td><td>≥350人</td><td>≥500人</td></tr><tr><td>会员月卡</td><td>≥30张</td><td>≥80张（累计）</td><td>≥150张（累计）</td></tr><tr><td>储值会员</td><td>不推</td><td>≥50人</td><td>≥120人</td></tr><tr><td>团购核销率</td><td>≥60%</td><td>≥70%</td><td>≥75%</td></tr></table><h3>30天复盘节点</h3><p><strong>第7天</strong>：检查点评评价数（≥15条？）、小程序用户数（≥80人？）、企微好友（≥50人？）→ 不达标立即调整引流力度。</p><p><strong>第15天</strong>：检查日均出杯趋势是否稳定在50+、早鸟套餐是否达到日均10份以上 → 不达标加大抖音投放或调整套餐价格。</p><p><strong>第30天</strong>：全面复盘所有OKR → 出星没？月营收达标没？ → 输出下月调整计划。</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>邱振伟</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>深圳咖啡大盘：1177亿赛道里找到你的缝隙</h3><p>2024年全国咖饮市场规模达<strong>1,177亿元</strong>（同比+15.4%），门店数突破<strong>25.5万家</strong>。深圳作为一线城市，咖啡消费频次全国领先，但赛道已极度内卷——<strong>主流价格带被压至8-15元</strong>（库迪/幸运咖长期9.9，瑞幸稳在9.9-13.9），独立品牌在价格战正面交锋中几乎没有胜算。</p><h3>上沙商圈特征</h3><p>上沙属于<strong>城中村+密集居住区</strong>，周边覆盖上沙、下沙社区及沙嘴片区。人群结构：<strong>白领与租住年轻人混合</strong>，消费力中等偏实惠。城中村租金虽低（⚠️ 假设月租约6000-10000元，建议核实），但客单也低，周边人群对价格极敏感。</p><p><strong>核心机会</strong>：上沙大量年轻租客有早起通勤咖啡刚需，但瑞幸/库迪的门店体验感差（纯自提/等位），独立咖啡店可以<strong>用空间体验+鲜食组合切入</strong>，做「社区咖啡第三空间」，避开纯价格战。</p><h3>客群画像</h3><ul><li><strong>主力客群（60%）</strong>：上沙/下沙租住年轻白领（22-32岁），早八通勤+午后续命是刚需场景，价格敏感但愿为「好喝+坐得下」多付3-5元</li><li><strong>次要客群（25%）</strong>：周边创业者/自由职业者，需要长时间驻留的「办公第三空间」，客单价较高（咖啡+轻食约25-35元）</li><li><strong>潜力客群（15%）</strong>：周末拍照打卡人群，小红书「城中村宝藏咖啡馆」内容有天然传播力</li></ul>`,
+    2: `<h3>上沙1公里竞争格局（真实竞品逐一拆解）</h3><table><tr><th>竞品</th><th>人均</th><th>核心优势</th><th>核心弱点</th><th>Wish Coffee切入机会</th></tr><tr><td><strong>瑞幸</strong>（沙嘴/上沙周边多店）</td><td>¥12-16</td><td>品牌认知强、APP复购闭环、出杯效率高</td><td>门店体验感差、纯自提无座位、产品同质化</td><td>「坐下来喝一杯」的空间价值是瑞幸给不了的</td></tr><tr><td><strong>库迪</strong>（福田多点布局）</td><td>¥9.9</td><td>极致低价引流、覆盖密度高</td><td>品质口碑一般、复购靠补贴不靠味道、无社交场景</td><td>产品力碾压（精品豆vs工业拼配），做口碑传播</td></tr><tr><td><strong>幸运咖</strong>（蜜雪系）</td><td>¥6-10</td><td>下沉价格带直接卡死低端</td><td>品质定位最低、目标客群与精品咖啡不重叠</td><td>不是直接竞争对手，但会分流价格极敏感用户</td></tr><tr><td><strong>周边独立小店</strong>（⚠️ 假设2-3家）</td><td>¥15-25</td><td>氛围感、拍照出片</td><td>产品力参差、无数字化会员、复购全靠缘分</td><td>用SaaS会员体系+小程序复购建立系统性优势</td></tr></table><h3>Wish Coffee的差异化定位</h3><p>在瑞幸/库迪已经把价格锚点压到10元以下的战场里，Wish Coffee<strong>绝不能打价格战</strong>——没有供应链规模优势，9.9元必死。正确定位：</p><ul><li><strong>价格带</strong>：基础美式/拿铁定价12-16元（比瑞幸略低或持平，用品质感支撑）；特调/果咖定价18-25元（拉客单价的利润品）</li><li><strong>一句话定位</strong>：「上沙年轻人的第三空间——好咖啡+坐得下+吃得到」</li><li><strong>核心差异</strong>：①有座位有空间（瑞幸/库迪没有）②有鲜食轻食（帕尼尼/贝果/三明治，竞品真空地带）③有温度有社区感（店员叫得出常客名字）</li></ul><p><strong>⚠️ 关键判断</strong>：上沙城中村场景下，Wish Coffee的人均应控制在<strong>15-22元</strong>（⚠️ 假设值，建议核实菜单定价）。低于15元没利润，高于25元城中村客群接受度骤降。</p>`,
+    3: `<h3>开业前15天：蓄水期（现在就要开始干）</h3><p><strong>目标</strong>：开业当天朋友圈已有100+人知道「上沙开了一家叫Wish Coffee的店」</p><ul><li><strong>Day -15至-10｜小红书+抖音内容爆破</strong><br>① <strong>谁来做</strong>：老板本人+1名员工拍摄，或找3-5个深圳本地探店号（粉丝1-5万，成本200-500元/条）<br>② <strong>怎么做</strong>：拍「上沙城中村里藏了一家咖啡馆」主题短视频/图文，突出城中村反差感（巷子里推开门是精致咖啡馆），标题带「深圳福田上沙」「城中村咖啡」关键词<br>③ <strong>预算</strong>：探店号3-5条=600-2500元（⚠️ 假设值，建议核实本地探店号报价）<br>④ <strong>量化目标</strong>：开业前小红书笔记≥5篇、抖音视频≥3条、总曝光≥1万次</li><li><strong>Day -10至-3｜抖音团购上线</strong><br>① <strong>谁来做</strong>：老板在抖音来客后台操作<br>② <strong>怎么做</strong>：上架「9.9元新店尝鲜·美式/拿铁任选」引流券（限量200份），同步上架「双人下午茶套餐29.9元」（含2杯饮品+1份甜品，原价约50元）<br>③ <strong>话术参考</strong>：「上沙新开的Wish Coffee，9块9喝一杯精品美式，城中村里也能有好咖啡」<br>④ <strong>预估ROI</strong>：9.9元券成本约5-6元/杯（咖啡边际成本低），200份引流成本约1000-1200元，目标转化到店≥120人</li><li><strong>Day -3至-1｜企微私域搭建</strong><br>① <strong>谁来做</strong>：老板注册企业微信，设置自动欢迎语<br>② <strong>怎么做</strong>：制作「加微信领开业福利」台卡（🔧 小程序后台→门店设置→桌台码生成，打印放吧台）；企微自动回复设置为「Hi，我是Wish Coffee☕ 开业期间加好友领5元无门槛券，每周三还有半价第二杯哦！」<br>③ <strong>目标</strong>：开业首周加微信≥50人</li></ul><h3>开业Day 1-7：爆发期</h3><ul><li><strong>Day 1-3｜开业引爆</strong><br>① 全场饮品<strong>买一送一</strong>（限前100杯/天，成本可控），用流量换口碑<br>② 每位到店客户引导加企微（话术：「加好友下次来直接报暗号打9折」）<br>③ 到店客户引导小程序下单（🔧 美团小程序→扫桌台码→首单立减3元），沉淀为小程序用户<br>④ <strong>目标</strong>：日出杯≥80杯，小程序新用户≥30人/天</li><li><strong>Day 4-7｜口碑沉淀</strong><br>① 停止买一送一，切换为「小程序首单立减5元」（🔧 小程序后台→营销中心→新客优惠券）<br>② 鼓励客户大众点评写真实评价（<strong>严禁直接促评/邀评</strong>），用「免费试」合规工具（详见点评章节）<br>③ <strong>目标</strong>：7天内大众点评积累≥15条真实评价</li></ul><h3>Day 8-30：稳定期</h3><ul><li>每周三企微推送「私域专属·第二杯半价」（🔧 企业微信→群发助手→选择标签「Wish会员」），拉动周中淡场</li><li>每周上新1款特调（社交媒体同步发布），保持话题热度</li><li>月底复盘：统计日均出杯量、小程序用户数、企微好友数、点评评价数，调整下月策略</li><li><strong>30天目标</strong>：日均出杯≥60杯、小程序累计用户≥200人、企微好友≥150人、点评评价≥30条</li></ul>`,
+    4: `<h3>当前阶段判断：新店冷启动期</h3><p>Wish Coffee尚未开业，大众点评评分/评价数均为零。新店出星需要一定数量的真实评价积累（通常≥15条有内容的评价才会显示星级）。<strong>前10条评价的质量决定了后续所有顾客的第一印象</strong>——这是最关键的窗口期。</p><h3>⛔ 止血：这些事绝对不能做</h3><ul><li><strong>严禁好评返现/返券</strong>：2025年10月后，高强度促评=新评价不产生星级收益，平台识别精准度极高</li><li><strong>严禁刷评/代写</strong>：AIGC评价/批量好评会被系统标记，严重的直接降权</li><li><strong>严禁「给好评送XX」</strong>：任何形式的直接利益交换都属于违规促评</li></ul><h3>✅ 合规工具：用「免费试」+「分享动机」攒真实好评</h3><p><strong>工具一：大众点评「免费试」</strong></p><ul><li><strong>谁来做</strong>：老板/店长，在大众点评商家后台操作</li><li><strong>第几天做</strong>：开业前1天设置，开业当天生效</li><li><strong>在哪操作</strong>：🔧 大众点评商家后台→营销中心→免费试→创建活动</li><li><strong>怎么设</strong>：上架「招牌特调免费试」（选店内最出片的1款特调），设置20个名额/周，体验者到店免费品尝并自愿写真实评价（平台规则：免费试评价标记为「免费试用」，不强制好评）</li><li><strong>预算</strong>：特调成本约5-8元/杯，20份/周=100-160元/周（⚠️ 假设值）</li><li><strong>预期效果</strong>：每周新增8-12条真实评价（免费试到评率约40-60%），30天累计≥30条</li></ul><p><strong>工具二：打造「分享动机」而非「利诱好评」</strong></p><ul><li><strong>出片设计</strong>：吧台/角落设置1个拍照打卡点（成本约50-100元，城中村窗景+咖啡杯+绿植），让客户自发拍照发朋友圈/小红书</li><li><strong>杯身设计</strong>：外带杯印「Wish Coffee · 上沙」+一句有态度的话（如「城中村也有好咖啡」），激发拍照分享欲</li><li><strong>话术引导</strong>（服务员出杯时说）：「这杯是我们的招牌XX，如果喜欢的话欢迎在点评上分享给更多人，好坏都行~」——<strong>注意：只说「分享」不说「好评」，不给任何利益承诺</strong></li></ul><h3>出星路径规划</h3><table><tr><th>阶段</th><th>时间</th><th>目标</th><th>关键动作</th></tr><tr><td>冷启动</td><td>开业1-30天</td><td>攒够30条真实评价、出星≥4.0</td><td>免费试20份/周+出片设计+服务员话术引导</td></tr><tr><td>成长期</td><td>31-90天</td><td>评价累计80+、评分稳定≥4.3</td><td>持续免费试+差评2小时内回复+菜品优化</td></tr><tr><td>冲榜期</td><td>91-180天</td><td>冲新店榜/热门榜前10</td><td>报名平台活动+小红书持续内容+优化关键词</td></tr></table><p><strong>差评应急预案</strong>：收到差评后<strong>2小时内回复</strong>（🔧 大众点评商家后台→评价管理→回复），回复模板：「非常感谢您的反馈！[具体问题]我们已经在改进，下次来店里请找我，请您再给我们一次机会☕」——态度真诚+针对性回应+邀请复访。</p>`,
+    5: `<h3>平台一：大众点评——新店基建必做</h3><p><strong>为什么必须做</strong>：上沙周边年轻人找店喝咖啡，第一反应是打开大众点评看评分。新店没评分=不存在。</p><ul><li><strong>门店信息完善</strong>（开业前3天完成）<br>① <strong>谁来做</strong>：老板本人<br>② <strong>在哪操作</strong>：🔧 大众点评商家后台→门店管理→基础信息<br>③ <strong>必填项</strong>：门店照片≥9张（门头1+吧台1+座位区2+产品4+菜单1）、营业时间、人均价格、推荐菜≥3个、WiFi/充电/宠物友好等标签全部勾选<br>④ <strong>不配合怎么办</strong>：这一步不涉及客人，老板自己操作即可</li><li><strong>团购套餐上架</strong>（开业前1天）<br>① <strong>在哪操作</strong>：🔧 大众点评商家后台→团购→创建团购<br>② <strong>套餐设计</strong>：引流款「9.9元美式/拿铁」（限量，日均20份）+ 利润款「双人下午茶套餐39.9元」（2杯饮品+1份甜品，原价约55元）<br>③ <strong>定价逻辑</strong>：引流款亏本但引流到店（边际成本仅5-6元），利润款毛利率≥50%<br>④ <strong>预期效果</strong>：团购核销带来日均新客≥10人（⚠️ 假设值）</li></ul><h3>平台二：小红书——城中村咖啡天然传播场</h3><p><strong>为什么必须做</strong>：深圳小红书用户对「城中村宝藏小店」有天然传播欲，这是Wish Coffee最大的免费流量杠杆。</p><ul><li><strong>内容策略</strong>（开业前15天启动）<br>① <strong>谁来做</strong>：老板/员工自拍+找3-5个本地探店博主<br>② <strong>内容方向</strong>：「在上沙城中村里开了一家咖啡馆」系列——装修过程vlog、开业倒计时、菜单揭秘、第一杯咖啡<br>③ <strong>关键词标签</strong>：#深圳咖啡 #福田咖啡 #上沙美食 #城中村咖啡 #深圳探店<br>④ <strong>发布频率</strong>：开业前每3天1篇，开业后每周2篇<br>⑤ <strong>探店博主选择</strong>：粉丝1-5万的本地博主（性价比最高），200-500元/条（⚠️ 假设值）<br>⑥ <strong>目标</strong>：开业首月小红书曝光≥5万次</li></ul><h3>平台三：抖音——团购券引爆首周</h3><ul><li><strong>团购券设计</strong><br>① <strong>在哪操作</strong>：抖音来客后台→团购→创建商品<br>② <strong>引流品</strong>：9.9元精品美式（限量200份），标题「上沙城中村｜9.9喝精品咖啡」<br>③ <strong>利润品</strong>：29.9元双人套餐（2杯+1份轻食）<br>④ <strong>核销提醒</strong>：到店核销时引导加企微（话术：「加微信下次来报暗号打9折」）<br>⑤ <strong>预期效果</strong>：200份引流券到店转化≥120人，其中≥40人加企微（⚠️ 假设值）</li></ul><h3>三平台联动逻辑</h3><p><strong>抖音引首次到店</strong>（9.9元冲动消费）→ <strong>到店体验后引导加企微</strong>（沉淀私域）→ <strong>小红书自发传播</strong>（出片打卡）→ <strong>大众点评口碑沉淀</strong>（评分提升吸引自然流量）→ 形成「公域引流→私域锁客→口碑裂变」的正循环。</p>`,
+    6: `<h3>为什么Wish Coffee必须做私域？</h3><p>城中村咖啡店的命脉不是路过的游客，是<strong>住在附近、天天要喝咖啡的人</strong>。咖啡成瘾性高、复购频次高（核心用户3-5次/周），但如果没有私域锁定，这些人随时会被隔壁新开的瑞幸/库迪截走。<strong>私域的本质=让客户下次喝咖啡时第一个想到你</strong>。</p><h3>第一层：会员旗舰版（已签约✅）——系统化管理复购</h3><p>Wish Coffee已签约<strong>会员旗舰版</strong>（4,888元/年），这是独立咖啡店对抗连锁品牌的核武器。</p><ul><li><strong>团购会员卡</strong>（拉新神器）<br>① <strong>谁来做</strong>：老板在会员后台设置<br>② <strong>在哪操作</strong>：🔧 会员旗舰版后台→团购会员卡→创建<br>③ <strong>设计方案</strong>：「Wish月卡」售价49元/月，权益=每天1杯指定饮品半价（美式/拿铁）+每月2张5元无门槛券<br>④ <strong>定价逻辑</strong>：半价美式约6-8元/杯，月卡用户月均消费15-20杯=90-160元，月卡49元覆盖让利成本绰绰有余<br>⑤ <strong>预期效果</strong>：首月售出≥30张月卡（⚠️ 假设值），月卡用户复购频次提升至3-4次/周</li><li><strong>潜客营销</strong>（唤醒沉睡用户）<br>① <strong>在哪操作</strong>：🔧 会员旗舰版后台→潜客营销→设置触达规则<br>② <strong>规则</strong>：7天未到店→自动推送「好久不见，送你一杯美式」优惠券<br>③ <strong>预期效果</strong>：沉睡用户唤醒率≥15%（⚠️ 行业参考值）</li></ul><h3>第二层：储值——适度推，不强推</h3><p><strong>⚠️ 第一性原理判断</strong>：Wish Coffee是新店，客户信任度尚未建立，<strong>开业首月不推储值</strong>。先用月卡+会员积分培养消费习惯，等复购客群稳定后（开业60天后）再推储值。</p><ul><li><strong>开业60天后上线储值方案</strong><br>① <strong>储值档位设计</strong>：<br>- 体验档：充100送15（约7次消费，门槛低）<br>- 主推档：充300送60（约20次消费，锁定1个月）<br>- 尊享档：充500送120（约35次消费，锁定2个月）<br>② <strong>在哪操作</strong>：🔧 会员旗舰版后台→智能储值→创建储值活动<br>③ <strong>话术</strong>（收银员出杯时说）：「您是我们的老朋友了，充300送60，算下来每杯不到12块，比瑞幸还划算」<br>④ <strong>客人犹豫怎么办</strong>：「没关系，先充100试试，送15元，下次来直接扫码就行」<br>⑤ <strong>预期效果</strong>：开业90天内储值会员≥50人，月储值入账≥8000元（⚠️ 假设值）</li></ul><h3>第三层：企微社群——社区咖啡店的复购发动机</h3><ul><li><strong>建群时机</strong>：开业Day 1开始拉群<br>① <strong>群名</strong>：「Wish Coffee·上沙咖啡暗号群」<br>② <strong>入群钩子</strong>：「加群立享：①每周三第二杯半价 ②新品优先试喝 ③生日当天免费1杯」<br>③ <strong>每周三固定推送</strong>（🔧 企业微信→群发助手→定时发送）：「今天周三☕ Wish暗号日！到店报暗号『Wish Wednesday』第二杯半价，限今天哦」<br>④ <strong>群运营节奏</strong>：周一新品预告→周三暗号日→周五周末特饮推荐→不定期抽奖<br>⑤ <strong>目标</strong>：3个月内沉淀≥300人社群，周三暗号日到店≥20人</li></ul><h3>公私域联动闭环</h3><p><strong>公域（抖音/小红书/点评）引来的每一个新客</strong> → 到店后引导加企微进群 → 群内培养消费习惯（月卡+暗号日） → 60天后引导储值 → 储值用户成为高频复购铁粉 → 铁粉自发在小红书/朋友圈推荐 → 带来更多新客。<strong>这个飞轮一旦转起来，独立咖啡店就不再依赖平台流量，真正活下来。</strong></p>`,
+    7: `<h3>菜单定价原则：三档定价法</h3><p>上沙城中村场景下，Wish Coffee的菜单必须精准卡位——<strong>比瑞幸贵一点但贵得有道理，比精品咖啡馆便宜但不掉格调</strong>。</p><table><tr><th>档位</th><th>品类</th><th>定价</th><th>毛利率</th><th>战略角色</th></tr><tr><td>引流款</td><td>美式/冰美式</td><td>¥12-14</td><td>约65-70%</td><td>与瑞幸正面PK的「最低门槛」，用品质感赢</td></tr><tr><td>主力款</td><td>拿铁/燕麦拿铁/生椰拿铁</td><td>¥16-20</td><td>约60-65%</td><td>贡献主营收，月销占比目标≥50%</td></tr><tr><td>利润款</td><td>创意特调/果咖/气泡咖啡</td><td>¥22-28</td><td>约55-65%</td><td>拉高客单价+做小红书出片内容</td></tr></table><h3>爆品策略：找到Wish Coffee的「记忆锚点」</h3><p><strong>核心逻辑</strong>：品牌记忆靠重复一个点。Wish Coffee需要一款「提起上沙咖啡就想到它」的招牌产品。</p><ul><li><strong>建议爆品方向</strong>：「Wish特调·生椰XX」系列（⚠️ 具体口味需老板确认）<br>① <strong>为什么选生椰</strong>：深圳天热，生椰系列全年热销（不像热饮有季节性），成本可控（椰浆约2-3元/杯），且年轻客群接受度最高<br>② <strong>定价</strong>：¥22/杯（对标瑞幸生椰拿铁16元，但用鲜椰浆+手冲工艺做出差异化，价格差6元靠品质感支撑）<br>③ <strong>出片设计</strong>：透明杯+分层效果+椰子片装饰，自带小红书传播力<br>④ <strong>话术</strong>（服务员推荐时）：「我们的生椰用的是鲜椰浆，不是椰浆粉，喝起来完全不一样，推荐您试试」<br>⑤ <strong>客人嫌贵怎么办</strong>：「第一次试可以点小杯16元的，好喝下次再升大杯」</li></ul><h3>轻食——瑞幸/库迪的真空地带</h3><p><strong>为什么必须做轻食</strong>：上沙年轻租客的早餐场景是Wish Coffee最大的增量市场。瑞幸/库迪/幸运咖<strong>全部没有鲜食</strong>，这是独立咖啡店的独家武器。</p><ul><li><strong>早鸟套餐</strong>（7:00-9:30限时）<br>① <strong>组合</strong>：咖啡+帕尼尼/贝果=12.9元（原价分开买约20-22元）<br>② <strong>成本</strong>：咖啡约4元+帕尼尼约3-4元=7-8元，毛利率约38-40%<br>③ <strong>在哪操作</strong>：🔧 小程序后台→营销中心→限时套餐→设定7:00-9:30时段<br>④ <strong>目标</strong>：早鸟套餐日均售出≥15份（⚠️ 假设值），拉动早间时段出杯量</li><li><strong>下午茶套餐</strong>（14:00-17:00限时）<br>① <strong>组合</strong>：任意饮品+蛋糕/曲奇=19.9元<br>② <strong>战略目的</strong>：填补午后淡场，吸引自由职业者长时间驻留（高客单价+翻台不敏感）</li></ul><h3>季节限定策略（7-9月暑期档）</h3><ul><li><strong>7月｜「冰感特调」系列</strong>：冰博克美式、杨枝甘露咖啡、西瓜气泡咖啡（深圳盛夏37°C+，冰品刚需）</li><li><strong>8月｜七夕限定</strong>：「Wish for Two」双人特调套餐（粉色系拿铁+蓝色系气泡咖啡），社交媒体传播力强</li><li><strong>9月｜秋日限定</strong>：桂花拿铁、栗子拿铁（换季感+秋天仪式感），搭配南瓜/栗子轻食</li></ul>`,
+    8: `<h3>已签约模块盘点（3个核心武器）</h3><table><tr><th>模块</th><th>状态</th><th>核心用法</th><th>对Wish Coffee的价值</th></tr><tr><td>小程序</td><td>✅ 已签</td><td>线上点单+外卖+营销</td><td>沉淀用户数据，线上复购主阵地</td></tr><tr><td>会员旗舰版</td><td>✅ 已签</td><td>团购会员卡+潜客营销+储值</td><td>锁客复购，对抗瑞幸APP的核心武器</td></tr><tr><td>收银POS</td><td>✅ 已签</td><td>收银+数据看板+报表</td><td>经营数据实时可见，辅助决策</td></tr></table><h3>小程序·让每一杯咖啡都留下数据</h3><ul><li><strong>开业前配置（3件事必做）</strong><br>① <strong>菜单上线</strong>（🔧 小程序后台→菜品管理→批量导入）：按引流款/主力款/利润款分类上架，每个产品配高清图+15字卖点描述<br>② <strong>新客立减</strong>（🔧 小程序后台→营销中心→新客券）：设置「首单立减5元」券，自动弹窗发放<br>③ <strong>桌台码生成</strong>（🔧 小程序后台→门店设置→桌台管理→生成二维码）：每张桌子贴码，扫码直接进小程序点单</li><li><strong>日常运营</strong><br>① 每周查看「用户分析」（🔧 小程序后台→数据中心→用户分析），关注新客/回头客占比<br>② 每月设置1次「满减活动」（🔧 营销中心→满减→满30减3），拉动客单价<br>③ 外卖时段（10:00-14:00、15:00-17:00）重点关注订单响应速度，接单后5分钟内出杯</li></ul><h3>会员旗舰版·六大独有功能实战部署</h3><ul><li><strong>功能1：团购会员卡</strong>（详见私域章节）——把大众点评/美团团购来的新客直接转化为会员</li><li><strong>功能2：潜客营销</strong>——7天未到店自动触达，唤醒率≥15%</li><li><strong>功能3：会员等级</strong>（🔧 会员后台→等级管理）<br>设3级：银卡（注册即得，9.5折）→ 金卡（消费满500元，9折+生日免费1杯）→ 黑卡（消费满2000元，8.8折+每月1杯免费+新品优先试）<br>升级通知话术：「恭喜！您已升级为Wish金卡会员，生日当天到店享免费1杯☕」</li><li><strong>功能4：积分商城</strong>（🔧 会员后台→积分管理）<br>消费1元=1积分，100积分兑5元券，500积分兑免费饮品1杯<br>让每一杯消费都有「攒积分」的获得感</li><li><strong>功能5：生日营销</strong>——生日当月自动推送免费1杯券，到店核销率约30%（⚠️ 行业参考值）</li><li><strong>功能6：标签管理</strong>——给用户打标签（早鸟族/下午茶族/轻食党/储值VIP），精准推送不同内容</li></ul><h3>收银POS·数据驾驶舱</h3><ul><li><strong>每日必看</strong>（🔧 收银POS→首页→今日概览）：营业额、出杯量、客单价、时段分布</li><li><strong>每周必看</strong>（🔧 收银POS→报表中心→周报）：热销TOP10产品、滞销品、时段客流分布</li><li><strong>决策参考</strong>：滞销品连续2周排名末3 → 考虑下架或改配方；某时段客流持续偏低 → 针对性做限时优惠</li></ul>`,
+    9: `<h3>投入预算估算</h3><table><tr><th>投入项</th><th>金额</th><th>说明</th></tr><tr><td>开业引流（买一送一3天）</td><td>约¥1,500</td><td>100杯/天×3天×边际成本5元</td></tr><tr><td>抖音团购引流券</td><td>约¥1,200</td><td>200份×(9.9-补贴成本)，平台分佣另计</td></tr><tr><td>小红书/抖音探店</td><td>约¥1,500-2,500</td><td>3-5个本地博主×300-500元/条（⚠️ 假设值）</td></tr><tr><td>免费试（点评合规引流）</td><td>约¥640/月</td><td>20份/周×4周×8元/份</td></tr><tr><td>社群运营物料</td><td>约¥200/月</td><td>台卡打印+抽奖奖品</td></tr><tr><td>拍照打卡点搭建</td><td>约¥100</td><td>绿植+装饰+灯光（一次性）</td></tr><tr><td><strong>首月总投入</strong></td><td><strong>约¥5,140-6,140</strong></td><td>（⚠️ 均为估算，建议核实本地实际报价）</td></tr></table><h3>预期收益（基于合理假设）</h3><p><strong>⚠️ 以下数据基于行业参考值+商圈判断，实际以开业后数据为准</strong></p><table><tr><th>指标</th><th>开业首月</th><th>第2-3个月</th><th>第4-6个月</th></tr><tr><td>日均出杯量</td><td>60杯（⚠️ 假设）</td><td>80杯</td><td>100杯</td></tr><tr><td>客单价</td><td>¥18（⚠️ 假设）</td><td>¥20</td><td>¥22</td></tr><tr><td>月营收</td><td>约¥32,400</td><td>约¥48,000</td><td>约¥66,000</td></tr><tr><td>毛利率</td><td>约60%</td><td>约62%</td><td>约65%</td></tr><tr><td>月毛利</td><td>约¥19,440</td><td>约¥29,760</td><td>约¥42,900</td></tr></table><p><strong>增收来源拆解（第3个月起稳定态）</strong></p><ul><li><strong>早鸟套餐</strong>：日均15份×12.9元×30天=¥5,805/月（新增量，瑞幸/库迪没有的场景）</li><li><strong>会员月卡复购拉动</strong>：30张月卡×月均消费120元=¥3,600/月（锁定消费）</li><li><strong>私域暗号日（周三半价第二杯）</strong>：20人/周×4周×9元=¥720/月（淡场激活）</li><li><strong>团购核销到店转化</strong>：日均10人×客单价20元×30天=¥6,000/月（公域引流）</li></ul><h3>投资回报周期</h3><p>首月营销投入约¥5,000-6,000，首月毛利约¥19,440 → <strong>首月即可覆盖营销成本</strong>（⚠️ 未含房租/人力等固定成本，需根据实际情况计算净利）。按行业参考净利率10-20%估算，月净利约¥3,200-6,400（首月）→ ¥6,600-13,200（第4-6个月）。</p><h3>OKR目标（量化考核）</h3><table><tr><th>维度</th><th>30天目标</th><th>90天目标</th><th>180天目标</th></tr><tr><td>月营收</td><td>≥¥30,000</td><td>≥¥48,000</td><td>≥¥66,000</td></tr><tr><td>日均出杯</td><td>≥60杯</td><td>≥80杯</td><td>≥100杯</td></tr><tr><td>大众点评评分</td><td>出星≥4.0</td><td>稳定≥4.3</td><td>≥4.5（冲新店榜）</td></tr><tr><td>点评评价数</td><td>≥30条</td><td>≥80条</td><td>≥150条</td></tr><tr><td>小程序用户</td><td>≥200人</td><td>≥600人</td><td>≥1200人</td></tr><tr><td>企微私域</td><td>≥150人</td><td>≥350人</td><td>≥500人</td></tr><tr><td>会员月卡</td><td>≥30张</td><td>≥80张（累计）</td><td>≥150张（累计）</td></tr><tr><td>储值会员</td><td>不推</td><td>≥50人</td><td>≥120人</td></tr><tr><td>团购核销率</td><td>≥60%</td><td>≥70%</td><td>≥75%</td></tr></table><h3>30天复盘节点</h3><p><strong>第7天</strong>：检查点评评价数（≥15条？）、小程序用户数（≥80人？）、企微好友（≥50人？）→ 不达标立即调整引流力度。</p><p><strong>第15天</strong>：检查日均出杯趋势是否稳定在50+、早鸟套餐是否达到日均10份以上 → 不达标加大抖音投放或调整套餐价格。</p><p><strong>第30天</strong>：全面复盘所有OKR → 出星没？月营收达标没？ → 输出下月调整计划。</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
