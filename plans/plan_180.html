@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>老成都串串香 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #8B0000;
+      --primary-light: #B22222;
+      --accent: #D4A574;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #8B000040;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">川菜/串串香 · 运营提升方案</div>
+  <h1 class="hero-title">老成都串串香</h1>
+  <p class="hero-subtitle">新店开业30天引爆口碑，用「看得见的干净」锁住社区老客</p>
+  <div class="hero-address">浙江省杭州市萧山区盈丰街道皓月路</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">≈¥88</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.6分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">盈丰街道</span>
+      <div class="hero-stat-label">所在商圈</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '品牌定位', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">品牌定位</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '系统方案', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">系统方案</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '开业冲刺（30天倒计时）', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">开业冲刺（30天倒计时）</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '公私域联动运营', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">公私域联动运营</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '点评口碑', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">点评口碑</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '投资回报与OKR', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">投资回报与OKR</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>串串香赛道：存量竞争，拼的是「差异化锅底+场景体验」</h3><p>2024年火锅/串串市场规模约<strong>6,200亿元</strong>，但人均消费从80元持续下行至<strong>70-77元</strong>（行业参考值）。串串香/冒菜在杭州已进入存量竞争阶段，冒椒火辣等品牌下沉至90-120元价格带。增长点在外摆经济与全时段经营，风险是外卖扣点高、锅底同质化的千篇一律牛油红锅。新店若不能在性价比或口味上建立认知，极易沦为“过客”。</p><p>（预估客单价88元，介于马路边边与李记之间，需国庆实地调研确认门店实际定价）</p><h3>新店开业30天等于「黄金口碑窗口」</h3><p>串串香的消费决策高度依赖大众点评，<strong>前30条评论决定了后续所有顾客的第一印象</strong>。新店开业前30天是口碑积累的黄金期，每一条差评的修复成本是好评积累成本的3倍以上。因此，本方案核心逻辑是：先定调，再冲量，后维护，用30天打好口碑地基。</p><h3>盈丰街道商圈特征</h3><p>盈丰街道以皓月路写字楼底商为主，周边有中高档住宅社区。核心客群是25-40岁白领，其次是社区家庭晚餐。竞争在于不缺更便宜的，也不缺更高档的，真正缺的是「价格适中+出餐效率高」的午间商务选择。老成都串串香的午市套餐如果能做到35-45元每人、15分钟内出餐，就能切走这部分需求。</p></div>
+<div id="modal-content-2" style="display:none"><h3>盈丰街道3公里内核心竞品逐一拆解</h3><table><tr><th>竞品名称</th><th>品类</th><th>预估人均</th><th>核心弱点</th><th>切入机会</th></tr><tr><td>马路边边麻辣烫</td><td>串串麻辣烫</td><td>约90元</td><td>楼中店、出品不稳定、旺季排队体验差</td><td>用「二楼铺位置更稳」+「手工现炒底料」打口味差异化</td></tr><tr><td>袁记水饺</td><td>快餐面食</td><td>约20-25元</td><td>品类客群不重合、晚餐场景弱</td><td>错位竞争：午市推串串+主食套餐约40元，覆盖其留不住的品质型午餐需求</td></tr><tr><td>自选市井火锅</td><td>火锅</td><td>约110-130元</td><td>客单高、翻台慢、无午市套餐</td><td>午市时段降维打击：串串香人均60-80元 vs 火锅人均110+，正好卡住中间价格带</td></tr></table><p>以上竞品信息和人均数据来自市场调研简报，实际价格需国庆到店核实。</p><h3>竞品共性弱点：底料同质化</h3><p>绝大多数串串香用统一配送的牛油红锅底，口味记忆点模糊。老成都串串香作为新店，如果能做到「锅底现炒」或「分时段熬制」，再配合「打包附手写感谢卡」的落地动作，在「鲜切竹签+手工锅底」上可以建立难以复制的视觉与味觉记忆。</p><h3>杭州串串香差异化打法建议</h3><ul><li><strong>错峰经营：</strong>午市推串串+主食套餐，下午2-5点做冒菜加饮料小食，和纯晚餐型火锅错峰</li><li><strong>烟火气场景化：</strong>锅底炒制、竹签串制过程录成短视频，每单打包附一张手写卡片，标签是「看得见的干净」</li><li><strong>首周「小店体验日」：</strong>进店递名片+试吃装，告诉沿途写字楼老板「我们新来的，你常来」，不用大众点评9折套路</li></ul></div>
+<div id="modal-content-3" style="display:none"><h3>核心定位：老成都的烟火气 + 盈丰邻里的吃饭据点</h3><p>串串香的本质不是「卖锅底」，而是「卖社交场景+踏实的消费体验」。老成都串串香的新店定位抓住两个关键词：<strong>「地道老成都味道」</strong> + <strong>「盈丰路社交聚餐点」</strong>。不做高端商场形象，走「好吃价不高、老板认识客」的社区邻里路线。</p><h3>三条差异化标签</h3><table><tr><th>标签</th><th>落地支撑</th><th>对应客群</th></tr><tr><td><strong>手工锅底气</strong></td><td>锅底当日用牛油+香料现场炒制（非配送料包），堂食客人路过后厨能看到</td><td>注重食材品质的30+家庭客群</td></tr><tr><td><strong>全时段用餐</strong></td><td>午市串串+主食套餐，下午2-5点冒菜+饮料小食，做写字楼错峰生意</td><td>周边写字楼白领</td></tr><tr><td><strong>看得见干净</strong></td><td>竹签当日鲜切、打包附手写卡片、后厨可视化（档口能看到操作）</td><td>有小孩的家庭/年轻妈妈客群</td></tr></table><p>标签落地需国庆与门店确认：后厨空间是否允许档口可视、是否有意愿每日现炒锅底。</p><h3>命名与记忆点建议</h3><p>店名「老成都串串香」有地域辨识度，但缺乏差异化记忆点。建议在门店招牌+物料上强化一个子招牌，例如：「<strong>老成都串串香 · 现炒锅底</strong>」或「老成都串串香 · 鲜切竹签」，把核心差异挂在门口，让路过的客人一眼知道「这家不一样在哪」。此项需与老板确认是否接受。</p></div>
+<div id="modal-content-4" style="display:none"><h3>已签约模块：扫码点餐 + 会员旗舰版</h3><p>老成都串串香已签约 <strong>扫码点餐</strong> 和 <strong>会员旗舰版</strong>，这是串串品类开业最核心的两个数字化工具。</p><h3>扫码点餐在串串香场景的核心价值</h3><table><tr><th>场景</th><th>痛点</th><th>使用扫码点餐后改善</th></tr><tr><td>午高峰</td><td>服务员3人仍忙不过来、客人等餐体验差</td><td>顾客直接扫码下单，后厨自动出单，人均服务员减1人</td></tr><tr><td>串串计数</td><td>服务员数签子效率慢、易漏数</td><td>顾客下单时自选串数，系统自动统计签数，收银零误差</td></tr><tr><td>加菜环节</td><td>串串翻台快、加菜响应时间决定翻台速度</td><td>桌角贴二维码，扫码即点，30秒下单</td></tr></table><p>国庆需在开业前确认：1) 已完成的扫码点餐是否已上线并测试通过；2) 桌台二维码张贴位置是否醒目；3) 店内网络是否稳定。</p><h3>会员旗舰版核心推荐配置</h3><ul><li><strong>会员卡等级：</strong>设置「青铜-白银-黄金」三档，消费1元=1积分，积分可兑换菜品或抵扣现金</li><li><strong>会员日优惠：</strong>每周一设为「会员日」，会员享全单8.8折，把闲时流量拉起来</li><li><strong>首充档位：</strong>设计「充300送30+赠冰粉」「充500送60+赠小菜」，目标开业首月储值转化率10%</li><li><strong>自动营销：</strong>顾客连续3天未到店，自动触发短信/push，送「想念券」一张召回</li><li><strong>会员卡展示：</strong>扫码点餐时卡片自动显示客人昵称和历史消费，拉近亲近感</li></ul></div>
+<div id="modal-content-5" style="display:none"><h3>开业前7天：三张生死清单</h3><p><strong>清单一：装修收尾+试吃</strong></p><p>1) 店长/老板负责，开业前7天：全屋清洁+排烟设备试运转，重点检查：排烟管道风速、电线负荷（串串锅具功率大，建议请电工确认）、消防通道（消防不过则会被查封）。</p><p>2) 开业前3天：员工试吃（全员吃遍菜单，熟悉每道菜的口味和推荐话术）；</p><p>3) 开业前2天：邀请周边5-10位街坊/商户代表免费试吃，预热种子用户，请他们大众点评写真实反馈；</p><p>4) 开业前1天：全场细节检查（桌椅稳定性、灯光明亮、空调制冷、桌面二维码是否可扫）。</p><p><strong>清单二：员工培训（每句话都练到位）</strong></p><p>1) 店长负责，开业前3天完成；每位服务员背熟3句核心话术：「您好，这是我们招牌的锅底，现炒的，您试试」「扫码点餐更快，我帮您扫一下」「吃好了帮我写两句话点评，下次来送您一份冰粉」。</p><p>2) 翻台SOP培训：客人起身，30秒内上前收桌，欢迎语迎下一桌（串串是高频翻台品类，翻台速度就是营收）。</p><p>3) 客诉处理授权：每桌有5元以内赠送权限（小吃/饮品），客诉出现时一线员工5秒内可拍板送饮品平息。</p><p><strong>清单三：SaaS配置+试单</strong></p><p>1) 国庆/系统负责人执行，开业前3天完成；</p><p>2) 扫码点餐上线测试（摆满6桌完整测试-下单，后厨出单，结账，确认无卡顿）；</p><p>3) 会员旗舰版的储值档位、会员权益开通并测试；</p><p>4) 大众点评后台：门店信息确认（营业时间、地址、电话）；开业当天上线「首周到店享9折」或「扫码点餐享特价菜品」；</p><p>5) 大众点评评价专家（如已签约）：开业前1天设置「48小时内到店评价提醒」。</p><h3>开业当日：3个必做动作</h3><p>1) 午市：老板/店长站门口迎客，每桌主动寒暄一句「第一次来免费试一串」，消除陌生感，目标午市翻台1.5次以上；</p><p>2) 店长每30分钟巡一遍大众点评/美团后台，发现差评苗头（冷/慢/少）立即当场补救（送饮品+道歉）；</p><p>3) 打烊后：15分钟复盘会，记录当日异常并次日晨会传达。</p><p>人力与预算假设：30天冲刺期人力估算3人（兼职工时），试吃预算不超过500元。</p></div>
+<div id="modal-content-6" style="display:none"><h3>公域：大众点评 + 社区口碑</h3><p><strong>大众点评是新店冷启动的第一获客渠道，必须深耕。</strong></p><ul><li><strong>开业前3天：</strong>完成门店基础信息打磨——品类选「川菜/串串香」，地址精确到「盈丰街道皓月路」，标签写「老成都味道-手工锅底-社区聚餐」，营业时间标明午市和晚市时段</li><li><strong>开业当周：</strong>上线「到店优惠」或「扫码点餐专享价」，不做大众点评9折套路（太常见），直接标示「新开业套餐35元起」</li><li><strong>开业30天内：</strong>目标积累80条以上真实评价，不设具体好评率目标，逐步提升</li><li><strong>周围社区引流（盈丰街道特色）：</strong>开业前7天在周边写字楼一层、小区公告栏、快递驿站贴新店开业传单：不用「扫码领券」这种套路，换成「凭此单到店免费送一串」，到店再告知点评写评价送冰粉</li></ul><p>大众点评是核心阵地。小红书串串香探店笔记对中客单价门店引流效果一般（点击查看多、到店转化低），不建议投入精力。</p><h3>私域：会员旗舰版锁客 + 社区社交</h3><ul><li><strong>会员体系设计：</strong>设置「初见银卡（首次消费激活）-老客金卡（累计消费满500元）-老友白金卡（累计消费满1500元）」三档，每档权益差异化（银卡送冰粉，金卡送每周一次9折，白金卡送生日聚餐套餐）</li><li><strong>首充档位建议：</strong>充300送30/充500送60。过第一性原理审查：串串香60-80元客单，300元约4-5次消费，合理；不设500以上高档避免回本风险</li><li><strong>会员日活动：</strong>每周二生意最淡，设为「老友日」全场8.8折（仅限会员价），用会员系统周二自动推送唤醒短信</li><li><strong>老客转介绍：</strong>每桌结账送「同桌券」（下次同行满4人免一人锅底），通过会员系统自动核销</li></ul><p>重要提醒：不要以任何方式利诱/邀评换好评。2025年10月后高强度促评等于新评价不产生星级收益。真口碑只能靠「好口味+好体验+不让人尴尬的自然引导」。</p></div>
+<div id="modal-content-7" style="display:none"><h3>串串香品类点评口碑的特殊性</h3><p>串串香属于<strong>高频次、中客单、重口味</strong>品类，顾客评价关键词通常集中在：锅底味道是否地道、食材是否新鲜干净、性价比是否高、服务响应速度。这决定了口碑运营的侧重点不同于正餐，必须聚焦在：<strong>锅底+新鲜度+响应速度</strong>。</p><h3>开业30天口碑冲刺路线图</h3><table><tr><th>阶段</th><th>时间</th><th>核心动作</th><th>量级目标</th></tr><tr><td><strong>定调期</strong></td><td>开业前3天到第7天</td><td>种子用户先行体验并写评价，差评2小时内店主亲自回复</td><td>积累15-20条点评</td></tr><tr><td><strong>冲量期</strong></td><td>开业第8到20天</td><td>自然客群+大众点评「到店优惠」引流，每桌结账时服务员自然引导一句</td><td>累计40-50条点评</td></tr><tr><td><strong>维护期</strong></td><td>第21到30天</td><td>每日盯差评并2小时内回复，每周1条朋友圈发「本周好评精选」（好评客人送下次菜品）</td><td>累计80条以上点评</td></tr></table><h3>差评应对预案（串串香高频差评场景）</h3><table><tr><th>差评场景</th><th>一句话应对模板</th></tr><tr><td>锅底味道太辣太麻</td><td>老板亲自回复：对不起，我们锅底分微辣中辣特辣三档，下次来您说一声我给您调，这次送您一道小吃</td></tr><tr><td>等位太久/上菜慢</td><td>加补偿饮品，回复：我们午市确实排队多，下午2点以后来基本不用等，下次送您一份冰粉</td></tr><tr><td>不新鲜/有异味</td><td><strong>2小时内必须回复，主动提出重做或退款，并电话联络顾客</strong>（串串香食安是最致命差评）</td></tr></table><p>国庆需确认：1) 门店是否已签约评价专家模块；2) 后厨食材「日清日毕」制度是否建立；3) 锅底炒制SOP是否标准化。这三条是「差评防火墙」。</p></div>
+<div id="modal-content-8" style="display:none"><h3>开业前投入估算（行业参考值，以门店实际发生为准）</h3><table><tr><th>项目</th><th>预估投入</th><th>备注</th></tr><tr><td colspan="2"><strong>一次性开业投入</strong></td><td>不含装修（已在老店投入中摊销）</td></tr><tr><td>开业试吃+种子用户</td><td>不超过500元</td><td>小吃试吃</td></tr><tr><td>开业物料（桌贴/桌牌/海报）</td><td>约300元</td><td>打印店制作</td></tr><tr><td>开业首周优惠让利</td><td>约1500元</td><td>折扣+赠菜</td></tr><tr><td><strong>合计一次性投入</strong></td><td><strong>约2300元</strong></td><td>极低边际成本</td></tr><tr><td colspan="2"><strong>月度固定成本增量</strong></td><td>不含房租/人力（已计入原有成本）</td></tr><tr><td>SaaS月费（扫码点餐+会员旗舰版）</td><td>约408元/月</td><td>按年折算会员旗舰版4888元</td></tr><tr><td>口碑营销让利</td><td>约800元/月</td><td>赠菜+赠饮品</td></tr></table><h3>月度营收预估（假设客单88元，午市晚市并行）</h3><table><tr><th>场景</th><th>假设条件</th><th>月营收估算</th></tr><tr><td>午市工作日</td><td>22天x35客/天x客单65元（套餐价）</td><td>约50050元</td></tr><tr><td>午市周末</td><td>8天x25客/天x客单70元</td><td>约14000元</td></tr><tr><td>晚市工作日</td><td>22天x30客/天x客单95元</td><td>约62700元</td></tr><tr><td>晚市周末</td><td>8天x35客/天x客单100元</td><td>约28000元</td></tr><tr><td>外卖</td><td>日均20单x客单45元x30天</td><td>约27000元</td></tr><tr><th>合计预估月营收</th><td>新店前3月平均数，高峰月12万+</td><td><strong>约18.2万元</strong></td></tr></table><h3>开业前3月OKR量化目标</h3><table><tr><th>指标</th><th>第1个月目标</th><th>第2个月目标</th><th>第3个月目标</th></tr><tr><td><strong>大众点评评分</strong></td><td>4.3分以上</td><td>4.5分以上</td><td>4.6分以上</td></tr><tr><td><strong>点评累计条数</strong></td><td>80条以上</td><td>150条以上</td><td>250条以上</td></tr><tr><td><strong>月均堂食客次</strong></td><td>1500人次</td><td>1800人次</td><td>2200人次</td></tr><tr><td><strong>会员储值转化</strong></td><td>50人以上</td><td>120人以上</td><td>200人以上</td></tr><tr><td><strong>老客复购率</strong></td><td>15%</td><td>20%</td><td>25%</td></tr><tr><td><strong>营收</strong></td><td>15万以上</td><td>18万以上</td><td>20万以上</td></tr></table><p>以上所有数字为行业基准估算，国庆需结合门店实际客单、桌数、人均翻台速度做校准。目标是在「首月打基础、第二月稳增长、第三月出利润」的节奏下推动。</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>翟卫婷</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>串串香赛道：存量竞争，拼的是「差异化锅底+场景体验」</h3><p>2024年火锅/串串市场规模约<strong>6,200亿元</strong>，但人均消费从80元持续下行至<strong>70-77元</strong>（行业参考值）。串串香/冒菜在杭州已进入存量竞争阶段，冒椒火辣等品牌下沉至90-120元价格带。增长点在外摆经济与全时段经营，风险是外卖扣点高、锅底同质化的千篇一律牛油红锅。新店若不能在性价比或口味上建立认知，极易沦为“过客”。</p><p>（预估客单价88元，介于马路边边与李记之间，需国庆实地调研确认门店实际定价）</p><h3>新店开业30天等于「黄金口碑窗口」</h3><p>串串香的消费决策高度依赖大众点评，<strong>前30条评论决定了后续所有顾客的第一印象</strong>。新店开业前30天是口碑积累的黄金期，每一条差评的修复成本是好评积累成本的3倍以上。因此，本方案核心逻辑是：先定调，再冲量，后维护，用30天打好口碑地基。</p><h3>盈丰街道商圈特征</h3><p>盈丰街道以皓月路写字楼底商为主，周边有中高档住宅社区。核心客群是25-40岁白领，其次是社区家庭晚餐。竞争在于不缺更便宜的，也不缺更高档的，真正缺的是「价格适中+出餐效率高」的午间商务选择。老成都串串香的午市套餐如果能做到35-45元每人、15分钟内出餐，就能切走这部分需求。</p>`,
+    2: `<h3>盈丰街道3公里内核心竞品逐一拆解</h3><table><tr><th>竞品名称</th><th>品类</th><th>预估人均</th><th>核心弱点</th><th>切入机会</th></tr><tr><td>马路边边麻辣烫</td><td>串串麻辣烫</td><td>约90元</td><td>楼中店、出品不稳定、旺季排队体验差</td><td>用「二楼铺位置更稳」+「手工现炒底料」打口味差异化</td></tr><tr><td>袁记水饺</td><td>快餐面食</td><td>约20-25元</td><td>品类客群不重合、晚餐场景弱</td><td>错位竞争：午市推串串+主食套餐约40元，覆盖其留不住的品质型午餐需求</td></tr><tr><td>自选市井火锅</td><td>火锅</td><td>约110-130元</td><td>客单高、翻台慢、无午市套餐</td><td>午市时段降维打击：串串香人均60-80元 vs 火锅人均110+，正好卡住中间价格带</td></tr></table><p>以上竞品信息和人均数据来自市场调研简报，实际价格需国庆到店核实。</p><h3>竞品共性弱点：底料同质化</h3><p>绝大多数串串香用统一配送的牛油红锅底，口味记忆点模糊。老成都串串香作为新店，如果能做到「锅底现炒」或「分时段熬制」，再配合「打包附手写感谢卡」的落地动作，在「鲜切竹签+手工锅底」上可以建立难以复制的视觉与味觉记忆。</p><h3>杭州串串香差异化打法建议</h3><ul><li><strong>错峰经营：</strong>午市推串串+主食套餐，下午2-5点做冒菜加饮料小食，和纯晚餐型火锅错峰</li><li><strong>烟火气场景化：</strong>锅底炒制、竹签串制过程录成短视频，每单打包附一张手写卡片，标签是「看得见的干净」</li><li><strong>首周「小店体验日」：</strong>进店递名片+试吃装，告诉沿途写字楼老板「我们新来的，你常来」，不用大众点评9折套路</li></ul>`,
+    3: `<h3>核心定位：老成都的烟火气 + 盈丰邻里的吃饭据点</h3><p>串串香的本质不是「卖锅底」，而是「卖社交场景+踏实的消费体验」。老成都串串香的新店定位抓住两个关键词：<strong>「地道老成都味道」</strong> + <strong>「盈丰路社交聚餐点」</strong>。不做高端商场形象，走「好吃价不高、老板认识客」的社区邻里路线。</p><h3>三条差异化标签</h3><table><tr><th>标签</th><th>落地支撑</th><th>对应客群</th></tr><tr><td><strong>手工锅底气</strong></td><td>锅底当日用牛油+香料现场炒制（非配送料包），堂食客人路过后厨能看到</td><td>注重食材品质的30+家庭客群</td></tr><tr><td><strong>全时段用餐</strong></td><td>午市串串+主食套餐，下午2-5点冒菜+饮料小食，做写字楼错峰生意</td><td>周边写字楼白领</td></tr><tr><td><strong>看得见干净</strong></td><td>竹签当日鲜切、打包附手写卡片、后厨可视化（档口能看到操作）</td><td>有小孩的家庭/年轻妈妈客群</td></tr></table><p>标签落地需国庆与门店确认：后厨空间是否允许档口可视、是否有意愿每日现炒锅底。</p><h3>命名与记忆点建议</h3><p>店名「老成都串串香」有地域辨识度，但缺乏差异化记忆点。建议在门店招牌+物料上强化一个子招牌，例如：「<strong>老成都串串香 · 现炒锅底</strong>」或「老成都串串香 · 鲜切竹签」，把核心差异挂在门口，让路过的客人一眼知道「这家不一样在哪」。此项需与老板确认是否接受。</p>`,
+    4: `<h3>已签约模块：扫码点餐 + 会员旗舰版</h3><p>老成都串串香已签约 <strong>扫码点餐</strong> 和 <strong>会员旗舰版</strong>，这是串串品类开业最核心的两个数字化工具。</p><h3>扫码点餐在串串香场景的核心价值</h3><table><tr><th>场景</th><th>痛点</th><th>使用扫码点餐后改善</th></tr><tr><td>午高峰</td><td>服务员3人仍忙不过来、客人等餐体验差</td><td>顾客直接扫码下单，后厨自动出单，人均服务员减1人</td></tr><tr><td>串串计数</td><td>服务员数签子效率慢、易漏数</td><td>顾客下单时自选串数，系统自动统计签数，收银零误差</td></tr><tr><td>加菜环节</td><td>串串翻台快、加菜响应时间决定翻台速度</td><td>桌角贴二维码，扫码即点，30秒下单</td></tr></table><p>国庆需在开业前确认：1) 已完成的扫码点餐是否已上线并测试通过；2) 桌台二维码张贴位置是否醒目；3) 店内网络是否稳定。</p><h3>会员旗舰版核心推荐配置</h3><ul><li><strong>会员卡等级：</strong>设置「青铜-白银-黄金」三档，消费1元=1积分，积分可兑换菜品或抵扣现金</li><li><strong>会员日优惠：</strong>每周一设为「会员日」，会员享全单8.8折，把闲时流量拉起来</li><li><strong>首充档位：</strong>设计「充300送30+赠冰粉」「充500送60+赠小菜」，目标开业首月储值转化率10%</li><li><strong>自动营销：</strong>顾客连续3天未到店，自动触发短信/push，送「想念券」一张召回</li><li><strong>会员卡展示：</strong>扫码点餐时卡片自动显示客人昵称和历史消费，拉近亲近感</li></ul>`,
+    5: `<h3>开业前7天：三张生死清单</h3><p><strong>清单一：装修收尾+试吃</strong></p><p>1) 店长/老板负责，开业前7天：全屋清洁+排烟设备试运转，重点检查：排烟管道风速、电线负荷（串串锅具功率大，建议请电工确认）、消防通道（消防不过则会被查封）。</p><p>2) 开业前3天：员工试吃（全员吃遍菜单，熟悉每道菜的口味和推荐话术）；</p><p>3) 开业前2天：邀请周边5-10位街坊/商户代表免费试吃，预热种子用户，请他们大众点评写真实反馈；</p><p>4) 开业前1天：全场细节检查（桌椅稳定性、灯光明亮、空调制冷、桌面二维码是否可扫）。</p><p><strong>清单二：员工培训（每句话都练到位）</strong></p><p>1) 店长负责，开业前3天完成；每位服务员背熟3句核心话术：「您好，这是我们招牌的锅底，现炒的，您试试」「扫码点餐更快，我帮您扫一下」「吃好了帮我写两句话点评，下次来送您一份冰粉」。</p><p>2) 翻台SOP培训：客人起身，30秒内上前收桌，欢迎语迎下一桌（串串是高频翻台品类，翻台速度就是营收）。</p><p>3) 客诉处理授权：每桌有5元以内赠送权限（小吃/饮品），客诉出现时一线员工5秒内可拍板送饮品平息。</p><p><strong>清单三：SaaS配置+试单</strong></p><p>1) 国庆/系统负责人执行，开业前3天完成；</p><p>2) 扫码点餐上线测试（摆满6桌完整测试-下单，后厨出单，结账，确认无卡顿）；</p><p>3) 会员旗舰版的储值档位、会员权益开通并测试；</p><p>4) 大众点评后台：门店信息确认（营业时间、地址、电话）；开业当天上线「首周到店享9折」或「扫码点餐享特价菜品」；</p><p>5) 大众点评评价专家（如已签约）：开业前1天设置「48小时内到店评价提醒」。</p><h3>开业当日：3个必做动作</h3><p>1) 午市：老板/店长站门口迎客，每桌主动寒暄一句「第一次来免费试一串」，消除陌生感，目标午市翻台1.5次以上；</p><p>2) 店长每30分钟巡一遍大众点评/美团后台，发现差评苗头（冷/慢/少）立即当场补救（送饮品+道歉）；</p><p>3) 打烊后：15分钟复盘会，记录当日异常并次日晨会传达。</p><p>人力与预算假设：30天冲刺期人力估算3人（兼职工时），试吃预算不超过500元。</p>`,
+    6: `<h3>公域：大众点评 + 社区口碑</h3><p><strong>大众点评是新店冷启动的第一获客渠道，必须深耕。</strong></p><ul><li><strong>开业前3天：</strong>完成门店基础信息打磨——品类选「川菜/串串香」，地址精确到「盈丰街道皓月路」，标签写「老成都味道-手工锅底-社区聚餐」，营业时间标明午市和晚市时段</li><li><strong>开业当周：</strong>上线「到店优惠」或「扫码点餐专享价」，不做大众点评9折套路（太常见），直接标示「新开业套餐35元起」</li><li><strong>开业30天内：</strong>目标积累80条以上真实评价，不设具体好评率目标，逐步提升</li><li><strong>周围社区引流（盈丰街道特色）：</strong>开业前7天在周边写字楼一层、小区公告栏、快递驿站贴新店开业传单：不用「扫码领券」这种套路，换成「凭此单到店免费送一串」，到店再告知点评写评价送冰粉</li></ul><p>大众点评是核心阵地。小红书串串香探店笔记对中客单价门店引流效果一般（点击查看多、到店转化低），不建议投入精力。</p><h3>私域：会员旗舰版锁客 + 社区社交</h3><ul><li><strong>会员体系设计：</strong>设置「初见银卡（首次消费激活）-老客金卡（累计消费满500元）-老友白金卡（累计消费满1500元）」三档，每档权益差异化（银卡送冰粉，金卡送每周一次9折，白金卡送生日聚餐套餐）</li><li><strong>首充档位建议：</strong>充300送30/充500送60。过第一性原理审查：串串香60-80元客单，300元约4-5次消费，合理；不设500以上高档避免回本风险</li><li><strong>会员日活动：</strong>每周二生意最淡，设为「老友日」全场8.8折（仅限会员价），用会员系统周二自动推送唤醒短信</li><li><strong>老客转介绍：</strong>每桌结账送「同桌券」（下次同行满4人免一人锅底），通过会员系统自动核销</li></ul><p>重要提醒：不要以任何方式利诱/邀评换好评。2025年10月后高强度促评等于新评价不产生星级收益。真口碑只能靠「好口味+好体验+不让人尴尬的自然引导」。</p>`,
+    7: `<h3>串串香品类点评口碑的特殊性</h3><p>串串香属于<strong>高频次、中客单、重口味</strong>品类，顾客评价关键词通常集中在：锅底味道是否地道、食材是否新鲜干净、性价比是否高、服务响应速度。这决定了口碑运营的侧重点不同于正餐，必须聚焦在：<strong>锅底+新鲜度+响应速度</strong>。</p><h3>开业30天口碑冲刺路线图</h3><table><tr><th>阶段</th><th>时间</th><th>核心动作</th><th>量级目标</th></tr><tr><td><strong>定调期</strong></td><td>开业前3天到第7天</td><td>种子用户先行体验并写评价，差评2小时内店主亲自回复</td><td>积累15-20条点评</td></tr><tr><td><strong>冲量期</strong></td><td>开业第8到20天</td><td>自然客群+大众点评「到店优惠」引流，每桌结账时服务员自然引导一句</td><td>累计40-50条点评</td></tr><tr><td><strong>维护期</strong></td><td>第21到30天</td><td>每日盯差评并2小时内回复，每周1条朋友圈发「本周好评精选」（好评客人送下次菜品）</td><td>累计80条以上点评</td></tr></table><h3>差评应对预案（串串香高频差评场景）</h3><table><tr><th>差评场景</th><th>一句话应对模板</th></tr><tr><td>锅底味道太辣太麻</td><td>老板亲自回复：对不起，我们锅底分微辣中辣特辣三档，下次来您说一声我给您调，这次送您一道小吃</td></tr><tr><td>等位太久/上菜慢</td><td>加补偿饮品，回复：我们午市确实排队多，下午2点以后来基本不用等，下次送您一份冰粉</td></tr><tr><td>不新鲜/有异味</td><td><strong>2小时内必须回复，主动提出重做或退款，并电话联络顾客</strong>（串串香食安是最致命差评）</td></tr></table><p>国庆需确认：1) 门店是否已签约评价专家模块；2) 后厨食材「日清日毕」制度是否建立；3) 锅底炒制SOP是否标准化。这三条是「差评防火墙」。</p>`,
+    8: `<h3>开业前投入估算（行业参考值，以门店实际发生为准）</h3><table><tr><th>项目</th><th>预估投入</th><th>备注</th></tr><tr><td colspan="2"><strong>一次性开业投入</strong></td><td>不含装修（已在老店投入中摊销）</td></tr><tr><td>开业试吃+种子用户</td><td>不超过500元</td><td>小吃试吃</td></tr><tr><td>开业物料（桌贴/桌牌/海报）</td><td>约300元</td><td>打印店制作</td></tr><tr><td>开业首周优惠让利</td><td>约1500元</td><td>折扣+赠菜</td></tr><tr><td><strong>合计一次性投入</strong></td><td><strong>约2300元</strong></td><td>极低边际成本</td></tr><tr><td colspan="2"><strong>月度固定成本增量</strong></td><td>不含房租/人力（已计入原有成本）</td></tr><tr><td>SaaS月费（扫码点餐+会员旗舰版）</td><td>约408元/月</td><td>按年折算会员旗舰版4888元</td></tr><tr><td>口碑营销让利</td><td>约800元/月</td><td>赠菜+赠饮品</td></tr></table><h3>月度营收预估（假设客单88元，午市晚市并行）</h3><table><tr><th>场景</th><th>假设条件</th><th>月营收估算</th></tr><tr><td>午市工作日</td><td>22天x35客/天x客单65元（套餐价）</td><td>约50050元</td></tr><tr><td>午市周末</td><td>8天x25客/天x客单70元</td><td>约14000元</td></tr><tr><td>晚市工作日</td><td>22天x30客/天x客单95元</td><td>约62700元</td></tr><tr><td>晚市周末</td><td>8天x35客/天x客单100元</td><td>约28000元</td></tr><tr><td>外卖</td><td>日均20单x客单45元x30天</td><td>约27000元</td></tr><tr><th>合计预估月营收</th><td>新店前3月平均数，高峰月12万+</td><td><strong>约18.2万元</strong></td></tr></table><h3>开业前3月OKR量化目标</h3><table><tr><th>指标</th><th>第1个月目标</th><th>第2个月目标</th><th>第3个月目标</th></tr><tr><td><strong>大众点评评分</strong></td><td>4.3分以上</td><td>4.5分以上</td><td>4.6分以上</td></tr><tr><td><strong>点评累计条数</strong></td><td>80条以上</td><td>150条以上</td><td>250条以上</td></tr><tr><td><strong>月均堂食客次</strong></td><td>1500人次</td><td>1800人次</td><td>2200人次</td></tr><tr><td><strong>会员储值转化</strong></td><td>50人以上</td><td>120人以上</td><td>200人以上</td></tr><tr><td><strong>老客复购率</strong></td><td>15%</td><td>20%</td><td>25%</td></tr><tr><td><strong>营收</strong></td><td>15万以上</td><td>18万以上</td><td>20万以上</td></tr></table><p>以上所有数字为行业基准估算，国庆需结合门店实际客单、桌数、人均翻台速度做校准。目标是在「首月打基础、第二月稳增长、第三月出利润」的节奏下推动。</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
