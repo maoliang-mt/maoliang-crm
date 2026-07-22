@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1976烧鸟 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #8B4513;
+      --primary-light: #A0522D;
+      --accent: #D2B48C;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #8B451340;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">日式烧烤/烧鸟 · 运营提升方案</div>
+  <h1 class="hero-title">1976烧鸟</h1>
+  <p class="hero-subtitle">用烟火气和清酒锁住写字楼白领的深夜食堂</p>
+  <div class="hero-address">杭州市萧山区盈丰街道利一路27号</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥80</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">萧山区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察与商圈诊断', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察与商圈诊断</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '品牌定位与爆品锚点', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">品牌定位与爆品锚点</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '开业冲刺30天作战计划', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">开业冲刺30天作战计划</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评口碑与冲榜路径', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评口碑与冲榜路径</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '公域引流：点评+小红书+抖音', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">公域引流：点评+小红书+抖音</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '私域留客：会员体系与复购引擎', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">私域留客：会员体系与复购引擎</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '暑期营销日历与活动方案', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">暑期营销日历与活动方案</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '系统方案：已签SaaS落地指南', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">系统方案：已签SaaS落地指南</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(9, '投资回报与OKR目标', 9)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 09</div>
+      <div class="chapter-title">投资回报与OKR目标</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>🔥 烧鸟品类：淘汰赛已开场，差异化是唯一出路</h3><p>2024年全国烧烤市场规模约<strong>2,840亿元</strong>，门店数54.1万家（同比+8.5%）。烧鸟（日式串烧）作为高端细分赛道，2024-2025处于品类扩张后半段——一线和新一线门店密度已高，进入「淘汰赛」阶段。主流价格带分两档：<strong>社区居酒屋型60-90元</strong>、<strong>精致omakase型120-180元</strong>。你的人均80元卡在大众居酒屋上沿，需警惕两个风险：①烧鸟同质化严重（鸡皮、鸡心、提灯几乎标配，顾客新鲜感递减）；②盈丰街道写字楼密集，<strong>周末人流断崖下降</strong>，工作日晚市是核心战场。增长点在于<strong>「烧鸟+酒」场景化消费</strong>，清酒和精酿搭配能有效拉高客单和复购。</p><h3>📍 商圈画像：钱江世纪城白领腹地</h3><p>利一路位于深蓝国际中心商圈，属杭州钱江世纪城/萧山核心商务区，城市能级高、25-35岁年轻白领密集。万象汇、旺角城、奥体印象城辐射圈内，<strong>消费意愿有但选择极多</strong>。你当前30天曝光仅53次、访问8人、消费0人、100%流失（⚠️ 平台后台数据），说明<strong>门店在平台上几乎「隐身」</strong>，内容建设严重缺位。好消息是曝光转化率15.09%略高于同商圈同品类均值14.03%，说明看到你的人是有兴趣的——<strong>问题出在「看了不下单」</strong>，而不是「没人看」。核心原因：无评价、无套餐、无菜品图，顾客无法建立信任。</p><h3>🎯 目标客群锁定</h3><ul><li><strong>主力客群（70%）：</strong>盈丰街道周边写字楼白领，25-35岁，工作日晚市+加班后深夜消费，人均承受力60-120元，追求「下班后放松一杯」的场景</li><li><strong>次要客群（20%）：</strong>周边小区年轻住户，周末晚餐+小聚，偏好有氛围感的餐厅</li><li><strong>潜力客群（10%）：</strong>商务小聚和同事聚餐，3-6人桌，看重私密性和出品稳定</li></ul><h3>⚔️ 周边竞争格局（1.5km内真实竞品）</h3><table><tr><th>竞品名称</th><th>人均</th><th>核心优势</th><th>弱点与你的切入机会</th></tr><tr><td>鸟丈夫烧鸟居酒屋</td><td>¥85-100</td><td>品牌成熟、出品稳定、酒单丰富</td><td>等位久、空间拥挤→打「不等位+舒适空间」</td></tr><tr><td>赤坂亭/村上一屋</td><td>¥90-130</td><td>品类更宽（刺身+烤物），连锁信任度高</td><td>价格偏高、出品标准化→打「专注烧鸟的匠人感」</td></tr><tr><td>木屋烧烤/丰茂烤串</td><td>¥60-80</td><td>价格直接竞争，强烟火气和聚餐属性</td><td>品质感弱、日式调性缺失→打「居酒屋氛围+清酒搭配」</td></tr></table><p><strong>竞争烈度：中高。</strong>新店无品牌认知，必须用「差异化体验+限时破价」在30天内快速破冰。</p></div>
+<div id="modal-content-2" style="display:none"><h3>🎯 定位：「1976烧鸟——写字楼白领的深夜食堂」</h3><p>80㎡的小店不适合做「大而全」，必须做「小而精」。你的核心差异化不是跟鸟丈夫比谁的串更多，而是抢占一个场景：<strong>「加完班想喝一杯、吃几串、放松一下」的深夜食堂</strong>。这个场景在盈丰街道写字楼密集区有天然需求，但目前缺少一个「价格合理+氛围好+不用等位」的选项。</p><h3>🍗 爆品锚点：找到你的「一道菜」</h3><p>烧鸟品类的品牌记忆靠重复一个点。建议从以下方向选出1-2个「记忆钩子」（⚠️ 假设菜单未定，开业前需确认）：</p><ul><li><strong>首选：「招牌盐烤鸡腿肉」或「秘制酱烧提灯」</strong>——选一个出品最稳定、成本可控的串作为必点款，所有推广围绕它展开。<strong>怎么做</strong>：老板D-7前确定爆品串，拍3张高清特写图（45°俯拍、暖色灯光、木质托盘背景），用于大众点评首图+小红书封面</li><li><strong>搭配锚：「烧鸟+Highball套餐」</strong>——5串精选+1杯经典Highball，定价59元（低于人均80元，降低首次尝试门槛）。<strong>怎么做</strong>：① 老板在菜单中标注「店长推荐」；② 🔧 扫码点餐后台→菜单管理→新建套餐→设为首屏推荐位；③ 服务员点单话术：「第一次来推荐试试招牌套餐，5串精选加一杯Highball，59块」；④ 客人犹豫→「套餐比单点省20多块，串都是最拿手的」</li><li><strong>每月限定串</strong>：7月味噌酱烤内脏系列、8月当季时令串——形成「每次来都有新东西」的复购理由。<strong>怎么做</strong>：① 店长每月25日定下月限定串；② 吧台放手写小黑板「本月限定：XX串 仅剩XX份」；③ 🔧 会员后台→消息推送→每月1日给会员发「限定串上新」通知</li></ul><h3>🏮 氛围即产品：80㎡小店的武器</h3><p>80㎡不是劣势，反而是优势。小空间天然适合做「居酒屋感」：</p><ul><li><strong>吧台座位</strong>（⚠️ 假设有吧台）：让一个人来也不尴尬，看着师傅烤串就是体验</li><li><strong>暖色灯光+日式元素</strong>：灯笼、手写菜单黑板、日式酒瓶陈列——零成本提升出片率</li><li><strong>背景音乐</strong>：日式Jazz/Lo-fi播放列表，音量控制在能聊天的水平</li></ul><p><strong>核心原则：氛围不靠砸钱，靠细节堆叠。</strong>手写黑板推荐今日限定串（成本0元）、吧台摆一排精酿/清酒瓶（酒水本身就是装饰）、每桌放一个LED电子蜡烛（3元/个淘宝批发）。总投入不到100元，氛围感直接拉满。</p></div>
+<div id="modal-content-3" style="display:none"><h3>📅 开业前7天（D-7→D-1）：蓄水期</h3><p>你当前30天曝光仅53次、0消费（⚠️ 后台数据），开业前必须把「平台存在感」从零拉起来。</p><h4>D-7｜大众点评门店装修（店长负责，当天完成）</h4><ul><li>🔧 大众点评商家后台→门店管理→门店信息</li><li>上传：门头照1张+环境照4张（吧台、卡座、烤台特写、灯光氛围）+菜品照6张</li><li>编辑门店介绍：「1976烧鸟｜盈丰街道深夜食堂｜专注炭火串烧与日式酒饮」</li><li>设置：营业时间、人均80元、Wi-Fi/空调/特色标签</li></ul><h4>D-5｜上线开业引流团购套餐（店长操作）</h4><ul><li>🔧 大众点评商家后台→营销中心→团购套餐，上线3款：</li><li>A. 双人烧鸟初体验 ¥99（原价¥158）：5串招牌+2杯Highball+1份小食</li><li>B. 四人居酒屋畅聊 ¥199（原价¥320）：10串精选+4杯酒饮+2份小食</li><li>C. 单人深夜食堂 ¥49（原价¥78）：3串+1杯酒饮</li><li>定价原则：食材成本约40%+酒水成本约15%=总成本约55%</li></ul><h4>D-3｜邀请内测试吃（老板负责）</h4><ul><li>邀15-20位朋友到店体验（私人邀请，不触发平台规则）</li><li>目的：磨合出餐+拍摄真实场景照片+请他们开业后自发写真实体验</li><li>话术：「内测帮忙体验，有什么不好直接说，开业后麻烦帮写几句真实感受」</li></ul><h4>D-1｜小红书和抖音预热（店长拍）</h4><ul><li>拍3条短视频：a)烤串特写（炭火+油脂） b)Highball调制 c)门店氛围</li><li>小红书：「杭州钱江世纪城终于有烧鸟了！开业套餐49元起」</li><li>抖音带定位+话题 #杭州烧鸟 #深夜食堂 #盈丰街道美食</li></ul><h3>📅 开业第1-7天（D1→D7）：破冰期</h3><ul><li><strong>D1-D3｜集中核销引流套餐</strong>：每天控制20-30单（80㎡约20桌，翻台1.5次=30桌/天上限）。每桌结账服务员话术：「今天体验怎么样？刚开业，如果觉得好吃，麻烦花1分钟写几句真实感受，好坏都行——写满20字送一杯柠檬茶」（⚠️ 只引导分享真实体验，不要求好评，合规）。客人说麻烦→「扫码直接写，就几句话」。<strong>7天目标</strong>：15-20条真实评价</li><li><strong>D3｜启动会员招募</strong>：收银员话术：「扫码加会员今天直接9折，以后积分换酒饮」。🔧 美团收银POS→会员系统→扫码开卡（0元入会，首单9折）。启用「潜客营销」：🔧 会员后台→潜客营销→「到店未消费客户」自动发5元券</li><li><strong>D7｜首周复盘</strong>：店长查🔧 商家后台→数据中心。<strong>D7目标：评价≥15条、会员≥50人、日均营收≥3,000元（⚠️ 假设值）</strong></li></ul><h3>📅 开业第8-30天（D8→D30）：爬坡期</h3><ul><li><strong>D8｜「深夜食堂」22:00后菜单</strong>：🔧 扫码点餐后台→菜单管理→定时菜单，22:00自动切换夜宵精简菜单（15个SKU）。「深夜双人套餐」¥79（5串+2杯生啤）</li><li><strong>D15｜「免费试」上线</strong>：🔧 商家后台→营销中心→免费试，10个名额/周，价值约50元的体验套餐。合规工具，参与者自愿写评价，平台给额外推荐权重</li><li><strong>D30｜月度大复盘</strong>：月营收≥9万 / 评价≥40条 / 会员≥150人 / 曝光≥3,000次。未达标项制定改进计划</li></ul></div>
+<div id="modal-content-4" style="display:none"><h3>📊 现状诊断：从零开始的口碑建设</h3><p>你当前<strong>无评分、无评价、收藏仅1次</strong>（⚠️ 后台数据），平台访问转化率0%（同商圈均值4.78%）。即使有人搜到你，看到空白页面也会直接划走。<strong>新店前20条评价决定所有后续顾客的第一印象</strong>——这是最紧急的事。</p><h3>🛤️ 冲榜路线图</h3><table><tr><th>阶段</th><th>时间</th><th>目标</th><th>关键动作</th><th>谁负责</th></tr><tr><td>出星期</td><td>D1-D14</td><td>20条+评价，获初始星级</td><td>团购引流+试吃+免费试</td><td>店长+服务员</td></tr><tr><td>冲新店榜</td><td>D15-D30</td><td>评价≥40条，星级≥4.0</td><td>免费试持续+免费菜+内容优化</td><td>店长</td></tr><tr><td>冲热门榜</td><td>D30-D60</td><td>评价≥80条，星级≥4.3</td><td>稳定出品+差评2h回复+会员复购</td><td>店长+老板</td></tr><tr><td>冲好评榜</td><td>D60-D90</td><td>评价≥120条，星级≥4.5</td><td>口碑自增长+日料/烧烤榜前10</td><td>全员</td></tr></table><h3>🚫 止血：杜绝无效促评（2025年10月新规铁律）</h3><p><strong>大众点评2025年10月起：高强度促评=新评价不产生星级收益。</strong></p><ul><li>❌ 严禁：好评返现、好评送菜、强制要求写好评、刷单、给客人看「五星模板」</li><li>✅ 合规做法：引导分享「真实体验」，不指定评分，不以好评为条件给奖励</li><li>✅ 话术：「如果觉得好吃，麻烦帮写几句真实感受」——是「真实感受」不是「好评」</li></ul><h3>✅ 合规工具：「免费试」+「免费菜」双引擎</h3><ul><li><strong>免费试</strong>：① 🔧 商家后台→营销中心→免费试→体验套餐（50元烧鸟+酒饮组合）→每周10名额；② 平台分配精准流量，用户自愿写评价，平台给曝光加权；③ 成本约500元/周；④ 客人没写评价→不追，平台会提醒，追了反而被判促评</li><li><strong>免费菜</strong>：① 🔧 商家后台→营销中心→免费菜→选低成本菜（酱烧秋葵串/毛豆，3-5元）→到店即送；② 降低尝试门槛，增加到店率</li></ul><h3>🌟 分享动机打造：让客人「主动想拍」</h3><ul><li><strong>出品仪式感</strong>：招牌串上桌放木托盘+海盐+柠檬角——「值得拍」。淘宝搜「日式烧鸟木托盘」8-15元/个，买20个=160-300元</li><li><strong>桌面小黑板</strong>：「今日限定：XX串（仅剩X份）」——稀缺感+拍照素材，5元/块</li><li><strong>酒饮颜值</strong>：Highball用好看杯具，柠檬切花+薄荷叶——成本不到1元，出片率翻倍</li></ul><p><strong>🎯 口碑目标</strong>：30天评价≥40条→60天≥80条、冲萧山日料/烧烤榜前15→90天≥120条、星级稳≥4.5。</p></div>
+<div id="modal-content-5" style="display:none"><h3>📱 大众点评：新店生命线（线上流量70%+）</h3><p>你当前<strong>商户通未开通、推广通未开通</strong>，无付费流量加持。30天曝光仅53次，在万象汇/奥体印象城辐射圈内几乎「隐形」。</p><h4>第一步：免费流量最大化（D1-D14，0成本）</h4><ul><li><strong>门店信息完善度冲100%</strong>：🔧 商家后台→门店管理，填满营业时间、人均、Wi-Fi、停车、特色标签（日式烧鸟/居酒屋/深夜食堂/Highball/炭火串烧）——完善度每提升10%，搜索排名提升一档</li><li><strong>菜品图片10张+</strong>：手机拍，45°俯拍、暖色调、特写纹理，系统推荐菜设3-5个招牌串</li><li><strong>团购套餐常驻3个</strong>：覆盖单人/双人/多人场景</li></ul><h4>第二步：推广通启动（D15起，月预算1,500-2,000元）</h4><ul><li>🔧 商家后台→推广通→开通→日预算50-70元</li><li>关键词：「盈丰街道烧烤」「钱江世纪城日料」「萧山烧鸟」「深夜食堂」</li><li>投放时段：17:00-23:00</li><li>预期：日增曝光200-500次，月增3,000-8,000次（当前53次→提升50-150倍）</li><li>进来没下单怎么办→检查团购价格、菜品图质量、评价数（低于10条推广效果打折）</li></ul><h3>📕 小红书：年轻客群种草场</h3><p>烧鸟天然适合小红书——颜值高、氛围感强、年轻女性用户占比高。</p><ul><li><strong>店长自发（每周2-3篇）</strong>：「杭州宝藏烧鸟🍗钱江世纪城新开的深夜食堂」/「下班后一个人的居酒屋🍺59元套餐」/「烧鸟控集合！每月限定串」</li><li><strong>达人合作（D15-D30）</strong>：2-3位杭州本地博主（1-5万粉），置换合作，预算300-500元/位。搜「杭州吃货」「萧山美食地图」「钱江世纪城探店」，选有烧烤/日料笔记、互动率>3%的博主私信</li><li><strong>关键词</strong>：标题正文必含：杭州烧鸟、钱江世纪城美食、盈丰街道、深夜食堂、居酒屋</li></ul><h3>🎵 抖音：短视频引爆烟火气</h3><ul><li>烧鸟最适合抖音=「过程感」——炭火滋滋声+油脂滴落+翻烤手法，15秒勾起食欲</li><li>每周2条短视频，带定位+话题 #杭州美食 #烧鸟 #深夜食堂</li><li>D30后评估抖音团购，与大众点评错开定价避免打架</li></ul><p><strong>公域月度目标</strong>：30天点评曝光≥3,000次（提升50倍+）、小红书≥8篇、抖音≥6条。</p></div>
+<div id="modal-content-6" style="display:none"><h3>🎯 核心逻辑：把「来过一次」变成「每周来一次」</h3><p>你已签约<strong>会员旗舰版</strong>（含团购会员卡+潜客营销+6大特有活动），这是最强私域武器。写字楼白领「周一到周五每天吃晚饭」，只要体验好，烧鸟完全可以成为每周固定选项。<strong>复购才是活下来的关键</strong>——新店获客成本高，老客复购成本几乎为零。</p><h3>👤 会员体系设计（三级成长型）</h3><table><tr><th>等级</th><th>门槛</th><th>权益</th><th>目标人群</th></tr><tr><td>🥉 烧鸟新客</td><td>扫码即开（0元）</td><td>首单9折+生日赠招牌串1份</td><td>所有到店顾客</td></tr><tr><td>🥈 深夜常客</td><td>累计消费满500元</td><td>全单95折+每月1张免费酒饮券+优先预约</td><td>月来2-3次的白领</td></tr><tr><td>🥇 1976VIP</td><td>累计消费满2,000元</td><td>全单9折+每月2张免费酒饮券+限定串优先品尝+专属吧台位</td><td>核心铁粉（目标30人）</td></tr></table><p><strong>怎么落地</strong>：① 店长🔧 会员后台→等级设置→配置三级体系+权益；② 收银员话术：「扫码加会员今天直接9折，攒积分还能换酒饮」；③ 客人说不用→「扫一下就行不填信息，今天能省XX元」（算出具体金额）</p><h3>🍺 「烧鸟+酒」复购引擎</h3><p>居酒屋复购核心不是「吃」而是「喝」。酒水毛利60-70%（⚠️ 行业参考值），是利润重要来源也是复购理由。</p><ul><li><strong>酒饮月卡</strong>（D15后推）：99元/月含8杯基础酒饮（Highball/生啤，单杯价值约15-20元），限当月用。怎么做：① 🔧 会员后台→次卡设置→创建「烧鸟酒饮月卡」；② 服务员话术：「常来推荐月卡，99块8杯，比单点省三四十」；③ 月卡=承诺月来4次+锁定复购</li><li><strong>「第二杯半价」常驻</strong>：酒水第二杯半价（限堂食），鼓励双人消费。🔧 扫码后台→活动设置→第二杯半价规则</li></ul><h3>📱 社群运营：「1976深夜食堂」群</h3><ul><li><strong>建群</strong>：D3起每桌放二维码「扫码入群，群内专享隐藏菜单+优先订座」</li><li><strong>运营节奏</strong>：周一「本周限定串预告」、周三「周末订座提醒」、周五「今晚特供酒饮」——每周3条不刷屏</li><li><strong>群专属</strong>：每周五发5张「深夜食堂8折券」（22:00后用），先到先得制造紧迫感</li><li><strong>目标</strong>：30天群成员≥100人，60天≥200人</li></ul></div>
+<div id="modal-content-7" style="display:none"><h3>📅 7-9月营销节奏（开业正值暑期旺季）</h3><p>7月开业恰逢暑期，是烧烤/居酒屋<strong>天然旺季</strong>（夜宵需求爆发+年轻客群活跃）。必须用好窗口期快速起量。</p><h3>🔥 7月：开业月——深夜食堂主题</h3><table><tr><th>时间</th><th>活动</th><th>具体执行</th><th>负责人</th><th>预算</th></tr><tr><td>7.22-31</td><td>开业引流套餐</td><td>3款团购（49/99/199）上线点评+小红书/抖音预热</td><td>店长</td><td>让利约3,000元</td></tr><tr><td>7月下旬</td><td>大暑消暑·冰饮畅饮</td><td>点烧鸟套餐送冰镇柠檬水（1元/杯）。🔧 扫码弹窗「大暑消暑福利」</td><td>服务员</td><td>约300元/周</td></tr><tr><td>7.25起</td><td>七夕预售·早鸟锁位</td><td>预售七夕双人套餐¥199，提前订赠小花束（5-8元）。🔧 万能码→预约页面，限量30份</td><td>店长</td><td>花束约200元</td></tr></table><h3>💕 8月：七夕+立秋——客单价提升月</h3><table><tr><th>时间</th><th>活动</th><th>具体执行</th><th>负责人</th><th>预算</th></tr><tr><td>七夕</td><td>烧鸟约会夜</td><td>烛光套餐3档（¥168/¥268/¥368），赠甜品+花束。LED蜡烛+花瓣（3元/桌）。发朋友圈送限定甜品串</td><td>全员</td><td>约500元</td></tr><tr><td>8.7-8</td><td>贴秋膘·限定串上新</td><td>3款秋季限定串（味噌烤五花/酱烧银杏鸡肉串），赠雪梨银耳汤（1.5元/杯）</td><td>厨师+店长</td><td>约200元/周</td></tr><tr><td>8月全月</td><td>夜宵季·延时营业</td><td>延至凌晨1点，22:00后8折。🔧 扫码点餐22:00自动切换夜宵菜单</td><td>店长</td><td>延时人工100-200元/晚</td></tr></table><h3>🌕 9月：中秋+开学——复购巩固月</h3><table><tr><th>时间</th><th>活动</th><th>具体执行</th><th>负责人</th><th>预算</th></tr><tr><td>9.1-7</td><td>开学季·白领回归</td><td>充300赠50锁定秋季消费。🔧 会员后台→储值活动。话术：「充300送50，相当于打八五折」。犹豫→「300块来这3-4次，送的50够多喝两杯」</td><td>收银员</td><td>赠送成本约15%</td></tr><tr><td>中秋</td><td>月圆烧鸟·团聚套餐</td><td>6人套餐¥399（15串+6杯酒饮+桂花甜品），赠桂花香囊。加「桂花Highball」限定酒饮。🔧 会员push「中秋预订开放」</td><td>全员</td><td>约300元</td></tr><tr><td>9月全月</td><td>1976会员日固化</td><td>每月19日和7日为会员日，专属限定串+积分双倍。🔧 会员后台→会员日设置</td><td>店长</td><td>约200元/月</td></tr></table><p><strong>Q3预算合计：约8,000-12,000元</strong>（含团购让利+物料+达人），占预估季度营收（27万）的3-4%。每月活动结束D+3复盘ROI，调整下月分配。</p></div>
+<div id="modal-content-8" style="display:none"><h3>🔧 你已签5大SaaS产品，这样用才不浪费钱</h3><p>已签约：<strong>收银POS + 扫码点餐 + 小程序 + 会员旗舰版 + 会员高级版</strong>。以下是每个产品<strong>「第一天该做的事」和「每周该盯的数」</strong>。</p><h3>1. 收银POS：经营数据大脑</h3><ul><li><strong>开业前</strong>：录入菜品+定价+分类（串烧/酒饮/小食/套餐），设置桌台号（⚠️ 假设20桌）。🔧 收银POS→商品管理</li><li><strong>每天看</strong>：🔧 收银后台→经营报表→日报，盯4个数：日营收、桌均、酒水占比、翻台率</li><li><strong>酒水占比警戒线</strong>：居酒屋应在25-35%（⚠️ 行业参考值），低于20%=酒水推荐不够，丢高毛利收入</li></ul><h3>2. 扫码点餐：效率+加单利器</h3><ul><li><strong>开业前</strong>：菜单分类清晰（推荐/限定/酒饮/小食/套餐），首屏放59元套餐+限定串，菜品图全上传（无图点击率降40%）。🔧 扫码后台→菜单管理</li><li><strong>加单</strong>：🔧 扫码后台→智能推荐→开启「猜你喜欢」，点完串自动推荐酒饮搭配，居酒屋场景加单率可达40%+</li><li><strong>每周盯</strong>：扫码使用率（目标≥80%），低于=桌贴不醒目或没引导。🔧 扫码后台→数据统计</li></ul><h3>3. 小程序：自有流量入口</h3><ul><li><strong>开业前</strong>：上传logo+背景图+地址+营业时间，配置会员+积分商城入口。🔧 小程序后台→门店设置</li><li><strong>核心价值</strong>：唯一不依赖平台的自有流量——关注后可直接推送新品/活动，不用每次买流量</li><li><strong>推广</strong>：桌面立牌+结账小票+社群三个触点放小程序码。话术：「扫一下关注小程序，点餐更快，还有会员专属优惠」</li></ul><h3>4. 会员旗舰版：私域核心引擎（必须激活3大独有功能）</h3><ul><li><strong>团购会员卡</strong>：买团购自动成会员→🔧 会员后台→团购会员卡→开启。效果：一次性客人→可复触达会员</li><li><strong>潜客营销</strong>：到店未消费→自动发券→🔧 会员后台→潜客营销→设规则（建议：24h后发5元券）。效果：挽回犹豫客人</li><li><strong>6大特有活动</strong>：开卡礼/升级礼/生日礼/唤醒礼/消费满赠/推荐有礼。开业首月重点开：开卡礼（首单9折）+推荐有礼（老带新各10元券）</li></ul><h3>5. 会员高级版：积分+精准营销</h3><ul><li>积分规则（1元=1积分）+兑换上架（500积分换酒饮/1000积分换招牌串）。🔧 会员后台→积分商城</li><li>精准营销：「30天未到店」会员发唤醒券。🔧 会员后台→智能营销→创建唤醒任务</li></ul><p><strong>总结</strong>：5大产品=「引流→转化→复购→裂变」闭环。收银看数据+扫码提效加单+小程序自有流量+会员旗舰锁客+会员高级精准触达。<strong>关键是用起来，每天看数据，每周调策略。</strong></p></div>
+<div id="modal-content-9" style="display:none"><h3>💰 投资与增收测算</h3><h4>开业前后总投入</h4><table><tr><th>投入项</th><th>金额</th><th>说明</th></tr><tr><td>开业团购让利</td><td>¥2,000-3,000</td><td>前7天引流套餐折扣</td></tr><tr><td>推广通（月）</td><td>¥1,500-2,000</td><td>D15起每月投放</td></tr><tr><td>免费试（月）</td><td>¥2,000</td><td>10份/周×4周×50元</td></tr><tr><td>小红书达人</td><td>¥1,000-1,500</td><td>2-3位本地博主置换</td></tr><tr><td>氛围物料</td><td>¥500</td><td>LED蜡烛+木托盘+小黑板+立牌</td></tr><tr><td>季度活动物料</td><td>¥3,000</td><td>7-9月节日活动赠品</td></tr><tr><td><strong>首季度总投入</strong></td><td><strong>¥10,000-12,000</strong></td><td>不含SaaS年费</td></tr></table><h4>预期月增收（稳定期，第3个月起）</h4><table><tr><th>来源</th><th>月增收</th><th>测算逻辑</th></tr><tr><td>团购引流新客</td><td>+¥15,000</td><td>月增150-200桌×桌均80元×加单25%</td></tr><tr><td>会员复购</td><td>+¥20,000</td><td>100活跃会员×月2次×桌均100元</td></tr><tr><td>酒饮月卡</td><td>+¥5,000</td><td>50张×99元</td></tr><tr><td>深夜食堂时段</td><td>+¥9,000</td><td>22:00后日均10桌×60元×30天×50%出勤</td></tr><tr><td><strong>月增收合计</strong></td><td><strong>+¥49,000</strong></td><td>⚠️ 假设值，需根据实际调整</td></tr></table><h4>盈利模型（⚠️ 假设值）</h4><table><tr><th>项目</th><th>金额/占比</th><th>说明</th></tr><tr><td>月营收目标（稳定期）</td><td>¥12-15万</td><td>日均4,000-5,000×30天</td></tr><tr><td>食材成本</td><td>35-40%</td><td>烧鸟食材含进口调料</td></tr><tr><td>酒水成本</td><td>8-10%（占总营收）</td><td>酒水占营收约30%，毛利65%</td></tr><tr><td>人力成本</td><td>20-25%</td><td>80㎡约4-5人（⚠️ 假设）</td></tr><tr><td>房租</td><td>10-12%</td><td>盈丰街道商铺参考值</td></tr><tr><td><strong>净利润率</strong></td><td><strong>10-15%</strong></td><td>月净利¥1.2-2.25万</td></tr></table><h3>🎯 OKR量化目标</h3><h4>30天（冷启动）</h4><table><tr><th>指标</th><th>目标</th><th>衡量</th></tr><tr><td>月营收</td><td>≥¥9万</td><td>收银POS日报累加</td></tr><tr><td>点评评价</td><td>≥40条</td><td>🔧 商家后台→评价管理</td></tr><tr><td>点评评分</td><td>≥4.0</td><td>商家后台</td></tr><tr><td>会员开卡</td><td>≥150人</td><td>🔧 会员后台→会员统计</td></tr><tr><td>月曝光</td><td>≥3,000次</td><td>🔧 商家后台→数据中心</td></tr></table><h4>60天（爬坡）</h4><table><tr><th>指标</th><th>目标</th></tr><tr><td>月营收</td><td>≥¥12万</td></tr><tr><td>评价总数</td><td>≥80条</td></tr><tr><td>评分</td><td>≥4.3</td></tr><tr><td>会员总数</td><td>≥300人</td></tr><tr><td>会员消费占比</td><td>≥30%</td></tr><tr><td>酒饮月卡</td><td>≥30张/月</td></tr></table><h4>90天（稳定）</h4><table><tr><th>指标</th><th>目标</th></tr><tr><td>月营收</td><td>≥¥15万</td></tr><tr><td>评价总数</td><td>≥120条</td></tr><tr><td>评分</td><td>≥4.5</td></tr><tr><td>会员总数</td><td>≥500人</td></tr><tr><td>会员消费占比</td><td>≥40%</td></tr><tr><td>萧山日料/烧烤榜</td><td>前10名</td></tr></table><p><strong>回本周期</strong>：首季度营销投入约1-1.2万，月增收4.9万，<strong>首月即覆盖投入</strong>。SaaS年费分摊月均约800-1,200元，占月营收不到1%。<strong>结论：SaaS是这家店性价比最高的经营工具投资。</strong></p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>李朝</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>🔥 烧鸟品类：淘汰赛已开场，差异化是唯一出路</h3><p>2024年全国烧烤市场规模约<strong>2,840亿元</strong>，门店数54.1万家（同比+8.5%）。烧鸟（日式串烧）作为高端细分赛道，2024-2025处于品类扩张后半段——一线和新一线门店密度已高，进入「淘汰赛」阶段。主流价格带分两档：<strong>社区居酒屋型60-90元</strong>、<strong>精致omakase型120-180元</strong>。你的人均80元卡在大众居酒屋上沿，需警惕两个风险：①烧鸟同质化严重（鸡皮、鸡心、提灯几乎标配，顾客新鲜感递减）；②盈丰街道写字楼密集，<strong>周末人流断崖下降</strong>，工作日晚市是核心战场。增长点在于<strong>「烧鸟+酒」场景化消费</strong>，清酒和精酿搭配能有效拉高客单和复购。</p><h3>📍 商圈画像：钱江世纪城白领腹地</h3><p>利一路位于深蓝国际中心商圈，属杭州钱江世纪城/萧山核心商务区，城市能级高、25-35岁年轻白领密集。万象汇、旺角城、奥体印象城辐射圈内，<strong>消费意愿有但选择极多</strong>。你当前30天曝光仅53次、访问8人、消费0人、100%流失（⚠️ 平台后台数据），说明<strong>门店在平台上几乎「隐身」</strong>，内容建设严重缺位。好消息是曝光转化率15.09%略高于同商圈同品类均值14.03%，说明看到你的人是有兴趣的——<strong>问题出在「看了不下单」</strong>，而不是「没人看」。核心原因：无评价、无套餐、无菜品图，顾客无法建立信任。</p><h3>🎯 目标客群锁定</h3><ul><li><strong>主力客群（70%）：</strong>盈丰街道周边写字楼白领，25-35岁，工作日晚市+加班后深夜消费，人均承受力60-120元，追求「下班后放松一杯」的场景</li><li><strong>次要客群（20%）：</strong>周边小区年轻住户，周末晚餐+小聚，偏好有氛围感的餐厅</li><li><strong>潜力客群（10%）：</strong>商务小聚和同事聚餐，3-6人桌，看重私密性和出品稳定</li></ul><h3>⚔️ 周边竞争格局（1.5km内真实竞品）</h3><table><tr><th>竞品名称</th><th>人均</th><th>核心优势</th><th>弱点与你的切入机会</th></tr><tr><td>鸟丈夫烧鸟居酒屋</td><td>¥85-100</td><td>品牌成熟、出品稳定、酒单丰富</td><td>等位久、空间拥挤→打「不等位+舒适空间」</td></tr><tr><td>赤坂亭/村上一屋</td><td>¥90-130</td><td>品类更宽（刺身+烤物），连锁信任度高</td><td>价格偏高、出品标准化→打「专注烧鸟的匠人感」</td></tr><tr><td>木屋烧烤/丰茂烤串</td><td>¥60-80</td><td>价格直接竞争，强烟火气和聚餐属性</td><td>品质感弱、日式调性缺失→打「居酒屋氛围+清酒搭配」</td></tr></table><p><strong>竞争烈度：中高。</strong>新店无品牌认知，必须用「差异化体验+限时破价」在30天内快速破冰。</p>`,
+    2: `<h3>🎯 定位：「1976烧鸟——写字楼白领的深夜食堂」</h3><p>80㎡的小店不适合做「大而全」，必须做「小而精」。你的核心差异化不是跟鸟丈夫比谁的串更多，而是抢占一个场景：<strong>「加完班想喝一杯、吃几串、放松一下」的深夜食堂</strong>。这个场景在盈丰街道写字楼密集区有天然需求，但目前缺少一个「价格合理+氛围好+不用等位」的选项。</p><h3>🍗 爆品锚点：找到你的「一道菜」</h3><p>烧鸟品类的品牌记忆靠重复一个点。建议从以下方向选出1-2个「记忆钩子」（⚠️ 假设菜单未定，开业前需确认）：</p><ul><li><strong>首选：「招牌盐烤鸡腿肉」或「秘制酱烧提灯」</strong>——选一个出品最稳定、成本可控的串作为必点款，所有推广围绕它展开。<strong>怎么做</strong>：老板D-7前确定爆品串，拍3张高清特写图（45°俯拍、暖色灯光、木质托盘背景），用于大众点评首图+小红书封面</li><li><strong>搭配锚：「烧鸟+Highball套餐」</strong>——5串精选+1杯经典Highball，定价59元（低于人均80元，降低首次尝试门槛）。<strong>怎么做</strong>：① 老板在菜单中标注「店长推荐」；② 🔧 扫码点餐后台→菜单管理→新建套餐→设为首屏推荐位；③ 服务员点单话术：「第一次来推荐试试招牌套餐，5串精选加一杯Highball，59块」；④ 客人犹豫→「套餐比单点省20多块，串都是最拿手的」</li><li><strong>每月限定串</strong>：7月味噌酱烤内脏系列、8月当季时令串——形成「每次来都有新东西」的复购理由。<strong>怎么做</strong>：① 店长每月25日定下月限定串；② 吧台放手写小黑板「本月限定：XX串 仅剩XX份」；③ 🔧 会员后台→消息推送→每月1日给会员发「限定串上新」通知</li></ul><h3>🏮 氛围即产品：80㎡小店的武器</h3><p>80㎡不是劣势，反而是优势。小空间天然适合做「居酒屋感」：</p><ul><li><strong>吧台座位</strong>（⚠️ 假设有吧台）：让一个人来也不尴尬，看着师傅烤串就是体验</li><li><strong>暖色灯光+日式元素</strong>：灯笼、手写菜单黑板、日式酒瓶陈列——零成本提升出片率</li><li><strong>背景音乐</strong>：日式Jazz/Lo-fi播放列表，音量控制在能聊天的水平</li></ul><p><strong>核心原则：氛围不靠砸钱，靠细节堆叠。</strong>手写黑板推荐今日限定串（成本0元）、吧台摆一排精酿/清酒瓶（酒水本身就是装饰）、每桌放一个LED电子蜡烛（3元/个淘宝批发）。总投入不到100元，氛围感直接拉满。</p>`,
+    3: `<h3>📅 开业前7天（D-7→D-1）：蓄水期</h3><p>你当前30天曝光仅53次、0消费（⚠️ 后台数据），开业前必须把「平台存在感」从零拉起来。</p><h4>D-7｜大众点评门店装修（店长负责，当天完成）</h4><ul><li>🔧 大众点评商家后台→门店管理→门店信息</li><li>上传：门头照1张+环境照4张（吧台、卡座、烤台特写、灯光氛围）+菜品照6张</li><li>编辑门店介绍：「1976烧鸟｜盈丰街道深夜食堂｜专注炭火串烧与日式酒饮」</li><li>设置：营业时间、人均80元、Wi-Fi/空调/特色标签</li></ul><h4>D-5｜上线开业引流团购套餐（店长操作）</h4><ul><li>🔧 大众点评商家后台→营销中心→团购套餐，上线3款：</li><li>A. 双人烧鸟初体验 ¥99（原价¥158）：5串招牌+2杯Highball+1份小食</li><li>B. 四人居酒屋畅聊 ¥199（原价¥320）：10串精选+4杯酒饮+2份小食</li><li>C. 单人深夜食堂 ¥49（原价¥78）：3串+1杯酒饮</li><li>定价原则：食材成本约40%+酒水成本约15%=总成本约55%</li></ul><h4>D-3｜邀请内测试吃（老板负责）</h4><ul><li>邀15-20位朋友到店体验（私人邀请，不触发平台规则）</li><li>目的：磨合出餐+拍摄真实场景照片+请他们开业后自发写真实体验</li><li>话术：「内测帮忙体验，有什么不好直接说，开业后麻烦帮写几句真实感受」</li></ul><h4>D-1｜小红书和抖音预热（店长拍）</h4><ul><li>拍3条短视频：a)烤串特写（炭火+油脂） b)Highball调制 c)门店氛围</li><li>小红书：「杭州钱江世纪城终于有烧鸟了！开业套餐49元起」</li><li>抖音带定位+话题 #杭州烧鸟 #深夜食堂 #盈丰街道美食</li></ul><h3>📅 开业第1-7天（D1→D7）：破冰期</h3><ul><li><strong>D1-D3｜集中核销引流套餐</strong>：每天控制20-30单（80㎡约20桌，翻台1.5次=30桌/天上限）。每桌结账服务员话术：「今天体验怎么样？刚开业，如果觉得好吃，麻烦花1分钟写几句真实感受，好坏都行——写满20字送一杯柠檬茶」（⚠️ 只引导分享真实体验，不要求好评，合规）。客人说麻烦→「扫码直接写，就几句话」。<strong>7天目标</strong>：15-20条真实评价</li><li><strong>D3｜启动会员招募</strong>：收银员话术：「扫码加会员今天直接9折，以后积分换酒饮」。🔧 美团收银POS→会员系统→扫码开卡（0元入会，首单9折）。启用「潜客营销」：🔧 会员后台→潜客营销→「到店未消费客户」自动发5元券</li><li><strong>D7｜首周复盘</strong>：店长查🔧 商家后台→数据中心。<strong>D7目标：评价≥15条、会员≥50人、日均营收≥3,000元（⚠️ 假设值）</strong></li></ul><h3>📅 开业第8-30天（D8→D30）：爬坡期</h3><ul><li><strong>D8｜「深夜食堂」22:00后菜单</strong>：🔧 扫码点餐后台→菜单管理→定时菜单，22:00自动切换夜宵精简菜单（15个SKU）。「深夜双人套餐」¥79（5串+2杯生啤）</li><li><strong>D15｜「免费试」上线</strong>：🔧 商家后台→营销中心→免费试，10个名额/周，价值约50元的体验套餐。合规工具，参与者自愿写评价，平台给额外推荐权重</li><li><strong>D30｜月度大复盘</strong>：月营收≥9万 / 评价≥40条 / 会员≥150人 / 曝光≥3,000次。未达标项制定改进计划</li></ul>`,
+    4: `<h3>📊 现状诊断：从零开始的口碑建设</h3><p>你当前<strong>无评分、无评价、收藏仅1次</strong>（⚠️ 后台数据），平台访问转化率0%（同商圈均值4.78%）。即使有人搜到你，看到空白页面也会直接划走。<strong>新店前20条评价决定所有后续顾客的第一印象</strong>——这是最紧急的事。</p><h3>🛤️ 冲榜路线图</h3><table><tr><th>阶段</th><th>时间</th><th>目标</th><th>关键动作</th><th>谁负责</th></tr><tr><td>出星期</td><td>D1-D14</td><td>20条+评价，获初始星级</td><td>团购引流+试吃+免费试</td><td>店长+服务员</td></tr><tr><td>冲新店榜</td><td>D15-D30</td><td>评价≥40条，星级≥4.0</td><td>免费试持续+免费菜+内容优化</td><td>店长</td></tr><tr><td>冲热门榜</td><td>D30-D60</td><td>评价≥80条，星级≥4.3</td><td>稳定出品+差评2h回复+会员复购</td><td>店长+老板</td></tr><tr><td>冲好评榜</td><td>D60-D90</td><td>评价≥120条，星级≥4.5</td><td>口碑自增长+日料/烧烤榜前10</td><td>全员</td></tr></table><h3>🚫 止血：杜绝无效促评（2025年10月新规铁律）</h3><p><strong>大众点评2025年10月起：高强度促评=新评价不产生星级收益。</strong></p><ul><li>❌ 严禁：好评返现、好评送菜、强制要求写好评、刷单、给客人看「五星模板」</li><li>✅ 合规做法：引导分享「真实体验」，不指定评分，不以好评为条件给奖励</li><li>✅ 话术：「如果觉得好吃，麻烦帮写几句真实感受」——是「真实感受」不是「好评」</li></ul><h3>✅ 合规工具：「免费试」+「免费菜」双引擎</h3><ul><li><strong>免费试</strong>：① 🔧 商家后台→营销中心→免费试→体验套餐（50元烧鸟+酒饮组合）→每周10名额；② 平台分配精准流量，用户自愿写评价，平台给曝光加权；③ 成本约500元/周；④ 客人没写评价→不追，平台会提醒，追了反而被判促评</li><li><strong>免费菜</strong>：① 🔧 商家后台→营销中心→免费菜→选低成本菜（酱烧秋葵串/毛豆，3-5元）→到店即送；② 降低尝试门槛，增加到店率</li></ul><h3>🌟 分享动机打造：让客人「主动想拍」</h3><ul><li><strong>出品仪式感</strong>：招牌串上桌放木托盘+海盐+柠檬角——「值得拍」。淘宝搜「日式烧鸟木托盘」8-15元/个，买20个=160-300元</li><li><strong>桌面小黑板</strong>：「今日限定：XX串（仅剩X份）」——稀缺感+拍照素材，5元/块</li><li><strong>酒饮颜值</strong>：Highball用好看杯具，柠檬切花+薄荷叶——成本不到1元，出片率翻倍</li></ul><p><strong>🎯 口碑目标</strong>：30天评价≥40条→60天≥80条、冲萧山日料/烧烤榜前15→90天≥120条、星级稳≥4.5。</p>`,
+    5: `<h3>📱 大众点评：新店生命线（线上流量70%+）</h3><p>你当前<strong>商户通未开通、推广通未开通</strong>，无付费流量加持。30天曝光仅53次，在万象汇/奥体印象城辐射圈内几乎「隐形」。</p><h4>第一步：免费流量最大化（D1-D14，0成本）</h4><ul><li><strong>门店信息完善度冲100%</strong>：🔧 商家后台→门店管理，填满营业时间、人均、Wi-Fi、停车、特色标签（日式烧鸟/居酒屋/深夜食堂/Highball/炭火串烧）——完善度每提升10%，搜索排名提升一档</li><li><strong>菜品图片10张+</strong>：手机拍，45°俯拍、暖色调、特写纹理，系统推荐菜设3-5个招牌串</li><li><strong>团购套餐常驻3个</strong>：覆盖单人/双人/多人场景</li></ul><h4>第二步：推广通启动（D15起，月预算1,500-2,000元）</h4><ul><li>🔧 商家后台→推广通→开通→日预算50-70元</li><li>关键词：「盈丰街道烧烤」「钱江世纪城日料」「萧山烧鸟」「深夜食堂」</li><li>投放时段：17:00-23:00</li><li>预期：日增曝光200-500次，月增3,000-8,000次（当前53次→提升50-150倍）</li><li>进来没下单怎么办→检查团购价格、菜品图质量、评价数（低于10条推广效果打折）</li></ul><h3>📕 小红书：年轻客群种草场</h3><p>烧鸟天然适合小红书——颜值高、氛围感强、年轻女性用户占比高。</p><ul><li><strong>店长自发（每周2-3篇）</strong>：「杭州宝藏烧鸟🍗钱江世纪城新开的深夜食堂」/「下班后一个人的居酒屋🍺59元套餐」/「烧鸟控集合！每月限定串」</li><li><strong>达人合作（D15-D30）</strong>：2-3位杭州本地博主（1-5万粉），置换合作，预算300-500元/位。搜「杭州吃货」「萧山美食地图」「钱江世纪城探店」，选有烧烤/日料笔记、互动率>3%的博主私信</li><li><strong>关键词</strong>：标题正文必含：杭州烧鸟、钱江世纪城美食、盈丰街道、深夜食堂、居酒屋</li></ul><h3>🎵 抖音：短视频引爆烟火气</h3><ul><li>烧鸟最适合抖音=「过程感」——炭火滋滋声+油脂滴落+翻烤手法，15秒勾起食欲</li><li>每周2条短视频，带定位+话题 #杭州美食 #烧鸟 #深夜食堂</li><li>D30后评估抖音团购，与大众点评错开定价避免打架</li></ul><p><strong>公域月度目标</strong>：30天点评曝光≥3,000次（提升50倍+）、小红书≥8篇、抖音≥6条。</p>`,
+    6: `<h3>🎯 核心逻辑：把「来过一次」变成「每周来一次」</h3><p>你已签约<strong>会员旗舰版</strong>（含团购会员卡+潜客营销+6大特有活动），这是最强私域武器。写字楼白领「周一到周五每天吃晚饭」，只要体验好，烧鸟完全可以成为每周固定选项。<strong>复购才是活下来的关键</strong>——新店获客成本高，老客复购成本几乎为零。</p><h3>👤 会员体系设计（三级成长型）</h3><table><tr><th>等级</th><th>门槛</th><th>权益</th><th>目标人群</th></tr><tr><td>🥉 烧鸟新客</td><td>扫码即开（0元）</td><td>首单9折+生日赠招牌串1份</td><td>所有到店顾客</td></tr><tr><td>🥈 深夜常客</td><td>累计消费满500元</td><td>全单95折+每月1张免费酒饮券+优先预约</td><td>月来2-3次的白领</td></tr><tr><td>🥇 1976VIP</td><td>累计消费满2,000元</td><td>全单9折+每月2张免费酒饮券+限定串优先品尝+专属吧台位</td><td>核心铁粉（目标30人）</td></tr></table><p><strong>怎么落地</strong>：① 店长🔧 会员后台→等级设置→配置三级体系+权益；② 收银员话术：「扫码加会员今天直接9折，攒积分还能换酒饮」；③ 客人说不用→「扫一下就行不填信息，今天能省XX元」（算出具体金额）</p><h3>🍺 「烧鸟+酒」复购引擎</h3><p>居酒屋复购核心不是「吃」而是「喝」。酒水毛利60-70%（⚠️ 行业参考值），是利润重要来源也是复购理由。</p><ul><li><strong>酒饮月卡</strong>（D15后推）：99元/月含8杯基础酒饮（Highball/生啤，单杯价值约15-20元），限当月用。怎么做：① 🔧 会员后台→次卡设置→创建「烧鸟酒饮月卡」；② 服务员话术：「常来推荐月卡，99块8杯，比单点省三四十」；③ 月卡=承诺月来4次+锁定复购</li><li><strong>「第二杯半价」常驻</strong>：酒水第二杯半价（限堂食），鼓励双人消费。🔧 扫码后台→活动设置→第二杯半价规则</li></ul><h3>📱 社群运营：「1976深夜食堂」群</h3><ul><li><strong>建群</strong>：D3起每桌放二维码「扫码入群，群内专享隐藏菜单+优先订座」</li><li><strong>运营节奏</strong>：周一「本周限定串预告」、周三「周末订座提醒」、周五「今晚特供酒饮」——每周3条不刷屏</li><li><strong>群专属</strong>：每周五发5张「深夜食堂8折券」（22:00后用），先到先得制造紧迫感</li><li><strong>目标</strong>：30天群成员≥100人，60天≥200人</li></ul>`,
+    7: `<h3>📅 7-9月营销节奏（开业正值暑期旺季）</h3><p>7月开业恰逢暑期，是烧烤/居酒屋<strong>天然旺季</strong>（夜宵需求爆发+年轻客群活跃）。必须用好窗口期快速起量。</p><h3>🔥 7月：开业月——深夜食堂主题</h3><table><tr><th>时间</th><th>活动</th><th>具体执行</th><th>负责人</th><th>预算</th></tr><tr><td>7.22-31</td><td>开业引流套餐</td><td>3款团购（49/99/199）上线点评+小红书/抖音预热</td><td>店长</td><td>让利约3,000元</td></tr><tr><td>7月下旬</td><td>大暑消暑·冰饮畅饮</td><td>点烧鸟套餐送冰镇柠檬水（1元/杯）。🔧 扫码弹窗「大暑消暑福利」</td><td>服务员</td><td>约300元/周</td></tr><tr><td>7.25起</td><td>七夕预售·早鸟锁位</td><td>预售七夕双人套餐¥199，提前订赠小花束（5-8元）。🔧 万能码→预约页面，限量30份</td><td>店长</td><td>花束约200元</td></tr></table><h3>💕 8月：七夕+立秋——客单价提升月</h3><table><tr><th>时间</th><th>活动</th><th>具体执行</th><th>负责人</th><th>预算</th></tr><tr><td>七夕</td><td>烧鸟约会夜</td><td>烛光套餐3档（¥168/¥268/¥368），赠甜品+花束。LED蜡烛+花瓣（3元/桌）。发朋友圈送限定甜品串</td><td>全员</td><td>约500元</td></tr><tr><td>8.7-8</td><td>贴秋膘·限定串上新</td><td>3款秋季限定串（味噌烤五花/酱烧银杏鸡肉串），赠雪梨银耳汤（1.5元/杯）</td><td>厨师+店长</td><td>约200元/周</td></tr><tr><td>8月全月</td><td>夜宵季·延时营业</td><td>延至凌晨1点，22:00后8折。🔧 扫码点餐22:00自动切换夜宵菜单</td><td>店长</td><td>延时人工100-200元/晚</td></tr></table><h3>🌕 9月：中秋+开学——复购巩固月</h3><table><tr><th>时间</th><th>活动</th><th>具体执行</th><th>负责人</th><th>预算</th></tr><tr><td>9.1-7</td><td>开学季·白领回归</td><td>充300赠50锁定秋季消费。🔧 会员后台→储值活动。话术：「充300送50，相当于打八五折」。犹豫→「300块来这3-4次，送的50够多喝两杯」</td><td>收银员</td><td>赠送成本约15%</td></tr><tr><td>中秋</td><td>月圆烧鸟·团聚套餐</td><td>6人套餐¥399（15串+6杯酒饮+桂花甜品），赠桂花香囊。加「桂花Highball」限定酒饮。🔧 会员push「中秋预订开放」</td><td>全员</td><td>约300元</td></tr><tr><td>9月全月</td><td>1976会员日固化</td><td>每月19日和7日为会员日，专属限定串+积分双倍。🔧 会员后台→会员日设置</td><td>店长</td><td>约200元/月</td></tr></table><p><strong>Q3预算合计：约8,000-12,000元</strong>（含团购让利+物料+达人），占预估季度营收（27万）的3-4%。每月活动结束D+3复盘ROI，调整下月分配。</p>`,
+    8: `<h3>🔧 你已签5大SaaS产品，这样用才不浪费钱</h3><p>已签约：<strong>收银POS + 扫码点餐 + 小程序 + 会员旗舰版 + 会员高级版</strong>。以下是每个产品<strong>「第一天该做的事」和「每周该盯的数」</strong>。</p><h3>1. 收银POS：经营数据大脑</h3><ul><li><strong>开业前</strong>：录入菜品+定价+分类（串烧/酒饮/小食/套餐），设置桌台号（⚠️ 假设20桌）。🔧 收银POS→商品管理</li><li><strong>每天看</strong>：🔧 收银后台→经营报表→日报，盯4个数：日营收、桌均、酒水占比、翻台率</li><li><strong>酒水占比警戒线</strong>：居酒屋应在25-35%（⚠️ 行业参考值），低于20%=酒水推荐不够，丢高毛利收入</li></ul><h3>2. 扫码点餐：效率+加单利器</h3><ul><li><strong>开业前</strong>：菜单分类清晰（推荐/限定/酒饮/小食/套餐），首屏放59元套餐+限定串，菜品图全上传（无图点击率降40%）。🔧 扫码后台→菜单管理</li><li><strong>加单</strong>：🔧 扫码后台→智能推荐→开启「猜你喜欢」，点完串自动推荐酒饮搭配，居酒屋场景加单率可达40%+</li><li><strong>每周盯</strong>：扫码使用率（目标≥80%），低于=桌贴不醒目或没引导。🔧 扫码后台→数据统计</li></ul><h3>3. 小程序：自有流量入口</h3><ul><li><strong>开业前</strong>：上传logo+背景图+地址+营业时间，配置会员+积分商城入口。🔧 小程序后台→门店设置</li><li><strong>核心价值</strong>：唯一不依赖平台的自有流量——关注后可直接推送新品/活动，不用每次买流量</li><li><strong>推广</strong>：桌面立牌+结账小票+社群三个触点放小程序码。话术：「扫一下关注小程序，点餐更快，还有会员专属优惠」</li></ul><h3>4. 会员旗舰版：私域核心引擎（必须激活3大独有功能）</h3><ul><li><strong>团购会员卡</strong>：买团购自动成会员→🔧 会员后台→团购会员卡→开启。效果：一次性客人→可复触达会员</li><li><strong>潜客营销</strong>：到店未消费→自动发券→🔧 会员后台→潜客营销→设规则（建议：24h后发5元券）。效果：挽回犹豫客人</li><li><strong>6大特有活动</strong>：开卡礼/升级礼/生日礼/唤醒礼/消费满赠/推荐有礼。开业首月重点开：开卡礼（首单9折）+推荐有礼（老带新各10元券）</li></ul><h3>5. 会员高级版：积分+精准营销</h3><ul><li>积分规则（1元=1积分）+兑换上架（500积分换酒饮/1000积分换招牌串）。🔧 会员后台→积分商城</li><li>精准营销：「30天未到店」会员发唤醒券。🔧 会员后台→智能营销→创建唤醒任务</li></ul><p><strong>总结</strong>：5大产品=「引流→转化→复购→裂变」闭环。收银看数据+扫码提效加单+小程序自有流量+会员旗舰锁客+会员高级精准触达。<strong>关键是用起来，每天看数据，每周调策略。</strong></p>`,
+    9: `<h3>💰 投资与增收测算</h3><h4>开业前后总投入</h4><table><tr><th>投入项</th><th>金额</th><th>说明</th></tr><tr><td>开业团购让利</td><td>¥2,000-3,000</td><td>前7天引流套餐折扣</td></tr><tr><td>推广通（月）</td><td>¥1,500-2,000</td><td>D15起每月投放</td></tr><tr><td>免费试（月）</td><td>¥2,000</td><td>10份/周×4周×50元</td></tr><tr><td>小红书达人</td><td>¥1,000-1,500</td><td>2-3位本地博主置换</td></tr><tr><td>氛围物料</td><td>¥500</td><td>LED蜡烛+木托盘+小黑板+立牌</td></tr><tr><td>季度活动物料</td><td>¥3,000</td><td>7-9月节日活动赠品</td></tr><tr><td><strong>首季度总投入</strong></td><td><strong>¥10,000-12,000</strong></td><td>不含SaaS年费</td></tr></table><h4>预期月增收（稳定期，第3个月起）</h4><table><tr><th>来源</th><th>月增收</th><th>测算逻辑</th></tr><tr><td>团购引流新客</td><td>+¥15,000</td><td>月增150-200桌×桌均80元×加单25%</td></tr><tr><td>会员复购</td><td>+¥20,000</td><td>100活跃会员×月2次×桌均100元</td></tr><tr><td>酒饮月卡</td><td>+¥5,000</td><td>50张×99元</td></tr><tr><td>深夜食堂时段</td><td>+¥9,000</td><td>22:00后日均10桌×60元×30天×50%出勤</td></tr><tr><td><strong>月增收合计</strong></td><td><strong>+¥49,000</strong></td><td>⚠️ 假设值，需根据实际调整</td></tr></table><h4>盈利模型（⚠️ 假设值）</h4><table><tr><th>项目</th><th>金额/占比</th><th>说明</th></tr><tr><td>月营收目标（稳定期）</td><td>¥12-15万</td><td>日均4,000-5,000×30天</td></tr><tr><td>食材成本</td><td>35-40%</td><td>烧鸟食材含进口调料</td></tr><tr><td>酒水成本</td><td>8-10%（占总营收）</td><td>酒水占营收约30%，毛利65%</td></tr><tr><td>人力成本</td><td>20-25%</td><td>80㎡约4-5人（⚠️ 假设）</td></tr><tr><td>房租</td><td>10-12%</td><td>盈丰街道商铺参考值</td></tr><tr><td><strong>净利润率</strong></td><td><strong>10-15%</strong></td><td>月净利¥1.2-2.25万</td></tr></table><h3>🎯 OKR量化目标</h3><h4>30天（冷启动）</h4><table><tr><th>指标</th><th>目标</th><th>衡量</th></tr><tr><td>月营收</td><td>≥¥9万</td><td>收银POS日报累加</td></tr><tr><td>点评评价</td><td>≥40条</td><td>🔧 商家后台→评价管理</td></tr><tr><td>点评评分</td><td>≥4.0</td><td>商家后台</td></tr><tr><td>会员开卡</td><td>≥150人</td><td>🔧 会员后台→会员统计</td></tr><tr><td>月曝光</td><td>≥3,000次</td><td>🔧 商家后台→数据中心</td></tr></table><h4>60天（爬坡）</h4><table><tr><th>指标</th><th>目标</th></tr><tr><td>月营收</td><td>≥¥12万</td></tr><tr><td>评价总数</td><td>≥80条</td></tr><tr><td>评分</td><td>≥4.3</td></tr><tr><td>会员总数</td><td>≥300人</td></tr><tr><td>会员消费占比</td><td>≥30%</td></tr><tr><td>酒饮月卡</td><td>≥30张/月</td></tr></table><h4>90天（稳定）</h4><table><tr><th>指标</th><th>目标</th></tr><tr><td>月营收</td><td>≥¥15万</td></tr><tr><td>评价总数</td><td>≥120条</td></tr><tr><td>评分</td><td>≥4.5</td></tr><tr><td>会员总数</td><td>≥500人</td></tr><tr><td>会员消费占比</td><td>≥40%</td></tr><tr><td>萧山日料/烧烤榜</td><td>前10名</td></tr></table><p><strong>回本周期</strong>：首季度营销投入约1-1.2万，月增收4.9万，<strong>首月即覆盖投入</strong>。SaaS年费分摊月均约800-1,200元，占月营收不到1%。<strong>结论：SaaS是这家店性价比最高的经营工具投资。</strong></p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
