@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>小黔风 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">贵州菜/黔菜 · 运营提升方案</div>
+  <h1 class="hero-title">小黔风</h1>
+  <p class="hero-subtitle">科技园唯一黔味，用酸汤鲜香打开差异化蓝海</p>
+  <div class="hero-address">广东省深圳市南山区粤海街道科技园社区科兴路11号深南花园11</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥65</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">南山区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察·黔菜蓝海', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察·黔菜蓝海</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解·科技园格局', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解·科技园格局</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '开业冲刺·30天作战图', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">开业冲刺·30天作战图</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评口碑·合规冲分', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评口碑·合规冲分</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '公域引流·三平台作战', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">公域引流·三平台作战</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '私域留客·会员+社群', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">私域留客·会员+社群</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '爆品策略·酸汤为锚', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">爆品策略·酸汤为锚</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '营销日历·7-9月实战', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">营销日历·7-9月实战</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(9, '投资回报·OKR目标', 9)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 09</div>
+      <div class="chapter-title">投资回报·OKR目标</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>品类大盘：酸汤赛道升温，黔菜深圳近乎空白</h3><p>2024年中式正餐市场规模超<strong>1.1万亿元</strong>，其中云贵菜细分赛道约<strong>340亿元</strong>，同比增长<strong>6.9%</strong>。酸汤品类被安顺夺夺粉、黔庐、苗家酸汤等品牌带动，消费者对「酸辣鲜」风味接受度持续走高，抖音搜索指数同比增长<strong>118%</strong>。</p><p>科技园是深圳餐饮最卷的区域之一，但<strong>黔菜品类竞争者极少</strong>——「贵州菜」在该商圈几乎空白，这是小黔风最大的差异化机会窗口。</p><h3>目标客群画像</h3><ul><li><strong>主力客群（70%）：</strong>科技园25-40岁互联网/科技从业者——午市快餐刚需极强（11:30-13:00窗口仅90分钟），晚市有聚餐需求</li><li><strong>次要客群（20%）：</strong>深南花园及周边小区居民——周末家庭聚餐、朋友聚餐</li><li><strong>潜力客群（10%）：</strong>贵州/西南籍在深打工群体——乡味情结复购率极高</li></ul><h3>消费场景拆解</h3><table><tr><th>时段</th><th>场景</th><th>客单预估</th><th>策略重心</th></tr><tr><td>午市11:30-13:00</td><td>科技园工作餐</td><td>35-45元</td><td>酸汤快餐套餐·8分钟出餐</td></tr><tr><td>晚市17:30-20:30</td><td>同事聚餐/约饭</td><td>65-85元</td><td>酸汤锅套餐·社交体验</td></tr><tr><td>周末全天</td><td>家庭/朋友聚餐</td><td>70-100元</td><td>特色菜+锅底·拍照传播</td></tr></table><p><strong>关键判断：</strong>科技园人群对新口味尝鲜敏感度高、消费决策快，但也极挑剔——出餐慢、味道不稳定会被迅速淘汰。小黔风必须在午市做到<strong>快+便宜</strong>（切工作餐），晚市做到<strong>有氛围+差异化</strong>（切聚餐），两条腿走路才能站稳。</p></div>
+<div id="modal-content-2" style="display:none"><h3>深南花园周边500米竞争地图</h3><p>科技园片区餐饮密度极高，<strong>但黔菜品类几乎无直接竞品</strong>。小黔风的竞争对手不是另一家贵州菜馆，而是所有抢科技园午餐/晚餐钱包的品牌：</p><table><tr><th>品牌</th><th>品类</th><th>人均</th><th>核心强项</th><th>可攻击弱点</th></tr><tr><td>费大厨/湘辣辣</td><td>湘菜</td><td>65-80元</td><td>品牌认知强，辣椒炒肉爆品成熟</td><td>风味同质化严重，科技园人吃腻了湘菜</td></tr><tr><td>太二酸菜鱼</td><td>酸菜鱼</td><td>50-70元</td><td>酸味赛道直接竞品，标准化强</td><td>口味单一（只有酸菜鱼），社交属性弱</td></tr><tr><td>鱼你在一起</td><td>酸菜鱼快餐</td><td>25-35元</td><td>价格低、出餐快</td><td>品质感差，无聚餐场景</td></tr><tr><td>农耕记</td><td>湖南菜</td><td>60-75元</td><td>科技园多店覆盖，午市排队王</td><td>菜品疲劳，顾客审美疲劳严重</td></tr><tr><td>各类川菜馆/麻辣烫</td><td>川菜</td><td>35-60元</td><td>价格带覆盖广</td><td>无特色壁垒，可替代性极强</td></tr></table><h3>小黔风的差异化切入点</h3><p>上述竞品的共性弱点是<strong>风味同质化</strong>——川湘菜在科技园已严重内卷，科技园白领对辣椒炒肉、酸菜鱼的新鲜感正在消退。小黔风的机会在于：</p><ul><li><strong>品类空白：</strong>「贵州菜」在科技园几乎没有竞争者，酸汤鱼vs酸菜鱼、辣子鸡vs辣椒炒肉，风味有本质区别</li><li><strong>健康标签：</strong>贵州酸汤是发酵食品（番茄酸/红酸/白酸），「低油、发酵、开胃」的健康认知远高于川湘的重油重辣</li><li><strong>社交话题：</strong>丝娃娃、洋芋粑粑、折耳根等贵州特色小食，拍照传播性极强，在小红书/抖音容易出圈</li></ul><p><strong>一句话定位建议：</strong>不要跟湘菜川菜正面拼辣，要打<strong>「酸鲜不油腻·科技园贵州味」</strong>的差异化心智。</p></div>
+<div id="modal-content-3" style="display:none"><h3>新店冷启动核心任务</h3><p>科技园新店冷启动难度高——餐饮密度大、消费者选择多、试错成本低。<strong>开业30天的唯一任务：让科技园3公里内的上班族知道有这家店、吃过觉得不错、愿意发朋友圈/点评。</strong>（⚠️ 假设开业日期待确认，以下按D-7至D+30倒排）</p><h3>开业前7天·蓄水期</h3><table><tr><th>天数</th><th>动作</th><th>谁来做</th><th>怎么做</th></tr><tr><td>D-7至D-5</td><td>大众点评门店完善</td><td>店长</td><td>大众点评商家后台「门店信息」：上传门头照+6张以上菜品图（酸汤鱼/辣子鸡/丝娃娃/洋芋粑粑必拍）+菜单+营业时间+人均。关键词锁定：贵州菜、酸汤鱼、科技园聚餐</td></tr><tr><td>D-7至D-5</td><td>小程序搭建</td><td>店长+BD</td><td>美团商家后台「小程序」上传菜单、配置外卖、开通扫码点餐。午市套餐提前配好（29.9/35.9/39.9三档）</td></tr><tr><td>D-5至D-3</td><td>朋友圈/社群预热</td><td>老板</td><td>发3条朋友圈：门店装修进度、招牌菜品特写、开业福利预告。同步建「小黔风·科技园吃货群」微信群</td></tr><tr><td>D-3至D-1</td><td>酸汤试饮地推</td><td>2名员工</td><td>科兴科学园/深大地铁站出口摆试饮台——一次性杯装酸汤（成本0.3元/杯），杯身贴店名+小程序码。话术：「免费尝一口贵州酸汤，扫码领开业5元券~」目标：每天发300杯+加群100人</td></tr><tr><td>D-3至D-1</td><td>霸王餐设置</td><td>店长</td><td>大众点评商家后台「营销中心-霸王餐/免费试」设50份名额（双人套餐价值128元），筛选Lv3以上+有3张以上美食图用户</td></tr></table><h3>开业第1-7天·引爆期</h3><ul><li><strong>D1-D3 开业酬宾：</strong>全场8.8折（收银POS「折扣设置」全场折扣8.8折，限3天），每桌赠招牌凉菜一份（洋芋粑粑/折耳根拌菜，成本3元）。服务员话术：「这是我们贵州招牌小食，请您尝鲜~」</li><li><strong>D1-D7 自然评价引导：</strong>结账时话术：「今天酸汤合口味吗？如果觉得不错，花1分钟写写真实感受，好坏都行，我们送您一杯酸梅汤~」（注意：不以好评为条件，仅引导真实体验分享）</li><li><strong>D4-D7 午市套餐冲量：</strong>重点推29.9/35.9元单人套餐（酸汤肥牛饭+小菜+饮品），出餐控制8分钟内。扫码点餐「推荐位」设午市套餐置顶</li></ul><h3>开业第8-30天·稳客期</h3><ul><li><strong>D8 会员体系上线</strong>（详见「私域留客」章节）</li><li><strong>D8起 午市复购计划：</strong>小程序首页推「午市工作餐」专区，每周更换1-2个套餐品种保持新鲜感</li><li><strong>D10起 晚市聚餐场景：</strong>推89/109/129元2-3人酸汤锅套餐（酸汤鱼+酸汤牛肉双拼），搭配贵州小食拼盘（丝娃娃+洋芋粑粑+糍粑），桌面放「贵州话趣味点菜卡」增加社交谈资</li><li><strong>每周日 数据复盘：</strong>收银POS「经营报表」查日均流水/客单/桌均/菜品TOP10，关注午市vs晚市占比（目标午市占比40%+）</li></ul></div>
+<div id="modal-content-4" style="display:none"><h3>当前阶段：新店冷启动期（评价数0·评分0）</h3><p>小黔风尚未开业，点评评分和评价数均为零。<strong>前10条评价的基调，比后面100条都重要</strong>——决定了所有后续顾客的第一印象。</p><h3>2025年10月新规·红线</h3><p>大众点评新规明确：<strong>高强度促评行为将导致新评价不产生星级收益</strong>。严格禁止：好评返现/好评送菜、店员代写评价、雇人刷评、以好评为条件的赠送。</p><h3>合规口碑建设4步走</h3><h4>第1步：止血——培训全员（D1）</h4><p><strong>谁来做：</strong>老板/店长，开业第一天全员培训。<strong>怎么做：</strong>明确告知所有员工只引导「写真实感受」，绝不说「给好评」。话术示范：「今天菜合口味吗？方便的话花1分钟写写真实体验，对我们改进特别有帮助~」</p><h4>第2步：合规工具攒评价（D1-D14）</h4><p><strong>谁来做：</strong>店长。<strong>在哪操作：</strong>大众点评商家后台「营销中心」</p><ul><li><strong>免费试/霸王餐：</strong>50份双人套餐名额（食材成本约50x60=3000元），换20-30条高质量图文评价——性价比极高</li><li><strong>免费菜：</strong>上线1-2道招牌小食（折耳根拌菜/洋芋粑粑），顾客到店免费领取，无需写评价，体验好自然会分享</li></ul><h4>第3步：打造自然分享动机（D7-D30）</h4><p><strong>谁来做：</strong>服务员/老板。</p><ul><li><strong>出品颜值：</strong>酸汤鱼用铜锅/砂锅盛装，配料碟用竹编小筐——让顾客「忍不住拍」而非「求着拍」</li><li><strong>丝娃娃DIY体验：</strong>上菜时附「丝娃娃吃法图解卡」（包裹-蘸汤-一口塞），互动感强、拍照传播率高</li><li><strong>贵州方言趣味菜单：</strong>菜单旁注贵州方言（洋芋=土豆、折耳根=鱼腥草），制造社交话题</li></ul><h4>第4步：差评应急预案（D1起常备）</h4><p><strong>谁来做：</strong>店长，每天10:00和17:00各查一次点评后台「评价管理」。差评2小时内回复，话术：「XX您好，非常抱歉给您不好的体验。关于[具体问题]，我们已[具体改进措施]。下次来可以找店长，一定给您满意体验~」差评高频关键词连续出现2次以上→当天开会定整改。</p><h3>量化口碑目标</h3><table><tr><th>时间节点</th><th>目标</th></tr><tr><td>开业14天</td><td>评价数≥20条，好评率≥85%</td></tr><tr><td>开业30天</td><td>评价数≥50条，出星4.0-4.5，冲新店榜</td></tr><tr><td>开业60天</td><td>评价数≥100条，评分稳定4.5+，冲热门榜前20</td></tr><tr><td>开业90天</td><td>评分4.5+，进入区域好评榜视野</td></tr></table></div>
+<div id="modal-content-5" style="display:none"><h3>公域策略：大众点评做基盘，小红书做话题，抖音做爆发</h3><p>贵州菜是「新奇特」品类——科技园白领大多没吃过正宗黔菜，好奇心就是最好的流量。公域核心不是砸钱投广告，而是<strong>制造「贵州味道来科技园了」的话题感</strong>。</p><h3>平台一：大众点评（基础流量·必做）</h3><h4>团购套餐设计（D1上线）</h4><p><strong>谁来做：</strong>店长配合BD。<strong>在哪：</strong>大众点评商家后台「团购」新建套餐</p><ul><li><strong>引流款：</strong>「酸汤肥牛饭套餐」1人餐 原价42元→团购29.9元（含饭+小菜+饮品），目标日售30份+</li><li><strong>利润款：</strong>「酸汤双拼锅」2-3人餐 原价198元→团购138元（锅底+丝娃娃+2饮品），目标周末日售10份</li><li><strong>形象款：</strong>「贵州全席4人宴」原价398元→团购288元（6道菜+锅底+4饮品），月售50份</li></ul><h4>推广通投放（D14启动，⚠️ 假设预算500-800元/月）</h4><p><strong>谁来做：</strong>店长/老板（BD协助首次设置）。大众点评商家后台「推广通」。关键词：「科技园美食」「南山聚餐」「深圳贵州菜」「酸汤鱼」，CPC约2-3元，日预算30元，午市时段集中投放。</p><h4>榜单路径</h4><p>新店→新店榜（30天内自动参与）→热门榜（靠订单量+评价数）→好评榜（评分4.5+）。冲热门榜需日均外卖+团购核销<strong>40单以上</strong>。</p><h3>平台二：小红书（话题种草·重点做）</h3><p>贵州菜天然适合小红书——丝娃娃DIY、酸汤锅冒泡、折耳根猎奇，都是爆款素材。</p><ul><li><strong>D1-D7：</strong>老板/店员发3-5条自有笔记。标题参考：「深圳科技园居然开了家贵州菜！」「酸汤鱼vs酸菜鱼到底谁更好喝？」「第一次吃丝娃娃被这个包法惊到了」</li><li><strong>D8-D14：</strong>邀请3-5位本地美食博主（粉丝1000-5000，费用200-500元/位或免费置换），产出图文/短视频</li><li><strong>关键词锁定：</strong>「科技园贵州菜」「深圳酸汤鱼」「南山聚餐推荐」「科技园午餐」</li></ul><p>客人说「我在小红书看到你们的」怎么接？话术：「谢谢关注！拍照发小红书带话题#小黔风科技园，结账出示给我看送洋芋粑粑一份~」（成本2元，换一条UGC）</p><h3>平台三：抖音（本地团购·配合做）</h3><ul><li>上线1款抖音专属：「9.9元酸汤体验券」（满60可用），限量500张引流到店</li><li>拍1-2条短视频：酸汤锅沸腾冒泡+丝娃娃DIY，15秒内，投DOU+定向「南山区·美食」，预算200元测试</li></ul><h3>三平台联动闭环</h3><p>大众点评做<strong>搜索承接</strong>（用户搜「科技园贵州菜」找到你）→ 小红书做<strong>种草和好奇心</strong>（让人想去试试）→ 抖音做<strong>低价冲量</strong>（9.9元券拉新）→ 到店后引导加微信群+注册会员 → 进入私域复购闭环。</p></div>
+<div id="modal-content-6" style="display:none"><h3>私域核心逻辑</h3><p>科技园客群天然优势：<strong>他们每个工作日都要吃午饭</strong>。只要午市体验OK复购自然发生——私域的任务不是「让他们来」，而是<strong>「让他们每次想吃饭时第一个想到小黔风」</strong>。</p><p>小黔风已签约<strong>会员旗舰版</strong>（4,888元/年），旗舰独有能力：团购会员卡、潜客营销、集点卡/裂变/抽奖/拼团/砍价/秒杀6大活动。以下方案充分利用旗舰版。</p><h3>会员体系设计</h3><h4>开卡礼（D8上线）</h4><p><strong>谁来做：</strong>店长设置，服务员执行。<strong>在哪：</strong>美团商家后台「会员-开卡礼设置」</p><ul><li>扫码免费注册即送：酸汤鱼5元券（满50用）+生日月双倍积分+积满5次消费送招牌凉菜</li><li>话术：「扫桌上码注册会员，马上到账5元券下次能用，以后每次来都攒积分，5次还送菜~」</li><li>客人犹豫：「就扫一下10秒搞定，不用充钱的~」（打消储值顾虑）</li></ul><h4>集点卡（D15上线·旗舰版专属）</h4><p><strong>在哪：</strong>美团商家后台「会员-集点卡」</p><ul><li>规则：消费满40元集1点，集满5点兑「酸汤鱼锅半价券」（价值约35元）</li><li>逻辑：科技园白领午市消费40-50元，一周来2-3次，约2周集满→兑券拉朋友来吃晚市酸汤锅→客单翻倍</li><li>目标：60天内集点卡发放<strong>200张</strong>，兑换率≥30%</li></ul><h4>储值方案（D30视数据决定）</h4><p><strong>⚠️ 储值不是必须做的</strong>——要看开业首月复购数据再决定。午市回头客占比≥30%说明粘性够，值得锁定；复购率低则先把产品和服务做好，别急着锁钱。</p><p>若决定启动：</p><ul><li><strong>体验档：</strong>充200送20（约5-6次消费，午市常客首选）</li><li><strong>主推档：</strong>充500送60（约12-15次消费，锁定1-2个月午餐）</li><li><strong>尊享档：</strong>充1000送150（适合聚餐频次高的老客）</li></ul><p>服务员话术：「您已经来第4次了，充500送60相当于每次吃饭省4-5块，比外面点外卖还划算~」 客人犹豫：「先充200试试也行，送的20元马上能用~」</p><h3>微信社群运营</h3><h4>建群（D-3开始）</h4><p><strong>谁来做：</strong>老板。群名「小黔风·科技园吃货群」，开业前3天开始从试饮地推、朋友圈拉人入群。</p><ul><li>入群欢迎语：「欢迎加入小黔风吃货群！群内每周发专属优惠+新品预告+贵州美食故事。回复1领开业5元券~」</li><li>日常运营节奏：周一发本周新品预告、周三午市前11:00发限量秒杀（如「前10名下单午餐送酸梅汤」）、周五发周末聚餐套餐推荐</li><li>目标：开业30天内群人数≥<strong>300人</strong></li></ul><h4>潜客营销（旗舰版专属）</h4><p><strong>在哪：</strong>美团商家后台「会员-潜客营销」。功能说明：自动识别在大众点评收藏/浏览过但未到店的用户，推送定向优惠券。建议开业D14启动，设「新客首单立减8元」，触达半径3公里。</p></div>
+<div id="modal-content-7" style="display:none"><h3>爆品锚点逻辑</h3><p>一家餐厅能让人记住的，往往就是<strong>一道菜</strong>。费大厨靠辣椒炒肉、太二靠酸菜鱼、小黔风必须靠<strong>酸汤鱼</strong>。所有营销、所有传播、所有套餐设计，都围绕这一道菜展开——品牌记忆靠重复一个点，找不到爆品的方案注定是散的。</p><h3>爆品一：酸汤鱼（核心锚点）</h3><ul><li><strong>定位：</strong>来小黔风必点的第一道菜，午市做快餐版（酸汤鱼饭），晚市做锅底版（酸汤鱼锅）</li><li><strong>午市快餐版：</strong>酸汤肥牛/鱼片饭套餐，29.9-39.9元，出餐8分钟内，主打「不油不腻、开胃解压」</li><li><strong>晚市锅底版：</strong>酸汤鱼锅+涮菜，2-3人89-129元，用铜锅/砂锅上桌，视觉冲击+仪式感</li><li><strong>传播点：</strong>酸汤锅沸腾冒泡的画面天然适合拍短视频（15秒抖音/小红书），比静态菜品图传播力强10倍</li></ul><h3>爆品二：丝娃娃（社交裂变器）</h3><ul><li><strong>定位：</strong>不是主菜但是「来了必须试的体验」，DIY手包形式自带社交传播</li><li><strong>玩法：</strong>上菜附「丝娃娃吃法图解卡」+蘸水选择（酸汤蘸水/辣椒蘸水/折耳根蘸水），让客人DIY包裹</li><li><strong>传播点：</strong>「第一次吃丝娃娃」是小红书爆款标题模板，互动性+猎奇感+出片率三合一</li><li><strong>定价：</strong>28-38元/份（成本约8-12元），毛利率65%+</li></ul><h3>爆品三：洋芋粑粑/折耳根（贵州符号）</h3><ul><li><strong>定位：</strong>低客单引流小食+赠品，用于开卡礼、好评赠送、集点兑换</li><li><strong>成本优势：</strong>洋芋粑粑成本约2-3元/份，折耳根拌菜成本约3-4元/份，作为赠品/引流品ROI极高</li></ul><h3>菜单结构建议</h3><table><tr><th>品类</th><th>SKU数</th><th>价格带</th><th>角色</th></tr><tr><td>酸汤系列（锅/饭）</td><td>4-5道</td><td>29.9-129元</td><td>核心锚点·必推</td></tr><tr><td>贵州招牌菜</td><td>6-8道</td><td>38-68元</td><td>利润款·辣子鸡/酸汤牛肉等</td></tr><tr><td>贵州小食</td><td>5-6道</td><td>18-38元</td><td>社交款·丝娃娃/粑粑/糍粑</td></tr><tr><td>凉菜/蘸水</td><td>4-5道</td><td>12-28元</td><td>开胃+凑单</td></tr><tr><td>饮品/酒水</td><td>4-6款</td><td>8-28元</td><td>搭配·酸梅汤/米酒/啤酒</td></tr></table><p>SKU总数控制在<strong>25-30道</strong>——精简菜单降低后厨复杂度，科技园出餐速度就是生命线。<strong>⚠️ 假设菜单结构待与老板确认，以上为品类通用建议。</strong></p></div>
+<div id="modal-content-8" style="display:none"><h3>Q3营销节奏（结合科技园客群特征）</h3><p>7-9月是深圳餐饮旺季（暑期+夜宵+高温外卖），但科技园有特殊性：白领为主、学生少、午市是刚需、晚市+周末是增量。以下营销节点按实际客群定制：</p><h3>7月：暑期启动+夜宵旺季</h3><table><tr><th>节点</th><th>活动</th><th>操作要点</th><th>预估成本</th></tr><tr><td>7月上旬·开业期</td><td>开业酬宾8.8折+酸汤试饮地推</td><td>见「开业冲刺」章节，3天限时折扣+地推发300杯/天</td><td>折扣让利约12%+试饮物料约300元</td></tr><tr><td>7月中旬</td><td>「深夜食堂」夜宵模式</td><td>科技园加班族多，延长营业至22:30，推「夜宵小食拼盘」49元（小龙虾+烤串+凉菜+啤酒），扫码点餐22:00后自动切换夜宵菜单</td><td>延时水电人工约100元/晚</td></tr><tr><td>7月22-23日·大暑</td><td>「酸汤消暑·清凉一夏」</td><td>到店消费赠冰粉一份（成本0.5元），推「消暑酸汤鱼」（冰镇酸汤底+鱼片，夏日限定），外卖满50加1元得冰饮</td><td>冰粉约50元/天+冰饮约100元/天</td></tr></table><h3>8月：七夕+立秋换季</h3><table><tr><th>节点</th><th>活动</th><th>操作要点</th><th>预估成本</th></tr><tr><td>8月上旬·七夕</td><td>「黔味情人夜」双人套餐</td><td>推七夕限定双人套餐228元（酸汤鱼锅+辣子鸡+丝娃娃+2饮品+定制甜品），赠玫瑰一支。提前7天小程序开放预约，限量30桌制造稀缺。会员push「七夕套餐预售」</td><td>玫瑰2元+甜品5元约210元总计</td></tr><tr><td>8月7-8日·立秋</td><td>「贴秋膘·贵州味」换季上新</td><td>上线3道秋季新品（酸汤牛肉/糟辣鸡/酸汤排骨），点秋膘菜品送养生饮品一杯（雪梨银耳汤，成本2元）。社交媒体发「贵州人怎么贴秋膘」内容</td><td>养生饮品约100元/天</td></tr><tr><td>8月下旬</td><td>午市会员日</td><td>每周三为「会员专属日」，午市会员消费满40减5元（旗舰版「会员日」功能），培养固定到店习惯</td><td>减免约150元/次</td></tr></table><h3>9月：开学季+中秋</h3><table><tr><th>节点</th><th>活动</th><th>操作要点</th><th>预估成本</th></tr><tr><td>9月上旬·开学季</td><td>「秋季工作餐焕新」</td><td>科技园白领=「永远的学生」，推「开工加油套餐」系列（3款新套餐35.9元），小程序首页banner换秋季主题</td><td>正常菜品成本</td></tr><tr><td>9月10日·教师节</td><td>科技园「内部讲师」致敬</td><td>科技园没有传统教师，但很多内部培训讲师/导师。凭企业内训师证明到店享菜品8折，发社交媒体可参与抽奖（正能量口碑传播）</td><td>折扣让利约200元/天</td></tr><tr><td>9月中下旬·中秋</td><td>「黔味团圆宴」</td><td>推4-6人团圆套餐（388/488/588元），含赠定制月饼4枚（成本15-20元/份）。提前10天开放预约，会员push+社群推送。企业团建套餐单独设计（含发票+大桌位）</td><td>月饼约1000元（50份）</td></tr></table><p><strong>全季度营销预算估算：</strong>约<strong>5000-8000元</strong>（含地推物料+赠品+推广通+博主置换），ROI目标>5倍。</p></div>
+<div id="modal-content-9" style="display:none"><h3>投资回报测算</h3><p>⚠️ 以下数据基于科技园正餐行业参考值+品类特征估算，建议开业后用实际数据校准。</p><h3>基础假设</h3><table><tr><th>指标</th><th>假设值</th><th>假设依据</th></tr><tr><td>预估人均</td><td>65元（午市40元/晚市85元加权）</td><td>科技园正餐主流人均55-85元，黔菜定位中偏上</td></tr><tr><td>日均桌数（爬坡期D1-D30）</td><td>25-35桌</td><td>新店冷启动期，科技园竞争激烈</td></tr><tr><td>日均桌数（稳定期D60+）</td><td>45-60桌</td><td>午市30-40桌+晚市15-20桌</td></tr><tr><td>桌均消费</td><td>午市45元/桌·晚市150元/桌</td><td>午市1-2人·晚市2-3人</td></tr><tr><td>食材成本率</td><td>35%（⚠️行业参考值，黔菜酸汤底成本较低）</td><td>云贵菜成本结构参考</td></tr><tr><td>人力成本率</td><td>25%（⚠️假设，深圳人力成本偏高）</td><td>正餐行业22-30%</td></tr><tr><td>房租成本率</td><td>15%（⚠️假设，科技园租金高）</td><td>南山科技园商铺租金参考</td></tr></table><h3>月度营收预测</h3><table><tr><th>阶段</th><th>日均营收</th><th>月营收</th><th>净利率</th><th>月净利</th></tr><tr><td>爬坡期（M1-M2）</td><td>3500-5000元</td><td>10-15万</td><td>5-8%</td><td>0.5-1.2万</td></tr><tr><td>成长期（M3-M4）</td><td>6000-8000元</td><td>18-24万</td><td>8-12%</td><td>1.5-2.9万</td></tr><tr><td>稳定期（M5+）</td><td>8000-12000元</td><td>24-36万</td><td>10-15%</td><td>2.4-5.4万</td></tr></table><h3>方案投入明细</h3><table><tr><th>投入项</th><th>金额</th><th>说明</th></tr><tr><td>开业地推物料</td><td>500元</td><td>试饮杯+杯贴+传单</td></tr><tr><td>霸王餐/免费试食材</td><td>3000元</td><td>50份x60元食材成本</td></tr><tr><td>开业酬宾折扣</td><td>约2000元</td><td>3天8.8折让利</td></tr><tr><td>推广通（首季度）</td><td>2000-2500元</td><td>500-800元/月x3月</td></tr><tr><td>小红书博主置换</td><td>1000-2500元</td><td>3-5位博主</td></tr><tr><td>抖音DOU+测试</td><td>200元</td><td>首轮测试</td></tr><tr><td>赠品/活动物料</td><td>1500元</td><td>冰粉/酸梅汤/贺卡/月饼等全季度</td></tr><tr><td><strong>合计</strong></td><td><strong>约1-1.2万元</strong></td><td>开业首季度总营销投入</td></tr></table><h3>ROI测算</h3><p>首季度营销投入约<strong>1-1.2万元</strong>，预计带来增量营收（团购核销+会员复购+社群转化）约<strong>8-15万元</strong>，ROI约<strong>7-12倍</strong>。</p><h3>OKR量化目标</h3><table><tr><th>维度</th><th>30天目标</th><th>90天目标</th><th>180天目标</th></tr><tr><td>月营收</td><td>10-12万</td><td>18-22万</td><td>28-36万</td></tr><tr><td>大众点评评分</td><td>出星4.0+</td><td>4.5+</td><td>4.5+稳定</td></tr><tr><td>评价数</td><td>≥50条</td><td>≥150条</td><td>≥300条</td></tr><tr><td>注册会员数</td><td>≥150人</td><td>≥500人</td><td>≥1200人</td></tr><tr><td>午市套餐日均</td><td>20份+</td><td>35份+</td><td>45份+</td></tr><tr><td>会员复购率</td><td>-</td><td>≥35%</td><td>≥45%</td></tr><tr><td>微信群人数</td><td>≥300人</td><td>≥500人</td><td>≥800人</td></tr></table><p><strong>关键里程碑：</strong></p><ul><li><strong>开业7天：</strong>日均营收突破3000元、微信群破100人</li><li><strong>开业30天：</strong>大众点评出星、会员破150人、午市套餐日销稳定20份+</li><li><strong>开业90天：</strong>月营收突破20万、评分4.5+、有3条以上小红书自然种草笔记</li></ul></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>邱振伟</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>品类大盘：酸汤赛道升温，黔菜深圳近乎空白</h3><p>2024年中式正餐市场规模超<strong>1.1万亿元</strong>，其中云贵菜细分赛道约<strong>340亿元</strong>，同比增长<strong>6.9%</strong>。酸汤品类被安顺夺夺粉、黔庐、苗家酸汤等品牌带动，消费者对「酸辣鲜」风味接受度持续走高，抖音搜索指数同比增长<strong>118%</strong>。</p><p>科技园是深圳餐饮最卷的区域之一，但<strong>黔菜品类竞争者极少</strong>——「贵州菜」在该商圈几乎空白，这是小黔风最大的差异化机会窗口。</p><h3>目标客群画像</h3><ul><li><strong>主力客群（70%）：</strong>科技园25-40岁互联网/科技从业者——午市快餐刚需极强（11:30-13:00窗口仅90分钟），晚市有聚餐需求</li><li><strong>次要客群（20%）：</strong>深南花园及周边小区居民——周末家庭聚餐、朋友聚餐</li><li><strong>潜力客群（10%）：</strong>贵州/西南籍在深打工群体——乡味情结复购率极高</li></ul><h3>消费场景拆解</h3><table><tr><th>时段</th><th>场景</th><th>客单预估</th><th>策略重心</th></tr><tr><td>午市11:30-13:00</td><td>科技园工作餐</td><td>35-45元</td><td>酸汤快餐套餐·8分钟出餐</td></tr><tr><td>晚市17:30-20:30</td><td>同事聚餐/约饭</td><td>65-85元</td><td>酸汤锅套餐·社交体验</td></tr><tr><td>周末全天</td><td>家庭/朋友聚餐</td><td>70-100元</td><td>特色菜+锅底·拍照传播</td></tr></table><p><strong>关键判断：</strong>科技园人群对新口味尝鲜敏感度高、消费决策快，但也极挑剔——出餐慢、味道不稳定会被迅速淘汰。小黔风必须在午市做到<strong>快+便宜</strong>（切工作餐），晚市做到<strong>有氛围+差异化</strong>（切聚餐），两条腿走路才能站稳。</p>`,
+    2: `<h3>深南花园周边500米竞争地图</h3><p>科技园片区餐饮密度极高，<strong>但黔菜品类几乎无直接竞品</strong>。小黔风的竞争对手不是另一家贵州菜馆，而是所有抢科技园午餐/晚餐钱包的品牌：</p><table><tr><th>品牌</th><th>品类</th><th>人均</th><th>核心强项</th><th>可攻击弱点</th></tr><tr><td>费大厨/湘辣辣</td><td>湘菜</td><td>65-80元</td><td>品牌认知强，辣椒炒肉爆品成熟</td><td>风味同质化严重，科技园人吃腻了湘菜</td></tr><tr><td>太二酸菜鱼</td><td>酸菜鱼</td><td>50-70元</td><td>酸味赛道直接竞品，标准化强</td><td>口味单一（只有酸菜鱼），社交属性弱</td></tr><tr><td>鱼你在一起</td><td>酸菜鱼快餐</td><td>25-35元</td><td>价格低、出餐快</td><td>品质感差，无聚餐场景</td></tr><tr><td>农耕记</td><td>湖南菜</td><td>60-75元</td><td>科技园多店覆盖，午市排队王</td><td>菜品疲劳，顾客审美疲劳严重</td></tr><tr><td>各类川菜馆/麻辣烫</td><td>川菜</td><td>35-60元</td><td>价格带覆盖广</td><td>无特色壁垒，可替代性极强</td></tr></table><h3>小黔风的差异化切入点</h3><p>上述竞品的共性弱点是<strong>风味同质化</strong>——川湘菜在科技园已严重内卷，科技园白领对辣椒炒肉、酸菜鱼的新鲜感正在消退。小黔风的机会在于：</p><ul><li><strong>品类空白：</strong>「贵州菜」在科技园几乎没有竞争者，酸汤鱼vs酸菜鱼、辣子鸡vs辣椒炒肉，风味有本质区别</li><li><strong>健康标签：</strong>贵州酸汤是发酵食品（番茄酸/红酸/白酸），「低油、发酵、开胃」的健康认知远高于川湘的重油重辣</li><li><strong>社交话题：</strong>丝娃娃、洋芋粑粑、折耳根等贵州特色小食，拍照传播性极强，在小红书/抖音容易出圈</li></ul><p><strong>一句话定位建议：</strong>不要跟湘菜川菜正面拼辣，要打<strong>「酸鲜不油腻·科技园贵州味」</strong>的差异化心智。</p>`,
+    3: `<h3>新店冷启动核心任务</h3><p>科技园新店冷启动难度高——餐饮密度大、消费者选择多、试错成本低。<strong>开业30天的唯一任务：让科技园3公里内的上班族知道有这家店、吃过觉得不错、愿意发朋友圈/点评。</strong>（⚠️ 假设开业日期待确认，以下按D-7至D+30倒排）</p><h3>开业前7天·蓄水期</h3><table><tr><th>天数</th><th>动作</th><th>谁来做</th><th>怎么做</th></tr><tr><td>D-7至D-5</td><td>大众点评门店完善</td><td>店长</td><td>大众点评商家后台「门店信息」：上传门头照+6张以上菜品图（酸汤鱼/辣子鸡/丝娃娃/洋芋粑粑必拍）+菜单+营业时间+人均。关键词锁定：贵州菜、酸汤鱼、科技园聚餐</td></tr><tr><td>D-7至D-5</td><td>小程序搭建</td><td>店长+BD</td><td>美团商家后台「小程序」上传菜单、配置外卖、开通扫码点餐。午市套餐提前配好（29.9/35.9/39.9三档）</td></tr><tr><td>D-5至D-3</td><td>朋友圈/社群预热</td><td>老板</td><td>发3条朋友圈：门店装修进度、招牌菜品特写、开业福利预告。同步建「小黔风·科技园吃货群」微信群</td></tr><tr><td>D-3至D-1</td><td>酸汤试饮地推</td><td>2名员工</td><td>科兴科学园/深大地铁站出口摆试饮台——一次性杯装酸汤（成本0.3元/杯），杯身贴店名+小程序码。话术：「免费尝一口贵州酸汤，扫码领开业5元券~」目标：每天发300杯+加群100人</td></tr><tr><td>D-3至D-1</td><td>霸王餐设置</td><td>店长</td><td>大众点评商家后台「营销中心-霸王餐/免费试」设50份名额（双人套餐价值128元），筛选Lv3以上+有3张以上美食图用户</td></tr></table><h3>开业第1-7天·引爆期</h3><ul><li><strong>D1-D3 开业酬宾：</strong>全场8.8折（收银POS「折扣设置」全场折扣8.8折，限3天），每桌赠招牌凉菜一份（洋芋粑粑/折耳根拌菜，成本3元）。服务员话术：「这是我们贵州招牌小食，请您尝鲜~」</li><li><strong>D1-D7 自然评价引导：</strong>结账时话术：「今天酸汤合口味吗？如果觉得不错，花1分钟写写真实感受，好坏都行，我们送您一杯酸梅汤~」（注意：不以好评为条件，仅引导真实体验分享）</li><li><strong>D4-D7 午市套餐冲量：</strong>重点推29.9/35.9元单人套餐（酸汤肥牛饭+小菜+饮品），出餐控制8分钟内。扫码点餐「推荐位」设午市套餐置顶</li></ul><h3>开业第8-30天·稳客期</h3><ul><li><strong>D8 会员体系上线</strong>（详见「私域留客」章节）</li><li><strong>D8起 午市复购计划：</strong>小程序首页推「午市工作餐」专区，每周更换1-2个套餐品种保持新鲜感</li><li><strong>D10起 晚市聚餐场景：</strong>推89/109/129元2-3人酸汤锅套餐（酸汤鱼+酸汤牛肉双拼），搭配贵州小食拼盘（丝娃娃+洋芋粑粑+糍粑），桌面放「贵州话趣味点菜卡」增加社交谈资</li><li><strong>每周日 数据复盘：</strong>收银POS「经营报表」查日均流水/客单/桌均/菜品TOP10，关注午市vs晚市占比（目标午市占比40%+）</li></ul>`,
+    4: `<h3>当前阶段：新店冷启动期（评价数0·评分0）</h3><p>小黔风尚未开业，点评评分和评价数均为零。<strong>前10条评价的基调，比后面100条都重要</strong>——决定了所有后续顾客的第一印象。</p><h3>2025年10月新规·红线</h3><p>大众点评新规明确：<strong>高强度促评行为将导致新评价不产生星级收益</strong>。严格禁止：好评返现/好评送菜、店员代写评价、雇人刷评、以好评为条件的赠送。</p><h3>合规口碑建设4步走</h3><h4>第1步：止血——培训全员（D1）</h4><p><strong>谁来做：</strong>老板/店长，开业第一天全员培训。<strong>怎么做：</strong>明确告知所有员工只引导「写真实感受」，绝不说「给好评」。话术示范：「今天菜合口味吗？方便的话花1分钟写写真实体验，对我们改进特别有帮助~」</p><h4>第2步：合规工具攒评价（D1-D14）</h4><p><strong>谁来做：</strong>店长。<strong>在哪操作：</strong>大众点评商家后台「营销中心」</p><ul><li><strong>免费试/霸王餐：</strong>50份双人套餐名额（食材成本约50x60=3000元），换20-30条高质量图文评价——性价比极高</li><li><strong>免费菜：</strong>上线1-2道招牌小食（折耳根拌菜/洋芋粑粑），顾客到店免费领取，无需写评价，体验好自然会分享</li></ul><h4>第3步：打造自然分享动机（D7-D30）</h4><p><strong>谁来做：</strong>服务员/老板。</p><ul><li><strong>出品颜值：</strong>酸汤鱼用铜锅/砂锅盛装，配料碟用竹编小筐——让顾客「忍不住拍」而非「求着拍」</li><li><strong>丝娃娃DIY体验：</strong>上菜时附「丝娃娃吃法图解卡」（包裹-蘸汤-一口塞），互动感强、拍照传播率高</li><li><strong>贵州方言趣味菜单：</strong>菜单旁注贵州方言（洋芋=土豆、折耳根=鱼腥草），制造社交话题</li></ul><h4>第4步：差评应急预案（D1起常备）</h4><p><strong>谁来做：</strong>店长，每天10:00和17:00各查一次点评后台「评价管理」。差评2小时内回复，话术：「XX您好，非常抱歉给您不好的体验。关于[具体问题]，我们已[具体改进措施]。下次来可以找店长，一定给您满意体验~」差评高频关键词连续出现2次以上→当天开会定整改。</p><h3>量化口碑目标</h3><table><tr><th>时间节点</th><th>目标</th></tr><tr><td>开业14天</td><td>评价数≥20条，好评率≥85%</td></tr><tr><td>开业30天</td><td>评价数≥50条，出星4.0-4.5，冲新店榜</td></tr><tr><td>开业60天</td><td>评价数≥100条，评分稳定4.5+，冲热门榜前20</td></tr><tr><td>开业90天</td><td>评分4.5+，进入区域好评榜视野</td></tr></table>`,
+    5: `<h3>公域策略：大众点评做基盘，小红书做话题，抖音做爆发</h3><p>贵州菜是「新奇特」品类——科技园白领大多没吃过正宗黔菜，好奇心就是最好的流量。公域核心不是砸钱投广告，而是<strong>制造「贵州味道来科技园了」的话题感</strong>。</p><h3>平台一：大众点评（基础流量·必做）</h3><h4>团购套餐设计（D1上线）</h4><p><strong>谁来做：</strong>店长配合BD。<strong>在哪：</strong>大众点评商家后台「团购」新建套餐</p><ul><li><strong>引流款：</strong>「酸汤肥牛饭套餐」1人餐 原价42元→团购29.9元（含饭+小菜+饮品），目标日售30份+</li><li><strong>利润款：</strong>「酸汤双拼锅」2-3人餐 原价198元→团购138元（锅底+丝娃娃+2饮品），目标周末日售10份</li><li><strong>形象款：</strong>「贵州全席4人宴」原价398元→团购288元（6道菜+锅底+4饮品），月售50份</li></ul><h4>推广通投放（D14启动，⚠️ 假设预算500-800元/月）</h4><p><strong>谁来做：</strong>店长/老板（BD协助首次设置）。大众点评商家后台「推广通」。关键词：「科技园美食」「南山聚餐」「深圳贵州菜」「酸汤鱼」，CPC约2-3元，日预算30元，午市时段集中投放。</p><h4>榜单路径</h4><p>新店→新店榜（30天内自动参与）→热门榜（靠订单量+评价数）→好评榜（评分4.5+）。冲热门榜需日均外卖+团购核销<strong>40单以上</strong>。</p><h3>平台二：小红书（话题种草·重点做）</h3><p>贵州菜天然适合小红书——丝娃娃DIY、酸汤锅冒泡、折耳根猎奇，都是爆款素材。</p><ul><li><strong>D1-D7：</strong>老板/店员发3-5条自有笔记。标题参考：「深圳科技园居然开了家贵州菜！」「酸汤鱼vs酸菜鱼到底谁更好喝？」「第一次吃丝娃娃被这个包法惊到了」</li><li><strong>D8-D14：</strong>邀请3-5位本地美食博主（粉丝1000-5000，费用200-500元/位或免费置换），产出图文/短视频</li><li><strong>关键词锁定：</strong>「科技园贵州菜」「深圳酸汤鱼」「南山聚餐推荐」「科技园午餐」</li></ul><p>客人说「我在小红书看到你们的」怎么接？话术：「谢谢关注！拍照发小红书带话题#小黔风科技园，结账出示给我看送洋芋粑粑一份~」（成本2元，换一条UGC）</p><h3>平台三：抖音（本地团购·配合做）</h3><ul><li>上线1款抖音专属：「9.9元酸汤体验券」（满60可用），限量500张引流到店</li><li>拍1-2条短视频：酸汤锅沸腾冒泡+丝娃娃DIY，15秒内，投DOU+定向「南山区·美食」，预算200元测试</li></ul><h3>三平台联动闭环</h3><p>大众点评做<strong>搜索承接</strong>（用户搜「科技园贵州菜」找到你）→ 小红书做<strong>种草和好奇心</strong>（让人想去试试）→ 抖音做<strong>低价冲量</strong>（9.9元券拉新）→ 到店后引导加微信群+注册会员 → 进入私域复购闭环。</p>`,
+    6: `<h3>私域核心逻辑</h3><p>科技园客群天然优势：<strong>他们每个工作日都要吃午饭</strong>。只要午市体验OK复购自然发生——私域的任务不是「让他们来」，而是<strong>「让他们每次想吃饭时第一个想到小黔风」</strong>。</p><p>小黔风已签约<strong>会员旗舰版</strong>（4,888元/年），旗舰独有能力：团购会员卡、潜客营销、集点卡/裂变/抽奖/拼团/砍价/秒杀6大活动。以下方案充分利用旗舰版。</p><h3>会员体系设计</h3><h4>开卡礼（D8上线）</h4><p><strong>谁来做：</strong>店长设置，服务员执行。<strong>在哪：</strong>美团商家后台「会员-开卡礼设置」</p><ul><li>扫码免费注册即送：酸汤鱼5元券（满50用）+生日月双倍积分+积满5次消费送招牌凉菜</li><li>话术：「扫桌上码注册会员，马上到账5元券下次能用，以后每次来都攒积分，5次还送菜~」</li><li>客人犹豫：「就扫一下10秒搞定，不用充钱的~」（打消储值顾虑）</li></ul><h4>集点卡（D15上线·旗舰版专属）</h4><p><strong>在哪：</strong>美团商家后台「会员-集点卡」</p><ul><li>规则：消费满40元集1点，集满5点兑「酸汤鱼锅半价券」（价值约35元）</li><li>逻辑：科技园白领午市消费40-50元，一周来2-3次，约2周集满→兑券拉朋友来吃晚市酸汤锅→客单翻倍</li><li>目标：60天内集点卡发放<strong>200张</strong>，兑换率≥30%</li></ul><h4>储值方案（D30视数据决定）</h4><p><strong>⚠️ 储值不是必须做的</strong>——要看开业首月复购数据再决定。午市回头客占比≥30%说明粘性够，值得锁定；复购率低则先把产品和服务做好，别急着锁钱。</p><p>若决定启动：</p><ul><li><strong>体验档：</strong>充200送20（约5-6次消费，午市常客首选）</li><li><strong>主推档：</strong>充500送60（约12-15次消费，锁定1-2个月午餐）</li><li><strong>尊享档：</strong>充1000送150（适合聚餐频次高的老客）</li></ul><p>服务员话术：「您已经来第4次了，充500送60相当于每次吃饭省4-5块，比外面点外卖还划算~」 客人犹豫：「先充200试试也行，送的20元马上能用~」</p><h3>微信社群运营</h3><h4>建群（D-3开始）</h4><p><strong>谁来做：</strong>老板。群名「小黔风·科技园吃货群」，开业前3天开始从试饮地推、朋友圈拉人入群。</p><ul><li>入群欢迎语：「欢迎加入小黔风吃货群！群内每周发专属优惠+新品预告+贵州美食故事。回复1领开业5元券~」</li><li>日常运营节奏：周一发本周新品预告、周三午市前11:00发限量秒杀（如「前10名下单午餐送酸梅汤」）、周五发周末聚餐套餐推荐</li><li>目标：开业30天内群人数≥<strong>300人</strong></li></ul><h4>潜客营销（旗舰版专属）</h4><p><strong>在哪：</strong>美团商家后台「会员-潜客营销」。功能说明：自动识别在大众点评收藏/浏览过但未到店的用户，推送定向优惠券。建议开业D14启动，设「新客首单立减8元」，触达半径3公里。</p>`,
+    7: `<h3>爆品锚点逻辑</h3><p>一家餐厅能让人记住的，往往就是<strong>一道菜</strong>。费大厨靠辣椒炒肉、太二靠酸菜鱼、小黔风必须靠<strong>酸汤鱼</strong>。所有营销、所有传播、所有套餐设计，都围绕这一道菜展开——品牌记忆靠重复一个点，找不到爆品的方案注定是散的。</p><h3>爆品一：酸汤鱼（核心锚点）</h3><ul><li><strong>定位：</strong>来小黔风必点的第一道菜，午市做快餐版（酸汤鱼饭），晚市做锅底版（酸汤鱼锅）</li><li><strong>午市快餐版：</strong>酸汤肥牛/鱼片饭套餐，29.9-39.9元，出餐8分钟内，主打「不油不腻、开胃解压」</li><li><strong>晚市锅底版：</strong>酸汤鱼锅+涮菜，2-3人89-129元，用铜锅/砂锅上桌，视觉冲击+仪式感</li><li><strong>传播点：</strong>酸汤锅沸腾冒泡的画面天然适合拍短视频（15秒抖音/小红书），比静态菜品图传播力强10倍</li></ul><h3>爆品二：丝娃娃（社交裂变器）</h3><ul><li><strong>定位：</strong>不是主菜但是「来了必须试的体验」，DIY手包形式自带社交传播</li><li><strong>玩法：</strong>上菜附「丝娃娃吃法图解卡」+蘸水选择（酸汤蘸水/辣椒蘸水/折耳根蘸水），让客人DIY包裹</li><li><strong>传播点：</strong>「第一次吃丝娃娃」是小红书爆款标题模板，互动性+猎奇感+出片率三合一</li><li><strong>定价：</strong>28-38元/份（成本约8-12元），毛利率65%+</li></ul><h3>爆品三：洋芋粑粑/折耳根（贵州符号）</h3><ul><li><strong>定位：</strong>低客单引流小食+赠品，用于开卡礼、好评赠送、集点兑换</li><li><strong>成本优势：</strong>洋芋粑粑成本约2-3元/份，折耳根拌菜成本约3-4元/份，作为赠品/引流品ROI极高</li></ul><h3>菜单结构建议</h3><table><tr><th>品类</th><th>SKU数</th><th>价格带</th><th>角色</th></tr><tr><td>酸汤系列（锅/饭）</td><td>4-5道</td><td>29.9-129元</td><td>核心锚点·必推</td></tr><tr><td>贵州招牌菜</td><td>6-8道</td><td>38-68元</td><td>利润款·辣子鸡/酸汤牛肉等</td></tr><tr><td>贵州小食</td><td>5-6道</td><td>18-38元</td><td>社交款·丝娃娃/粑粑/糍粑</td></tr><tr><td>凉菜/蘸水</td><td>4-5道</td><td>12-28元</td><td>开胃+凑单</td></tr><tr><td>饮品/酒水</td><td>4-6款</td><td>8-28元</td><td>搭配·酸梅汤/米酒/啤酒</td></tr></table><p>SKU总数控制在<strong>25-30道</strong>——精简菜单降低后厨复杂度，科技园出餐速度就是生命线。<strong>⚠️ 假设菜单结构待与老板确认，以上为品类通用建议。</strong></p>`,
+    8: `<h3>Q3营销节奏（结合科技园客群特征）</h3><p>7-9月是深圳餐饮旺季（暑期+夜宵+高温外卖），但科技园有特殊性：白领为主、学生少、午市是刚需、晚市+周末是增量。以下营销节点按实际客群定制：</p><h3>7月：暑期启动+夜宵旺季</h3><table><tr><th>节点</th><th>活动</th><th>操作要点</th><th>预估成本</th></tr><tr><td>7月上旬·开业期</td><td>开业酬宾8.8折+酸汤试饮地推</td><td>见「开业冲刺」章节，3天限时折扣+地推发300杯/天</td><td>折扣让利约12%+试饮物料约300元</td></tr><tr><td>7月中旬</td><td>「深夜食堂」夜宵模式</td><td>科技园加班族多，延长营业至22:30，推「夜宵小食拼盘」49元（小龙虾+烤串+凉菜+啤酒），扫码点餐22:00后自动切换夜宵菜单</td><td>延时水电人工约100元/晚</td></tr><tr><td>7月22-23日·大暑</td><td>「酸汤消暑·清凉一夏」</td><td>到店消费赠冰粉一份（成本0.5元），推「消暑酸汤鱼」（冰镇酸汤底+鱼片，夏日限定），外卖满50加1元得冰饮</td><td>冰粉约50元/天+冰饮约100元/天</td></tr></table><h3>8月：七夕+立秋换季</h3><table><tr><th>节点</th><th>活动</th><th>操作要点</th><th>预估成本</th></tr><tr><td>8月上旬·七夕</td><td>「黔味情人夜」双人套餐</td><td>推七夕限定双人套餐228元（酸汤鱼锅+辣子鸡+丝娃娃+2饮品+定制甜品），赠玫瑰一支。提前7天小程序开放预约，限量30桌制造稀缺。会员push「七夕套餐预售」</td><td>玫瑰2元+甜品5元约210元总计</td></tr><tr><td>8月7-8日·立秋</td><td>「贴秋膘·贵州味」换季上新</td><td>上线3道秋季新品（酸汤牛肉/糟辣鸡/酸汤排骨），点秋膘菜品送养生饮品一杯（雪梨银耳汤，成本2元）。社交媒体发「贵州人怎么贴秋膘」内容</td><td>养生饮品约100元/天</td></tr><tr><td>8月下旬</td><td>午市会员日</td><td>每周三为「会员专属日」，午市会员消费满40减5元（旗舰版「会员日」功能），培养固定到店习惯</td><td>减免约150元/次</td></tr></table><h3>9月：开学季+中秋</h3><table><tr><th>节点</th><th>活动</th><th>操作要点</th><th>预估成本</th></tr><tr><td>9月上旬·开学季</td><td>「秋季工作餐焕新」</td><td>科技园白领=「永远的学生」，推「开工加油套餐」系列（3款新套餐35.9元），小程序首页banner换秋季主题</td><td>正常菜品成本</td></tr><tr><td>9月10日·教师节</td><td>科技园「内部讲师」致敬</td><td>科技园没有传统教师，但很多内部培训讲师/导师。凭企业内训师证明到店享菜品8折，发社交媒体可参与抽奖（正能量口碑传播）</td><td>折扣让利约200元/天</td></tr><tr><td>9月中下旬·中秋</td><td>「黔味团圆宴」</td><td>推4-6人团圆套餐（388/488/588元），含赠定制月饼4枚（成本15-20元/份）。提前10天开放预约，会员push+社群推送。企业团建套餐单独设计（含发票+大桌位）</td><td>月饼约1000元（50份）</td></tr></table><p><strong>全季度营销预算估算：</strong>约<strong>5000-8000元</strong>（含地推物料+赠品+推广通+博主置换），ROI目标>5倍。</p>`,
+    9: `<h3>投资回报测算</h3><p>⚠️ 以下数据基于科技园正餐行业参考值+品类特征估算，建议开业后用实际数据校准。</p><h3>基础假设</h3><table><tr><th>指标</th><th>假设值</th><th>假设依据</th></tr><tr><td>预估人均</td><td>65元（午市40元/晚市85元加权）</td><td>科技园正餐主流人均55-85元，黔菜定位中偏上</td></tr><tr><td>日均桌数（爬坡期D1-D30）</td><td>25-35桌</td><td>新店冷启动期，科技园竞争激烈</td></tr><tr><td>日均桌数（稳定期D60+）</td><td>45-60桌</td><td>午市30-40桌+晚市15-20桌</td></tr><tr><td>桌均消费</td><td>午市45元/桌·晚市150元/桌</td><td>午市1-2人·晚市2-3人</td></tr><tr><td>食材成本率</td><td>35%（⚠️行业参考值，黔菜酸汤底成本较低）</td><td>云贵菜成本结构参考</td></tr><tr><td>人力成本率</td><td>25%（⚠️假设，深圳人力成本偏高）</td><td>正餐行业22-30%</td></tr><tr><td>房租成本率</td><td>15%（⚠️假设，科技园租金高）</td><td>南山科技园商铺租金参考</td></tr></table><h3>月度营收预测</h3><table><tr><th>阶段</th><th>日均营收</th><th>月营收</th><th>净利率</th><th>月净利</th></tr><tr><td>爬坡期（M1-M2）</td><td>3500-5000元</td><td>10-15万</td><td>5-8%</td><td>0.5-1.2万</td></tr><tr><td>成长期（M3-M4）</td><td>6000-8000元</td><td>18-24万</td><td>8-12%</td><td>1.5-2.9万</td></tr><tr><td>稳定期（M5+）</td><td>8000-12000元</td><td>24-36万</td><td>10-15%</td><td>2.4-5.4万</td></tr></table><h3>方案投入明细</h3><table><tr><th>投入项</th><th>金额</th><th>说明</th></tr><tr><td>开业地推物料</td><td>500元</td><td>试饮杯+杯贴+传单</td></tr><tr><td>霸王餐/免费试食材</td><td>3000元</td><td>50份x60元食材成本</td></tr><tr><td>开业酬宾折扣</td><td>约2000元</td><td>3天8.8折让利</td></tr><tr><td>推广通（首季度）</td><td>2000-2500元</td><td>500-800元/月x3月</td></tr><tr><td>小红书博主置换</td><td>1000-2500元</td><td>3-5位博主</td></tr><tr><td>抖音DOU+测试</td><td>200元</td><td>首轮测试</td></tr><tr><td>赠品/活动物料</td><td>1500元</td><td>冰粉/酸梅汤/贺卡/月饼等全季度</td></tr><tr><td><strong>合计</strong></td><td><strong>约1-1.2万元</strong></td><td>开业首季度总营销投入</td></tr></table><h3>ROI测算</h3><p>首季度营销投入约<strong>1-1.2万元</strong>，预计带来增量营收（团购核销+会员复购+社群转化）约<strong>8-15万元</strong>，ROI约<strong>7-12倍</strong>。</p><h3>OKR量化目标</h3><table><tr><th>维度</th><th>30天目标</th><th>90天目标</th><th>180天目标</th></tr><tr><td>月营收</td><td>10-12万</td><td>18-22万</td><td>28-36万</td></tr><tr><td>大众点评评分</td><td>出星4.0+</td><td>4.5+</td><td>4.5+稳定</td></tr><tr><td>评价数</td><td>≥50条</td><td>≥150条</td><td>≥300条</td></tr><tr><td>注册会员数</td><td>≥150人</td><td>≥500人</td><td>≥1200人</td></tr><tr><td>午市套餐日均</td><td>20份+</td><td>35份+</td><td>45份+</td></tr><tr><td>会员复购率</td><td>-</td><td>≥35%</td><td>≥45%</td></tr><tr><td>微信群人数</td><td>≥300人</td><td>≥500人</td><td>≥800人</td></tr></table><p><strong>关键里程碑：</strong></p><ul><li><strong>开业7天：</strong>日均营收突破3000元、微信群破100人</li><li><strong>开业30天：</strong>大众点评出星、会员破150人、午市套餐日销稳定20份+</li><li><strong>开业90天：</strong>月营收突破20万、评分4.5+、有3条以上小红书自然种草笔记</li></ul>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
