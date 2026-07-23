@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>趣多多冰淇淋 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #C47A3A;
+      --primary-light: #D4894A;
+      --accent: #E8A87C;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #C47A3A40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">饮品/冰淇淋 · 运营提升方案</div>
+  <h1 class="hero-title">趣多多冰淇淋</h1>
+  <p class="hero-subtitle">CBD白领的午后犒赏站，5店齐发打透钱江世纪城</p>
+  <div class="hero-address">浙江省杭州市萧山区盈丰街道盈丰路与市心北路交叉口东南角</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥15-25</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">萧山区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察与商圈分析', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察与商圈分析</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解与差异化定位', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解与差异化定位</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '5店齐发开业冲刺30天', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">5店齐发开业冲刺30天</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评口碑新店冷启动', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评口碑新店冷启动</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '会员体系白领复购引擎', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">会员体系白领复购引擎</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '公私域联动流量闭环', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">公私域联动流量闭环</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '淡季破局与暑期营销日历', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">淡季破局与暑期营销日历</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '系统方案与分账落地', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">系统方案与分账落地</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(9, '投资回报与OKR目标', 9)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 09</div>
+      <div class="chapter-title">投资回报与OKR目标</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>钱江世纪城CBD冰淇淋市场格局</h3><p>趣多多冰淇淋所在的盈丰路与市心北路交叉口，处于<strong>萧山钱江世纪城CBD核心区</strong>，周边写字楼密集（恒隆中心、EFC欧美金融城、博地中心等），常驻办公白领超5万人，以25-35岁年轻人为主，消费力较强。</p><p>2024-2025年现制冰淇淋品类进入<strong>存量博弈期</strong>，增长点集中在三块：健康化（低糖、植物基、真果料）、场景叠加（冰淇淋+咖啡/茶饮复合店型）、社交属性（造型出片、联名IP）。主流价格带分两档：大众软冰12-22元，精品硬冰/Gelato单球25-42元。</p><h3>两个关键风险必须正视</h3><ul><li><strong>季节波动大</strong>：杭州11月-3月为明显淡季，纯冰淇淋营收可能腰斩。60平门店月固定成本约3-4万（房租+人工，行业参考值），淡季若日均流水低于1500元将亏损</li><li><strong>替代竞争激烈</strong>：白领下午茶预算有限（15-25元），冰淇淋要和奶茶、咖啡抢同一笔支出——不是冰淇淋专门店扎堆，而是替代性消费多</li></ul><h3>目标客群画像</h3><table><tr><th>客群类型</th><th>占比</th><th>消费场景</th><th>客单价</th></tr><tr><td>写字楼白领</td><td>55%（行业参考值）</td><td>午后犒赏/下午茶</td><td>18-28元</td></tr><tr><td>商圈逛街年轻人</td><td>25%</td><td>周末逛街顺路消费</td><td>15-22元</td></tr><tr><td>亲子家庭</td><td>15%</td><td>周末带孩子</td><td>35-50元</td></tr><tr><td>外卖用户</td><td>5%起步目标20%</td><td>写字楼配送</td><td>25-35元</td></tr></table><p><strong>核心洞察</strong>：趣多多的主战场是工作日午后白领消费，产品结构、营业时段和营销节奏都必须围绕写字楼3公里半径来设计。周末客流会显著下降（CBD特征），必须靠外卖和社交媒体引流补量。</p></div>
+<div id="modal-content-2" style="display:none"><h3>1.5公里范围真实竞争格局</h3><table><tr><th>竞品</th><th>人均</th><th>核心优势</th><th>弱点</th><th>趣多多切入机会</th></tr><tr><td>蜜雪冰城</td><td>7-10元</td><td>极致性价比走量</td><td>品质感低，白领嫌廉价</td><td>做品质升级：真果料/手工现做拉开品质感</td></tr><tr><td>DQ（万象汇店）</td><td>30-40元</td><td>暴风雪系列认知强</td><td>产品创新慢，价格偏高</td><td>15-25元精准卡位：品质接近DQ，价格只有一半</td></tr><tr><td>喜茶/霸王茶姬冰淇淋副线</td><td>15-25元</td><td>品牌力强，顺带消费</td><td>冰淇淋非核心，品质不稳定</td><td>专业度碾压：SKU深度和口味创新是副线做不到的</td></tr><tr><td>Manner/M Stand兼售Gelato</td><td>15-25元</td><td>咖啡+冰淇淋复合场景</td><td>冰淇淋仅2-3款更新慢</td><td>做咖啡店做不了的冰淇淋社交——造型出片口味多变</td></tr></table><h3>趣多多差异化定位：白领甜品犒赏站</h3><p>在蜜雪冰城（太廉价）和DQ（太贵）之间，<strong>15-25元价格带是空白区</strong>。趣多多的机会是做写字楼步行可达的品质冰淇淋：</p><ul><li><strong>价格锚定</strong>：主力产品定在15-22元（单球/杯装），低于DQ一半，高于蜜雪3倍——白领犒赏自己但不心疼的甜蜜区间</li><li><strong>品质壁垒</strong>：真果料/手工现做/低糖选项（蜜雪做不了）；每月上新2-3款当季限定（DQ太慢）</li><li><strong>社交属性</strong>：高颜值造型+出片场景设计，让发朋友圈/小红书成为消费附加值</li></ul><h3>与有赞对比：为什么换美团SaaS</h3><p>老板之前用有赞小程序用得不顺手，核心痛点大概率是：</p><ul><li><strong>分账功能弱</strong>：5店齐开需要总部-门店分账、合伙人分润，有赞连锁分账能力有限</li><li><strong>小程序体验差</strong>：有赞偏电商逻辑，到店消费场景的点单/核销体验不够流畅</li><li>美团SaaS优势：小程序自带到店点单+外卖+团购核销一体化，分账功能支持总部统收再分（需确认具体分账模式），一套系统管5家店</li></ul></div>
+<div id="modal-content-3" style="display:none"><h3>开业倒计时作战节奏（5店统一执行）</h3><p>5家店同时开业是品牌势能最强的窗口期——必须在开业30天内把趣多多这个名字打进钱江世纪城每栋写字楼白领脑子里。</p><h3>开业前7天：蓄水期</h3><ul><li><strong>Day -7至-5 企业团购BD扫楼</strong><br/><strong>谁来做</strong>：老板/合伙人亲自带1名员工<br/><strong>做什么</strong>：沿盈丰路扫EFC、恒隆中心、博地中心等写字楼，找行政/HR对接企业下午茶团购<br/><strong>话怎么说</strong>：您好我们是楼下新开的趣多多冰淇淋，开业期做企业下午茶专享——30杯起送单杯只要12元（原价18元），还能定制杯套印贵司logo。需要我加您微信发个菜单看看吗？<br/><strong>预期</strong>：扫10栋楼锁定3-5家企业首单（行业参考值）<br/><strong>不配合怎么办</strong>：留传单+名片在前台，传单上印扫码领免费单球券二维码</li><li><strong>Day -7至-3 小红书种草启动</strong><br/><strong>谁来做</strong>：老板或指定1名员工<br/><strong>做什么</strong>：发3-5篇笔记，标题关键词锁定钱江世纪城下午茶、萧山冰淇淋、EFC美食<br/><strong>内容模板</strong>：装修进度探店风+产品特写+地址定位<br/><strong>预期</strong>：每篇500-1000曝光蓄水200-300潜在客户</li><li><strong>Day -3至-1 试营业+免费试</strong><br/><strong>谁来做</strong>：店长统筹<br/><strong>做什么</strong>：大众点评商家后台 营销中心-免费试 设置20个名额（2球套装成本约6元/份共120元）<br/><strong>服务员话术</strong>：今天是试营业这份冰淇淋免费请您品尝，吃完觉得还不错的话帮我们在点评上写几句真实感受就好好坏都行<br/><strong>客人嫌麻烦</strong>：那您帮忙扫码关注一下我们小程序就好下次来直接点单还有会员价<br/><strong>目标</strong>：开业前攒15-20条真实评价</li></ul><h3>开业第1-7天：爆发期</h3><ul><li><strong>Day 1-3 开业活动</strong><br/>全场第二杯半价（冰淇淋品类转化率最高的经典引流方式）<br/>扫码点餐设置：首页弹窗开业福利第二杯半价，顾客扫码自动弹出<br/><strong>谁来做</strong>：收银员引导您扫桌上码点单就行第二杯系统自动半价<br/>门口易拉宝+气球拱门（成本约200元行业参考值）</li><li><strong>Day 1-7 新会员首单礼</strong><br/>会员旗舰版-新会员权益设置：注册即领免费升杯券1张（成本约2元/人）<br/><strong>服务员话术</strong>：扫码点单的时候顺便注册个会员马上送您一张升杯券下次来直接用<br/><strong>目标</strong>：首周注册会员300人（5店合计行业参考值）</li><li><strong>Day 4-7 企业团购首单交付</strong><br/>前期锁定的企业团购在这周集中交付<br/>每单附带5张个人体验券（持券到店减3元）——企业客户转化为个人回头客</li></ul><h3>开业第8-30天：稳客期</h3><ul><li><strong>Week 2-3 每周上新1款限定口味</strong><br/><strong>谁来做</strong>：老板/产品负责人<br/>结合时令水果（7月黄桃/葡萄 8月无花果/百合）每周推1款本周限定<br/>小程序首页banner更新限定款+到店扫码点餐弹窗推荐<br/>小红书同步发拍限定款特写+错过等一年文案</li><li><strong>Week 3-4 外卖上线冲量</strong><br/>上线美团外卖，专开3-5款杯装产品线（15元以内）覆盖EFC恒隆等写字楼<br/>满25减3（凑单门槛拉客单价）+新店14天流量加权<br/><strong>目标</strong>：外卖日均15单月增收约7000元（行业参考值）</li></ul></div>
+<div id="modal-content-4" style="display:none"><h3>当前阶段：新店冷启动期</h3><p>趣多多目前尚未开业、零评价、无星级，属于点评最早期的冷启动阶段。核心目标不是冲星级，而是<strong>用合规方式攒出前30条真实评价</strong>——这30条评价的质量决定了后续所有客流的第一印象。</p><h3>2025年10月新规红线警告</h3><p><strong>严禁任何形式的促评/邀评！</strong>2025年10月后高强度促评=新评价不产生星级收益。以下行为全部违规：</p><ul><li>好评返现/好评送菜/好评打折</li><li>员工引导帮我们点个五星好评</li><li>桌贴二维码写好评有礼</li><li>任何将评价与优惠直接挂钩的动作</li></ul><h3>合规冷启动三步法</h3><h4>Step 1：免费试（开业前3天启动）</h4><p><strong>谁来做</strong>：店长在大众点评商家后台 营销中心-免费试 设置<br/><strong>设置</strong>：20个名额产品为2球套装（成本约6元/份总成本120元）<br/><strong>逻辑</strong>：免费试是平台官方合规工具，顾客免费体验后自愿写评价非强制，平台认可该渠道评价权重<br/><strong>预期</strong>：20人中约60-70%会写评价获得12-14条真实评价</p><h4>Step 2：打造分享动机（开业第1-14天）</h4><p>核心思路：不能要求客人写好评，但可以让产品本身值得被分享</p><ul><li><strong>造型出片</strong>：至少3款产品设计成拍照友好型——高颜值杯身+撞色搭配+可爱造型，成本增加约0.5-1元/份</li><li><strong>拍照角</strong>：门店设1个打卡墙（品牌色背景+灯光+绿植）成本约300-500元（行业参考值）</li><li><strong>服务员话术（合规）</strong>：这款造型超适合拍照的很多客人都发了朋友圈（引导拍照分享但不提评价）</li><li><strong>预期</strong>：开业14天自然产生15-20条评价</li></ul><h4>Step 3：差评2小时响应机制（长期）</h4><p><strong>谁来做</strong>：老板/店长每天早10点+晚8点各查一次点评后台评价管理<br/><strong>差评回复模板</strong>：亲您好非常抱歉给您带来不好的体验，针对具体问题的改进说明，已经安排店长第一时间改进。欢迎您下次再来体验到店找店长我们一定给您最好的服务<br/><strong>差评处理时效</strong>：发现后2小时内必须回复24小时内必须有改进动作</p><h3>口碑量化目标</h3><table><tr><th>时间节点</th><th>评价数</th><th>评分目标</th></tr><tr><td>开业7天</td><td>15条以上</td><td>4.3分以上</td></tr><tr><td>开业30天</td><td>40条以上</td><td>4.5分以上</td></tr><tr><td>开业60天</td><td>80条以上</td><td>冲新店榜/热门榜前10</td></tr><tr><td>开业90天</td><td>120条以上</td><td>稳定4.5+争取好评榜</td></tr></table></div>
+<div id="modal-content-5" style="display:none"><h3>会员设计逻辑</h3><p>冰淇淋人均15-22元（行业参考值），白领复购频率约每周1-2次（夏季）/每月1-2次（冬季），天然适合用会员体系做复购锁定。趣多多已签约<strong>会员旗舰版（4888元/年）</strong>，旗舰独有的团购会员卡+潜客营销+6大特有活动能力是白领复购的关键武器。</p><h3>会员权益设计（三级体系）</h3><table><tr><th>等级</th><th>门槛</th><th>权益</th><th>设计逻辑</th></tr><tr><td>甜蜜会员</td><td>扫码即注册</td><td>积分1:1 生日免费单球 每月1张升杯券</td><td>零门槛拉新用免费升杯培养习惯点大杯</td></tr><tr><td>宠粉会员</td><td>累计消费满200元</td><td>积分1.5倍 每月2张第二杯半价券 新品优先试吃</td><td>锁定高频用户200元约消费10-13次</td></tr><tr><td>挚爱会员</td><td>累计消费满500元</td><td>积分2倍 每月免费单球券 生日双球蛋糕杯 企业团购9折</td><td>识别超级用户给到真金白银让利</td></tr></table><h3>会员旗舰版落地操作</h3><ul><li><strong>Step 1（开业前）</strong>：会员旗舰版后台-会员等级设置三级权益，新会员礼设置免费升杯券1张<br/><strong>谁来做</strong>：老板/运营负责人耗时约30分钟<br/>路径：美团商家后台-会员管理-等级设置-新建等级-填入上表权益</li><li><strong>Step 2（开业第1天）</strong>：潜客营销开启——对到店未注册会员的顾客自动推送注册送升杯券消息<br/>路径：会员管理-潜客营销-设置触发条件（到店消费未注册）-推送内容</li><li><strong>Step 3（开业第7天）</strong>：团购会员卡上线——推出夏日畅吃卡售价39元含5张单球兑换券（单球原价15-18元相当于买3送2）<br/><strong>谁来做</strong>：店长在美团团购后台上架<br/><strong>定价逻辑</strong>：39元除以5杯=7.8元/杯看似亏但锁定5次到店每次大概率加购实际客单约15元<br/><strong>话术</strong>：这个卡买了可以分5次用每次来就当花7块8吃一个球比蜜雪冰城还划算但品质完全不一样<br/><strong>客人犹豫怎么办</strong>：您今天买的话这杯直接抵一次等于现在就省了8块</li></ul><h3>会员量化目标</h3><table><tr><th>指标</th><th>开业30天</th><th>开业90天</th></tr><tr><td>注册会员数</td><td>500人（5店合计）</td><td>1500人</td></tr><tr><td>团购会员卡售出</td><td>100张</td><td>300张</td></tr><tr><td>会员复购率</td><td>30%</td><td>45%</td></tr><tr><td>会员消费占比</td><td>40%</td><td>60%</td></tr></table></div>
+<div id="modal-content-6" style="display:none"><h3>公域引流到私域留客到公域反哺闭环</h3><p>冰淇淋品类天然适合<strong>小红书+大众点评</strong>双公域打法（高颜值+出片+年轻客群），私域用会员体系+小程序+企业社群锁复购。5店齐发的品牌势能要通过公私域联动放大到极致。</p><h3>公域矩阵（按优先级排序）</h3><h4>小红书（最高优先级）</h4><p><strong>为什么最重要</strong>：冰淇淋品类在小红书的内容转化率是所有平台最高的——高颜值产品+打卡场景=天然种草内容</p><ul><li><strong>内容策略（每周3篇）</strong>：周一产品特写（今日限定黄桃玫瑰冰淇淋）/周三打卡场景（世纪城打工人的3点续命站）/周五互动贴（选A还是B评论区选下周新口味）</li><li><strong>关键词</strong>：钱江世纪城美食/萧山冰淇淋/EFC下午茶/杭州打卡甜品</li><li><strong>谁来做</strong>：指定1名员工负责拍照+发布每篇约20分钟<br/><strong>拍照SOP</strong>：自然光靠窗+45度俯拍+干净背景+产品占画面2/3<br/><strong>不会拍怎么办</strong>：搜小红书冰淇淋拍照教程前3篇照着模仿</li><li><strong>量化</strong>：开业30天发12篇总曝光1万以上引流到店50人以上（行业参考值）</li></ul><h4>大众点评（基本盘）</h4><ul><li>冷启动动作见第4章</li><li>团购套餐上线：双球套餐原价36团购价29.9/三球分享装原价52团购价39.9<br/>路径：美团商家后台-团购管理-新建套餐</li><li>推广通（开业首月建议投）：日预算50-100元关键词萧山冰淇淋+钱江世纪城甜品ROI目标3以上<br/>路径：商家后台-推广通-新建计划</li></ul><h4>抖音（辅助渠道）</h4><ul><li>冰淇淋制作过程短视频15-30秒出片率高<br/>每周发1条即可不必重投入</li><li>抖音团购上线1-2款引流款（单球9.9元限量500份）做新店曝光</li></ul><h3>私域留客三件套</h3><h4>小程序（已签约核心工具）</h4><ul><li>到店扫码点单替代排队——白领午休时间宝贵快速点单是刚需</li><li>小程序首页=营销主阵地：轮播banner（本周限定/会员权益/团购入口）+常购快捷入口</li><li>外卖入口整合：小程序内直接下外卖单写字楼配送（对比有赞这是核心体验升级）</li></ul><h4>企业微信社群</h4><ul><li><strong>建群时机</strong>：企业团购交付时扫码入群（天然精准：行政/HR拉全公司人）</li><li><strong>群运营</strong>：每周一发本周口味预告+周三限时群专属买一送一+周五互动投票下周口味</li><li><strong>谁来做</strong>：老板或店长兼群主每天10分钟维护</li><li><strong>目标</strong>：3个月建5个企业群共500+人</li></ul><h4>分账功能（老板核心关注点）</h4><ul><li>5店齐开最大管理痛点：每天对账/分润/统一管控</li><li>美团SaaS小程序分账能力：总部统一收款-按门店自动分账-合伙人分润比例可设</li><li>相比有赞：一个后台看5店数据、统一会员体系跨店通用、分账自动化（行业参考值，具体分账模式请BD确认）</li></ul></div>
+<div id="modal-content-7" style="display:none"><h3>淡季风险与破局策略</h3><p>冰淇淋品类的<strong>生死线是淡季（11月-3月）</strong>。如果只卖冰淇淋，杭州冬天月营收可能腰斩至旺季的40-50%。60平门店固定成本约3-4万/月（行业参考值），淡季日均需做到1200-1500元才能保本。三个破局方向：</p><h4>方向一：热甜品+冰淇淋复合产品（最推荐）</h4><ul><li><strong>做什么</strong>：11月起上架热华夫饼配冰淇淋球（28元）、热巧克力浮冰（22元）、热红豆抹茶冰淇淋（25元），参考杭州网红Luneurs做法</li><li><strong>谁来做</strong>：老板研发确定3-5款热+冷组合品研发周期约2周</li><li><strong>设备投入</strong>：华夫饼机约500-800元咖啡机（如已有可复用）</li><li><strong>预期效果</strong>：热甜品客单价做到25-35元（高于纯冰淇淋15-22元），淡季客单提升30-50%</li></ul><h4>方向二：午间白领甜品套餐</h4><ul><li><strong>做什么</strong>：与周边轻食/便当店联合——午餐+迷你冰淇淋券9.9元加购<br/>或者自己上架轻食三明治/沙拉+冰淇淋午间套餐定价28-35元</li><li><strong>谁来做</strong>：老板谈联合商家或增加轻食产品线</li><li><strong>逻辑</strong>：把冰淇淋从下午茶场景扩展到午餐场景工作日午间是最稳定的客流</li></ul><h4>方向三：节日限定+暖饮产品线</h4><ul><li>圣诞限定/新年限定/情人节限定做颜值爆表的节日款维持社交话题热度</li><li>增加热饮产品线（热可可/热拿铁/姜茶），与冰淇淋形成冬夏互补</li></ul><h3>7-9月暑期营销日历（开业正值旺季）</h3><table><tr><th>时间</th><th>节点</th><th>活动</th><th>执行要点</th></tr><tr><td>7月第1周</td><td>暑期开始</td><td>暑假嗨吃卡：凭学生证购39元卡，7-8月每次9折+赠冰饮1杯</td><td>CBD周边学生不多此活动酌情——如附近有培训机构/暑期工可执行</td></tr><tr><td>7月中</td><td>小暑-大暑</td><td>消暑特惠：到店消费满2球赠迷你冰粉1份（成本0.5元）</td><td>冰粉提前批量制作冷藏成本极低体验感极佳</td></tr><tr><td>7月下旬</td><td>七夕预热</td><td>七夕预售：双人限定套餐（2球+华夫饼+饮品）原价58预售价49.9</td><td>限量50份制造稀缺感预售收定金20元</td></tr><tr><td>8月上旬</td><td>七夕节</td><td>七夕浪漫款限定：心形冰淇淋/粉色系列/情侣杯装</td><td>造型出片拍照>一切，发小红书抖音引流</td></tr><tr><td>8月中</td><td>立秋</td><td>贴秋膘系列：红豆/芋泥/栗子等秋季口味上新</td><td>提前预热秋季产品线为淡季过渡做准备</td></tr><tr><td>9月上旬</td><td>开学季</td><td>如附近有学校可做开学季活动否则聚焦白领秋季新品</td><td>CBD门店开学季影响不大重点放在秋季口味切换</td></tr><tr><td>9月中下旬</td><td>中秋桂花季</td><td>桂花限定系列：桂花冰淇淋/桂花拿铁浮冰（杭州桂花季特色）</td><td>杭州桂花季是独特本地节点差异化极强门店可放新鲜桂花枝装饰</td></tr></table></div>
+<div id="modal-content-8" style="display:none"><h3>已签约SaaS模块与使用场景</h3><p>趣多多已签约三个核心模块，以下是每个模块在5店场景下的具体使用方式：</p><h4>小程序（核心工具——解决有赞痛点）</h4><table><tr><th>功能</th><th>使用场景</th><th>操作路径</th></tr><tr><td>到店扫码点单</td><td>顾客扫桌码/柜台码直接选冰淇淋口味+加料下单支付</td><td>商家后台-小程序-扫码点餐-开启</td></tr><tr><td>外卖整合</td><td>小程序内直接下外卖单写字楼15分钟送达</td><td>商家后台-外卖设置-配送范围3公里</td></tr><tr><td>团购核销</td><td>顾客在美团/点评买的团购券到店扫码自动核销</td><td>收银台-扫码核销-自动冲账</td></tr><tr><td>多店管理</td><td>1个账号管5家店的菜单/库存/活动统一配置</td><td>商家后台-门店管理-选择门店切换</td></tr></table><h4>会员旗舰版（复购引擎）</h4><ul><li>详见第5章会员体系设计</li><li>核心差异点vs有赞：<strong>跨店通用会员</strong>——顾客在A店注册的会员B店直接可用积分互通权益同步</li><li>旗舰独有能力：团购会员卡（夏日畅吃卡核心载体）+潜客营销（自动触达未注册顾客）+6大特有活动模板</li></ul><h4>扫码点餐（效率工具）</h4><ul><li>冰淇淋品类SKU多（口味x杯型x加料组合可能超100种），扫码点餐解决排队+点错问题</li><li><strong>设置建议</strong>：分类清晰（经典款/当季限定/华夫饼组合/外带杯装），每个分类不超过8款减少选择困难</li><li>弹窗功能：可按时间段自动弹不同活动（午间弹午餐套餐晚间弹第二杯半价）</li></ul><h3>分账功能详解（老板核心关注点）</h3><p>老板规划5家店同时开业，之前用有赞的核心痛点就是分账不好用。以下是美团SaaS分账能力说明：</p><ul><li><strong>总部统收模式</strong>：所有门店收款统一进入总部账户，系统按预设比例自动分账到各门店/合伙人账户</li><li><strong>分润规则可定制</strong>：按门店/按合伙人/按时段均可设置不同分润比例</li><li><strong>实时对账</strong>：5店数据一个后台实时看每家店日流水/毛利/分账明细</li><li><strong>与有赞对比优势</strong>：美团SaaS原生支持餐饮连锁分账场景有赞偏电商分销逻辑</li></ul><p><strong>注意</strong>：具体分账功能配置需BD确认技术方案是否支持老板的分润模型（如合伙人按股比分、门店店长提成等），建议签约后安排技术对接专场。</p></div>
+<div id="modal-content-9" style="display:none"><h3>单店经营模型测算（60平门店）</h3><table><tr><th>项目</th><th>保守估计</th><th>乐观估计</th><th>说明</th></tr><tr><td>日均客流</td><td>80人</td><td>120人</td><td>行业参考值CBD冰淇淋店</td></tr><tr><td>客单价</td><td>18元</td><td>22元</td><td>主力产品15-22元+加购</td></tr><tr><td>日均营收</td><td>1440元</td><td>2640元</td><td>客流x客单</td></tr><tr><td>月营收</td><td>4.3万元</td><td>7.9万元</td><td>日均x30天</td></tr><tr><td>原材料成本（30%）</td><td>1.3万</td><td>2.4万</td><td>冰淇淋原料毛利高</td></tr><tr><td>人工成本（2-3人）</td><td>1.2万</td><td>1.5万</td><td>行业参考值杭州萧山</td></tr><tr><td>房租</td><td>1.0万</td><td>1.0万</td><td>行业参考值CBD60平（需核实）</td></tr><tr><td>水电杂费</td><td>0.3万</td><td>0.3万</td><td>含冰柜制冷用电</td></tr><tr><td>月净利润</td><td>0.5万</td><td>2.7万</td><td>保守刚过盈亏平衡</td></tr></table><h3>SaaS投入与增收测算</h3><table><tr><th>投入项</th><th>费用</th><th>预期增收</th></tr><tr><td>会员旗舰版</td><td>4888元/年（约408元/月）</td><td>会员复购带来月增收约3000-5000元（30%复购率提升）</td></tr><tr><td>小程序</td><td>已签约含在套餐内</td><td>外卖+小程序点单提升效率日均多服务10-15人</td></tr><tr><td>扫码点餐</td><td>已签约含在套餐内</td><td>减少1名点单人力月省约4000-5000元</td></tr><tr><td>推广通（首月）</td><td>1500-3000元/月</td><td>ROI 3以上，月增收约4500-9000元</td></tr><tr><td>团购套餐让利</td><td>约15-20%让利</td><td>团购引流日均10-15单月增收约5000-7000元</td></tr></table><h3>回本周期</h3><p>SaaS年度投入约5000-6000元（会员旗舰版为主），按月增收保守1万元计算，<strong>首月即可回本</strong>。核心收益不在省费用而在增收——会员复购+外卖增量+团购引流三条线叠加，单店月增收1-2万元完全可期。</p><h3>5店合计OKR目标</h3><table><tr><th>指标</th><th>开业30天</th><th>开业90天</th><th>开业180天</th></tr><tr><td>5店月总营收</td><td>20万（行业参考值）</td><td>30万</td><td>35万+</td></tr><tr><td>平均单店日营收</td><td>1300元</td><td>2000元</td><td>2300元+</td></tr><tr><td>大众点评评分</td><td>4.3分</td><td>4.5分</td><td>4.7分</td></tr><tr><td>总评价数（5店合计）</td><td>200条</td><td>500条</td><td>800条</td></tr><tr><td>注册会员数</td><td>500人</td><td>1500人</td><td>3000人</td></tr><tr><td>会员消费占比</td><td>30%</td><td>50%</td><td>60%</td></tr><tr><td>外卖占比</td><td>10%</td><td>20%</td><td>25%</td></tr><tr><td>企业团购客户数</td><td>5家</td><td>15家</td><td>25家</td></tr></table><h3>30天复盘节点</h3><ul><li><strong>Day 7</strong>：检查首周会员注册数是否达300+开业活动核销率+点评评价数是否达15条</li><li><strong>Day 14</strong>：检查外卖上线后日均单量+小红书发布篇数和曝光量+企业团购转化情况</li><li><strong>Day 21</strong>：检查会员复购率是否达20%+第二杯半价活动效果+限定口味动销</li><li><strong>Day 30</strong>：全面复盘月营收/会员数/评分/外卖占比与OKR对标，调整下月策略</li></ul></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>翟卫婷</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>钱江世纪城CBD冰淇淋市场格局</h3><p>趣多多冰淇淋所在的盈丰路与市心北路交叉口，处于<strong>萧山钱江世纪城CBD核心区</strong>，周边写字楼密集（恒隆中心、EFC欧美金融城、博地中心等），常驻办公白领超5万人，以25-35岁年轻人为主，消费力较强。</p><p>2024-2025年现制冰淇淋品类进入<strong>存量博弈期</strong>，增长点集中在三块：健康化（低糖、植物基、真果料）、场景叠加（冰淇淋+咖啡/茶饮复合店型）、社交属性（造型出片、联名IP）。主流价格带分两档：大众软冰12-22元，精品硬冰/Gelato单球25-42元。</p><h3>两个关键风险必须正视</h3><ul><li><strong>季节波动大</strong>：杭州11月-3月为明显淡季，纯冰淇淋营收可能腰斩。60平门店月固定成本约3-4万（房租+人工，行业参考值），淡季若日均流水低于1500元将亏损</li><li><strong>替代竞争激烈</strong>：白领下午茶预算有限（15-25元），冰淇淋要和奶茶、咖啡抢同一笔支出——不是冰淇淋专门店扎堆，而是替代性消费多</li></ul><h3>目标客群画像</h3><table><tr><th>客群类型</th><th>占比</th><th>消费场景</th><th>客单价</th></tr><tr><td>写字楼白领</td><td>55%（行业参考值）</td><td>午后犒赏/下午茶</td><td>18-28元</td></tr><tr><td>商圈逛街年轻人</td><td>25%</td><td>周末逛街顺路消费</td><td>15-22元</td></tr><tr><td>亲子家庭</td><td>15%</td><td>周末带孩子</td><td>35-50元</td></tr><tr><td>外卖用户</td><td>5%起步目标20%</td><td>写字楼配送</td><td>25-35元</td></tr></table><p><strong>核心洞察</strong>：趣多多的主战场是工作日午后白领消费，产品结构、营业时段和营销节奏都必须围绕写字楼3公里半径来设计。周末客流会显著下降（CBD特征），必须靠外卖和社交媒体引流补量。</p>`,
+    2: `<h3>1.5公里范围真实竞争格局</h3><table><tr><th>竞品</th><th>人均</th><th>核心优势</th><th>弱点</th><th>趣多多切入机会</th></tr><tr><td>蜜雪冰城</td><td>7-10元</td><td>极致性价比走量</td><td>品质感低，白领嫌廉价</td><td>做品质升级：真果料/手工现做拉开品质感</td></tr><tr><td>DQ（万象汇店）</td><td>30-40元</td><td>暴风雪系列认知强</td><td>产品创新慢，价格偏高</td><td>15-25元精准卡位：品质接近DQ，价格只有一半</td></tr><tr><td>喜茶/霸王茶姬冰淇淋副线</td><td>15-25元</td><td>品牌力强，顺带消费</td><td>冰淇淋非核心，品质不稳定</td><td>专业度碾压：SKU深度和口味创新是副线做不到的</td></tr><tr><td>Manner/M Stand兼售Gelato</td><td>15-25元</td><td>咖啡+冰淇淋复合场景</td><td>冰淇淋仅2-3款更新慢</td><td>做咖啡店做不了的冰淇淋社交——造型出片口味多变</td></tr></table><h3>趣多多差异化定位：白领甜品犒赏站</h3><p>在蜜雪冰城（太廉价）和DQ（太贵）之间，<strong>15-25元价格带是空白区</strong>。趣多多的机会是做写字楼步行可达的品质冰淇淋：</p><ul><li><strong>价格锚定</strong>：主力产品定在15-22元（单球/杯装），低于DQ一半，高于蜜雪3倍——白领犒赏自己但不心疼的甜蜜区间</li><li><strong>品质壁垒</strong>：真果料/手工现做/低糖选项（蜜雪做不了）；每月上新2-3款当季限定（DQ太慢）</li><li><strong>社交属性</strong>：高颜值造型+出片场景设计，让发朋友圈/小红书成为消费附加值</li></ul><h3>与有赞对比：为什么换美团SaaS</h3><p>老板之前用有赞小程序用得不顺手，核心痛点大概率是：</p><ul><li><strong>分账功能弱</strong>：5店齐开需要总部-门店分账、合伙人分润，有赞连锁分账能力有限</li><li><strong>小程序体验差</strong>：有赞偏电商逻辑，到店消费场景的点单/核销体验不够流畅</li><li>美团SaaS优势：小程序自带到店点单+外卖+团购核销一体化，分账功能支持总部统收再分（需确认具体分账模式），一套系统管5家店</li></ul>`,
+    3: `<h3>开业倒计时作战节奏（5店统一执行）</h3><p>5家店同时开业是品牌势能最强的窗口期——必须在开业30天内把趣多多这个名字打进钱江世纪城每栋写字楼白领脑子里。</p><h3>开业前7天：蓄水期</h3><ul><li><strong>Day -7至-5 企业团购BD扫楼</strong><br/><strong>谁来做</strong>：老板/合伙人亲自带1名员工<br/><strong>做什么</strong>：沿盈丰路扫EFC、恒隆中心、博地中心等写字楼，找行政/HR对接企业下午茶团购<br/><strong>话怎么说</strong>：您好我们是楼下新开的趣多多冰淇淋，开业期做企业下午茶专享——30杯起送单杯只要12元（原价18元），还能定制杯套印贵司logo。需要我加您微信发个菜单看看吗？<br/><strong>预期</strong>：扫10栋楼锁定3-5家企业首单（行业参考值）<br/><strong>不配合怎么办</strong>：留传单+名片在前台，传单上印扫码领免费单球券二维码</li><li><strong>Day -7至-3 小红书种草启动</strong><br/><strong>谁来做</strong>：老板或指定1名员工<br/><strong>做什么</strong>：发3-5篇笔记，标题关键词锁定钱江世纪城下午茶、萧山冰淇淋、EFC美食<br/><strong>内容模板</strong>：装修进度探店风+产品特写+地址定位<br/><strong>预期</strong>：每篇500-1000曝光蓄水200-300潜在客户</li><li><strong>Day -3至-1 试营业+免费试</strong><br/><strong>谁来做</strong>：店长统筹<br/><strong>做什么</strong>：大众点评商家后台 营销中心-免费试 设置20个名额（2球套装成本约6元/份共120元）<br/><strong>服务员话术</strong>：今天是试营业这份冰淇淋免费请您品尝，吃完觉得还不错的话帮我们在点评上写几句真实感受就好好坏都行<br/><strong>客人嫌麻烦</strong>：那您帮忙扫码关注一下我们小程序就好下次来直接点单还有会员价<br/><strong>目标</strong>：开业前攒15-20条真实评价</li></ul><h3>开业第1-7天：爆发期</h3><ul><li><strong>Day 1-3 开业活动</strong><br/>全场第二杯半价（冰淇淋品类转化率最高的经典引流方式）<br/>扫码点餐设置：首页弹窗开业福利第二杯半价，顾客扫码自动弹出<br/><strong>谁来做</strong>：收银员引导您扫桌上码点单就行第二杯系统自动半价<br/>门口易拉宝+气球拱门（成本约200元行业参考值）</li><li><strong>Day 1-7 新会员首单礼</strong><br/>会员旗舰版-新会员权益设置：注册即领免费升杯券1张（成本约2元/人）<br/><strong>服务员话术</strong>：扫码点单的时候顺便注册个会员马上送您一张升杯券下次来直接用<br/><strong>目标</strong>：首周注册会员300人（5店合计行业参考值）</li><li><strong>Day 4-7 企业团购首单交付</strong><br/>前期锁定的企业团购在这周集中交付<br/>每单附带5张个人体验券（持券到店减3元）——企业客户转化为个人回头客</li></ul><h3>开业第8-30天：稳客期</h3><ul><li><strong>Week 2-3 每周上新1款限定口味</strong><br/><strong>谁来做</strong>：老板/产品负责人<br/>结合时令水果（7月黄桃/葡萄 8月无花果/百合）每周推1款本周限定<br/>小程序首页banner更新限定款+到店扫码点餐弹窗推荐<br/>小红书同步发拍限定款特写+错过等一年文案</li><li><strong>Week 3-4 外卖上线冲量</strong><br/>上线美团外卖，专开3-5款杯装产品线（15元以内）覆盖EFC恒隆等写字楼<br/>满25减3（凑单门槛拉客单价）+新店14天流量加权<br/><strong>目标</strong>：外卖日均15单月增收约7000元（行业参考值）</li></ul>`,
+    4: `<h3>当前阶段：新店冷启动期</h3><p>趣多多目前尚未开业、零评价、无星级，属于点评最早期的冷启动阶段。核心目标不是冲星级，而是<strong>用合规方式攒出前30条真实评价</strong>——这30条评价的质量决定了后续所有客流的第一印象。</p><h3>2025年10月新规红线警告</h3><p><strong>严禁任何形式的促评/邀评！</strong>2025年10月后高强度促评=新评价不产生星级收益。以下行为全部违规：</p><ul><li>好评返现/好评送菜/好评打折</li><li>员工引导帮我们点个五星好评</li><li>桌贴二维码写好评有礼</li><li>任何将评价与优惠直接挂钩的动作</li></ul><h3>合规冷启动三步法</h3><h4>Step 1：免费试（开业前3天启动）</h4><p><strong>谁来做</strong>：店长在大众点评商家后台 营销中心-免费试 设置<br/><strong>设置</strong>：20个名额产品为2球套装（成本约6元/份总成本120元）<br/><strong>逻辑</strong>：免费试是平台官方合规工具，顾客免费体验后自愿写评价非强制，平台认可该渠道评价权重<br/><strong>预期</strong>：20人中约60-70%会写评价获得12-14条真实评价</p><h4>Step 2：打造分享动机（开业第1-14天）</h4><p>核心思路：不能要求客人写好评，但可以让产品本身值得被分享</p><ul><li><strong>造型出片</strong>：至少3款产品设计成拍照友好型——高颜值杯身+撞色搭配+可爱造型，成本增加约0.5-1元/份</li><li><strong>拍照角</strong>：门店设1个打卡墙（品牌色背景+灯光+绿植）成本约300-500元（行业参考值）</li><li><strong>服务员话术（合规）</strong>：这款造型超适合拍照的很多客人都发了朋友圈（引导拍照分享但不提评价）</li><li><strong>预期</strong>：开业14天自然产生15-20条评价</li></ul><h4>Step 3：差评2小时响应机制（长期）</h4><p><strong>谁来做</strong>：老板/店长每天早10点+晚8点各查一次点评后台评价管理<br/><strong>差评回复模板</strong>：亲您好非常抱歉给您带来不好的体验，针对具体问题的改进说明，已经安排店长第一时间改进。欢迎您下次再来体验到店找店长我们一定给您最好的服务<br/><strong>差评处理时效</strong>：发现后2小时内必须回复24小时内必须有改进动作</p><h3>口碑量化目标</h3><table><tr><th>时间节点</th><th>评价数</th><th>评分目标</th></tr><tr><td>开业7天</td><td>15条以上</td><td>4.3分以上</td></tr><tr><td>开业30天</td><td>40条以上</td><td>4.5分以上</td></tr><tr><td>开业60天</td><td>80条以上</td><td>冲新店榜/热门榜前10</td></tr><tr><td>开业90天</td><td>120条以上</td><td>稳定4.5+争取好评榜</td></tr></table>`,
+    5: `<h3>会员设计逻辑</h3><p>冰淇淋人均15-22元（行业参考值），白领复购频率约每周1-2次（夏季）/每月1-2次（冬季），天然适合用会员体系做复购锁定。趣多多已签约<strong>会员旗舰版（4888元/年）</strong>，旗舰独有的团购会员卡+潜客营销+6大特有活动能力是白领复购的关键武器。</p><h3>会员权益设计（三级体系）</h3><table><tr><th>等级</th><th>门槛</th><th>权益</th><th>设计逻辑</th></tr><tr><td>甜蜜会员</td><td>扫码即注册</td><td>积分1:1 生日免费单球 每月1张升杯券</td><td>零门槛拉新用免费升杯培养习惯点大杯</td></tr><tr><td>宠粉会员</td><td>累计消费满200元</td><td>积分1.5倍 每月2张第二杯半价券 新品优先试吃</td><td>锁定高频用户200元约消费10-13次</td></tr><tr><td>挚爱会员</td><td>累计消费满500元</td><td>积分2倍 每月免费单球券 生日双球蛋糕杯 企业团购9折</td><td>识别超级用户给到真金白银让利</td></tr></table><h3>会员旗舰版落地操作</h3><ul><li><strong>Step 1（开业前）</strong>：会员旗舰版后台-会员等级设置三级权益，新会员礼设置免费升杯券1张<br/><strong>谁来做</strong>：老板/运营负责人耗时约30分钟<br/>路径：美团商家后台-会员管理-等级设置-新建等级-填入上表权益</li><li><strong>Step 2（开业第1天）</strong>：潜客营销开启——对到店未注册会员的顾客自动推送注册送升杯券消息<br/>路径：会员管理-潜客营销-设置触发条件（到店消费未注册）-推送内容</li><li><strong>Step 3（开业第7天）</strong>：团购会员卡上线——推出夏日畅吃卡售价39元含5张单球兑换券（单球原价15-18元相当于买3送2）<br/><strong>谁来做</strong>：店长在美团团购后台上架<br/><strong>定价逻辑</strong>：39元除以5杯=7.8元/杯看似亏但锁定5次到店每次大概率加购实际客单约15元<br/><strong>话术</strong>：这个卡买了可以分5次用每次来就当花7块8吃一个球比蜜雪冰城还划算但品质完全不一样<br/><strong>客人犹豫怎么办</strong>：您今天买的话这杯直接抵一次等于现在就省了8块</li></ul><h3>会员量化目标</h3><table><tr><th>指标</th><th>开业30天</th><th>开业90天</th></tr><tr><td>注册会员数</td><td>500人（5店合计）</td><td>1500人</td></tr><tr><td>团购会员卡售出</td><td>100张</td><td>300张</td></tr><tr><td>会员复购率</td><td>30%</td><td>45%</td></tr><tr><td>会员消费占比</td><td>40%</td><td>60%</td></tr></table>`,
+    6: `<h3>公域引流到私域留客到公域反哺闭环</h3><p>冰淇淋品类天然适合<strong>小红书+大众点评</strong>双公域打法（高颜值+出片+年轻客群），私域用会员体系+小程序+企业社群锁复购。5店齐发的品牌势能要通过公私域联动放大到极致。</p><h3>公域矩阵（按优先级排序）</h3><h4>小红书（最高优先级）</h4><p><strong>为什么最重要</strong>：冰淇淋品类在小红书的内容转化率是所有平台最高的——高颜值产品+打卡场景=天然种草内容</p><ul><li><strong>内容策略（每周3篇）</strong>：周一产品特写（今日限定黄桃玫瑰冰淇淋）/周三打卡场景（世纪城打工人的3点续命站）/周五互动贴（选A还是B评论区选下周新口味）</li><li><strong>关键词</strong>：钱江世纪城美食/萧山冰淇淋/EFC下午茶/杭州打卡甜品</li><li><strong>谁来做</strong>：指定1名员工负责拍照+发布每篇约20分钟<br/><strong>拍照SOP</strong>：自然光靠窗+45度俯拍+干净背景+产品占画面2/3<br/><strong>不会拍怎么办</strong>：搜小红书冰淇淋拍照教程前3篇照着模仿</li><li><strong>量化</strong>：开业30天发12篇总曝光1万以上引流到店50人以上（行业参考值）</li></ul><h4>大众点评（基本盘）</h4><ul><li>冷启动动作见第4章</li><li>团购套餐上线：双球套餐原价36团购价29.9/三球分享装原价52团购价39.9<br/>路径：美团商家后台-团购管理-新建套餐</li><li>推广通（开业首月建议投）：日预算50-100元关键词萧山冰淇淋+钱江世纪城甜品ROI目标3以上<br/>路径：商家后台-推广通-新建计划</li></ul><h4>抖音（辅助渠道）</h4><ul><li>冰淇淋制作过程短视频15-30秒出片率高<br/>每周发1条即可不必重投入</li><li>抖音团购上线1-2款引流款（单球9.9元限量500份）做新店曝光</li></ul><h3>私域留客三件套</h3><h4>小程序（已签约核心工具）</h4><ul><li>到店扫码点单替代排队——白领午休时间宝贵快速点单是刚需</li><li>小程序首页=营销主阵地：轮播banner（本周限定/会员权益/团购入口）+常购快捷入口</li><li>外卖入口整合：小程序内直接下外卖单写字楼配送（对比有赞这是核心体验升级）</li></ul><h4>企业微信社群</h4><ul><li><strong>建群时机</strong>：企业团购交付时扫码入群（天然精准：行政/HR拉全公司人）</li><li><strong>群运营</strong>：每周一发本周口味预告+周三限时群专属买一送一+周五互动投票下周口味</li><li><strong>谁来做</strong>：老板或店长兼群主每天10分钟维护</li><li><strong>目标</strong>：3个月建5个企业群共500+人</li></ul><h4>分账功能（老板核心关注点）</h4><ul><li>5店齐开最大管理痛点：每天对账/分润/统一管控</li><li>美团SaaS小程序分账能力：总部统一收款-按门店自动分账-合伙人分润比例可设</li><li>相比有赞：一个后台看5店数据、统一会员体系跨店通用、分账自动化（行业参考值，具体分账模式请BD确认）</li></ul>`,
+    7: `<h3>淡季风险与破局策略</h3><p>冰淇淋品类的<strong>生死线是淡季（11月-3月）</strong>。如果只卖冰淇淋，杭州冬天月营收可能腰斩至旺季的40-50%。60平门店固定成本约3-4万/月（行业参考值），淡季日均需做到1200-1500元才能保本。三个破局方向：</p><h4>方向一：热甜品+冰淇淋复合产品（最推荐）</h4><ul><li><strong>做什么</strong>：11月起上架热华夫饼配冰淇淋球（28元）、热巧克力浮冰（22元）、热红豆抹茶冰淇淋（25元），参考杭州网红Luneurs做法</li><li><strong>谁来做</strong>：老板研发确定3-5款热+冷组合品研发周期约2周</li><li><strong>设备投入</strong>：华夫饼机约500-800元咖啡机（如已有可复用）</li><li><strong>预期效果</strong>：热甜品客单价做到25-35元（高于纯冰淇淋15-22元），淡季客单提升30-50%</li></ul><h4>方向二：午间白领甜品套餐</h4><ul><li><strong>做什么</strong>：与周边轻食/便当店联合——午餐+迷你冰淇淋券9.9元加购<br/>或者自己上架轻食三明治/沙拉+冰淇淋午间套餐定价28-35元</li><li><strong>谁来做</strong>：老板谈联合商家或增加轻食产品线</li><li><strong>逻辑</strong>：把冰淇淋从下午茶场景扩展到午餐场景工作日午间是最稳定的客流</li></ul><h4>方向三：节日限定+暖饮产品线</h4><ul><li>圣诞限定/新年限定/情人节限定做颜值爆表的节日款维持社交话题热度</li><li>增加热饮产品线（热可可/热拿铁/姜茶），与冰淇淋形成冬夏互补</li></ul><h3>7-9月暑期营销日历（开业正值旺季）</h3><table><tr><th>时间</th><th>节点</th><th>活动</th><th>执行要点</th></tr><tr><td>7月第1周</td><td>暑期开始</td><td>暑假嗨吃卡：凭学生证购39元卡，7-8月每次9折+赠冰饮1杯</td><td>CBD周边学生不多此活动酌情——如附近有培训机构/暑期工可执行</td></tr><tr><td>7月中</td><td>小暑-大暑</td><td>消暑特惠：到店消费满2球赠迷你冰粉1份（成本0.5元）</td><td>冰粉提前批量制作冷藏成本极低体验感极佳</td></tr><tr><td>7月下旬</td><td>七夕预热</td><td>七夕预售：双人限定套餐（2球+华夫饼+饮品）原价58预售价49.9</td><td>限量50份制造稀缺感预售收定金20元</td></tr><tr><td>8月上旬</td><td>七夕节</td><td>七夕浪漫款限定：心形冰淇淋/粉色系列/情侣杯装</td><td>造型出片拍照>一切，发小红书抖音引流</td></tr><tr><td>8月中</td><td>立秋</td><td>贴秋膘系列：红豆/芋泥/栗子等秋季口味上新</td><td>提前预热秋季产品线为淡季过渡做准备</td></tr><tr><td>9月上旬</td><td>开学季</td><td>如附近有学校可做开学季活动否则聚焦白领秋季新品</td><td>CBD门店开学季影响不大重点放在秋季口味切换</td></tr><tr><td>9月中下旬</td><td>中秋桂花季</td><td>桂花限定系列：桂花冰淇淋/桂花拿铁浮冰（杭州桂花季特色）</td><td>杭州桂花季是独特本地节点差异化极强门店可放新鲜桂花枝装饰</td></tr></table>`,
+    8: `<h3>已签约SaaS模块与使用场景</h3><p>趣多多已签约三个核心模块，以下是每个模块在5店场景下的具体使用方式：</p><h4>小程序（核心工具——解决有赞痛点）</h4><table><tr><th>功能</th><th>使用场景</th><th>操作路径</th></tr><tr><td>到店扫码点单</td><td>顾客扫桌码/柜台码直接选冰淇淋口味+加料下单支付</td><td>商家后台-小程序-扫码点餐-开启</td></tr><tr><td>外卖整合</td><td>小程序内直接下外卖单写字楼15分钟送达</td><td>商家后台-外卖设置-配送范围3公里</td></tr><tr><td>团购核销</td><td>顾客在美团/点评买的团购券到店扫码自动核销</td><td>收银台-扫码核销-自动冲账</td></tr><tr><td>多店管理</td><td>1个账号管5家店的菜单/库存/活动统一配置</td><td>商家后台-门店管理-选择门店切换</td></tr></table><h4>会员旗舰版（复购引擎）</h4><ul><li>详见第5章会员体系设计</li><li>核心差异点vs有赞：<strong>跨店通用会员</strong>——顾客在A店注册的会员B店直接可用积分互通权益同步</li><li>旗舰独有能力：团购会员卡（夏日畅吃卡核心载体）+潜客营销（自动触达未注册顾客）+6大特有活动模板</li></ul><h4>扫码点餐（效率工具）</h4><ul><li>冰淇淋品类SKU多（口味x杯型x加料组合可能超100种），扫码点餐解决排队+点错问题</li><li><strong>设置建议</strong>：分类清晰（经典款/当季限定/华夫饼组合/外带杯装），每个分类不超过8款减少选择困难</li><li>弹窗功能：可按时间段自动弹不同活动（午间弹午餐套餐晚间弹第二杯半价）</li></ul><h3>分账功能详解（老板核心关注点）</h3><p>老板规划5家店同时开业，之前用有赞的核心痛点就是分账不好用。以下是美团SaaS分账能力说明：</p><ul><li><strong>总部统收模式</strong>：所有门店收款统一进入总部账户，系统按预设比例自动分账到各门店/合伙人账户</li><li><strong>分润规则可定制</strong>：按门店/按合伙人/按时段均可设置不同分润比例</li><li><strong>实时对账</strong>：5店数据一个后台实时看每家店日流水/毛利/分账明细</li><li><strong>与有赞对比优势</strong>：美团SaaS原生支持餐饮连锁分账场景有赞偏电商分销逻辑</li></ul><p><strong>注意</strong>：具体分账功能配置需BD确认技术方案是否支持老板的分润模型（如合伙人按股比分、门店店长提成等），建议签约后安排技术对接专场。</p>`,
+    9: `<h3>单店经营模型测算（60平门店）</h3><table><tr><th>项目</th><th>保守估计</th><th>乐观估计</th><th>说明</th></tr><tr><td>日均客流</td><td>80人</td><td>120人</td><td>行业参考值CBD冰淇淋店</td></tr><tr><td>客单价</td><td>18元</td><td>22元</td><td>主力产品15-22元+加购</td></tr><tr><td>日均营收</td><td>1440元</td><td>2640元</td><td>客流x客单</td></tr><tr><td>月营收</td><td>4.3万元</td><td>7.9万元</td><td>日均x30天</td></tr><tr><td>原材料成本（30%）</td><td>1.3万</td><td>2.4万</td><td>冰淇淋原料毛利高</td></tr><tr><td>人工成本（2-3人）</td><td>1.2万</td><td>1.5万</td><td>行业参考值杭州萧山</td></tr><tr><td>房租</td><td>1.0万</td><td>1.0万</td><td>行业参考值CBD60平（需核实）</td></tr><tr><td>水电杂费</td><td>0.3万</td><td>0.3万</td><td>含冰柜制冷用电</td></tr><tr><td>月净利润</td><td>0.5万</td><td>2.7万</td><td>保守刚过盈亏平衡</td></tr></table><h3>SaaS投入与增收测算</h3><table><tr><th>投入项</th><th>费用</th><th>预期增收</th></tr><tr><td>会员旗舰版</td><td>4888元/年（约408元/月）</td><td>会员复购带来月增收约3000-5000元（30%复购率提升）</td></tr><tr><td>小程序</td><td>已签约含在套餐内</td><td>外卖+小程序点单提升效率日均多服务10-15人</td></tr><tr><td>扫码点餐</td><td>已签约含在套餐内</td><td>减少1名点单人力月省约4000-5000元</td></tr><tr><td>推广通（首月）</td><td>1500-3000元/月</td><td>ROI 3以上，月增收约4500-9000元</td></tr><tr><td>团购套餐让利</td><td>约15-20%让利</td><td>团购引流日均10-15单月增收约5000-7000元</td></tr></table><h3>回本周期</h3><p>SaaS年度投入约5000-6000元（会员旗舰版为主），按月增收保守1万元计算，<strong>首月即可回本</strong>。核心收益不在省费用而在增收——会员复购+外卖增量+团购引流三条线叠加，单店月增收1-2万元完全可期。</p><h3>5店合计OKR目标</h3><table><tr><th>指标</th><th>开业30天</th><th>开业90天</th><th>开业180天</th></tr><tr><td>5店月总营收</td><td>20万（行业参考值）</td><td>30万</td><td>35万+</td></tr><tr><td>平均单店日营收</td><td>1300元</td><td>2000元</td><td>2300元+</td></tr><tr><td>大众点评评分</td><td>4.3分</td><td>4.5分</td><td>4.7分</td></tr><tr><td>总评价数（5店合计）</td><td>200条</td><td>500条</td><td>800条</td></tr><tr><td>注册会员数</td><td>500人</td><td>1500人</td><td>3000人</td></tr><tr><td>会员消费占比</td><td>30%</td><td>50%</td><td>60%</td></tr><tr><td>外卖占比</td><td>10%</td><td>20%</td><td>25%</td></tr><tr><td>企业团购客户数</td><td>5家</td><td>15家</td><td>25家</td></tr></table><h3>30天复盘节点</h3><ul><li><strong>Day 7</strong>：检查首周会员注册数是否达300+开业活动核销率+点评评价数是否达15条</li><li><strong>Day 14</strong>：检查外卖上线后日均单量+小红书发布篇数和曝光量+企业团购转化情况</li><li><strong>Day 21</strong>：检查会员复购率是否达20%+第二杯半价活动效果+限定口味动销</li><li><strong>Day 30</strong>：全面复盘月营收/会员数/评分/外卖占比与OKR对标，调整下月策略</li></ul>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
