@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>门店 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">餐饮 · 运营提升方案</div>
+  <h1 class="hero-title">门店</h1>
+  <p class="hero-subtitle">专属运营提升方案，助力门店持续增长</p>
+  <div class="hero-address"></div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">⚠️ 预估120-150元</span>
+      <div class="hero-stat-label">人均消费</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">新店目标：首月4.0→3月4.5</span>
+      <div class="hero-stat-label">门店评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">钱塘区·观云钱塘城</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(ch1, '门店诊断与市场洞察', ch1)">
+      
+      <div class="chapter-num">CHAPTER ch1</div>
+      <div class="chapter-title">门店诊断与市场洞察</div>
+      <span class="chapter-type free">section</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(ch2, '开业营销爆破方案', ch2)">
+      
+      <div class="chapter-num">CHAPTER ch2</div>
+      <div class="chapter-title">开业营销爆破方案</div>
+      <span class="chapter-type free">section</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(ch3, '公域引流策略', ch3)">
+      
+      <div class="chapter-num">CHAPTER ch3</div>
+      <div class="chapter-title">公域引流策略</div>
+      <span class="chapter-type free">section</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(ch4, '私域运营与会员体系', ch4)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER ch4</div>
+      <div class="chapter-title">私域运营与会员体系</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(ch5, '日常运营SOP与氛围打造', ch5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER ch5</div>
+      <div class="chapter-title">日常运营SOP与氛围打造</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(ch6, 'Q3营销日历（7-9月）', ch6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER ch6</div>
+      <div class="chapter-title">Q3营销日历（7-9月）</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(ch7, 'OKR目标与投资回报', ch7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER ch7</div>
+      <div class="chapter-title">OKR目标与投资回报</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-ch1" style="display:none"><h3>🔍 O2氧气酒吧 · 门店诊断与市场洞察</h3><h4>一、门店基础画像</h4><table><tr><th>维度</th><th>现状</th><th>诊断</th></tr><tr><td>店名</td><td>O2氧气酒吧</td><td>名字有记忆点，"O2"=氧气/清新，差异化好</td></tr><tr><td>品类</td><td>休闲娱乐/酒吧/夜店</td><td>夜间经济赛道，2025年酒吧订单同比增长49%</td></tr><tr><td>位置</td><td>钱塘区盈丰街道·观云钱塘城</td><td>新兴商圈，周边新建住宅+产业园区白领聚集</td></tr><tr><td>开业状态</td><td>尚未开业（0-30天新店）</td><td>正值7-9月暑期夜宵旺季，开业时机窗口极佳</td></tr><tr><td>日均流水</td><td>未开业，暂无数据</td><td>⚠️ 以下基于行业基准+区域特征估算</td></tr><tr><td>已签约</td><td>美团智能版</td><td>具备基础收银能力，后续可叠加会员/团购</td></tr></table><h4>二、商圈竞争格局（3-5公里真实竞品）</h4><table><tr><th>竞品</th><th>距离</th><th>人均</th><th>定位</th><th>弱点</th><th>O2机会</th></tr><tr><td>Zone Party酒吧</td><td>约3km</td><td>150-250元</td><td>大型派对蹦迪</td><td>硬核夜店风，消费门槛高</td><td>做轻松社交+中等消费差异化</td></tr><tr><td>ROOFLOW顶楼</td><td>约4km</td><td>78元</td><td>特调清吧</td><td>面积小无演艺，承接不了多人聚会</td><td>提供驻唱+派对+清吧复合体验</td></tr><tr><td>千啤酿造</td><td>约3.5km</td><td>60-80元</td><td>社区精酿</td><td>氛围感弱，无DJ驻唱</td><td>灯光+音乐+氛围感碾压</td></tr><tr><td>HELEVEN酒吧</td><td>约8km</td><td>120-200元</td><td>中型派对</td><td>跨区距离远</td><td>吃掉钱塘区本地夜间消费</td></tr></table><p><strong>核心判断</strong>：观云钱塘城商圈目前<strong>没有一家兼具「氛围感+社交属性+驻唱/DJ+人均100-150元」的综合型酒吧</strong>。O2氧气酒吧填补这个空白，享有「区域首发」红利——周边3公里的年轻居民和白领，不用再坐地铁去市中心喝酒了。</p><h4>三、目标客群画像</h4><ul><li><strong>核心客群60%</strong>：盈丰街道及周边产业园区25-35岁白领/程序员，下班后需要释放压力+社交的第三空间，人均承受力100-180元</li><li><strong>次核心客群25%</strong>：观云钱塘城周边住宅年轻居民/情侣，周末约会和朋友聚会场景，注重氛围感和拍照</li><li><strong>增量客群15%</strong>：通过大众点评/小红书/抖音引流的跨区域消费者，被差异化体验吸引</li></ul><h4>四、行业趋势红利</h4><p>美团2025酒吧指南：全国酒吧订单同比增长49%，杭州TOP5城市。精酿吧、特调吧、社交酒馆增速超30%。年轻人把酒吧作为"第二主场"——不只喝酒，更是社交、听歌、释放情绪的空间。O2的"氧气"概念天然契合：让人在工作压力中找到轻松出口。</p></div>
+<div id="modal-content-ch2" style="display:none"><h3>🎉 开业营销爆破方案（开业前14天→开业后7天）</h3><p>新店开业是酒吧生死线——前21天决定了能不能活过3个月。核心逻辑：<strong>预热造势→开业引爆→留存锁客</strong>，三步闭环。</p><h4>第一阶段：预热造势（D-14到D-1）</h4><table><tr><th>时间</th><th>动作</th><th>谁来做</th><th>怎么做</th><th>效果</th></tr><tr><td>D-14</td><td>开通社交账号</td><td>老板/营销</td><td>注册抖音号「O2氧气酒吧」+小红书号+大众点评商家入驻🔧（美团商家后台→店铺管理→基础信息完善），上传3-5条装修进度视频</td><td>建立线上存在感</td></tr><tr><td>D-12</td><td>KOL/KOC邀约</td><td>老板</td><td>联系3-5位钱塘区本地生活博主（粉丝5000-5万），开业当天免费体验+发探店笔记。话术："我们是观云钱塘城第一家氧气主题酒吧，开业当晚免费体验，您只需发一条真实探店笔记"</td><td>锁定3-5条KOC内容</td></tr><tr><td>D-10</td><td>倒计时海报</td><td>营销</td><td>每天1张倒计时海报到抖音+小红书+朋友圈，风格用O2品牌色（深蓝+荧光绿，呼应氧气概念），内容交替：环境/酒单/DJ阵容剧透</td><td>持续曝光10天</td></tr><tr><td>D-7</td><td>点评预热</td><td>老板</td><td>大众点评上架「开业尝鲜套餐」🔧（商家后台→团购管理→新建团购），99元含2杯特调+1份小食，限量50份制造稀缺</td><td>锁定50组到店客流</td></tr><tr><td>D-5</td><td>朋友圈裂变</td><td>全员</td><td>「O2开业邀请函」电子海报，转发朋友圈集28赞送开业当晚1杯特调。老板+员工+KOC同时转发</td><td>覆盖3000-5000人</td></tr><tr><td>D-3</td><td>周边地推</td><td>2-3名员工</td><td>下午5-7点在观云钱塘城商圈入口/写字楼大堂发卡片（正面：O2开业凭此卡首杯半价；背面：地址+电话+抖音号），每天500张</td><td>1500张覆盖周边1km</td></tr></table><h4>第二阶段：开业引爆（D-Day到D+3）</h4><p><strong>开业派对主题：「第一口氧气」——O2氧气酒吧盛大开业之夜</strong></p><ul><li><strong>开业当晚</strong>：DJ/驻唱歌手现场演出（驻唱约800-1500元/晚）；设2-3个霓虹灯打卡点（O2 logo灯牌+氧气泡泡装置+荧光涂鸦墙，约2000-3000元）；前100位到店赠招牌「氧气特调」1杯（成本约8-12元/杯）；全场酒水8折；互动游戏：骰子决定折扣（1-2点9折/3-4点8折/5-6点6折）</li><li><strong>D+1到D+3</strong>：凭开业当晚小票再到店享7折；每晚前20位送小食拼盘；KOC笔记分批发布</li></ul><h4>第三阶段：口碑沉淀（D+4到D+7）</h4><ul><li>大众点评口碑冲刺：目标7天内20条真实评价。结账时话术："体验满意吗？麻烦点评写写真实感受，好坏都行，15字就行" ⚠️ 不承诺好评返利，合规操作</li><li>差评2小时响应：开启大众点评新评价提醒🔧（商家后台→评价管理），差评2小时内回复先道歉再解决</li></ul><h4>开业总预算</h4><table><tr><th>项目</th><th>预算</th></tr><tr><td>KOC探店</td><td>0-2000元</td></tr><tr><td>打卡装置</td><td>2000-3000元</td></tr><tr><td>首杯免费100杯</td><td>约1000元</td></tr><tr><td>地推卡片1500张</td><td>300-500元</td></tr><tr><td>驻唱/DJ</td><td>800-1500元</td></tr><tr><td>8折让利</td><td>约2000-3000元</td></tr><tr><td><strong>合计</strong></td><td><strong>6100-10000元</strong></td></tr></table></div>
+<div id="modal-content-ch3" style="display:none"><h3>🌐 公域引流：大众点评+抖音+小红书三平台协同</h3><p>酒吧公域引流的三个核心平台：<strong>大众点评（搜索决策入口）+抖音（内容种草引擎）+小红书（氛围感传播）</strong>，功能不同打法不同，目标一致：线上流量变到店客人。</p><h4>一、大众点评：搜索即决策</h4><p>O2是新店，0评价0星级。目标：30天内50条真实评价，冲钱塘区酒吧热门榜前10。</p><ul><li><strong>第1-3天</strong>：完善店铺信息🔧（商家后台→店铺管理）——上传15-20张高质量环境图，写好店铺介绍突出"观云钱塘城首家氧气主题酒吧"，设置营业时间和人均价格</li><li><strong>第4-7天</strong>：上架3款引流团购🔧（商家后台→团购管理）：引流款「O2初体验」双人特调99元（含2杯特调+小食，市场价160元）；利润款「氧气微醺」四人畅饮299元（含4杯特调+精酿+小食，市场价450元）；体验款「VIP卡座派对」599元（含卡座+6杯特调+小食+果盘，市场价900元）</li><li><strong>第7-14天</strong>：善用「免费试」🔧（商家后台→营销中心→免费试）——每周5个名额邀请点评活跃用户到店体验写真实评价 ⚠️ 不引导好评内容</li><li><strong>第14-30天</strong>：冲榜阶段，关注新店榜和热门榜排名，优化团购核销率目标60%以上</li></ul><h4>二、抖音：3条视频+DOU+精准投放</h4><ol><li><strong>开业前3天</strong>："钱塘区终于有像样的酒吧了"——15秒环境展示，投DOU+ 200元定向钱塘区25-35岁夜生活人群</li><li><strong>开业当天</strong>："O2开业之夜实录"——30秒现场氛围，投DOU+ 300元</li><li><strong>开业后3天</strong>："这杯氧气特调绝了"——产品种草视频，投DOU+ 200元</li></ol><p>总投放700元，预期曝光3-5万次，到店转化50-100人。</p><h4>三、小红书：氛围感传播</h4><ul><li>邀请2-3位本地博主探店拍摄，重点展示打卡点、酒水颜值、灯光氛围</li><li>老板发2-3条笔记，标题用搜索词："杭州钱塘区酒吧推荐""观云钱塘城约会好去处"</li><li>到店客人拍照发小红书带#O2氧气酒吧 标签，下次到店送1杯shot</li></ul><h4>四、公域引流首月效果预估</h4><table><tr><th>渠道</th><th>预计曝光</th><th>预计到店</th><th>成本</th></tr><tr><td>大众点评</td><td>5000-8000次</td><td>150-250人</td><td>团购让利约3000元</td></tr><tr><td>抖音</td><td>3-5万次</td><td>50-100人</td><td>DOU+约700元</td></tr><tr><td>小红书</td><td>1-2万次</td><td>30-60人</td><td>博主置换约500元</td></tr><tr><td><strong>合计</strong></td><td><strong>5-8万次</strong></td><td><strong>230-410人</strong></td><td><strong>约4200元</strong></td></tr></table></div>
+<div id="modal-content-ch4" style="display:none"><h3>🔐 私域运营与会员体系</h3><p>公域解决"第一次来"，私域解决"第二次、第N次来"。酒吧残酷数据：新店头两个月靠热度，第三个月断崖下滑——原因就是没有私域留存。</p><h4>一、会员体系（智能版基础能力）</h4><p><strong>入会</strong>：扫码即会员零门槛🔧（智能版→会员设置→扫码自动注册），客人扫桌码点单时自动注册。</p><table><tr><th>权益</th><th>内容</th><th>目的</th></tr><tr><td>生日特权</td><td>生日当天到店赠1杯招牌特调+生日小蛋糕</td><td>锁定生日派对场景（酒吧最大包场消费场景）</td></tr><tr><td>积分兑换</td><td>消费1元=1积分，500积分兑精酿/800积分兑特调</td><td>低成本拉高复购频次</td></tr><tr><td>周五微醺日</td><td>每周五会员全场85折，续杯半价</td><td>培养固定消费习惯（行业验证最有效的酒吧私域玩法）</td></tr><tr><td>老带新</td><td>推荐新客双方各得1杯shot</td><td>社交裂变，酒吧天然适合老带新</td></tr></table><p><strong>周五微醺日落地SOP</strong>：① 老板设规则，店长执行🔧（会员管理→营销活动→新建每周五85折活动）；② 每周四下午5点推送提醒🔧（会员管理→消息推送→定时推送）；③ 超2周未到店沉睡会员发专属唤醒券"好久不见送你免费shot"；④ 客人说"我不是会员"→"扫码1秒注册，今晚就享85折"。预期：坚持2个月周五营业额提升40%+。</p><h4>二、社群运营（微信群）</h4><p>群名：「O2氧气酒吧·夜猫子俱乐部」。开业当晚建群，吧台摆群二维码。</p><p><strong>每周固定节奏</strong>：周一发本周活动预告；周三发周五微醺日预热海报；周五群内实时互动（现场短视频+抢红包送酒水券）；周日精彩回顾+下周预告。⚠️ 每天最多2条，不刷屏，不发广告，投诉私聊处理。</p><h4>三、储值方案（⚠️ 开业2个月后再推）</h4><p>新店就推储值客人信任度不够。建议稳定运营2个月后再推：体验档500元送50元（10%）→主推档1000元送150元（15%）→尊享档2000元送400元（20%）+专属卡座优先预留。储值推荐话术："您今晚消费186元，充500元送50元相当于今晚这单直接打7折，以后每次来都有余额直接扣不用掏钱"。客人说"我再想想"→"没关系，先扫码注册会员，今晚享85折（如果是周五），储值什么时候都可以充"。</p></div>
+<div id="modal-content-ch5" style="display:none"><h3>⚙️ 日常运营SOP与氛围打造</h3><p>酒吧客人买的不是酒水，是<strong>氛围+情绪+社交</strong>。日常运营核心就是把这三个做到极致做成习惯。</p><h4>一、每日运营时间轴</h4><table><tr><th>时段</th><th>动作</th><th>负责人</th><th>具体做法</th></tr><tr><td>15:00-17:00</td><td>开店准备</td><td>店长</td><td>检查酒水库存（精酿/特调原料）、清洁台面、测试灯光音响、检查打卡装置、摆放桌花蜡烛</td></tr><tr><td>17:00-18:00</td><td>员工就位</td><td>全员</td><td>换工装、班前会3分钟：今晚主推酒款/预约客人/特殊注意事项</td></tr><tr><td>18:00-20:00</td><td>Happy Hour</td><td>调酒师+服务员</td><td>早鸟时段指定酒水买一送一（用低成本精酿引流），白领下班"过渡期"低价拉人进来</td></tr><tr><td>20:00-22:00</td><td>氛围升温</td><td>DJ/驻唱</td><td>驻唱开始表演，灯光切到蓝紫荧光模式，音量逐步提升，服务员主动巡台推荐特调</td></tr><tr><td>22:00-00:00</td><td>黄金2小时</td><td>全员</td><td>集中精力服务好每桌，注意卡座翻台、出品速度、客人情绪管理</td></tr><tr><td>00:00-02:00</td><td>续杯时段</td><td>调酒师+收银</td><td>推续杯半价（会员专享），结账引导扫码入会入群，送"下次首杯半价"卡片</td></tr><tr><td>02:00-03:00</td><td>收档</td><td>店长+清洁</td><td>清点酒水、核对营收、清洁消毒、检查安全设施、锁门</td></tr></table><h4>二、氛围打造五要素</h4><ol><li><strong>灯光（最重要80%氛围感）</strong>：基础暖色LED灯带2700K→吧台蓝紫射灯突出调酒仪式→打卡点霓虹灯管→卡座LED电子蜡烛（约3元/个）</li><li><strong>音乐</strong>：18-20时轻爵士/Lofi（低音量背景）→20-22时流行/R&B（中音量驻唱）→22时后电子/House（嗨起来）。⚠️ 音乐风格定位很重要，O2建议走"轻潮流"路线而非硬核蹦迪</li><li><strong>气味</strong>：吧台区域放柑橘/薄荷香薰（呼应"氧气"清新概念），卫生间放高级洗手液+香薰</li><li><strong>互动装置</strong>：霓虹O2 logo墙+氧气泡泡机（定时释放泡泡营造梦幻感）+荧光涂鸦墙（客人可以用荧光笔留言）</li><li><strong>服务话术</strong>：服务员不说"请问喝点什么"，改说"今晚想要什么感觉？微醺放松还是嗨一把？我帮您推荐"——把服务从"点单"变成"体验定制"</li></ol><h4>三、主题之夜（每周固定2场）</h4><table><tr><th>主题</th><th>时间</th><th>内容</th><th>目标客群</th></tr><tr><td>微醺之夜</td><td>每周五</td><td>会员85折+续杯半价+驻唱歌手</td><td>白领/常客</td></tr><tr><td>电音派对</td><td>每周六</td><td>DJ打碟+荧光元素+特调买二送一</td><td>年轻人/学生</td></tr></table><p>其他不定期主题：生日派对之夜（每月1次包场特惠）、七夕/万圣节/圣诞主题派对、世界杯/演唱会同步观看之夜。</p></div>
+<div id="modal-content-ch6" style="display:none"><h3>📅 Q3营销日历（2026年7-9月）</h3><p>7-9月是酒吧行业的<strong>黄金旺季</strong>——暑期+夜宵季+七夕，正好是O2开业后的前3个月窗口期。每个节点都要有对应的营销动作。</p><h4>七月：开业月+暑期启动</h4><table><tr><th>日期</th><th>节点</th><th>营销动作</th><th>具体操作</th></tr><tr><td>7月下旬</td><td>O2盛大开业</td><td>开业派对「第一口氧气」</td><td>见第二章开业爆破方案全部内容</td></tr><tr><td>7月22-23日</td><td>大暑</td><td>「消暑特饮」限定</td><td>推出3款冰镇消暑特调（薄荷莫吉托/冰柠气泡/西瓜冰沙），大暑当天买一送一。调酒师负责研发，提前3天在抖音发预告。话术："外面38度杭州火炉模式，来O2喝一杯冰到心里的消暑特调"</td></tr><tr><td>7月底</td><td>暑期夜宵季</td><td>「深夜食堂」模式</td><td>22:00后推出夜宵小食套餐（啤酒+小龙虾/烤串拼盘 99元），配合延时营业到凌晨2点。⚠️ 小食建议外采合作不自己做（控制厨房成本）</td></tr></table><h4>八月：七夕+暑期高峰</h4><table><tr><th>日期</th><th>节点</th><th>营销动作</th><th>具体操作</th></tr><tr><td>8月初（七夕）</td><td>七夕情人节</td><td>「O2七夕·微醺告白夜」</td><td>① 推出七夕限定双人套餐3档（228/368/528元），含2杯特调+小食+鲜花1支+甜品；② 到店情侣拍照发朋友圈集赞38个，送定制「O2告白酒」1杯；③ 单身客人参与「脱单盲盒」——写纸条放入盲盒随机配对，配对成功双方8折。老板提前1周在大众点评上架七夕套餐🔧，限量30份制造稀缺。客人问"能不能便宜"→"套餐已包含鲜花和定制甜品，单点要贵40%"</td></tr><tr><td>8月7-8日</td><td>立秋</td><td>「秋天的第一杯酒」</td><td>呼应"秋天的第一杯奶茶"梗，推出「秋天的第一杯特调」——立秋当天特调买一赠一。抖音发话术："秋天的第一杯奶茶算什么，成年人要喝秋天的第一杯特调"</td></tr><tr><td>8月下旬</td><td>暑期收官</td><td>「O2月度派对」</td><td>举办首次月度大型派对（月末周六），邀请知名度更高的DJ，门票制（59元含1杯酒水），在大众点评+抖音提前1周售票</td></tr></table><h4>九月：中秋+开学</h4><table><tr><th>日期</th><th>节点</th><th>营销动作</th><th>具体操作</th></tr><tr><td>9月初</td><td>开学季</td><td>「开学解压夜」</td><td>凭学生证/工牌到店，指定精酿买一送一（限18:00-20:00 Happy Hour时段），拉动周一到周四冷淡时段客流</td></tr><tr><td>9月10日</td><td>教师节</td><td>「敬老师一杯」</td><td>教师凭教师证到店，赠送1杯特调+小食。成本可控（约15元/人），但口碑极好。话术："教师节快乐！今晚这杯O2请您喝"</td></tr><tr><td>9月中下旬</td><td>中秋节</td><td>「O2月光派对」</td><td>① 推出中秋限定特调「桂花醉」（桂花+清酒+柚子，呼应杭州桂花季）；② 包场团建套餐（8-10人 1288元含10杯酒水+小食+果盘+桂花月饼礼盒）；③ 中秋当晚23:00全场熄灯1分钟"赏月时刻"仪式感拉满。提前2周上架大众点评团建套餐🔧</td></tr></table></div>
+<div id="modal-content-ch7" style="display:none"><h3>🎯 OKR目标与投资回报测算</h3><p>⚠️ O2尚未开业，以下数据基于钱塘区酒吧行业基准+周边竞品人均+商圈消费力估算，仅作规划参考，实际经营需根据开业后数据动态调整。</p><h4>一、基础假设（⚠️ 假设值，建议国庆拜访时与老板确认）</h4><table><tr><th>指标</th><th>估算值</th><th>依据</th></tr><tr><td>人均消费</td><td>120-150元</td><td>竞品ROOFLOW 78元（清吧）、Zone Party 150-250元（夜店），O2定位中间偏上</td></tr><tr><td>日均到店人次（爬坡期首月）</td><td>30-50人</td><td>新店冷启动期，逐步爬坡</td></tr><tr><td>日均到店人次（稳定期3月后）</td><td>60-100人</td><td>商圈成熟+口碑积累</td></tr><tr><td>月营业天数</td><td>28天</td><td>酒吧通常周一到周日营业，偶尔休息</td></tr><tr><td>酒水毛利率</td><td>65-75%</td><td>酒吧行业标准（自调特调毛利更高可达80%）</td></tr></table><h4>二、月度OKR目标</h4><table><tr><th>阶段</th><th>时间</th><th>月营收目标</th><th>会员数</th><th>点评评分</th><th>核心动作</th></tr><tr><td>冷启动期</td><td>第1个月</td><td>10-15万</td><td>200人</td><td>冲4.0分</td><td>开业爆破+公域引流+攒评价</td></tr><tr><td>爬坡期</td><td>第2个月</td><td>15-22万</td><td>500人</td><td>冲4.3分</td><td>固定主题夜+周五微醺日+七夕营销</td></tr><tr><td>稳定期</td><td>第3个月</td><td>22-30万</td><td>800人</td><td>冲4.5分</td><td>启动储值+中秋营销+月度派对常态化</td></tr></table><h4>三、投资回报测算（⚠️ 估算）</h4><table><tr><th>项目</th><th>月支出（估算）</th></tr><tr><td>房租</td><td>⚠️ 待确认（商圈商铺预估2-4万/月）</td></tr><tr><td>人员（5-8人团队）</td><td>3-5万/月</td></tr><tr><td>酒水原料</td><td>营收×25-35%</td></tr><tr><td>水电/物业</td><td>0.5-1万/月</td></tr><tr><td>营销费用</td><td>0.3-0.5万/月（稳定期）</td></tr><tr><td>月固定成本合计</td><td>⚠️ 约6-10万/月（不含房租）</td></tr></table><p><strong>盈亏平衡点</strong>：假设月固定成本8万+酒水成本率30%，则月营收需达约11.5万即可保本。按人均130元计算，日均需到店约32人。以O2的商圈位置和营销打法，首月即有望达到。</p><h4>四、关键KPI看板（每周复盘）</h4><table><tr><th>KPI</th><th>数据来源</th><th>健康标准</th></tr><tr><td>日均营收</td><td>智能版POS数据🔧</td><td>首月>3500元/天</td></tr><tr><td>桌均消费</td><td>智能版POS数据🔧</td><td>>200元/桌</td></tr><tr><td>会员转化率</td><td>会员系统🔧</td><td>到店客人>50%注册会员</td></tr><tr><td>周五vs平日营收比</td><td>POS数据🔧</td><td>周五>平日1.4倍</td></tr><tr><td>大众点评评分</td><td>商家后台🔧</td><td>首月>4.0，3月>4.5</td></tr><tr><td>团购核销率</td><td>商家后台🔧</td><td>>60%</td></tr><tr><td>复购率（月）</td><td>会员系统🔧</td><td>>25%</td></tr></table><p><strong>每周日晚复盘</strong>：老板+店长花30分钟看上面7个数字，哪个不达标就重点优化哪个。数据说话，不靠感觉。</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>陈国庆</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        ch1: `<h3>🔍 O2氧气酒吧 · 门店诊断与市场洞察</h3><h4>一、门店基础画像</h4><table><tr><th>维度</th><th>现状</th><th>诊断</th></tr><tr><td>店名</td><td>O2氧气酒吧</td><td>名字有记忆点，"O2"=氧气/清新，差异化好</td></tr><tr><td>品类</td><td>休闲娱乐/酒吧/夜店</td><td>夜间经济赛道，2025年酒吧订单同比增长49%</td></tr><tr><td>位置</td><td>钱塘区盈丰街道·观云钱塘城</td><td>新兴商圈，周边新建住宅+产业园区白领聚集</td></tr><tr><td>开业状态</td><td>尚未开业（0-30天新店）</td><td>正值7-9月暑期夜宵旺季，开业时机窗口极佳</td></tr><tr><td>日均流水</td><td>未开业，暂无数据</td><td>⚠️ 以下基于行业基准+区域特征估算</td></tr><tr><td>已签约</td><td>美团智能版</td><td>具备基础收银能力，后续可叠加会员/团购</td></tr></table><h4>二、商圈竞争格局（3-5公里真实竞品）</h4><table><tr><th>竞品</th><th>距离</th><th>人均</th><th>定位</th><th>弱点</th><th>O2机会</th></tr><tr><td>Zone Party酒吧</td><td>约3km</td><td>150-250元</td><td>大型派对蹦迪</td><td>硬核夜店风，消费门槛高</td><td>做轻松社交+中等消费差异化</td></tr><tr><td>ROOFLOW顶楼</td><td>约4km</td><td>78元</td><td>特调清吧</td><td>面积小无演艺，承接不了多人聚会</td><td>提供驻唱+派对+清吧复合体验</td></tr><tr><td>千啤酿造</td><td>约3.5km</td><td>60-80元</td><td>社区精酿</td><td>氛围感弱，无DJ驻唱</td><td>灯光+音乐+氛围感碾压</td></tr><tr><td>HELEVEN酒吧</td><td>约8km</td><td>120-200元</td><td>中型派对</td><td>跨区距离远</td><td>吃掉钱塘区本地夜间消费</td></tr></table><p><strong>核心判断</strong>：观云钱塘城商圈目前<strong>没有一家兼具「氛围感+社交属性+驻唱/DJ+人均100-150元」的综合型酒吧</strong>。O2氧气酒吧填补这个空白，享有「区域首发」红利——周边3公里的年轻居民和白领，不用再坐地铁去市中心喝酒了。</p><h4>三、目标客群画像</h4><ul><li><strong>核心客群60%</strong>：盈丰街道及周边产业园区25-35岁白领/程序员，下班后需要释放压力+社交的第三空间，人均承受力100-180元</li><li><strong>次核心客群25%</strong>：观云钱塘城周边住宅年轻居民/情侣，周末约会和朋友聚会场景，注重氛围感和拍照</li><li><strong>增量客群15%</strong>：通过大众点评/小红书/抖音引流的跨区域消费者，被差异化体验吸引</li></ul><h4>四、行业趋势红利</h4><p>美团2025酒吧指南：全国酒吧订单同比增长49%，杭州TOP5城市。精酿吧、特调吧、社交酒馆增速超30%。年轻人把酒吧作为"第二主场"——不只喝酒，更是社交、听歌、释放情绪的空间。O2的"氧气"概念天然契合：让人在工作压力中找到轻松出口。</p>`,
+    ch2: `<h3>🎉 开业营销爆破方案（开业前14天→开业后7天）</h3><p>新店开业是酒吧生死线——前21天决定了能不能活过3个月。核心逻辑：<strong>预热造势→开业引爆→留存锁客</strong>，三步闭环。</p><h4>第一阶段：预热造势（D-14到D-1）</h4><table><tr><th>时间</th><th>动作</th><th>谁来做</th><th>怎么做</th><th>效果</th></tr><tr><td>D-14</td><td>开通社交账号</td><td>老板/营销</td><td>注册抖音号「O2氧气酒吧」+小红书号+大众点评商家入驻🔧（美团商家后台→店铺管理→基础信息完善），上传3-5条装修进度视频</td><td>建立线上存在感</td></tr><tr><td>D-12</td><td>KOL/KOC邀约</td><td>老板</td><td>联系3-5位钱塘区本地生活博主（粉丝5000-5万），开业当天免费体验+发探店笔记。话术："我们是观云钱塘城第一家氧气主题酒吧，开业当晚免费体验，您只需发一条真实探店笔记"</td><td>锁定3-5条KOC内容</td></tr><tr><td>D-10</td><td>倒计时海报</td><td>营销</td><td>每天1张倒计时海报到抖音+小红书+朋友圈，风格用O2品牌色（深蓝+荧光绿，呼应氧气概念），内容交替：环境/酒单/DJ阵容剧透</td><td>持续曝光10天</td></tr><tr><td>D-7</td><td>点评预热</td><td>老板</td><td>大众点评上架「开业尝鲜套餐」🔧（商家后台→团购管理→新建团购），99元含2杯特调+1份小食，限量50份制造稀缺</td><td>锁定50组到店客流</td></tr><tr><td>D-5</td><td>朋友圈裂变</td><td>全员</td><td>「O2开业邀请函」电子海报，转发朋友圈集28赞送开业当晚1杯特调。老板+员工+KOC同时转发</td><td>覆盖3000-5000人</td></tr><tr><td>D-3</td><td>周边地推</td><td>2-3名员工</td><td>下午5-7点在观云钱塘城商圈入口/写字楼大堂发卡片（正面：O2开业凭此卡首杯半价；背面：地址+电话+抖音号），每天500张</td><td>1500张覆盖周边1km</td></tr></table><h4>第二阶段：开业引爆（D-Day到D+3）</h4><p><strong>开业派对主题：「第一口氧气」——O2氧气酒吧盛大开业之夜</strong></p><ul><li><strong>开业当晚</strong>：DJ/驻唱歌手现场演出（驻唱约800-1500元/晚）；设2-3个霓虹灯打卡点（O2 logo灯牌+氧气泡泡装置+荧光涂鸦墙，约2000-3000元）；前100位到店赠招牌「氧气特调」1杯（成本约8-12元/杯）；全场酒水8折；互动游戏：骰子决定折扣（1-2点9折/3-4点8折/5-6点6折）</li><li><strong>D+1到D+3</strong>：凭开业当晚小票再到店享7折；每晚前20位送小食拼盘；KOC笔记分批发布</li></ul><h4>第三阶段：口碑沉淀（D+4到D+7）</h4><ul><li>大众点评口碑冲刺：目标7天内20条真实评价。结账时话术："体验满意吗？麻烦点评写写真实感受，好坏都行，15字就行" ⚠️ 不承诺好评返利，合规操作</li><li>差评2小时响应：开启大众点评新评价提醒🔧（商家后台→评价管理），差评2小时内回复先道歉再解决</li></ul><h4>开业总预算</h4><table><tr><th>项目</th><th>预算</th></tr><tr><td>KOC探店</td><td>0-2000元</td></tr><tr><td>打卡装置</td><td>2000-3000元</td></tr><tr><td>首杯免费100杯</td><td>约1000元</td></tr><tr><td>地推卡片1500张</td><td>300-500元</td></tr><tr><td>驻唱/DJ</td><td>800-1500元</td></tr><tr><td>8折让利</td><td>约2000-3000元</td></tr><tr><td><strong>合计</strong></td><td><strong>6100-10000元</strong></td></tr></table>`,
+    ch3: `<h3>🌐 公域引流：大众点评+抖音+小红书三平台协同</h3><p>酒吧公域引流的三个核心平台：<strong>大众点评（搜索决策入口）+抖音（内容种草引擎）+小红书（氛围感传播）</strong>，功能不同打法不同，目标一致：线上流量变到店客人。</p><h4>一、大众点评：搜索即决策</h4><p>O2是新店，0评价0星级。目标：30天内50条真实评价，冲钱塘区酒吧热门榜前10。</p><ul><li><strong>第1-3天</strong>：完善店铺信息🔧（商家后台→店铺管理）——上传15-20张高质量环境图，写好店铺介绍突出"观云钱塘城首家氧气主题酒吧"，设置营业时间和人均价格</li><li><strong>第4-7天</strong>：上架3款引流团购🔧（商家后台→团购管理）：引流款「O2初体验」双人特调99元（含2杯特调+小食，市场价160元）；利润款「氧气微醺」四人畅饮299元（含4杯特调+精酿+小食，市场价450元）；体验款「VIP卡座派对」599元（含卡座+6杯特调+小食+果盘，市场价900元）</li><li><strong>第7-14天</strong>：善用「免费试」🔧（商家后台→营销中心→免费试）——每周5个名额邀请点评活跃用户到店体验写真实评价 ⚠️ 不引导好评内容</li><li><strong>第14-30天</strong>：冲榜阶段，关注新店榜和热门榜排名，优化团购核销率目标60%以上</li></ul><h4>二、抖音：3条视频+DOU+精准投放</h4><ol><li><strong>开业前3天</strong>："钱塘区终于有像样的酒吧了"——15秒环境展示，投DOU+ 200元定向钱塘区25-35岁夜生活人群</li><li><strong>开业当天</strong>："O2开业之夜实录"——30秒现场氛围，投DOU+ 300元</li><li><strong>开业后3天</strong>："这杯氧气特调绝了"——产品种草视频，投DOU+ 200元</li></ol><p>总投放700元，预期曝光3-5万次，到店转化50-100人。</p><h4>三、小红书：氛围感传播</h4><ul><li>邀请2-3位本地博主探店拍摄，重点展示打卡点、酒水颜值、灯光氛围</li><li>老板发2-3条笔记，标题用搜索词："杭州钱塘区酒吧推荐""观云钱塘城约会好去处"</li><li>到店客人拍照发小红书带#O2氧气酒吧 标签，下次到店送1杯shot</li></ul><h4>四、公域引流首月效果预估</h4><table><tr><th>渠道</th><th>预计曝光</th><th>预计到店</th><th>成本</th></tr><tr><td>大众点评</td><td>5000-8000次</td><td>150-250人</td><td>团购让利约3000元</td></tr><tr><td>抖音</td><td>3-5万次</td><td>50-100人</td><td>DOU+约700元</td></tr><tr><td>小红书</td><td>1-2万次</td><td>30-60人</td><td>博主置换约500元</td></tr><tr><td><strong>合计</strong></td><td><strong>5-8万次</strong></td><td><strong>230-410人</strong></td><td><strong>约4200元</strong></td></tr></table>`,
+    ch4: `<h3>🔐 私域运营与会员体系</h3><p>公域解决"第一次来"，私域解决"第二次、第N次来"。酒吧残酷数据：新店头两个月靠热度，第三个月断崖下滑——原因就是没有私域留存。</p><h4>一、会员体系（智能版基础能力）</h4><p><strong>入会</strong>：扫码即会员零门槛🔧（智能版→会员设置→扫码自动注册），客人扫桌码点单时自动注册。</p><table><tr><th>权益</th><th>内容</th><th>目的</th></tr><tr><td>生日特权</td><td>生日当天到店赠1杯招牌特调+生日小蛋糕</td><td>锁定生日派对场景（酒吧最大包场消费场景）</td></tr><tr><td>积分兑换</td><td>消费1元=1积分，500积分兑精酿/800积分兑特调</td><td>低成本拉高复购频次</td></tr><tr><td>周五微醺日</td><td>每周五会员全场85折，续杯半价</td><td>培养固定消费习惯（行业验证最有效的酒吧私域玩法）</td></tr><tr><td>老带新</td><td>推荐新客双方各得1杯shot</td><td>社交裂变，酒吧天然适合老带新</td></tr></table><p><strong>周五微醺日落地SOP</strong>：① 老板设规则，店长执行🔧（会员管理→营销活动→新建每周五85折活动）；② 每周四下午5点推送提醒🔧（会员管理→消息推送→定时推送）；③ 超2周未到店沉睡会员发专属唤醒券"好久不见送你免费shot"；④ 客人说"我不是会员"→"扫码1秒注册，今晚就享85折"。预期：坚持2个月周五营业额提升40%+。</p><h4>二、社群运营（微信群）</h4><p>群名：「O2氧气酒吧·夜猫子俱乐部」。开业当晚建群，吧台摆群二维码。</p><p><strong>每周固定节奏</strong>：周一发本周活动预告；周三发周五微醺日预热海报；周五群内实时互动（现场短视频+抢红包送酒水券）；周日精彩回顾+下周预告。⚠️ 每天最多2条，不刷屏，不发广告，投诉私聊处理。</p><h4>三、储值方案（⚠️ 开业2个月后再推）</h4><p>新店就推储值客人信任度不够。建议稳定运营2个月后再推：体验档500元送50元（10%）→主推档1000元送150元（15%）→尊享档2000元送400元（20%）+专属卡座优先预留。储值推荐话术："您今晚消费186元，充500元送50元相当于今晚这单直接打7折，以后每次来都有余额直接扣不用掏钱"。客人说"我再想想"→"没关系，先扫码注册会员，今晚享85折（如果是周五），储值什么时候都可以充"。</p>`,
+    ch5: `<h3>⚙️ 日常运营SOP与氛围打造</h3><p>酒吧客人买的不是酒水，是<strong>氛围+情绪+社交</strong>。日常运营核心就是把这三个做到极致做成习惯。</p><h4>一、每日运营时间轴</h4><table><tr><th>时段</th><th>动作</th><th>负责人</th><th>具体做法</th></tr><tr><td>15:00-17:00</td><td>开店准备</td><td>店长</td><td>检查酒水库存（精酿/特调原料）、清洁台面、测试灯光音响、检查打卡装置、摆放桌花蜡烛</td></tr><tr><td>17:00-18:00</td><td>员工就位</td><td>全员</td><td>换工装、班前会3分钟：今晚主推酒款/预约客人/特殊注意事项</td></tr><tr><td>18:00-20:00</td><td>Happy Hour</td><td>调酒师+服务员</td><td>早鸟时段指定酒水买一送一（用低成本精酿引流），白领下班"过渡期"低价拉人进来</td></tr><tr><td>20:00-22:00</td><td>氛围升温</td><td>DJ/驻唱</td><td>驻唱开始表演，灯光切到蓝紫荧光模式，音量逐步提升，服务员主动巡台推荐特调</td></tr><tr><td>22:00-00:00</td><td>黄金2小时</td><td>全员</td><td>集中精力服务好每桌，注意卡座翻台、出品速度、客人情绪管理</td></tr><tr><td>00:00-02:00</td><td>续杯时段</td><td>调酒师+收银</td><td>推续杯半价（会员专享），结账引导扫码入会入群，送"下次首杯半价"卡片</td></tr><tr><td>02:00-03:00</td><td>收档</td><td>店长+清洁</td><td>清点酒水、核对营收、清洁消毒、检查安全设施、锁门</td></tr></table><h4>二、氛围打造五要素</h4><ol><li><strong>灯光（最重要80%氛围感）</strong>：基础暖色LED灯带2700K→吧台蓝紫射灯突出调酒仪式→打卡点霓虹灯管→卡座LED电子蜡烛（约3元/个）</li><li><strong>音乐</strong>：18-20时轻爵士/Lofi（低音量背景）→20-22时流行/R&B（中音量驻唱）→22时后电子/House（嗨起来）。⚠️ 音乐风格定位很重要，O2建议走"轻潮流"路线而非硬核蹦迪</li><li><strong>气味</strong>：吧台区域放柑橘/薄荷香薰（呼应"氧气"清新概念），卫生间放高级洗手液+香薰</li><li><strong>互动装置</strong>：霓虹O2 logo墙+氧气泡泡机（定时释放泡泡营造梦幻感）+荧光涂鸦墙（客人可以用荧光笔留言）</li><li><strong>服务话术</strong>：服务员不说"请问喝点什么"，改说"今晚想要什么感觉？微醺放松还是嗨一把？我帮您推荐"——把服务从"点单"变成"体验定制"</li></ol><h4>三、主题之夜（每周固定2场）</h4><table><tr><th>主题</th><th>时间</th><th>内容</th><th>目标客群</th></tr><tr><td>微醺之夜</td><td>每周五</td><td>会员85折+续杯半价+驻唱歌手</td><td>白领/常客</td></tr><tr><td>电音派对</td><td>每周六</td><td>DJ打碟+荧光元素+特调买二送一</td><td>年轻人/学生</td></tr></table><p>其他不定期主题：生日派对之夜（每月1次包场特惠）、七夕/万圣节/圣诞主题派对、世界杯/演唱会同步观看之夜。</p>`,
+    ch6: `<h3>📅 Q3营销日历（2026年7-9月）</h3><p>7-9月是酒吧行业的<strong>黄金旺季</strong>——暑期+夜宵季+七夕，正好是O2开业后的前3个月窗口期。每个节点都要有对应的营销动作。</p><h4>七月：开业月+暑期启动</h4><table><tr><th>日期</th><th>节点</th><th>营销动作</th><th>具体操作</th></tr><tr><td>7月下旬</td><td>O2盛大开业</td><td>开业派对「第一口氧气」</td><td>见第二章开业爆破方案全部内容</td></tr><tr><td>7月22-23日</td><td>大暑</td><td>「消暑特饮」限定</td><td>推出3款冰镇消暑特调（薄荷莫吉托/冰柠气泡/西瓜冰沙），大暑当天买一送一。调酒师负责研发，提前3天在抖音发预告。话术："外面38度杭州火炉模式，来O2喝一杯冰到心里的消暑特调"</td></tr><tr><td>7月底</td><td>暑期夜宵季</td><td>「深夜食堂」模式</td><td>22:00后推出夜宵小食套餐（啤酒+小龙虾/烤串拼盘 99元），配合延时营业到凌晨2点。⚠️ 小食建议外采合作不自己做（控制厨房成本）</td></tr></table><h4>八月：七夕+暑期高峰</h4><table><tr><th>日期</th><th>节点</th><th>营销动作</th><th>具体操作</th></tr><tr><td>8月初（七夕）</td><td>七夕情人节</td><td>「O2七夕·微醺告白夜」</td><td>① 推出七夕限定双人套餐3档（228/368/528元），含2杯特调+小食+鲜花1支+甜品；② 到店情侣拍照发朋友圈集赞38个，送定制「O2告白酒」1杯；③ 单身客人参与「脱单盲盒」——写纸条放入盲盒随机配对，配对成功双方8折。老板提前1周在大众点评上架七夕套餐🔧，限量30份制造稀缺。客人问"能不能便宜"→"套餐已包含鲜花和定制甜品，单点要贵40%"</td></tr><tr><td>8月7-8日</td><td>立秋</td><td>「秋天的第一杯酒」</td><td>呼应"秋天的第一杯奶茶"梗，推出「秋天的第一杯特调」——立秋当天特调买一赠一。抖音发话术："秋天的第一杯奶茶算什么，成年人要喝秋天的第一杯特调"</td></tr><tr><td>8月下旬</td><td>暑期收官</td><td>「O2月度派对」</td><td>举办首次月度大型派对（月末周六），邀请知名度更高的DJ，门票制（59元含1杯酒水），在大众点评+抖音提前1周售票</td></tr></table><h4>九月：中秋+开学</h4><table><tr><th>日期</th><th>节点</th><th>营销动作</th><th>具体操作</th></tr><tr><td>9月初</td><td>开学季</td><td>「开学解压夜」</td><td>凭学生证/工牌到店，指定精酿买一送一（限18:00-20:00 Happy Hour时段），拉动周一到周四冷淡时段客流</td></tr><tr><td>9月10日</td><td>教师节</td><td>「敬老师一杯」</td><td>教师凭教师证到店，赠送1杯特调+小食。成本可控（约15元/人），但口碑极好。话术："教师节快乐！今晚这杯O2请您喝"</td></tr><tr><td>9月中下旬</td><td>中秋节</td><td>「O2月光派对」</td><td>① 推出中秋限定特调「桂花醉」（桂花+清酒+柚子，呼应杭州桂花季）；② 包场团建套餐（8-10人 1288元含10杯酒水+小食+果盘+桂花月饼礼盒）；③ 中秋当晚23:00全场熄灯1分钟"赏月时刻"仪式感拉满。提前2周上架大众点评团建套餐🔧</td></tr></table>`,
+    ch7: `<h3>🎯 OKR目标与投资回报测算</h3><p>⚠️ O2尚未开业，以下数据基于钱塘区酒吧行业基准+周边竞品人均+商圈消费力估算，仅作规划参考，实际经营需根据开业后数据动态调整。</p><h4>一、基础假设（⚠️ 假设值，建议国庆拜访时与老板确认）</h4><table><tr><th>指标</th><th>估算值</th><th>依据</th></tr><tr><td>人均消费</td><td>120-150元</td><td>竞品ROOFLOW 78元（清吧）、Zone Party 150-250元（夜店），O2定位中间偏上</td></tr><tr><td>日均到店人次（爬坡期首月）</td><td>30-50人</td><td>新店冷启动期，逐步爬坡</td></tr><tr><td>日均到店人次（稳定期3月后）</td><td>60-100人</td><td>商圈成熟+口碑积累</td></tr><tr><td>月营业天数</td><td>28天</td><td>酒吧通常周一到周日营业，偶尔休息</td></tr><tr><td>酒水毛利率</td><td>65-75%</td><td>酒吧行业标准（自调特调毛利更高可达80%）</td></tr></table><h4>二、月度OKR目标</h4><table><tr><th>阶段</th><th>时间</th><th>月营收目标</th><th>会员数</th><th>点评评分</th><th>核心动作</th></tr><tr><td>冷启动期</td><td>第1个月</td><td>10-15万</td><td>200人</td><td>冲4.0分</td><td>开业爆破+公域引流+攒评价</td></tr><tr><td>爬坡期</td><td>第2个月</td><td>15-22万</td><td>500人</td><td>冲4.3分</td><td>固定主题夜+周五微醺日+七夕营销</td></tr><tr><td>稳定期</td><td>第3个月</td><td>22-30万</td><td>800人</td><td>冲4.5分</td><td>启动储值+中秋营销+月度派对常态化</td></tr></table><h4>三、投资回报测算（⚠️ 估算）</h4><table><tr><th>项目</th><th>月支出（估算）</th></tr><tr><td>房租</td><td>⚠️ 待确认（商圈商铺预估2-4万/月）</td></tr><tr><td>人员（5-8人团队）</td><td>3-5万/月</td></tr><tr><td>酒水原料</td><td>营收×25-35%</td></tr><tr><td>水电/物业</td><td>0.5-1万/月</td></tr><tr><td>营销费用</td><td>0.3-0.5万/月（稳定期）</td></tr><tr><td>月固定成本合计</td><td>⚠️ 约6-10万/月（不含房租）</td></tr></table><p><strong>盈亏平衡点</strong>：假设月固定成本8万+酒水成本率30%，则月营收需达约11.5万即可保本。按人均130元计算，日均需到店约32人。以O2的商圈位置和营销打法，首月即有望达到。</p><h4>四、关键KPI看板（每周复盘）</h4><table><tr><th>KPI</th><th>数据来源</th><th>健康标准</th></tr><tr><td>日均营收</td><td>智能版POS数据🔧</td><td>首月>3500元/天</td></tr><tr><td>桌均消费</td><td>智能版POS数据🔧</td><td>>200元/桌</td></tr><tr><td>会员转化率</td><td>会员系统🔧</td><td>到店客人>50%注册会员</td></tr><tr><td>周五vs平日营收比</td><td>POS数据🔧</td><td>周五>平日1.4倍</td></tr><tr><td>大众点评评分</td><td>商家后台🔧</td><td>首月>4.0，3月>4.5</td></tr><tr><td>团购核销率</td><td>商家后台🔧</td><td>>60%</td></tr><tr><td>复购率（月）</td><td>会员系统🔧</td><td>>25%</td></tr></table><p><strong>每周日晚复盘</strong>：老板+店长花30分钟看上面7个数字，哪个不达标就重点优化哪个。数据说话，不靠感觉。</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
