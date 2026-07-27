@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>全计瘦肉丸 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">潮汕小吃/瘦肉丸 · 运营提升方案</div>
+  <h1 class="hero-title">全计瘦肉丸</h1>
+  <p class="hero-subtitle">纯肉现打·一颗丸子打透宁围午餐市场</p>
+  <div class="hero-address">浙江省杭州市萧山区宁围街道市心北路240号107室</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥20</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">萧山区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察·宁围快餐战场', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察·宁围快餐战场</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解·你的对手与机会', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解·你的对手与机会</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '开业冲刺30天·从零到一作战地图', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">开业冲刺30天·从零到一作战地图</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评口碑·新店出星攻略', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评口碑·新店出星攻略</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '外卖突围·用套餐拉高客单', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">外卖突围·用套餐拉高客单</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '公域获客·让宁围知道你来了', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">公域获客·让宁围知道你来了</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '私域留客·扫码点餐+社群复购飞轮', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">私域留客·扫码点餐+社群复购飞轮</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '暑期营销·7-8月借势打法', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">暑期营销·7-8月借势打法</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(9, '投资回报·算清这笔账', 9)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 09</div>
+      <div class="chapter-title">投资回报·算清这笔账</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>一、品类机遇：瘦肉丸在杭州的窗口期</h3><p>瘦肉丸属于潮汕小吃细分赛道，2025年在杭州萧山处于<strong>「认知上升期但尚未爆发」</strong>阶段。主流消费场景为快餐小食+外卖，人均15-25元是主力价格带，全计瘦肉丸¥20定位精准卡在甜蜜点。</p><p><strong>增长引擎</strong>：健康化趋势下，「纯肉无淀粉」概念有天然溢价空间——76%年轻消费者青睐健康餐饮选项（行业白皮书数据）。潮汕牛肉丸/肉丸粉类在华东二三线城市渗透率仍在提升，杭州尚无头部瘦肉丸专门店，<strong>先发优势明显</strong>。</p><h3>二、商圈画像：宁围的午餐刚需与晚间隐忧</h3><p>市心北路宁围段属于<strong>社区底商+园区配套型商圈</strong>，距地铁2号线建设三路站A口仅310m，交通便利。</p><ul><li><strong>午间客流</strong>：周边产业园区白领+萧山经开区企业员工，午餐刚需场景，人均15-25元主力消费区间</li><li><strong>晚间/周末</strong>：新交付住宅区常住人口密度仍在爬坡期，晚间和周末客流可能不足（需外卖+社群弥补）</li><li><strong>60平米门店</strong>：堂食约16-20座，按快餐翻台率（午高峰2.5-3轮）估算，午间满座日均可服务约50人次</li></ul><h3>三、目标客群锁定</h3><table><tr><th>客群</th><th>占比（⚠️假设）</th><th>消费场景</th><th>触达方式</th></tr><tr><td>园区白领</td><td>55%</td><td>工作日午餐·快速出餐</td><td>园区试吃+外卖平台</td></tr><tr><td>社区居民</td><td>25%</td><td>晚餐/周末家庭便餐</td><td>社群+美团外卖</td></tr><tr><td>地铁过路客</td><td>15%</td><td>途经消费</td><td>大众点评+门头吸引</td></tr><tr><td>外卖用户</td><td>覆盖全时段</td><td>午餐+夜宵</td><td>美团/饿了么双平台</td></tr></table></div>
+<div id="modal-content-2" style="display:none"><h3>一、直接竞争：瘦肉丸专门店——几乎空白</h3><p>宁围板块<strong>没有纯肉丸专门店</strong>，这是全计瘦肉丸最大的先发优势。品类差异化明显，核心挑战不是竞争而是<strong>「如何让周边人知道你、愿意来试」</strong>。</p><h3>二、广义竞争：抢午餐胃口的对手们</h3><table><tr><th>竞品类型</th><th>代表品牌</th><th>人均</th><th>核心弱点</th><th>全计的切入机会</th></tr><tr><td>兰州拉面/沙县类</td><td>夫妻店</td><td>¥12-18</td><td>价格低但品质感弱·环境差·无会员体系</td><td>用「纯肉现打」品质感打价格带升级</td></tr><tr><td>现制鲜食</td><td>袁记云饺/熊大爷</td><td>¥20-25</td><td>同属现制现卖但品类雷同度高</td><td>潮汕风味差异化·「肉丸不等于饺子」品类区隔</td></tr><tr><td>麻辣烫</td><td>张亮/杨国福</td><td>¥22-28</td><td>丰富度高但健康度争议大·同质化严重</td><td>「纯肉无淀粉」健康标签正面PK</td></tr><tr><td>外卖端</td><td>潮粥荟/物只卤鹅等</td><td>¥20-30</td><td>覆盖3-5公里配送·品牌知名度已有</td><td>堂食+外卖双渠道·更快出餐·更高性价比</td></tr></table><h3>三、竞争烈度判断</h3><p><strong>中等偏低</strong>。品类差异化是最大护城河，但需要快速教育市场——让宁围的人知道「这里开了家现打瘦肉丸店，纯肉的，好吃」。</p><p><strong>核心竞争策略</strong>：不打价格战（¥20已是最优价格带），打<strong>「真材实料可视化」</strong>——现场捶打、透明厨房、纯肉承诺，让顾客亲眼看到品质。这是兰州拉面和麻辣烫做不到的信任壁垒。</p></div>
+<div id="modal-content-3" style="display:none"><h3>一、核心诊断：新店三零困局</h3><p>当前门店处于<strong>「零流量·零评价·零菜单」</strong>状态：30天曝光仅6人、访问3人、消费0人；大众点评无星级、无评价、菜单未上传。两个外卖渠道均未开通。这不是经营问题，是<strong>「还没正式上线」</strong>的问题。</p><p>⚠️假设月租金约¥6,000-8,000（萧山宁围60平米社区底商参考值），人力成本约¥15,000-20,000（老板+2-3名员工），则<strong>保本日营收约¥1,000-1,300</strong>，即日均需服务50-65人次。</p><h3>二、开业前7天（D-7到D-1）：线上基建+试吃蓄水</h3><p><strong>Day-7到Day-5：线上信息搭建</strong></p><ul><li><strong>谁来做</strong>：老板本人</li><li><strong>做什么</strong>：①大众点评商家后台🔧「店铺管理-基本信息」完善门店信息（品类选「小吃快餐-丸子」，上传门头照+环境照+菜品照至少12张）②上传完整菜单（招牌瘦肉丸/丸子粉/丸子面/丸子拼盘/蘸料小食，每道菜配高清实拍图+描述）③🔧收银POS后台「菜品管理」录入所有SKU并同步扫码点餐菜单</li><li><strong>自检标准</strong>：菜单上传了吗？每道菜有实拍图吗？门头照拍了吗？三个全是才算完成</li></ul><p><strong>Day-5到Day-3：园区试吃裂变</strong></p><ul><li><strong>谁来做</strong>：老板+1名员工</li><li><strong>做什么</strong>：联系市心北路周边3-5栋写字楼/产业园前台，每栋送50份试吃装（3颗丸子+蘸料+门店名片），名片附「扫码加微信群，开业首单立减5元」</li><li><strong>预算</strong>：50份x5栋x成本约¥2/份=¥500，锁定首周私域群目标300+精准用户</li><li><strong>前台不配合怎么办</strong>：改为午间11:30-12:00在写字楼大堂/门口直接派发，不进楼层</li></ul><p><strong>Day-2到Day-1：外卖平台上线</strong></p><ul><li><strong>谁来做</strong>：老板操作，BD协助</li><li><strong>做什么</strong>：🔧外卖中心后台开通美团外卖+饿了么双平台，上传菜单，设置新店活动（满15减3/满25减5），配送范围3公里</li></ul><h3>三、开业首周（Day1-7）：集中爆破</h3><ul><li><strong>开业活动</strong>：全场消费满¥15送一份招牌丸子（成本约¥3），限前100单/天，制造排队效应</li><li><strong>外卖冲单</strong>：利用新店7天流量红利，目标日均20+单，🔧外卖中心「营销活动-新店立减」开启平台补贴叠加</li><li><strong>评价攒种</strong>：启动「免费试」积累首批15-20条真实好评</li></ul><h3>四、第2-4周：稳定爬坡</h3><ul><li>日均营收目标：第2周¥800→第3周¥1,000→第4周¥1,200（逐步逼近保本线）</li><li>每周复盘：🔧收银POS「经营报表」查看日/周营收、客单价、菜品销量TOP5，淘汰末位菜品、主推爆品</li></ul></div>
+<div id="modal-content-4" style="display:none"><h3>一、当前阶段判断：零评价冷启动期</h3><p>门店现状：<strong>无星级、无评价、无推荐菜</strong>。大众点评新店出星门槛通常需要累计10条以上有效评价。目标：<strong>开业30天内攒够30条真实评价，冲出4.5星</strong>。</p><h3>二、合规底线（红线·绝不能碰）</h3><ul><li>⛔ 严禁任何形式的「好评返现」「好评送菜」等促评行为——2025年10月新规后，高强度促评直接导致新评价不计入星级</li><li>⛔ 严禁刷单、买评价、员工自评</li><li>✅ 合规路径只有两条：<strong>免费试+产品体验驱动自发分享</strong></li></ul><h3>三、30天出星三步走</h3><p><strong>第一步（Day1-10）：「免费试」种子评价</strong></p><ul><li><strong>谁来做</strong>：老板在大众点评商家后台操作</li><li><strong>在哪操作</strong>：🔧大众点评商家后台「营销中心-免费试」设置「招牌瘦肉丸拼盘免费试吃」每天5个名额</li><li><strong>服务员话术</strong>：「您是今天的免费试吃体验官，麻烦吃完后在点评上写写真实感受就好，好坏都行，帮我们改进」</li><li><strong>客人嫌麻烦</strong>：降低门槛——「扫码写满15字就行，1分钟的事儿」</li><li><strong>目标</strong>：10天累计15条真实评价</li></ul><p><strong>第二步（Day11-20）：「免费菜」持续拉新</strong></p><ul><li><strong>在哪操作</strong>：🔧大众点评商家后台「营销中心-免费菜」设置「到店消费赠送秘制蘸酱一份」</li><li><strong>逻辑</strong>：免费菜是大众点评官方合规工具，成本约¥1-2/份</li><li><strong>目标</strong>：再累计10条评价，总计25条</li></ul><p><strong>第三步（Day21-30）：分享动机打造</strong></p><ul><li><strong>核心逻辑</strong>：让产品本身值得拍值得发——瘦肉丸最大视觉卖点是「现场捶打」过程</li><li><strong>做什么</strong>：①设置透明厨房观看位/窗口让顾客看到现打过程 ②桌上放小立牌：「我们的丸子现打现煮·纯肉无淀粉·欢迎拍照分享」③出品用有质感的木质托盘/石锅，提升拍照欲</li><li><strong>目标</strong>：月底累计30条+评价，评分稳定在4.5分以上</li></ul><h3>四、差评预案（开业最容易翻车的3个场景）</h3><table><tr><th>常见差评原因</th><th>预防措施</th><th>差评出现后应对（2小时内回复）</th></tr><tr><td>等太久</td><td>午高峰提前备好半成品丸子（煮制仅需3分钟）</td><td>「非常抱歉让您久等，我们已增加午高峰备餐量，欢迎再来体验」</td></tr><tr><td>味道偏咸/偏淡</td><td>蘸料分开放让顾客自调</td><td>「感谢反馈！蘸料可自由调配，下次告诉服务员口味偏好我们调整」</td></tr><tr><td>分量少</td><td>菜单标注每份丸子数量（如8颗/份）</td><td>「已收到建议，菜单会更清晰标注分量，也会考虑推出大份选项」</td></tr></table></div>
+<div id="modal-content-5" style="display:none"><h3>一、外卖现状诊断</h3><p>当前两个外卖渠道均<strong>未开通/未在线</strong>，30天访问到消费转化率0%（同商圈同品类均值1.43%）。外卖是60平米小店突破堂食天花板的<strong>核心增量渠道</strong>——快餐小吃品类外卖占比可达50%+，必须重点突破。</p><p>⚠️假设外卖月目标：日均30单x客单¥22=<strong>月外卖营收约¥19,800</strong>（占总营收约40%）。</p><h3>二、菜单设计：单品转组合拉高客单到¥22-25</h3><p><strong>谁来做</strong>：老板定菜单，BD协助外卖中心上线</p><p><strong>在哪操作</strong>：🔧外卖中心后台「菜品管理-套餐设置」</p><table><tr><th>套餐名称</th><th>内容</th><th>标价</th><th>活动价</th><th>食材成本率</th></tr><tr><td>招牌丸子粉套餐</td><td>瘦肉丸8颗+米粉/面+酸梅汤</td><td>¥25</td><td>¥20</td><td>约35%</td></tr><tr><td>双拼丸子面套餐</td><td>瘦肉丸6颗+墨鱼丸4颗+面+小菜</td><td>¥28</td><td>¥22</td><td>约33%</td></tr><tr><td>丸子拼盘分享装</td><td>三种丸子各6颗+3款蘸料</td><td>¥35</td><td>¥28</td><td>约30%</td></tr><tr><td>暑期冰爽套餐</td><td>丸子粉+冰柠檬水</td><td>¥22</td><td>¥18</td><td>约38%</td></tr></table><p><strong>定价逻辑</strong>：单卖丸子客单仅¥12-15且外卖不划算。用「丸子+主食+饮品」组合把客单拉到¥22-25，满减券控实付在¥20左右——正好卡在外卖15-25元主力消费带。</p><h3>三、新店流量红利抢夺（开业前14天）</h3><ul><li><strong>Day1</strong>：🔧外卖中心「营销活动-新店立减」开启，叠加平台补贴，实际让利控制在15%以内</li><li><strong>Day1-3</strong>：设置满15减3/满25减5满减券，吸引首单转化</li><li><strong>Day4-7</strong>：观察单量，若日均低于15单，追加「下单返券」（满20返3元复购券），🔧外卖中心「营销活动-下单返券」</li><li><strong>Day7-14</strong>：冲「小吃快餐」品类排名，目标进入宁围板块前20名</li></ul><h3>四、出餐效率保障（外卖生死线）</h3><ul><li>午高峰（11:00-13:00）提前备好半成品丸子+煮好汤底，外卖出餐控制在<strong>8分钟以内</strong></li><li>打包用保温袋+分隔设计（丸子和汤分开），避免泡烂影响口感导致差评</li><li>🔧外卖中心「出餐管理-自动接单」开启，收到单立刻备餐</li><li><strong>外卖好评回复模板</strong>：「感谢选择全计瘦肉丸！我们的丸子当天现打纯肉制作，希望您喜欢~期待再来！」</li></ul></div>
+<div id="modal-content-6" style="display:none"><h3>一、大众点评：新店必做5件事</h3><p><strong>谁来做</strong>：老板本人（开业前完成）</p><ol><li><strong>完善店铺信息</strong>：🔧商家后台「店铺管理-基本信息」——门头照/环境照/菜品照各4张以上；营业时间设10:00-21:00；推荐菜设置3-5道（招牌瘦肉丸必须排第一）</li><li><strong>上团购套餐</strong>：🔧「营销中心-团购」上线「招牌丸子粉单人餐¥16.9」（标价¥22，折扣约77折），用低价引流到店，目标月核销100+份</li><li><strong>报名新店活动</strong>：🔧「营销中心-平台活动」查看当期可报名的新店专属活动（新店通常有流量扶持期）</li><li><strong>设置在线预约</strong>：午高峰排队时引导扫码预约下次，减少顾客流失</li><li><strong>持续维护评价</strong>：每条评价24小时内回复，🔧「评价管理」每日检查一次</li></ol><h3>二、抖音/小红书：用「现打现煮」短视频破圈</h3><p>瘦肉丸最大卖点是<strong>「真材实料现场捶打」的视觉冲击力</strong>——这是天然的短视频爆款素材。</p><p><strong>谁来做</strong>：老板或员工（每天花10分钟拍）</p><ul><li><strong>内容</strong>：每天拍1条15秒制作过程短视频——捶打肉糜-手工搓丸-下锅翻煮-捞出装盘，全程一镜到底</li><li><strong>发布</strong>：抖音+小红书同步发，标签带#萧山美食 #宁围探店 #瘦肉丸 #纯肉无淀粉</li><li><strong>投流</strong>：前2周每条视频投¥20-30 DOU+，定向宁围/萧山3公里，总预算约¥500</li><li><strong>找本地探店号</strong>：联系2-3个萧山本地万粉探店号（费用¥300-500/条），开业首周发探店视频</li></ul><p><strong>预算合计</strong>：DOU+约¥500+探店号¥600-1,500=<strong>总¥1,100-2,000</strong></p><p><strong>预期效果</strong>：开业首月抖音/小红书带来到店30-50人次（⚠️假设，视内容质量和投放效果浮动）</p><h3>三、美团搜索优化</h3><ul><li>🔧收银POS后台确认门店品类标签正确（「小吃快餐-丸子」）</li><li>外卖菜品名称包含关键词：写「现打瘦肉丸粉」而非「套餐A」</li><li>确保美团搜索「瘦肉丸」「丸子粉」「宁围小吃」可找到本店</li></ul></div>
+<div id="modal-content-7" style="display:none"><h3>一、为什么私域重点是「扫码点餐+社群」而不是储值？</h3><p>全计瘦肉丸人均¥20，属于高频低客单快餐。<strong>储值对这个客单不是最优解</strong>——¥20客单的顾客很少愿意一次性充¥200+（心理门槛高），新店缺信任基础储值转化率会很低。</p><p>正确打法：<strong>扫码点餐沉淀数据-社群维护复购-用复购频次而非单次充值金额赚钱</strong>。</p><h3>二、扫码点餐：不只是点餐，是数据引擎</h3><p><strong>谁来做</strong>：服务员引导顾客扫码</p><p><strong>在哪操作</strong>：🔧扫码点餐后台「桌台管理」设置每桌二维码</p><ul><li>顾客扫码-自动关注-沉淀手机号/消费数据-后续可精准push活动</li><li>减少1名点餐人力（60平米店每月省¥4,000-5,000工资）</li><li>菜品销量数据自动统计-帮老板判断哪些菜该保留/淘汰</li></ul><p><strong>服务员话术</strong>：「您好，扫桌上二维码直接点餐就行，菜单都在上面，还有新人专属减2元优惠~」</p><p><strong>顾客说「我直接报菜名吧」</strong>：「好的没问题！不过扫码首单有减2元，您也可以试试~」</p><h3>三、微信社群：复购的核心阵地</h3><p><strong>谁来做</strong>：老板本人管群（每天10分钟）</p><p><strong>建群方式</strong>：收银台放「加群领福利」立牌，扫码加老板微信-拉入「全计瘦肉丸·宁围吃货群」</p><table><tr><th>时间</th><th>动作</th><th>内容示例</th></tr><tr><td>每天10:30</td><td>午餐预告</td><td>「今天现打了一批牛肉丸 限量30份，到店点今日限定就行」</td></tr><tr><td>每周三</td><td>会员日福利</td><td>「周三会员日！群友到店报暗号'全计加料'免费加一份蘸料」</td></tr><tr><td>每月1日</td><td>月度抽奖</td><td>「本月消费满3次的群友，抽3位送免费丸子拼盘！」</td></tr></table><p><strong>目标</strong>：开业首月群人数破200人，月活（至少消费1次）30%=60人。</p><h3>四、会员体系（轻量版·匹配¥20客单）</h3><p>暂不推储值卡，用<strong>消费次数积分制</strong>：每消费1次积1分，满5分送一份小菜（成本¥2）、满10分送招牌丸子一份（成本¥5）。简单直接，顾客无负担，复购驱动力强。</p><p><strong>在哪操作</strong>：🔧收银POS「会员管理-积分规则」设置按次积分</p><p><strong>话术</strong>：「您已经来第3次啦！再来2次就能免费换一份招牌丸子哦~」</p></div>
+<div id="modal-content-8" style="display:none"><h3>一、暑期是新店的黄金窗口</h3><p>7-8月是快餐小吃的<strong>旺季</strong>：暑期学生客群+高温天外卖刚需+夜宵旺季三重叠加。全计瘦肉丸选在暑期开业，正好踩中流量窗口。</p><h3>二、暑期三大活动方案</h3><p><strong>活动一：「暑假嗨吃卡」学生专属（7-8月）</strong></p><ul><li><strong>谁来做</strong>：老板设置活动，服务员引导办卡</li><li><strong>活动内容</strong>：凭学生证办理暑假嗨吃卡，售价¥19，享7-8月每次消费9折+赠冰饮1杯/次</li><li><strong>在哪操作</strong>：🔧收银POS「会员管理」创建「暑期卡」权益包</li><li><strong>成本</strong>：冰饮成本约¥1-2/杯，9折让利约10%，卡费¥19基本覆盖成本，锁定暑期多次消费</li><li><strong>适用性</strong>：宁围周边有学校的话效果更好；即使学生少，年轻白领也愿意办（心理上「暑期福利」有吸引力）</li><li><strong>话术</strong>：「您好，我们暑期有个嗨吃卡，19块钱两个月的9折+每次送杯冰饮，划算得很~」</li></ul><p><strong>活动二：「消暑丸子汤」季节限定（7月下旬-8月）</strong></p><ul><li><strong>做什么</strong>：推出夏季限定「冬瓜丸子汤/酸笋丸子汤」，定价¥15，主打清热消暑+高蛋白</li><li><strong>在哪操作</strong>：🔧扫码点餐后台「菜品管理-新品上线」添加限定菜品，标注「夏日限定」标签</li><li><strong>配合外卖</strong>：外卖端同步上线，用「大暑消暑」主题做推广，🔧外卖中心「营销活动」设满18减2限时券</li></ul><p><strong>活动三：「夜宵加时赛」延时经营（7-8月试行）</strong></p><ul><li><strong>做什么</strong>：7-8月试行延长营业到22:00（原21:00），推出夜宵版菜单（丸子拼盘+啤酒套餐¥29）</li><li><strong>谁来做</strong>：老板评估人力后决定，至少需要1人值夜班</li><li><strong>在哪操作</strong>：🔧外卖中心调整营业时间+🔧扫码点餐「21:00后自动切换夜宵菜单」</li><li><strong>预期</strong>：夜宵时段日均增加5-10单（⚠️假设），月增营收约¥3,000-6,000</li><li><strong>不可行怎么办</strong>：如果人力不够，放弃堂食夜宵，只保留外卖夜宵到22:00（1人即可运转）</li></ul><h3>三、立秋换季过渡（8月7日前后）</h3><ul><li>立秋后推出「贴秋膘·丸子煲」（丸子+粉丝+蔬菜一锅煲），定价¥22，从夏日清汤过渡到秋季暖锅</li><li>社群发「贴秋膘指南」引流：「今天立秋！全计瘦肉丸上新了丸子煲，纯肉丸子+粉丝一锅暖呼呼」</li></ul></div>
+<div id="modal-content-9" style="display:none"><h3>一、开业投入预算</h3><table><tr><th>项目</th><th>预算</th><th>说明</th></tr><tr><td>试吃裂变（园区派发）</td><td>¥500</td><td>250份试吃装x¥2/份</td></tr><tr><td>抖音/小红书投流</td><td>¥500-1,000</td><td>DOU+定向宁围3公里</td></tr><tr><td>本地探店号合作</td><td>¥600-1,500</td><td>2-3个萧山万粉探店号</td></tr><tr><td>开业赠品（送丸子）</td><td>¥600-900</td><td>100份/天x¥3成本x3天</td></tr><tr><td>免费试成本</td><td>¥300-500</td><td>5份/天x10天x¥6-10/份</td></tr><tr><td>物料（立牌/名片/海报）</td><td>¥200-300</td><td>收银台立牌+桌卡+门口海报</td></tr><tr><td><strong>合计</strong></td><td><strong>¥2,700-4,700</strong></td><td>控制在¥5,000以内</td></tr></table><h3>二、营收目标（开业首季度）</h3><table><tr><th>时间</th><th>日均营收目标</th><th>构成</th><th>月营收</th></tr><tr><td>第1个月</td><td>¥800-1,000</td><td>堂食30人x¥20+外卖15单x¥20</td><td>¥24,000-30,000</td></tr><tr><td>第2个月</td><td>¥1,200-1,500</td><td>堂食40人x¥20+外卖25单x¥22</td><td>¥36,000-45,000</td></tr><tr><td>第3个月</td><td>¥1,500-1,800</td><td>堂食45人x¥20+外卖30单x¥22</td><td>¥45,000-54,000</td></tr></table><p><strong>保本线</strong>：⚠️假设月固定成本约¥28,000-33,000（租金¥7,000+人力¥18,000+水电杂费¥3,000-5,000+食材按35%变动成本），日均需营收约¥1,100才能保本。预计<strong>第2个月中旬达到保本线</strong>。</p><h3>三、量化OKR目标</h3><table><tr><th>维度</th><th>30天目标</th><th>60天目标</th><th>90天目标</th></tr><tr><td>月营收</td><td>¥25,000</td><td>¥40,000</td><td>¥50,000</td></tr><tr><td>大众点评评分</td><td>出星4.5分</td><td>稳定4.5分</td><td>冲4.7分</td></tr><tr><td>点评评价数</td><td>30条+</td><td>60条+</td><td>100条+</td></tr><tr><td>外卖日均单量</td><td>15单</td><td>25单</td><td>30单</td></tr><tr><td>社群人数</td><td>200人</td><td>400人</td><td>500人</td></tr><tr><td>复购率</td><td>15%</td><td>25%</td><td>30%</td></tr></table><h3>四、回本周期测算</h3><p>开业营销总投入约¥3,500-4,700。按第2个月月营收¥40,000、毛利率65%（快餐小吃行业参考）计算，月毛利约¥26,000，扣除固定成本¥30,000后，第2个月接近盈亏平衡。<strong>营销投入在第1个月内即可通过增量客流收回</strong>。</p><p>⚠️以上测算基于行业参考值和合理假设，实际数据需开业后根据🔧收银POS「经营报表」每周校准。建议开业30天后做首次深度复盘。</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>李朝</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>一、品类机遇：瘦肉丸在杭州的窗口期</h3><p>瘦肉丸属于潮汕小吃细分赛道，2025年在杭州萧山处于<strong>「认知上升期但尚未爆发」</strong>阶段。主流消费场景为快餐小食+外卖，人均15-25元是主力价格带，全计瘦肉丸¥20定位精准卡在甜蜜点。</p><p><strong>增长引擎</strong>：健康化趋势下，「纯肉无淀粉」概念有天然溢价空间——76%年轻消费者青睐健康餐饮选项（行业白皮书数据）。潮汕牛肉丸/肉丸粉类在华东二三线城市渗透率仍在提升，杭州尚无头部瘦肉丸专门店，<strong>先发优势明显</strong>。</p><h3>二、商圈画像：宁围的午餐刚需与晚间隐忧</h3><p>市心北路宁围段属于<strong>社区底商+园区配套型商圈</strong>，距地铁2号线建设三路站A口仅310m，交通便利。</p><ul><li><strong>午间客流</strong>：周边产业园区白领+萧山经开区企业员工，午餐刚需场景，人均15-25元主力消费区间</li><li><strong>晚间/周末</strong>：新交付住宅区常住人口密度仍在爬坡期，晚间和周末客流可能不足（需外卖+社群弥补）</li><li><strong>60平米门店</strong>：堂食约16-20座，按快餐翻台率（午高峰2.5-3轮）估算，午间满座日均可服务约50人次</li></ul><h3>三、目标客群锁定</h3><table><tr><th>客群</th><th>占比（⚠️假设）</th><th>消费场景</th><th>触达方式</th></tr><tr><td>园区白领</td><td>55%</td><td>工作日午餐·快速出餐</td><td>园区试吃+外卖平台</td></tr><tr><td>社区居民</td><td>25%</td><td>晚餐/周末家庭便餐</td><td>社群+美团外卖</td></tr><tr><td>地铁过路客</td><td>15%</td><td>途经消费</td><td>大众点评+门头吸引</td></tr><tr><td>外卖用户</td><td>覆盖全时段</td><td>午餐+夜宵</td><td>美团/饿了么双平台</td></tr></table>`,
+    2: `<h3>一、直接竞争：瘦肉丸专门店——几乎空白</h3><p>宁围板块<strong>没有纯肉丸专门店</strong>，这是全计瘦肉丸最大的先发优势。品类差异化明显，核心挑战不是竞争而是<strong>「如何让周边人知道你、愿意来试」</strong>。</p><h3>二、广义竞争：抢午餐胃口的对手们</h3><table><tr><th>竞品类型</th><th>代表品牌</th><th>人均</th><th>核心弱点</th><th>全计的切入机会</th></tr><tr><td>兰州拉面/沙县类</td><td>夫妻店</td><td>¥12-18</td><td>价格低但品质感弱·环境差·无会员体系</td><td>用「纯肉现打」品质感打价格带升级</td></tr><tr><td>现制鲜食</td><td>袁记云饺/熊大爷</td><td>¥20-25</td><td>同属现制现卖但品类雷同度高</td><td>潮汕风味差异化·「肉丸不等于饺子」品类区隔</td></tr><tr><td>麻辣烫</td><td>张亮/杨国福</td><td>¥22-28</td><td>丰富度高但健康度争议大·同质化严重</td><td>「纯肉无淀粉」健康标签正面PK</td></tr><tr><td>外卖端</td><td>潮粥荟/物只卤鹅等</td><td>¥20-30</td><td>覆盖3-5公里配送·品牌知名度已有</td><td>堂食+外卖双渠道·更快出餐·更高性价比</td></tr></table><h3>三、竞争烈度判断</h3><p><strong>中等偏低</strong>。品类差异化是最大护城河，但需要快速教育市场——让宁围的人知道「这里开了家现打瘦肉丸店，纯肉的，好吃」。</p><p><strong>核心竞争策略</strong>：不打价格战（¥20已是最优价格带），打<strong>「真材实料可视化」</strong>——现场捶打、透明厨房、纯肉承诺，让顾客亲眼看到品质。这是兰州拉面和麻辣烫做不到的信任壁垒。</p>`,
+    3: `<h3>一、核心诊断：新店三零困局</h3><p>当前门店处于<strong>「零流量·零评价·零菜单」</strong>状态：30天曝光仅6人、访问3人、消费0人；大众点评无星级、无评价、菜单未上传。两个外卖渠道均未开通。这不是经营问题，是<strong>「还没正式上线」</strong>的问题。</p><p>⚠️假设月租金约¥6,000-8,000（萧山宁围60平米社区底商参考值），人力成本约¥15,000-20,000（老板+2-3名员工），则<strong>保本日营收约¥1,000-1,300</strong>，即日均需服务50-65人次。</p><h3>二、开业前7天（D-7到D-1）：线上基建+试吃蓄水</h3><p><strong>Day-7到Day-5：线上信息搭建</strong></p><ul><li><strong>谁来做</strong>：老板本人</li><li><strong>做什么</strong>：①大众点评商家后台🔧「店铺管理-基本信息」完善门店信息（品类选「小吃快餐-丸子」，上传门头照+环境照+菜品照至少12张）②上传完整菜单（招牌瘦肉丸/丸子粉/丸子面/丸子拼盘/蘸料小食，每道菜配高清实拍图+描述）③🔧收银POS后台「菜品管理」录入所有SKU并同步扫码点餐菜单</li><li><strong>自检标准</strong>：菜单上传了吗？每道菜有实拍图吗？门头照拍了吗？三个全是才算完成</li></ul><p><strong>Day-5到Day-3：园区试吃裂变</strong></p><ul><li><strong>谁来做</strong>：老板+1名员工</li><li><strong>做什么</strong>：联系市心北路周边3-5栋写字楼/产业园前台，每栋送50份试吃装（3颗丸子+蘸料+门店名片），名片附「扫码加微信群，开业首单立减5元」</li><li><strong>预算</strong>：50份x5栋x成本约¥2/份=¥500，锁定首周私域群目标300+精准用户</li><li><strong>前台不配合怎么办</strong>：改为午间11:30-12:00在写字楼大堂/门口直接派发，不进楼层</li></ul><p><strong>Day-2到Day-1：外卖平台上线</strong></p><ul><li><strong>谁来做</strong>：老板操作，BD协助</li><li><strong>做什么</strong>：🔧外卖中心后台开通美团外卖+饿了么双平台，上传菜单，设置新店活动（满15减3/满25减5），配送范围3公里</li></ul><h3>三、开业首周（Day1-7）：集中爆破</h3><ul><li><strong>开业活动</strong>：全场消费满¥15送一份招牌丸子（成本约¥3），限前100单/天，制造排队效应</li><li><strong>外卖冲单</strong>：利用新店7天流量红利，目标日均20+单，🔧外卖中心「营销活动-新店立减」开启平台补贴叠加</li><li><strong>评价攒种</strong>：启动「免费试」积累首批15-20条真实好评</li></ul><h3>四、第2-4周：稳定爬坡</h3><ul><li>日均营收目标：第2周¥800→第3周¥1,000→第4周¥1,200（逐步逼近保本线）</li><li>每周复盘：🔧收银POS「经营报表」查看日/周营收、客单价、菜品销量TOP5，淘汰末位菜品、主推爆品</li></ul>`,
+    4: `<h3>一、当前阶段判断：零评价冷启动期</h3><p>门店现状：<strong>无星级、无评价、无推荐菜</strong>。大众点评新店出星门槛通常需要累计10条以上有效评价。目标：<strong>开业30天内攒够30条真实评价，冲出4.5星</strong>。</p><h3>二、合规底线（红线·绝不能碰）</h3><ul><li>⛔ 严禁任何形式的「好评返现」「好评送菜」等促评行为——2025年10月新规后，高强度促评直接导致新评价不计入星级</li><li>⛔ 严禁刷单、买评价、员工自评</li><li>✅ 合规路径只有两条：<strong>免费试+产品体验驱动自发分享</strong></li></ul><h3>三、30天出星三步走</h3><p><strong>第一步（Day1-10）：「免费试」种子评价</strong></p><ul><li><strong>谁来做</strong>：老板在大众点评商家后台操作</li><li><strong>在哪操作</strong>：🔧大众点评商家后台「营销中心-免费试」设置「招牌瘦肉丸拼盘免费试吃」每天5个名额</li><li><strong>服务员话术</strong>：「您是今天的免费试吃体验官，麻烦吃完后在点评上写写真实感受就好，好坏都行，帮我们改进」</li><li><strong>客人嫌麻烦</strong>：降低门槛——「扫码写满15字就行，1分钟的事儿」</li><li><strong>目标</strong>：10天累计15条真实评价</li></ul><p><strong>第二步（Day11-20）：「免费菜」持续拉新</strong></p><ul><li><strong>在哪操作</strong>：🔧大众点评商家后台「营销中心-免费菜」设置「到店消费赠送秘制蘸酱一份」</li><li><strong>逻辑</strong>：免费菜是大众点评官方合规工具，成本约¥1-2/份</li><li><strong>目标</strong>：再累计10条评价，总计25条</li></ul><p><strong>第三步（Day21-30）：分享动机打造</strong></p><ul><li><strong>核心逻辑</strong>：让产品本身值得拍值得发——瘦肉丸最大视觉卖点是「现场捶打」过程</li><li><strong>做什么</strong>：①设置透明厨房观看位/窗口让顾客看到现打过程 ②桌上放小立牌：「我们的丸子现打现煮·纯肉无淀粉·欢迎拍照分享」③出品用有质感的木质托盘/石锅，提升拍照欲</li><li><strong>目标</strong>：月底累计30条+评价，评分稳定在4.5分以上</li></ul><h3>四、差评预案（开业最容易翻车的3个场景）</h3><table><tr><th>常见差评原因</th><th>预防措施</th><th>差评出现后应对（2小时内回复）</th></tr><tr><td>等太久</td><td>午高峰提前备好半成品丸子（煮制仅需3分钟）</td><td>「非常抱歉让您久等，我们已增加午高峰备餐量，欢迎再来体验」</td></tr><tr><td>味道偏咸/偏淡</td><td>蘸料分开放让顾客自调</td><td>「感谢反馈！蘸料可自由调配，下次告诉服务员口味偏好我们调整」</td></tr><tr><td>分量少</td><td>菜单标注每份丸子数量（如8颗/份）</td><td>「已收到建议，菜单会更清晰标注分量，也会考虑推出大份选项」</td></tr></table>`,
+    5: `<h3>一、外卖现状诊断</h3><p>当前两个外卖渠道均<strong>未开通/未在线</strong>，30天访问到消费转化率0%（同商圈同品类均值1.43%）。外卖是60平米小店突破堂食天花板的<strong>核心增量渠道</strong>——快餐小吃品类外卖占比可达50%+，必须重点突破。</p><p>⚠️假设外卖月目标：日均30单x客单¥22=<strong>月外卖营收约¥19,800</strong>（占总营收约40%）。</p><h3>二、菜单设计：单品转组合拉高客单到¥22-25</h3><p><strong>谁来做</strong>：老板定菜单，BD协助外卖中心上线</p><p><strong>在哪操作</strong>：🔧外卖中心后台「菜品管理-套餐设置」</p><table><tr><th>套餐名称</th><th>内容</th><th>标价</th><th>活动价</th><th>食材成本率</th></tr><tr><td>招牌丸子粉套餐</td><td>瘦肉丸8颗+米粉/面+酸梅汤</td><td>¥25</td><td>¥20</td><td>约35%</td></tr><tr><td>双拼丸子面套餐</td><td>瘦肉丸6颗+墨鱼丸4颗+面+小菜</td><td>¥28</td><td>¥22</td><td>约33%</td></tr><tr><td>丸子拼盘分享装</td><td>三种丸子各6颗+3款蘸料</td><td>¥35</td><td>¥28</td><td>约30%</td></tr><tr><td>暑期冰爽套餐</td><td>丸子粉+冰柠檬水</td><td>¥22</td><td>¥18</td><td>约38%</td></tr></table><p><strong>定价逻辑</strong>：单卖丸子客单仅¥12-15且外卖不划算。用「丸子+主食+饮品」组合把客单拉到¥22-25，满减券控实付在¥20左右——正好卡在外卖15-25元主力消费带。</p><h3>三、新店流量红利抢夺（开业前14天）</h3><ul><li><strong>Day1</strong>：🔧外卖中心「营销活动-新店立减」开启，叠加平台补贴，实际让利控制在15%以内</li><li><strong>Day1-3</strong>：设置满15减3/满25减5满减券，吸引首单转化</li><li><strong>Day4-7</strong>：观察单量，若日均低于15单，追加「下单返券」（满20返3元复购券），🔧外卖中心「营销活动-下单返券」</li><li><strong>Day7-14</strong>：冲「小吃快餐」品类排名，目标进入宁围板块前20名</li></ul><h3>四、出餐效率保障（外卖生死线）</h3><ul><li>午高峰（11:00-13:00）提前备好半成品丸子+煮好汤底，外卖出餐控制在<strong>8分钟以内</strong></li><li>打包用保温袋+分隔设计（丸子和汤分开），避免泡烂影响口感导致差评</li><li>🔧外卖中心「出餐管理-自动接单」开启，收到单立刻备餐</li><li><strong>外卖好评回复模板</strong>：「感谢选择全计瘦肉丸！我们的丸子当天现打纯肉制作，希望您喜欢~期待再来！」</li></ul>`,
+    6: `<h3>一、大众点评：新店必做5件事</h3><p><strong>谁来做</strong>：老板本人（开业前完成）</p><ol><li><strong>完善店铺信息</strong>：🔧商家后台「店铺管理-基本信息」——门头照/环境照/菜品照各4张以上；营业时间设10:00-21:00；推荐菜设置3-5道（招牌瘦肉丸必须排第一）</li><li><strong>上团购套餐</strong>：🔧「营销中心-团购」上线「招牌丸子粉单人餐¥16.9」（标价¥22，折扣约77折），用低价引流到店，目标月核销100+份</li><li><strong>报名新店活动</strong>：🔧「营销中心-平台活动」查看当期可报名的新店专属活动（新店通常有流量扶持期）</li><li><strong>设置在线预约</strong>：午高峰排队时引导扫码预约下次，减少顾客流失</li><li><strong>持续维护评价</strong>：每条评价24小时内回复，🔧「评价管理」每日检查一次</li></ol><h3>二、抖音/小红书：用「现打现煮」短视频破圈</h3><p>瘦肉丸最大卖点是<strong>「真材实料现场捶打」的视觉冲击力</strong>——这是天然的短视频爆款素材。</p><p><strong>谁来做</strong>：老板或员工（每天花10分钟拍）</p><ul><li><strong>内容</strong>：每天拍1条15秒制作过程短视频——捶打肉糜-手工搓丸-下锅翻煮-捞出装盘，全程一镜到底</li><li><strong>发布</strong>：抖音+小红书同步发，标签带#萧山美食 #宁围探店 #瘦肉丸 #纯肉无淀粉</li><li><strong>投流</strong>：前2周每条视频投¥20-30 DOU+，定向宁围/萧山3公里，总预算约¥500</li><li><strong>找本地探店号</strong>：联系2-3个萧山本地万粉探店号（费用¥300-500/条），开业首周发探店视频</li></ul><p><strong>预算合计</strong>：DOU+约¥500+探店号¥600-1,500=<strong>总¥1,100-2,000</strong></p><p><strong>预期效果</strong>：开业首月抖音/小红书带来到店30-50人次（⚠️假设，视内容质量和投放效果浮动）</p><h3>三、美团搜索优化</h3><ul><li>🔧收银POS后台确认门店品类标签正确（「小吃快餐-丸子」）</li><li>外卖菜品名称包含关键词：写「现打瘦肉丸粉」而非「套餐A」</li><li>确保美团搜索「瘦肉丸」「丸子粉」「宁围小吃」可找到本店</li></ul>`,
+    7: `<h3>一、为什么私域重点是「扫码点餐+社群」而不是储值？</h3><p>全计瘦肉丸人均¥20，属于高频低客单快餐。<strong>储值对这个客单不是最优解</strong>——¥20客单的顾客很少愿意一次性充¥200+（心理门槛高），新店缺信任基础储值转化率会很低。</p><p>正确打法：<strong>扫码点餐沉淀数据-社群维护复购-用复购频次而非单次充值金额赚钱</strong>。</p><h3>二、扫码点餐：不只是点餐，是数据引擎</h3><p><strong>谁来做</strong>：服务员引导顾客扫码</p><p><strong>在哪操作</strong>：🔧扫码点餐后台「桌台管理」设置每桌二维码</p><ul><li>顾客扫码-自动关注-沉淀手机号/消费数据-后续可精准push活动</li><li>减少1名点餐人力（60平米店每月省¥4,000-5,000工资）</li><li>菜品销量数据自动统计-帮老板判断哪些菜该保留/淘汰</li></ul><p><strong>服务员话术</strong>：「您好，扫桌上二维码直接点餐就行，菜单都在上面，还有新人专属减2元优惠~」</p><p><strong>顾客说「我直接报菜名吧」</strong>：「好的没问题！不过扫码首单有减2元，您也可以试试~」</p><h3>三、微信社群：复购的核心阵地</h3><p><strong>谁来做</strong>：老板本人管群（每天10分钟）</p><p><strong>建群方式</strong>：收银台放「加群领福利」立牌，扫码加老板微信-拉入「全计瘦肉丸·宁围吃货群」</p><table><tr><th>时间</th><th>动作</th><th>内容示例</th></tr><tr><td>每天10:30</td><td>午餐预告</td><td>「今天现打了一批牛肉丸 限量30份，到店点今日限定就行」</td></tr><tr><td>每周三</td><td>会员日福利</td><td>「周三会员日！群友到店报暗号'全计加料'免费加一份蘸料」</td></tr><tr><td>每月1日</td><td>月度抽奖</td><td>「本月消费满3次的群友，抽3位送免费丸子拼盘！」</td></tr></table><p><strong>目标</strong>：开业首月群人数破200人，月活（至少消费1次）30%=60人。</p><h3>四、会员体系（轻量版·匹配¥20客单）</h3><p>暂不推储值卡，用<strong>消费次数积分制</strong>：每消费1次积1分，满5分送一份小菜（成本¥2）、满10分送招牌丸子一份（成本¥5）。简单直接，顾客无负担，复购驱动力强。</p><p><strong>在哪操作</strong>：🔧收银POS「会员管理-积分规则」设置按次积分</p><p><strong>话术</strong>：「您已经来第3次啦！再来2次就能免费换一份招牌丸子哦~」</p>`,
+    8: `<h3>一、暑期是新店的黄金窗口</h3><p>7-8月是快餐小吃的<strong>旺季</strong>：暑期学生客群+高温天外卖刚需+夜宵旺季三重叠加。全计瘦肉丸选在暑期开业，正好踩中流量窗口。</p><h3>二、暑期三大活动方案</h3><p><strong>活动一：「暑假嗨吃卡」学生专属（7-8月）</strong></p><ul><li><strong>谁来做</strong>：老板设置活动，服务员引导办卡</li><li><strong>活动内容</strong>：凭学生证办理暑假嗨吃卡，售价¥19，享7-8月每次消费9折+赠冰饮1杯/次</li><li><strong>在哪操作</strong>：🔧收银POS「会员管理」创建「暑期卡」权益包</li><li><strong>成本</strong>：冰饮成本约¥1-2/杯，9折让利约10%，卡费¥19基本覆盖成本，锁定暑期多次消费</li><li><strong>适用性</strong>：宁围周边有学校的话效果更好；即使学生少，年轻白领也愿意办（心理上「暑期福利」有吸引力）</li><li><strong>话术</strong>：「您好，我们暑期有个嗨吃卡，19块钱两个月的9折+每次送杯冰饮，划算得很~」</li></ul><p><strong>活动二：「消暑丸子汤」季节限定（7月下旬-8月）</strong></p><ul><li><strong>做什么</strong>：推出夏季限定「冬瓜丸子汤/酸笋丸子汤」，定价¥15，主打清热消暑+高蛋白</li><li><strong>在哪操作</strong>：🔧扫码点餐后台「菜品管理-新品上线」添加限定菜品，标注「夏日限定」标签</li><li><strong>配合外卖</strong>：外卖端同步上线，用「大暑消暑」主题做推广，🔧外卖中心「营销活动」设满18减2限时券</li></ul><p><strong>活动三：「夜宵加时赛」延时经营（7-8月试行）</strong></p><ul><li><strong>做什么</strong>：7-8月试行延长营业到22:00（原21:00），推出夜宵版菜单（丸子拼盘+啤酒套餐¥29）</li><li><strong>谁来做</strong>：老板评估人力后决定，至少需要1人值夜班</li><li><strong>在哪操作</strong>：🔧外卖中心调整营业时间+🔧扫码点餐「21:00后自动切换夜宵菜单」</li><li><strong>预期</strong>：夜宵时段日均增加5-10单（⚠️假设），月增营收约¥3,000-6,000</li><li><strong>不可行怎么办</strong>：如果人力不够，放弃堂食夜宵，只保留外卖夜宵到22:00（1人即可运转）</li></ul><h3>三、立秋换季过渡（8月7日前后）</h3><ul><li>立秋后推出「贴秋膘·丸子煲」（丸子+粉丝+蔬菜一锅煲），定价¥22，从夏日清汤过渡到秋季暖锅</li><li>社群发「贴秋膘指南」引流：「今天立秋！全计瘦肉丸上新了丸子煲，纯肉丸子+粉丝一锅暖呼呼」</li></ul>`,
+    9: `<h3>一、开业投入预算</h3><table><tr><th>项目</th><th>预算</th><th>说明</th></tr><tr><td>试吃裂变（园区派发）</td><td>¥500</td><td>250份试吃装x¥2/份</td></tr><tr><td>抖音/小红书投流</td><td>¥500-1,000</td><td>DOU+定向宁围3公里</td></tr><tr><td>本地探店号合作</td><td>¥600-1,500</td><td>2-3个萧山万粉探店号</td></tr><tr><td>开业赠品（送丸子）</td><td>¥600-900</td><td>100份/天x¥3成本x3天</td></tr><tr><td>免费试成本</td><td>¥300-500</td><td>5份/天x10天x¥6-10/份</td></tr><tr><td>物料（立牌/名片/海报）</td><td>¥200-300</td><td>收银台立牌+桌卡+门口海报</td></tr><tr><td><strong>合计</strong></td><td><strong>¥2,700-4,700</strong></td><td>控制在¥5,000以内</td></tr></table><h3>二、营收目标（开业首季度）</h3><table><tr><th>时间</th><th>日均营收目标</th><th>构成</th><th>月营收</th></tr><tr><td>第1个月</td><td>¥800-1,000</td><td>堂食30人x¥20+外卖15单x¥20</td><td>¥24,000-30,000</td></tr><tr><td>第2个月</td><td>¥1,200-1,500</td><td>堂食40人x¥20+外卖25单x¥22</td><td>¥36,000-45,000</td></tr><tr><td>第3个月</td><td>¥1,500-1,800</td><td>堂食45人x¥20+外卖30单x¥22</td><td>¥45,000-54,000</td></tr></table><p><strong>保本线</strong>：⚠️假设月固定成本约¥28,000-33,000（租金¥7,000+人力¥18,000+水电杂费¥3,000-5,000+食材按35%变动成本），日均需营收约¥1,100才能保本。预计<strong>第2个月中旬达到保本线</strong>。</p><h3>三、量化OKR目标</h3><table><tr><th>维度</th><th>30天目标</th><th>60天目标</th><th>90天目标</th></tr><tr><td>月营收</td><td>¥25,000</td><td>¥40,000</td><td>¥50,000</td></tr><tr><td>大众点评评分</td><td>出星4.5分</td><td>稳定4.5分</td><td>冲4.7分</td></tr><tr><td>点评评价数</td><td>30条+</td><td>60条+</td><td>100条+</td></tr><tr><td>外卖日均单量</td><td>15单</td><td>25单</td><td>30单</td></tr><tr><td>社群人数</td><td>200人</td><td>400人</td><td>500人</td></tr><tr><td>复购率</td><td>15%</td><td>25%</td><td>30%</td></tr></table><h3>四、回本周期测算</h3><p>开业营销总投入约¥3,500-4,700。按第2个月月营收¥40,000、毛利率65%（快餐小吃行业参考）计算，月毛利约¥26,000，扣除固定成本¥30,000后，第2个月接近盈亏平衡。<strong>营销投入在第1个月内即可通过增量客流收回</strong>。</p><p>⚠️以上测算基于行业参考值和合理假设，实际数据需开业后根据🔧收银POS「经营报表」每周校准。建议开业30天后做首次深度复盘。</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
