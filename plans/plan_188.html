@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>一杆清咖 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #C47A3A;
+      --primary-light: #D4894A;
+      --accent: #E8A87C;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #C47A3A40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">咖啡饮品（台球+咖啡复合业态） · 运营提升方案</div>
+  <h1 class="hero-title">一杆清咖</h1>
+  <p class="hero-subtitle">地铁口20㎡咖啡档口，用外卖+小程序打出第二条增长曲线</p>
+  <div class="hero-address">浙江省杭州市萧山区人民广场地铁口E口</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥25</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">萧山区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察·台球咖啡的窗口期', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察·台球咖啡的窗口期</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解·谁在抢你的客人', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解·谁在抢你的客人</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '外卖攻坚·20㎡店的增长引擎', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">外卖攻坚·20㎡店的增长引擎</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评口碑·新店冷启动30天', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评口碑·新店冷启动30天</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '小程序自营外卖·摆脱平台抽佣', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">小程序自营外卖·摆脱平台抽佣</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '会员体系·咖啡高复购的核心武器', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">会员体系·咖啡高复购的核心武器</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '暑期开业营销·引爆第一个月', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">暑期开业营销·引爆第一个月</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '投资回报·数字说话', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">投资回报·数字说话</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>萧山咖啡市场大盘</h3><p>2024年中国咖饮市场规模达<strong>1,177亿元</strong>，同比+15.4%，杭州作为互联网重镇咖啡需求旺盛。但价格战白热化——瑞幸9.9元、库迪8.8元已成常态，纯咖啡档口利润被严重挤压。萧山人民广场是老城核心商圈，地铁2号线直达，周边写字楼+居民社区+商业体密集，25-40岁上班族和周末年轻消费者是主力客群。</p><h3>一杆清咖的差异化定位</h3><p>品牌名取自台球术语"一杆清台"，天然具备<strong>台球社交+咖啡复合记忆点</strong>。这个定位在萧山人民广场几乎没有直接竞品——纯台球厅不卖精品咖啡，纯咖啡店不提供社交娱乐体验。（⚠️ 假设门店紧邻台球厅且共享客流，BD备注"点餐挂靠台球厅系统"），则咖啡档口的核心价值是<strong>台球厅的"饮品中台"+ 地铁口外卖前哨站</strong>。</p><h3>关键机会判断</h3><ul><li><strong>台球厅客群饮品需求</strong>：台球消费者平均停留1-2小时，期间饮品消费率超过70%（⚠️ 行业参考值），目前挂靠台球厅系统说明已有堂食入口，但缺独立线上获客能力</li><li><strong>地铁口外卖金矿</strong>：E口出站通勤人群是天然外卖客源，20㎡档口堂食容量有限（⚠️ 估计4-6个座位），<strong>外卖必须成为营收主力</strong>，占比目标60%+</li><li><strong>暑期红利窗口</strong>：7-8月暑期，台球+冰咖啡组合天然适配年轻人"避暑+社交"需求，正是开业好时机</li></ul></div>
+<div id="modal-content-2" style="display:none"><h3>周边3公里竞争格局</h3><table><tr><th>竞品</th><th>人均</th><th>核心优势</th><th>弱点/我方切入点</th></tr><tr><td><strong>瑞幸咖啡</strong>（多家）</td><td>¥15</td><td>品牌认知强、9.9补贴、出杯快</td><td>无社交空间、无台球场景、产品同质化；我方打"台球+咖啡"场景牌，不正面比价</td></tr><tr><td><strong>星巴克</strong>（万象汇店）</td><td>¥30-40</td><td>第三空间、品牌溢价</td><td>价格高、年轻客群流失快；我方用20元价位段+社交娱乐截胡</td></tr><tr><td><strong>Manner</strong></td><td>¥15-20</td><td>品质好、性价比</td><td>纯外带模式无停留空间；我方有台球厅延伸场景</td></tr><tr><td><strong>乔氏/星牌台球俱乐部</strong></td><td>¥50-80/小时</td><td>设备专业、老客稳定</td><td>饮品选择少、多为瓶装饮料；一杆清咖可做周边台球厅的"精品饮品供应商"</td></tr><tr><td><strong>桌游/剧本杀店</strong></td><td>¥60-100</td><td>社交属性强</td><td>不提供优质饮品，人均更高；台球+咖啡人均更低、更休闲</td></tr></table><h3>竞争策略总结</h3><p><strong>核心原则：不打价格战，打场景战。</strong></p><ul><li>与瑞幸/库迪的9.9元正面竞争毫无胜算——20㎡档口没有成本优势</li><li>胜出路径：<strong>"台球社交场景的专属咖啡"+"地铁口外卖便利性"</strong>双轮驱动</li><li>定价建议：美式12-15元、拿铁18-22元、特调25-30元，卡在Manner和星巴克中间，<strong>不碰9.9红海</strong></li></ul><p>⚠️ 假设以上竞品在人民广场3公里内存在（系统调研数据），具体门店位置建议BD实地确认。</p></div>
+<div id="modal-content-3" style="display:none"><h3>为什么外卖是一杆清咖的命脉</h3><p>20㎡面积决定了堂食天花板极低——⚠️ 假设堂食座位4-6个、高峰期翻台3次/天，堂食日接待上限约18人。按人均25元计算，<strong>纯堂食日营收天花板仅450元</strong>，远不够覆盖房租+人工。因此<strong>外卖必须贡献60%以上营收</strong>，这也是老板"美团系统主要用来对接线上外卖"的核心诉求。</p><h3>美团外卖开店四步实操</h3><p><strong>第一步：菜单结构设计（开业前7天 · 老板/店长负责）</strong></p><ul><li>🔧 美团外卖商家版APP → 菜品管理 → 新建分类</li><li>分类建议：<strong>"招牌特调""经典咖啡""台球套餐""夏日冰饮""轻食小食"</strong>5个分类，总SKU控制15-20个</li><li>⚠️ 关键：设一个<strong>"台球套餐 · 外卖专属"</strong>分类——29.9元=冰美式+台球1小时兑换券，把外卖客户引到店里打台球，形成线上→线下闭环</li><li>菜品主图必须高清实拍（手机拍+简单调色即可），严禁用网图——平台会降权</li></ul><p><strong>第二步：定价与满减策略（开业前5天 · 老板负责）</strong></p><ul><li>外卖定价比堂食上浮15-20%（覆盖平台抽佣），例：堂食拿铁18元→外卖定价22元</li><li>🔧 美团外卖商家版 → 营销中心 → 满减活动</li><li>满减阶梯：满25减3 / 满40减6 / 满60减10（引导凑单，提高客单价）</li><li>⚠️ 新店前14天平台给自然流量加权，满减力度这14天适当加大：满20减5（亏本引流），第15天恢复正常档</li><li>话术参考：客人问"为什么外卖比店里贵"→"外卖价含配送保温包装费用，到店更划算哦，还能打台球~"</li></ul><p><strong>第三步：外卖评分冲刺（开业第1-30天 · 全员负责）</strong></p><ul><li>新店前30天外卖评分直接决定后续自然流量排名</li><li>🔧 美团外卖商家版 → 评价管理 → 每日查看新评价</li><li>出餐速度目标：<strong>接单→出餐≤8分钟</strong>（咖啡品类平均12分钟，快就是优势）</li><li>包装细节：杯子贴手写感谢贴纸"感谢选择一杆清咖☕ 下次堂食打台球立减5元"——<strong>每张贴纸都是引流卡</strong></li><li>差评处理：收到差评2小时内回复（🔧 评价管理→回复），真诚道歉+补偿方案（"下次点单备注老客户，免费升杯"）</li></ul><p><strong>第四步：付费推广启动（开业第15天起 · 老板负责）</strong></p><ul><li>🔧 美团外卖商家版 → 推广中心 → 点金推广</li><li>前期预算：30-50元/天，投放时段锁定7:30-9:30（早咖啡）+ 13:00-14:30（午后提神）</li><li>投产比目标：1:5以上（投1元带回5元营收），低于1:3立即调整关键词</li><li>推广关键词建议："萧山咖啡外卖""人民广场咖啡""台球咖啡"</li></ul></div>
+<div id="modal-content-4" style="display:none"><h3>新店点评阶段判断</h3><p>一杆清咖作为新店未开业，属于<strong>"冷启动期"</strong>——0评价、0评分、无星级。大众点评的星级算法对新店有保护期（约60-90天），但<strong>前30条评价的质量直接决定出星后的起步分</strong>。2025年10月后平台严查促评行为，高强度促评=新评价不产生星级收益。因此必须走<strong>"自然好评沉淀"路线</strong>。</p><h3>冷启动30天 · 四阶段作战</h3><p><strong>阶段一：开业前3天 · 种子评价蓄水（老板+店长负责）</strong></p><ul><li>邀请10-15位朋友/台球厅老客人来试喝，<strong>不要求写好评</strong>，只说"帮忙体验一下，有啥建议直接告诉我"</li><li>体验真诚→自然好评率约60-70%，预计拿到6-10条真实评价</li><li>🔧 大众点评商家后台 → 营销中心 → 免费试：开通免费试活动，设置5-10个名额，平台会给门店打上"免费试"标签增加曝光</li><li>⚠️ 严禁刷单、严禁好评返现、严禁"写好评送饮品"——平台AI识别准确率极高，被抓直接降权</li></ul><p><strong>阶段二：开业第1-7天 · 首批自然评价（服务员负责）</strong></p><ul><li>每位到店客人离开时说一句（固定话术）："如果您觉得今天的咖啡还不错，方便的话帮我们在大众点评上留个真实感受，好坏都行，我们是新店特别需要反馈~"</li><li>⚠️ 关键：说"真实感受"不说"好评"，说"好坏都行"——合规且反而提高留评率</li><li>目标：第一周新增8-12条评价</li><li>客人说"太麻烦了"→退路话术："那扫一下桌上这个码关注我们就行，以后小程序下单更方便~"（不留评也要留客）</li></ul><p><strong>阶段三：开业第8-21天 · 口碑加速（店长负责盯数据）</strong></p><ul><li>🔧 大众点评商家后台 → 评价管理 → 每天查看新评价</li><li>每条评价24小时内必须回复，好评回复要有人格感："谢谢支持！下次试试我们的XX特调，老板亲手调的~"</li><li>差评24小时内私信联系："真的很抱歉给您不好的体验，方便告诉我具体哪里不满意吗？下次来店里请您喝一杯，当面改进"</li><li>目标：累计评价达到20-25条，好评率≥85%</li></ul><p><strong>阶段四：开业第22-30天 · 冲出星评分（老板盯目标）</strong></p><ul><li>30天目标：<strong>累计30条真实评价，好评率≥85%，出星目标4.0-4.5分</strong></li><li>如果评价量不够，启动"免费菜" 🔧 大众点评商家后台 → 营销中心 → 免费菜：设置"到店免费领取一杯冰美式"（成本3-4元/杯），换取自然到店+评价机会</li><li>⚠️ 免费菜≠促评，客人领了免费菜不写评价也完全OK——平台规则允许免费菜活动</li></ul></div>
+<div id="modal-content-5" style="display:none"><h3>为什么一杆清咖必须做小程序自营外卖</h3><p>美团外卖平台抽佣约<strong>18-23%</strong>（⚠️ 行业参考值，具体费率以签约为准），一杯22元的拿铁平台要抽走4-5元。20㎡档口毛利本就有限，如果外卖占比60%+，<strong>每月平台佣金可能吃掉利润的一半</strong>。小程序自营外卖抽佣为0（仅有配送费），是中长期利润的关键。</p><h3>小程序外卖搭建 · 三步走（已签约小程序模块）</h3><p><strong>第一步：菜单同步上线（开业前5天 · 老板/店长负责）</strong></p><ul><li>🔧 美团收银POS → 小程序管理 → 外卖设置 → 开启自营外卖</li><li>菜品与美团外卖保持一致（15-20个SKU），但<strong>定价比美团外卖低10-15%</strong>——这就是小程序的核心卖点</li><li>例：美团外卖拿铁22元→小程序拿铁19元，差价3元就是客户迁移的动力</li><li>配送方式选择：接入达达/顺丰同城（🔧 小程序管理→配送设置），配送费客户自付或满30元包配送</li></ul><p><strong>第二步：每一单外卖都做小程序引流（开业第1天起 · 全员执行）</strong></p><ul><li>每个美团外卖包装袋里夹一张卡片（成本0.1元/张）：</li><li>卡片正面："扫码进小程序，同款咖啡<strong>立省3-5元</strong>，还能积分换台球时长！"</li><li>卡片背面：小程序二维码+门店地址+台球厅信息</li><li>⚠️ 关键话术逻辑：不说"我们也有小程序"，而是<strong>"省钱"+"台球权益"双钩子</strong></li><li>客人扫码但没下单→小程序弹窗"新用户首单立减5元"（🔧 小程序管理→优惠券→新客券）</li></ul><p><strong>第三步：小程序外卖占比目标（开业3个月内）</strong></p><ul><li>第1个月：小程序外卖占比10-15%（刚起步，以美团外卖为主）</li><li>第2个月：小程序外卖占比20-25%（卡片引流持续生效）</li><li>第3个月：小程序外卖占比30-35%（老客户迁移完成）</li><li>⚠️ <strong>美团外卖不能停</strong>——它是获取新客的入口，小程序是留住老客的池子。两条腿走路，不是二选一</li></ul><h3>连锁规划预埋</h3><p>老板提到"后续可能有连锁规划"——小程序天然支持多门店管理：</p><ul><li>🔧 小程序后台 → 门店管理 → 新增门店：未来开第二家店时，一个小程序覆盖所有门店，会员积分通用</li><li>提前统一品牌视觉（小程序头图/菜品图/品牌色调），为连锁做视觉标准化</li><li>现在就把会员等级体系设计好（见下章），等第二家店开业时老客户自动同步</li></ul></div>
+<div id="modal-content-6" style="display:none"><h3>咖啡品类的会员逻辑：高频复购是天然优势</h3><p>咖啡是<strong>成瘾性消费</strong>——一个养成习惯的客户每周消费3-5次，月消费75-125元。20㎡小店不需要1000个客户，<strong>锁住200个高频老客就够活得很好</strong>。⚠️ 假设人均客单25元、目标月营收4-5万元，则日均需服务55-65人次，其中老客占60%=每天33-39人，正好对应150-200个周均消费2+次的会员。</p><h3>会员体系设计（轻量版 · 适配20㎡小店）</h3><p><strong>注册即会员 · 零门槛（开业第1天起）</strong></p><ul><li>🔧 美团收银POS → 会员管理 → 开卡设置：扫码自动注册，不收费、不要押金</li><li>注册即送1张"首杯半价券"（成本约6元），确保第一次消费就有会员身份</li><li>⚠️ 不建议做付费会员卡（客单低、新店信任不够），先用免费会员跑通数据再升级</li></ul><p><strong>积分体系 · 台球联动（核心亮点）</strong></p><ul><li>消费1元=1积分，<strong>100积分=台球厅15分钟免费时长</strong>——这是一杆清咖独有的杀手锏</li><li>🔧 收银POS → 会员管理 → 积分规则：设置积分兑换项目，添加"台球时长兑换"</li><li>逻辑：喝咖啡攒积分→换台球时长→来打台球又要喝咖啡→<strong>自循环飞轮</strong></li><li>话术：服务员结账时说——"您这单攒了25积分，攒到100就能免费打15分钟台球哦~"</li><li>客人说"积分有什么用"→"攒积分换台球时长，100积分就能打15分钟，喝4杯就够了！"</li></ul><p><strong>储值方案 · 按需推荐（不强推）</strong></p><ul><li>⚠️ 20㎡新店、客单25元、客群以通勤为主——<strong>储值不是第一优先级</strong>，先跑会员+积分，等老客稳定后（开业2个月）再试水</li><li>如果要推，建议极轻量档位：<strong>充100送15（到账115元，约4-5次消费）</strong>，不要大额储值</li><li>🔧 收银POS → 储值管理 → 储值活动：创建"充100送15"活动</li><li>推荐时机：客人第3次到店时（已有消费习惯），收银时说——"您已经来3次啦，充100送15锁定优惠？每次省3块~"</li><li>客人拒绝→"没关系，用积分换台球也很划算，慢慢攒~"（退路自然不尴尬）</li></ul></div>
+<div id="modal-content-7" style="display:none"><h3>开业时机判断</h3><p>7-8月暑期开业对台球+咖啡业态是<strong>最佳窗口</strong>：高温天气→冰咖啡刚需；暑假→年轻人有时间打台球；晚间社交旺季→"下班第一杆"场景成立。⚠️ 假设7月底-8月初开业。</p><h3>开业倒计时执行表</h3><p><strong>D-7（开业前一周）：线上蓄水（老板本人负责）</strong></p><ul><li>在小红书发3-5条笔记，标题参考："杭州萧山｜地铁口新开的台球咖啡馆，边打球边喝手冲" / "人民广场E口30秒到的宝藏小店"</li><li>内容包括装修进度、菜单剧透、台球桌实拍，定位tag"萧山探店""杭州咖啡""台球"</li><li>⚠️ 不需要投流，自然笔记+定位tag即可，3-5条笔记覆盖核心搜索关键词</li><li>同步在抖音发1-2条15秒短视频：拍"一杆清台+拉花慢镜头"的视觉反差，挂9.9元体验团购链接</li></ul><p><strong>D-3（开业前3天）：试营业+种子客户（老板+台球厅合作方负责）</strong></p><ul><li>在台球厅张贴海报："隔壁一杆清咖即将开业，台球会员凭会员码到咖啡档口免费领冰美式一杯"</li><li>目的：<strong>用台球厅存量客户做咖啡档口的种子用户</strong>，省获客成本</li><li>试营业3天观察出杯效率、外卖配送时间、库存消耗，调整后正式开业</li></ul><p><strong>D-Day（开业当天）：三件事（全员负责）</strong></p><ul><li>① 门口摆台+地铁口举牌："新店开业 · 冰美式买一送一"（限当天，成本约3元/杯×30杯=90元）</li><li>② 美团外卖上线"开业特惠满减"：满15减5（不怕亏，新店14天流量加权期必须抢排名）</li><li>③ 每位到店客人扫码入会员（🔧 收银POS → 会员管理），送首杯半价券锁第二次消费</li></ul><p><strong>D+1至D+14（流量加权黄金期 · 老板盯数据，出杯员保速度）</strong></p><ul><li>出餐速度压到8分钟以内——这是外卖排名的核心权重因子</li><li>🔧 美团外卖商家版 → 推广中心 → 点金推广：每天预算30元，时段锁定7:30-9:30+13:00-14:30</li><li>目标：14天内外卖日均单量从0做到<strong>15-20单</strong></li></ul><p><strong>D+15至D+30（稳住节奏 · 老板复盘）</strong></p><ul><li>满减从"满15减5"恢复到"满25减3"（利润回正）</li><li>小程序引流卡片开始夹入每个外卖订单</li><li>复盘30天数据：日均营收/外卖占比/会员注册数/小程序扫码率</li></ul></div>
+<div id="modal-content-8" style="display:none"><h3>营收预测模型</h3><p>⚠️ 以下为基于行业数据+门店条件的合理估算，建议核实。</p><table><tr><th>收入来源</th><th>日均单量（稳定期）</th><th>客单价</th><th>日营收</th><th>月营收</th></tr><tr><td>堂食（含台球厅客人）</td><td>20-25单</td><td>¥25</td><td>¥500-625</td><td>¥15,000-18,750</td></tr><tr><td>美团外卖</td><td>25-30单</td><td>¥28</td><td>¥700-840</td><td>¥21,000-25,200</td></tr><tr><td>小程序外卖（3个月后）</td><td>10-15单</td><td>¥25</td><td>¥250-375</td><td>¥7,500-11,250</td></tr><tr><td><strong>合计（稳定期）</strong></td><td><strong>55-70单</strong></td><td>—</td><td><strong>¥1,450-1,840</strong></td><td><strong>¥43,500-55,200</strong></td></tr></table><h3>成本结构估算</h3><table><tr><th>成本项</th><th>月金额</th><th>占比</th></tr><tr><td>原材料（咖啡豆/牛奶/杯材/辅料）</td><td>¥10,000-13,000</td><td>25-30%</td></tr><tr><td>人工（⚠️ 假设1-2人）</td><td>¥6,000-10,000</td><td>15-20%</td></tr><tr><td>房租（20㎡ · 地铁口 · ⚠️ 假设）</td><td>¥4,000-6,000</td><td>10-12%</td></tr><tr><td>外卖平台佣金（18-23%×外卖营收）</td><td>¥3,800-5,800</td><td>8-12%</td></tr><tr><td>水电杂费+包装</td><td>¥1,500-2,000</td><td>3-4%</td></tr><tr><td><strong>合计</strong></td><td><strong>¥25,300-36,800</strong></td><td><strong>61-78%</strong></td></tr></table><h3>利润与回本</h3><ul><li>月净利润（稳定期）：<strong>¥6,700-18,400</strong>（净利率15-33%，取中位约¥12,000）</li><li>⚠️ 假设初始投入15-25万（含设备/装修/首批原材料），<strong>预估回本周期12-18个月</strong></li><li>小程序外卖占比每提升10%，月省佣金约<strong>¥1,500-2,000</strong>——3个月后小程序贡献明显</li></ul><h3>月度/季度OKR目标</h3><table><tr><th>指标</th><th>第1个月</th><th>第3个月</th><th>第6个月</th></tr><tr><td>月总营收</td><td>¥25,000</td><td>¥40,000</td><td>¥50,000</td></tr><tr><td>外卖日均单量</td><td>15单</td><td>30单</td><td>40单</td></tr><tr><td>小程序外卖占比</td><td>5%</td><td>25%</td><td>35%</td></tr><tr><td>大众点评评分</td><td>出星4.0+</td><td>4.3+</td><td>4.5</td></tr><tr><td>累计评价数</td><td>30条</td><td>80条</td><td>150条</td></tr><tr><td>注册会员数</td><td>100人</td><td>300人</td><td>500人</td></tr><tr><td>会员复购率</td><td>30%</td><td>45%</td><td>55%</td></tr></table><p><strong>关键里程碑</strong>：第30天首次复盘→第90天确认外卖模型跑通→第180天评估第二家店可行性。</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>翟卫婷</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>萧山咖啡市场大盘</h3><p>2024年中国咖饮市场规模达<strong>1,177亿元</strong>，同比+15.4%，杭州作为互联网重镇咖啡需求旺盛。但价格战白热化——瑞幸9.9元、库迪8.8元已成常态，纯咖啡档口利润被严重挤压。萧山人民广场是老城核心商圈，地铁2号线直达，周边写字楼+居民社区+商业体密集，25-40岁上班族和周末年轻消费者是主力客群。</p><h3>一杆清咖的差异化定位</h3><p>品牌名取自台球术语"一杆清台"，天然具备<strong>台球社交+咖啡复合记忆点</strong>。这个定位在萧山人民广场几乎没有直接竞品——纯台球厅不卖精品咖啡，纯咖啡店不提供社交娱乐体验。（⚠️ 假设门店紧邻台球厅且共享客流，BD备注"点餐挂靠台球厅系统"），则咖啡档口的核心价值是<strong>台球厅的"饮品中台"+ 地铁口外卖前哨站</strong>。</p><h3>关键机会判断</h3><ul><li><strong>台球厅客群饮品需求</strong>：台球消费者平均停留1-2小时，期间饮品消费率超过70%（⚠️ 行业参考值），目前挂靠台球厅系统说明已有堂食入口，但缺独立线上获客能力</li><li><strong>地铁口外卖金矿</strong>：E口出站通勤人群是天然外卖客源，20㎡档口堂食容量有限（⚠️ 估计4-6个座位），<strong>外卖必须成为营收主力</strong>，占比目标60%+</li><li><strong>暑期红利窗口</strong>：7-8月暑期，台球+冰咖啡组合天然适配年轻人"避暑+社交"需求，正是开业好时机</li></ul>`,
+    2: `<h3>周边3公里竞争格局</h3><table><tr><th>竞品</th><th>人均</th><th>核心优势</th><th>弱点/我方切入点</th></tr><tr><td><strong>瑞幸咖啡</strong>（多家）</td><td>¥15</td><td>品牌认知强、9.9补贴、出杯快</td><td>无社交空间、无台球场景、产品同质化；我方打"台球+咖啡"场景牌，不正面比价</td></tr><tr><td><strong>星巴克</strong>（万象汇店）</td><td>¥30-40</td><td>第三空间、品牌溢价</td><td>价格高、年轻客群流失快；我方用20元价位段+社交娱乐截胡</td></tr><tr><td><strong>Manner</strong></td><td>¥15-20</td><td>品质好、性价比</td><td>纯外带模式无停留空间；我方有台球厅延伸场景</td></tr><tr><td><strong>乔氏/星牌台球俱乐部</strong></td><td>¥50-80/小时</td><td>设备专业、老客稳定</td><td>饮品选择少、多为瓶装饮料；一杆清咖可做周边台球厅的"精品饮品供应商"</td></tr><tr><td><strong>桌游/剧本杀店</strong></td><td>¥60-100</td><td>社交属性强</td><td>不提供优质饮品，人均更高；台球+咖啡人均更低、更休闲</td></tr></table><h3>竞争策略总结</h3><p><strong>核心原则：不打价格战，打场景战。</strong></p><ul><li>与瑞幸/库迪的9.9元正面竞争毫无胜算——20㎡档口没有成本优势</li><li>胜出路径：<strong>"台球社交场景的专属咖啡"+"地铁口外卖便利性"</strong>双轮驱动</li><li>定价建议：美式12-15元、拿铁18-22元、特调25-30元，卡在Manner和星巴克中间，<strong>不碰9.9红海</strong></li></ul><p>⚠️ 假设以上竞品在人民广场3公里内存在（系统调研数据），具体门店位置建议BD实地确认。</p>`,
+    3: `<h3>为什么外卖是一杆清咖的命脉</h3><p>20㎡面积决定了堂食天花板极低——⚠️ 假设堂食座位4-6个、高峰期翻台3次/天，堂食日接待上限约18人。按人均25元计算，<strong>纯堂食日营收天花板仅450元</strong>，远不够覆盖房租+人工。因此<strong>外卖必须贡献60%以上营收</strong>，这也是老板"美团系统主要用来对接线上外卖"的核心诉求。</p><h3>美团外卖开店四步实操</h3><p><strong>第一步：菜单结构设计（开业前7天 · 老板/店长负责）</strong></p><ul><li>🔧 美团外卖商家版APP → 菜品管理 → 新建分类</li><li>分类建议：<strong>"招牌特调""经典咖啡""台球套餐""夏日冰饮""轻食小食"</strong>5个分类，总SKU控制15-20个</li><li>⚠️ 关键：设一个<strong>"台球套餐 · 外卖专属"</strong>分类——29.9元=冰美式+台球1小时兑换券，把外卖客户引到店里打台球，形成线上→线下闭环</li><li>菜品主图必须高清实拍（手机拍+简单调色即可），严禁用网图——平台会降权</li></ul><p><strong>第二步：定价与满减策略（开业前5天 · 老板负责）</strong></p><ul><li>外卖定价比堂食上浮15-20%（覆盖平台抽佣），例：堂食拿铁18元→外卖定价22元</li><li>🔧 美团外卖商家版 → 营销中心 → 满减活动</li><li>满减阶梯：满25减3 / 满40减6 / 满60减10（引导凑单，提高客单价）</li><li>⚠️ 新店前14天平台给自然流量加权，满减力度这14天适当加大：满20减5（亏本引流），第15天恢复正常档</li><li>话术参考：客人问"为什么外卖比店里贵"→"外卖价含配送保温包装费用，到店更划算哦，还能打台球~"</li></ul><p><strong>第三步：外卖评分冲刺（开业第1-30天 · 全员负责）</strong></p><ul><li>新店前30天外卖评分直接决定后续自然流量排名</li><li>🔧 美团外卖商家版 → 评价管理 → 每日查看新评价</li><li>出餐速度目标：<strong>接单→出餐≤8分钟</strong>（咖啡品类平均12分钟，快就是优势）</li><li>包装细节：杯子贴手写感谢贴纸"感谢选择一杆清咖☕ 下次堂食打台球立减5元"——<strong>每张贴纸都是引流卡</strong></li><li>差评处理：收到差评2小时内回复（🔧 评价管理→回复），真诚道歉+补偿方案（"下次点单备注老客户，免费升杯"）</li></ul><p><strong>第四步：付费推广启动（开业第15天起 · 老板负责）</strong></p><ul><li>🔧 美团外卖商家版 → 推广中心 → 点金推广</li><li>前期预算：30-50元/天，投放时段锁定7:30-9:30（早咖啡）+ 13:00-14:30（午后提神）</li><li>投产比目标：1:5以上（投1元带回5元营收），低于1:3立即调整关键词</li><li>推广关键词建议："萧山咖啡外卖""人民广场咖啡""台球咖啡"</li></ul>`,
+    4: `<h3>新店点评阶段判断</h3><p>一杆清咖作为新店未开业，属于<strong>"冷启动期"</strong>——0评价、0评分、无星级。大众点评的星级算法对新店有保护期（约60-90天），但<strong>前30条评价的质量直接决定出星后的起步分</strong>。2025年10月后平台严查促评行为，高强度促评=新评价不产生星级收益。因此必须走<strong>"自然好评沉淀"路线</strong>。</p><h3>冷启动30天 · 四阶段作战</h3><p><strong>阶段一：开业前3天 · 种子评价蓄水（老板+店长负责）</strong></p><ul><li>邀请10-15位朋友/台球厅老客人来试喝，<strong>不要求写好评</strong>，只说"帮忙体验一下，有啥建议直接告诉我"</li><li>体验真诚→自然好评率约60-70%，预计拿到6-10条真实评价</li><li>🔧 大众点评商家后台 → 营销中心 → 免费试：开通免费试活动，设置5-10个名额，平台会给门店打上"免费试"标签增加曝光</li><li>⚠️ 严禁刷单、严禁好评返现、严禁"写好评送饮品"——平台AI识别准确率极高，被抓直接降权</li></ul><p><strong>阶段二：开业第1-7天 · 首批自然评价（服务员负责）</strong></p><ul><li>每位到店客人离开时说一句（固定话术）："如果您觉得今天的咖啡还不错，方便的话帮我们在大众点评上留个真实感受，好坏都行，我们是新店特别需要反馈~"</li><li>⚠️ 关键：说"真实感受"不说"好评"，说"好坏都行"——合规且反而提高留评率</li><li>目标：第一周新增8-12条评价</li><li>客人说"太麻烦了"→退路话术："那扫一下桌上这个码关注我们就行，以后小程序下单更方便~"（不留评也要留客）</li></ul><p><strong>阶段三：开业第8-21天 · 口碑加速（店长负责盯数据）</strong></p><ul><li>🔧 大众点评商家后台 → 评价管理 → 每天查看新评价</li><li>每条评价24小时内必须回复，好评回复要有人格感："谢谢支持！下次试试我们的XX特调，老板亲手调的~"</li><li>差评24小时内私信联系："真的很抱歉给您不好的体验，方便告诉我具体哪里不满意吗？下次来店里请您喝一杯，当面改进"</li><li>目标：累计评价达到20-25条，好评率≥85%</li></ul><p><strong>阶段四：开业第22-30天 · 冲出星评分（老板盯目标）</strong></p><ul><li>30天目标：<strong>累计30条真实评价，好评率≥85%，出星目标4.0-4.5分</strong></li><li>如果评价量不够，启动"免费菜" 🔧 大众点评商家后台 → 营销中心 → 免费菜：设置"到店免费领取一杯冰美式"（成本3-4元/杯），换取自然到店+评价机会</li><li>⚠️ 免费菜≠促评，客人领了免费菜不写评价也完全OK——平台规则允许免费菜活动</li></ul>`,
+    5: `<h3>为什么一杆清咖必须做小程序自营外卖</h3><p>美团外卖平台抽佣约<strong>18-23%</strong>（⚠️ 行业参考值，具体费率以签约为准），一杯22元的拿铁平台要抽走4-5元。20㎡档口毛利本就有限，如果外卖占比60%+，<strong>每月平台佣金可能吃掉利润的一半</strong>。小程序自营外卖抽佣为0（仅有配送费），是中长期利润的关键。</p><h3>小程序外卖搭建 · 三步走（已签约小程序模块）</h3><p><strong>第一步：菜单同步上线（开业前5天 · 老板/店长负责）</strong></p><ul><li>🔧 美团收银POS → 小程序管理 → 外卖设置 → 开启自营外卖</li><li>菜品与美团外卖保持一致（15-20个SKU），但<strong>定价比美团外卖低10-15%</strong>——这就是小程序的核心卖点</li><li>例：美团外卖拿铁22元→小程序拿铁19元，差价3元就是客户迁移的动力</li><li>配送方式选择：接入达达/顺丰同城（🔧 小程序管理→配送设置），配送费客户自付或满30元包配送</li></ul><p><strong>第二步：每一单外卖都做小程序引流（开业第1天起 · 全员执行）</strong></p><ul><li>每个美团外卖包装袋里夹一张卡片（成本0.1元/张）：</li><li>卡片正面："扫码进小程序，同款咖啡<strong>立省3-5元</strong>，还能积分换台球时长！"</li><li>卡片背面：小程序二维码+门店地址+台球厅信息</li><li>⚠️ 关键话术逻辑：不说"我们也有小程序"，而是<strong>"省钱"+"台球权益"双钩子</strong></li><li>客人扫码但没下单→小程序弹窗"新用户首单立减5元"（🔧 小程序管理→优惠券→新客券）</li></ul><p><strong>第三步：小程序外卖占比目标（开业3个月内）</strong></p><ul><li>第1个月：小程序外卖占比10-15%（刚起步，以美团外卖为主）</li><li>第2个月：小程序外卖占比20-25%（卡片引流持续生效）</li><li>第3个月：小程序外卖占比30-35%（老客户迁移完成）</li><li>⚠️ <strong>美团外卖不能停</strong>——它是获取新客的入口，小程序是留住老客的池子。两条腿走路，不是二选一</li></ul><h3>连锁规划预埋</h3><p>老板提到"后续可能有连锁规划"——小程序天然支持多门店管理：</p><ul><li>🔧 小程序后台 → 门店管理 → 新增门店：未来开第二家店时，一个小程序覆盖所有门店，会员积分通用</li><li>提前统一品牌视觉（小程序头图/菜品图/品牌色调），为连锁做视觉标准化</li><li>现在就把会员等级体系设计好（见下章），等第二家店开业时老客户自动同步</li></ul>`,
+    6: `<h3>咖啡品类的会员逻辑：高频复购是天然优势</h3><p>咖啡是<strong>成瘾性消费</strong>——一个养成习惯的客户每周消费3-5次，月消费75-125元。20㎡小店不需要1000个客户，<strong>锁住200个高频老客就够活得很好</strong>。⚠️ 假设人均客单25元、目标月营收4-5万元，则日均需服务55-65人次，其中老客占60%=每天33-39人，正好对应150-200个周均消费2+次的会员。</p><h3>会员体系设计（轻量版 · 适配20㎡小店）</h3><p><strong>注册即会员 · 零门槛（开业第1天起）</strong></p><ul><li>🔧 美团收银POS → 会员管理 → 开卡设置：扫码自动注册，不收费、不要押金</li><li>注册即送1张"首杯半价券"（成本约6元），确保第一次消费就有会员身份</li><li>⚠️ 不建议做付费会员卡（客单低、新店信任不够），先用免费会员跑通数据再升级</li></ul><p><strong>积分体系 · 台球联动（核心亮点）</strong></p><ul><li>消费1元=1积分，<strong>100积分=台球厅15分钟免费时长</strong>——这是一杆清咖独有的杀手锏</li><li>🔧 收银POS → 会员管理 → 积分规则：设置积分兑换项目，添加"台球时长兑换"</li><li>逻辑：喝咖啡攒积分→换台球时长→来打台球又要喝咖啡→<strong>自循环飞轮</strong></li><li>话术：服务员结账时说——"您这单攒了25积分，攒到100就能免费打15分钟台球哦~"</li><li>客人说"积分有什么用"→"攒积分换台球时长，100积分就能打15分钟，喝4杯就够了！"</li></ul><p><strong>储值方案 · 按需推荐（不强推）</strong></p><ul><li>⚠️ 20㎡新店、客单25元、客群以通勤为主——<strong>储值不是第一优先级</strong>，先跑会员+积分，等老客稳定后（开业2个月）再试水</li><li>如果要推，建议极轻量档位：<strong>充100送15（到账115元，约4-5次消费）</strong>，不要大额储值</li><li>🔧 收银POS → 储值管理 → 储值活动：创建"充100送15"活动</li><li>推荐时机：客人第3次到店时（已有消费习惯），收银时说——"您已经来3次啦，充100送15锁定优惠？每次省3块~"</li><li>客人拒绝→"没关系，用积分换台球也很划算，慢慢攒~"（退路自然不尴尬）</li></ul>`,
+    7: `<h3>开业时机判断</h3><p>7-8月暑期开业对台球+咖啡业态是<strong>最佳窗口</strong>：高温天气→冰咖啡刚需；暑假→年轻人有时间打台球；晚间社交旺季→"下班第一杆"场景成立。⚠️ 假设7月底-8月初开业。</p><h3>开业倒计时执行表</h3><p><strong>D-7（开业前一周）：线上蓄水（老板本人负责）</strong></p><ul><li>在小红书发3-5条笔记，标题参考："杭州萧山｜地铁口新开的台球咖啡馆，边打球边喝手冲" / "人民广场E口30秒到的宝藏小店"</li><li>内容包括装修进度、菜单剧透、台球桌实拍，定位tag"萧山探店""杭州咖啡""台球"</li><li>⚠️ 不需要投流，自然笔记+定位tag即可，3-5条笔记覆盖核心搜索关键词</li><li>同步在抖音发1-2条15秒短视频：拍"一杆清台+拉花慢镜头"的视觉反差，挂9.9元体验团购链接</li></ul><p><strong>D-3（开业前3天）：试营业+种子客户（老板+台球厅合作方负责）</strong></p><ul><li>在台球厅张贴海报："隔壁一杆清咖即将开业，台球会员凭会员码到咖啡档口免费领冰美式一杯"</li><li>目的：<strong>用台球厅存量客户做咖啡档口的种子用户</strong>，省获客成本</li><li>试营业3天观察出杯效率、外卖配送时间、库存消耗，调整后正式开业</li></ul><p><strong>D-Day（开业当天）：三件事（全员负责）</strong></p><ul><li>① 门口摆台+地铁口举牌："新店开业 · 冰美式买一送一"（限当天，成本约3元/杯×30杯=90元）</li><li>② 美团外卖上线"开业特惠满减"：满15减5（不怕亏，新店14天流量加权期必须抢排名）</li><li>③ 每位到店客人扫码入会员（🔧 收银POS → 会员管理），送首杯半价券锁第二次消费</li></ul><p><strong>D+1至D+14（流量加权黄金期 · 老板盯数据，出杯员保速度）</strong></p><ul><li>出餐速度压到8分钟以内——这是外卖排名的核心权重因子</li><li>🔧 美团外卖商家版 → 推广中心 → 点金推广：每天预算30元，时段锁定7:30-9:30+13:00-14:30</li><li>目标：14天内外卖日均单量从0做到<strong>15-20单</strong></li></ul><p><strong>D+15至D+30（稳住节奏 · 老板复盘）</strong></p><ul><li>满减从"满15减5"恢复到"满25减3"（利润回正）</li><li>小程序引流卡片开始夹入每个外卖订单</li><li>复盘30天数据：日均营收/外卖占比/会员注册数/小程序扫码率</li></ul>`,
+    8: `<h3>营收预测模型</h3><p>⚠️ 以下为基于行业数据+门店条件的合理估算，建议核实。</p><table><tr><th>收入来源</th><th>日均单量（稳定期）</th><th>客单价</th><th>日营收</th><th>月营收</th></tr><tr><td>堂食（含台球厅客人）</td><td>20-25单</td><td>¥25</td><td>¥500-625</td><td>¥15,000-18,750</td></tr><tr><td>美团外卖</td><td>25-30单</td><td>¥28</td><td>¥700-840</td><td>¥21,000-25,200</td></tr><tr><td>小程序外卖（3个月后）</td><td>10-15单</td><td>¥25</td><td>¥250-375</td><td>¥7,500-11,250</td></tr><tr><td><strong>合计（稳定期）</strong></td><td><strong>55-70单</strong></td><td>—</td><td><strong>¥1,450-1,840</strong></td><td><strong>¥43,500-55,200</strong></td></tr></table><h3>成本结构估算</h3><table><tr><th>成本项</th><th>月金额</th><th>占比</th></tr><tr><td>原材料（咖啡豆/牛奶/杯材/辅料）</td><td>¥10,000-13,000</td><td>25-30%</td></tr><tr><td>人工（⚠️ 假设1-2人）</td><td>¥6,000-10,000</td><td>15-20%</td></tr><tr><td>房租（20㎡ · 地铁口 · ⚠️ 假设）</td><td>¥4,000-6,000</td><td>10-12%</td></tr><tr><td>外卖平台佣金（18-23%×外卖营收）</td><td>¥3,800-5,800</td><td>8-12%</td></tr><tr><td>水电杂费+包装</td><td>¥1,500-2,000</td><td>3-4%</td></tr><tr><td><strong>合计</strong></td><td><strong>¥25,300-36,800</strong></td><td><strong>61-78%</strong></td></tr></table><h3>利润与回本</h3><ul><li>月净利润（稳定期）：<strong>¥6,700-18,400</strong>（净利率15-33%，取中位约¥12,000）</li><li>⚠️ 假设初始投入15-25万（含设备/装修/首批原材料），<strong>预估回本周期12-18个月</strong></li><li>小程序外卖占比每提升10%，月省佣金约<strong>¥1,500-2,000</strong>——3个月后小程序贡献明显</li></ul><h3>月度/季度OKR目标</h3><table><tr><th>指标</th><th>第1个月</th><th>第3个月</th><th>第6个月</th></tr><tr><td>月总营收</td><td>¥25,000</td><td>¥40,000</td><td>¥50,000</td></tr><tr><td>外卖日均单量</td><td>15单</td><td>30单</td><td>40单</td></tr><tr><td>小程序外卖占比</td><td>5%</td><td>25%</td><td>35%</td></tr><tr><td>大众点评评分</td><td>出星4.0+</td><td>4.3+</td><td>4.5</td></tr><tr><td>累计评价数</td><td>30条</td><td>80条</td><td>150条</td></tr><tr><td>注册会员数</td><td>100人</td><td>300人</td><td>500人</td></tr><tr><td>会员复购率</td><td>30%</td><td>45%</td><td>55%</td></tr></table><p><strong>关键里程碑</strong>：第30天首次复盘→第90天确认外卖模型跑通→第180天评估第二家店可行性。</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
