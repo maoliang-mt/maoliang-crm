@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>壹碗馄饨 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">小吃快餐/馄饨 · 运营提升方案</div>
+  <h1 class="hero-title">壹碗馄饨</h1>
+  <p class="hero-subtitle">一碗福建味的现包馄饨，锁住地铁口500米的胃</p>
+  <div class="hero-address">浙江省杭州市上城区彭埠街道新塘路342号若比邻社区商业中心（地铁B口）</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥16</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">上城区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察与客群画像', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察与客群画像</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解与差异化定位', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解与差异化定位</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '新店冷启动30天作战计划', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">新店冷启动30天作战计划</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评口碑·新店评分攻坚', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评口碑·新店评分攻坚</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '外卖运营·套餐化拉客单', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">外卖运营·套餐化拉客单</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '私域留客·早餐卡+企微社群', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">私域留客·早餐卡+企微社群</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '8月营销日历·暑期+立秋', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">8月营销日历·暑期+立秋</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '投资回报与OKR目标', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">投资回报与OKR目标</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>品类大盘：馄饨赛道机会</h3><p>2024年中国快餐小吃市场规模突破<strong>1万亿元</strong>，同比增长7.5%，是餐饮行业增速最快的品类。杭州作为新一线城市，馄饨品类主流价格带在<strong>12-22元/单</strong>（一碗馄饨+小食组合），超过25元消费者会转向面馆或正餐。</p><p>关键趋势：<strong>「现包现煮的手工感」仍是核心溢价逻辑</strong>，搭配烧麦/生煎/蛋饼的「一人食套餐化」趋势明显，外卖占比可达35%-45%。</p><h3>商圈定位：新塘板块消费特征</h3><p>新塘路沿线属于<strong>城东居住密集区</strong>，若比邻社区商业中心定位为社区型商业体。这不是游客型商圈，<strong>复购率决定生死</strong>。</p><p><strong>核心消费群体拆解：</strong></p><ul><li><strong>主力客群（60%）——地铁通勤族</strong>：早高峰7:00-8:30买早餐、午间11:30-13:00快速解决午饭。决策逻辑：快、便宜、顺路。日均地铁客流保守估计3,000-5,000人次（⚠️ 假设，建议核实），哪怕1%转化=30-50人/天</li><li><strong>次要客群（30%）——周边社区居民</strong>：中老年午餐、宝妈带娃午餐。决策逻辑：口味好、干净、离家近。这批人一旦认可，<strong>每周来3-5次</strong>是基本盘</li><li><strong>补充客群（10%）——快递/外卖/周边白领</strong>：午餐刚需，对价格敏感</li></ul><h3>经营基准估算</h3><table><tr><th>指标</th><th>估算值</th><th>说明</th></tr><tr><td>预估人均</td><td>14-18元</td><td>一碗馄饨12-15元+小食3-5元（⚠️ 假设）</td></tr><tr><td>日保本流水</td><td>3,000元+</td><td>60平社区店，月租约8,000-12,000元（⚠️ 假设），加人工/食材/水电</td></tr><tr><td>目标日流水</td><td>4,000-5,000元</td><td>对应日均客流约250-350人次（按人均15元）</td></tr><tr><td>食材成本率</td><td>30%-35%</td><td>馄饨皮+肉馅+配料，自包比速冻高5%但溢价空间更大</td></tr></table></div>
+<div id="modal-content-2" style="display:none"><h3>周边3公里真实竞争格局</h3><p>新塘路沿线及若比邻商业体周边，你面对的直接竞争对手：</p><table><tr><th>竞品</th><th>人均</th><th>核心优势</th><th>弱点 = 你的切入机会</th></tr><tr><td><strong>如意馄饨</strong></td><td>15-18元</td><td>标准化强、出餐快、品牌认知高</td><td>口味无惊喜，馅料工业感明显——你的现包手工碾压它</td></tr><tr><td><strong>吉祥馄饨</strong></td><td>13-16元</td><td>极致性价比，价格杀手</td><td>门店小、体验一般——你60平有空间做明档体验</td></tr><tr><td><strong>社区面馆/夫妻老店</strong></td><td>12-20元</td><td>有熟客基础，价格灵活</td><td>卫生环境参差——你新店干净整洁是天然优势</td></tr><tr><td><strong>沙县/兰州拉面/米村</strong></td><td>15-25元</td><td>品类多样，分流午餐</td><td>品类不同——你打早餐+夜宵错峰竞争</td></tr></table><h3>你的差异化武器：「福建口味 · 现包明档」</h3><p>竞品分析的结论很清晰——如意和吉祥最大的短板是<strong>工业速冻感</strong>，而你作为福建人开的馄饨店，天然拥有两个杀手锏：</p><ul><li><strong>武器一：现包明档</strong>——在门口做全透明现包档口，让路过的通勤客看到「正在包馄饨」的画面。手写黑板标注「今日现包XX碗」制造稀缺感。这是社区店对抗连锁品牌最有效的武器</li><li><strong>武器二：福建风味差异化</strong>——杭州馄饨市场被如意/吉祥的「标准江浙味」占满了，你的福建口味（扁食/肉燕/花生酱搭配）反而是稀缺品。<strong>「不一样」本身就是记忆点</strong></li></ul><h3>落地：差异化怎么做</h3><ul><li><strong>谁来做</strong>：老板亲自在明档包馄饨（开业前2周每天在档口，形成「老板在」的信任感）</li><li><strong>第几天</strong>：试营业第1天就启用明档，不是等正式开业</li><li><strong>在哪操作</strong>：门口靠入口处摆不锈钢操作台+面粉+馅料桶，上方挂「福建手工现包 · 每日限量」手写牌</li><li><strong>话怎么说</strong>：服务员对路过犹豫的客人——「我们家馄饨都是现包的，跟外面速冻的不一样，今天刚开业可以进来尝一碗」</li><li><strong>客人说「馄饨不都一样嘛」怎么办</strong>：「您尝一口就知道了，皮是手擀的比速冻薄一半，馅儿是今早刚剁的鲜肉，吃不出区别这碗不收钱」</li></ul></div>
+<div id="modal-content-3" style="display:none"><h3>开业前7天：蓄水期</h3><p>你目前日均流水1千以下、8-30天新店阶段（⚠️ 假设尚未正式开业或试营业初期），<strong>最大痛点是「没人知道你」</strong>。地铁口有人流，但路人不会主动走进一家不认识的新馄饨店。必须用价格钩子+试吃把人「拉」进来。</p><h4>免费试吃+企微锁客（Day -7 到 Day -1）</h4><ul><li><strong>谁来做</strong>：老板+1名员工（2人即可）</li><li><strong>在哪做</strong>：地铁B口出站通道旁 / 若比邻入口处</li><li><strong>具体动作</strong>：每天下午5:30-7:00（下班高峰），摆小桌放200份迷你馄饨试吃杯（3颗馄饨+汤底，一次性纸杯装），成本约<strong>0.8元/杯 x 200 = 160元/天</strong></li><li><strong>唯一条件</strong>：扫码加企业微信才能领。企微备注「地铁口试吃」</li><li><strong>话术</strong>：「我们是刚开的馄饨店，免费请您尝一碗福建手工馄饨，加个微信就行，开业有优惠第一时间通知您」</li><li><strong>7天目标</strong>：积累<strong>500+企微好友</strong>（按30%到店转化率 = 150人开业首周到店）</li></ul><h3>Day 1-7：开业爆破期</h3><h4>钩子价引流：6.8元/碗（限7天）</h4><ul><li><strong>在哪操作</strong>：扫码点餐后台 → 菜品管理 → 创建「开业特惠」分类 → 设置招牌馄饨6.8元（原价12-15元）</li><li><strong>限制</strong>：每人限1碗、仅堂食、需扫码点餐（培养扫码习惯）</li><li><strong>成本测算</strong>：6.8元/碗，食材成本约4.5元，毛利2.3元/碗。亏的是人工和房租——但目的是<strong>拉人进店+形成口碑</strong></li><li><strong>配合动作</strong>：企微群发「开业啦！6.8元吃福建手工馄饨，只有7天」</li></ul><h4>每天节奏表</h4><table><tr><th>时段</th><th>动作</th><th>负责人</th></tr><tr><td>6:30-7:00</td><td>开门备料，门口放A字板「开业特惠6.8元」</td><td>老板</td></tr><tr><td>7:00-9:00</td><td>早餐高峰，推「馄饨+豆浆」早餐套餐9.9元</td><td>全员</td></tr><tr><td>11:00-13:00</td><td>午餐高峰，6.8元引流+推荐加小食拉客单</td><td>全员</td></tr><tr><td>17:00-19:00</td><td>晚餐高峰，门口继续试吃（改为「加企微领5元券」）</td><td>1人门口</td></tr><tr><td>打烊后</td><td>统计当日客流/营收/企微新增，发复盘群</td><td>老板</td></tr></table><h3>Day 8-30：口碑沉淀期</h3><ul><li><strong>恢复原价</strong>，推出「早餐卡」锁复购——充50送15（约77折），锁定通勤客早高峰场景</li><li><strong>外卖上线</strong>（见第5章），首月「满20减6」冲单量和排名</li><li><strong>企微群每周推1条</strong>：新品预告/限时小食/天气关怀（「今天36度，进店送冰绿豆汤」），不刷屏只种草</li><li><strong>Day 30目标</strong>：日均流水突破3,000元（保本线），企微好友破800人，大众点评30+条真实评价</li></ul></div>
+<div id="modal-content-4" style="display:none"><h3>新店点评现状与目标</h3><p>你目前是0-30天新店，点评评分和评价数均未知（⚠️ 假设尚未出星或评价极少）。对于社区馄饨店，点评的核心价值不是「引来远处的客人」，而是<strong>「让路过的人敢进来」</strong>——地铁口路人搜「附近馄饨」，你的评分和评价数直接决定他进不进店。</p><h4>目标路径</h4><table><tr><th>阶段</th><th>时间</th><th>目标</th></tr><tr><td>出星期</td><td>Day 1-15</td><td>积累15-20条真实评价，争取首次出星 ≥ 4.0</td></tr><tr><td>冲分期</td><td>Day 16-60</td><td>累计50条评价，评分稳定4.3-4.5</td></tr><tr><td>上榜期</td><td>Day 60-90</td><td>冲新店榜/热门榜，目标评分 ≥ 4.5</td></tr></table><h3>合规红线（2025年10月新规后）</h3><p><strong>严禁任何形式的促评/邀评行为</strong>。2025年10月后高强度促评 = 新评价不产生星级收益。绝对禁止：</p><ul><li>好评返现/好评送饮料</li><li>服务员口头要求「给个五星好评」</li><li>桌上放「扫码好评领券」物料</li><li>任何与评价挂钩的利益诱导</li></ul><h3>合规做法：让客人「想说」而非「被要求说」</h3><h4>策略一：打造3个「值得拍」的触点</h4><ul><li><strong>触点1-明档</strong>：现包馄饨的画面本身就是内容——通勤客拍一张「下班路上看到现包馄饨」发朋友圈，自发传播</li><li><strong>触点2-碗</strong>：定制一个有设计感的碗（福建元素/手写字体「壹碗就够了」），端上来那一刻有拍照欲。成本：定制碗批量约3-5元/个，一次采购200个（⚠️ 假设）</li><li><strong>触点3-门头黑板</strong>：每天手写「今日现包XXX碗，剩余XX碗」——稀缺感+烟火气</li></ul><h4>策略二：免费试（大众点评官方合规工具）</h4><ul><li><strong>谁来做</strong>：老板/店长在大众点评商家后台操作</li><li><strong>在哪操作</strong>：大众点评商家后台 → 营销中心 → 免费试</li><li><strong>怎么设置</strong>：上线「招牌鲜肉馄饨+烧麦2个」试吃套餐，每期10个名额，连续做3期（共30人）</li><li><strong>成本</strong>：每份食材成本约6-8元，30人总成本约180-240元——换来30条高质量真实评价</li><li><strong>注意</strong>：免费试的客人会自发写评价（平台引导），不需要额外「提醒」</li></ul><h4>策略三：差评防火墙</h4><ul><li><strong>谁来做</strong>：老板本人，每天打烊后花10分钟检查</li><li><strong>在哪操作</strong>：大众点评商家后台 → 评价管理</li><li><strong>规则</strong>：所有差评<strong>2小时内回复</strong>（营业中看到立刻回，打烊后的第二天一早回）</li><li><strong>回复模板</strong>：「您好，非常抱歉给您带来不好的体验。我是老板，您反映的[具体问题]我已经记下，[具体改进措施]。欢迎您再来，我亲自给您包一碗。」</li><li><strong>关键</strong>：回复要针对具体问题，不要用万能模板。提到「我是老板」增加诚意感</li></ul></div>
+<div id="modal-content-5" style="display:none"><h3>外卖对你有多重要？</h3><p>你目前日均流水1千以下（⚠️ 假设含堂食+外卖），60平社区店在地铁口，<strong>外卖至少要占总营收35%-40%</strong>才能突破保本线。原因很简单：地铁口早晚高峰人流集中在7-9点和17-19点，中间时段（10-11点、14-16点）堂食几乎为零，外卖是填补「空窗期」的唯一手段。</p><p>行业参考：馄饨品类外卖占比可达35%-45%，杭州快餐外卖渗透率极高（行业参考值）。</p><h3>核心问题：纯馄饨客单价太低</h3><p>一碗馄饨外卖定价12-15元，平台抽佣20%-25%后到手约10-12元，扣掉食材4.5元、包装1.5元，<strong>每单净利仅4-6元</strong>——跑不起来。</p><p><strong>解决方案：套餐化拉客单价到20元以上</strong></p><table><tr><th>套餐名</th><th>组合</th><th>定价</th><th>食材成本</th><th>到手利润</th></tr><tr><td>一人食A</td><td>招牌馄饨+烧麦2个+卤蛋</td><td>19.9元</td><td>约7.5元</td><td>约7-8元</td></tr><tr><td>一人食B</td><td>招牌馄饨+生煎4个+豆浆</td><td>25.9元</td><td>约9元</td><td>约10-11元</td></tr><tr><td>双人分享</td><td>2碗馄饨+烧麦4个+凉菜</td><td>35.9元</td><td>约14元</td><td>约13-14元</td></tr></table><h3>首月外卖冲刺计划</h3><h4>Step 1：上线准备（开业前3天）</h4><ul><li><strong>谁来做</strong>：老板 + BD翟卫婷协助</li><li><strong>在哪操作</strong>：美团外卖商家后台 → 菜品管理 → 创建套餐</li><li><strong>关键动作</strong>：上线3个套餐+3个单品（招牌/虾仁/荠菜馄饨）+2个小食（烧麦/卤蛋）</li><li><strong>图片</strong>：必须用实拍图（手机自然光+干净桌面+45度角），严禁网图（被举报直接下架）</li></ul><h4>Step 2：首月活动（Day 1-30）</h4><ul><li><strong>满减</strong>：「满20减6」——新店冲单量标配，客单拉到20+</li><li><strong>新店流量</strong>：美团外卖对新店有30天自然流量扶持，<strong>这30天是黄金期</strong>，每天必须保证在线且有库存</li><li><strong>出餐速度</strong>：馄饨现煮3-5分钟，接单后立刻下锅，目标骑手等待 &lt; 8分钟</li></ul><h4>Step 3：包装与评分维护</h4><ul><li><strong>包装</strong>：馄饨和汤分开装（防坨），汤用密封杯+保温袋，附手写小纸条「馄饨先吃、汤另倒，口感最佳」</li><li><strong>配餐检查</strong>：每单出餐前过一遍——餐具/纸巾/辣椒包/醋包是否齐全，漏1样 = 1个差评</li><li><strong>目标</strong>：首月外卖评分 ≥ 4.7，月单量500+（日均17单），外卖月营收 ≥ 10,000元</li></ul></div>
+<div id="modal-content-6" style="display:none"><h3>为什么这家店的私域核心是「早餐卡」而非储值？</h3><p><strong>第一性原理判断</strong>：壹碗馄饨是人均15元的社区快餐店，客单价低、消费频次高。传统储值（充300送50）在这个价位段<strong>效果很差</strong>——原因：</p><ul><li>客人一碗馄饨才花15块钱，让他一次充300，心理门槛太高</li><li>社区馄饨店的客人不是「锁不住」，是「还没来过」。先解决「拉新」再解决「锁客」</li><li>馄饨是高频低客单品类，<strong>靠「早餐习惯」自然复购</strong>比靠储值更有效</li></ul><p>所以这家店私域核心是<strong>「早餐卡」+「企微社群」</strong>，不是储值。</p><h3>早餐卡设计（核心锁客工具）</h3><table><tr><th>卡种</th><th>价格</th><th>权益</th><th>锁定逻辑</th></tr><tr><td>早餐周卡</td><td>29元</td><td>5个工作日每天1碗小碗馄饨（价值50元）</td><td>锁定1周通勤早餐，到店率100%</td></tr><tr><td>早餐月卡</td><td>99元</td><td>22个工作日每天1碗小碗馄饨（价值220元）</td><td>锁定整月通勤，日均成本4.5元</td></tr></table><h4>早餐卡怎么落地</h4><ul><li><strong>谁来做</strong>：老板设置规则，收银员/服务员推卡</li><li><strong>第几天做</strong>：开业第8天（6.8元特价结束后）开始推</li><li><strong>在哪操作</strong>：扫码点餐后台 → 营销活动 → 创建「早餐月卡」权益，客人扫码后弹窗推荐</li><li><strong>话怎么说</strong>：「您连着来了好几天了，我们有个早餐月卡99元，一个月22碗馄饨，算下来一碗才4块5，比外面买豆浆油条还便宜」</li><li><strong>客人说「我不一定每天来」怎么办</strong>：「没关系，先试个周卡29元，5碗馄饨，上班路上顺手扫一下就行，不来也不亏就29块」</li><li><strong>目标</strong>：首月卖出<strong>50张早餐卡</strong>（周卡30+月卡20），锁定2,850元预收款+稳定早高峰客流</li></ul><h3>企微社群运营（低成本高效率）</h3><h4>建群规则</h4><ul><li><strong>群名</strong>：「壹碗馄饨 · 福建味道」（不叫「粉丝群」「优惠群」）</li><li><strong>入群方式</strong>：每张桌上放台卡「扫码入群 · 每周抽免单」，地铁口试吃时同步拉群</li><li><strong>目标</strong>：开业30天群成员300+人</li></ul><h4>运营节奏（每周固定3条，不多发）</h4><table><tr><th>星期</th><th>内容</th><th>示例</th></tr><tr><td>周一</td><td>本周新品/限定口味</td><td>「本周限定：花生酱拌馄饨（福建吃法），试过的都说上头」</td></tr><tr><td>周三</td><td>天气关怀/时令</td><td>「今天37度，进店送冰绿豆汤一碗，外卖下单备注'要绿豆汤'也送」</td></tr><tr><td>周五</td><td>周末福利/抽免单</td><td>「本周群内抽2位免单，截图发群即可参与，周六开奖」</td></tr></table><p><strong>铁律</strong>：群里只发这3条，绝不刷屏。客人退群 = 你发多了。</p></div>
+<div id="modal-content-7" style="display:none"><h3>8月核心营销节点</h3><p>你8月正式开业（⚠️ 假设8月初开业），恰好赶上暑期旺季尾巴+立秋换季，这两个节点要牢牢抓住。</p><h4>节点一：暑期学生客群（整个8月）</h4><ul><li><strong>活动</strong>：「学生暑期卡」——凭学生证办理，售价19元，享8月每次到店消费9折+赠冰饮1杯</li><li><strong>谁来做</strong>：收银员办卡，老板监督</li><li><strong>在哪操作</strong>：扫码点餐后台 → 营销活动 → 创建「暑期学生卡」权益包</li><li><strong>话怎么说</strong>：「同学，我们有暑期学生卡19块，整个8月每次来打9折还送冰饮，拿学生证就能办」</li><li><strong>为什么适合你</strong>：若比邻周边有社区居民的孩子放暑假，地铁口也有暑期工/实习生，19元门槛低、锁定多次消费</li><li><strong>成本</strong>：冰饮（冰绿豆汤/冰柠檬水）成本约1元/杯，9折让利约1.5元/单，卡费19元基本覆盖</li></ul><h4>节点二：立秋贴秋膘（8月7-8日）</h4><ul><li><strong>活动</strong>：立秋当天推出「贴秋膘大碗馄饨」——馄饨加量50%不加价（12个变18个），限1天</li><li><strong>谁来做</strong>：老板决定加量SKU，收银员/服务员话术推荐</li><li><strong>在哪操作</strong>：扫码点餐后台 → 菜品管理 → 立秋当天临时修改馄饨数量描述（或新建「贴秋膘特别版」SKU）</li><li><strong>话怎么说</strong>：「今天立秋贴秋膘，馄饨加量50%不加价，一年就这一天！」</li><li><strong>成本</strong>：多6个馄饨食材成本约2元/碗，一天多出100碗 = 多花200元，但全天客流预估提升30-50%</li><li><strong>配合动作</strong>：企微群前一天预告「明天立秋，馄饨加量50%不加价，早来不排队」，当天门口挂「贴秋膘 · 今日馄饨加量」横幅</li></ul><h4>节点三：8月收官+开学季预热（8月25-31日）</h4><ul><li><strong>活动</strong>：「开学前最后一碗」——消费满25元抽奖，奖品：9月早餐卡5折券（50%概率）/免单券（5%）/小食券（45%）</li><li><strong>目的</strong>：把8月客流转化为9月复购——9月开学后通勤客回归，早餐卡是主战场</li><li><strong>在哪操作</strong>：扫码点餐弹窗配置抽奖活动</li></ul><h3>8月整体目标</h3><table><tr><th>指标</th><th>目标值</th><th>当前基线</th></tr><tr><td>月营收</td><td>90,000-120,000元</td><td>日均1,000以下（⚠️ 假设试营业初期）</td></tr><tr><td>日均流水</td><td>3,000-4,000元</td><td>1,000以下</td></tr><tr><td>外卖月单量</td><td>500+单</td><td>0（尚未上线）</td></tr><tr><td>企微好友</td><td>800+人</td><td>0</td></tr><tr><td>早餐卡售出</td><td>50+张</td><td>0</td></tr></table></div>
+<div id="modal-content-8" style="display:none"><h3>开店投资与月度成本估算</h3><p>60平社区馄饨店，按行业基准估算（⚠️ 以下为行业参考值，建议核实实际数据）：</p><table><tr><th>项目</th><th>月成本</th><th>占比</th></tr><tr><td>房租（若比邻社区商业）</td><td>8,000-12,000元</td><td>约10-13%</td></tr><tr><td>食材成本（按营收30-35%）</td><td>27,000-35,000元</td><td>30-35%</td></tr><tr><td>人工（老板+2员工）</td><td>15,000-18,000元</td><td>16-20%</td></tr><tr><td>水电燃气</td><td>2,500-3,500元</td><td>约3%</td></tr><tr><td>外卖平台佣金（按外卖营收20%）</td><td>2,000-3,000元</td><td>约2-3%</td></tr><tr><td>杂项（包装/耗材/清洁）</td><td>1,500-2,000元</td><td>约2%</td></tr><tr><td><strong>合计月固定+变动成本</strong></td><td><strong>56,000-73,500元</strong></td><td>—</td></tr></table><h3>营收增长预测</h3><table><tr><th>阶段</th><th>日均流水</th><th>月营收</th><th>月净利</th></tr><tr><td>当前（试营业）</td><td>1,000以下</td><td>约30,000元</td><td>亏损</td></tr><tr><td>开业首月（8月）</td><td>3,000-3,500元</td><td>90,000-105,000元</td><td>约10,000-20,000元</td></tr><tr><td>稳定期（10月起）</td><td>4,000-5,000元</td><td>120,000-150,000元</td><td>约25,000-40,000元</td></tr></table><p>增收来源拆解（以稳定期月营收12万计）：</p><ul><li><strong>堂食（60%）</strong>：72,000元 — 早餐通勤客+午餐社区居民+晚餐回家路上</li><li><strong>外卖（35%）</strong>：42,000元 — 套餐化拉高客单，日均45-50单</li><li><strong>早餐卡/预收（5%）</strong>：6,000元 — 50张卡持续滚动</li></ul><h3>SaaS投入与回报</h3><p>当前已签约：扫码点餐。<strong>扫码点餐的核心价值不是「省服务员」，而是——</strong></p><ul><li><strong>培养扫码习惯</strong>：所有优惠活动（6.8元引流/早餐卡/立秋加量）都通过扫码触达，没有扫码 = 没有触达渠道</li><li><strong>数据积累</strong>：30天后你能看到哪些菜卖得好、什么时段客流最多、外卖vs堂食占比——这些数据是后续优化菜单的基础</li><li><strong>效率提升</strong>：60平小店3个人，高峰期不用专人点餐，全部扫码自助，人效提升约30%</li></ul><h3>90天OKR量化目标</h3><table><tr><th>目标</th><th>30天</th><th>60天</th><th>90天</th></tr><tr><td>月营收</td><td>90,000元</td><td>100,000元</td><td>120,000元</td></tr><tr><td>日均流水</td><td>3,000元</td><td>3,500元</td><td>4,000元</td></tr><tr><td>大众点评评分</td><td>出星 ≥ 4.0</td><td>4.3</td><td>4.5（冲新店榜）</td></tr><tr><td>点评评价数</td><td>30条</td><td>50条</td><td>80条</td></tr><tr><td>外卖月单量</td><td>500单</td><td>800单</td><td>1,200单</td></tr><tr><td>外卖评分</td><td>4.7</td><td>4.8</td><td>4.8+</td></tr><tr><td>企微好友</td><td>800人</td><td>1,200人</td><td>1,500人</td></tr><tr><td>早餐卡售出</td><td>50张</td><td>80张</td><td>120张（月卡占比提升至50%）</td></tr></table><p><strong>复盘节点</strong>：每月最后一天，老板打开扫码点餐后台数据看板，对照OKR表逐项核对。低于目标80%的指标，下月集中资源补。</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>翟卫婷</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>品类大盘：馄饨赛道机会</h3><p>2024年中国快餐小吃市场规模突破<strong>1万亿元</strong>，同比增长7.5%，是餐饮行业增速最快的品类。杭州作为新一线城市，馄饨品类主流价格带在<strong>12-22元/单</strong>（一碗馄饨+小食组合），超过25元消费者会转向面馆或正餐。</p><p>关键趋势：<strong>「现包现煮的手工感」仍是核心溢价逻辑</strong>，搭配烧麦/生煎/蛋饼的「一人食套餐化」趋势明显，外卖占比可达35%-45%。</p><h3>商圈定位：新塘板块消费特征</h3><p>新塘路沿线属于<strong>城东居住密集区</strong>，若比邻社区商业中心定位为社区型商业体。这不是游客型商圈，<strong>复购率决定生死</strong>。</p><p><strong>核心消费群体拆解：</strong></p><ul><li><strong>主力客群（60%）——地铁通勤族</strong>：早高峰7:00-8:30买早餐、午间11:30-13:00快速解决午饭。决策逻辑：快、便宜、顺路。日均地铁客流保守估计3,000-5,000人次（⚠️ 假设，建议核实），哪怕1%转化=30-50人/天</li><li><strong>次要客群（30%）——周边社区居民</strong>：中老年午餐、宝妈带娃午餐。决策逻辑：口味好、干净、离家近。这批人一旦认可，<strong>每周来3-5次</strong>是基本盘</li><li><strong>补充客群（10%）——快递/外卖/周边白领</strong>：午餐刚需，对价格敏感</li></ul><h3>经营基准估算</h3><table><tr><th>指标</th><th>估算值</th><th>说明</th></tr><tr><td>预估人均</td><td>14-18元</td><td>一碗馄饨12-15元+小食3-5元（⚠️ 假设）</td></tr><tr><td>日保本流水</td><td>3,000元+</td><td>60平社区店，月租约8,000-12,000元（⚠️ 假设），加人工/食材/水电</td></tr><tr><td>目标日流水</td><td>4,000-5,000元</td><td>对应日均客流约250-350人次（按人均15元）</td></tr><tr><td>食材成本率</td><td>30%-35%</td><td>馄饨皮+肉馅+配料，自包比速冻高5%但溢价空间更大</td></tr></table>`,
+    2: `<h3>周边3公里真实竞争格局</h3><p>新塘路沿线及若比邻商业体周边，你面对的直接竞争对手：</p><table><tr><th>竞品</th><th>人均</th><th>核心优势</th><th>弱点 = 你的切入机会</th></tr><tr><td><strong>如意馄饨</strong></td><td>15-18元</td><td>标准化强、出餐快、品牌认知高</td><td>口味无惊喜，馅料工业感明显——你的现包手工碾压它</td></tr><tr><td><strong>吉祥馄饨</strong></td><td>13-16元</td><td>极致性价比，价格杀手</td><td>门店小、体验一般——你60平有空间做明档体验</td></tr><tr><td><strong>社区面馆/夫妻老店</strong></td><td>12-20元</td><td>有熟客基础，价格灵活</td><td>卫生环境参差——你新店干净整洁是天然优势</td></tr><tr><td><strong>沙县/兰州拉面/米村</strong></td><td>15-25元</td><td>品类多样，分流午餐</td><td>品类不同——你打早餐+夜宵错峰竞争</td></tr></table><h3>你的差异化武器：「福建口味 · 现包明档」</h3><p>竞品分析的结论很清晰——如意和吉祥最大的短板是<strong>工业速冻感</strong>，而你作为福建人开的馄饨店，天然拥有两个杀手锏：</p><ul><li><strong>武器一：现包明档</strong>——在门口做全透明现包档口，让路过的通勤客看到「正在包馄饨」的画面。手写黑板标注「今日现包XX碗」制造稀缺感。这是社区店对抗连锁品牌最有效的武器</li><li><strong>武器二：福建风味差异化</strong>——杭州馄饨市场被如意/吉祥的「标准江浙味」占满了，你的福建口味（扁食/肉燕/花生酱搭配）反而是稀缺品。<strong>「不一样」本身就是记忆点</strong></li></ul><h3>落地：差异化怎么做</h3><ul><li><strong>谁来做</strong>：老板亲自在明档包馄饨（开业前2周每天在档口，形成「老板在」的信任感）</li><li><strong>第几天</strong>：试营业第1天就启用明档，不是等正式开业</li><li><strong>在哪操作</strong>：门口靠入口处摆不锈钢操作台+面粉+馅料桶，上方挂「福建手工现包 · 每日限量」手写牌</li><li><strong>话怎么说</strong>：服务员对路过犹豫的客人——「我们家馄饨都是现包的，跟外面速冻的不一样，今天刚开业可以进来尝一碗」</li><li><strong>客人说「馄饨不都一样嘛」怎么办</strong>：「您尝一口就知道了，皮是手擀的比速冻薄一半，馅儿是今早刚剁的鲜肉，吃不出区别这碗不收钱」</li></ul>`,
+    3: `<h3>开业前7天：蓄水期</h3><p>你目前日均流水1千以下、8-30天新店阶段（⚠️ 假设尚未正式开业或试营业初期），<strong>最大痛点是「没人知道你」</strong>。地铁口有人流，但路人不会主动走进一家不认识的新馄饨店。必须用价格钩子+试吃把人「拉」进来。</p><h4>免费试吃+企微锁客（Day -7 到 Day -1）</h4><ul><li><strong>谁来做</strong>：老板+1名员工（2人即可）</li><li><strong>在哪做</strong>：地铁B口出站通道旁 / 若比邻入口处</li><li><strong>具体动作</strong>：每天下午5:30-7:00（下班高峰），摆小桌放200份迷你馄饨试吃杯（3颗馄饨+汤底，一次性纸杯装），成本约<strong>0.8元/杯 x 200 = 160元/天</strong></li><li><strong>唯一条件</strong>：扫码加企业微信才能领。企微备注「地铁口试吃」</li><li><strong>话术</strong>：「我们是刚开的馄饨店，免费请您尝一碗福建手工馄饨，加个微信就行，开业有优惠第一时间通知您」</li><li><strong>7天目标</strong>：积累<strong>500+企微好友</strong>（按30%到店转化率 = 150人开业首周到店）</li></ul><h3>Day 1-7：开业爆破期</h3><h4>钩子价引流：6.8元/碗（限7天）</h4><ul><li><strong>在哪操作</strong>：扫码点餐后台 → 菜品管理 → 创建「开业特惠」分类 → 设置招牌馄饨6.8元（原价12-15元）</li><li><strong>限制</strong>：每人限1碗、仅堂食、需扫码点餐（培养扫码习惯）</li><li><strong>成本测算</strong>：6.8元/碗，食材成本约4.5元，毛利2.3元/碗。亏的是人工和房租——但目的是<strong>拉人进店+形成口碑</strong></li><li><strong>配合动作</strong>：企微群发「开业啦！6.8元吃福建手工馄饨，只有7天」</li></ul><h4>每天节奏表</h4><table><tr><th>时段</th><th>动作</th><th>负责人</th></tr><tr><td>6:30-7:00</td><td>开门备料，门口放A字板「开业特惠6.8元」</td><td>老板</td></tr><tr><td>7:00-9:00</td><td>早餐高峰，推「馄饨+豆浆」早餐套餐9.9元</td><td>全员</td></tr><tr><td>11:00-13:00</td><td>午餐高峰，6.8元引流+推荐加小食拉客单</td><td>全员</td></tr><tr><td>17:00-19:00</td><td>晚餐高峰，门口继续试吃（改为「加企微领5元券」）</td><td>1人门口</td></tr><tr><td>打烊后</td><td>统计当日客流/营收/企微新增，发复盘群</td><td>老板</td></tr></table><h3>Day 8-30：口碑沉淀期</h3><ul><li><strong>恢复原价</strong>，推出「早餐卡」锁复购——充50送15（约77折），锁定通勤客早高峰场景</li><li><strong>外卖上线</strong>（见第5章），首月「满20减6」冲单量和排名</li><li><strong>企微群每周推1条</strong>：新品预告/限时小食/天气关怀（「今天36度，进店送冰绿豆汤」），不刷屏只种草</li><li><strong>Day 30目标</strong>：日均流水突破3,000元（保本线），企微好友破800人，大众点评30+条真实评价</li></ul>`,
+    4: `<h3>新店点评现状与目标</h3><p>你目前是0-30天新店，点评评分和评价数均未知（⚠️ 假设尚未出星或评价极少）。对于社区馄饨店，点评的核心价值不是「引来远处的客人」，而是<strong>「让路过的人敢进来」</strong>——地铁口路人搜「附近馄饨」，你的评分和评价数直接决定他进不进店。</p><h4>目标路径</h4><table><tr><th>阶段</th><th>时间</th><th>目标</th></tr><tr><td>出星期</td><td>Day 1-15</td><td>积累15-20条真实评价，争取首次出星 ≥ 4.0</td></tr><tr><td>冲分期</td><td>Day 16-60</td><td>累计50条评价，评分稳定4.3-4.5</td></tr><tr><td>上榜期</td><td>Day 60-90</td><td>冲新店榜/热门榜，目标评分 ≥ 4.5</td></tr></table><h3>合规红线（2025年10月新规后）</h3><p><strong>严禁任何形式的促评/邀评行为</strong>。2025年10月后高强度促评 = 新评价不产生星级收益。绝对禁止：</p><ul><li>好评返现/好评送饮料</li><li>服务员口头要求「给个五星好评」</li><li>桌上放「扫码好评领券」物料</li><li>任何与评价挂钩的利益诱导</li></ul><h3>合规做法：让客人「想说」而非「被要求说」</h3><h4>策略一：打造3个「值得拍」的触点</h4><ul><li><strong>触点1-明档</strong>：现包馄饨的画面本身就是内容——通勤客拍一张「下班路上看到现包馄饨」发朋友圈，自发传播</li><li><strong>触点2-碗</strong>：定制一个有设计感的碗（福建元素/手写字体「壹碗就够了」），端上来那一刻有拍照欲。成本：定制碗批量约3-5元/个，一次采购200个（⚠️ 假设）</li><li><strong>触点3-门头黑板</strong>：每天手写「今日现包XXX碗，剩余XX碗」——稀缺感+烟火气</li></ul><h4>策略二：免费试（大众点评官方合规工具）</h4><ul><li><strong>谁来做</strong>：老板/店长在大众点评商家后台操作</li><li><strong>在哪操作</strong>：大众点评商家后台 → 营销中心 → 免费试</li><li><strong>怎么设置</strong>：上线「招牌鲜肉馄饨+烧麦2个」试吃套餐，每期10个名额，连续做3期（共30人）</li><li><strong>成本</strong>：每份食材成本约6-8元，30人总成本约180-240元——换来30条高质量真实评价</li><li><strong>注意</strong>：免费试的客人会自发写评价（平台引导），不需要额外「提醒」</li></ul><h4>策略三：差评防火墙</h4><ul><li><strong>谁来做</strong>：老板本人，每天打烊后花10分钟检查</li><li><strong>在哪操作</strong>：大众点评商家后台 → 评价管理</li><li><strong>规则</strong>：所有差评<strong>2小时内回复</strong>（营业中看到立刻回，打烊后的第二天一早回）</li><li><strong>回复模板</strong>：「您好，非常抱歉给您带来不好的体验。我是老板，您反映的[具体问题]我已经记下，[具体改进措施]。欢迎您再来，我亲自给您包一碗。」</li><li><strong>关键</strong>：回复要针对具体问题，不要用万能模板。提到「我是老板」增加诚意感</li></ul>`,
+    5: `<h3>外卖对你有多重要？</h3><p>你目前日均流水1千以下（⚠️ 假设含堂食+外卖），60平社区店在地铁口，<strong>外卖至少要占总营收35%-40%</strong>才能突破保本线。原因很简单：地铁口早晚高峰人流集中在7-9点和17-19点，中间时段（10-11点、14-16点）堂食几乎为零，外卖是填补「空窗期」的唯一手段。</p><p>行业参考：馄饨品类外卖占比可达35%-45%，杭州快餐外卖渗透率极高（行业参考值）。</p><h3>核心问题：纯馄饨客单价太低</h3><p>一碗馄饨外卖定价12-15元，平台抽佣20%-25%后到手约10-12元，扣掉食材4.5元、包装1.5元，<strong>每单净利仅4-6元</strong>——跑不起来。</p><p><strong>解决方案：套餐化拉客单价到20元以上</strong></p><table><tr><th>套餐名</th><th>组合</th><th>定价</th><th>食材成本</th><th>到手利润</th></tr><tr><td>一人食A</td><td>招牌馄饨+烧麦2个+卤蛋</td><td>19.9元</td><td>约7.5元</td><td>约7-8元</td></tr><tr><td>一人食B</td><td>招牌馄饨+生煎4个+豆浆</td><td>25.9元</td><td>约9元</td><td>约10-11元</td></tr><tr><td>双人分享</td><td>2碗馄饨+烧麦4个+凉菜</td><td>35.9元</td><td>约14元</td><td>约13-14元</td></tr></table><h3>首月外卖冲刺计划</h3><h4>Step 1：上线准备（开业前3天）</h4><ul><li><strong>谁来做</strong>：老板 + BD翟卫婷协助</li><li><strong>在哪操作</strong>：美团外卖商家后台 → 菜品管理 → 创建套餐</li><li><strong>关键动作</strong>：上线3个套餐+3个单品（招牌/虾仁/荠菜馄饨）+2个小食（烧麦/卤蛋）</li><li><strong>图片</strong>：必须用实拍图（手机自然光+干净桌面+45度角），严禁网图（被举报直接下架）</li></ul><h4>Step 2：首月活动（Day 1-30）</h4><ul><li><strong>满减</strong>：「满20减6」——新店冲单量标配，客单拉到20+</li><li><strong>新店流量</strong>：美团外卖对新店有30天自然流量扶持，<strong>这30天是黄金期</strong>，每天必须保证在线且有库存</li><li><strong>出餐速度</strong>：馄饨现煮3-5分钟，接单后立刻下锅，目标骑手等待 &lt; 8分钟</li></ul><h4>Step 3：包装与评分维护</h4><ul><li><strong>包装</strong>：馄饨和汤分开装（防坨），汤用密封杯+保温袋，附手写小纸条「馄饨先吃、汤另倒，口感最佳」</li><li><strong>配餐检查</strong>：每单出餐前过一遍——餐具/纸巾/辣椒包/醋包是否齐全，漏1样 = 1个差评</li><li><strong>目标</strong>：首月外卖评分 ≥ 4.7，月单量500+（日均17单），外卖月营收 ≥ 10,000元</li></ul>`,
+    6: `<h3>为什么这家店的私域核心是「早餐卡」而非储值？</h3><p><strong>第一性原理判断</strong>：壹碗馄饨是人均15元的社区快餐店，客单价低、消费频次高。传统储值（充300送50）在这个价位段<strong>效果很差</strong>——原因：</p><ul><li>客人一碗馄饨才花15块钱，让他一次充300，心理门槛太高</li><li>社区馄饨店的客人不是「锁不住」，是「还没来过」。先解决「拉新」再解决「锁客」</li><li>馄饨是高频低客单品类，<strong>靠「早餐习惯」自然复购</strong>比靠储值更有效</li></ul><p>所以这家店私域核心是<strong>「早餐卡」+「企微社群」</strong>，不是储值。</p><h3>早餐卡设计（核心锁客工具）</h3><table><tr><th>卡种</th><th>价格</th><th>权益</th><th>锁定逻辑</th></tr><tr><td>早餐周卡</td><td>29元</td><td>5个工作日每天1碗小碗馄饨（价值50元）</td><td>锁定1周通勤早餐，到店率100%</td></tr><tr><td>早餐月卡</td><td>99元</td><td>22个工作日每天1碗小碗馄饨（价值220元）</td><td>锁定整月通勤，日均成本4.5元</td></tr></table><h4>早餐卡怎么落地</h4><ul><li><strong>谁来做</strong>：老板设置规则，收银员/服务员推卡</li><li><strong>第几天做</strong>：开业第8天（6.8元特价结束后）开始推</li><li><strong>在哪操作</strong>：扫码点餐后台 → 营销活动 → 创建「早餐月卡」权益，客人扫码后弹窗推荐</li><li><strong>话怎么说</strong>：「您连着来了好几天了，我们有个早餐月卡99元，一个月22碗馄饨，算下来一碗才4块5，比外面买豆浆油条还便宜」</li><li><strong>客人说「我不一定每天来」怎么办</strong>：「没关系，先试个周卡29元，5碗馄饨，上班路上顺手扫一下就行，不来也不亏就29块」</li><li><strong>目标</strong>：首月卖出<strong>50张早餐卡</strong>（周卡30+月卡20），锁定2,850元预收款+稳定早高峰客流</li></ul><h3>企微社群运营（低成本高效率）</h3><h4>建群规则</h4><ul><li><strong>群名</strong>：「壹碗馄饨 · 福建味道」（不叫「粉丝群」「优惠群」）</li><li><strong>入群方式</strong>：每张桌上放台卡「扫码入群 · 每周抽免单」，地铁口试吃时同步拉群</li><li><strong>目标</strong>：开业30天群成员300+人</li></ul><h4>运营节奏（每周固定3条，不多发）</h4><table><tr><th>星期</th><th>内容</th><th>示例</th></tr><tr><td>周一</td><td>本周新品/限定口味</td><td>「本周限定：花生酱拌馄饨（福建吃法），试过的都说上头」</td></tr><tr><td>周三</td><td>天气关怀/时令</td><td>「今天37度，进店送冰绿豆汤一碗，外卖下单备注'要绿豆汤'也送」</td></tr><tr><td>周五</td><td>周末福利/抽免单</td><td>「本周群内抽2位免单，截图发群即可参与，周六开奖」</td></tr></table><p><strong>铁律</strong>：群里只发这3条，绝不刷屏。客人退群 = 你发多了。</p>`,
+    7: `<h3>8月核心营销节点</h3><p>你8月正式开业（⚠️ 假设8月初开业），恰好赶上暑期旺季尾巴+立秋换季，这两个节点要牢牢抓住。</p><h4>节点一：暑期学生客群（整个8月）</h4><ul><li><strong>活动</strong>：「学生暑期卡」——凭学生证办理，售价19元，享8月每次到店消费9折+赠冰饮1杯</li><li><strong>谁来做</strong>：收银员办卡，老板监督</li><li><strong>在哪操作</strong>：扫码点餐后台 → 营销活动 → 创建「暑期学生卡」权益包</li><li><strong>话怎么说</strong>：「同学，我们有暑期学生卡19块，整个8月每次来打9折还送冰饮，拿学生证就能办」</li><li><strong>为什么适合你</strong>：若比邻周边有社区居民的孩子放暑假，地铁口也有暑期工/实习生，19元门槛低、锁定多次消费</li><li><strong>成本</strong>：冰饮（冰绿豆汤/冰柠檬水）成本约1元/杯，9折让利约1.5元/单，卡费19元基本覆盖</li></ul><h4>节点二：立秋贴秋膘（8月7-8日）</h4><ul><li><strong>活动</strong>：立秋当天推出「贴秋膘大碗馄饨」——馄饨加量50%不加价（12个变18个），限1天</li><li><strong>谁来做</strong>：老板决定加量SKU，收银员/服务员话术推荐</li><li><strong>在哪操作</strong>：扫码点餐后台 → 菜品管理 → 立秋当天临时修改馄饨数量描述（或新建「贴秋膘特别版」SKU）</li><li><strong>话怎么说</strong>：「今天立秋贴秋膘，馄饨加量50%不加价，一年就这一天！」</li><li><strong>成本</strong>：多6个馄饨食材成本约2元/碗，一天多出100碗 = 多花200元，但全天客流预估提升30-50%</li><li><strong>配合动作</strong>：企微群前一天预告「明天立秋，馄饨加量50%不加价，早来不排队」，当天门口挂「贴秋膘 · 今日馄饨加量」横幅</li></ul><h4>节点三：8月收官+开学季预热（8月25-31日）</h4><ul><li><strong>活动</strong>：「开学前最后一碗」——消费满25元抽奖，奖品：9月早餐卡5折券（50%概率）/免单券（5%）/小食券（45%）</li><li><strong>目的</strong>：把8月客流转化为9月复购——9月开学后通勤客回归，早餐卡是主战场</li><li><strong>在哪操作</strong>：扫码点餐弹窗配置抽奖活动</li></ul><h3>8月整体目标</h3><table><tr><th>指标</th><th>目标值</th><th>当前基线</th></tr><tr><td>月营收</td><td>90,000-120,000元</td><td>日均1,000以下（⚠️ 假设试营业初期）</td></tr><tr><td>日均流水</td><td>3,000-4,000元</td><td>1,000以下</td></tr><tr><td>外卖月单量</td><td>500+单</td><td>0（尚未上线）</td></tr><tr><td>企微好友</td><td>800+人</td><td>0</td></tr><tr><td>早餐卡售出</td><td>50+张</td><td>0</td></tr></table>`,
+    8: `<h3>开店投资与月度成本估算</h3><p>60平社区馄饨店，按行业基准估算（⚠️ 以下为行业参考值，建议核实实际数据）：</p><table><tr><th>项目</th><th>月成本</th><th>占比</th></tr><tr><td>房租（若比邻社区商业）</td><td>8,000-12,000元</td><td>约10-13%</td></tr><tr><td>食材成本（按营收30-35%）</td><td>27,000-35,000元</td><td>30-35%</td></tr><tr><td>人工（老板+2员工）</td><td>15,000-18,000元</td><td>16-20%</td></tr><tr><td>水电燃气</td><td>2,500-3,500元</td><td>约3%</td></tr><tr><td>外卖平台佣金（按外卖营收20%）</td><td>2,000-3,000元</td><td>约2-3%</td></tr><tr><td>杂项（包装/耗材/清洁）</td><td>1,500-2,000元</td><td>约2%</td></tr><tr><td><strong>合计月固定+变动成本</strong></td><td><strong>56,000-73,500元</strong></td><td>—</td></tr></table><h3>营收增长预测</h3><table><tr><th>阶段</th><th>日均流水</th><th>月营收</th><th>月净利</th></tr><tr><td>当前（试营业）</td><td>1,000以下</td><td>约30,000元</td><td>亏损</td></tr><tr><td>开业首月（8月）</td><td>3,000-3,500元</td><td>90,000-105,000元</td><td>约10,000-20,000元</td></tr><tr><td>稳定期（10月起）</td><td>4,000-5,000元</td><td>120,000-150,000元</td><td>约25,000-40,000元</td></tr></table><p>增收来源拆解（以稳定期月营收12万计）：</p><ul><li><strong>堂食（60%）</strong>：72,000元 — 早餐通勤客+午餐社区居民+晚餐回家路上</li><li><strong>外卖（35%）</strong>：42,000元 — 套餐化拉高客单，日均45-50单</li><li><strong>早餐卡/预收（5%）</strong>：6,000元 — 50张卡持续滚动</li></ul><h3>SaaS投入与回报</h3><p>当前已签约：扫码点餐。<strong>扫码点餐的核心价值不是「省服务员」，而是——</strong></p><ul><li><strong>培养扫码习惯</strong>：所有优惠活动（6.8元引流/早餐卡/立秋加量）都通过扫码触达，没有扫码 = 没有触达渠道</li><li><strong>数据积累</strong>：30天后你能看到哪些菜卖得好、什么时段客流最多、外卖vs堂食占比——这些数据是后续优化菜单的基础</li><li><strong>效率提升</strong>：60平小店3个人，高峰期不用专人点餐，全部扫码自助，人效提升约30%</li></ul><h3>90天OKR量化目标</h3><table><tr><th>目标</th><th>30天</th><th>60天</th><th>90天</th></tr><tr><td>月营收</td><td>90,000元</td><td>100,000元</td><td>120,000元</td></tr><tr><td>日均流水</td><td>3,000元</td><td>3,500元</td><td>4,000元</td></tr><tr><td>大众点评评分</td><td>出星 ≥ 4.0</td><td>4.3</td><td>4.5（冲新店榜）</td></tr><tr><td>点评评价数</td><td>30条</td><td>50条</td><td>80条</td></tr><tr><td>外卖月单量</td><td>500单</td><td>800单</td><td>1,200单</td></tr><tr><td>外卖评分</td><td>4.7</td><td>4.8</td><td>4.8+</td></tr><tr><td>企微好友</td><td>800人</td><td>1,200人</td><td>1,500人</td></tr><tr><td>早餐卡售出</td><td>50张</td><td>80张</td><td>120张（月卡占比提升至50%）</td></tr></table><p><strong>复盘节点</strong>：每月最后一天，老板打开扫码点餐后台数据看板，对照OKR表逐项核对。低于目标80%的指标，下月集中资源补。</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
