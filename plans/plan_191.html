@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>江小懒麻辣烫 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">小吃快餐/麻辣烫 · 运营提升方案</div>
+  <h1 class="hero-title">江小懒麻辣烫</h1>
+  <p class="hero-subtitle">社区刚需小店冷启动，30天打开九堡「一碗烫」的口碑</p>
+  <div class="hero-address">浙江省杭州市上城区九堡街道普大福地</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥22</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">上城区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察·九堡麻辣烫战场', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察·九堡麻辣烫战场</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解·周边真实对手', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解·周边真实对手</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '冷启动30天作战计划', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">冷启动30天作战计划</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评口碑·新店评分突围', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评口碑·新店评分突围</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '外卖突围·一人食套餐跑量', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">外卖突围·一人食套餐跑量</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '扫码点餐·效率即利润', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">扫码点餐·效率即利润</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '私域锁客·社群+复购体系', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">私域锁客·社群+复购体系</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '暑期营销·抓住旺季红利', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">暑期营销·抓住旺季红利</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(9, '投资回报·算清这笔账', 9)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 09</div>
+      <div class="chapter-title">投资回报·算清这笔账</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>品类大盘：1800亿赛道，存量博弈期</h3><p>麻辣烫隶属快餐小吃大品类（2024年市场规模突破<strong>1万亿元</strong>），其中麻辣烫/冒菜细分赛道2025年全国规模预计突破<strong>1800亿</strong>，但增速已降至个位数，正式进入<strong>存量博弈期</strong>。杭州作为新一线城市，麻辣烫密度极高——快餐小吃门店占全国餐饮门店的<strong>49.2%</strong>，杭州因互联网从业者拉动，<strong>外卖渗透率在全国名列前茅</strong>。</p><h3>九堡商圈画像</h3><p>九堡街道普大福地属于<strong>社区底商</strong>，辐射九堡家苑、金雅苑、普福社区等大型安置/回迁小区，加之四季青电商园、九堡客运中心周边聚集了大量<strong>年轻租户和电商从业者</strong>。消费群体特征：</p><ul><li><strong>主力客群（60%）</strong>：电商园/物流园上班族，午餐+晚餐刚需，价格敏感，人均预算<strong>15-25元</strong></li><li><strong>次要客群（25%）</strong>：周边小区居民，家庭简餐/一人食，偏好实惠量大</li><li><strong>潜力客群（15%）</strong>：外卖用户，九堡电商从业者午间外卖需求极大，高峰集中在<strong>11:00-13:00</strong></li></ul><h3>消费场景与定价</h3><p>麻辣烫是典型<strong>高频刚需、低客单价</strong>品类，主流价格带在<strong>称重制15-25元/人，套餐制18-28元/人</strong>。九堡社区消费力有限，假设江小懒定位人均<strong>20-25元</strong>（⚠️ 建议核实），则对标大众快餐档位，靠<strong>翻台率和复购率</strong>赚钱，而非靠客单价。增长点在于：一人食场景+外卖占比提升+小锅碗装升级。</p></div>
+<div id="modal-content-2" style="display:none"><h3>普大福地周边1.5公里竞争格局</h3><p>麻辣烫品类竞争烈度<strong>极高</strong>，以下是你直面的真实对手：</p><table><tr><th>竞品</th><th>人均</th><th>核心优势</th><th>弱点（你的切入点）</th></tr><tr><td><strong>杨国福麻辣烫</strong>（九堡多点位）</td><td>¥22-28</td><td>品牌认知强、供应链成熟</td><td>口味标准化无惊喜、锅底同质化、服务流水线感</td></tr><tr><td><strong>张亮麻辣烫</strong></td><td>¥18-24</td><td>性价比标杆、知名度高</td><td>门店体验感一般、装修老旧、锅底千篇一律</td></tr><tr><td><strong>觅姐麻辣拌</strong></td><td>¥20左右</td><td>切麻辣拌细分、年轻女性喜欢</td><td>品类单一不抗饿、冬季销量下滑</td></tr><tr><td>各类夫妻个体店</td><td>¥15-20</td><td>价格最低、老客情分</td><td>卫生堪忧、无会员锁客、形象差</td></tr></table><h3>你的三个缝隙</h3><ul><li><strong>锅底差异化</strong>：杨国福张亮最大弱点是锅底同质化。如果你能做出「现熬骨汤/鲜切番茄」的记忆点，门头直写「现熬X小时」+明档展示，社区口碑传播快——<strong>复购靠嘴巴不靠券</strong></li><li><strong>外卖套餐化</strong>：杨国福走称重制（客单不可控、用户下单犹豫），你用固定套餐卡住<strong>19.9元</strong>价格带，跑量拉评分</li><li><strong>社群精细运营</strong>：夫妻店没私域能力，品牌连锁不做社区精细运营——你做社群+复购券，比他们多一层粘性</li></ul><h3>风险提示</h3><p>快餐小吃品类食材成本率<strong>30%-38%</strong>，房租成本率<strong>8%-15%</strong>，净利润率通常<strong>8%-15%</strong>。定价太低会陷入「忙但不赚钱」的陷阱，食材成本率控制在<strong>35%以内</strong>为健康线（⚠️ 建议核实实际采购成本）。</p></div>
+<div id="modal-content-3" style="display:none"><h3>新店第一仗：30天决定生死</h3><p>江小懒是<strong>0-7天极新店</strong>，处于最关键的冷启动期。这30天干的事，决定了能不能活过6个月。假设门店面积约<strong>40-60㎡</strong>、座位<strong>15-20个</strong>（⚠️ 社区麻辣烫标准店型，建议核实）。</p><h3>第一阶段：开业前3天-开业日（蓄水引爆）</h3><ul><li><strong>谁来做</strong>：老板亲自带1-2名员工</li><li><strong>Day -3至-1 社区地推</strong>：去普福社区、金雅苑、九堡家苑小区入口，扫码进群送「免费一碗麻辣烫」体验券（成本控制在<strong>8元/份</strong>，限前<strong>200名</strong>）</li><li><strong>话术</strong>：「我们是楼下新开的江小懒麻辣烫，扫码进群就送一碗免费吃，开业当天来领就行」</li><li><strong>同步建群</strong>：企微群命名「江小懒·九堡福利群」，群内每天发<strong>3元无门槛券</strong></li><li><strong>🔧操作</strong>：扫码点餐后台→营销中心→优惠券→新建「3元无门槛券」，有效期7天，每人限领1张</li></ul><h3>第二阶段：Day 1-7（开业冲量）</h3><ul><li><strong>Day 1-3</strong>：全场<strong>7.8折</strong>（仅堂食），门口挂横幅「新店开业·全场7.8折·限时3天」</li><li>免费体验券集中核销，引导每位到店顾客加群——服务员话术：「加群还能领3块钱券，下次来直接抵」</li><li><strong>Day 4-7</strong>：折扣收回至<strong>9折</strong>，同时推「1元加饮品」（冰豆浆/酸梅汤，成本约1.5元/杯）</li><li><strong>🔧操作</strong>：扫码点餐后台→活动管理→新建「开业折扣」→设7.8折→指定生效日期</li><li><strong>到店不足30人怎么办</strong>：Day 2群内加码「到店消费免费加一份丸子拼盘」（成本3元），发消息：「仅限明天，先到先得」</li></ul><h3>第三阶段：Day 8-30（口碑沉淀）</h3><ul><li>恢复原价，每周四定为「会员日」——到店送一份小菜（拍黄瓜/海带丝，成本1-2元）</li><li>外卖上线（Day 3-5），前两周集中午间投流</li><li>评价积累目标：30天内<strong>30条以上真实评价</strong></li><li><strong>复盘节点</strong>：Day 15中期复盘（日均流水/到店人次/群人数/外卖单量），Day 30月度复盘</li></ul><h3>30天关键指标</h3><table><tr><th>指标</th><th>目标值</th><th>监测方式</th></tr><tr><td>企微群人数</td><td>≥300人</td><td>企微后台</td></tr><tr><td>日均到店人次（Day 8后）</td><td>≥50人</td><td>扫码点餐后台日报</td></tr><tr><td>大众点评评价数</td><td>≥30条</td><td>大众点评商家后台</td></tr><tr><td>外卖日均单量</td><td>≥20单</td><td>美团外卖商家版</td></tr></table></div>
+<div id="modal-content-4" style="display:none"><h3>新店点评生存法则</h3><p>江小懒是<strong>0-7天极新店</strong>，假设尚未出星、评价数为0（⚠️ 建议核实），处于点评最脆弱的阶段——<strong>前10条评价决定所有后续顾客的第一印象</strong>。</p><h3>阶段判断与目标路径</h3><p><strong>无星→出星（4.0+）→冲新店榜→热门榜前20</strong></p><ul><li>出星门槛：通常需<strong>≥10条有效评价</strong>才显示星级</li><li>30天目标：积累<strong>30条真实评价</strong>，目标评分<strong>4.5分</strong></li><li>60天目标：评价数达<strong>50条</strong>，冲<strong>新店榜</strong></li></ul><h3>合规红线（2025年10月新规）</h3><p><strong>严禁任何形式促评/邀评</strong>——高强度促评（好评返现/写评价送菜）在新规下会导致新评价不产生星级收益，等于做无用功甚至反噬。</p><h3>正确做法：让顾客「自己想写」</h3><p><strong>Step 1 止血（Day 1-3，老板/店长做）</strong>：</p><ul><li>🔧 大众点评商家后台→店铺管理→基础信息，确认门店名称/地址/电话/品类标签全部正确</li><li>上传<strong>≥15张高质量门店图</strong>（门头/明档/菜品特写/环境），手机竖屏拍，自然光</li><li>麻辣烫拍摄技巧：白碗/深色碗盛装，俯拍45度角，背景干净</li></ul><p><strong>Step 2 合规工具上线（Day 3-7，老板做）</strong>：</p><ul><li>🔧 大众点评商家后台→营销中心→免费试：设置<strong>10个名额</strong>，让真实用户免费体验后自发写评价</li><li>🔧 免费菜：设置1款引流菜品（如「招牌丸子拼盘」），顾客到店免费领取</li><li>免费试/免费菜是大众点评<strong>官方合规工具</strong>，顾客写不写评价完全自愿</li></ul><p><strong>Step 3 打造分享动机（Day 7起持续，服务员每桌执行）</strong>：</p><ul><li>餐桌放小立牌：「我们的骨汤现熬4小时，你觉得好喝吗？」——不求评价，只引发互动</li><li>出餐仪式感：碗上放一片新鲜香菜叶+一颗枸杞，拍照好看，顾客自发拍照发朋友圈</li><li><strong>差评2小时响应</strong>：老板每天查看3次🔧评价管理，差评必须2小时内真诚回复</li><li>回复模板：「非常抱歉给您带来不好的体验，我是店长XX，这个问题我们已经改进了[具体措施]，欢迎您再来检验，到时我请您喝杯酸梅汤」</li></ul><h3>口碑量化目标</h3><table><tr><th>时间</th><th>评价数</th><th>目标评分</th><th>里程碑</th></tr><tr><td>Day 15</td><td>≥10条</td><td>≥4.0</td><td>出星</td></tr><tr><td>Day 30</td><td>≥30条</td><td>≥4.5</td><td>新店榜候选</td></tr><tr><td>Day 60</td><td>≥50条</td><td>≥4.5</td><td>冲新店榜/热门榜</td></tr></table></div>
+<div id="modal-content-5" style="display:none"><h3>外卖是江小懒的营收生命线</h3><p>九堡是杭州电商产业带，<strong>午间外卖需求极大</strong>。杭州快餐外卖渗透率全国领先，麻辣烫品类外卖占比可达<strong>50%以上</strong>。假设江小懒堂食座位约15-20个（⚠️ 建议核实），翻台天花板有限，<strong>外卖是突破营收上限的核心渠道</strong>。</p><h3>定价策略：套餐制胜过称重制</h3><p>称重制（杨国福/张亮模式）外卖端问题——顾客下单犹豫（不知道最终多少钱）、客单不可控、差评率高（称了30多块觉得贵）。<strong>解法</strong>：设计<strong>3-4款固定一人食套餐</strong>，卡住19.9元价格带：</p><table><tr><th>套餐名</th><th>内容</th><th>定价</th><th>凑满减后体感价</th></tr><tr><td>经典荤素套餐</td><td>6荤4素+粉丝+骨汤底</td><td>¥22.9</td><td>约¥17</td></tr><tr><td>素食轻食套餐</td><td>8素+粉丝+番茄底</td><td>¥16.9</td><td>约¥13</td></tr><tr><td>豪华全荤套餐</td><td>8荤2素+宽粉+麻辣底+饮品</td><td>¥28.9</td><td>约¥22</td></tr><tr><td>双人分享套餐</td><td>10荤6素+2份主食+2饮品</td><td>¥45.9</td><td>约¥38</td></tr></table><p>以经典荤素套餐为例：食材成本约8元，包装1.5元，平台抽佣约4.6元（20%），净利约<strong>8.8元/单</strong>（⚠️ 假设食材成本率35%，建议核实）。</p><h3>上线节奏</h3><ul><li><strong>Day 3-5上线外卖（老板做）</strong>：🔧 美团外卖商家版→菜品管理→新建菜品，录入4款套餐+高质量图片（俯拍，白色餐盒打开，菜品摆满）</li><li><strong>满减设置</strong>：🔧 营销中心→满减活动→设「满20减5」+「满40减8」</li><li><strong>前两周午间投流</strong>：🔧 推广中心→点金推广→每天预算<strong>30元</strong>→时段锁定<strong>11:00-13:00</strong>→只投套餐SKU</li><li><strong>出餐目标</strong>：<strong>≤8分钟</strong>（麻辣烫本就快，关键是备菜提前切配），出餐慢=差评=排名跌</li></ul><p><strong>差评「量少」怎么办</strong>：餐盒里放小卡片「觉得不够吃？下次点单备注加量，免费多给一份蔬菜」（成本1元，换一个不差评）。</p><h3>外卖关键指标</h3><table><tr><th>指标</th><th>Day 7</th><th>Day 30</th></tr><tr><td>日均单量</td><td>≥10单</td><td>≥30单</td></tr><tr><td>外卖评分</td><td>≥4.5</td><td>≥4.7</td></tr><tr><td>出餐时长</td><td>≤10分钟</td><td>≤8分钟</td></tr><tr><td>差评率</td><td><5%</td><td><3%</td></tr></table></div>
+<div id="modal-content-6" style="display:none"><h3>你已经有了最关键的效率武器</h3><p>江小懒已签约<strong>扫码点餐</strong>——对于麻辣烫这种高频快餐品类，这不是锦上添花，是<strong>生死线</strong>。假设门店仅2-3名员工（⚠️ 建议核实），高峰期全靠人工点单收银，一个人堵在收银台=3桌客人等不及走了。</p><h3>怎么用才对（不是摆个二维码就完了）</h3><p><strong>Step 1 基础配置（开业前，老板做）</strong>：</p><ul><li>🔧 扫码点餐后台→菜品管理→录入全部菜品（带图片+描述）</li><li>分类：「荤菜」「素菜」「主食」「饮品」「套餐」5个大类，每类<strong>≤15个SKU</strong>（太多=顾客选择困难=点餐慢）</li><li>每个菜品必须有图片，手机拍即可，白底近距离</li><li>设置「推荐菜品」3-5款置顶（最赚钱或最有特色的菜）</li></ul><p><strong>Step 2 桌贴部署（开业前1天，员工做）</strong>：</p><ul><li>每张桌子贴扫码点餐桌贴（二维码+「扫码点餐·快人一步」）</li><li>门口立易拉宝：「本店支持扫码点餐，不用排队」</li></ul><p><strong>Step 3 高峰期话术（服务员每桌3秒内）</strong>：</p><ul><li>「您好，扫桌上二维码就能直接点餐，特别方便~荤素随便搭，最后一起结算」</li><li><strong>顾客说不会扫码</strong>：不争论，直接说「没事，我帮您点」，用自己手机帮扫码下单（别回纸质菜单）</li></ul><p><strong>Step 4 数据用起来（Day 7起，老板每周看一次）</strong>：</p><ul><li>🔧 扫码点餐后台→数据报表→菜品销量排行：找出TOP5和倒数5名</li><li>TOP5：确认备货充足、品质稳定</li><li>倒数5名：连续2周销量<5份→考虑下架或换品（菜单瘦身=出餐快=体验好）</li></ul><h3>扫码点餐带来的硬收益</h3><table><tr><th>指标</th><th>无扫码</th><th>有扫码</th><th>差距</th></tr><tr><td>点餐到出餐时长</td><td>5-8分钟</td><td>2-4分钟</td><td>快50%+</td></tr><tr><td>高峰期服务桌数/人</td><td>3-4桌</td><td>6-8桌</td><td>翻倍</td></tr><tr><td>漏单错单率</td><td>约5%</td><td><1%</td><td>大幅降低</td></tr><tr><td>人力需求</td><td>3人</td><td>2人</td><td>省1人/月省4000元</td></tr></table><p>假设月人力成本约<strong>4000元/人</strong>（⚠️ 建议核实），扫码点餐每月省下一个人力成本=<strong>年省近5万元</strong>。效率即利润。</p></div>
+<div id="modal-content-7" style="display:none"><h3>为什么江小懒必须做社群</h3><p>杨国福/张亮靠品牌势能自带流量，夫妻店靠低价+老客情分。<strong>江小懒是新品牌+新店，两样都没有</strong>——突围路径只有一个：<strong>用社群把来过的人锁住，让他们反复来</strong>。假设目前未签约会员系统（⚠️ 建议核实），先用<strong>企微群+扫码点餐内置优惠券</strong>做轻量级私域。</p><h3>社群搭建（开业前3天启动）</h3><p><strong>谁来做</strong>：老板本人管群（麻辣烫小店不需要专人运营，每天花15分钟）</p><ul><li><strong>建群</strong>：企微建「江小懒·九堡福利群」，群公告写3件事：①每周四会员日送小菜 ②不定期发3元券 ③群内可提前点餐</li><li><strong>拉人</strong>：地推扫码进群+到店扫码点餐后弹窗引导加群（🔧扫码点餐后台→支付成功页→加群二维码）</li><li><strong>Day 30目标</strong>：群人数<strong>≥300人</strong></li></ul><h3>日常运营节奏（老板每天15分钟）</h3><table><tr><th>时间</th><th>动作</th><th>话术</th></tr><tr><td>每天10:30</td><td>发午餐提醒+今日推荐</td><td>「中午吃啥？今天新到鲜牛肉卷，限量30份，扫码直接点👇」</td></tr><tr><td>每周四</td><td>会员日推送</td><td>「周四福利！今天到店送一份拍黄瓜🥒 老客带新客，新客也送！」</td></tr><tr><td>每周日</td><td>下周新品预告</td><td>「下周上新：番茄牛腩锅底🍅 群内前10名免费试吃」</td></tr></table><p><strong>群冷场怎么办</strong>：不要天天发广告（3天以上纯广告=被屏蔽）。黄金比例：<strong>70%有用内容</strong>（天气提醒/周边停车/外卖红包口令）+ <strong>20%福利</strong> + <strong>10%互动</strong>（投票选新品/晒图比赛）。</p><h3>复购券体系设计</h3><ul><li><strong>首单券</strong>：新客首次到店扫码点餐后自动发「满15减3」券（🔧扫码点餐后台→营销中心→首单奖励），3天有效期拉短复购间隔</li><li><strong>流失召回</strong>：7天未到店自动推「满20减5」券（🔧扫码后台→营销中心→沉睡唤醒），话术：「好久没见你，骨汤都想你了🍲」</li><li><strong>裂变券</strong>：老客分享群链接给朋友，新客扫码领「免费加一份荤菜」券，老客得「3元无门槛券」——一鱼双吃</li></ul><h3>私域核心指标</h3><table><tr><th>指标</th><th>Day 30</th><th>Day 60</th></tr><tr><td>群人数</td><td>≥300人</td><td>≥500人</td></tr><tr><td>周复购率（7天内再来）</td><td>≥15%</td><td>≥25%</td></tr><tr><td>社群带来到店比例</td><td>≥10%</td><td>≥20%</td></tr></table></div>
+<div id="modal-content-8" style="display:none"><h3>7-8月是麻辣烫的黄金窗口</h3><p>江小懒开业正值<strong>暑期旺季</strong>（7-8月），九堡周边电商从业者不放暑假，学生客群额外增量，夜宵需求旺盛。杭州盛夏气温28-38°C，高温严重影响午市堂食（尤其正午），但<strong>外卖订单高峰+晚市夜宵回升</strong>。这是天赐的冷启动窗口，必须抓住。</p><h3>营销动作1：「消暑一碗烫」限时活动（8月）</h3><ul><li><strong>谁来做</strong>：老板设置，服务员执行</li><li><strong>内容</strong>：到店消费送一杯冰酸梅汤（成本约<strong>0.8元/杯</strong>，自制酸梅汤批量煮制冷藏）</li><li><strong>🔧操作</strong>：扫码点餐后台→活动管理→满赠活动→消费满15元赠冰酸梅汤→活动时间8月1日-8月31日</li><li><strong>服务员话术</strong>：「天太热了，送您一杯我们自己熬的酸梅汤，冰冰凉凉的」</li><li><strong>效果预估</strong>：0.8元成本换一个好印象+一条潜在好评，一个月投入不超过<strong>200元</strong>（按250杯算）</li></ul><h3>营销动作2：「夜宵档」延时经营（7-8月试跑）</h3><ul><li><strong>适用前提</strong>：如果门店位置允许延时营业（⚠️ 需核实物业规定和周边居民情况）</li><li><strong>内容</strong>：7-8月试延长营业至<strong>22:00</strong>（原21:00关），推「夜宵小份装」——小份麻辣烫+啤酒套餐<strong>29.9元</strong></li><li><strong>外卖同步延时</strong>：🔧 美团外卖商家版→门店信息→营业时间→延至22:00</li><li><strong>群内预告</strong>：「今晚加班？江小懒陪你到10点！小份烫+冰啤=29.9，群内下单再减2元👇」</li><li><strong>不赚钱怎么办</strong>：夜宵档定位是「试水+刷存在感」，不求高利润，要的是让周边居民知道「楼下新开了家麻辣烫，晚上也能吃」——这就是品牌认知</li></ul><h3>营销动作3：「立秋贴秋膘」换季营销（8月7-8日）</h3><ul><li><strong>谁来做</strong>：老板提前3天准备</li><li><strong>内容</strong>：立秋当天推出「贴秋膘加料券」——到店消费可<strong>免费加一份肥牛/羊肉卷</strong>（成本约3元/份，限当天，限前50名）</li><li><strong>群内话术</strong>：「立秋了！今天到店吃麻辣烫，免费加一份肥牛贴秋膘🍂 限前50名，手慢无！」</li><li><strong>🔧操作</strong>：扫码点餐后台→优惠券→新建「立秋肥牛券」→限量50张→8月7日当天有效</li><li><strong>借势逻辑</strong>：「贴秋膘」是全民话题，借势传播成本为零，朋友圈/群里发出去就有互动</li></ul><h3>暑期营销预算汇总</h3><table><tr><th>活动</th><th>持续时间</th><th>单项成本</th><th>月总投入</th></tr><tr><td>消暑酸梅汤</td><td>8月整月</td><td>0.8元/杯</td><td>约200元</td></tr><tr><td>夜宵档延时</td><td>7-8月</td><td>水电人工约80元/晚</td><td>约2400元</td></tr><tr><td>立秋贴秋膘</td><td>1天</td><td>3元/份×50</td><td>150元</td></tr><tr><td>外卖投流</td><td>前两周</td><td>30元/天</td><td>420元</td></tr><tr><td><strong>合计</strong></td><td></td><td></td><td><strong>约3200元/月</strong></td></tr></table></div>
+<div id="modal-content-9" style="display:none"><h3>江小懒盈利模型测算</h3><p>以下基于行业基准和门店假设做测算，标注⚠️处建议核实真实数据。</p><h3>基础假设</h3><table><tr><th>项目</th><th>假设值</th><th>说明</th></tr><tr><td>人均客单价</td><td>¥22（⚠️）</td><td>麻辣烫社区店主流价格带</td></tr><tr><td>日均堂食人次</td><td>50人（⚠️）</td><td>15-20座位，午+晚2轮翻台</td></tr><tr><td>日均外卖单量</td><td>30单（⚠️ Day 30目标）</td><td>套餐均价¥22.9</td></tr><tr><td>食材成本率</td><td>35%（⚠️）</td><td>行业基准30%-38%</td></tr><tr><td>人力成本</td><td>¥12,000/月（⚠️ 3人）</td><td>含老板自己+2名员工</td></tr><tr><td>房租</td><td>¥5,000/月（⚠️）</td><td>九堡社区底商估算</td></tr></table><h3>月营收测算</h3><table><tr><th>收入来源</th><th>计算</th><th>月营收</th></tr><tr><td>堂食</td><td>50人×¥22×30天</td><td>¥33,000</td></tr><tr><td>外卖</td><td>30单×¥22.9×30天</td><td>¥20,610</td></tr><tr><td><strong>月总营收</strong></td><td></td><td><strong>¥53,610</strong></td></tr></table><h3>月成本结构</h3><table><tr><th>成本项</th><th>金额</th><th>占比</th></tr><tr><td>食材成本（35%）</td><td>¥18,764</td><td>35%</td></tr><tr><td>外卖平台抽佣（20%×外卖营收）</td><td>¥4,122</td><td>7.7%</td></tr><tr><td>人力成本</td><td>¥12,000</td><td>22.4%</td></tr><tr><td>房租</td><td>¥5,000</td><td>9.3%</td></tr><tr><td>水电杂费</td><td>¥2,500</td><td>4.7%</td></tr><tr><td>营销投入</td><td>¥3,200</td><td>6.0%</td></tr><tr><td><strong>月总成本</strong></td><td><strong>¥45,586</strong></td><td><strong>85.0%</strong></td></tr></table><h3>月净利润</h3><p><strong>¥53,610 - ¥45,586 = ¥8,024/月</strong>（净利率约<strong>15.0%</strong>）</p><p>这个利润率处于快餐小吃品类<strong>优秀水平</strong>（行业基准8%-15%），前提是食材成本控制在35%以内+外卖跑到30单/天。</p><h3>SaaS投资回报</h3><table><tr><th>已签约产品</th><th>年费</th><th>直接收益</th><th>回本周期</th></tr><tr><td>扫码点餐</td><td>约¥2,000/年（⚠️ 建议核实）</td><td>省1人力=¥48,000/年+减少错单损失</td><td><strong>≤1个月</strong></td></tr></table><h3>增长空间</h3><ul><li>若外卖跑到<strong>50单/天</strong>（Day 60目标），月营收可达<strong>¥67,350</strong>，净利<strong>¥13,000+</strong></li><li>后续签约会员旗舰版（¥4,888/年），锁定复购可额外提升堂食<strong>15%-20%</strong>营收</li></ul><h3>季度OKR目标</h3><table><tr><th>指标</th><th>8月（开业月）</th><th>9月</th><th>10月</th></tr><tr><td>月总营收</td><td>¥40,000</td><td>¥53,000</td><td>¥60,000</td></tr><tr><td>大众点评评分</td><td>4.0（出星）</td><td>4.5</td><td>4.5+（冲榜）</td></tr><tr><td>社群人数</td><td>300人</td><td>500人</td><td>600人</td></tr><tr><td>外卖日均单量</td><td>20单</td><td>30单</td><td>40单</td></tr><tr><td>周复购率</td><td>15%</td><td>25%</td><td>30%</td></tr></table><p>⚠️ 以上测算基于行业参考值和合理假设，建议开业后<strong>Day 15和Day 30</strong>各做一次真实数据复盘，修正假设、调整策略。</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>翟卫婷</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>品类大盘：1800亿赛道，存量博弈期</h3><p>麻辣烫隶属快餐小吃大品类（2024年市场规模突破<strong>1万亿元</strong>），其中麻辣烫/冒菜细分赛道2025年全国规模预计突破<strong>1800亿</strong>，但增速已降至个位数，正式进入<strong>存量博弈期</strong>。杭州作为新一线城市，麻辣烫密度极高——快餐小吃门店占全国餐饮门店的<strong>49.2%</strong>，杭州因互联网从业者拉动，<strong>外卖渗透率在全国名列前茅</strong>。</p><h3>九堡商圈画像</h3><p>九堡街道普大福地属于<strong>社区底商</strong>，辐射九堡家苑、金雅苑、普福社区等大型安置/回迁小区，加之四季青电商园、九堡客运中心周边聚集了大量<strong>年轻租户和电商从业者</strong>。消费群体特征：</p><ul><li><strong>主力客群（60%）</strong>：电商园/物流园上班族，午餐+晚餐刚需，价格敏感，人均预算<strong>15-25元</strong></li><li><strong>次要客群（25%）</strong>：周边小区居民，家庭简餐/一人食，偏好实惠量大</li><li><strong>潜力客群（15%）</strong>：外卖用户，九堡电商从业者午间外卖需求极大，高峰集中在<strong>11:00-13:00</strong></li></ul><h3>消费场景与定价</h3><p>麻辣烫是典型<strong>高频刚需、低客单价</strong>品类，主流价格带在<strong>称重制15-25元/人，套餐制18-28元/人</strong>。九堡社区消费力有限，假设江小懒定位人均<strong>20-25元</strong>（⚠️ 建议核实），则对标大众快餐档位，靠<strong>翻台率和复购率</strong>赚钱，而非靠客单价。增长点在于：一人食场景+外卖占比提升+小锅碗装升级。</p>`,
+    2: `<h3>普大福地周边1.5公里竞争格局</h3><p>麻辣烫品类竞争烈度<strong>极高</strong>，以下是你直面的真实对手：</p><table><tr><th>竞品</th><th>人均</th><th>核心优势</th><th>弱点（你的切入点）</th></tr><tr><td><strong>杨国福麻辣烫</strong>（九堡多点位）</td><td>¥22-28</td><td>品牌认知强、供应链成熟</td><td>口味标准化无惊喜、锅底同质化、服务流水线感</td></tr><tr><td><strong>张亮麻辣烫</strong></td><td>¥18-24</td><td>性价比标杆、知名度高</td><td>门店体验感一般、装修老旧、锅底千篇一律</td></tr><tr><td><strong>觅姐麻辣拌</strong></td><td>¥20左右</td><td>切麻辣拌细分、年轻女性喜欢</td><td>品类单一不抗饿、冬季销量下滑</td></tr><tr><td>各类夫妻个体店</td><td>¥15-20</td><td>价格最低、老客情分</td><td>卫生堪忧、无会员锁客、形象差</td></tr></table><h3>你的三个缝隙</h3><ul><li><strong>锅底差异化</strong>：杨国福张亮最大弱点是锅底同质化。如果你能做出「现熬骨汤/鲜切番茄」的记忆点，门头直写「现熬X小时」+明档展示，社区口碑传播快——<strong>复购靠嘴巴不靠券</strong></li><li><strong>外卖套餐化</strong>：杨国福走称重制（客单不可控、用户下单犹豫），你用固定套餐卡住<strong>19.9元</strong>价格带，跑量拉评分</li><li><strong>社群精细运营</strong>：夫妻店没私域能力，品牌连锁不做社区精细运营——你做社群+复购券，比他们多一层粘性</li></ul><h3>风险提示</h3><p>快餐小吃品类食材成本率<strong>30%-38%</strong>，房租成本率<strong>8%-15%</strong>，净利润率通常<strong>8%-15%</strong>。定价太低会陷入「忙但不赚钱」的陷阱，食材成本率控制在<strong>35%以内</strong>为健康线（⚠️ 建议核实实际采购成本）。</p>`,
+    3: `<h3>新店第一仗：30天决定生死</h3><p>江小懒是<strong>0-7天极新店</strong>，处于最关键的冷启动期。这30天干的事，决定了能不能活过6个月。假设门店面积约<strong>40-60㎡</strong>、座位<strong>15-20个</strong>（⚠️ 社区麻辣烫标准店型，建议核实）。</p><h3>第一阶段：开业前3天-开业日（蓄水引爆）</h3><ul><li><strong>谁来做</strong>：老板亲自带1-2名员工</li><li><strong>Day -3至-1 社区地推</strong>：去普福社区、金雅苑、九堡家苑小区入口，扫码进群送「免费一碗麻辣烫」体验券（成本控制在<strong>8元/份</strong>，限前<strong>200名</strong>）</li><li><strong>话术</strong>：「我们是楼下新开的江小懒麻辣烫，扫码进群就送一碗免费吃，开业当天来领就行」</li><li><strong>同步建群</strong>：企微群命名「江小懒·九堡福利群」，群内每天发<strong>3元无门槛券</strong></li><li><strong>🔧操作</strong>：扫码点餐后台→营销中心→优惠券→新建「3元无门槛券」，有效期7天，每人限领1张</li></ul><h3>第二阶段：Day 1-7（开业冲量）</h3><ul><li><strong>Day 1-3</strong>：全场<strong>7.8折</strong>（仅堂食），门口挂横幅「新店开业·全场7.8折·限时3天」</li><li>免费体验券集中核销，引导每位到店顾客加群——服务员话术：「加群还能领3块钱券，下次来直接抵」</li><li><strong>Day 4-7</strong>：折扣收回至<strong>9折</strong>，同时推「1元加饮品」（冰豆浆/酸梅汤，成本约1.5元/杯）</li><li><strong>🔧操作</strong>：扫码点餐后台→活动管理→新建「开业折扣」→设7.8折→指定生效日期</li><li><strong>到店不足30人怎么办</strong>：Day 2群内加码「到店消费免费加一份丸子拼盘」（成本3元），发消息：「仅限明天，先到先得」</li></ul><h3>第三阶段：Day 8-30（口碑沉淀）</h3><ul><li>恢复原价，每周四定为「会员日」——到店送一份小菜（拍黄瓜/海带丝，成本1-2元）</li><li>外卖上线（Day 3-5），前两周集中午间投流</li><li>评价积累目标：30天内<strong>30条以上真实评价</strong></li><li><strong>复盘节点</strong>：Day 15中期复盘（日均流水/到店人次/群人数/外卖单量），Day 30月度复盘</li></ul><h3>30天关键指标</h3><table><tr><th>指标</th><th>目标值</th><th>监测方式</th></tr><tr><td>企微群人数</td><td>≥300人</td><td>企微后台</td></tr><tr><td>日均到店人次（Day 8后）</td><td>≥50人</td><td>扫码点餐后台日报</td></tr><tr><td>大众点评评价数</td><td>≥30条</td><td>大众点评商家后台</td></tr><tr><td>外卖日均单量</td><td>≥20单</td><td>美团外卖商家版</td></tr></table>`,
+    4: `<h3>新店点评生存法则</h3><p>江小懒是<strong>0-7天极新店</strong>，假设尚未出星、评价数为0（⚠️ 建议核实），处于点评最脆弱的阶段——<strong>前10条评价决定所有后续顾客的第一印象</strong>。</p><h3>阶段判断与目标路径</h3><p><strong>无星→出星（4.0+）→冲新店榜→热门榜前20</strong></p><ul><li>出星门槛：通常需<strong>≥10条有效评价</strong>才显示星级</li><li>30天目标：积累<strong>30条真实评价</strong>，目标评分<strong>4.5分</strong></li><li>60天目标：评价数达<strong>50条</strong>，冲<strong>新店榜</strong></li></ul><h3>合规红线（2025年10月新规）</h3><p><strong>严禁任何形式促评/邀评</strong>——高强度促评（好评返现/写评价送菜）在新规下会导致新评价不产生星级收益，等于做无用功甚至反噬。</p><h3>正确做法：让顾客「自己想写」</h3><p><strong>Step 1 止血（Day 1-3，老板/店长做）</strong>：</p><ul><li>🔧 大众点评商家后台→店铺管理→基础信息，确认门店名称/地址/电话/品类标签全部正确</li><li>上传<strong>≥15张高质量门店图</strong>（门头/明档/菜品特写/环境），手机竖屏拍，自然光</li><li>麻辣烫拍摄技巧：白碗/深色碗盛装，俯拍45度角，背景干净</li></ul><p><strong>Step 2 合规工具上线（Day 3-7，老板做）</strong>：</p><ul><li>🔧 大众点评商家后台→营销中心→免费试：设置<strong>10个名额</strong>，让真实用户免费体验后自发写评价</li><li>🔧 免费菜：设置1款引流菜品（如「招牌丸子拼盘」），顾客到店免费领取</li><li>免费试/免费菜是大众点评<strong>官方合规工具</strong>，顾客写不写评价完全自愿</li></ul><p><strong>Step 3 打造分享动机（Day 7起持续，服务员每桌执行）</strong>：</p><ul><li>餐桌放小立牌：「我们的骨汤现熬4小时，你觉得好喝吗？」——不求评价，只引发互动</li><li>出餐仪式感：碗上放一片新鲜香菜叶+一颗枸杞，拍照好看，顾客自发拍照发朋友圈</li><li><strong>差评2小时响应</strong>：老板每天查看3次🔧评价管理，差评必须2小时内真诚回复</li><li>回复模板：「非常抱歉给您带来不好的体验，我是店长XX，这个问题我们已经改进了[具体措施]，欢迎您再来检验，到时我请您喝杯酸梅汤」</li></ul><h3>口碑量化目标</h3><table><tr><th>时间</th><th>评价数</th><th>目标评分</th><th>里程碑</th></tr><tr><td>Day 15</td><td>≥10条</td><td>≥4.0</td><td>出星</td></tr><tr><td>Day 30</td><td>≥30条</td><td>≥4.5</td><td>新店榜候选</td></tr><tr><td>Day 60</td><td>≥50条</td><td>≥4.5</td><td>冲新店榜/热门榜</td></tr></table>`,
+    5: `<h3>外卖是江小懒的营收生命线</h3><p>九堡是杭州电商产业带，<strong>午间外卖需求极大</strong>。杭州快餐外卖渗透率全国领先，麻辣烫品类外卖占比可达<strong>50%以上</strong>。假设江小懒堂食座位约15-20个（⚠️ 建议核实），翻台天花板有限，<strong>外卖是突破营收上限的核心渠道</strong>。</p><h3>定价策略：套餐制胜过称重制</h3><p>称重制（杨国福/张亮模式）外卖端问题——顾客下单犹豫（不知道最终多少钱）、客单不可控、差评率高（称了30多块觉得贵）。<strong>解法</strong>：设计<strong>3-4款固定一人食套餐</strong>，卡住19.9元价格带：</p><table><tr><th>套餐名</th><th>内容</th><th>定价</th><th>凑满减后体感价</th></tr><tr><td>经典荤素套餐</td><td>6荤4素+粉丝+骨汤底</td><td>¥22.9</td><td>约¥17</td></tr><tr><td>素食轻食套餐</td><td>8素+粉丝+番茄底</td><td>¥16.9</td><td>约¥13</td></tr><tr><td>豪华全荤套餐</td><td>8荤2素+宽粉+麻辣底+饮品</td><td>¥28.9</td><td>约¥22</td></tr><tr><td>双人分享套餐</td><td>10荤6素+2份主食+2饮品</td><td>¥45.9</td><td>约¥38</td></tr></table><p>以经典荤素套餐为例：食材成本约8元，包装1.5元，平台抽佣约4.6元（20%），净利约<strong>8.8元/单</strong>（⚠️ 假设食材成本率35%，建议核实）。</p><h3>上线节奏</h3><ul><li><strong>Day 3-5上线外卖（老板做）</strong>：🔧 美团外卖商家版→菜品管理→新建菜品，录入4款套餐+高质量图片（俯拍，白色餐盒打开，菜品摆满）</li><li><strong>满减设置</strong>：🔧 营销中心→满减活动→设「满20减5」+「满40减8」</li><li><strong>前两周午间投流</strong>：🔧 推广中心→点金推广→每天预算<strong>30元</strong>→时段锁定<strong>11:00-13:00</strong>→只投套餐SKU</li><li><strong>出餐目标</strong>：<strong>≤8分钟</strong>（麻辣烫本就快，关键是备菜提前切配），出餐慢=差评=排名跌</li></ul><p><strong>差评「量少」怎么办</strong>：餐盒里放小卡片「觉得不够吃？下次点单备注加量，免费多给一份蔬菜」（成本1元，换一个不差评）。</p><h3>外卖关键指标</h3><table><tr><th>指标</th><th>Day 7</th><th>Day 30</th></tr><tr><td>日均单量</td><td>≥10单</td><td>≥30单</td></tr><tr><td>外卖评分</td><td>≥4.5</td><td>≥4.7</td></tr><tr><td>出餐时长</td><td>≤10分钟</td><td>≤8分钟</td></tr><tr><td>差评率</td><td><5%</td><td><3%</td></tr></table>`,
+    6: `<h3>你已经有了最关键的效率武器</h3><p>江小懒已签约<strong>扫码点餐</strong>——对于麻辣烫这种高频快餐品类，这不是锦上添花，是<strong>生死线</strong>。假设门店仅2-3名员工（⚠️ 建议核实），高峰期全靠人工点单收银，一个人堵在收银台=3桌客人等不及走了。</p><h3>怎么用才对（不是摆个二维码就完了）</h3><p><strong>Step 1 基础配置（开业前，老板做）</strong>：</p><ul><li>🔧 扫码点餐后台→菜品管理→录入全部菜品（带图片+描述）</li><li>分类：「荤菜」「素菜」「主食」「饮品」「套餐」5个大类，每类<strong>≤15个SKU</strong>（太多=顾客选择困难=点餐慢）</li><li>每个菜品必须有图片，手机拍即可，白底近距离</li><li>设置「推荐菜品」3-5款置顶（最赚钱或最有特色的菜）</li></ul><p><strong>Step 2 桌贴部署（开业前1天，员工做）</strong>：</p><ul><li>每张桌子贴扫码点餐桌贴（二维码+「扫码点餐·快人一步」）</li><li>门口立易拉宝：「本店支持扫码点餐，不用排队」</li></ul><p><strong>Step 3 高峰期话术（服务员每桌3秒内）</strong>：</p><ul><li>「您好，扫桌上二维码就能直接点餐，特别方便~荤素随便搭，最后一起结算」</li><li><strong>顾客说不会扫码</strong>：不争论，直接说「没事，我帮您点」，用自己手机帮扫码下单（别回纸质菜单）</li></ul><p><strong>Step 4 数据用起来（Day 7起，老板每周看一次）</strong>：</p><ul><li>🔧 扫码点餐后台→数据报表→菜品销量排行：找出TOP5和倒数5名</li><li>TOP5：确认备货充足、品质稳定</li><li>倒数5名：连续2周销量<5份→考虑下架或换品（菜单瘦身=出餐快=体验好）</li></ul><h3>扫码点餐带来的硬收益</h3><table><tr><th>指标</th><th>无扫码</th><th>有扫码</th><th>差距</th></tr><tr><td>点餐到出餐时长</td><td>5-8分钟</td><td>2-4分钟</td><td>快50%+</td></tr><tr><td>高峰期服务桌数/人</td><td>3-4桌</td><td>6-8桌</td><td>翻倍</td></tr><tr><td>漏单错单率</td><td>约5%</td><td><1%</td><td>大幅降低</td></tr><tr><td>人力需求</td><td>3人</td><td>2人</td><td>省1人/月省4000元</td></tr></table><p>假设月人力成本约<strong>4000元/人</strong>（⚠️ 建议核实），扫码点餐每月省下一个人力成本=<strong>年省近5万元</strong>。效率即利润。</p>`,
+    7: `<h3>为什么江小懒必须做社群</h3><p>杨国福/张亮靠品牌势能自带流量，夫妻店靠低价+老客情分。<strong>江小懒是新品牌+新店，两样都没有</strong>——突围路径只有一个：<strong>用社群把来过的人锁住，让他们反复来</strong>。假设目前未签约会员系统（⚠️ 建议核实），先用<strong>企微群+扫码点餐内置优惠券</strong>做轻量级私域。</p><h3>社群搭建（开业前3天启动）</h3><p><strong>谁来做</strong>：老板本人管群（麻辣烫小店不需要专人运营，每天花15分钟）</p><ul><li><strong>建群</strong>：企微建「江小懒·九堡福利群」，群公告写3件事：①每周四会员日送小菜 ②不定期发3元券 ③群内可提前点餐</li><li><strong>拉人</strong>：地推扫码进群+到店扫码点餐后弹窗引导加群（🔧扫码点餐后台→支付成功页→加群二维码）</li><li><strong>Day 30目标</strong>：群人数<strong>≥300人</strong></li></ul><h3>日常运营节奏（老板每天15分钟）</h3><table><tr><th>时间</th><th>动作</th><th>话术</th></tr><tr><td>每天10:30</td><td>发午餐提醒+今日推荐</td><td>「中午吃啥？今天新到鲜牛肉卷，限量30份，扫码直接点👇」</td></tr><tr><td>每周四</td><td>会员日推送</td><td>「周四福利！今天到店送一份拍黄瓜🥒 老客带新客，新客也送！」</td></tr><tr><td>每周日</td><td>下周新品预告</td><td>「下周上新：番茄牛腩锅底🍅 群内前10名免费试吃」</td></tr></table><p><strong>群冷场怎么办</strong>：不要天天发广告（3天以上纯广告=被屏蔽）。黄金比例：<strong>70%有用内容</strong>（天气提醒/周边停车/外卖红包口令）+ <strong>20%福利</strong> + <strong>10%互动</strong>（投票选新品/晒图比赛）。</p><h3>复购券体系设计</h3><ul><li><strong>首单券</strong>：新客首次到店扫码点餐后自动发「满15减3」券（🔧扫码点餐后台→营销中心→首单奖励），3天有效期拉短复购间隔</li><li><strong>流失召回</strong>：7天未到店自动推「满20减5」券（🔧扫码后台→营销中心→沉睡唤醒），话术：「好久没见你，骨汤都想你了🍲」</li><li><strong>裂变券</strong>：老客分享群链接给朋友，新客扫码领「免费加一份荤菜」券，老客得「3元无门槛券」——一鱼双吃</li></ul><h3>私域核心指标</h3><table><tr><th>指标</th><th>Day 30</th><th>Day 60</th></tr><tr><td>群人数</td><td>≥300人</td><td>≥500人</td></tr><tr><td>周复购率（7天内再来）</td><td>≥15%</td><td>≥25%</td></tr><tr><td>社群带来到店比例</td><td>≥10%</td><td>≥20%</td></tr></table>`,
+    8: `<h3>7-8月是麻辣烫的黄金窗口</h3><p>江小懒开业正值<strong>暑期旺季</strong>（7-8月），九堡周边电商从业者不放暑假，学生客群额外增量，夜宵需求旺盛。杭州盛夏气温28-38°C，高温严重影响午市堂食（尤其正午），但<strong>外卖订单高峰+晚市夜宵回升</strong>。这是天赐的冷启动窗口，必须抓住。</p><h3>营销动作1：「消暑一碗烫」限时活动（8月）</h3><ul><li><strong>谁来做</strong>：老板设置，服务员执行</li><li><strong>内容</strong>：到店消费送一杯冰酸梅汤（成本约<strong>0.8元/杯</strong>，自制酸梅汤批量煮制冷藏）</li><li><strong>🔧操作</strong>：扫码点餐后台→活动管理→满赠活动→消费满15元赠冰酸梅汤→活动时间8月1日-8月31日</li><li><strong>服务员话术</strong>：「天太热了，送您一杯我们自己熬的酸梅汤，冰冰凉凉的」</li><li><strong>效果预估</strong>：0.8元成本换一个好印象+一条潜在好评，一个月投入不超过<strong>200元</strong>（按250杯算）</li></ul><h3>营销动作2：「夜宵档」延时经营（7-8月试跑）</h3><ul><li><strong>适用前提</strong>：如果门店位置允许延时营业（⚠️ 需核实物业规定和周边居民情况）</li><li><strong>内容</strong>：7-8月试延长营业至<strong>22:00</strong>（原21:00关），推「夜宵小份装」——小份麻辣烫+啤酒套餐<strong>29.9元</strong></li><li><strong>外卖同步延时</strong>：🔧 美团外卖商家版→门店信息→营业时间→延至22:00</li><li><strong>群内预告</strong>：「今晚加班？江小懒陪你到10点！小份烫+冰啤=29.9，群内下单再减2元👇」</li><li><strong>不赚钱怎么办</strong>：夜宵档定位是「试水+刷存在感」，不求高利润，要的是让周边居民知道「楼下新开了家麻辣烫，晚上也能吃」——这就是品牌认知</li></ul><h3>营销动作3：「立秋贴秋膘」换季营销（8月7-8日）</h3><ul><li><strong>谁来做</strong>：老板提前3天准备</li><li><strong>内容</strong>：立秋当天推出「贴秋膘加料券」——到店消费可<strong>免费加一份肥牛/羊肉卷</strong>（成本约3元/份，限当天，限前50名）</li><li><strong>群内话术</strong>：「立秋了！今天到店吃麻辣烫，免费加一份肥牛贴秋膘🍂 限前50名，手慢无！」</li><li><strong>🔧操作</strong>：扫码点餐后台→优惠券→新建「立秋肥牛券」→限量50张→8月7日当天有效</li><li><strong>借势逻辑</strong>：「贴秋膘」是全民话题，借势传播成本为零，朋友圈/群里发出去就有互动</li></ul><h3>暑期营销预算汇总</h3><table><tr><th>活动</th><th>持续时间</th><th>单项成本</th><th>月总投入</th></tr><tr><td>消暑酸梅汤</td><td>8月整月</td><td>0.8元/杯</td><td>约200元</td></tr><tr><td>夜宵档延时</td><td>7-8月</td><td>水电人工约80元/晚</td><td>约2400元</td></tr><tr><td>立秋贴秋膘</td><td>1天</td><td>3元/份×50</td><td>150元</td></tr><tr><td>外卖投流</td><td>前两周</td><td>30元/天</td><td>420元</td></tr><tr><td><strong>合计</strong></td><td></td><td></td><td><strong>约3200元/月</strong></td></tr></table>`,
+    9: `<h3>江小懒盈利模型测算</h3><p>以下基于行业基准和门店假设做测算，标注⚠️处建议核实真实数据。</p><h3>基础假设</h3><table><tr><th>项目</th><th>假设值</th><th>说明</th></tr><tr><td>人均客单价</td><td>¥22（⚠️）</td><td>麻辣烫社区店主流价格带</td></tr><tr><td>日均堂食人次</td><td>50人（⚠️）</td><td>15-20座位，午+晚2轮翻台</td></tr><tr><td>日均外卖单量</td><td>30单（⚠️ Day 30目标）</td><td>套餐均价¥22.9</td></tr><tr><td>食材成本率</td><td>35%（⚠️）</td><td>行业基准30%-38%</td></tr><tr><td>人力成本</td><td>¥12,000/月（⚠️ 3人）</td><td>含老板自己+2名员工</td></tr><tr><td>房租</td><td>¥5,000/月（⚠️）</td><td>九堡社区底商估算</td></tr></table><h3>月营收测算</h3><table><tr><th>收入来源</th><th>计算</th><th>月营收</th></tr><tr><td>堂食</td><td>50人×¥22×30天</td><td>¥33,000</td></tr><tr><td>外卖</td><td>30单×¥22.9×30天</td><td>¥20,610</td></tr><tr><td><strong>月总营收</strong></td><td></td><td><strong>¥53,610</strong></td></tr></table><h3>月成本结构</h3><table><tr><th>成本项</th><th>金额</th><th>占比</th></tr><tr><td>食材成本（35%）</td><td>¥18,764</td><td>35%</td></tr><tr><td>外卖平台抽佣（20%×外卖营收）</td><td>¥4,122</td><td>7.7%</td></tr><tr><td>人力成本</td><td>¥12,000</td><td>22.4%</td></tr><tr><td>房租</td><td>¥5,000</td><td>9.3%</td></tr><tr><td>水电杂费</td><td>¥2,500</td><td>4.7%</td></tr><tr><td>营销投入</td><td>¥3,200</td><td>6.0%</td></tr><tr><td><strong>月总成本</strong></td><td><strong>¥45,586</strong></td><td><strong>85.0%</strong></td></tr></table><h3>月净利润</h3><p><strong>¥53,610 - ¥45,586 = ¥8,024/月</strong>（净利率约<strong>15.0%</strong>）</p><p>这个利润率处于快餐小吃品类<strong>优秀水平</strong>（行业基准8%-15%），前提是食材成本控制在35%以内+外卖跑到30单/天。</p><h3>SaaS投资回报</h3><table><tr><th>已签约产品</th><th>年费</th><th>直接收益</th><th>回本周期</th></tr><tr><td>扫码点餐</td><td>约¥2,000/年（⚠️ 建议核实）</td><td>省1人力=¥48,000/年+减少错单损失</td><td><strong>≤1个月</strong></td></tr></table><h3>增长空间</h3><ul><li>若外卖跑到<strong>50单/天</strong>（Day 60目标），月营收可达<strong>¥67,350</strong>，净利<strong>¥13,000+</strong></li><li>后续签约会员旗舰版（¥4,888/年），锁定复购可额外提升堂食<strong>15%-20%</strong>营收</li></ul><h3>季度OKR目标</h3><table><tr><th>指标</th><th>8月（开业月）</th><th>9月</th><th>10月</th></tr><tr><td>月总营收</td><td>¥40,000</td><td>¥53,000</td><td>¥60,000</td></tr><tr><td>大众点评评分</td><td>4.0（出星）</td><td>4.5</td><td>4.5+（冲榜）</td></tr><tr><td>社群人数</td><td>300人</td><td>500人</td><td>600人</td></tr><tr><td>外卖日均单量</td><td>20单</td><td>30单</td><td>40单</td></tr><tr><td>周复购率</td><td>15%</td><td>25%</td><td>30%</td></tr></table><p>⚠️ 以上测算基于行业参考值和合理假设，建议开业后<strong>Day 15和Day 30</strong>各做一次真实数据复盘，修正假设、调整策略。</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
