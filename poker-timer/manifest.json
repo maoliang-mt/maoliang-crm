@@ -1,0 +1,10 @@
+{
+  "name": "RAISE Blind Timer",
+  "short_name": "RAISE Timer",
+  "start_url": ".",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
+  "icons": []
+}
