@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAISE · Blind Timer</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --gold: #d4a853;
+  --gold-bright: #f0d68a;
+  --bg-dark: #0f0f0f;
+  --bg-card: rgba(30, 30, 30, 0.6);
+  --text: #f5f5f5;
+  --text-dim: #888;
+  --green: #5c8a5c;
+  --red: #8a3c3c;
+  --orange: #c8843c;
+}
+
+body {
+  font-family: 'PingFang SC', 'Helvetica Neue', sans-serif;
+  background: var(--bg-dark);
+  color: var(--text);
+  min-height: 100vh;
+  overflow: hidden;
+  background-image: 
+    radial-gradient(ellipse at center, rgba(50,40,20,0.3) 0%, transparent 70%);
+}
+
+/* 大屏幕显示模式 */
+.display-mode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 60px 40px 140px;
+}
+
+/* 顶部品牌条 */
+.brand-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 80px;
+}
+.brand-bar .logo {
+  width: 56px;
+  height: 56px;
+  border: 2px solid var(--gold);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+.brand-bar h1 {
+  font-size: 42px;
+  color: var(--gold);
+  font-weight: 300;
+  letter-spacing: 6px;
+}
+.brand-bar .tagline {
+  font-size: 14px;
+  color: var(--text-dim);
+  letter-spacing: 4px;
+  margin-top: 4px;
+}
+
+/* 中央信息区 */
+.center-stage {
+  display: flex;
+  align-items: stretch;
+  gap: 60px;
+  margin-bottom: 60px;
+}
+
+/* 当前级别卡 */
+.blind-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 50px 60px;
+  text-align: center;
+  min-width: 320px;
+}
+.blind-card .card-label {
+  font-size: 14px;
+  color: var(--text-dim);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.blind-card .level-number {
+  font-size: 96px;
+  font-weight: 200;
+  color: var(--text);
+  line-height: 1;
+  letter-spacing: -2px;
+}
+.blind-card .level-number .slash {
+  color: var(--gold);
+  margin: 0 8px;
+}
+.blind-card .level-name {
+  font-size: 22px;
+  color: var(--gold);
+  margin-top: 16px;
+  font-weight: 300;
+}
+
+/* 计时器环 */
+.timer-ring-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 50px 60px;
+  min-width: 320px;
+}
+.timer-ring-container .card-label {
+  font-size: 14px;
+  color: var(--text-dim);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.ring-wrapper {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+.ring-svg {
+  transform: rotate(-90deg);
+  width: 100%;
+  height: 100%;
+}
+.ring-bg {
+  fill: none;
+  stroke: rgba(255,255,255,0.06);
+  stroke-width: 6;
+}
+.ring-progress {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 6;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s linear, stroke 0.3s;
+}
+.ring-progress.warning { stroke: var(--orange); }
+.ring-progress.danger { stroke: var(--red); }
+.ring-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.ring-time {
+  font-size: 48px;
+  font-weight: 200;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.ring-time.warning { color: var(--orange); }
+.ring-time.danger { color: var(--red); }
+.ring-min-label {
+  font-size: 12px;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+  margin-top: 4px;
+}
+
+/* 底部信息条 */
+.bottom-bar {
+  display: flex;
+  gap: 40px;
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 24px 40px;
+  align-items: center;
+}
+.bottom-bar .info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.bottom-bar .info-label {
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.bottom-bar .info-value {
+  font-size: 24px;
+  color: var(--text);
+  font-weight: 300;
+}
+.bottom-bar .info-value.highlight {
+  color: var(--gold);
+}
+.bottom-bar .divider {
+  width: 1px;
+  height: 40px;
+  background: rgba(255,255,255,0.1);
+}
+
+/* 控制栏 */
+.controls {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px 40px;
+  background: rgba(15, 15, 15, 0.9);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  z-index: 100;
+}
+
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+
+.btn-primary {
+  background: var(--gold);
+  color: #000;
+}
+.btn-primary:hover { background: var(--gold-bright); }
+
+.btn-secondary {
+  background: rgba(255,255,255,0.08);
+  color: var(--text);
+}
+.btn-secondary:hover { background: rgba(255,255,255,0.12); }
+
+.btn-danger {
+  background: rgba(138, 60, 60, 0.3);
+  color: #c85c5c;
+}
+.btn-danger:hover { background: rgba(138, 60, 60, 0.5); }
+
+/* 设置面板 */
+.settings-panel {
+  position: fixed;
+  top: 0;
+  right: -420px;
+  width: 420px;
+  height: 100vh;
+  background: rgba(15, 15, 15, 0.97);
+  backdrop-filter: blur(20px);
+  border-left: 1px solid rgba(255,255,255,0.06);
+  padding: 32px;
+  transition: right 0.3s ease;
+  z-index: 200;
+  overflow-y: auto;
+}
+.settings-panel.open { right: 0; }
+
+.settings-panel h2 {
+  font-size: 20px;
+  color: var(--gold);
+  font-weight: 400;
+  margin-bottom: 24px;
+  letter-spacing: 2px;
+}
+
+.setting-item {
+  margin-bottom: 20px;
+}
+.setting-item label {
+  display: block;
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+.setting-item input, .setting-item select {
+  width: 100%;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 15px;
+  font-family: inherit;
+}
+.setting-item input:focus, .setting-item select:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+
+.levels-list {
+  margin-top: 8px;
+}
+.level-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 80px 32px;
+  gap: 8px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+.level-row input {
+  padding: 8px 10px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+}
+.level-row input:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+.level-row .del-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: none;
+  background: rgba(138, 60, 60, 0.2);
+  color: #c85c5c;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-level {
+  width: 100%;
+  padding: 10px;
+  background: rgba(212, 168, 83, 0.08);
+  border: 1px dashed rgba(212, 168, 83, 0.3);
+  border-radius: 8px;
+  color: var(--gold);
+  font-size: 13px;
+  cursor: pointer;
+  font-family: inherit;
+  margin-top: 8px;
+}
+.add-level:hover { background: rgba(212, 168, 83, 0.12); }
+
+.settings-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 30px;
+}
+.btn-save {
+  flex: 1;
+  padding: 12px;
+  background: var(--gold);
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+}
+.btn-cancel {
+  flex: 1;
+  padding: 12px;
+  background: rgba(255,255,255,0.08);
+  color: var(--text);
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* 全屏按钮 */
+.fs-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255,255,255,0.08);
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 16px;
+  z-index: 50;
+  transition: all 0.2s;
+}
+.fs-btn:hover { background: rgba(255,255,255,0.15); color: var(--text); }
+
+@media (max-width: 900px) {
+  .center-stage { flex-direction: column; gap: 30px; }
+  .blind-card, .timer-ring-container { min-width: 260px; padding: 30px; }
+  .brand-bar h1 { font-size: 32px; }
+  .controls { flex-wrap: wrap; padding: 12px; }
+  .btn { padding: 10px 16px; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+
+<button class="fs-btn" onclick="toggleFullscreen()" title="全屏">⛶</button>
+
+<div class="display-mode">
+  <div class="brand-bar">
+    <div class="logo">♠</div>
+    <div>
+      <h1>RAISE</h1>
+      <div class="tagline">POKER · BEER</div>
+    </div>
+  </div>
+
+  <div class="center-stage">
+    <div class="blind-card">
+      <div class="card-label">当前盲级</div>
+      <div class="level-number" id="blindDisplay">50 <span class="slash">/</span> 100</div>
+      <div class="level-name" id="levelName">第 3 级</div>
+    </div>
+
+    <div class="timer-ring-container">
+      <div class="card-label">剩余时间</div>
+      <div class="ring-wrapper">
+        <svg class="ring-svg" viewBox="0 0 200 200">
+          <circle class="ring-bg" cx="100" cy="100" r="90"/>
+          <circle class="ring-progress" id="ringProgress" cx="100" cy="100" r="90" 
+            stroke-dasharray="565.48" stroke-dashoffset="0"/>
+        </svg>
+        <div class="ring-text">
+          <div class="ring-time" id="timeDisplay">05:00</div>
+          <div class="ring-min-label">MINUTES</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="info-item">
+      <span class="info-label">下一盲级</span>
+      <span class="info-value highlight" id="nextBlind">100 / 200</span>
+    </div>
+    <div class="divider"></div>
+    <div class="info-item">
+      <span class="info-label">已用时间</span>
+      <span class="info-value" id="elapsed">00:00</span>
+    </div>
+    <div class="divider"></div>
+    <div class="info-item">
+      <span class="info-label">当前级别</span>
+      <span class="info-value" id="levelIndex">3 / 8</span>
+    </div>
+  </div>
+</div>
+
+<div class="controls">
+  <button class="btn btn-primary" id="startBtn" onclick="toggleTimer()">▶ 开始</button>
+  <button class="btn btn-secondary" onclick="nextLevel()">⏭ 升盲</button>
+  <button class="btn btn-secondary" onclick="prevLevel()">⏮ 降盲</button>
+  <button class="btn btn-secondary" onclick="resetTimer()">↺ 重置</button>
+  <button class="btn btn-danger" onclick="toggleSettings()">⚙ 设置</button>
+</div>
+
+<div class="settings-panel" id="settingsPanel">
+  <h2>⚙ 设置</h2>
+
+  <div class="setting-item">
+    <label>每级时长（分钟）</label>
+    <input type="number" id="setDuration" value="5" min="1" max="30">
+  </div>
+  <div class="setting-item">
+    <label>警示变色（秒）</label>
+    <input type="number" id="setWarn" value="60" min="10" max="300">
+  </div>
+  <div class="setting-item">
+    <label>危险变色（秒）</label>
+    <input type="number" id="setDanger" value="30" min="5" max="120">
+  </div>
+  <div class="setting-item">
+    <label>音效</label>
+    <select id="setSound">
+      <option value="1">开启</option>
+      <option value="0">关闭</option>
+    </select>
+  </div>
+
+  <h2 style="margin-top:30px">盲级结构</h2>
+  <div class="levels-list" id="levelsList"></div>
+  <button class="add-level" onclick="addLevel()">+ 添加盲级</button>
+
+  <div class="settings-actions">
+    <button class="btn-save" onclick="saveSettings()">保存</button>
+    <button class="btn-cancel" onclick="toggleSettings()">取消</button>
+  </div>
+</div>
+
+<script>
+let state = {
+  levelIdx: 0,
+  timeLeft: 300,
+  totalTime: 300,
+  running: false,
+  elapsed: 0
+};
+
+let interval = null;
+
+let blinds = [
+  { s: 10, b: 20, n: '热身' },
+  { s: 25, b: 50, n: '1' },
+  { s: 50, b: 100, n: '2' },
+  { s: 100, b: 200, n: '3' },
+  { s: 200, b: 400, n: '4' },
+  { s: 300, b: 600, n: '5' },
+  { s: 500, b: 1000, n: '6' },
+  { s: 1000, b: 2000, n: 'Final' }
+];
+
+let cfg = { dur: 5, warn: 60, danger: 30, sound: true };
+
+function load() {
+  const s = localStorage.getItem('raiseTimer');
+  if (s) Object.assign(cfg, JSON.parse(s));
+  const b = localStorage.getItem('raiseBlinds');
+  if (b) blinds = JSON.parse(b);
+  document.getElementById('setDuration').value = cfg.dur;
+  document.getElementById('setWarn').value = cfg.warn;
+  document.getElementById('setDanger').value = cfg.danger;
+  document.getElementById('setSound').value = cfg.sound ? '1' : '0';
+  state.totalTime = cfg.dur * 60;
+  state.timeLeft = state.totalTime;
+  renderLevels();
+  update();
+}
+
+function renderLevels() {
+  document.getElementById('levelsList').innerHTML = blinds.map((l, i) => `
+    <div class="level-row">
+      <input type="number" value="${l.s}" onchange="blinds[${i}].s=+this.value">
+      <input type="number" value="${l.b}" onchange="blinds[${i}].b=+this.value">
+      <input type="text" value="${l.n}" onchange="blinds[${i}].n=this.value">
+      <button class="del-btn" onclick="blinds.splice(${i},1);renderLevels();update()" ${blinds.length<=1?'disabled':''}>×</button>
+    </div>
+  `).join('');
+}
+
+function addLevel() {
+  const last = blinds[blinds.length-1];
+  blinds.push({ s: last.s*2, b: last.b*2, n: String(blinds.length+1) });
+  renderLevels();
+}
+
+function saveSettings() {
+  cfg.dur = +document.getElementById('setDuration').value;
+  cfg.warn = +document.getElementById('setWarn').value;
+  cfg.danger = +document.getElementById('setDanger').value;
+  cfg.sound = document.getElementById('setSound').value === '1';
+  localStorage.setItem('raiseTimer', JSON.stringify(cfg));
+  localStorage.setItem('raiseBlinds', JSON.stringify(blinds));
+  state.totalTime = cfg.dur * 60;
+  state.timeLeft = state.totalTime;
+  update();
+  toggleSettings();
+}
+
+function toggleTimer() {
+  if (state.running) {
+    clearInterval(interval);
+    state.running = false;
+    document.getElementById('startBtn').textContent = '▶ 继续';
+  } else {
+    interval = setInterval(() => {
+      state.timeLeft--;
+      state.elapsed++;
+      if (state.timeLeft === cfg.warn && cfg.sound) beep(800, 0.2);
+      if (state.timeLeft === cfg.danger && cfg.sound) beep(1000, 0.3);
+      if (state.timeLeft <= 0) { beep(600, 0.5); nextLevel(); }
+      update();
+    }, 1000);
+    state.running = true;
+    document.getElementById('startBtn').textContent = '⏸ 暂停';
+  }
+}
+
+function nextLevel() {
+  if (state.levelIdx < blinds.length-1) state.levelIdx++;
+  resetTimer();
+}
+
+function prevLevel() {
+  if (state.levelIdx > 0) state.levelIdx--;
+  resetTimer();
+}
+
+function resetTimer() {
+  clearInterval(interval);
+  state.running = false;
+  state.timeLeft = cfg.dur * 60;
+  state.totalTime = state.timeLeft;
+  state.elapsed = 0;
+  document.getElementById('startBtn').textContent = '▶ 开始';
+  update();
+}
+
+function update() {
+  const l = blinds[state.levelIdx];
+  document.getElementById('blindDisplay').innerHTML = `${l.s} <span class="slash">/</span> ${l.b}`;
+  document.getElementById('levelName').textContent = `第 ${l.n} 级`;
+
+  const m = Math.floor(state.timeLeft/60).toString().padStart(2,'0');
+  const s = (state.timeLeft%60).toString().padStart(2,'0');
+  const tEl = document.getElementById('timeDisplay');
+  tEl.textContent = `${m}:${s}`;
+  
+  const ring = document.getElementById('ringProgress');
+  ring.classList.remove('warning','danger');
+  tEl.classList.remove('warning','danger');
+  if (state.timeLeft <= cfg.danger) {
+    ring.classList.add('danger');
+    tEl.classList.add('danger');
+  } else if (state.timeLeft <= cfg.warn) {
+    ring.classList.add('warning');
+    tEl.classList.add('warning');
+  }
+
+  const pct = state.totalTime > 0 ? state.timeLeft/state.totalTime : 0;
+  ring.setAttribute('stroke-dashoffset', 565.48 * (1-pct));
+
+  const em = Math.floor(state.elapsed/60).toString().padStart(2,'0');
+  const es = (state.elapsed%60).toString().padStart(2,'0');
+  document.getElementById('elapsed').textContent = `${em}:${es}`;
+
+  document.getElementById('levelIndex').textContent = `${state.levelIdx+1} / ${blinds.length}`;
+
+  const nIdx = state.levelIdx+1;
+  if (nIdx < blinds.length) {
+    const n = blinds[nIdx];
+    document.getElementById('nextBlind').textContent = `${n.s} / ${n.b} · ${n.n}`;
+  } else {
+    document.getElementById('nextBlind').textContent = 'Final';
+  }
+}
+
+function beep(freq, dur) {
+  try {
+    const ctx = new (window.AudioContext||window.webkitAudioContext)();
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.connect(g); g.connect(ctx.destination);
+    o.frequency.value = freq;
+    g.gain.value = 0.3;
+    o.start();
+    o.stop(ctx.currentTime+dur);
+  } catch(e) {}
+}
+
+function toggleSettings() {
+  document.getElementById('settingsPanel').classList.toggle('open');
+}
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+  else document.exitFullscreen();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.code==='Space'){e.preventDefault();toggleTimer();}
+  if (e.code==='ArrowRight'){e.preventDefault();nextLevel();}
+  if (e.code==='ArrowLeft'){e.preventDefault();prevLevel();}
+  if (e.code==='KeyR'){e.preventDefault();resetTimer();}
+  if (e.code==='KeyF'){e.preventDefault();toggleFullscreen();}
+});
+
+load();
+</script>
+</body>
+</html>
