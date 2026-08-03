@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>凤凰鸡排（萧山万象汇店） · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">鸡排/炸鸡小吃 · 运营提升方案</div>
+  <h1 class="hero-title">凤凰鸡排（萧山万象汇店）</h1>
+  <p class="hero-subtitle">万象汇黄金动线，现炸鸡排做逛街标配</p>
+  <div class="hero-address">浙江省杭州市萧山区金城路万象汇</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥18</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">萧山区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察·品类机遇与挑战', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察·品类机遇与挑战</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解·周边真实对手', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解·周边真实对手</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '新店冷启动·开业7天作战计划', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">新店冷启动·开业7天作战计划</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评口碑·新店出星路径', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评口碑·新店出星路径</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '公域获客·三平台协同引流', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">公域获客·三平台协同引流</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '私域留客·轻会员+套餐组合', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">私域留客·轻会员+套餐组合</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '暑期营销·8月活动日历', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">暑期营销·8月活动日历</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '投资回报·数字算清账', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">投资回报·数字算清账</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>炸鸡/鸡排品类大盘</h3><p>快餐小吃品类2024年市场规模突破<strong>1.0万亿元</strong>，同比增长7.5%，是餐饮行业增速最快的品类。鸡排/炸鸡是小吃赛道核心品类之一，正新鸡排以37,000+门店稳居万店榜前列，说明品类认知度极高——但同时也意味着<strong>存量博弈加剧，头部品牌加速整合，尾部出清</strong>。</p><h3>萧山万象汇商圈画像</h3><p>萧山万象汇是萧山城区核心商业体，地处金城路商圈，日均客流量约3-5万人次（⚠️ 行业参考值），B1/B2层餐饮档口密集。你的核心客群画像：</p><ul><li><strong>主力客群（占60%）：</strong>逛街年轻人（18-35岁），消费场景是"逛累了顺手买一份"，决策时间极短（3-5秒路过决定买不买）</li><li><strong>次要客群（占25%）：</strong>亲子家庭，周末带孩子来商场，孩子指哪买哪</li><li><strong>潜力客群（占15%）：</strong>周边写字楼白领午餐/下午茶外带</li></ul><h3>品类价格带定位</h3><p>鸡排单品主流价格带<strong>10-18元</strong>，套餐区间<strong>22-35元</strong>。凤凰鸡排大鸡排预估定价15-18元，处于中端——恰好是竞争最激烈的区间。<strong>关键判断：单靠鸡排单品打不出差异化，必须用"鸡排+饮品"组合套餐把客单价拉到25-30元才有利润空间</strong>。</p><h3>三个核心风险</h3><ul><li><strong>同质化陷阱：</strong>消费者对鸡排品牌忠诚度极低，你和正新鸡排在口味上差异不大，"逛到谁买谁"是常态</li><li><strong>商场分流：</strong>万象汇B1/B2层茶饮档口（蜜雪冰城、古茗等）和你抢同一波"逛街零食预算"</li><li><strong>外卖利润压缩：</strong>鸡排单价低、平台抽佣20-25%后净利极薄，纯靠外卖走量不可持续</li></ul></div>
+<div id="modal-content-2" style="display:none"><h3>萧山万象汇及金城路商圈直接竞品</h3><table><tr><th>品牌</th><th>人均</th><th>强项</th><th>弱点</th><th>你的切入机会</th></tr><tr><td><strong>正新鸡排</strong></td><td>12-16元</td><td>门店密度高、价格屠夫、国民认知度</td><td>品牌老化，产品多年无新意，现炸感弱（预制为主）</td><td>打"现炸可视化"差异——你现炸冒热气，它流水线出品</td></tr><tr><td><strong>叫了个炸鸡</strong></td><td>18-28元</td><td>外卖强势、SKU丰富</td><td>堂食体验弱，门店形象偏档口</td><td>你有万象汇堂食/外带场景优势，可差异化共存</td></tr><tr><td><strong>肯德基/麦当劳</strong></td><td>30-45元</td><td>品牌信任、套餐组合成熟</td><td>价格带高一档，15-20元客群不会首选</td><td>"鸡排+柠檬茶19.9元"卡在它套餐价一半以下</td></tr><tr><td><strong>蜜雪/古茗等茶饮</strong></td><td>8-15元</td><td>抢同一波逛街零食客群</td><td>品类不同，无法满足"解馋"需求</td><td>"鸡排+饮品"捆绑，把茶饮竞争变成互补</td></tr></table><h3>竞争核心结论</h3><p><strong>竞争烈度：高。</strong>万象汇B1/B2层小吃档口密集，消费者"逛到谁买谁"，品牌护城河浅。你最大的对手不是某一家店，而是<strong>"路过你档口时没注意到你"</strong>。</p><p><strong>一句话判断：这家店核心挑战不是产品而是流量截获效率——谁能在商场动线上多拦一个人、多给一个到店理由，谁就赢。</strong></p><h3>差异化三板斧</h3><ol><li><strong>视觉拦截：</strong>档口前置明档现炸区，用香味+油锅视觉在3秒内抓住路过的人——正新做不到这点（标准化预制为主）</li><li><strong>价格锚定：</strong>套餐价19.9-25.9元，卡在正新（12-16元）和肯德基（30-45元）中间——"比正新好吃一档、比肯德基便宜一半"</li><li><strong>限定口味：</strong>每月推1款限定口味（藤椒味/咸蛋黄味），让人有"这次不买下次就没了"的紧迫感，调料包研发月成本增加不超500元</li></ol></div>
+<div id="modal-content-3" style="display:none"><h3>核心目标：开业7天日均出单破150单</h3><p>鸡排档口店的生死线很简单——<strong>日均出单量</strong>。按人均18元、日出单150单计算，日均流水约2,700元，月流水约8.1万元（⚠️ 假设值，建议国庆核实门店租金后反推保本线）。开业第一周的出单量直接决定后续3个月的生死。</p><h3>开业前3天：蓄水期（谁来做：老板+1名员工）</h3><ul><li><strong>Day -3：</strong>在万象汇B1/B2层人流最密集的3个位置（电梯口/中庭/卫生间动线）张贴"新店开业·前100名半价"海报。物料成本约50元（A3海报×10张），需提前和商场物业确认张贴位置</li><li><strong>Day -2：</strong>大众点评商家后台🔧「门店管理→基础信息」完善门店信息（营业时间/菜品图/实景图至少5张），确保搜"万象汇鸡排"能被找到。同时🔧「团购套餐→创建团购」上架引流团购："招牌大鸡排+柠檬茶"9.9元（限前50份，原价约25元，亏损约8元/份，总投入400元换50个真实到店）</li><li><strong>Day -1：</strong>试营业，邀请商场内其他档口店员免费试吃（约10-15份，成本约100元）。目的：①让隔壁店员成为口碑传播节点 ②测试出餐流程（目标：点单到出餐≤3分钟）</li></ul><h3>开业Day 1-3：爆量期（谁来做：全员）</h3><ul><li><strong>前100名半价执行：</strong>每天限前100名享"大鸡排半价"（原价16→8元），🔧扫码点餐系统设置限量优惠券100张/天，核销完自动恢复原价。每天让利约800元，3天共亏约2,400元——换300个真实客人的口碑基础</li><li><strong>出餐必说话术：</strong>"我们是新开的凤凰鸡排，今天半价尝鲜！觉得好吃帮我们在大众点评写两句真实感受，好坏都行"（<strong>严禁任何返券/返现换好评</strong>——2025年10月后促评=评价不计入星级）</li><li><strong>档口视觉武器：</strong>炸锅放在最靠近人流动线的位置，保持持续现炸——哪怕没客人也炸着，香味是最好的广告（油耗日增约30-50元，值得）</li></ul><h3>开业Day 4-7：转化期（谁来做：老板管线上/员工管线下）</h3><ul><li>半价结束，切换为"套餐立减"：大鸡排+饮品原价28元→开业价19.9元（🔧扫码点餐→套餐管理→新建套餐），让利约8元/单，但客单价从16元拉到19.9元</li><li>美团/点评团购持续挂：9.9元引流团购核销完后换上19.9元套餐团购（正常利润，长期挂）</li><li>每天盯🔧「评价管理」，目标7天内积累≥15条真实评价</li></ul><h3>7天投入与产出</h3><table><tr><th>指标</th><th>目标</th><th>依据</th></tr><tr><td>日均出单</td><td>≥150单</td><td>万象汇档口新店基准（⚠️ 假设）</td></tr><tr><td>点评评价</td><td>≥15条</td><td>新店出星基础门槛</td></tr><tr><td>套餐占比</td><td>≥40%</td><td>客单价从16→20元的关键</td></tr><tr><td>7天总投入</td><td>约3,000-3,500元</td><td>半价2,400+海报50+试吃100+油耗200+团购亏损400</td></tr></table></div>
+<div id="modal-content-4" style="display:none"><h3>当前阶段：0-4天新店，尚未出星</h3><p>大众点评上大概率还没有星级，评价数为0。鸡排/小吃品类点评的核心价值不在"冲高星"，而在<strong>"被搜到+看起来靠谱"</strong>——消费者搜"万象汇美食"时，有评价的店优先展示，没评价的直接被忽略。</p><h3>阶段一（Day 1-10）：基础评价积累（谁来做：老板每天10分钟）</h3><ul><li>🔧「大众点评商家后台→评价管理」每天检查新增评价</li><li><strong>铁律：绝不做任何促评/返券换好评。</strong>2025年10月新规：高强度促评=新评价不产生星级收益，等于白干</li><li>合规做法：靠产品驱动自发评价。出餐话术："我们家刚开业，如果觉得好吃帮写两句真实感受，好坏都行！"——"好坏都行"让顾客感受到真诚</li><li>目标：10天内积累<strong>≥20条真实评价</strong></li></ul><h3>阶段二（Day 11-30）：冲星+上新店榜（谁来做：老板每周1小时）</h3><ul><li>🔧「大众点评→营销中心→免费试」设置5-10个免费试名额/周，吸引探店用户到店写评价。成本约8-15元/份（鸡排+饮品），每周投入80-150元</li><li>目标：30天内评价数<strong>≥50条</strong>，星级<strong>≥4.0分</strong></li><li>关注🔧「商家后台→榜单」，查看是否进入"新店榜"——新店最大免费流量入口</li></ul><h3>阶段三（Month 2-3）：维护+冲热门榜</h3><ul><li>差评处理铁律：收到差评<strong>2小时内回复</strong>。话术："很抱歉这次体验不好，我是店长XX，您方便加我微信（附号），我亲自安排一次满意的体验"——把差评变成展示店家态度的窗口</li><li>目标：3个月内评分<strong>≥4.3分</strong>，进入万象汇商圈热门榜/好评榜</li></ul><h3>分享动机打造（不靠促评靠体验）</h3><ul><li><strong>拍照触发点：</strong>出餐时撒彩色调料粉（海苔粉/辣椒粉拼图案），成本≈0，视觉冲击力强，年轻人自发拍照发朋友圈/小红书</li><li><strong>包装即传播：</strong>外带纸袋印趣味文案（"炸鸡治愈一切"/"今天的快乐由炸鸡赞助"），成本增加约0.05元/个，包装本身成为传播物料</li><li><strong>路径升级：新店榜→热门榜→好评榜</strong>，每次上榜都是一波免费流量，持续维护评价质量比冲量更重要</li></ul></div>
+<div id="modal-content-5" style="display:none"><h3>公域策略总览</h3><p>鸡排/炸鸡品类公域获客逻辑和正餐完全不同：正餐靠"搜索→比价→决策"，鸡排靠<strong>"刷到→种草→顺路买"</strong>。抖音和小红书的优先级甚至高于大众点评。</p><h3>平台一：大众点评（基础盘，必做）</h3><p><strong>谁来做：老板，每周花1小时</strong></p><ul><li><strong>团购常挂：</strong>🔧「大众点评商家后台→团购→创建套餐」，长期挂"大鸡排+柠檬茶19.9元"（原价28元，让利8元，每单仍有3-5元毛利）。标题必含"萧山万象汇"+"鸡排"截获本地搜索</li><li><strong>门店头图：</strong>用现炸鸡排特写图（油光发亮、热气腾腾），食物图点击率比门店图高约3倍（⚠️ 行业参考值）</li><li><strong>推荐菜设置：</strong>🔧「商家后台→门店信息→推荐菜」设3-5款（大鸡排/鸡米花/炸鸡腿/套餐/限定口味），每款配高清图+一句话卖点</li></ul><h3>平台二：小红书（种草主力，强烈建议）</h3><p><strong>谁来做：老板或1名年轻员工，每周发2-3条</strong></p><ul><li><strong>内容方向：</strong>①"萧山万象汇必吃·现炸鸡排"探店图文 ②"鸡排隐藏吃法"（鸡排+冰淇淋/鸡排夹饭团） ③每月限定口味打卡</li><li><strong>关键词策略：</strong>标题必含"萧山万象汇""萧山美食""杭州鸡排"——搜索量稳定且竞争内容少，容易出排名</li><li><strong>执行标准：</strong>每条≥6张图+300字文案，首图必须是鸡排特写（咬开拉丝/油汁四溅），此类图互动量约为普通美食图2倍（⚠️ 行业参考值）</li><li><strong>投入：</strong>自拍零成本。开业首月找2-3个本地小博主（粉丝5k-2w），单条约200-500元，总投入600-1500元</li></ul><h3>平台三：抖音团购（流量爆发）</h3><p><strong>谁来做：老板，每月花2小时</strong></p><ul><li>抖音来客APP🔧「团购→创建套餐」上架"萧山万象汇·凤凰鸡排套餐19.9元"</li><li><strong>短视频内容：</strong>15秒"现炸出锅"过程——油锅翻滚→鸡排下锅→金黄出锅→撒料→递给顾客，全程ASMR炸声，完播率极高</li><li>预期：月售100份团购券，核销率30-50%（⚠️ 行业参考值），月增到店30-50人，增营收约1,000-2,000元</li></ul><h3>三平台联动</h3><p>小红书种草（看到→想去）→ 大众点评验证（搜评价→下单团购）→ 到店消费 → 抖音短视频二次传播。核心技巧：<strong>一次现炸视频，生产三份素材</strong>——15秒版发抖音、图文版发小红书、图片做点评头图。</p></div>
+<div id="modal-content-6" style="display:none"><h3>私域核心逻辑：不做重储值，做轻复购</h3><p>鸡排/小吃品类特殊性：<strong>客单价低（18元）、消费频次看心情、品牌忠诚度低</strong>。正餐的"充3000送500"储值模式完全不适用——没人为鸡排充值3000元。凤凰鸡排的私域策略不是"锁钱"，而是<strong>"增频次+拉客单"</strong>。</p><h3>策略一：轻量会员卡·增频次</h3><p><strong>谁来做：老板设置，收银员执行</strong></p><ul><li>🔧「会员系统→创建会员卡」设置"凤凰吃货卡"——免费注册，权益：①消费积分（1元=1分）②满100积分换1份鸡米花（成本约3元）③生日月双倍积分 ④每月8号"会员日"全场9折</li><li><strong>注册话术：</strong>"扫这个码免费注册会员，下次直接积分换鸡米花，不花钱"（🔧扫码点餐页面自动弹注册引导）</li><li><strong>不注册怎么办：</strong>"没关系，码拍下存手机，下次想吃扫一下就能点餐不用排队"——把动机从"薅羊毛"变成"方便自己"</li><li>目标：首月注册<strong>≥200人</strong>，月活跃率（当月消费≥1次）<strong>≥30%</strong></li></ul><h3>策略二：三档套餐·锚定法拉客单</h3><p><strong>谁来做：老板定价，员工主推中间档</strong></p><table><tr><th>档位</th><th>内容</th><th>定价</th><th>成本</th><th>毛利</th><th>目的</th></tr><tr><td>基础</td><td>大鸡排单品</td><td>16元</td><td>~6元</td><td>~10元</td><td>引流款</td></tr><tr><td>⭐主推</td><td>大鸡排+柠檬茶</td><td>19.9元</td><td>~8元</td><td>~12元</td><td>利润款，主推</td></tr><tr><td>超值</td><td>大鸡排+鸡米花+柠檬茶</td><td>25.9元</td><td>~11元</td><td>~15元</td><td>拉客单价</td></tr></table><ul><li><strong>话术：</strong>顾客说"来份大鸡排"→"要不加4块钱配杯柠檬茶？鲜榨的（⚠️ 假设），套餐比单买省8块"</li><li>套餐渗透率目标<strong>≥50%</strong>，客单价从16→20-22元，月增毛利约<strong>3,000-5,000元</strong></li></ul><h3>策略三：下午茶时段套餐·填补低谷</h3><p><strong>谁来做：老板设置，14:00-17:00自动切换</strong></p><ul><li>🔧「扫码点餐→分时段菜单」设置下午茶时段（14:00-17:00）展示"鸡排+饮品15.9元"（原19.9元）</li><li>逻辑：非正餐时段仍有逛街客流，15.9元锚定感把路过的人拉进来，边际成本几乎为零</li><li>美团/抖音团购标题打"萧山万象汇下午茶"截获搜索</li><li>预期：下午茶时段日增20-30单（⚠️ 假设），月增营收约<strong>1万-1.4万元</strong></li></ul></div>
+<div id="modal-content-7" style="display:none"><h3>8月营销节奏：抓暑期尾巴+立秋换季</h3><p>8月初开业，正好赶上暑期旺季尾巴——学生客群+高温天气外带需求旺盛，必须抓住窗口快速起量。</p><h3>活动一：「暑假嗨吃卡」学生专属（8月3日-31日）</h3><p><strong>谁来做：老板设置+收银员推卡</strong></p><ul><li>凭学生证/准考证办理，售价<strong>19.9元</strong>，8月内每次到店消费享9折+赠冰饮1杯</li><li>🔧「会员系统→创建权益包→暑期卡」设置权益+有效期至8月31日</li><li>成本：冰饮成本约2-3元/杯+9折让利约10%，卡费19.9元基本覆盖成本，锁定暑期多次消费</li><li><strong>推卡话术：</strong>"学生吗？花19.9办张暑假卡，整个8月来都打9折还送冰饮，一次就回本"</li><li><strong>学生不想办怎么办：</strong>"没关系，今天点套餐我直接给你送杯冰饮尝尝"——先体验再决定</li><li>目标：8月办出<strong>≥80张</strong>暑期卡，锁定学生复购≥3次</li></ul><h3>活动二：「清凉一夏」大暑/高温特惠（8月持续）</h3><p><strong>谁来做：员工出餐时执行</strong></p><ul><li>堂食到店消费赠冰粉/绿豆汤一小杯（成本约0.5-1元/份），外卖满30元加1元得冰饮</li><li>🔧「扫码点餐→弹窗设置」弹窗文案"高温福利：到店免费喝冰粉"</li><li>逻辑：冰粉成本极低但体验感极佳（尤其夏天），"免费"二字拉高进店率</li><li>凉菜不适用鸡排品类，跳过</li></ul><h3>活动三：「开学前最后一顿」暑期卡核销冲刺（8月25-31日）</h3><p><strong>谁来做：老板push+员工执行</strong></p><ul><li>暑期卡持有者到店消费满30元抽奖一次：奖品为9月套餐5元券/鸡米花兑换券/双倍积分卡</li><li>🔧「会员系统→筛选暑期卡用户→push消息」："你的暑假卡8月31日到期，最后一周消费满30元抽奖！"</li><li>核心目的：消耗暑期卡剩余权益+发出9月优惠券锁定开学后消费</li><li>奖品中"9月双倍积分卡"占比最高（成本为零，但能拉复购）</li></ul><h3>活动四：绑定万象汇商场活动（持续）</h3><p><strong>谁来做：老板主动对接商场运营</strong></p><ul><li>和万象汇运营谈联合积分/满减券（如商场消费满100送鸡排5元券），借商场流量精准导流</li><li>实际核销成本约2-3元/张（让利部分），但能触达商场全量客流</li><li><strong>怎么谈：</strong>找商场B1/B2层运营负责人（通常在商场服务台可问到），话术："我们新开的鸡排店，想参与商场的会员积分活动，可以提供优惠券作为积分兑换奖品"——商场乐意（丰富会员权益），你也乐意（免费获客）</li><li><strong>对方不同意怎么办：</strong>退一步提议"商场周年庆/节日活动时我出免费试吃摊位"，用产品换曝光</li></ul></div>
+<div id="modal-content-8" style="display:none"><h3>基础经营假设（⚠️ 以下均为行业参考值+合理假设，建议国庆核实租金后修正）</h3><table><tr><th>指标</th><th>假设值</th><th>说明</th></tr><tr><td>人均客单价</td><td>18元（单品16+套餐拉高）</td><td>套餐渗透后预期20-22元</td></tr><tr><td>日均出单量</td><td>150单（开业目标）</td><td>万象汇档口基准（⚠️ 假设）</td></tr><tr><td>月流水</td><td>约8.1万元（150×18×30）</td><td>套餐拉动后预期9-10万</td></tr><tr><td>食材成本率</td><td>35%（鸡排品类中位数）</td><td>小吃品类30-38%</td></tr><tr><td>商场租金（含物业）</td><td>约1.2-1.8万/月（⚠️ 假设）</td><td>万象汇B1/B2档口参考</td></tr><tr><td>人工</td><td>约0.8-1.2万/月（2-3人）</td><td>档口模式用人少</td></tr><tr><td>水电+杂项</td><td>约0.3万/月</td><td>炸鸡油耗较高</td></tr></table><h3>当前利润估算（优化前）</h3><p>月流水8.1万 - 食材2.84万(35%) - 租金1.5万(⚠️假设) - 人工1万 - 杂项0.3万 = <strong>月净利约2.46万元，净利率约30%</strong>（⚠️ 假设值偏乐观，实际取决于租金和出单量）</p><h3>方案落地后增收测算</h3><table><tr><th>增收来源</th><th>月增营收</th><th>计算逻辑</th></tr><tr><td>套餐渗透拉客单</td><td>+0.3-0.5万</td><td>日均150单×50%选套餐×多赚2-5元</td></tr><tr><td>下午茶时段填补</td><td>+1.0-1.4万</td><td>14-17点日增20-30单×15.9元×30天</td></tr><tr><td>公域引流（点评+抖音+小红书）</td><td>+0.5-1.0万</td><td>团购核销+种草到店，月增30-50人</td></tr><tr><td>暑期卡+会员复购</td><td>+0.3-0.5万</td><td>80张暑期卡×复购3次×18元</td></tr></table><p><strong>方案落地后月流水预期：10-12万元</strong>（较基准8.1万增长约25-48%）</p><h3>首月投入汇总</h3><table><tr><th>项目</th><th>金额</th></tr><tr><td>开业7天活动投入</td><td>约3,000-3,500元</td></tr><tr><td>小红书博主合作</td><td>约600-1,500元</td></tr><tr><td>免费试名额（点评）</td><td>约320-600元/月</td></tr><tr><td>暑期卡冰饮成本</td><td>约500-800元/月</td></tr><tr><td>包装升级（趣味文案纸袋）</td><td>约200元（批量印刷）</td></tr></table><p><strong>首月总投入约5,000-6,500元</strong>，预计1-2个月内通过客单价提升+时段填补+公域增量完全覆盖。</p><h3>月度/季度OKR</h3><table><tr><th>目标</th><th>开业首月</th><th>第2月</th><th>第3月（Q1结束）</th></tr><tr><td>月流水</td><td>≥8万</td><td>≥10万</td><td>≥12万</td></tr><tr><td>大众点评评分</td><td>出星≥4.0</td><td>≥4.2</td><td>≥4.3+上热门榜</td></tr><tr><td>注册会员数</td><td>≥200人</td><td>累计≥500人</td><td>累计≥800人</td></tr><tr><td>套餐渗透率</td><td>≥40%</td><td>≥50%</td><td>≥55%</td></tr><tr><td>日均出单量</td><td>≥150单</td><td>≥180单</td><td>≥200单</td></tr><tr><td>团购核销率</td><td>≥30%</td><td>≥40%</td><td>≥50%</td></tr></table><p><strong>30天复盘节点：</strong>开业第30天，对照以上OKR逐项复盘，重点看：①日均出单是否破150 ②套餐占比是否过40% ③点评评价数是否过50。任何一项未达标，立即调整对应策略（出单不够→加大公域投放；套餐低→强化员工推荐话术训练；评价少→加大免费试名额）。</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>陈国庆</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>炸鸡/鸡排品类大盘</h3><p>快餐小吃品类2024年市场规模突破<strong>1.0万亿元</strong>，同比增长7.5%，是餐饮行业增速最快的品类。鸡排/炸鸡是小吃赛道核心品类之一，正新鸡排以37,000+门店稳居万店榜前列，说明品类认知度极高——但同时也意味着<strong>存量博弈加剧，头部品牌加速整合，尾部出清</strong>。</p><h3>萧山万象汇商圈画像</h3><p>萧山万象汇是萧山城区核心商业体，地处金城路商圈，日均客流量约3-5万人次（⚠️ 行业参考值），B1/B2层餐饮档口密集。你的核心客群画像：</p><ul><li><strong>主力客群（占60%）：</strong>逛街年轻人（18-35岁），消费场景是"逛累了顺手买一份"，决策时间极短（3-5秒路过决定买不买）</li><li><strong>次要客群（占25%）：</strong>亲子家庭，周末带孩子来商场，孩子指哪买哪</li><li><strong>潜力客群（占15%）：</strong>周边写字楼白领午餐/下午茶外带</li></ul><h3>品类价格带定位</h3><p>鸡排单品主流价格带<strong>10-18元</strong>，套餐区间<strong>22-35元</strong>。凤凰鸡排大鸡排预估定价15-18元，处于中端——恰好是竞争最激烈的区间。<strong>关键判断：单靠鸡排单品打不出差异化，必须用"鸡排+饮品"组合套餐把客单价拉到25-30元才有利润空间</strong>。</p><h3>三个核心风险</h3><ul><li><strong>同质化陷阱：</strong>消费者对鸡排品牌忠诚度极低，你和正新鸡排在口味上差异不大，"逛到谁买谁"是常态</li><li><strong>商场分流：</strong>万象汇B1/B2层茶饮档口（蜜雪冰城、古茗等）和你抢同一波"逛街零食预算"</li><li><strong>外卖利润压缩：</strong>鸡排单价低、平台抽佣20-25%后净利极薄，纯靠外卖走量不可持续</li></ul>`,
+    2: `<h3>萧山万象汇及金城路商圈直接竞品</h3><table><tr><th>品牌</th><th>人均</th><th>强项</th><th>弱点</th><th>你的切入机会</th></tr><tr><td><strong>正新鸡排</strong></td><td>12-16元</td><td>门店密度高、价格屠夫、国民认知度</td><td>品牌老化，产品多年无新意，现炸感弱（预制为主）</td><td>打"现炸可视化"差异——你现炸冒热气，它流水线出品</td></tr><tr><td><strong>叫了个炸鸡</strong></td><td>18-28元</td><td>外卖强势、SKU丰富</td><td>堂食体验弱，门店形象偏档口</td><td>你有万象汇堂食/外带场景优势，可差异化共存</td></tr><tr><td><strong>肯德基/麦当劳</strong></td><td>30-45元</td><td>品牌信任、套餐组合成熟</td><td>价格带高一档，15-20元客群不会首选</td><td>"鸡排+柠檬茶19.9元"卡在它套餐价一半以下</td></tr><tr><td><strong>蜜雪/古茗等茶饮</strong></td><td>8-15元</td><td>抢同一波逛街零食客群</td><td>品类不同，无法满足"解馋"需求</td><td>"鸡排+饮品"捆绑，把茶饮竞争变成互补</td></tr></table><h3>竞争核心结论</h3><p><strong>竞争烈度：高。</strong>万象汇B1/B2层小吃档口密集，消费者"逛到谁买谁"，品牌护城河浅。你最大的对手不是某一家店，而是<strong>"路过你档口时没注意到你"</strong>。</p><p><strong>一句话判断：这家店核心挑战不是产品而是流量截获效率——谁能在商场动线上多拦一个人、多给一个到店理由，谁就赢。</strong></p><h3>差异化三板斧</h3><ol><li><strong>视觉拦截：</strong>档口前置明档现炸区，用香味+油锅视觉在3秒内抓住路过的人——正新做不到这点（标准化预制为主）</li><li><strong>价格锚定：</strong>套餐价19.9-25.9元，卡在正新（12-16元）和肯德基（30-45元）中间——"比正新好吃一档、比肯德基便宜一半"</li><li><strong>限定口味：</strong>每月推1款限定口味（藤椒味/咸蛋黄味），让人有"这次不买下次就没了"的紧迫感，调料包研发月成本增加不超500元</li></ol>`,
+    3: `<h3>核心目标：开业7天日均出单破150单</h3><p>鸡排档口店的生死线很简单——<strong>日均出单量</strong>。按人均18元、日出单150单计算，日均流水约2,700元，月流水约8.1万元（⚠️ 假设值，建议国庆核实门店租金后反推保本线）。开业第一周的出单量直接决定后续3个月的生死。</p><h3>开业前3天：蓄水期（谁来做：老板+1名员工）</h3><ul><li><strong>Day -3：</strong>在万象汇B1/B2层人流最密集的3个位置（电梯口/中庭/卫生间动线）张贴"新店开业·前100名半价"海报。物料成本约50元（A3海报×10张），需提前和商场物业确认张贴位置</li><li><strong>Day -2：</strong>大众点评商家后台🔧「门店管理→基础信息」完善门店信息（营业时间/菜品图/实景图至少5张），确保搜"万象汇鸡排"能被找到。同时🔧「团购套餐→创建团购」上架引流团购："招牌大鸡排+柠檬茶"9.9元（限前50份，原价约25元，亏损约8元/份，总投入400元换50个真实到店）</li><li><strong>Day -1：</strong>试营业，邀请商场内其他档口店员免费试吃（约10-15份，成本约100元）。目的：①让隔壁店员成为口碑传播节点 ②测试出餐流程（目标：点单到出餐≤3分钟）</li></ul><h3>开业Day 1-3：爆量期（谁来做：全员）</h3><ul><li><strong>前100名半价执行：</strong>每天限前100名享"大鸡排半价"（原价16→8元），🔧扫码点餐系统设置限量优惠券100张/天，核销完自动恢复原价。每天让利约800元，3天共亏约2,400元——换300个真实客人的口碑基础</li><li><strong>出餐必说话术：</strong>"我们是新开的凤凰鸡排，今天半价尝鲜！觉得好吃帮我们在大众点评写两句真实感受，好坏都行"（<strong>严禁任何返券/返现换好评</strong>——2025年10月后促评=评价不计入星级）</li><li><strong>档口视觉武器：</strong>炸锅放在最靠近人流动线的位置，保持持续现炸——哪怕没客人也炸着，香味是最好的广告（油耗日增约30-50元，值得）</li></ul><h3>开业Day 4-7：转化期（谁来做：老板管线上/员工管线下）</h3><ul><li>半价结束，切换为"套餐立减"：大鸡排+饮品原价28元→开业价19.9元（🔧扫码点餐→套餐管理→新建套餐），让利约8元/单，但客单价从16元拉到19.9元</li><li>美团/点评团购持续挂：9.9元引流团购核销完后换上19.9元套餐团购（正常利润，长期挂）</li><li>每天盯🔧「评价管理」，目标7天内积累≥15条真实评价</li></ul><h3>7天投入与产出</h3><table><tr><th>指标</th><th>目标</th><th>依据</th></tr><tr><td>日均出单</td><td>≥150单</td><td>万象汇档口新店基准（⚠️ 假设）</td></tr><tr><td>点评评价</td><td>≥15条</td><td>新店出星基础门槛</td></tr><tr><td>套餐占比</td><td>≥40%</td><td>客单价从16→20元的关键</td></tr><tr><td>7天总投入</td><td>约3,000-3,500元</td><td>半价2,400+海报50+试吃100+油耗200+团购亏损400</td></tr></table>`,
+    4: `<h3>当前阶段：0-4天新店，尚未出星</h3><p>大众点评上大概率还没有星级，评价数为0。鸡排/小吃品类点评的核心价值不在"冲高星"，而在<strong>"被搜到+看起来靠谱"</strong>——消费者搜"万象汇美食"时，有评价的店优先展示，没评价的直接被忽略。</p><h3>阶段一（Day 1-10）：基础评价积累（谁来做：老板每天10分钟）</h3><ul><li>🔧「大众点评商家后台→评价管理」每天检查新增评价</li><li><strong>铁律：绝不做任何促评/返券换好评。</strong>2025年10月新规：高强度促评=新评价不产生星级收益，等于白干</li><li>合规做法：靠产品驱动自发评价。出餐话术："我们家刚开业，如果觉得好吃帮写两句真实感受，好坏都行！"——"好坏都行"让顾客感受到真诚</li><li>目标：10天内积累<strong>≥20条真实评价</strong></li></ul><h3>阶段二（Day 11-30）：冲星+上新店榜（谁来做：老板每周1小时）</h3><ul><li>🔧「大众点评→营销中心→免费试」设置5-10个免费试名额/周，吸引探店用户到店写评价。成本约8-15元/份（鸡排+饮品），每周投入80-150元</li><li>目标：30天内评价数<strong>≥50条</strong>，星级<strong>≥4.0分</strong></li><li>关注🔧「商家后台→榜单」，查看是否进入"新店榜"——新店最大免费流量入口</li></ul><h3>阶段三（Month 2-3）：维护+冲热门榜</h3><ul><li>差评处理铁律：收到差评<strong>2小时内回复</strong>。话术："很抱歉这次体验不好，我是店长XX，您方便加我微信（附号），我亲自安排一次满意的体验"——把差评变成展示店家态度的窗口</li><li>目标：3个月内评分<strong>≥4.3分</strong>，进入万象汇商圈热门榜/好评榜</li></ul><h3>分享动机打造（不靠促评靠体验）</h3><ul><li><strong>拍照触发点：</strong>出餐时撒彩色调料粉（海苔粉/辣椒粉拼图案），成本≈0，视觉冲击力强，年轻人自发拍照发朋友圈/小红书</li><li><strong>包装即传播：</strong>外带纸袋印趣味文案（"炸鸡治愈一切"/"今天的快乐由炸鸡赞助"），成本增加约0.05元/个，包装本身成为传播物料</li><li><strong>路径升级：新店榜→热门榜→好评榜</strong>，每次上榜都是一波免费流量，持续维护评价质量比冲量更重要</li></ul>`,
+    5: `<h3>公域策略总览</h3><p>鸡排/炸鸡品类公域获客逻辑和正餐完全不同：正餐靠"搜索→比价→决策"，鸡排靠<strong>"刷到→种草→顺路买"</strong>。抖音和小红书的优先级甚至高于大众点评。</p><h3>平台一：大众点评（基础盘，必做）</h3><p><strong>谁来做：老板，每周花1小时</strong></p><ul><li><strong>团购常挂：</strong>🔧「大众点评商家后台→团购→创建套餐」，长期挂"大鸡排+柠檬茶19.9元"（原价28元，让利8元，每单仍有3-5元毛利）。标题必含"萧山万象汇"+"鸡排"截获本地搜索</li><li><strong>门店头图：</strong>用现炸鸡排特写图（油光发亮、热气腾腾），食物图点击率比门店图高约3倍（⚠️ 行业参考值）</li><li><strong>推荐菜设置：</strong>🔧「商家后台→门店信息→推荐菜」设3-5款（大鸡排/鸡米花/炸鸡腿/套餐/限定口味），每款配高清图+一句话卖点</li></ul><h3>平台二：小红书（种草主力，强烈建议）</h3><p><strong>谁来做：老板或1名年轻员工，每周发2-3条</strong></p><ul><li><strong>内容方向：</strong>①"萧山万象汇必吃·现炸鸡排"探店图文 ②"鸡排隐藏吃法"（鸡排+冰淇淋/鸡排夹饭团） ③每月限定口味打卡</li><li><strong>关键词策略：</strong>标题必含"萧山万象汇""萧山美食""杭州鸡排"——搜索量稳定且竞争内容少，容易出排名</li><li><strong>执行标准：</strong>每条≥6张图+300字文案，首图必须是鸡排特写（咬开拉丝/油汁四溅），此类图互动量约为普通美食图2倍（⚠️ 行业参考值）</li><li><strong>投入：</strong>自拍零成本。开业首月找2-3个本地小博主（粉丝5k-2w），单条约200-500元，总投入600-1500元</li></ul><h3>平台三：抖音团购（流量爆发）</h3><p><strong>谁来做：老板，每月花2小时</strong></p><ul><li>抖音来客APP🔧「团购→创建套餐」上架"萧山万象汇·凤凰鸡排套餐19.9元"</li><li><strong>短视频内容：</strong>15秒"现炸出锅"过程——油锅翻滚→鸡排下锅→金黄出锅→撒料→递给顾客，全程ASMR炸声，完播率极高</li><li>预期：月售100份团购券，核销率30-50%（⚠️ 行业参考值），月增到店30-50人，增营收约1,000-2,000元</li></ul><h3>三平台联动</h3><p>小红书种草（看到→想去）→ 大众点评验证（搜评价→下单团购）→ 到店消费 → 抖音短视频二次传播。核心技巧：<strong>一次现炸视频，生产三份素材</strong>——15秒版发抖音、图文版发小红书、图片做点评头图。</p>`,
+    6: `<h3>私域核心逻辑：不做重储值，做轻复购</h3><p>鸡排/小吃品类特殊性：<strong>客单价低（18元）、消费频次看心情、品牌忠诚度低</strong>。正餐的"充3000送500"储值模式完全不适用——没人为鸡排充值3000元。凤凰鸡排的私域策略不是"锁钱"，而是<strong>"增频次+拉客单"</strong>。</p><h3>策略一：轻量会员卡·增频次</h3><p><strong>谁来做：老板设置，收银员执行</strong></p><ul><li>🔧「会员系统→创建会员卡」设置"凤凰吃货卡"——免费注册，权益：①消费积分（1元=1分）②满100积分换1份鸡米花（成本约3元）③生日月双倍积分 ④每月8号"会员日"全场9折</li><li><strong>注册话术：</strong>"扫这个码免费注册会员，下次直接积分换鸡米花，不花钱"（🔧扫码点餐页面自动弹注册引导）</li><li><strong>不注册怎么办：</strong>"没关系，码拍下存手机，下次想吃扫一下就能点餐不用排队"——把动机从"薅羊毛"变成"方便自己"</li><li>目标：首月注册<strong>≥200人</strong>，月活跃率（当月消费≥1次）<strong>≥30%</strong></li></ul><h3>策略二：三档套餐·锚定法拉客单</h3><p><strong>谁来做：老板定价，员工主推中间档</strong></p><table><tr><th>档位</th><th>内容</th><th>定价</th><th>成本</th><th>毛利</th><th>目的</th></tr><tr><td>基础</td><td>大鸡排单品</td><td>16元</td><td>~6元</td><td>~10元</td><td>引流款</td></tr><tr><td>⭐主推</td><td>大鸡排+柠檬茶</td><td>19.9元</td><td>~8元</td><td>~12元</td><td>利润款，主推</td></tr><tr><td>超值</td><td>大鸡排+鸡米花+柠檬茶</td><td>25.9元</td><td>~11元</td><td>~15元</td><td>拉客单价</td></tr></table><ul><li><strong>话术：</strong>顾客说"来份大鸡排"→"要不加4块钱配杯柠檬茶？鲜榨的（⚠️ 假设），套餐比单买省8块"</li><li>套餐渗透率目标<strong>≥50%</strong>，客单价从16→20-22元，月增毛利约<strong>3,000-5,000元</strong></li></ul><h3>策略三：下午茶时段套餐·填补低谷</h3><p><strong>谁来做：老板设置，14:00-17:00自动切换</strong></p><ul><li>🔧「扫码点餐→分时段菜单」设置下午茶时段（14:00-17:00）展示"鸡排+饮品15.9元"（原19.9元）</li><li>逻辑：非正餐时段仍有逛街客流，15.9元锚定感把路过的人拉进来，边际成本几乎为零</li><li>美团/抖音团购标题打"萧山万象汇下午茶"截获搜索</li><li>预期：下午茶时段日增20-30单（⚠️ 假设），月增营收约<strong>1万-1.4万元</strong></li></ul>`,
+    7: `<h3>8月营销节奏：抓暑期尾巴+立秋换季</h3><p>8月初开业，正好赶上暑期旺季尾巴——学生客群+高温天气外带需求旺盛，必须抓住窗口快速起量。</p><h3>活动一：「暑假嗨吃卡」学生专属（8月3日-31日）</h3><p><strong>谁来做：老板设置+收银员推卡</strong></p><ul><li>凭学生证/准考证办理，售价<strong>19.9元</strong>，8月内每次到店消费享9折+赠冰饮1杯</li><li>🔧「会员系统→创建权益包→暑期卡」设置权益+有效期至8月31日</li><li>成本：冰饮成本约2-3元/杯+9折让利约10%，卡费19.9元基本覆盖成本，锁定暑期多次消费</li><li><strong>推卡话术：</strong>"学生吗？花19.9办张暑假卡，整个8月来都打9折还送冰饮，一次就回本"</li><li><strong>学生不想办怎么办：</strong>"没关系，今天点套餐我直接给你送杯冰饮尝尝"——先体验再决定</li><li>目标：8月办出<strong>≥80张</strong>暑期卡，锁定学生复购≥3次</li></ul><h3>活动二：「清凉一夏」大暑/高温特惠（8月持续）</h3><p><strong>谁来做：员工出餐时执行</strong></p><ul><li>堂食到店消费赠冰粉/绿豆汤一小杯（成本约0.5-1元/份），外卖满30元加1元得冰饮</li><li>🔧「扫码点餐→弹窗设置」弹窗文案"高温福利：到店免费喝冰粉"</li><li>逻辑：冰粉成本极低但体验感极佳（尤其夏天），"免费"二字拉高进店率</li><li>凉菜不适用鸡排品类，跳过</li></ul><h3>活动三：「开学前最后一顿」暑期卡核销冲刺（8月25-31日）</h3><p><strong>谁来做：老板push+员工执行</strong></p><ul><li>暑期卡持有者到店消费满30元抽奖一次：奖品为9月套餐5元券/鸡米花兑换券/双倍积分卡</li><li>🔧「会员系统→筛选暑期卡用户→push消息」："你的暑假卡8月31日到期，最后一周消费满30元抽奖！"</li><li>核心目的：消耗暑期卡剩余权益+发出9月优惠券锁定开学后消费</li><li>奖品中"9月双倍积分卡"占比最高（成本为零，但能拉复购）</li></ul><h3>活动四：绑定万象汇商场活动（持续）</h3><p><strong>谁来做：老板主动对接商场运营</strong></p><ul><li>和万象汇运营谈联合积分/满减券（如商场消费满100送鸡排5元券），借商场流量精准导流</li><li>实际核销成本约2-3元/张（让利部分），但能触达商场全量客流</li><li><strong>怎么谈：</strong>找商场B1/B2层运营负责人（通常在商场服务台可问到），话术："我们新开的鸡排店，想参与商场的会员积分活动，可以提供优惠券作为积分兑换奖品"——商场乐意（丰富会员权益），你也乐意（免费获客）</li><li><strong>对方不同意怎么办：</strong>退一步提议"商场周年庆/节日活动时我出免费试吃摊位"，用产品换曝光</li></ul>`,
+    8: `<h3>基础经营假设（⚠️ 以下均为行业参考值+合理假设，建议国庆核实租金后修正）</h3><table><tr><th>指标</th><th>假设值</th><th>说明</th></tr><tr><td>人均客单价</td><td>18元（单品16+套餐拉高）</td><td>套餐渗透后预期20-22元</td></tr><tr><td>日均出单量</td><td>150单（开业目标）</td><td>万象汇档口基准（⚠️ 假设）</td></tr><tr><td>月流水</td><td>约8.1万元（150×18×30）</td><td>套餐拉动后预期9-10万</td></tr><tr><td>食材成本率</td><td>35%（鸡排品类中位数）</td><td>小吃品类30-38%</td></tr><tr><td>商场租金（含物业）</td><td>约1.2-1.8万/月（⚠️ 假设）</td><td>万象汇B1/B2档口参考</td></tr><tr><td>人工</td><td>约0.8-1.2万/月（2-3人）</td><td>档口模式用人少</td></tr><tr><td>水电+杂项</td><td>约0.3万/月</td><td>炸鸡油耗较高</td></tr></table><h3>当前利润估算（优化前）</h3><p>月流水8.1万 - 食材2.84万(35%) - 租金1.5万(⚠️假设) - 人工1万 - 杂项0.3万 = <strong>月净利约2.46万元，净利率约30%</strong>（⚠️ 假设值偏乐观，实际取决于租金和出单量）</p><h3>方案落地后增收测算</h3><table><tr><th>增收来源</th><th>月增营收</th><th>计算逻辑</th></tr><tr><td>套餐渗透拉客单</td><td>+0.3-0.5万</td><td>日均150单×50%选套餐×多赚2-5元</td></tr><tr><td>下午茶时段填补</td><td>+1.0-1.4万</td><td>14-17点日增20-30单×15.9元×30天</td></tr><tr><td>公域引流（点评+抖音+小红书）</td><td>+0.5-1.0万</td><td>团购核销+种草到店，月增30-50人</td></tr><tr><td>暑期卡+会员复购</td><td>+0.3-0.5万</td><td>80张暑期卡×复购3次×18元</td></tr></table><p><strong>方案落地后月流水预期：10-12万元</strong>（较基准8.1万增长约25-48%）</p><h3>首月投入汇总</h3><table><tr><th>项目</th><th>金额</th></tr><tr><td>开业7天活动投入</td><td>约3,000-3,500元</td></tr><tr><td>小红书博主合作</td><td>约600-1,500元</td></tr><tr><td>免费试名额（点评）</td><td>约320-600元/月</td></tr><tr><td>暑期卡冰饮成本</td><td>约500-800元/月</td></tr><tr><td>包装升级（趣味文案纸袋）</td><td>约200元（批量印刷）</td></tr></table><p><strong>首月总投入约5,000-6,500元</strong>，预计1-2个月内通过客单价提升+时段填补+公域增量完全覆盖。</p><h3>月度/季度OKR</h3><table><tr><th>目标</th><th>开业首月</th><th>第2月</th><th>第3月（Q1结束）</th></tr><tr><td>月流水</td><td>≥8万</td><td>≥10万</td><td>≥12万</td></tr><tr><td>大众点评评分</td><td>出星≥4.0</td><td>≥4.2</td><td>≥4.3+上热门榜</td></tr><tr><td>注册会员数</td><td>≥200人</td><td>累计≥500人</td><td>累计≥800人</td></tr><tr><td>套餐渗透率</td><td>≥40%</td><td>≥50%</td><td>≥55%</td></tr><tr><td>日均出单量</td><td>≥150单</td><td>≥180单</td><td>≥200单</td></tr><tr><td>团购核销率</td><td>≥30%</td><td>≥40%</td><td>≥50%</td></tr></table><p><strong>30天复盘节点：</strong>开业第30天，对照以上OKR逐项复盘，重点看：①日均出单是否破150 ②套餐占比是否过40% ③点评评价数是否过50。任何一项未达标，立即调整对应策略（出单不够→加大公域投放；套餐低→强化员工推荐话术训练；评价少→加大免费试名额）。</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
