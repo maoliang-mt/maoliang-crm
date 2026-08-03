@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AC HOTEL · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">精选服务型生活方式酒店 · 运营提升方案</div>
+  <h1 class="hero-title">AC HOTEL</h1>
+  <p class="hero-subtitle">万豪基因+滨江微度假，打透武昌商旅新高地</p>
+  <div class="hero-address">武汉·中南·江一云境中心</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥650</span>
+      <div class="hero-stat-label">预估房价</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">武昌滨江</span>
+      <div class="hero-stat-label">所在板块</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察与板块研判', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察与板块研判</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解与差异化机会', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解与差异化机会</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '开业冲刺·30天作战地图', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">开业冲刺·30天作战地图</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '公域获客·三平台内容矩阵', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">公域获客·三平台内容矩阵</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '私域留客·会员体系设计', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">私域留客·会员体系设计</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '系统方案·收银POS+电子发票落地', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">系统方案·收银POS+电子发票落地</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '点评口碑·新店冷启动路径', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">点评口碑·新店冷启动路径</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '营销日历·开业首季活动排期', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">营销日历·开业首季活动排期</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(9, '投资回报·OKR与增长测算', 9)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 09</div>
+      <div class="chapter-title">投资回报·OKR与增长测算</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>生活方式酒店：万豪最快增长的赛道</h3><p>2025-2026年，<strong>生活方式酒店</strong>是全球头部集团争抢的增量主赛道——万豪AC/Moxy、希尔顿Tempo/Canopy、洲际voco/Kimpton均在加速铺量。核心原因：差旅客从"睡一觉"升级为"住一种感觉"，愿意为<strong>设计感+社交空间+本地体验</strong>多付15-20%溢价（⚠️ 行业参考值）。</p><h3>武昌滨江板块：能级强但供给爬坡快</h3><p>中南·江一云境中心位于武昌滨江核心段，紧邻长江主轴，写字楼+商业综合体配套正处于<strong>交付高峰期</strong>。板块优势在于城市能级（武汉GDP全国前十、商务差旅基本盘扎实），风险在于<strong>2024-2026年武汉预计新增超15家中高端酒店</strong>，价格战压力显著，且该片区成熟度<strong>不及武广/楚河汉街</strong>，客流需要1-2年养成期。</p><h3>价格带与竞争定位</h3><p>AC HOTEL日常房价预估<strong>500-800元</strong>，周末/旺季可探900+（⚠️ 假设，基于万豪AC全国同档定价）。这个价格带上方是全服务豪华酒店（瑞华800-1200、W酒店1000+），下方是中端连锁（全季/亚朵300-450）。AC的核心战场是<strong>450-800元的"品质商旅+周末微度假"客群</strong>，与亚朵S、美仑国际正面交锋。</p><h4>关键判断</h4><p>板块尚在养成期+高端供给过剩=<strong>开业前6个月是生死期</strong>。必须在OTA权重低的窗口期用万豪会员体系+企业协议+本地内容种草三条腿走路，而非等平台自然流量。</p></div>
+<div id="modal-content-2" style="display:none"><h3>周边5公里核心竞品逐一拆解</h3><table><tr><th>竞品名称</th><th>人均房价</th><th>定位</th><th>核心弱点</th><th>AC切入机会</th></tr><tr><td><strong>武汉万达瑞华</strong></td><td>800-1200元</td><td>全服务豪华，宴会/婚宴强</td><td>偏重偏贵，商务散客溢出</td><td>承接瑞华溢出的中高端商旅客——同品质感、价格低30-40%</td></tr><tr><td><strong>武汉W酒店</strong></td><td>1000+元</td><td>潮牌调性，年轻高消费客</td><td>价位高一档，非直接竞品</td><td>借鉴W的社交空间玩法（AC Lounge），用更亲民价格吸引同类客群</td></tr><tr><td><strong>美仑国际/纽宾凯</strong></td><td>400-600元</td><td>本土中高端</td><td>会员体系弱，品牌溢价低，设计感不足</td><td>万豪旅享家会员体系碾压本土品牌忠诚度；AC的设计调性是最大视觉差异</td></tr><tr><td><strong>全季/亚朵</strong></td><td>300-450元</td><td>中端连锁密度高</td><td>价格敏感商旅客分流明显，无法提供社交空间和生活方式体验</td><td>用AC Lounge+滨江景观+万豪积分拉开体验层次，让客人觉得"多付150值了"</td></tr></table><h3>竞争烈度判断：中高</h3><p>AC的<strong>真正对手不是豪华酒店</strong>（价格带不重叠），而是<strong>同价格带的亚朵S/美仑</strong>。决胜点在于：①万豪旅享家9000万+全球会员池的定向导流；②AC品牌独有的<strong>欧式极简设计语言</strong>——"less is more"风格在武汉高端市场稀缺；③AC Lounge的<strong>社交+轻餐饮场景</strong>是亚朵/美仑不具备的第三空间。</p><h3>差异化一句话</h3><p><strong>万豪品质、设计酒店价格、滨江微度假体验</strong>。所有营销物料、OTA描述、员工话术统一打这个点——不跟豪华酒店比排场，不跟中端连锁比价格，打的是"生活方式感"这张独特的牌。</p></div>
+<div id="modal-content-3" style="display:none"><h3>新店未开业=一切从零，但零也是机会</h3><p>AC HOTEL当前处于<strong>新店未开业阶段</strong>，没有历史数据包袱，也没有差评要止血。核心任务：<strong>在开业前30天把"三个池子"灌满——协议客池、万豪会员池、OTA口碑池</strong>。</p><h3>D-30至D-21：种子客户锁定期</h3><ul><li><strong>谁来做</strong>：酒店销售总监+BD团队（2-3人）</li><li><strong>做什么</strong>：逐户拜访江一云境中心入驻企业及中南集团关联公司，推"年框协议价480元含早"（⚠️ 假设协议价，建议确认），签约即送会议室2小时体验券</li><li><strong>在哪操作</strong>：收银POS系统 → 协议客管理 → 新增协议单位 → 录入企业信息+协议价</li><li><strong>话怎么说</strong>："王总，我们是楼上AC HOTEL，万豪旗下的，下个月开业。给您一个邻居专属价480含双早，比OTA便宜近30%，您出差的客户和同事都能用。先签个框架，体验一次不满意随时终止。"</li><li><strong>不配合怎么办</strong>：对方说"我们有合作酒店了"→"没关系，不影响。我们先送您一张体验券，您或同事出差时体验一次对比一下，满意了再聊合作。"——先让人住进来，体验说话</li><li><strong>目标</strong>：开业前锁定<strong>15-20家协议企业</strong>，预估月贡献间夜50-80间</li></ul><h3>D-20至D-11：OTA基建期</h3><ul><li><strong>谁来做</strong>：市场经理/电商运营</li><li><strong>做什么</strong>：①美团/携程/飞猪三平台店铺装修上线（主图必须是江景房实拍+AC Lounge空间，禁用效果图）；②设置开业特惠价：首周房价在日常价基础上直降100元（如日常650元→开业价550元），限量每天10间；③大众点评酒店频道完善信息（设施标签全部勾选、周边交通/景点写全）</li><li><strong>在哪操作</strong>：美团酒店商家后台 → 房型管理 → 价格日历 → 设置促销价</li><li><strong>目标</strong>：开业首周OTA曝光量破5000次/天（⚠️ 行业参考值）</li></ul><h3>D-10至D-1：口碑预埋期</h3><ul><li><strong>谁来做</strong>：市场经理+前台主管</li><li><strong>做什么</strong>：①邀请10-15位本地生活方式KOL/KOC免费入住体验（不强制好评，只要求真实分享），重点邀小红书粉丝5000-50000的中腰部博主；②内部试住：全体员工轮流体验客房+AC Lounge，每人写1条真实感受发朋友圈/小红书</li><li><strong>话怎么说（邀请KOL）</strong>："我们是万豪AC，武汉首家，下周开业前邀您免费体验一晚江景房+AC Lounge特调鸡尾酒，您只需要真实记录入住感受就好，好坏都行。"</li><li><strong>不配合怎么办</strong>：KOL不回复→改为邀请万豪旅享家武汉会员群的活跃用户（积分兑换入住+评价）</li><li><strong>目标</strong>：开业当天小红书已有<strong>10-15篇图文/视频笔记</strong></li></ul><h3>D-Day开业当天</h3><ul><li><strong>做什么</strong>：举办"AC Lounge开放日"——周边写字楼白领凭名片免费领取AC特调鸡尾酒1杯（限前100位），现场引导扫码关注酒店公众号/小程序，留存私域</li><li><strong>谁来做</strong>：AC Lounge吧台+2名市场部同事引导</li><li><strong>目标</strong>：开业首日公众号/小程序新增粉丝<strong>200+</strong></li></ul></div>
+<div id="modal-content-4" style="display:none"><h3>AC HOTEL的公域阵地：大众点评+小红书+OTA（三足鼎立）</h3><p>酒店品类的公域逻辑和餐饮不同：<strong>携程/美团酒店是交易平台（直接转化），大众点评/小红书是种草平台（影响决策）</strong>。三个平台缺一不可。</p><h3>大众点评·酒店频道</h3><ul><li><strong>核心目标</strong>：开业90天内大众点评评分达到<strong>4.5分+</strong>，评价数突破<strong>50条</strong></li><li><strong>谁来做</strong>：前台主管负责日常运营，市场经理月度复盘</li><li><strong>第一步（开业首月）——攒基础评价</strong>：前台退房时自然引导："感谢入住，如果您觉得体验不错，欢迎在大众点评上分享您的真实感受。"——不利诱、不施压、不代写。客房内放置精美"入住指南卡"，背面印大众点评门店页二维码</li><li><strong>第二步（第2-3月）——用免费试引流</strong>：大众点评"免费试"功能，每月投放5个名额"免费体验AC Lounge下午茶套餐"（成本约80元/人），吸引本地达人到店体验并产生真实内容</li><li><strong>在哪操作</strong>：大众点评商家后台 → 营销中心 → 免费试 → 设置体验项目+名额</li></ul><h3>小红书·生活方式种草</h3><ul><li><strong>核心目标</strong>：开业首月小红书相关笔记<strong>30篇+</strong></li><li><strong>四大内容方向</strong>：①"武汉江景房测评"（实拍江景+房间设计细节+价格）；②"AC Lounge探店"（鸡尾酒+轻食+空间氛围，打"武汉小众酒吧"标签）；③"武汉周末微度假"（打包套餐699含江景房+下午茶+江滩漫步路线）；④"万豪会员攻略"（积分兑换技巧）</li><li><strong>谁来做</strong>：市场经理每周出2条官方号内容+每月邀3-5位KOC免费入住换内容</li><li><strong>话怎么说（邀KOC）</strong>："提供免费入住1晚含双早+AC Lounge体验，您在小红书发布真实分享即可，文案自由发挥，我们不审稿。"</li><li><strong>不回复怎么办</strong>：在小红书搜索"武汉酒店"主动私信近期发过酒店测评的博主（粉丝2000-20000），回复率约15-20%（⚠️ 行业参考值）</li></ul><h3>OTA平台·交易转化</h3><ul><li><strong>核心目标</strong>：OTA月订单量<strong>300间夜+</strong>（开业首季度）</li><li><strong>关键动作</strong>：开业首月参加平台"新店特惠"活动，确保价格竞争力在同商圈前3名；携程/美团酒店双平台同步运营，房型描述突出"长江江景""万豪旗下""AC Lounge"三个关键词</li></ul></div>
+<div id="modal-content-5" style="display:none"><h3>AC HOTEL私域逻辑：万豪体系是主干，门店私域是补充</h3><p>AC HOTEL自带万豪旅享家会员体系（全球9000万+会员），这是其他本土竞品（美仑/纽宾凯/亚朵）无法复制的核心壁垒。门店私域的定位不是替代万豪体系，而是<strong>做本地化补充——锁住武汉本地客的复购</strong>。</p><h3>门店会员分层设计</h3><table><tr><th>层级</th><th>对象</th><th>权益</th><th>运营重点</th></tr><tr><td><strong>万豪金/白金</strong></td><td>旅享家会员</td><td>万豪标准权益+AC特有：Lounge免费鸡尾酒1杯/天、延迟退房至14:00</td><td>开业前联合万豪APP武汉区Push，首住送双倍积分</td></tr><tr><td><strong>本地常客卡</strong></td><td>武汉本地周末住客、协议企业员工</td><td>年卡299元：全年周末房价9折+AC Lounge下午茶买一赠一+生日当月免费升级江景房</td><td>前台退房时推荐</td></tr><tr><td><strong>企业协议</strong></td><td>江一云境入驻企业+周边写字楼</td><td>协议价480元含早+会议室优惠+季度客户答谢</td><td>销售总监每月走访1次维护关系</td></tr></table><h3>本地常客卡推卡SOP</h3><ul><li><strong>谁来做</strong>：前台接待（退房环节）</li><li><strong>什么时候做</strong>：客人退房结账时，确认本次入住体验满意后</li><li><strong>话怎么说</strong>："这次住得还好吗？（等回复）我们有一个本地常客卡，年费299元，以后周末来住直接打9折，下午茶也买一赠一，您生日那个月还能免费升江景房。像您这样经常来武汉的客人，住两三次就回本了。"</li><li><strong>犹豫怎么办</strong>："没关系，您可以先加我们微信，下次来之前我帮您留最好的房间。常客卡随时都能办。"——不压单，先拉微信进私域</li><li><strong>在哪操作</strong>：收银POS → 会员管理 → 开卡 → 选择"本地常客卡"→ 录入客人信息+收款</li></ul><h3>公私域联动闭环</h3><p>公域（大众点评/小红书/OTA）引来新客 → 入住体验好 → 退房时引导加微信/办常客卡 → 私域推送周末套餐/节日活动 → 复购。<strong>公域负责"让人知道"，私域负责"让人回来"</strong>。</p><h3>储值说明</h3><p>当前阶段<strong>不建议上储值</strong>。原因：①新店未开业，客人对品牌信任未建立，大额预付意愿低；②酒店品类消费频次远低于餐饮，储值锁客效率不如常客卡；③万豪积分体系本身就有"提前锁定"功能。<strong>建议开业6个月后、复购数据跑出来再评估是否上储值</strong>。</p></div>
+<div id="modal-content-6" style="display:none"><h3>已签约模块：收银POS + 电子发票——怎么用到极致</h3><p>AC HOTEL已签约<strong>收银POS</strong>和<strong>电子发票</strong>。对酒店来说，这两个工具的核心价值不是"能收钱能开票"（PMS都能做），而是<strong>数据沉淀+客户识别+效率提升</strong>。</p><h3>收银POS·三个必须配好的功能</h3><h4>功能1：多业态收银统一</h4><ul><li><strong>解决什么问题</strong>：AC HOTEL至少有3个收银场景——前台（房费）、AC Lounge（餐饮/酒水）、会议室（场地租赁）。各自独立收银=数据割裂、对账痛苦</li><li><strong>怎么做</strong>：收银POS → 门店设置 → 多业态配置 → 分别创建"客房"/"餐饮"/"会议"三个业态，统一后台报表</li><li><strong>谁来做</strong>：IT经理/系统管理员，开业前10天完成</li><li><strong>预期效果</strong>：月末对账从2天缩短到2小时（⚠️ 行业参考值）</li></ul><h4>功能2：协议客快捷结算</h4><ul><li><strong>解决什么问题</strong>：协议企业客人入住，前台需快速识别协议价、挂账、月结——手工查价格表效率低且易出错</li><li><strong>怎么做</strong>：收银POS → 协议客管理 → 导入协议企业名单 → 设置协议价格 → 前台扫客人工牌/报企业名即可自动匹配</li><li><strong>谁来做</strong>：销售总监录入协议信息，前台日常使用</li><li><strong>话怎么说</strong>："请问是哪家公司的？好的，已帮您匹配协议价了，含双早480元，房费月底统一跟贵公司结算。"</li></ul><h4>功能3：经营数据日报</h4><ul><li><strong>解决什么问题</strong>：酒店GM每天需知道今日入住率、ADR（平均房价）、RevPAR、餐饮收入、总营收</li><li><strong>怎么做</strong>：收银POS → 报表中心 → 设置"日报自动推送" → 每天08:00推送前一天经营数据到GM微信</li><li><strong>预期效果</strong>：GM不再需要等财务手工汇总，每天8点打开微信就知道昨天赚了多少</li></ul><h3>电子发票·两个提效场景</h3><h4>场景1：退房即开票（30秒完成）</h4><ul><li><strong>痛点</strong>：商务客退房后最常问"发票什么时候能开"——传统流程等财务开，可能1-3天</li><li><strong>怎么做</strong>：收银POS → 退房结算 → 勾选"自动开具电子发票" → 客人扫码即收</li><li><strong>话怎么说</strong>："您的电子发票已经发到您手机了，您看一下。"——不等客人问，主动告知</li></ul><h4>场景2：协议客月结批量开票</h4><ul><li><strong>痛点</strong>：协议企业月底要汇总发票，财务逐笔查流水耗时</li><li><strong>怎么做</strong>：电子发票 → 批量开票 → 按协议企业筛选本月消费 → 一键合并开具</li><li><strong>预期效果</strong>：月结开票从半天缩短到10分钟</li></ul></div>
+<div id="modal-content-7" style="display:none"><h3>酒店口碑冷启动的特殊性</h3><p>酒店和餐饮的点评逻辑不同：餐饮靠高频+低门槛堆评价量，酒店是低频+高客单——每个客人只住1-2晚，写评价的意愿天然更低。因此酒店冷启动更难，但<strong>每条评价的权重也更高</strong>（酒店品类50条优质评价的口碑影响力约等于餐饮200条）。</p><h3>阶段一（0-30天）：攒前30条真实评价</h3><ul><li><strong>核心原则</strong>：严禁促评/邀评/利诱评价。2025年10月后高强度促评=新评价不产生星级收益。所有评价必须来自客人自发分享</li><li><strong>合规做法①——服务触动点设计</strong>：在入住体验中创造"超预期瞬间"。入住时赠送手写欢迎卡（"欢迎来到AC HOTEL，今晚的武汉江景为您而留。—前台小李"）；客房内放置本地手绘地图（标注周边餐厅/江滩步道/咖啡馆），成本约2元/份</li><li><strong>谁来做</strong>：前台主管每天准备手写卡（每位入住客人一张），客房部放置地图</li><li><strong>合规做法②——退房自然引导</strong>：前台话术："这次住得还好吗？如果方便的话，欢迎在大众点评上分享您的入住故事，帮更多旅客了解我们。"——语气自然、不施压、不提奖励</li><li><strong>合规做法③——差评2小时响应</strong>：每天10:00和16:00各检查一次大众点评后台，发现差评2小时内回复。模板："尊敬的客人，非常抱歉给您带来不好的体验。我是AC HOTEL值班经理XX，关于您提到的[具体问题]，我们已经[具体改进措施]。期待您下次来体验改进后的服务。"</li><li><strong>目标</strong>：30天内积累20-30条真实评价，综合评分4.5+</li></ul><h3>阶段二（31-90天）：冲热门榜</h3><ul><li><strong>用合规工具引流</strong>：大众点评"免费试"——每月5个名额体验"AC Lounge下午茶套餐"（成本80元/人），吸引本地生活达人到店并产生真实内容</li><li><strong>在哪操作</strong>：大众点评商家后台 → 营销中心 → 免费试 → 设置项目+名额</li><li><strong>目标</strong>：90天内评价数突破50条，大众点评酒店频道热门榜进入<strong>武昌区前20名</strong></li></ul><h3>口碑维护铁律</h3><ol><li>好评不买、差评不删——用服务赢口碑</li><li>每条差评是改进信号，回复要具体到"我们改了什么"</li><li>鼓励客人分享的方式只有一个：让服务本身值得被说</li></ol></div>
+<div id="modal-content-8" style="display:none"><h3>8-9月营销节点与AC HOTEL的结合</h3><p>AC HOTEL预计8月前后开业（⚠️ 假设，以实际为准），正好赶上暑期旺季+七夕+中秋三大节点。酒店品类做节日营销的核心不是打折，而是<strong>用场景包装拉高客单价+创造社交传播素材</strong>。</p><h3>节点1：开业首周·"万豪来了"品牌发声</h3><ul><li><strong>时间</strong>：开业第1-7天</li><li><strong>做什么</strong>：①OTA开业特惠（日常价直降100元，限量10间/天）；②AC Lounge开放日（凭名片免费领鸡尾酒1杯，限前100位）；③小红书/大众点评集中投放KOL内容</li><li><strong>谁来做</strong>：市场经理统筹，前台+Lounge执行</li><li><strong>预算</strong>：KOL费用约3000-5000元（10-15位中腰部免费入住）+鸡尾酒成本约1500元（100杯×15元）≈总计5000-7000元</li><li><strong>目标</strong>：首周入住率达<strong>40%+</strong>（⚠️ 新店首周行业参考值30-50%）</li></ul><h3>节点2：七夕·"江景浪漫夜"</h3><ul><li><strong>时间</strong>：七夕当天及前后2天（共5天）</li><li><strong>做什么</strong>：推出"江景浪漫夜"双人套餐——三档定价：</li></ul><table><tr><th>档位</th><th>内容</th><th>价格</th><th>成本</th></tr><tr><td>甜蜜档</td><td>江景大床房+双份早餐+AC Lounge鸡尾酒2杯</td><td>899元</td><td>约550元</td></tr><tr><td>浪漫档</td><td>高层江景房+双早+鸡尾酒2杯+玫瑰花束+巧克力</td><td>1299元</td><td>约680元</td></tr><tr><td>至臻档</td><td>套房+双早+鸡尾酒+花束+巧克力+14:00延迟退房+早餐房送</td><td>1899元</td><td>约950元</td></tr></table><ul><li><strong>定价逻辑</strong>：至臻档不是为了卖（但会有人买），是为了让浪漫档显得"很划算"</li><li><strong>在哪操作</strong>：收银POS → 套餐管理 → 新增"七夕套餐"三档 → OTA同步上架</li><li><strong>目标</strong>：七夕5天售出<strong>30-50套</strong>，增收约4-6万元</li></ul><h3>节点3：中秋·"江月团圆宴"</h3><ul><li><strong>时间</strong>：中秋假期（含前后2天）</li><li><strong>做什么</strong>：①推出"中秋住+吃"套餐（江景房+AC Lounge中秋特别晚餐+定制月饼礼盒4枚装），定价1099元；②企业协议客专属：中秋送月饼礼盒（采购成本20元/盒），维护关系</li><li><strong>谁来做</strong>：市场经理策划，销售总监负责协议客月饼派送</li><li><strong>月饼采购要点</strong>：提前1个月定制印AC HOTEL logo的月饼礼盒，批量价15-20元/盒</li><li><strong>目标</strong>：中秋假期入住率达<strong>85%+</strong>（⚠️ 中秋酒店旺季参考值80-95%）</li></ul><h3>节点4："滨江微度假"常态化</h3><ul><li><strong>时间</strong>：开业后长期运营</li><li><strong>做什么</strong>：推"周末江景房+AC Lounge下午茶+周边骑行/江滩漫步路线"打包价699元（⚠️ 假设定价，基于同档万豪周末套餐参考），在小红书/大众点评以"武汉周末不出城度假"内容持续种草</li><li><strong>核心客群</strong>：武汉本地25-35岁白领的周末消费场景，做出和亚朵、全季完全不同的"生活方式感"</li><li><strong>目标</strong>：周末套餐月均售出<strong>40-60套</strong>，贡献月营收约3-4万元</li></ul></div>
+<div id="modal-content-9" style="display:none"><h3>开业首季度OKR目标</h3><table><tr><th>指标</th><th>月度目标</th><th>季度目标</th><th>衡量方式</th></tr><tr><td>平均入住率</td><td>首月40%→第3月65%</td><td>季度均值55%</td><td>POS日报/PMS数据</td></tr><tr><td>ADR（平均房价）</td><td>550-650元</td><td>稳定在600元+</td><td>POS报表</td></tr><tr><td>RevPAR</td><td>首月220→第3月390</td><td>季度均值330</td><td>入住率×ADR</td></tr><tr><td>大众点评评分</td><td>首月4.3→第3月4.5</td><td>90天4.5+</td><td>大众点评后台</td></tr><tr><td>大众点评评价数</td><td>首月20条→第3月50条</td><td>累计50条</td><td>大众点评后台</td></tr><tr><td>小红书笔记数</td><td>首月30篇</td><td>累计80篇</td><td>小红书搜索"武汉AC"</td></tr><tr><td>协议企业数</td><td>首月15家→第3月25家</td><td>累计25家</td><td>POS协议客管理</td></tr><tr><td>本地常客卡</td><td>首月20张→第3月50张</td><td>累计50张</td><td>POS会员管理</td></tr><tr><td>月营收</td><td>首月30万→第3月60万</td><td>季度累计150万</td><td>POS报表</td></tr></table><h3>营收测算逻辑（基于假设，建议核实房间数）</h3><p>假设AC HOTEL共<strong>150间客房</strong>（⚠️ 假设，万豪AC标准规模120-200间）：</p><ul><li><strong>首月</strong>：入住率40% × 150间 × 30天 = 1800间夜 × ADR 550元 = <strong>客房收入99万</strong> + AC Lounge餐饮约<strong>6万</strong> + 会议室约<strong>3万</strong> = 月营收约<strong>108万</strong>（⚠️ 这是乐观估算，保守按30%入住率约81万）</li><li><strong>第3月</strong>：入住率65% × 150间 × 30天 = 2925间夜 × ADR 620元 = <strong>客房收入181万</strong> + 餐饮<strong>12万</strong> + 会议室<strong>5万</strong> = 月营收约<strong>198万</strong></li></ul><h3>SaaS投入回报</h3><table><tr><th>投入项</th><th>金额</th><th>回报</th></tr><tr><td>收银POS（已签约）</td><td>--</td><td>多业态统一收银，月省对账2天人力≈3000元；协议客快捷结算减少前台出错</td></tr><tr><td>电子发票（已签约）</td><td>--</td><td>退房即开票提升客户满意度→转化为好评；月结批量开票从半天→10分钟</td></tr><tr><td>开业营销投入</td><td>约5000-7000元</td><td>首周入住率40%+（如达成=首周客房收入约23万）</td></tr><tr><td>本地常客卡</td><td>299元/张（客户付费）</td><td>50张×299=14950元收入+锁定全年周末复购</td></tr></table><h3>30天复盘节点</h3><ul><li><strong>第7天</strong>：检查首周入住率是否达40%，OTA评分是否正常（无恶意差评需处理）</li><li><strong>第15天</strong>：检查协议企业签约进度是否过半（8-10家），小红书笔记数是否达15篇</li><li><strong>第30天</strong>：全面复盘——入住率/ADR/RevPAR/评价数/常客卡，对标OKR调整下月策略</li></ul><h3>关键风险与应对</h3><ol><li><strong>风险</strong>：武昌滨江板块客流不及预期（养成期长）→ <strong>应对</strong>：加大企业协议BD力度，把不确定的散客变成确定的协议客</li><li><strong>风险</strong>：同期有竞品酒店同步开业打价格战 → <strong>应对</strong>：不跟价格战，守住万豪品牌溢价+AC Lounge差异化体验</li><li><strong>风险</strong>：AC Lounge运营成本高于预期 → <strong>应对</strong>：Lounge菜品精简至15-20个SKU，控制人力在3人/班次以内</li></ol></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>李朝</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>生活方式酒店：万豪最快增长的赛道</h3><p>2025-2026年，<strong>生活方式酒店</strong>是全球头部集团争抢的增量主赛道——万豪AC/Moxy、希尔顿Tempo/Canopy、洲际voco/Kimpton均在加速铺量。核心原因：差旅客从"睡一觉"升级为"住一种感觉"，愿意为<strong>设计感+社交空间+本地体验</strong>多付15-20%溢价（⚠️ 行业参考值）。</p><h3>武昌滨江板块：能级强但供给爬坡快</h3><p>中南·江一云境中心位于武昌滨江核心段，紧邻长江主轴，写字楼+商业综合体配套正处于<strong>交付高峰期</strong>。板块优势在于城市能级（武汉GDP全国前十、商务差旅基本盘扎实），风险在于<strong>2024-2026年武汉预计新增超15家中高端酒店</strong>，价格战压力显著，且该片区成熟度<strong>不及武广/楚河汉街</strong>，客流需要1-2年养成期。</p><h3>价格带与竞争定位</h3><p>AC HOTEL日常房价预估<strong>500-800元</strong>，周末/旺季可探900+（⚠️ 假设，基于万豪AC全国同档定价）。这个价格带上方是全服务豪华酒店（瑞华800-1200、W酒店1000+），下方是中端连锁（全季/亚朵300-450）。AC的核心战场是<strong>450-800元的"品质商旅+周末微度假"客群</strong>，与亚朵S、美仑国际正面交锋。</p><h4>关键判断</h4><p>板块尚在养成期+高端供给过剩=<strong>开业前6个月是生死期</strong>。必须在OTA权重低的窗口期用万豪会员体系+企业协议+本地内容种草三条腿走路，而非等平台自然流量。</p>`,
+    2: `<h3>周边5公里核心竞品逐一拆解</h3><table><tr><th>竞品名称</th><th>人均房价</th><th>定位</th><th>核心弱点</th><th>AC切入机会</th></tr><tr><td><strong>武汉万达瑞华</strong></td><td>800-1200元</td><td>全服务豪华，宴会/婚宴强</td><td>偏重偏贵，商务散客溢出</td><td>承接瑞华溢出的中高端商旅客——同品质感、价格低30-40%</td></tr><tr><td><strong>武汉W酒店</strong></td><td>1000+元</td><td>潮牌调性，年轻高消费客</td><td>价位高一档，非直接竞品</td><td>借鉴W的社交空间玩法（AC Lounge），用更亲民价格吸引同类客群</td></tr><tr><td><strong>美仑国际/纽宾凯</strong></td><td>400-600元</td><td>本土中高端</td><td>会员体系弱，品牌溢价低，设计感不足</td><td>万豪旅享家会员体系碾压本土品牌忠诚度；AC的设计调性是最大视觉差异</td></tr><tr><td><strong>全季/亚朵</strong></td><td>300-450元</td><td>中端连锁密度高</td><td>价格敏感商旅客分流明显，无法提供社交空间和生活方式体验</td><td>用AC Lounge+滨江景观+万豪积分拉开体验层次，让客人觉得"多付150值了"</td></tr></table><h3>竞争烈度判断：中高</h3><p>AC的<strong>真正对手不是豪华酒店</strong>（价格带不重叠），而是<strong>同价格带的亚朵S/美仑</strong>。决胜点在于：①万豪旅享家9000万+全球会员池的定向导流；②AC品牌独有的<strong>欧式极简设计语言</strong>——"less is more"风格在武汉高端市场稀缺；③AC Lounge的<strong>社交+轻餐饮场景</strong>是亚朵/美仑不具备的第三空间。</p><h3>差异化一句话</h3><p><strong>万豪品质、设计酒店价格、滨江微度假体验</strong>。所有营销物料、OTA描述、员工话术统一打这个点——不跟豪华酒店比排场，不跟中端连锁比价格，打的是"生活方式感"这张独特的牌。</p>`,
+    3: `<h3>新店未开业=一切从零，但零也是机会</h3><p>AC HOTEL当前处于<strong>新店未开业阶段</strong>，没有历史数据包袱，也没有差评要止血。核心任务：<strong>在开业前30天把"三个池子"灌满——协议客池、万豪会员池、OTA口碑池</strong>。</p><h3>D-30至D-21：种子客户锁定期</h3><ul><li><strong>谁来做</strong>：酒店销售总监+BD团队（2-3人）</li><li><strong>做什么</strong>：逐户拜访江一云境中心入驻企业及中南集团关联公司，推"年框协议价480元含早"（⚠️ 假设协议价，建议确认），签约即送会议室2小时体验券</li><li><strong>在哪操作</strong>：收银POS系统 → 协议客管理 → 新增协议单位 → 录入企业信息+协议价</li><li><strong>话怎么说</strong>："王总，我们是楼上AC HOTEL，万豪旗下的，下个月开业。给您一个邻居专属价480含双早，比OTA便宜近30%，您出差的客户和同事都能用。先签个框架，体验一次不满意随时终止。"</li><li><strong>不配合怎么办</strong>：对方说"我们有合作酒店了"→"没关系，不影响。我们先送您一张体验券，您或同事出差时体验一次对比一下，满意了再聊合作。"——先让人住进来，体验说话</li><li><strong>目标</strong>：开业前锁定<strong>15-20家协议企业</strong>，预估月贡献间夜50-80间</li></ul><h3>D-20至D-11：OTA基建期</h3><ul><li><strong>谁来做</strong>：市场经理/电商运营</li><li><strong>做什么</strong>：①美团/携程/飞猪三平台店铺装修上线（主图必须是江景房实拍+AC Lounge空间，禁用效果图）；②设置开业特惠价：首周房价在日常价基础上直降100元（如日常650元→开业价550元），限量每天10间；③大众点评酒店频道完善信息（设施标签全部勾选、周边交通/景点写全）</li><li><strong>在哪操作</strong>：美团酒店商家后台 → 房型管理 → 价格日历 → 设置促销价</li><li><strong>目标</strong>：开业首周OTA曝光量破5000次/天（⚠️ 行业参考值）</li></ul><h3>D-10至D-1：口碑预埋期</h3><ul><li><strong>谁来做</strong>：市场经理+前台主管</li><li><strong>做什么</strong>：①邀请10-15位本地生活方式KOL/KOC免费入住体验（不强制好评，只要求真实分享），重点邀小红书粉丝5000-50000的中腰部博主；②内部试住：全体员工轮流体验客房+AC Lounge，每人写1条真实感受发朋友圈/小红书</li><li><strong>话怎么说（邀请KOL）</strong>："我们是万豪AC，武汉首家，下周开业前邀您免费体验一晚江景房+AC Lounge特调鸡尾酒，您只需要真实记录入住感受就好，好坏都行。"</li><li><strong>不配合怎么办</strong>：KOL不回复→改为邀请万豪旅享家武汉会员群的活跃用户（积分兑换入住+评价）</li><li><strong>目标</strong>：开业当天小红书已有<strong>10-15篇图文/视频笔记</strong></li></ul><h3>D-Day开业当天</h3><ul><li><strong>做什么</strong>：举办"AC Lounge开放日"——周边写字楼白领凭名片免费领取AC特调鸡尾酒1杯（限前100位），现场引导扫码关注酒店公众号/小程序，留存私域</li><li><strong>谁来做</strong>：AC Lounge吧台+2名市场部同事引导</li><li><strong>目标</strong>：开业首日公众号/小程序新增粉丝<strong>200+</strong></li></ul>`,
+    4: `<h3>AC HOTEL的公域阵地：大众点评+小红书+OTA（三足鼎立）</h3><p>酒店品类的公域逻辑和餐饮不同：<strong>携程/美团酒店是交易平台（直接转化），大众点评/小红书是种草平台（影响决策）</strong>。三个平台缺一不可。</p><h3>大众点评·酒店频道</h3><ul><li><strong>核心目标</strong>：开业90天内大众点评评分达到<strong>4.5分+</strong>，评价数突破<strong>50条</strong></li><li><strong>谁来做</strong>：前台主管负责日常运营，市场经理月度复盘</li><li><strong>第一步（开业首月）——攒基础评价</strong>：前台退房时自然引导："感谢入住，如果您觉得体验不错，欢迎在大众点评上分享您的真实感受。"——不利诱、不施压、不代写。客房内放置精美"入住指南卡"，背面印大众点评门店页二维码</li><li><strong>第二步（第2-3月）——用免费试引流</strong>：大众点评"免费试"功能，每月投放5个名额"免费体验AC Lounge下午茶套餐"（成本约80元/人），吸引本地达人到店体验并产生真实内容</li><li><strong>在哪操作</strong>：大众点评商家后台 → 营销中心 → 免费试 → 设置体验项目+名额</li></ul><h3>小红书·生活方式种草</h3><ul><li><strong>核心目标</strong>：开业首月小红书相关笔记<strong>30篇+</strong></li><li><strong>四大内容方向</strong>：①"武汉江景房测评"（实拍江景+房间设计细节+价格）；②"AC Lounge探店"（鸡尾酒+轻食+空间氛围，打"武汉小众酒吧"标签）；③"武汉周末微度假"（打包套餐699含江景房+下午茶+江滩漫步路线）；④"万豪会员攻略"（积分兑换技巧）</li><li><strong>谁来做</strong>：市场经理每周出2条官方号内容+每月邀3-5位KOC免费入住换内容</li><li><strong>话怎么说（邀KOC）</strong>："提供免费入住1晚含双早+AC Lounge体验，您在小红书发布真实分享即可，文案自由发挥，我们不审稿。"</li><li><strong>不回复怎么办</strong>：在小红书搜索"武汉酒店"主动私信近期发过酒店测评的博主（粉丝2000-20000），回复率约15-20%（⚠️ 行业参考值）</li></ul><h3>OTA平台·交易转化</h3><ul><li><strong>核心目标</strong>：OTA月订单量<strong>300间夜+</strong>（开业首季度）</li><li><strong>关键动作</strong>：开业首月参加平台"新店特惠"活动，确保价格竞争力在同商圈前3名；携程/美团酒店双平台同步运营，房型描述突出"长江江景""万豪旗下""AC Lounge"三个关键词</li></ul>`,
+    5: `<h3>AC HOTEL私域逻辑：万豪体系是主干，门店私域是补充</h3><p>AC HOTEL自带万豪旅享家会员体系（全球9000万+会员），这是其他本土竞品（美仑/纽宾凯/亚朵）无法复制的核心壁垒。门店私域的定位不是替代万豪体系，而是<strong>做本地化补充——锁住武汉本地客的复购</strong>。</p><h3>门店会员分层设计</h3><table><tr><th>层级</th><th>对象</th><th>权益</th><th>运营重点</th></tr><tr><td><strong>万豪金/白金</strong></td><td>旅享家会员</td><td>万豪标准权益+AC特有：Lounge免费鸡尾酒1杯/天、延迟退房至14:00</td><td>开业前联合万豪APP武汉区Push，首住送双倍积分</td></tr><tr><td><strong>本地常客卡</strong></td><td>武汉本地周末住客、协议企业员工</td><td>年卡299元：全年周末房价9折+AC Lounge下午茶买一赠一+生日当月免费升级江景房</td><td>前台退房时推荐</td></tr><tr><td><strong>企业协议</strong></td><td>江一云境入驻企业+周边写字楼</td><td>协议价480元含早+会议室优惠+季度客户答谢</td><td>销售总监每月走访1次维护关系</td></tr></table><h3>本地常客卡推卡SOP</h3><ul><li><strong>谁来做</strong>：前台接待（退房环节）</li><li><strong>什么时候做</strong>：客人退房结账时，确认本次入住体验满意后</li><li><strong>话怎么说</strong>："这次住得还好吗？（等回复）我们有一个本地常客卡，年费299元，以后周末来住直接打9折，下午茶也买一赠一，您生日那个月还能免费升江景房。像您这样经常来武汉的客人，住两三次就回本了。"</li><li><strong>犹豫怎么办</strong>："没关系，您可以先加我们微信，下次来之前我帮您留最好的房间。常客卡随时都能办。"——不压单，先拉微信进私域</li><li><strong>在哪操作</strong>：收银POS → 会员管理 → 开卡 → 选择"本地常客卡"→ 录入客人信息+收款</li></ul><h3>公私域联动闭环</h3><p>公域（大众点评/小红书/OTA）引来新客 → 入住体验好 → 退房时引导加微信/办常客卡 → 私域推送周末套餐/节日活动 → 复购。<strong>公域负责"让人知道"，私域负责"让人回来"</strong>。</p><h3>储值说明</h3><p>当前阶段<strong>不建议上储值</strong>。原因：①新店未开业，客人对品牌信任未建立，大额预付意愿低；②酒店品类消费频次远低于餐饮，储值锁客效率不如常客卡；③万豪积分体系本身就有"提前锁定"功能。<strong>建议开业6个月后、复购数据跑出来再评估是否上储值</strong>。</p>`,
+    6: `<h3>已签约模块：收银POS + 电子发票——怎么用到极致</h3><p>AC HOTEL已签约<strong>收银POS</strong>和<strong>电子发票</strong>。对酒店来说，这两个工具的核心价值不是"能收钱能开票"（PMS都能做），而是<strong>数据沉淀+客户识别+效率提升</strong>。</p><h3>收银POS·三个必须配好的功能</h3><h4>功能1：多业态收银统一</h4><ul><li><strong>解决什么问题</strong>：AC HOTEL至少有3个收银场景——前台（房费）、AC Lounge（餐饮/酒水）、会议室（场地租赁）。各自独立收银=数据割裂、对账痛苦</li><li><strong>怎么做</strong>：收银POS → 门店设置 → 多业态配置 → 分别创建"客房"/"餐饮"/"会议"三个业态，统一后台报表</li><li><strong>谁来做</strong>：IT经理/系统管理员，开业前10天完成</li><li><strong>预期效果</strong>：月末对账从2天缩短到2小时（⚠️ 行业参考值）</li></ul><h4>功能2：协议客快捷结算</h4><ul><li><strong>解决什么问题</strong>：协议企业客人入住，前台需快速识别协议价、挂账、月结——手工查价格表效率低且易出错</li><li><strong>怎么做</strong>：收银POS → 协议客管理 → 导入协议企业名单 → 设置协议价格 → 前台扫客人工牌/报企业名即可自动匹配</li><li><strong>谁来做</strong>：销售总监录入协议信息，前台日常使用</li><li><strong>话怎么说</strong>："请问是哪家公司的？好的，已帮您匹配协议价了，含双早480元，房费月底统一跟贵公司结算。"</li></ul><h4>功能3：经营数据日报</h4><ul><li><strong>解决什么问题</strong>：酒店GM每天需知道今日入住率、ADR（平均房价）、RevPAR、餐饮收入、总营收</li><li><strong>怎么做</strong>：收银POS → 报表中心 → 设置"日报自动推送" → 每天08:00推送前一天经营数据到GM微信</li><li><strong>预期效果</strong>：GM不再需要等财务手工汇总，每天8点打开微信就知道昨天赚了多少</li></ul><h3>电子发票·两个提效场景</h3><h4>场景1：退房即开票（30秒完成）</h4><ul><li><strong>痛点</strong>：商务客退房后最常问"发票什么时候能开"——传统流程等财务开，可能1-3天</li><li><strong>怎么做</strong>：收银POS → 退房结算 → 勾选"自动开具电子发票" → 客人扫码即收</li><li><strong>话怎么说</strong>："您的电子发票已经发到您手机了，您看一下。"——不等客人问，主动告知</li></ul><h4>场景2：协议客月结批量开票</h4><ul><li><strong>痛点</strong>：协议企业月底要汇总发票，财务逐笔查流水耗时</li><li><strong>怎么做</strong>：电子发票 → 批量开票 → 按协议企业筛选本月消费 → 一键合并开具</li><li><strong>预期效果</strong>：月结开票从半天缩短到10分钟</li></ul>`,
+    7: `<h3>酒店口碑冷启动的特殊性</h3><p>酒店和餐饮的点评逻辑不同：餐饮靠高频+低门槛堆评价量，酒店是低频+高客单——每个客人只住1-2晚，写评价的意愿天然更低。因此酒店冷启动更难，但<strong>每条评价的权重也更高</strong>（酒店品类50条优质评价的口碑影响力约等于餐饮200条）。</p><h3>阶段一（0-30天）：攒前30条真实评价</h3><ul><li><strong>核心原则</strong>：严禁促评/邀评/利诱评价。2025年10月后高强度促评=新评价不产生星级收益。所有评价必须来自客人自发分享</li><li><strong>合规做法①——服务触动点设计</strong>：在入住体验中创造"超预期瞬间"。入住时赠送手写欢迎卡（"欢迎来到AC HOTEL，今晚的武汉江景为您而留。—前台小李"）；客房内放置本地手绘地图（标注周边餐厅/江滩步道/咖啡馆），成本约2元/份</li><li><strong>谁来做</strong>：前台主管每天准备手写卡（每位入住客人一张），客房部放置地图</li><li><strong>合规做法②——退房自然引导</strong>：前台话术："这次住得还好吗？如果方便的话，欢迎在大众点评上分享您的入住故事，帮更多旅客了解我们。"——语气自然、不施压、不提奖励</li><li><strong>合规做法③——差评2小时响应</strong>：每天10:00和16:00各检查一次大众点评后台，发现差评2小时内回复。模板："尊敬的客人，非常抱歉给您带来不好的体验。我是AC HOTEL值班经理XX，关于您提到的[具体问题]，我们已经[具体改进措施]。期待您下次来体验改进后的服务。"</li><li><strong>目标</strong>：30天内积累20-30条真实评价，综合评分4.5+</li></ul><h3>阶段二（31-90天）：冲热门榜</h3><ul><li><strong>用合规工具引流</strong>：大众点评"免费试"——每月5个名额体验"AC Lounge下午茶套餐"（成本80元/人），吸引本地生活达人到店并产生真实内容</li><li><strong>在哪操作</strong>：大众点评商家后台 → 营销中心 → 免费试 → 设置项目+名额</li><li><strong>目标</strong>：90天内评价数突破50条，大众点评酒店频道热门榜进入<strong>武昌区前20名</strong></li></ul><h3>口碑维护铁律</h3><ol><li>好评不买、差评不删——用服务赢口碑</li><li>每条差评是改进信号，回复要具体到"我们改了什么"</li><li>鼓励客人分享的方式只有一个：让服务本身值得被说</li></ol>`,
+    8: `<h3>8-9月营销节点与AC HOTEL的结合</h3><p>AC HOTEL预计8月前后开业（⚠️ 假设，以实际为准），正好赶上暑期旺季+七夕+中秋三大节点。酒店品类做节日营销的核心不是打折，而是<strong>用场景包装拉高客单价+创造社交传播素材</strong>。</p><h3>节点1：开业首周·"万豪来了"品牌发声</h3><ul><li><strong>时间</strong>：开业第1-7天</li><li><strong>做什么</strong>：①OTA开业特惠（日常价直降100元，限量10间/天）；②AC Lounge开放日（凭名片免费领鸡尾酒1杯，限前100位）；③小红书/大众点评集中投放KOL内容</li><li><strong>谁来做</strong>：市场经理统筹，前台+Lounge执行</li><li><strong>预算</strong>：KOL费用约3000-5000元（10-15位中腰部免费入住）+鸡尾酒成本约1500元（100杯×15元）≈总计5000-7000元</li><li><strong>目标</strong>：首周入住率达<strong>40%+</strong>（⚠️ 新店首周行业参考值30-50%）</li></ul><h3>节点2：七夕·"江景浪漫夜"</h3><ul><li><strong>时间</strong>：七夕当天及前后2天（共5天）</li><li><strong>做什么</strong>：推出"江景浪漫夜"双人套餐——三档定价：</li></ul><table><tr><th>档位</th><th>内容</th><th>价格</th><th>成本</th></tr><tr><td>甜蜜档</td><td>江景大床房+双份早餐+AC Lounge鸡尾酒2杯</td><td>899元</td><td>约550元</td></tr><tr><td>浪漫档</td><td>高层江景房+双早+鸡尾酒2杯+玫瑰花束+巧克力</td><td>1299元</td><td>约680元</td></tr><tr><td>至臻档</td><td>套房+双早+鸡尾酒+花束+巧克力+14:00延迟退房+早餐房送</td><td>1899元</td><td>约950元</td></tr></table><ul><li><strong>定价逻辑</strong>：至臻档不是为了卖（但会有人买），是为了让浪漫档显得"很划算"</li><li><strong>在哪操作</strong>：收银POS → 套餐管理 → 新增"七夕套餐"三档 → OTA同步上架</li><li><strong>目标</strong>：七夕5天售出<strong>30-50套</strong>，增收约4-6万元</li></ul><h3>节点3：中秋·"江月团圆宴"</h3><ul><li><strong>时间</strong>：中秋假期（含前后2天）</li><li><strong>做什么</strong>：①推出"中秋住+吃"套餐（江景房+AC Lounge中秋特别晚餐+定制月饼礼盒4枚装），定价1099元；②企业协议客专属：中秋送月饼礼盒（采购成本20元/盒），维护关系</li><li><strong>谁来做</strong>：市场经理策划，销售总监负责协议客月饼派送</li><li><strong>月饼采购要点</strong>：提前1个月定制印AC HOTEL logo的月饼礼盒，批量价15-20元/盒</li><li><strong>目标</strong>：中秋假期入住率达<strong>85%+</strong>（⚠️ 中秋酒店旺季参考值80-95%）</li></ul><h3>节点4："滨江微度假"常态化</h3><ul><li><strong>时间</strong>：开业后长期运营</li><li><strong>做什么</strong>：推"周末江景房+AC Lounge下午茶+周边骑行/江滩漫步路线"打包价699元（⚠️ 假设定价，基于同档万豪周末套餐参考），在小红书/大众点评以"武汉周末不出城度假"内容持续种草</li><li><strong>核心客群</strong>：武汉本地25-35岁白领的周末消费场景，做出和亚朵、全季完全不同的"生活方式感"</li><li><strong>目标</strong>：周末套餐月均售出<strong>40-60套</strong>，贡献月营收约3-4万元</li></ul>`,
+    9: `<h3>开业首季度OKR目标</h3><table><tr><th>指标</th><th>月度目标</th><th>季度目标</th><th>衡量方式</th></tr><tr><td>平均入住率</td><td>首月40%→第3月65%</td><td>季度均值55%</td><td>POS日报/PMS数据</td></tr><tr><td>ADR（平均房价）</td><td>550-650元</td><td>稳定在600元+</td><td>POS报表</td></tr><tr><td>RevPAR</td><td>首月220→第3月390</td><td>季度均值330</td><td>入住率×ADR</td></tr><tr><td>大众点评评分</td><td>首月4.3→第3月4.5</td><td>90天4.5+</td><td>大众点评后台</td></tr><tr><td>大众点评评价数</td><td>首月20条→第3月50条</td><td>累计50条</td><td>大众点评后台</td></tr><tr><td>小红书笔记数</td><td>首月30篇</td><td>累计80篇</td><td>小红书搜索"武汉AC"</td></tr><tr><td>协议企业数</td><td>首月15家→第3月25家</td><td>累计25家</td><td>POS协议客管理</td></tr><tr><td>本地常客卡</td><td>首月20张→第3月50张</td><td>累计50张</td><td>POS会员管理</td></tr><tr><td>月营收</td><td>首月30万→第3月60万</td><td>季度累计150万</td><td>POS报表</td></tr></table><h3>营收测算逻辑（基于假设，建议核实房间数）</h3><p>假设AC HOTEL共<strong>150间客房</strong>（⚠️ 假设，万豪AC标准规模120-200间）：</p><ul><li><strong>首月</strong>：入住率40% × 150间 × 30天 = 1800间夜 × ADR 550元 = <strong>客房收入99万</strong> + AC Lounge餐饮约<strong>6万</strong> + 会议室约<strong>3万</strong> = 月营收约<strong>108万</strong>（⚠️ 这是乐观估算，保守按30%入住率约81万）</li><li><strong>第3月</strong>：入住率65% × 150间 × 30天 = 2925间夜 × ADR 620元 = <strong>客房收入181万</strong> + 餐饮<strong>12万</strong> + 会议室<strong>5万</strong> = 月营收约<strong>198万</strong></li></ul><h3>SaaS投入回报</h3><table><tr><th>投入项</th><th>金额</th><th>回报</th></tr><tr><td>收银POS（已签约）</td><td>--</td><td>多业态统一收银，月省对账2天人力≈3000元；协议客快捷结算减少前台出错</td></tr><tr><td>电子发票（已签约）</td><td>--</td><td>退房即开票提升客户满意度→转化为好评；月结批量开票从半天→10分钟</td></tr><tr><td>开业营销投入</td><td>约5000-7000元</td><td>首周入住率40%+（如达成=首周客房收入约23万）</td></tr><tr><td>本地常客卡</td><td>299元/张（客户付费）</td><td>50张×299=14950元收入+锁定全年周末复购</td></tr></table><h3>30天复盘节点</h3><ul><li><strong>第7天</strong>：检查首周入住率是否达40%，OTA评分是否正常（无恶意差评需处理）</li><li><strong>第15天</strong>：检查协议企业签约进度是否过半（8-10家），小红书笔记数是否达15篇</li><li><strong>第30天</strong>：全面复盘——入住率/ADR/RevPAR/评价数/常客卡，对标OKR调整下月策略</li></ul><h3>关键风险与应对</h3><ol><li><strong>风险</strong>：武昌滨江板块客流不及预期（养成期长）→ <strong>应对</strong>：加大企业协议BD力度，把不确定的散客变成确定的协议客</li><li><strong>风险</strong>：同期有竞品酒店同步开业打价格战 → <strong>应对</strong>：不跟价格战，守住万豪品牌溢价+AC Lounge差异化体验</li><li><strong>风险</strong>：AC Lounge运营成本高于预期 → <strong>应对</strong>：Lounge菜品精简至15-20个SKU，控制人力在3人/班次以内</li></ol>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
