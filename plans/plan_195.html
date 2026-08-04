@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>颐和公馆·巨幕影院式足道·SPA·汤泉·K歌 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">休闲按摩足浴/汤泉综合体 · 运营提升方案</div>
+  <h1 class="hero-title">颐和公馆·巨幕影院式足道·SPA·汤泉·K歌</h1>
+  <p class="hero-subtitle">把「巨幕足道」打成城北目的地IP，让丁兰人不出城也能泡一天</p>
+  <div class="hero-address">杭州市上城区丁兰街道蕙兰雅路578号新城广场1、3楼</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥147</span>
+      <div class="hero-stat-label">人均消费</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">丁兰·城北</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察·赛道机会', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察·赛道机会</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解·差异化定位', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解·差异化定位</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '点评口碑·评分攻坚', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">点评口碑·评分攻坚</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '爆点打造·巨幕IP引爆', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">爆点打造·巨幕IP引爆</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '套餐锁客·微度假产品设计', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">套餐锁客·微度假产品设计</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '会员体系·私域留客', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">会员体系·私域留客</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '储值方案·锁定长期消费', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">储值方案·锁定长期消费</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '营销日历·暑期+中秋黄金档', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">营销日历·暑期+中秋黄金档</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(9, '投资回报·量化OKR', 9)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 09</div>
+      <div class="chapter-title">投资回报·量化OKR</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>杭州汤泉综合体：结构性洗牌期的增量机会</h3><p>杭州主城区近两年新开汤泉/足道综合体超20家，但同质化严重——绝大多数还在打「泡池多、面积大」的规模牌。市场分两档：<strong>大众汤泉68-128元</strong>（走量型，环境一般）和<strong>中高端复合休闲138-200元</strong>（体验型，但缺乏记忆点）。你的人均147元卡在中高端入门线，<strong>不贵到让人犹豫，但必须给出「值这个价」的差异化体验</strong>。</p><h3>丁兰板块客群画像</h3><p>丁兰是城北刚改居住区，以<strong>25-45岁年轻家庭和周边产业园上班族</strong>为主力客群。核心消费场景有三个：</p><ul><li><strong>周末家庭微度假</strong>（带娃泡汤+K歌+简餐，4-6小时沉浸消费）——占比预估40%</li><li><strong>周中减压放松</strong>（加班族下班后足道+汤泉，2-3小时快充）——占比预估35%</li><li><strong>朋友/同事聚会</strong>（K歌+台球+足道，6-8人小团体）——占比预估25%</li></ul><p><strong>风险点</strong>：丁兰人口密度有限（常住约12万人），纯靠自然到店客流撑不起2000平方米+55间房的高坪效。必须做<strong>「目的地消费」逻辑</strong>——把人从其他商圈甚至临平、下沙拉过来。</p><h3>核心判断</h3><p>这家店的胜负手不在服务本身，而在<strong>能否把「巨幕影院式足道」这个差异化场景打成丁兰乃至城北的目的地IP</strong>。55个房间 x 日均翻台1.5次 x 人均147元 = <strong>日均理论天花板约12,128元</strong>（假设满房率70%，实际日均目标约8,489元，月营收目标约25.5万）。新店前3个月先做到满房率50%（日均约6,064元，月约18.2万），站稳脚跟再攻70%。</p></div>
+<div id="modal-content-2" style="display:none"><h3>周边3-5公里真实竞争格局</h3><table><tr><th>竞品名称</th><th>人均</th><th>核心弱点</th><th>我们的切入机会</th></tr><tr><td>千岛湖汤·足道（丁桥店）</td><td>90-110元</td><td>价格低但环境一般，服务标准化不足，无娱乐配套</td><td>用「巨幕影院+K歌+台球」一站式体验碾压</td></tr><tr><td>汤悦温泉（城北）</td><td>130-160元</td><td>面积大设施全但娱乐差异化弱，年轻人吸引力不足</td><td>用「巨幕足道」打年轻人心智，K歌+台球锁住聚会场景</td></tr><tr><td>智慧足道/富侨等传统连锁</td><td>80-120元</td><td>技师稳定但场景老化，无汤泉/娱乐配套</td><td>「综合体」模式完胜单一足浴，4小时微度假vs1小时按脚</td></tr><tr><td>湍口/临安温泉度假项目</td><td>200-400元</td><td>车程1-1.5h，工作日难覆盖</td><td>「家门口的汤泉度假」，地铁直达不用开车</td></tr></table><h3>你的三个差异化壁垒</h3><ul><li><strong>壁垒1·巨幕影院式足道</strong>：杭州唯一「躺着看巨幕+泡脚」的体验，丁桥足疗回头客榜第1名已验证记忆点有效</li><li><strong>壁垒2·一站式7大业态</strong>：影院足道+自助简餐+免费过夜+汤泉洗浴+SPA+K歌+台球，竞品最多覆盖3-4项</li><li><strong>壁垒3·地铁可达</strong>：距3号线丁桥站D口步行570m，比郊区温泉度假村交通优势降维打击</li></ul><h3>竞争策略一句话</h3><p><strong>不打价格战，打场景战</strong>——别人卖「泡个澡」，你卖「不用出城的4小时微度假」。定价锚定在千岛湖汤和汤悦之间，但体验感拉到临安温泉的水平。</p></div>
+<div id="modal-content-3" style="display:none"><h3>现状诊断：3.8分是最紧迫的止血点</h3><p>综合评分<strong>3.8分</strong>（技师3.9/环境4.1/服务3.8），740条评价。环境4.1说明硬件过关，但<strong>服务3.8在人均147元的中高端定位下是致命伤</strong>——客人花147块来享受，服务跟不上就觉得「不值」，直接影响复购和口碑。</p><h3>30天止血计划：服务分从3.8拉到4.0+</h3><p><strong>谁来做</strong>：店长牵头，每日晨会10分钟「昨日差评复盘」</p><ul><li><strong>第1-3天</strong>：店长逐条读近30天差评，标记高频关键词（假设集中在「等太久」「技师态度」「卫生」三类），按问题分给责任人</li><li><strong>第4-7天</strong>：针对TOP3差评原因定整改——等太久：叫号系统+到号前15分钟短信提醒🔧「收银POS-排队管理-到号提醒」；技师态度：建立「服务三句话」标准（迎客/过程/送客各一句）；卫生：每日3巡检查表拍照</li><li><strong>持续执行</strong>：差评2小时内回复，话术：「非常抱歉给您带来不好的体验，我是店长XX，已第一时间排查并改进了[具体问题]，欢迎您再来体验，我亲自接待」</li></ul><h3>合规获评策略（2025.10新规后严禁促评）</h3><p><strong>绝不能做</strong>：好评返现、好评送礼、店员盯着客人写好评</p><p><strong>正确做法</strong>：靠体验激发自发分享</p><ul><li><strong>「免费试」活动</strong>🔧「大众点评商家后台-营销中心-免费试」：开放5-10个名额/周，让达人免费体验巨幕足道+汤泉</li><li><strong>打造3个「忍不住拍照」的触点</strong>：巨幕房进门瞬间的震撼感（灯光调暗+巨幕亮起）、汤泉区拍照打卡墙（好看背景+灯光）、离店小惊喜（定制精油片2-3元，印店名+点评搜索词）</li><li><strong>服务员引导话术（不是逼评）</strong>：「您今天体验怎么样？觉得好的话欢迎在大众点评分享真实感受~」</li></ul><h3>评分目标</h3><p>第30天：3.8到<strong>4.0</strong>（服务分拉到4.0是关键）<br>第60天：到<strong>4.2</strong>，冲击丁桥热门榜前5<br>第90天：维稳4.2+，争取新店榜到热门榜到好评榜三连跳</p></div>
+<div id="modal-content-4" style="display:none"><h3>核心策略：把「巨幕足道」从产品变成城北目的地IP</h3><p>你的最大资产不是55个房间、不是汤泉、不是K歌——是<strong>「巨幕影院式足道」这个杭州唯一的体验场景</strong>。丁桥回头客榜第1名说明这个记忆点已跑通，现在要把它从「来过的人觉得好」放大到「没来过的人都想来」。</p><h3>抖音本地生活：30天打出第一波声量</h3><p><strong>谁来做</strong>：店长统筹，安排1名形象好的员工出镜（省钱不外请达人）</p><p><strong>第1-5天·内容储备</strong>：拍3-5条沉浸式体验短视频。核心画面——顾客躺在按摩椅上，面前巨幕播电影，手边爆米花和饮品，脚下技师服务。反差感是传播核心：「别人泡脚看手机，我泡脚看IMAX」。角度：第一视角躺下看巨幕的震撼感/远景拍巨幕房氛围/特写爆米花+饮品+脚盆的微度假感。文案模板：「杭州人均89就能躺着看巨幕泡脚？丁桥这家店太会了」</p><p><strong>第6-15天·集中投放</strong>：每天50-100元DOU+，锁定杭州+丁桥+城北+下沙+临平。同步上线抖音团购：9.9元体验券（满99可用，限新客日限20张）+99元双人汤泉足道套餐（原价199限量）。每2天发1条视频保持新鲜度。</p><p><strong>第16-30天·达人合作</strong>：邀3-5位杭州本地达人（5000-5万粉腰部达人，免费体验不付坑位费）。小红书同步图文笔记，打「杭州周末去哪玩」「杭州小众微度假」「丁桥宝藏店」标签。</p><p><strong>预期效果</strong>：30天抖音曝光50万次，到店核销200+人次，团购销量破500单</p><h3>大众点评同步优化</h3><ul><li>团购：当前89元爆款年售800+继续保留，增加一档「周末双人微度假」168元（汤泉+足道+K歌1h+简餐），拉高客单</li><li>标签优化🔧「点评商家后台-门店信息-标签管理」：确保「巨幕足道」「免费过夜」「地铁直达」「免费停车」全部展示</li><li>首图更新：用巨幕房全景（暗光+巨幕亮起氛围感），相册按场景分区（巨幕房/汤泉/K歌/台球/简餐）</li></ul></div>
+<div id="modal-content-5" style="display:none"><h3>核心逻辑：把散客单项消费升级为套餐沉浸消费</h3><p>当前问题：客人来了只泡个脚就走（客单89元），55个房间+7大业态的坪效远没打满。关键是设计「让客人多留2小时、多花50块」的套餐产品。人均147元已说明部分客人愿意花更多，但需要套餐引导。</p><h3>三档套餐设计（店长定稿，前台+技师推荐）</h3><table><tr><th>套餐名</th><th>定价</th><th>包含内容</th><th>锚定逻辑</th></tr><tr><td>巨幕足道·单人畅享</td><td>89元（引流款）</td><td>巨幕足道60min+汤泉不限时+自助简餐</td><td>延续当前爆款低门槛引流</td></tr><tr><td>微度假·双人套餐</td><td>168元（主推款）</td><td>双人巨幕足道60min+汤泉+K歌1h+简餐+茶饮</td><td>比89x2=178便宜还多K歌，超值感拉满</td></tr><tr><td>尊享·4人闺蜜/兄弟局</td><td>399元（利润款）</td><td>4人巨幕足道90min+汤泉+K歌2h+台球1h+简餐+果盘</td><td>人均不到100比单点省100+，锁定聚会场景</td></tr></table><p><strong>操作路径</strong>🔧「收银POS-商品管理-套餐设置」：三档全部上线，扫码点餐同步展示</p><p><strong>前台话术</strong>：「您好，今天几位一起？我们双人微度假套餐168元包含巨幕足道+汤泉+K歌+简餐，比单点省将近50块，K歌房今天还有空~」</p><p><strong>客人犹豫时</strong>：「没关系，先体验89元巨幕足道，觉得好下次升级套餐。加30块就能泡汤泉不限时，泡完整个人都放松了~」</p><h3>企业团建/周中包场：解决工作日空场</h3><p><strong>谁来做</strong>：店长+1名专职BD，第1-2周拜访周边企业</p><ul><li><strong>目标</strong>：丁兰智慧小镇入驻企业、笕桥产业园、华丰工业区（15分钟内的公司）</li><li><strong>团建套餐</strong>：人均120-150元含茶歇，6人起订。内容：汤泉+足道+K歌包场2h+简餐+茶歇，可定制K歌房大屏欢迎屏</li><li><strong>话术</strong>：「比传统KTV+聚餐新鲜多了，团队先泡汤放松再K歌嗨两小时，人均120出头还送定制欢迎屏。先安排10个人试一次？」</li><li><strong>企业不感兴趣</strong>：留资料+加微信，每月初发团建优惠「张总8月了团队辛苦半年，要不安排来放松下？给您留周三专属价」</li><li><strong>目标</strong>：2周拜访20家企业，签下3-5家季度协议</li></ul></div>
+<div id="modal-content-6" style="display:none"><h3>诊断：已签约会员旗舰版+高级版，关键是「用起来」</h3><p>会员旗舰版含团购会员卡+潜客营销+6大特有活动。新店阶段核心不是设计多花哨，而是<strong>快速沉淀第一批100个回头客</strong>。</p><h3>会员等级设计（3级够用）</h3><table><tr><th>等级</th><th>门槛</th><th>权益</th><th>目标客群</th></tr><tr><td>银卡·体验官</td><td>首次消费即注册</td><td>9.5折+生日赠足道1次+积分1元=1分</td><td>所有到店客人，零门槛拉新</td></tr><tr><td>金卡·常客</td><td>累计消费1000元或3次</td><td>9折+专属技师预约+K歌优先+1.5倍积分</td><td>月来2-3次的忠实客</td></tr><tr><td>黑卡·VIP</td><td>累计消费5000元</td><td>8.5折+免费升级SPA+专属房间+免等位+生日双倍积分</td><td>高净值客户/企业老板</td></tr></table><p><strong>操作路径</strong>🔧「会员旗舰版-等级设置-新建等级」：按上表配置3级，积分在「积分管理」设置</p><p><strong>第1天上线动作（店长执行）</strong>：</p><ol><li>后台配置3级权益🔧「会员旗舰版-等级设置」</li><li>设置扫码自动注册银卡🔧「会员旗舰版-入会设置-扫码自动入会」</li><li>前台放「扫码入会立享9.5折」立牌（万能码生成入会码🔧「万能码-新建码-入会码」）</li><li>培训前台/技师话术：「扫一下这个码注册会员，今天消费直接打9.5折，以后来都有折扣~」</li></ol><h3>潜客营销：团购客转会员（旗舰版独有）</h3><p><strong>问题</strong>：大量客人通过89元团购来，消费完就走不留联系方式，下次还从团购进来（平台抽佣15-20%）。</p><p><strong>解法</strong>🔧「会员旗舰版-潜客营销-团购转化」：团购核销时自动弹出「注册会员再送20元券」——客人扫码注册，下次直接来店消费省掉平台抽佣。</p><p><strong>话术</strong>：「您团购已核销了，注册个会员送您20元券，下次不用平台买券直接来店里更划算~」</p><p><strong>客人说不想注册</strong>：「没关系扫一下就好不用填资料，以后来直接出示会员码就能打折~」</p><p><strong>30天目标</strong>：会员注册<strong>300人</strong>（日均10人，按日均到店40-50人转化率20-25%）。60天破<strong>800人</strong>。</p></div>
+<div id="modal-content-7" style="display:none"><h3>先问：这家店现在最该推储值吗？</h3><p>答案：<strong>不急</strong>。新店前3个月第一要务是「让更多人来体验+留好印象+攒口碑」，不是一上来让人充卡。但储值不是不做——在第2个月、会员过300人、口碑站稳4.0分后，开始小范围试推，作为「锁定忠实客户」的工具。</p><h3>储值启动时机：第2个月起（约开业第31天）</h3><p><strong>前提条件（缺一不推）</strong>：综合评分大于等于4.0 + 会员注册大于等于300人 + 日均到店大于等于40人。满足后再启动。</p><h3>三档储值设计</h3><table><tr><th>档位</th><th>充值金额</th><th>赠送</th><th>锚定逻辑</th></tr><tr><td>体验档</td><td>500元</td><td>送50元（到账550元）</td><td>约3-4次消费，门槛低试水</td></tr><tr><td>主推档</td><td>1000元</td><td>送150元（到账1150元）</td><td>约7次消费，锁定2个月复购</td></tr><tr><td>尊享档</td><td>3000元</td><td>送500元+黑卡会员资格</td><td>高净值客户，锁定半年</td></tr></table><p><strong>操作路径</strong>🔧「收银POS-储值管理-储值规则设置」：按上表配置三档</p><p><strong>推荐场景和话术（技师服务结束时推荐，不是结账时硬推）</strong>：</p><ul><li><strong>时机</strong>：技师做完足道，客人表示「很舒服/下次还来」时</li><li><strong>话术</strong>：「您喜欢的话可以办个储值卡，充1000送150，相当于87折，以后每次来直接刷卡不用买团购券，比团购还划算~」</li><li><strong>客人说再考虑</strong>：「没关系，加个微信下次来前联系我帮您预约房间和技师~」——不逼单但留二次触达渠道</li><li><strong>客人问万一倒了怎么办</strong>：「我们开在新城广场签了长期租约，储值卡随时查余额可以转让给朋友用，放心~」</li></ul><p><strong>月储值目标</strong>：第2-3个月月入<strong>3-5万</strong>（约30-50人充值以体验档和主推档为主）。第4-6个月拉到<strong>8-10万/月</strong>。</p><p><strong>铁律</strong>：储值是「忠实客户锁定工具」不是「新客转化工具」。绝不对第一次来的团购客推储值——人家第一次来你让充3000块谁信？先让人来3次体验好了信任建立了再自然过渡。</p></div>
+<div id="modal-content-8" style="display:none"><h3>8月-9月营销节奏（新店开业期 x 暑期旺季）</h3><p>你赶上了好时候——8月暑期+9月中秋双黄金档，是汤泉综合体一年中最好的开业窗口。夏天人怕热但爱泡汤泉（空调+汤池=城市避暑胜地），中秋家庭聚会需求爆发。以下是按周排好的营销动作：</p><h3>8月上旬（第1-2周）：开业引爆</h3><ul><li><strong>核心动作</strong>：抖音+小红书集中投放（详见第4章），大众点评89元爆款团购全力推</li><li><strong>线下配合</strong>：新城广场门口摆展架+地推（扫码关注送汤泉体验券，限前200人）。<strong>谁来做</strong>：安排2名员工轮班站台，每天10:00-20:00</li><li><strong>开业福利</strong>：前100名到店客人赠「巨幕足道+汤泉」双体验券（下次使用，锁定二次到店）</li></ul><h3>8月中旬（第3-4周）：暑期亲子+避暑主题</h3><ul><li><strong>「城市避暑胜地」主题</strong>：推出「亲子泡汤套餐」——1大1小128元（含汤泉+儿童泡池+简餐+冰饮），周末限量30组</li><li><strong>操作</strong>🔧「扫码点餐-限时活动-亲子套餐」上线，朋友圈+社群推送</li><li><strong>话术</strong>：「杭州38度带娃去哪？楼下就有空调汤泉+儿童池，128块泡一天比去水上乐园划算多了」</li></ul><h3>9月上旬：开学季+企业团建季</h3><ul><li><strong>「开学前最后一泡」</strong>：学生凭学生证享足道8折（周一至周四），拉动工作日客流</li><li><strong>企业团建集中拜访期</strong>（详见第5章），趁开学季企业恢复正常节奏主动出击</li></ul><h3>9月中下旬：中秋团圆经济</h3><ul><li><strong>「中秋·泡汤赏月」套餐</strong>：6人以上团圆聚会套餐（人均128含汤泉+足道+K歌+简餐+月饼礼盒），提前1周开放预订</li><li><strong>储值加码</strong>：中秋期间充1000送200（比日常多送50），限时7天，配合「中秋送礼不如送健康」主题</li><li><strong>操作</strong>🔧「储值管理-限时活动」设置中秋专属储值档位，会员系统push「中秋团圆套餐」</li><li><strong>预期</strong>：中秋3天假期日均满房率冲80%（约9,700元/天），储值入账集中爆发</li></ul><h3>全季核心数据锚点</h3><p>8-9月双月营收目标：<strong>40万</strong>（8月18万+9月22万）。其中团购引流贡献约40%，套餐升单贡献30%，企业团建贡献15%，储值贡献15%。</p></div>
+<div id="modal-content-9" style="display:none"><h3>SaaS投入成本一览</h3><table><tr><th>模块</th><th>年费</th><th>用途</th></tr><tr><td>收银POS</td><td>已签约</td><td>全场景收银+排队管理+数据看板</td></tr><tr><td>扫码点餐</td><td>已签约</td><td>自助点单+套餐推荐+活动弹窗</td></tr><tr><td>会员旗舰版</td><td>4,888元/年</td><td>3级会员+团购转化+潜客营销+6大活动</td></tr><tr><td>会员高级版</td><td>已签约</td><td>基础会员管理</td></tr><tr><td>供应链</td><td>已签约</td><td>耗材/食材进销存</td></tr></table><h3>月度增收测算（基于满房率从30%到50%的增长）</h3><table><tr><th>增收来源</th><th>月增收</th><th>测算逻辑</th></tr><tr><td>抖音/点评团购引流</td><td>+3.5万</td><td>新增日均8-10组团购核销，人均89-168元</td></tr><tr><td>套餐升单（89元到168元）</td><td>+2.5万</td><td>30%客人从单项升级为套餐，人均多花50-80元</td></tr><tr><td>企业团建（周一至周四）</td><td>+1.5万</td><td>月均3-4场团建，每场10-15人，人均130元</td></tr><tr><td>储值锁客（第2个月起）</td><td>+3万</td><td>月均30人充值，主推档1000元为主</td></tr></table><p><strong>月增收合计</strong>：约<strong>10.5万</strong>（保守估计8万/乐观12万）</p><p><strong>SaaS年投入</strong>：约5,000-6,000元（已签约模块无额外成本，主要是会员旗舰版年费）</p><p><strong>回本周期</strong>：SaaS投入在<strong>第1个月</strong>即可通过团购转化节省的平台佣金覆盖（按月团购核销500单、平台佣金15%计算，月节省约6,675元）</p><h3>季度OKR目标</h3><table><tr><th>指标</th><th>第1个月</th><th>第2个月</th><th>第3个月</th></tr><tr><td>月营收</td><td>18万</td><td>22万</td><td>25.5万</td></tr><tr><td>日均满房率</td><td>50%</td><td>60%</td><td>70%</td></tr><tr><td>点评评分</td><td>4.0</td><td>4.2</td><td>4.2+维稳</td></tr><tr><td>会员注册数</td><td>300人</td><td>800人</td><td>1500人</td></tr><tr><td>月储值入账</td><td>—</td><td>3-5万</td><td>8-10万</td></tr><tr><td>团购核销率</td><td>60%</td><td>70%</td><td>75%</td></tr><tr><td>企业团建签约</td><td>3-5家</td><td>8-10家</td><td>15家</td></tr></table><h3>30天复盘节点</h3><ul><li><strong>第7天</strong>：检查抖音视频数据（播放量/互动率/团购核销数），调整投放策略</li><li><strong>第15天</strong>：检查点评评分变化、差评回复率、会员注册进度</li><li><strong>第30天</strong>：全面复盘——营收是否达18万？评分是否到4.0？会员是否破300？未达标项逐一分析原因并调整</li></ul><p><strong>一句话</strong>：5000块年费撬动年增收100万+的增量空间，第1个月就回本，核心价值不在省钱而在<strong>把散客变会员、把会员变储值、把储值变稳定现金流</strong>。</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>李朝</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>杭州汤泉综合体：结构性洗牌期的增量机会</h3><p>杭州主城区近两年新开汤泉/足道综合体超20家，但同质化严重——绝大多数还在打「泡池多、面积大」的规模牌。市场分两档：<strong>大众汤泉68-128元</strong>（走量型，环境一般）和<strong>中高端复合休闲138-200元</strong>（体验型，但缺乏记忆点）。你的人均147元卡在中高端入门线，<strong>不贵到让人犹豫，但必须给出「值这个价」的差异化体验</strong>。</p><h3>丁兰板块客群画像</h3><p>丁兰是城北刚改居住区，以<strong>25-45岁年轻家庭和周边产业园上班族</strong>为主力客群。核心消费场景有三个：</p><ul><li><strong>周末家庭微度假</strong>（带娃泡汤+K歌+简餐，4-6小时沉浸消费）——占比预估40%</li><li><strong>周中减压放松</strong>（加班族下班后足道+汤泉，2-3小时快充）——占比预估35%</li><li><strong>朋友/同事聚会</strong>（K歌+台球+足道，6-8人小团体）——占比预估25%</li></ul><p><strong>风险点</strong>：丁兰人口密度有限（常住约12万人），纯靠自然到店客流撑不起2000平方米+55间房的高坪效。必须做<strong>「目的地消费」逻辑</strong>——把人从其他商圈甚至临平、下沙拉过来。</p><h3>核心判断</h3><p>这家店的胜负手不在服务本身，而在<strong>能否把「巨幕影院式足道」这个差异化场景打成丁兰乃至城北的目的地IP</strong>。55个房间 x 日均翻台1.5次 x 人均147元 = <strong>日均理论天花板约12,128元</strong>（假设满房率70%，实际日均目标约8,489元，月营收目标约25.5万）。新店前3个月先做到满房率50%（日均约6,064元，月约18.2万），站稳脚跟再攻70%。</p>`,
+    2: `<h3>周边3-5公里真实竞争格局</h3><table><tr><th>竞品名称</th><th>人均</th><th>核心弱点</th><th>我们的切入机会</th></tr><tr><td>千岛湖汤·足道（丁桥店）</td><td>90-110元</td><td>价格低但环境一般，服务标准化不足，无娱乐配套</td><td>用「巨幕影院+K歌+台球」一站式体验碾压</td></tr><tr><td>汤悦温泉（城北）</td><td>130-160元</td><td>面积大设施全但娱乐差异化弱，年轻人吸引力不足</td><td>用「巨幕足道」打年轻人心智，K歌+台球锁住聚会场景</td></tr><tr><td>智慧足道/富侨等传统连锁</td><td>80-120元</td><td>技师稳定但场景老化，无汤泉/娱乐配套</td><td>「综合体」模式完胜单一足浴，4小时微度假vs1小时按脚</td></tr><tr><td>湍口/临安温泉度假项目</td><td>200-400元</td><td>车程1-1.5h，工作日难覆盖</td><td>「家门口的汤泉度假」，地铁直达不用开车</td></tr></table><h3>你的三个差异化壁垒</h3><ul><li><strong>壁垒1·巨幕影院式足道</strong>：杭州唯一「躺着看巨幕+泡脚」的体验，丁桥足疗回头客榜第1名已验证记忆点有效</li><li><strong>壁垒2·一站式7大业态</strong>：影院足道+自助简餐+免费过夜+汤泉洗浴+SPA+K歌+台球，竞品最多覆盖3-4项</li><li><strong>壁垒3·地铁可达</strong>：距3号线丁桥站D口步行570m，比郊区温泉度假村交通优势降维打击</li></ul><h3>竞争策略一句话</h3><p><strong>不打价格战，打场景战</strong>——别人卖「泡个澡」，你卖「不用出城的4小时微度假」。定价锚定在千岛湖汤和汤悦之间，但体验感拉到临安温泉的水平。</p>`,
+    3: `<h3>现状诊断：3.8分是最紧迫的止血点</h3><p>综合评分<strong>3.8分</strong>（技师3.9/环境4.1/服务3.8），740条评价。环境4.1说明硬件过关，但<strong>服务3.8在人均147元的中高端定位下是致命伤</strong>——客人花147块来享受，服务跟不上就觉得「不值」，直接影响复购和口碑。</p><h3>30天止血计划：服务分从3.8拉到4.0+</h3><p><strong>谁来做</strong>：店长牵头，每日晨会10分钟「昨日差评复盘」</p><ul><li><strong>第1-3天</strong>：店长逐条读近30天差评，标记高频关键词（假设集中在「等太久」「技师态度」「卫生」三类），按问题分给责任人</li><li><strong>第4-7天</strong>：针对TOP3差评原因定整改——等太久：叫号系统+到号前15分钟短信提醒🔧「收银POS-排队管理-到号提醒」；技师态度：建立「服务三句话」标准（迎客/过程/送客各一句）；卫生：每日3巡检查表拍照</li><li><strong>持续执行</strong>：差评2小时内回复，话术：「非常抱歉给您带来不好的体验，我是店长XX，已第一时间排查并改进了[具体问题]，欢迎您再来体验，我亲自接待」</li></ul><h3>合规获评策略（2025.10新规后严禁促评）</h3><p><strong>绝不能做</strong>：好评返现、好评送礼、店员盯着客人写好评</p><p><strong>正确做法</strong>：靠体验激发自发分享</p><ul><li><strong>「免费试」活动</strong>🔧「大众点评商家后台-营销中心-免费试」：开放5-10个名额/周，让达人免费体验巨幕足道+汤泉</li><li><strong>打造3个「忍不住拍照」的触点</strong>：巨幕房进门瞬间的震撼感（灯光调暗+巨幕亮起）、汤泉区拍照打卡墙（好看背景+灯光）、离店小惊喜（定制精油片2-3元，印店名+点评搜索词）</li><li><strong>服务员引导话术（不是逼评）</strong>：「您今天体验怎么样？觉得好的话欢迎在大众点评分享真实感受~」</li></ul><h3>评分目标</h3><p>第30天：3.8到<strong>4.0</strong>（服务分拉到4.0是关键）<br>第60天：到<strong>4.2</strong>，冲击丁桥热门榜前5<br>第90天：维稳4.2+，争取新店榜到热门榜到好评榜三连跳</p>`,
+    4: `<h3>核心策略：把「巨幕足道」从产品变成城北目的地IP</h3><p>你的最大资产不是55个房间、不是汤泉、不是K歌——是<strong>「巨幕影院式足道」这个杭州唯一的体验场景</strong>。丁桥回头客榜第1名说明这个记忆点已跑通，现在要把它从「来过的人觉得好」放大到「没来过的人都想来」。</p><h3>抖音本地生活：30天打出第一波声量</h3><p><strong>谁来做</strong>：店长统筹，安排1名形象好的员工出镜（省钱不外请达人）</p><p><strong>第1-5天·内容储备</strong>：拍3-5条沉浸式体验短视频。核心画面——顾客躺在按摩椅上，面前巨幕播电影，手边爆米花和饮品，脚下技师服务。反差感是传播核心：「别人泡脚看手机，我泡脚看IMAX」。角度：第一视角躺下看巨幕的震撼感/远景拍巨幕房氛围/特写爆米花+饮品+脚盆的微度假感。文案模板：「杭州人均89就能躺着看巨幕泡脚？丁桥这家店太会了」</p><p><strong>第6-15天·集中投放</strong>：每天50-100元DOU+，锁定杭州+丁桥+城北+下沙+临平。同步上线抖音团购：9.9元体验券（满99可用，限新客日限20张）+99元双人汤泉足道套餐（原价199限量）。每2天发1条视频保持新鲜度。</p><p><strong>第16-30天·达人合作</strong>：邀3-5位杭州本地达人（5000-5万粉腰部达人，免费体验不付坑位费）。小红书同步图文笔记，打「杭州周末去哪玩」「杭州小众微度假」「丁桥宝藏店」标签。</p><p><strong>预期效果</strong>：30天抖音曝光50万次，到店核销200+人次，团购销量破500单</p><h3>大众点评同步优化</h3><ul><li>团购：当前89元爆款年售800+继续保留，增加一档「周末双人微度假」168元（汤泉+足道+K歌1h+简餐），拉高客单</li><li>标签优化🔧「点评商家后台-门店信息-标签管理」：确保「巨幕足道」「免费过夜」「地铁直达」「免费停车」全部展示</li><li>首图更新：用巨幕房全景（暗光+巨幕亮起氛围感），相册按场景分区（巨幕房/汤泉/K歌/台球/简餐）</li></ul>`,
+    5: `<h3>核心逻辑：把散客单项消费升级为套餐沉浸消费</h3><p>当前问题：客人来了只泡个脚就走（客单89元），55个房间+7大业态的坪效远没打满。关键是设计「让客人多留2小时、多花50块」的套餐产品。人均147元已说明部分客人愿意花更多，但需要套餐引导。</p><h3>三档套餐设计（店长定稿，前台+技师推荐）</h3><table><tr><th>套餐名</th><th>定价</th><th>包含内容</th><th>锚定逻辑</th></tr><tr><td>巨幕足道·单人畅享</td><td>89元（引流款）</td><td>巨幕足道60min+汤泉不限时+自助简餐</td><td>延续当前爆款低门槛引流</td></tr><tr><td>微度假·双人套餐</td><td>168元（主推款）</td><td>双人巨幕足道60min+汤泉+K歌1h+简餐+茶饮</td><td>比89x2=178便宜还多K歌，超值感拉满</td></tr><tr><td>尊享·4人闺蜜/兄弟局</td><td>399元（利润款）</td><td>4人巨幕足道90min+汤泉+K歌2h+台球1h+简餐+果盘</td><td>人均不到100比单点省100+，锁定聚会场景</td></tr></table><p><strong>操作路径</strong>🔧「收银POS-商品管理-套餐设置」：三档全部上线，扫码点餐同步展示</p><p><strong>前台话术</strong>：「您好，今天几位一起？我们双人微度假套餐168元包含巨幕足道+汤泉+K歌+简餐，比单点省将近50块，K歌房今天还有空~」</p><p><strong>客人犹豫时</strong>：「没关系，先体验89元巨幕足道，觉得好下次升级套餐。加30块就能泡汤泉不限时，泡完整个人都放松了~」</p><h3>企业团建/周中包场：解决工作日空场</h3><p><strong>谁来做</strong>：店长+1名专职BD，第1-2周拜访周边企业</p><ul><li><strong>目标</strong>：丁兰智慧小镇入驻企业、笕桥产业园、华丰工业区（15分钟内的公司）</li><li><strong>团建套餐</strong>：人均120-150元含茶歇，6人起订。内容：汤泉+足道+K歌包场2h+简餐+茶歇，可定制K歌房大屏欢迎屏</li><li><strong>话术</strong>：「比传统KTV+聚餐新鲜多了，团队先泡汤放松再K歌嗨两小时，人均120出头还送定制欢迎屏。先安排10个人试一次？」</li><li><strong>企业不感兴趣</strong>：留资料+加微信，每月初发团建优惠「张总8月了团队辛苦半年，要不安排来放松下？给您留周三专属价」</li><li><strong>目标</strong>：2周拜访20家企业，签下3-5家季度协议</li></ul>`,
+    6: `<h3>诊断：已签约会员旗舰版+高级版，关键是「用起来」</h3><p>会员旗舰版含团购会员卡+潜客营销+6大特有活动。新店阶段核心不是设计多花哨，而是<strong>快速沉淀第一批100个回头客</strong>。</p><h3>会员等级设计（3级够用）</h3><table><tr><th>等级</th><th>门槛</th><th>权益</th><th>目标客群</th></tr><tr><td>银卡·体验官</td><td>首次消费即注册</td><td>9.5折+生日赠足道1次+积分1元=1分</td><td>所有到店客人，零门槛拉新</td></tr><tr><td>金卡·常客</td><td>累计消费1000元或3次</td><td>9折+专属技师预约+K歌优先+1.5倍积分</td><td>月来2-3次的忠实客</td></tr><tr><td>黑卡·VIP</td><td>累计消费5000元</td><td>8.5折+免费升级SPA+专属房间+免等位+生日双倍积分</td><td>高净值客户/企业老板</td></tr></table><p><strong>操作路径</strong>🔧「会员旗舰版-等级设置-新建等级」：按上表配置3级，积分在「积分管理」设置</p><p><strong>第1天上线动作（店长执行）</strong>：</p><ol><li>后台配置3级权益🔧「会员旗舰版-等级设置」</li><li>设置扫码自动注册银卡🔧「会员旗舰版-入会设置-扫码自动入会」</li><li>前台放「扫码入会立享9.5折」立牌（万能码生成入会码🔧「万能码-新建码-入会码」）</li><li>培训前台/技师话术：「扫一下这个码注册会员，今天消费直接打9.5折，以后来都有折扣~」</li></ol><h3>潜客营销：团购客转会员（旗舰版独有）</h3><p><strong>问题</strong>：大量客人通过89元团购来，消费完就走不留联系方式，下次还从团购进来（平台抽佣15-20%）。</p><p><strong>解法</strong>🔧「会员旗舰版-潜客营销-团购转化」：团购核销时自动弹出「注册会员再送20元券」——客人扫码注册，下次直接来店消费省掉平台抽佣。</p><p><strong>话术</strong>：「您团购已核销了，注册个会员送您20元券，下次不用平台买券直接来店里更划算~」</p><p><strong>客人说不想注册</strong>：「没关系扫一下就好不用填资料，以后来直接出示会员码就能打折~」</p><p><strong>30天目标</strong>：会员注册<strong>300人</strong>（日均10人，按日均到店40-50人转化率20-25%）。60天破<strong>800人</strong>。</p>`,
+    7: `<h3>先问：这家店现在最该推储值吗？</h3><p>答案：<strong>不急</strong>。新店前3个月第一要务是「让更多人来体验+留好印象+攒口碑」，不是一上来让人充卡。但储值不是不做——在第2个月、会员过300人、口碑站稳4.0分后，开始小范围试推，作为「锁定忠实客户」的工具。</p><h3>储值启动时机：第2个月起（约开业第31天）</h3><p><strong>前提条件（缺一不推）</strong>：综合评分大于等于4.0 + 会员注册大于等于300人 + 日均到店大于等于40人。满足后再启动。</p><h3>三档储值设计</h3><table><tr><th>档位</th><th>充值金额</th><th>赠送</th><th>锚定逻辑</th></tr><tr><td>体验档</td><td>500元</td><td>送50元（到账550元）</td><td>约3-4次消费，门槛低试水</td></tr><tr><td>主推档</td><td>1000元</td><td>送150元（到账1150元）</td><td>约7次消费，锁定2个月复购</td></tr><tr><td>尊享档</td><td>3000元</td><td>送500元+黑卡会员资格</td><td>高净值客户，锁定半年</td></tr></table><p><strong>操作路径</strong>🔧「收银POS-储值管理-储值规则设置」：按上表配置三档</p><p><strong>推荐场景和话术（技师服务结束时推荐，不是结账时硬推）</strong>：</p><ul><li><strong>时机</strong>：技师做完足道，客人表示「很舒服/下次还来」时</li><li><strong>话术</strong>：「您喜欢的话可以办个储值卡，充1000送150，相当于87折，以后每次来直接刷卡不用买团购券，比团购还划算~」</li><li><strong>客人说再考虑</strong>：「没关系，加个微信下次来前联系我帮您预约房间和技师~」——不逼单但留二次触达渠道</li><li><strong>客人问万一倒了怎么办</strong>：「我们开在新城广场签了长期租约，储值卡随时查余额可以转让给朋友用，放心~」</li></ul><p><strong>月储值目标</strong>：第2-3个月月入<strong>3-5万</strong>（约30-50人充值以体验档和主推档为主）。第4-6个月拉到<strong>8-10万/月</strong>。</p><p><strong>铁律</strong>：储值是「忠实客户锁定工具」不是「新客转化工具」。绝不对第一次来的团购客推储值——人家第一次来你让充3000块谁信？先让人来3次体验好了信任建立了再自然过渡。</p>`,
+    8: `<h3>8月-9月营销节奏（新店开业期 x 暑期旺季）</h3><p>你赶上了好时候——8月暑期+9月中秋双黄金档，是汤泉综合体一年中最好的开业窗口。夏天人怕热但爱泡汤泉（空调+汤池=城市避暑胜地），中秋家庭聚会需求爆发。以下是按周排好的营销动作：</p><h3>8月上旬（第1-2周）：开业引爆</h3><ul><li><strong>核心动作</strong>：抖音+小红书集中投放（详见第4章），大众点评89元爆款团购全力推</li><li><strong>线下配合</strong>：新城广场门口摆展架+地推（扫码关注送汤泉体验券，限前200人）。<strong>谁来做</strong>：安排2名员工轮班站台，每天10:00-20:00</li><li><strong>开业福利</strong>：前100名到店客人赠「巨幕足道+汤泉」双体验券（下次使用，锁定二次到店）</li></ul><h3>8月中旬（第3-4周）：暑期亲子+避暑主题</h3><ul><li><strong>「城市避暑胜地」主题</strong>：推出「亲子泡汤套餐」——1大1小128元（含汤泉+儿童泡池+简餐+冰饮），周末限量30组</li><li><strong>操作</strong>🔧「扫码点餐-限时活动-亲子套餐」上线，朋友圈+社群推送</li><li><strong>话术</strong>：「杭州38度带娃去哪？楼下就有空调汤泉+儿童池，128块泡一天比去水上乐园划算多了」</li></ul><h3>9月上旬：开学季+企业团建季</h3><ul><li><strong>「开学前最后一泡」</strong>：学生凭学生证享足道8折（周一至周四），拉动工作日客流</li><li><strong>企业团建集中拜访期</strong>（详见第5章），趁开学季企业恢复正常节奏主动出击</li></ul><h3>9月中下旬：中秋团圆经济</h3><ul><li><strong>「中秋·泡汤赏月」套餐</strong>：6人以上团圆聚会套餐（人均128含汤泉+足道+K歌+简餐+月饼礼盒），提前1周开放预订</li><li><strong>储值加码</strong>：中秋期间充1000送200（比日常多送50），限时7天，配合「中秋送礼不如送健康」主题</li><li><strong>操作</strong>🔧「储值管理-限时活动」设置中秋专属储值档位，会员系统push「中秋团圆套餐」</li><li><strong>预期</strong>：中秋3天假期日均满房率冲80%（约9,700元/天），储值入账集中爆发</li></ul><h3>全季核心数据锚点</h3><p>8-9月双月营收目标：<strong>40万</strong>（8月18万+9月22万）。其中团购引流贡献约40%，套餐升单贡献30%，企业团建贡献15%，储值贡献15%。</p>`,
+    9: `<h3>SaaS投入成本一览</h3><table><tr><th>模块</th><th>年费</th><th>用途</th></tr><tr><td>收银POS</td><td>已签约</td><td>全场景收银+排队管理+数据看板</td></tr><tr><td>扫码点餐</td><td>已签约</td><td>自助点单+套餐推荐+活动弹窗</td></tr><tr><td>会员旗舰版</td><td>4,888元/年</td><td>3级会员+团购转化+潜客营销+6大活动</td></tr><tr><td>会员高级版</td><td>已签约</td><td>基础会员管理</td></tr><tr><td>供应链</td><td>已签约</td><td>耗材/食材进销存</td></tr></table><h3>月度增收测算（基于满房率从30%到50%的增长）</h3><table><tr><th>增收来源</th><th>月增收</th><th>测算逻辑</th></tr><tr><td>抖音/点评团购引流</td><td>+3.5万</td><td>新增日均8-10组团购核销，人均89-168元</td></tr><tr><td>套餐升单（89元到168元）</td><td>+2.5万</td><td>30%客人从单项升级为套餐，人均多花50-80元</td></tr><tr><td>企业团建（周一至周四）</td><td>+1.5万</td><td>月均3-4场团建，每场10-15人，人均130元</td></tr><tr><td>储值锁客（第2个月起）</td><td>+3万</td><td>月均30人充值，主推档1000元为主</td></tr></table><p><strong>月增收合计</strong>：约<strong>10.5万</strong>（保守估计8万/乐观12万）</p><p><strong>SaaS年投入</strong>：约5,000-6,000元（已签约模块无额外成本，主要是会员旗舰版年费）</p><p><strong>回本周期</strong>：SaaS投入在<strong>第1个月</strong>即可通过团购转化节省的平台佣金覆盖（按月团购核销500单、平台佣金15%计算，月节省约6,675元）</p><h3>季度OKR目标</h3><table><tr><th>指标</th><th>第1个月</th><th>第2个月</th><th>第3个月</th></tr><tr><td>月营收</td><td>18万</td><td>22万</td><td>25.5万</td></tr><tr><td>日均满房率</td><td>50%</td><td>60%</td><td>70%</td></tr><tr><td>点评评分</td><td>4.0</td><td>4.2</td><td>4.2+维稳</td></tr><tr><td>会员注册数</td><td>300人</td><td>800人</td><td>1500人</td></tr><tr><td>月储值入账</td><td>—</td><td>3-5万</td><td>8-10万</td></tr><tr><td>团购核销率</td><td>60%</td><td>70%</td><td>75%</td></tr><tr><td>企业团建签约</td><td>3-5家</td><td>8-10家</td><td>15家</td></tr></table><h3>30天复盘节点</h3><ul><li><strong>第7天</strong>：检查抖音视频数据（播放量/互动率/团购核销数），调整投放策略</li><li><strong>第15天</strong>：检查点评评分变化、差评回复率、会员注册进度</li><li><strong>第30天</strong>：全面复盘——营收是否达18万？评分是否到4.0？会员是否破300？未达标项逐一分析原因并调整</li></ul><p><strong>一句话</strong>：5000块年费撬动年增收100万+的增量空间，第1个月就回本，核心价值不在省钱而在<strong>把散客变会员、把会员变储值、把储值变稳定现金流</strong>。</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
