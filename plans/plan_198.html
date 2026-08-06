@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yudo Coffee · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">咖啡 · 运营提升方案</div>
+  <h1 class="hero-title">Yudo Coffee</h1>
+  <p class="hero-subtitle">地铁口30秒的精品咖啡，用效率和内容赢下CBD白领</p>
+  <div class="hero-address">浙江省杭州市上城区钱江路1803号2幢(御道站B口)</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥25</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">上城区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察·钱江新城咖啡战场', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察·钱江新城咖啡战场</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '品牌诊断·开业2个月的关键窗口', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">品牌诊断·开业2个月的关键窗口</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '效率作战·地铁口30秒早咖场景', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">效率作战·地铁口30秒早咖场景</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评口碑·新店50条评价冲刺', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评口碑·新店50条评价冲刺</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '企业团单·楼宇咖啡管家计划', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">企业团单·楼宇咖啡管家计划</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '下午茶突围·创意特调+小红书种草', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">下午茶突围·创意特调+小红书种草</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '会员体系·旗舰版复购引擎', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">会员体系·旗舰版复购引擎</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '营销日历·8-10月三段攻势', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">营销日历·8-10月三段攻势</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(9, '投资回报·花多少赚多少算清楚', 9)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 09</div>
+      <div class="chapter-title">投资回报·花多少赚多少算清楚</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>品类大盘：杭州咖啡供给过剩但需求坚挺</h3><p>2024年全国咖饮市场规模达<strong>1,177亿元</strong>，同比增长15.4%；门店数突破<strong>25.5万家</strong>，同比+19.8%。杭州互联网从业者密集，<strong>咖啡需求旺盛、人均消费频次高</strong>。但瑞幸9.9元常态化已将大众价格带压至10元以下，独立精品咖啡馆被迫向20-35元带位移找差异。</p><h3>钱江新城CBD：刚需强但竞争白热化</h3><p>钱江路1803号紧邻钱江新城CBD核心区，御道站B口属地铁口物业。周边金融/互联网写字楼密集（万象城写字楼、来福士办公区、嘉里中心），白领咖啡刚需强劲。<strong>1公里内竞争极其密集</strong>，连锁品牌覆盖全价格带：</p><table><tr><th>品牌</th><th>人均</th><th>核心优势</th><th>可切入弱点</th></tr><tr><td>瑞幸（万象城/来福士多店）</td><td>9-15元</td><td>价格屠夫、外卖效率</td><td>无空间体验、无社交感</td></tr><tr><td>Manner（来福士/万象城）</td><td>15-20元</td><td>性价比精品、出杯快</td><td>空间小、无社交感</td></tr><tr><td>Seesaw（来福士）</td><td>30-38元</td><td>创意特调、品牌调性</td><td>贵、复购靠新品驱动</td></tr><tr><td>星巴克（多店）</td><td>35-40元</td><td>第三空间、商务场景</td><td>产品老化、年轻人流失</td></tr><tr><td>库迪</td><td>8-12元</td><td>极致低价</td><td>品质不稳定</td></tr></table><h3>Yudo Coffee 的生态位判断</h3><p>⚠️ 假设Yudo定位精品独立咖啡馆，人均约<strong>20-30元</strong>（行业参考值，建议核实）。这个价格带处于Manner（15-20元）与Seesaw（30-38元）之间的<strong>夹缝带</strong>——向下不跟瑞幸拼价格，向上不跟Seesaw拼品牌。核心竞争力必须靠<strong>「效率+关系+内容」</strong>三把刀打出差异。</p><p><strong>核心判断：地铁口+CBD的位置本身是资产。</strong>关键是用「效率」打早晚通勤、用「关系」打企业客户、用「内容」打下午茶，三个时段三种打法，避免跟连锁拼价格。</p></div>
+<div id="modal-content-2" style="display:none"><h3>门店现状快照</h3><ul><li><strong>开业时长</strong>：2个月（⚠️ 正处于新店关键期——前3个月决定客群基本盘和点评口碑底色）</li><li><strong>位置</strong>：御道站B口，地铁口物业，自然流量优势明显</li><li><strong>已签约SaaS</strong>：收银POS + 扫码点餐 + 小程序 + 会员高级版 + 会员旗舰版（工具齐全，关键是用起来）</li><li><strong>人均</strong>：⚠️ 假设20-30元（精品咖啡馆参考值，建议核实）</li><li><strong>月流水</strong>：⚠️ 未知，按品类+地铁口位置假设日均约2,500-3,500元，月流水约7.5-10.5万元（行业参考值，建议核实）</li></ul><h3>关键诊断：3个必须立刻抓的痛点</h3><h4>痛点一：早高峰通勤流量转化不足</h4><p>御道站B口日均客流量大，但地铁口咖啡消费窗口极短（出站到办公室约3-5分钟）。⚠️ 假设目前早高峰（7:30-9:00）订单占全天不到20%（行业参考值），说明<strong>通勤客流转化率不足</strong>。瑞幸靠APP预点单抢走了大量「不愿等」的客人。Yudo必须把「出站右转30秒到店+小程序预点单」的效率链条打通。</p><h4>痛点二：开业2个月点评评价积累不够</h4><p>新店前50条评价决定后续所有顾客的第一印象。⚠️ 假设目前评价数不超过30条（2个月新店参考值），尚未达到稳定出星/上新店榜门槛。<strong>当务之急不是促评，而是打造「值得拍、值得写」的分享触发点。</strong></p><h4>痛点三：企业团单渠道未打通</h4><p>钱江新城写字楼密度极高，企业会议咖啡、下午茶团单是独立咖啡馆的独特机会。瑞幸外卖品质不稳定、Manner不送——<strong>这是Yudo能打的缝隙</strong>。⚠️ 假设目前尚未开展扫楼推广（建议核实），团单收入几乎为零。</p><h3>开业2个月时间窗口意义</h3><p>咖啡行业门店平均生存周期仅<strong>15个月</strong>。前3个月是定调期：客群基本盘、口碑底色、复购习惯都在此形成。<strong>Yudo还有1个月黄金窗口</strong>，必须在第3个月结束前完成：①点评评价破50条 ②企业团单破5家 ③早高峰日均订单占比提升至30%。</p></div>
+<div id="modal-content-3" style="display:none"><h3>核心策略：把「出站到喝上咖啡」的时间压到极致</h3><p>御道站B口的物理优势是Yudo最大的天然资产——比瑞幸取餐更快的「最后30秒」。但这个优势<strong>只有配合小程序预点单+门口视觉引导才能兑现</strong>，否则客人出站照样走去瑞幸APP下单。</p><h4>动作一：小程序预点单「通勤模式」（第1周上线）</h4><p><strong>谁来做</strong>：店长负责配置，每日检查订单。<br><strong>在哪操作</strong>：🔧 小程序后台→菜单管理→设置「早咖套餐」专区（7:30-9:00限时显示），推3个爆款套餐：</p><ul><li>A套餐：美式+可颂 = ¥15（⚠️ 假设定价，按人均25元的60%设计引流款）</li><li>B套餐：拿铁+三明治 = ¥22</li><li>C套餐：特调+贝果 = ¥28</li></ul><p><strong>话怎么说</strong>：门口立牌文案——「出站右转3步→扫码下单→30秒取咖啡→比电梯还快」。店员出餐时说：「明天可以提前在小程序下单，出站直接取哦～」</p><p><strong>客人不配合怎么办</strong>：不扫码的客人→店员递名片大小的卡片「扫码加3元优惠券，明天出站直接取」；连续3天到店的客人→店员主动推荐「充5杯送1杯的早咖次卡」。</p><h4>动作二：门口视觉引导系统（第1周完成）</h4><p><strong>谁来做</strong>：店长+打印店。<br><strong>3个触点</strong>：</p><ul><li>触点1：出站口方向地面箭头贴「☕ Yudo Coffee 右转30秒」（成本约50元）</li><li>触点2：门口人形立牌1.5米「早咖套餐¥15起｜扫码免排队」（成本约80元）</li><li>触点3：吧台上方手写黑板「今日特调·桂花龙井Dirty ¥25」</li></ul><p><strong>预期效果</strong>：⚠️ 假设目前早高峰日均约15杯，视觉引导+预点单上线后30天目标<strong>日均25-30杯</strong>，早高峰营收从约¥300提升至¥500-600/日。</p><h4>动作三：早咖次卡锁复购（第2周推出）</h4><p><strong>谁来做</strong>：店长配置，收银员推荐。<br><strong>在哪操作</strong>：🔧 会员旗舰版→营销中心→次卡管理→创建「早咖次卡」：充5杯送1杯（等效83折），有效期60天。<br><strong>话怎么说</strong>：「您这周第三次来了吧？买5杯送1杯的早咖卡，60天有效，每天上班路上一杯正好。」<br><strong>客人说太贵</strong>：「没关系，先加小程序，下次出站前下单到店直接取，不用排队～」（先拉进小程序，次卡后面再推）。</p></div>
+<div id="modal-content-4" style="display:none"><h3>阶段判断：新店冷启动期</h3><p>⚠️ 假设目前评价约20-30条、尚未稳定出星（2个月新店参考值）。按大众点评规则，新店需积累足够数量和质量的真实评价才能稳定星级。<strong>2025年10月后高强度促评已不产生星级收益</strong>，必须走「合规工具+自然分享动机」路线。</p><h3>止血：停掉所有无效促评</h3><p><strong>铁律</strong>：绝不做「好评返现」「好评送券」「店员追着要好评」——不仅2025年后无星级收益，还可能被平台判异常评价导致星级不升反降。</p><h4>合规工具一：大众点评「免费试」（第1周申请）</h4><p><strong>谁来做</strong>：店长申请和维护。<br><strong>第几天做</strong>：本周内提交申请，审核通过后上线。<br><strong>在哪操作</strong>：🔧 大众点评商家后台→营销中心→免费试→设置10-15个名额/周，选颜值最高的1-2款特调。<br><strong>成本</strong>：10个名额×成本约8-12元/杯=80-120元/周，换来约10条高质量评价，获客成本约8-12元/条。</p><h4>合规工具二：打造「值得拍」的分享触发点（第1-2周）</h4><p><strong>谁来做</strong>：店长+咖啡师。<br><strong>具体动作</strong>：</p><ul><li><strong>出品颜值升级</strong>：拿铁拉花至少3种花型轮换、特调杯贴写客人名字或当日金句、8-9月用桂花元素杯套（成本约0.3元/个）</li><li><strong>拍照角位设计</strong>：吧台区留一个出片位——背景墙+咖啡+绿植组合，放小立牌「📸 最佳拍照角」</li><li><strong>话术</strong>：出餐时说「今天拉了个天鹅，拍个照吧～」（轻松自然，不强求评价）</li></ul><p><strong>客人不拍怎么办</strong>：不强求。出品颜值到位，10个客人里有2-3个自发拍照发朋友圈/小红书就够了。</p><h4>差评响应机制</h4><p><strong>在哪操作</strong>：🔧 大众点评商家后台→评价管理→开启差评提醒。<br><strong>铁律</strong>：差评<strong>2小时内回复</strong>，语气真诚（承认问题+说明改进+邀请再来），绝不甩锅。</p><h4>量化目标（30天）</h4><ul><li>新增评价：<strong>20-25条</strong>（免费试约10条+自然评价10-15条）</li><li>累计评价数突破<strong>50条</strong></li><li>好评率≥<strong>90%</strong></li><li>差评响应时间：<strong>＜2小时</strong></li></ul></div>
+<div id="modal-content-5" style="display:none"><h3>为什么企业团单是Yudo的必争之地？</h3><p>钱江新城CBD写字楼密度极高（万象城写字楼、来福士办公区、嘉里中心），企业会议咖啡和下午茶团单需求旺盛。⚠️ 假设目前企业团单收入为零（开业2个月新店参考值）。<strong>瑞幸外卖品质不稳定、Manner不提供配送</strong>——这是独立精品咖啡馆的结构性机会。拿下周边10栋楼中每栋1家企业，月团单收入可增加¥8,000-15,000。</p><h4>动作一：扫楼地推（第1-2周，集中3天）</h4><p><strong>谁来做</strong>：老板亲自出面（前期必须老板扫楼建立信任）。<br><strong>第几天做</strong>：选工作日14:00-16:00（前台/行政最闲的时段）。<br><strong>覆盖</strong>：步行10分钟内5栋核心写字楼，每栋找前台/行政/HR。<br><strong>随身物料</strong>：①企业咖啡菜单卡（A5大小，含小程序二维码）②首单体验「5杯免费试喝」（成本约25-40元/栋）。<br><strong>话怎么说</strong>：「您好，我是楼下Yudo Coffee的老板，专门给咱们楼做企业咖啡的。开会要咖啡不用叫瑞幸了，30分钟送到会议室，品质比瑞幸好，价格差不多。这5杯免费尝，口味不好不收钱。扫码就能下单～」<br><strong>对方说不需要</strong>：「没关系，这5杯先尝尝，万一哪天开会急了想换口味，扫码就能下单30分钟到。微信留一下？」</p><h4>动作二：企业月卡产品设计（第2周上线）</h4><p><strong>在哪操作</strong>：🔧 会员旗舰版→营销中心→团购卡→创建企业月卡：</p><ul><li><strong>基础款</strong>：20杯/月 ¥380（均价¥19/杯→76折）</li><li><strong>升级款</strong>：40杯/月 ¥680（均价¥17/杯→68折）+ 免费配送</li><li><strong>尊享款</strong>：80杯/月 ¥1,200（均价¥15/杯→60折）+ 免费配送 + 月度新品尝鲜</li></ul><p><strong>定价逻辑</strong>：最贵档不为卖，是让中间档¥680显得划算（套餐定价心理学）。大多数企业会选中间档。</p><h4>动作三：每栋楼找1个「咖啡联络人」（第3-4周）</h4><p><strong>谁来做</strong>：老板/店长维护。<br><strong>怎么做</strong>：扫楼加的行政/前台微信中，选最热情的人发展为「咖啡联络人」——TA负责公司内部传播、收集同事订单。给联络人专属福利：每月个人免费2杯+专属折扣码。<br><strong>在哪操作</strong>：🔧 会员旗舰版→标签管理→创建「企业联络人」标签→绑定专属权益。</p><h4>量化目标（60天）</h4><ul><li>覆盖写字楼：<strong>5栋</strong></li><li>签约企业月卡：<strong>≥5家</strong></li><li>月团单收入：<strong>¥8,000-12,000</strong></li></ul></div>
+<div id="modal-content-6" style="display:none"><h3>为什么下午茶时段是第二战场？</h3><p>⚠️ 假设14:00-16:00时段营收占全天约15%（咖啡馆行业参考值）。这个时段是写字楼白领「想喝点什么」的高频窗口，但纯美式/拿铁在下午吸引力下降（上午已喝过），需要靠<strong>创意特调+非咖啡饮品</strong>拉回客人。</p><h4>动作一：季节限定特调菜单（每月上新1款）</h4><p><strong>谁来做</strong>：咖啡师研发，老板审批定价。<br><strong>第几天做</strong>：本月内推出首批2-3款，之后每月上新1款下架1款保持新鲜感。<br><strong>8月推荐特调</strong>（结合杭州时令）：</p><ul><li>🌸 <strong>桂花龙井Dirty</strong> ¥25——龙井茶底+浓缩+桂花糖浆+冰牛奶（杭州桂花季9月开始，提前预热）</li><li>🍑 <strong>黄桃气泡美式</strong> ¥22——应季黄桃果泥+气泡水+浓缩（8月黄桃当季成本低）</li><li>🫖 <strong>冰镇桂花酒酿拿铁</strong> ¥28——酒酿+桂花+拿铁底（微醺感，适合下午犯困时段）</li></ul><p><strong>定价逻辑</strong>：¥22-28元，避开瑞幸10元带和Seesaw 35元带，踩在「值得尝、不算贵」的甜蜜区。<br><strong>原材料成本</strong>：桂花糖浆约1元/杯、黄桃果泥约2元/杯、酒酿约1.5元/杯，特调毛利率约<strong>65-70%</strong>，高于标准美式。</p><h4>动作二：小红书本地探店种草（持续执行）</h4><p><strong>谁来做</strong>：老板或指定1名员工。<br><strong>在哪操作</strong>：小红书APP→发布笔记，每周2-3条。<br><strong>内容模板</strong>：</p><ul><li>「杭州地铁口宝藏咖啡｜御道站出来3步就到」——主打位置+颜值</li><li>「夏天续命特调｜黄桃气泡美式也太好喝了」——主打季节新品</li><li>「钱江新城打工人的精神支柱」——主打白领共鸣</li></ul><p><strong>关键技巧</strong>：标题带「杭州」「钱江新城」「御道站」等本地关键词→被本地用户搜到；拍照用自然光+45度俯拍；每条带定位。<br><strong>没时间怎么办</strong>：邀2-3位本地素人博主（粉丝1,000-5,000），每人送1杯特调换一条探店笔记，成本约30-50元/条。</p><h4>动作三：大众点评「到店打卡」（配合特调上新）</h4><p><strong>在哪操作</strong>：🔧 大众点评商家后台→营销中心→到店优惠→设置「点特调送mini甜品」。<br><strong>规则</strong>：消费任意特调→赠当日mini甜品（成本约3-5元），目的是让客人有理由来试新品、提升到店频次。</p><h4>量化目标（60天）</h4><ul><li>下午茶时段营收占比：从约15%提升至<strong>25%</strong></li><li>特调月销量：<strong>≥150杯</strong></li><li>小红书笔记：<strong>≥15条</strong></li><li>小红书引流到店：<strong>≥30人/月</strong></li></ul></div>
+<div id="modal-content-7" style="display:none"><h3>已签约模块盘点</h3><p>Yudo已签约：收银POS + 扫码点餐 + 小程序 + 会员高级版 + 会员旗舰版。<strong>工具矩阵完整，关键是用起来</strong>。⚠️ 假设目前会员约50-80人（开业2个月参考值），会员消费占比不到20%（建议核实）。</p><h4>旗舰版3大核心能力激活</h4><h4>能力一：团购会员卡——大众点评流量沉淀为会员</h4><p><strong>谁来做</strong>：店长配置，收银员引导。<br><strong>在哪操作</strong>：🔧 会员旗舰版→团购会员卡→创建「Yudo尝鲜卡」：大众点评购买¥9.9体验卡→到店核销时自动成为门店会员→首次消费享指定饮品半价。<br><strong>逻辑</strong>：大众点评团购是公域流量，客人核销完就走。团购会员卡把这个流量<strong>一步沉淀进私域</strong>，后续可推新品、发券召回。<br><strong>话怎么说</strong>：核销时收银员说「您已经是咱们会员了，以后有新品和专属优惠都会推给您～」</p><h4>能力二：潜客营销——自动触达「来过但没再来」的人</h4><p><strong>在哪操作</strong>：🔧 会员旗舰版→潜客营销→设置规则：7天未复购会员自动推送「想你了，来杯拿铁？凭此消息到店立减3元」。<br><strong>谁来做</strong>：店长每周一检查数据。<br><strong>预期</strong>：⚠️ 假设潜客召回率约8-12%，累计潜客池200人，月召回约16-24人次，增收约¥400-700/月。</p><h4>能力三：储值次卡——咖啡成瘾性是天然储值场景</h4><p><strong>⚠️ 第一性原则判断</strong>：咖啡是高频复购品类（上班族几乎每天1杯），次卡/储值对咖啡馆是<strong>真正有效的工具</strong>，不是硬塞。但新店开业仅2个月，客群还不稳定，<strong>先推次卡（轻承诺）、暂不推大额储值（重承诺）</strong>。</p><p><strong>在哪操作</strong>：🔧 会员旗舰版→次卡管理→创建3档次卡：</p><ul><li><strong>体验卡</strong>：5杯送1杯 ¥99（等效¥16.5/杯→约83折，60天有效）——早咖通勤客首选</li><li><strong>常客卡</strong>：10杯送3杯 ¥199（等效¥15.3/杯→约77折，90天有效）——稳定复购客升级</li><li><strong>铁粉卡</strong>：20杯送8杯 ¥388（等效¥13.9/杯→约70折，180天有效）——企业联络人/咖啡重度用户</li></ul><p><strong>推荐时机</strong>：客人第3次到店时推体验卡，第5次以上推常客卡。绝不在首次到店推储值。<br><strong>话怎么说</strong>：「您是老朋友了，这个5杯送1杯的卡很多常客都办了，60天有效，上班路上一杯正好。」<br><strong>客人犹豫</strong>：「不急，您先加小程序，下次出站前提前下单到店直接取，这个比什么卡都实用～」</p><h4>量化目标（90天）</h4><ul><li>会员数：从约50-80人增至<strong>≥300人</strong></li><li>会员消费占比：从约20%提升至<strong>≥45%</strong></li><li>次卡售出：<strong>≥60张</strong></li><li>潜客月召回：<strong>≥20人次</strong></li></ul></div>
+<div id="modal-content-8" style="display:none"><h3>三个月攻势总览</h3><p>⚠️ 以下营销节点结合杭州本地时令和Yudo咖啡品类特征设计，每个活动都给出具体执行步骤。</p><h4>8月：「消暑季」稳客流+蓄力</h4><p><strong>8月第1周·消暑特调上新</strong></p><ul><li><strong>谁来做</strong>：咖啡师出品，店长上架。</li><li><strong>在哪操作</strong>：🔧 扫码点餐→菜品管理→新增「消暑特调」分类，上架黄桃气泡美式(¥22)和冰镇桂花酒酿拿铁(¥28)。</li><li><strong>配套</strong>：门口手写黑板更新「盛夏限定·冰到心里」；小红书发布「杭州38°C的续命特调」笔记。</li></ul><p><strong>8月中旬·七夕特别企划（8月10日前后）</strong></p><ul><li><strong>活动</strong>：推出「七夕双人咖啡套餐」¥39.9（2杯任选咖啡+1份共享甜品，原价约¥55-65→6-7折引流价）。</li><li><strong>在哪操作</strong>：🔧 小程序→套餐管理→创建七夕套餐；大众点评上架团购套餐。</li><li><strong>物料</strong>：桌面放心形杯垫+「今天请TA喝杯咖啡」小卡片（成本约0.5元/套）。</li><li><strong>话怎么说</strong>：「今天七夕，我们有双人套餐¥39.9，两杯咖啡加甜品，适合一起喝～」</li></ul><h4>9月：「桂花季」差异化爆发</h4><p><strong>9月初·开学季白领回归周</strong></p><ul><li><strong>背景</strong>：暑假结束，写字楼客流恢复到正常水平。</li><li><strong>动作</strong>：推「开工续命卡」——扫码消费送「本周第二杯半价」券（🔧 会员旗舰版→优惠券→创建第二杯半价券，限周一至周五使用）。</li><li><strong>目的</strong>：暑期客流低谷后快速拉回复购节奏。</li></ul><p><strong>9月中旬·桂花季限定（杭州独有节点）</strong></p><ul><li><strong>重磅产品</strong>：桂花龙井Dirty正式升级为「桂花季招牌」，新增桂花糖藕拿铁(¥26)、桂花酒酿冰美式(¥24)。</li><li><strong>空间氛围</strong>：门店放新鲜桂花枝（满陇桂雨免费采/花市约5元/束），满屋飘香。</li><li><strong>小红书爆发</strong>：「杭州桂花季×咖啡」主题连续发5条笔记，邀2位本地博主合作。</li><li><strong>话怎么说</strong>：「桂花开了，我们专门做了桂花季限定，龙井加桂花加Dirty，只有这个月有哦～」</li></ul><h4>10月：「国庆+秋日」收割期</h4><p><strong>10月初·国庆假期</strong></p><ul><li><strong>判断</strong>：国庆期间CBD写字楼客流锐减，但钱江新城有游客和本地休闲客流。</li><li><strong>动作</strong>：调整营业时间（晚开1小时8:30-20:00），推「假日拿铁买一送一」（限国庆7天），拉住假期散客。</li><li><strong>在哪操作</strong>：🔧 小程序→活动管理→设置国庆买一送一活动（限每人每天1次）。</li></ul><p><strong>10月中下旬·会员日固化</strong></p><ul><li><strong>每月15号定为「Yudo会员日」</strong>：会员当日消费双倍积分+指定饮品8折。</li><li><strong>在哪操作</strong>：🔧 会员旗舰版→会员日→设置每月15号，绑定双倍积分+8折规则。</li><li><strong>目的</strong>：给会员一个固定的「想起你」的日子，养成周期消费习惯。</li></ul></div>
+<div id="modal-content-9" style="display:none"><h3>当前经营基线（假设值）</h3><p>⚠️ 以下数据为行业参考值+位置推算，建议核实后修正。</p><table><tr><th>指标</th><th>当前估值</th><th>数据来源</th></tr><tr><td>月流水</td><td>约¥7.5-10万</td><td>⚠️ 假设（地铁口咖啡馆+开业2月参考）</td></tr><tr><td>日均营收</td><td>约¥2,500-3,500</td><td>⚠️ 假设</td></tr><tr><td>人均客单</td><td>约¥20-30</td><td>⚠️ 假设（精品咖啡馆参考值）</td></tr><tr><td>日均客流</td><td>约100-140杯</td><td>由流水÷客单推算</td></tr><tr><td>原材料成本率</td><td>约30%</td><td>咖啡行业基准25-35%</td></tr><tr><td>净利润率</td><td>约10-15%</td><td>咖啡行业基准（价格战期间可能＜10%）</td></tr></table><h3>方案落地后新增收入拆解（90天目标）</h3><table><tr><th>增长来源</th><th>月增收</th><th>计算逻辑</th></tr><tr><td>早咖场景提效</td><td>+¥6,000-9,000</td><td>早高峰日增10-15杯×均价¥20×30天</td></tr><tr><td>企业团单</td><td>+¥8,000-12,000</td><td>5家企业月卡×均价¥680×2（考虑零散加单）</td></tr><tr><td>下午茶特调</td><td>+¥3,000-4,500</td><td>特调月增150杯×均价¥25×毛利70%（增量净收入）</td></tr><tr><td>会员复购提升</td><td>+¥2,000-3,000</td><td>次卡60张×约¥130均价÷3个月分摊+潜客召回增收</td></tr><tr><td><strong>合计月增收</strong></td><td><strong>+¥19,000-28,500</strong></td><td></td></tr></table><h3>方案执行投入</h3><table><tr><th>投入项</th><th>金额</th><th>说明</th></tr><tr><td>视觉引导物料</td><td>¥200</td><td>地面贴+立牌+黑板（一次性）</td></tr><tr><td>免费试名额</td><td>¥400-500/月</td><td>10-15个/周×4周</td></tr><tr><td>企业扫楼试喝</td><td>¥150-200</td><td>5栋×5杯×成本¥6-8（一次性）</td></tr><tr><td>小红书博主合作</td><td>¥100-150/月</td><td>2-3位素人博主×30-50元/位</td></tr><tr><td>七夕/桂花季物料</td><td>¥300/季</td><td>杯套+卡片+桂花装饰</td></tr><tr><td><strong>月均总投入</strong></td><td><strong>约¥700-900</strong></td><td>（首月含一次性投入约¥550）</td></tr></table><h3>投资回报</h3><p><strong>月增收¥19,000-28,500 vs 月投入约¥700-900</strong></p><p>投入产出比约<strong>1:25-35</strong>（每投入1元带来25-35元增收）。核心增量来自企业团单和早高峰提效，这两块<strong>几乎零边际成本</strong>（人工和原材料在现有产能内消化）。</p><h3>90天OKR目标</h3><table><tr><th>指标</th><th>当前值（假设）</th><th>30天目标</th><th>60天目标</th><th>90天目标</th></tr><tr><td>月流水</td><td>¥7.5-10万</td><td>¥9-11万</td><td>¥10-13万</td><td>¥12-15万</td></tr><tr><td>点评评价数</td><td>约20-30条</td><td>≥50条</td><td>≥80条</td><td>≥120条</td></tr><tr><td>点评评分</td><td>待出星</td><td>稳定出星4.0+</td><td>4.3+</td><td>4.5+</td></tr><tr><td>会员数</td><td>约50-80人</td><td>≥120人</td><td>≥200人</td><td>≥300人</td></tr><tr><td>企业团单客户</td><td>0家</td><td>≥2家</td><td>≥5家</td><td>≥8家</td></tr><tr><td>早高峰日均杯数</td><td>约15杯</td><td>≥22杯</td><td>≥28杯</td><td>≥35杯</td></tr><tr><td>会员消费占比</td><td>约20%</td><td>≥30%</td><td>≥38%</td><td>≥45%</td></tr></table><h3>30天复盘节点</h3><p><strong>第30天必须检查</strong>（🔧 收银后台→经营报表）：</p><ul><li>✅ 早高峰套餐销量是否达标（≥22杯/日）→ 未达标则调整套餐内容或降价</li><li>✅ 点评评价是否破50条→ 未达标则增加免费试名额或调整产品颜值</li><li>✅ 企业月卡是否签约2家以上→ 未达标则加大扫楼频次或调整试喝策略</li><li>✅ 次卡售出是否≥15张→ 未达标则调整推荐话术或增加首充优惠</li></ul></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>王颂</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>品类大盘：杭州咖啡供给过剩但需求坚挺</h3><p>2024年全国咖饮市场规模达<strong>1,177亿元</strong>，同比增长15.4%；门店数突破<strong>25.5万家</strong>，同比+19.8%。杭州互联网从业者密集，<strong>咖啡需求旺盛、人均消费频次高</strong>。但瑞幸9.9元常态化已将大众价格带压至10元以下，独立精品咖啡馆被迫向20-35元带位移找差异。</p><h3>钱江新城CBD：刚需强但竞争白热化</h3><p>钱江路1803号紧邻钱江新城CBD核心区，御道站B口属地铁口物业。周边金融/互联网写字楼密集（万象城写字楼、来福士办公区、嘉里中心），白领咖啡刚需强劲。<strong>1公里内竞争极其密集</strong>，连锁品牌覆盖全价格带：</p><table><tr><th>品牌</th><th>人均</th><th>核心优势</th><th>可切入弱点</th></tr><tr><td>瑞幸（万象城/来福士多店）</td><td>9-15元</td><td>价格屠夫、外卖效率</td><td>无空间体验、无社交感</td></tr><tr><td>Manner（来福士/万象城）</td><td>15-20元</td><td>性价比精品、出杯快</td><td>空间小、无社交感</td></tr><tr><td>Seesaw（来福士）</td><td>30-38元</td><td>创意特调、品牌调性</td><td>贵、复购靠新品驱动</td></tr><tr><td>星巴克（多店）</td><td>35-40元</td><td>第三空间、商务场景</td><td>产品老化、年轻人流失</td></tr><tr><td>库迪</td><td>8-12元</td><td>极致低价</td><td>品质不稳定</td></tr></table><h3>Yudo Coffee 的生态位判断</h3><p>⚠️ 假设Yudo定位精品独立咖啡馆，人均约<strong>20-30元</strong>（行业参考值，建议核实）。这个价格带处于Manner（15-20元）与Seesaw（30-38元）之间的<strong>夹缝带</strong>——向下不跟瑞幸拼价格，向上不跟Seesaw拼品牌。核心竞争力必须靠<strong>「效率+关系+内容」</strong>三把刀打出差异。</p><p><strong>核心判断：地铁口+CBD的位置本身是资产。</strong>关键是用「效率」打早晚通勤、用「关系」打企业客户、用「内容」打下午茶，三个时段三种打法，避免跟连锁拼价格。</p>`,
+    2: `<h3>门店现状快照</h3><ul><li><strong>开业时长</strong>：2个月（⚠️ 正处于新店关键期——前3个月决定客群基本盘和点评口碑底色）</li><li><strong>位置</strong>：御道站B口，地铁口物业，自然流量优势明显</li><li><strong>已签约SaaS</strong>：收银POS + 扫码点餐 + 小程序 + 会员高级版 + 会员旗舰版（工具齐全，关键是用起来）</li><li><strong>人均</strong>：⚠️ 假设20-30元（精品咖啡馆参考值，建议核实）</li><li><strong>月流水</strong>：⚠️ 未知，按品类+地铁口位置假设日均约2,500-3,500元，月流水约7.5-10.5万元（行业参考值，建议核实）</li></ul><h3>关键诊断：3个必须立刻抓的痛点</h3><h4>痛点一：早高峰通勤流量转化不足</h4><p>御道站B口日均客流量大，但地铁口咖啡消费窗口极短（出站到办公室约3-5分钟）。⚠️ 假设目前早高峰（7:30-9:00）订单占全天不到20%（行业参考值），说明<strong>通勤客流转化率不足</strong>。瑞幸靠APP预点单抢走了大量「不愿等」的客人。Yudo必须把「出站右转30秒到店+小程序预点单」的效率链条打通。</p><h4>痛点二：开业2个月点评评价积累不够</h4><p>新店前50条评价决定后续所有顾客的第一印象。⚠️ 假设目前评价数不超过30条（2个月新店参考值），尚未达到稳定出星/上新店榜门槛。<strong>当务之急不是促评，而是打造「值得拍、值得写」的分享触发点。</strong></p><h4>痛点三：企业团单渠道未打通</h4><p>钱江新城写字楼密度极高，企业会议咖啡、下午茶团单是独立咖啡馆的独特机会。瑞幸外卖品质不稳定、Manner不送——<strong>这是Yudo能打的缝隙</strong>。⚠️ 假设目前尚未开展扫楼推广（建议核实），团单收入几乎为零。</p><h3>开业2个月时间窗口意义</h3><p>咖啡行业门店平均生存周期仅<strong>15个月</strong>。前3个月是定调期：客群基本盘、口碑底色、复购习惯都在此形成。<strong>Yudo还有1个月黄金窗口</strong>，必须在第3个月结束前完成：①点评评价破50条 ②企业团单破5家 ③早高峰日均订单占比提升至30%。</p>`,
+    3: `<h3>核心策略：把「出站到喝上咖啡」的时间压到极致</h3><p>御道站B口的物理优势是Yudo最大的天然资产——比瑞幸取餐更快的「最后30秒」。但这个优势<strong>只有配合小程序预点单+门口视觉引导才能兑现</strong>，否则客人出站照样走去瑞幸APP下单。</p><h4>动作一：小程序预点单「通勤模式」（第1周上线）</h4><p><strong>谁来做</strong>：店长负责配置，每日检查订单。<br><strong>在哪操作</strong>：🔧 小程序后台→菜单管理→设置「早咖套餐」专区（7:30-9:00限时显示），推3个爆款套餐：</p><ul><li>A套餐：美式+可颂 = ¥15（⚠️ 假设定价，按人均25元的60%设计引流款）</li><li>B套餐：拿铁+三明治 = ¥22</li><li>C套餐：特调+贝果 = ¥28</li></ul><p><strong>话怎么说</strong>：门口立牌文案——「出站右转3步→扫码下单→30秒取咖啡→比电梯还快」。店员出餐时说：「明天可以提前在小程序下单，出站直接取哦～」</p><p><strong>客人不配合怎么办</strong>：不扫码的客人→店员递名片大小的卡片「扫码加3元优惠券，明天出站直接取」；连续3天到店的客人→店员主动推荐「充5杯送1杯的早咖次卡」。</p><h4>动作二：门口视觉引导系统（第1周完成）</h4><p><strong>谁来做</strong>：店长+打印店。<br><strong>3个触点</strong>：</p><ul><li>触点1：出站口方向地面箭头贴「☕ Yudo Coffee 右转30秒」（成本约50元）</li><li>触点2：门口人形立牌1.5米「早咖套餐¥15起｜扫码免排队」（成本约80元）</li><li>触点3：吧台上方手写黑板「今日特调·桂花龙井Dirty ¥25」</li></ul><p><strong>预期效果</strong>：⚠️ 假设目前早高峰日均约15杯，视觉引导+预点单上线后30天目标<strong>日均25-30杯</strong>，早高峰营收从约¥300提升至¥500-600/日。</p><h4>动作三：早咖次卡锁复购（第2周推出）</h4><p><strong>谁来做</strong>：店长配置，收银员推荐。<br><strong>在哪操作</strong>：🔧 会员旗舰版→营销中心→次卡管理→创建「早咖次卡」：充5杯送1杯（等效83折），有效期60天。<br><strong>话怎么说</strong>：「您这周第三次来了吧？买5杯送1杯的早咖卡，60天有效，每天上班路上一杯正好。」<br><strong>客人说太贵</strong>：「没关系，先加小程序，下次出站前下单到店直接取，不用排队～」（先拉进小程序，次卡后面再推）。</p>`,
+    4: `<h3>阶段判断：新店冷启动期</h3><p>⚠️ 假设目前评价约20-30条、尚未稳定出星（2个月新店参考值）。按大众点评规则，新店需积累足够数量和质量的真实评价才能稳定星级。<strong>2025年10月后高强度促评已不产生星级收益</strong>，必须走「合规工具+自然分享动机」路线。</p><h3>止血：停掉所有无效促评</h3><p><strong>铁律</strong>：绝不做「好评返现」「好评送券」「店员追着要好评」——不仅2025年后无星级收益，还可能被平台判异常评价导致星级不升反降。</p><h4>合规工具一：大众点评「免费试」（第1周申请）</h4><p><strong>谁来做</strong>：店长申请和维护。<br><strong>第几天做</strong>：本周内提交申请，审核通过后上线。<br><strong>在哪操作</strong>：🔧 大众点评商家后台→营销中心→免费试→设置10-15个名额/周，选颜值最高的1-2款特调。<br><strong>成本</strong>：10个名额×成本约8-12元/杯=80-120元/周，换来约10条高质量评价，获客成本约8-12元/条。</p><h4>合规工具二：打造「值得拍」的分享触发点（第1-2周）</h4><p><strong>谁来做</strong>：店长+咖啡师。<br><strong>具体动作</strong>：</p><ul><li><strong>出品颜值升级</strong>：拿铁拉花至少3种花型轮换、特调杯贴写客人名字或当日金句、8-9月用桂花元素杯套（成本约0.3元/个）</li><li><strong>拍照角位设计</strong>：吧台区留一个出片位——背景墙+咖啡+绿植组合，放小立牌「📸 最佳拍照角」</li><li><strong>话术</strong>：出餐时说「今天拉了个天鹅，拍个照吧～」（轻松自然，不强求评价）</li></ul><p><strong>客人不拍怎么办</strong>：不强求。出品颜值到位，10个客人里有2-3个自发拍照发朋友圈/小红书就够了。</p><h4>差评响应机制</h4><p><strong>在哪操作</strong>：🔧 大众点评商家后台→评价管理→开启差评提醒。<br><strong>铁律</strong>：差评<strong>2小时内回复</strong>，语气真诚（承认问题+说明改进+邀请再来），绝不甩锅。</p><h4>量化目标（30天）</h4><ul><li>新增评价：<strong>20-25条</strong>（免费试约10条+自然评价10-15条）</li><li>累计评价数突破<strong>50条</strong></li><li>好评率≥<strong>90%</strong></li><li>差评响应时间：<strong>＜2小时</strong></li></ul>`,
+    5: `<h3>为什么企业团单是Yudo的必争之地？</h3><p>钱江新城CBD写字楼密度极高（万象城写字楼、来福士办公区、嘉里中心），企业会议咖啡和下午茶团单需求旺盛。⚠️ 假设目前企业团单收入为零（开业2个月新店参考值）。<strong>瑞幸外卖品质不稳定、Manner不提供配送</strong>——这是独立精品咖啡馆的结构性机会。拿下周边10栋楼中每栋1家企业，月团单收入可增加¥8,000-15,000。</p><h4>动作一：扫楼地推（第1-2周，集中3天）</h4><p><strong>谁来做</strong>：老板亲自出面（前期必须老板扫楼建立信任）。<br><strong>第几天做</strong>：选工作日14:00-16:00（前台/行政最闲的时段）。<br><strong>覆盖</strong>：步行10分钟内5栋核心写字楼，每栋找前台/行政/HR。<br><strong>随身物料</strong>：①企业咖啡菜单卡（A5大小，含小程序二维码）②首单体验「5杯免费试喝」（成本约25-40元/栋）。<br><strong>话怎么说</strong>：「您好，我是楼下Yudo Coffee的老板，专门给咱们楼做企业咖啡的。开会要咖啡不用叫瑞幸了，30分钟送到会议室，品质比瑞幸好，价格差不多。这5杯免费尝，口味不好不收钱。扫码就能下单～」<br><strong>对方说不需要</strong>：「没关系，这5杯先尝尝，万一哪天开会急了想换口味，扫码就能下单30分钟到。微信留一下？」</p><h4>动作二：企业月卡产品设计（第2周上线）</h4><p><strong>在哪操作</strong>：🔧 会员旗舰版→营销中心→团购卡→创建企业月卡：</p><ul><li><strong>基础款</strong>：20杯/月 ¥380（均价¥19/杯→76折）</li><li><strong>升级款</strong>：40杯/月 ¥680（均价¥17/杯→68折）+ 免费配送</li><li><strong>尊享款</strong>：80杯/月 ¥1,200（均价¥15/杯→60折）+ 免费配送 + 月度新品尝鲜</li></ul><p><strong>定价逻辑</strong>：最贵档不为卖，是让中间档¥680显得划算（套餐定价心理学）。大多数企业会选中间档。</p><h4>动作三：每栋楼找1个「咖啡联络人」（第3-4周）</h4><p><strong>谁来做</strong>：老板/店长维护。<br><strong>怎么做</strong>：扫楼加的行政/前台微信中，选最热情的人发展为「咖啡联络人」——TA负责公司内部传播、收集同事订单。给联络人专属福利：每月个人免费2杯+专属折扣码。<br><strong>在哪操作</strong>：🔧 会员旗舰版→标签管理→创建「企业联络人」标签→绑定专属权益。</p><h4>量化目标（60天）</h4><ul><li>覆盖写字楼：<strong>5栋</strong></li><li>签约企业月卡：<strong>≥5家</strong></li><li>月团单收入：<strong>¥8,000-12,000</strong></li></ul>`,
+    6: `<h3>为什么下午茶时段是第二战场？</h3><p>⚠️ 假设14:00-16:00时段营收占全天约15%（咖啡馆行业参考值）。这个时段是写字楼白领「想喝点什么」的高频窗口，但纯美式/拿铁在下午吸引力下降（上午已喝过），需要靠<strong>创意特调+非咖啡饮品</strong>拉回客人。</p><h4>动作一：季节限定特调菜单（每月上新1款）</h4><p><strong>谁来做</strong>：咖啡师研发，老板审批定价。<br><strong>第几天做</strong>：本月内推出首批2-3款，之后每月上新1款下架1款保持新鲜感。<br><strong>8月推荐特调</strong>（结合杭州时令）：</p><ul><li>🌸 <strong>桂花龙井Dirty</strong> ¥25——龙井茶底+浓缩+桂花糖浆+冰牛奶（杭州桂花季9月开始，提前预热）</li><li>🍑 <strong>黄桃气泡美式</strong> ¥22——应季黄桃果泥+气泡水+浓缩（8月黄桃当季成本低）</li><li>🫖 <strong>冰镇桂花酒酿拿铁</strong> ¥28——酒酿+桂花+拿铁底（微醺感，适合下午犯困时段）</li></ul><p><strong>定价逻辑</strong>：¥22-28元，避开瑞幸10元带和Seesaw 35元带，踩在「值得尝、不算贵」的甜蜜区。<br><strong>原材料成本</strong>：桂花糖浆约1元/杯、黄桃果泥约2元/杯、酒酿约1.5元/杯，特调毛利率约<strong>65-70%</strong>，高于标准美式。</p><h4>动作二：小红书本地探店种草（持续执行）</h4><p><strong>谁来做</strong>：老板或指定1名员工。<br><strong>在哪操作</strong>：小红书APP→发布笔记，每周2-3条。<br><strong>内容模板</strong>：</p><ul><li>「杭州地铁口宝藏咖啡｜御道站出来3步就到」——主打位置+颜值</li><li>「夏天续命特调｜黄桃气泡美式也太好喝了」——主打季节新品</li><li>「钱江新城打工人的精神支柱」——主打白领共鸣</li></ul><p><strong>关键技巧</strong>：标题带「杭州」「钱江新城」「御道站」等本地关键词→被本地用户搜到；拍照用自然光+45度俯拍；每条带定位。<br><strong>没时间怎么办</strong>：邀2-3位本地素人博主（粉丝1,000-5,000），每人送1杯特调换一条探店笔记，成本约30-50元/条。</p><h4>动作三：大众点评「到店打卡」（配合特调上新）</h4><p><strong>在哪操作</strong>：🔧 大众点评商家后台→营销中心→到店优惠→设置「点特调送mini甜品」。<br><strong>规则</strong>：消费任意特调→赠当日mini甜品（成本约3-5元），目的是让客人有理由来试新品、提升到店频次。</p><h4>量化目标（60天）</h4><ul><li>下午茶时段营收占比：从约15%提升至<strong>25%</strong></li><li>特调月销量：<strong>≥150杯</strong></li><li>小红书笔记：<strong>≥15条</strong></li><li>小红书引流到店：<strong>≥30人/月</strong></li></ul>`,
+    7: `<h3>已签约模块盘点</h3><p>Yudo已签约：收银POS + 扫码点餐 + 小程序 + 会员高级版 + 会员旗舰版。<strong>工具矩阵完整，关键是用起来</strong>。⚠️ 假设目前会员约50-80人（开业2个月参考值），会员消费占比不到20%（建议核实）。</p><h4>旗舰版3大核心能力激活</h4><h4>能力一：团购会员卡——大众点评流量沉淀为会员</h4><p><strong>谁来做</strong>：店长配置，收银员引导。<br><strong>在哪操作</strong>：🔧 会员旗舰版→团购会员卡→创建「Yudo尝鲜卡」：大众点评购买¥9.9体验卡→到店核销时自动成为门店会员→首次消费享指定饮品半价。<br><strong>逻辑</strong>：大众点评团购是公域流量，客人核销完就走。团购会员卡把这个流量<strong>一步沉淀进私域</strong>，后续可推新品、发券召回。<br><strong>话怎么说</strong>：核销时收银员说「您已经是咱们会员了，以后有新品和专属优惠都会推给您～」</p><h4>能力二：潜客营销——自动触达「来过但没再来」的人</h4><p><strong>在哪操作</strong>：🔧 会员旗舰版→潜客营销→设置规则：7天未复购会员自动推送「想你了，来杯拿铁？凭此消息到店立减3元」。<br><strong>谁来做</strong>：店长每周一检查数据。<br><strong>预期</strong>：⚠️ 假设潜客召回率约8-12%，累计潜客池200人，月召回约16-24人次，增收约¥400-700/月。</p><h4>能力三：储值次卡——咖啡成瘾性是天然储值场景</h4><p><strong>⚠️ 第一性原则判断</strong>：咖啡是高频复购品类（上班族几乎每天1杯），次卡/储值对咖啡馆是<strong>真正有效的工具</strong>，不是硬塞。但新店开业仅2个月，客群还不稳定，<strong>先推次卡（轻承诺）、暂不推大额储值（重承诺）</strong>。</p><p><strong>在哪操作</strong>：🔧 会员旗舰版→次卡管理→创建3档次卡：</p><ul><li><strong>体验卡</strong>：5杯送1杯 ¥99（等效¥16.5/杯→约83折，60天有效）——早咖通勤客首选</li><li><strong>常客卡</strong>：10杯送3杯 ¥199（等效¥15.3/杯→约77折，90天有效）——稳定复购客升级</li><li><strong>铁粉卡</strong>：20杯送8杯 ¥388（等效¥13.9/杯→约70折，180天有效）——企业联络人/咖啡重度用户</li></ul><p><strong>推荐时机</strong>：客人第3次到店时推体验卡，第5次以上推常客卡。绝不在首次到店推储值。<br><strong>话怎么说</strong>：「您是老朋友了，这个5杯送1杯的卡很多常客都办了，60天有效，上班路上一杯正好。」<br><strong>客人犹豫</strong>：「不急，您先加小程序，下次出站前提前下单到店直接取，这个比什么卡都实用～」</p><h4>量化目标（90天）</h4><ul><li>会员数：从约50-80人增至<strong>≥300人</strong></li><li>会员消费占比：从约20%提升至<strong>≥45%</strong></li><li>次卡售出：<strong>≥60张</strong></li><li>潜客月召回：<strong>≥20人次</strong></li></ul>`,
+    8: `<h3>三个月攻势总览</h3><p>⚠️ 以下营销节点结合杭州本地时令和Yudo咖啡品类特征设计，每个活动都给出具体执行步骤。</p><h4>8月：「消暑季」稳客流+蓄力</h4><p><strong>8月第1周·消暑特调上新</strong></p><ul><li><strong>谁来做</strong>：咖啡师出品，店长上架。</li><li><strong>在哪操作</strong>：🔧 扫码点餐→菜品管理→新增「消暑特调」分类，上架黄桃气泡美式(¥22)和冰镇桂花酒酿拿铁(¥28)。</li><li><strong>配套</strong>：门口手写黑板更新「盛夏限定·冰到心里」；小红书发布「杭州38°C的续命特调」笔记。</li></ul><p><strong>8月中旬·七夕特别企划（8月10日前后）</strong></p><ul><li><strong>活动</strong>：推出「七夕双人咖啡套餐」¥39.9（2杯任选咖啡+1份共享甜品，原价约¥55-65→6-7折引流价）。</li><li><strong>在哪操作</strong>：🔧 小程序→套餐管理→创建七夕套餐；大众点评上架团购套餐。</li><li><strong>物料</strong>：桌面放心形杯垫+「今天请TA喝杯咖啡」小卡片（成本约0.5元/套）。</li><li><strong>话怎么说</strong>：「今天七夕，我们有双人套餐¥39.9，两杯咖啡加甜品，适合一起喝～」</li></ul><h4>9月：「桂花季」差异化爆发</h4><p><strong>9月初·开学季白领回归周</strong></p><ul><li><strong>背景</strong>：暑假结束，写字楼客流恢复到正常水平。</li><li><strong>动作</strong>：推「开工续命卡」——扫码消费送「本周第二杯半价」券（🔧 会员旗舰版→优惠券→创建第二杯半价券，限周一至周五使用）。</li><li><strong>目的</strong>：暑期客流低谷后快速拉回复购节奏。</li></ul><p><strong>9月中旬·桂花季限定（杭州独有节点）</strong></p><ul><li><strong>重磅产品</strong>：桂花龙井Dirty正式升级为「桂花季招牌」，新增桂花糖藕拿铁(¥26)、桂花酒酿冰美式(¥24)。</li><li><strong>空间氛围</strong>：门店放新鲜桂花枝（满陇桂雨免费采/花市约5元/束），满屋飘香。</li><li><strong>小红书爆发</strong>：「杭州桂花季×咖啡」主题连续发5条笔记，邀2位本地博主合作。</li><li><strong>话怎么说</strong>：「桂花开了，我们专门做了桂花季限定，龙井加桂花加Dirty，只有这个月有哦～」</li></ul><h4>10月：「国庆+秋日」收割期</h4><p><strong>10月初·国庆假期</strong></p><ul><li><strong>判断</strong>：国庆期间CBD写字楼客流锐减，但钱江新城有游客和本地休闲客流。</li><li><strong>动作</strong>：调整营业时间（晚开1小时8:30-20:00），推「假日拿铁买一送一」（限国庆7天），拉住假期散客。</li><li><strong>在哪操作</strong>：🔧 小程序→活动管理→设置国庆买一送一活动（限每人每天1次）。</li></ul><p><strong>10月中下旬·会员日固化</strong></p><ul><li><strong>每月15号定为「Yudo会员日」</strong>：会员当日消费双倍积分+指定饮品8折。</li><li><strong>在哪操作</strong>：🔧 会员旗舰版→会员日→设置每月15号，绑定双倍积分+8折规则。</li><li><strong>目的</strong>：给会员一个固定的「想起你」的日子，养成周期消费习惯。</li></ul>`,
+    9: `<h3>当前经营基线（假设值）</h3><p>⚠️ 以下数据为行业参考值+位置推算，建议核实后修正。</p><table><tr><th>指标</th><th>当前估值</th><th>数据来源</th></tr><tr><td>月流水</td><td>约¥7.5-10万</td><td>⚠️ 假设（地铁口咖啡馆+开业2月参考）</td></tr><tr><td>日均营收</td><td>约¥2,500-3,500</td><td>⚠️ 假设</td></tr><tr><td>人均客单</td><td>约¥20-30</td><td>⚠️ 假设（精品咖啡馆参考值）</td></tr><tr><td>日均客流</td><td>约100-140杯</td><td>由流水÷客单推算</td></tr><tr><td>原材料成本率</td><td>约30%</td><td>咖啡行业基准25-35%</td></tr><tr><td>净利润率</td><td>约10-15%</td><td>咖啡行业基准（价格战期间可能＜10%）</td></tr></table><h3>方案落地后新增收入拆解（90天目标）</h3><table><tr><th>增长来源</th><th>月增收</th><th>计算逻辑</th></tr><tr><td>早咖场景提效</td><td>+¥6,000-9,000</td><td>早高峰日增10-15杯×均价¥20×30天</td></tr><tr><td>企业团单</td><td>+¥8,000-12,000</td><td>5家企业月卡×均价¥680×2（考虑零散加单）</td></tr><tr><td>下午茶特调</td><td>+¥3,000-4,500</td><td>特调月增150杯×均价¥25×毛利70%（增量净收入）</td></tr><tr><td>会员复购提升</td><td>+¥2,000-3,000</td><td>次卡60张×约¥130均价÷3个月分摊+潜客召回增收</td></tr><tr><td><strong>合计月增收</strong></td><td><strong>+¥19,000-28,500</strong></td><td></td></tr></table><h3>方案执行投入</h3><table><tr><th>投入项</th><th>金额</th><th>说明</th></tr><tr><td>视觉引导物料</td><td>¥200</td><td>地面贴+立牌+黑板（一次性）</td></tr><tr><td>免费试名额</td><td>¥400-500/月</td><td>10-15个/周×4周</td></tr><tr><td>企业扫楼试喝</td><td>¥150-200</td><td>5栋×5杯×成本¥6-8（一次性）</td></tr><tr><td>小红书博主合作</td><td>¥100-150/月</td><td>2-3位素人博主×30-50元/位</td></tr><tr><td>七夕/桂花季物料</td><td>¥300/季</td><td>杯套+卡片+桂花装饰</td></tr><tr><td><strong>月均总投入</strong></td><td><strong>约¥700-900</strong></td><td>（首月含一次性投入约¥550）</td></tr></table><h3>投资回报</h3><p><strong>月增收¥19,000-28,500 vs 月投入约¥700-900</strong></p><p>投入产出比约<strong>1:25-35</strong>（每投入1元带来25-35元增收）。核心增量来自企业团单和早高峰提效，这两块<strong>几乎零边际成本</strong>（人工和原材料在现有产能内消化）。</p><h3>90天OKR目标</h3><table><tr><th>指标</th><th>当前值（假设）</th><th>30天目标</th><th>60天目标</th><th>90天目标</th></tr><tr><td>月流水</td><td>¥7.5-10万</td><td>¥9-11万</td><td>¥10-13万</td><td>¥12-15万</td></tr><tr><td>点评评价数</td><td>约20-30条</td><td>≥50条</td><td>≥80条</td><td>≥120条</td></tr><tr><td>点评评分</td><td>待出星</td><td>稳定出星4.0+</td><td>4.3+</td><td>4.5+</td></tr><tr><td>会员数</td><td>约50-80人</td><td>≥120人</td><td>≥200人</td><td>≥300人</td></tr><tr><td>企业团单客户</td><td>0家</td><td>≥2家</td><td>≥5家</td><td>≥8家</td></tr><tr><td>早高峰日均杯数</td><td>约15杯</td><td>≥22杯</td><td>≥28杯</td><td>≥35杯</td></tr><tr><td>会员消费占比</td><td>约20%</td><td>≥30%</td><td>≥38%</td><td>≥45%</td></tr></table><h3>30天复盘节点</h3><p><strong>第30天必须检查</strong>（🔧 收银后台→经营报表）：</p><ul><li>✅ 早高峰套餐销量是否达标（≥22杯/日）→ 未达标则调整套餐内容或降价</li><li>✅ 点评评价是否破50条→ 未达标则增加免费试名额或调整产品颜值</li><li>✅ 企业月卡是否签约2家以上→ 未达标则加大扫楼频次或调整试喝策略</li><li>✅ 次卡售出是否≥15张→ 未达标则调整推荐话术或增加首充优惠</li></ul>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
