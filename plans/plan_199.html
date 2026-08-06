@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>野叔烤牛燕翅 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #8B4513;
+      --primary-light: #A0522D;
+      --accent: #D2B48C;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #8B451340;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">烧烤/烤肉 · 运营提升方案</div>
+  <h1 class="hero-title">野叔烤牛燕翅</h1>
+  <p class="hero-subtitle">一头牛只有两片燕翅，把稀缺食材做成品类心智</p>
+  <div class="hero-address">杭州市四季青街道凤起时代大厦</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥110</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">城西/四季青</span>
+      <div class="hero-stat-label">所在商圈</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察·烧烤赛道与城西竞争格局', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察·烧烤赛道与城西竞争格局</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '品牌定位·稀缺部位专家', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">品牌定位·稀缺部位专家</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '点评口碑·新店冷启动30天作战', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">点评口碑·新店冷启动30天作战</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '公域获客·抖音+点评双引擎', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">公域获客·抖音+点评双引擎</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '私域留客·会员体系搭建', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">私域留客·会员体系搭建</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '夏季营销·暑期夜宵攻势', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">夏季营销·暑期夜宵攻势</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '系统赋能·三件套用透指南', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">系统赋能·三件套用透指南</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '投资回报·OKR量化目标', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">投资回报·OKR量化目标</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>杭州烧烤赛道：2,840亿大盘中的差异化窗口</h3><p>2024年全国烧烤市场规模约<strong>2,840亿元</strong>，门店数54.1万家（同比+8.5%），是餐饮赛道中增速最快的品类之一。杭州夜宵文化活跃，城西四季青商圈覆盖大量互联网/电商从业者，<strong>晚市+夜宵时段</strong>是核心消费场景。</p><h3>主力客群画像</h3><ul><li><strong>第一客群（占60%）：</strong>凤起时代大厦及周边写字楼白领，25-35岁，下班后聚餐/减压需求强烈，消费决策快，对「新奇食材」接受度高</li><li><strong>第二客群（占25%）：</strong>四季青周边社区居民，家庭/朋友小聚，周末为主，价格敏感度中等</li><li><strong>第三客群（占15%）：</strong>线上种草慕名客，通过抖音/大众点评「牛燕翅」关键词搜索到店，愿为稀缺体验付溢价</li></ul><h3>周边3公里核心竞品拆解</h3><table><tr><th>竞品</th><th>人均</th><th>核心弱点</th><th>野叔切入机会</th></tr><tr><td>丰茂烤串</td><td>95元</td><td>连锁品牌菜单老化、缺新鲜感，无差异化食材</td><td>用「牛燕翅」稀缺性打认知差异，抢想尝新的客群</td></tr><tr><td>很久以前羊肉串</td><td>100元</td><td>场景氛围强但性价比感知一般，复购率偏低</td><td>同价格带更高食材价值感，「一头牛只有两片」天然话题</td></tr><tr><td>酒拾烤肉</td><td>130元</td><td>日式烤肉偏约会客群窄，工作日空台率高</td><td>野叔兼顾聚餐+约会双场景，60平小店翻台快</td></tr><tr><td>社区夫妻烧烤店</td><td>50-70元</td><td>价格碾压但品质/环境无壁垒</td><td>不抢「吃饱」需求，聚焦「吃好/吃新奇」</td></tr></table><p><strong>竞争结论：</strong>城西烧烤密度高，但<strong>「牛燕翅」细分品类暂无直接对标者</strong>，野叔有3-6个月的品类心智窗口期。核心策略：<strong>不打价格战，打稀缺性认知战</strong>。</p></div>
+<div id="modal-content-2" style="display:none"><h3>核心定位：稀缺部位专家，而非普通烧烤店</h3><p>「牛燕翅」是牛肩胛骨后方的蝴蝶形肌肉，一头600公斤的牛<strong>只能取出约2片（500-800g）</strong>，口感介于牛排与牛腱之间，炭烤后外焦内嫩、脂肪均匀。这个「稀缺性」就是野叔最大的品牌资产——<strong>不需要编故事，食材本身就是故事</strong>。</p><h3>一句话记忆钩子</h3><p>所有物料统一使用：<strong>「一头牛只有两片燕翅」</strong>。门头、菜单封面、外卖包装袋、短视频封面——让每个到店客人都能复述出去，复述=免费传播。</p><h3>爆品锚点策略</h3><ul><li><strong>主打爆品：</strong>招牌炭烤牛燕翅（建议定价<strong>68-78元/份</strong>），必须是全店出镜率最高、上菜仪式感最强的产品</li><li><strong>上菜仪式（服务员每桌必做）：</strong>明火炙烤后端上桌，服务员说「这是今天到的新鲜牛燕翅，一头牛只有两片，建议先吃原味再蘸料」——<strong>15秒话术，每桌不漏</strong></li><li><strong>拍照设计：</strong>牛燕翅上桌用木质砧板+炭火小炉呈现，旁放小卡片写「一头牛只有两片燕翅」——<strong>客人拍照时品牌信息自动入镜</strong></li></ul><h3>套餐三档定价（心理学定价法）</h3><table><tr><th>档位</th><th>内容</th><th>定价</th><th>作用</th></tr><tr><td>尝鲜双人餐</td><td>牛燕翅1份+精选烤串6串+小菜2份+饮品2杯</td><td>168元</td><td>引流款，让客人先试试</td></tr><tr><td>招牌四人餐</td><td>牛燕翅2份+烤牛五花+烤鸡翅+小菜4份+啤酒4瓶</td><td>328元</td><td>主推款，聚餐场景主力</td></tr><tr><td>燕翅全体验</td><td>牛燕翅2份+牛胸口捞+全牛拼盘+小菜6份+酒饮畅饮</td><td>528元</td><td>锚定款，让328显得划算</td></tr></table><p><strong>定价逻辑：</strong>最贵档不是为了卖，是让中间档成为「最聪明的选择」。预估点单分布：尝鲜30%、招牌55%、全体验15%，加权客单约<strong>110元/人</strong>（含酒水）。</p></div>
+<div id="modal-content-3" style="display:none"><h3>当前阶段判断：新店期（已营业1个月）</h3><p>野叔已营业约1个月，预估当前评价数<strong>（ 假设10-30条，新店1个月典型水平）</strong>。此阶段核心不是冲榜，是<strong>让前50条评价的调性对</strong>——早期差评一旦定调，后面花10倍力气也翻不了。</p><h3>止血：立即停止的无效动作</h3><ul><li><strong>停止口头催好评：</strong>2025年10月后点评新规，高强度促评导致新评价不产生星级收益</li><li><strong>停止好评返现：</strong>平台能识别，被判定后整店评价权重下降</li></ul><h3>合规获评四步法</h3><p><strong>第1步·免费试（Day 1-7起，店长负责）</strong></p><ul><li>操作路径：🔧 大众点评商家后台 → 营销中心 → 免费试 → 设置每周5个名额</li><li>产品选「招牌炭烤牛燕翅」——免费试用户自带点评活跃度权重，1条精华评价约等于5条普通评价</li><li>每周一上午9点更新名额，持续8周不断</li></ul><p><strong>第2步·打造「值得拍」的体验触点（Day 1起，服务员执行）</strong></p><ul><li>牛燕翅上桌的明火仪式+砧板呈现——这就是客人自发拍照的时刻</li><li>桌上小立牌：「拍下你的第一次牛燕翅体验，发点评或朋友圈，送一份招牌凉菜」——话术是「拍体验」不是「写好评」</li><li>服务员主动说：「要不要我帮您拍一张？这个角度最好看」——自然引导，不尬</li><li>客人不愿意拍怎么办：不强求，微笑说「没关系，您慢用」——<strong>强推适得其反</strong></li></ul><p><strong>第3步·差评2小时响应（Day 1起，店长负责）</strong></p><ul><li>🔧 商家后台 → 评价管理 → 开启「新评价提醒」</li><li>回复模板：「很抱歉给您带来不好的体验，我是店长XX，已针对您提到的[具体问题]做了调整，欢迎再次光临体验」</li><li>差评关键词每周汇总（等太久/味道咸/上菜慢），针对性改进</li></ul><p><strong>第4步·目标里程碑</strong></p><table><tr><th>时间节点</th><th>目标</th><th>关键动作</th></tr><tr><td>第2个月末（9月初）</td><td>累计50条评价，评分4.3以上</td><td>免费试持续+体验触点优化</td></tr><tr><td>第3个月末（10月初）</td><td>累计100条，冲新店榜</td><td>加免费试到8个/周+团购引流</td></tr><tr><td>第6个月（明年1月）</td><td>评分稳定4.5以上，冲热门榜</td><td>菜品迭代+服务标准化</td></tr></table></div>
+<div id="modal-content-4" style="display:none"><h3>公域核心：「牛燕翅是什么」这个问题本身就是流量</h3><p>90%的人没吃过甚至没听过牛燕翅——<strong>好奇心就是最好的引流内容</strong>。不需要编段子请网红，「一头牛只有两片燕翅」这句话本身就有传播力。</p><h3>抖音同城·短视频矩阵（老板/店长负责，每周3条）</h3><p><strong>15秒视频模板（拍了就能发）：</strong></p><ul><li><strong>黄金3秒：</strong>「你知道一头牛身上最稀缺的部位是什么吗？」（画面：鲜切牛燕翅纹理特写）</li><li><strong>中间7秒：</strong>「这叫牛燕翅，一头600公斤的牛只有这么两片」（画面：明火炙烤，油脂滋滋声）</li><li><strong>结尾5秒：</strong>「杭州凤起时代·野叔烤牛燕翅，来试试？」（画面：上桌仪式+客人表情）</li></ul><p><strong>执行细节：</strong></p><ol><li><strong>谁来拍：</strong>老板或店长，手机竖屏，不需要专业设备</li><li><strong>什么时候拍：</strong>每天备餐时拍食材特写（1分钟），晚高峰抓拍客人反应（征得同意）</li><li><strong>发布时间：</strong>下午5-6点或晚上9-10点（夜宵决策时段）</li><li><strong>必须操作：</strong>🔧 发布时选「定位→凤起时代大厦」绑定POI，带话题 #杭州烧烤 #牛燕翅 #杭州夜宵</li><li><strong>投流预算：</strong>前2周每条投同城DOU+ 50元（覆盖3公里），播放量好的追投到200元</li><li><strong>不想拍怎么办：</strong>最简单方式——直接拍30秒烤肉过程无解说，配热门BGM，同样有效果</li></ol><h3>大众点评·基建三件套（8月内必须完成）</h3><p><strong>第一件：团购套餐上架（店长操作）</strong></p><ul><li>🔧 商家后台 → 团购管理 → 新建团购</li><li>上架「尝鲜双人餐168元」（门市价198元，线上168元，让利15%）——点评获客核心入口</li><li>套餐名必须含「牛燕翅」关键词，方便搜索命中</li></ul><p><strong>第二件：门店标签优化</strong></p><ul><li>🔧 商家后台 → 门店信息 → 编辑标签</li><li>主营标签：烧烤 → 特色烤肉 → 牛肉烧烤</li><li>推荐菜前3位：炭烤牛燕翅 / 招牌烤串拼盘 / 精酿啤酒</li><li>门店头图：牛燕翅明火炙烤特写（高饱和度、有烟火气）</li></ul><p><strong>第三件：推广通定向投放（第3个月启动，日预算30-50元）</strong></p><ul><li>🔧 商家后台 → 推广通 → 新建计划</li><li>定向：四季青/翠苑/文三路3公里，25-40岁，搜索「烧烤/烤肉/夜宵」</li><li>预计日均带来8-15次点击，月投入约1000-1500元</li></ul></div>
+<div id="modal-content-5" style="display:none"><h3>私域核心：60平小店不需要复杂体系，锁住回头客就够了</h3><p>野叔60平米、预估日接待能力约<strong>40-50人（10-12桌，晚市2轮翻台）（ 假设值，建议核实）</strong>。这个体量的私域核心不是建社群搞活动，是<strong>让来过的人下次还来、来了多花一点</strong>。已签会员高级版，具备积分、等级、优惠券核心功能。</p><h3>会员等级设计（会员高级版直接配置）</h3><table><tr><th>等级</th><th>门槛</th><th>权益</th><th>目的</th></tr><tr><td>烤友</td><td>注册即享</td><td>首单赠凉菜1份+生日月双倍积分</td><td>零门槛入会，拿到手机号</td></tr><tr><td>铁粉</td><td>消费满3次或累计500元</td><td>每次到店送指定饮品+专属9.5折</td><td>锁定3次复购习惯</td></tr><tr><td>燕翅VIP</td><td>消费满8次或累计1500元</td><td>每月1份牛燕翅半价券+优先订座+新品试吃</td><td>培养超级用户</td></tr></table><p><strong>配置路径：</strong>🔧 美团收银后台 → 会员管理 → 等级设置 → 新建等级 → 按上表填入</p><p><strong>服务员入会话术（买单时说）：</strong></p><ul><li>正常版：「扫这个码注册会员，<strong>今天直接送您一份凉菜</strong>，下次来还有积分抵扣」</li><li>客人犹豫时：「就扫一下，10秒钟，今天的凉菜马上给您上」（即时利益驱动）</li><li>客人拒绝时：「没关系，那我帮您把今天的消费记下，下次来报手机号也能积分」（不尬不强推）</li></ul><p><strong>入会目标：</strong>首月入会率60%以上（日均到店50人 x 60% = 30人/天入会），月末累计会员500人以上</p><h3>储值方案（第3个月视回头客占比决定，当前非必选）</h3><p><strong>判断逻辑：</strong>野叔刚营业1个月，老客基础薄，<strong>储值现在不是第一优先级</strong>。先把会员入会率做到60%、复购率做到30%再启动储值。</p><p>若第3个月回头客占比超25%，启动轻储值：</p><ul><li><strong>入门档：</strong>充200送30（2次消费回本，门槛低）</li><li><strong>主力档：</strong>充500送80（约5次回本，额外送1份牛燕翅券）</li><li>🔧 配置路径：收银后台 → 储值管理 → 新建方案 → 设置金额和赠送</li><li>推荐话术：「您今天消费210元，充200送30，下次直接抵扣，还额外送一份燕翅券」</li><li>客人拒绝：「没关系，先加会员也行，下次来有积分可以用」（退到会员兜底，不强推）</li></ul></div>
+<div id="modal-content-6" style="display:none"><h3>8月黄金期：烧烤天然旺季，All-in夜宵场景</h3><p>7-8月是烧烤全年最旺的两个月，杭州气温28-38度，<strong>晚市+夜宵时段客流占全天70%以上</strong>。60平小店优势反而在这时体现——翻台快、氛围紧凑、撸串喝酒场景天然适配。</p><h3>活动一：「深夜燕翅局」延时夜宵（8月立即启动）</h3><p><strong>What：</strong>营业延长至凌晨1:00，22:00后推出夜宵专属菜单。</p><p><strong>How（执行五件事）：</strong></p><ol><li><strong>谁来做：</strong>店长排班，夜宵时段保留1名烤师+1名服务员（精简到2人）</li><li><strong>第1天做什么：</strong>在扫码点餐后台 🔧「菜品管理 → 定时菜单」设置22:00自动切换，保留15个高毛利SKU（牛燕翅、烤串6种、凉菜3种、啤酒套餐3档）</li><li><strong>啤酒套餐（利润核心，啤酒毛利65%）：</strong>2人畅饮59元（4瓶+毛豆花生）/ 4人畅饮99元（8瓶+3份小食）/ 夜宵王者159元（12瓶+牛燕翅1份+拼盘）</li><li><strong>引流：</strong>每天20:00在抖音发「今晚深夜燕翅局等你」15秒视频（烤炉火光+啤酒碰杯），带定位凤起时代</li><li><strong>成本测算：</strong>延时水电+人工约150-200元/晚，只要多接2桌（约400元营收）即覆盖</li></ol><h3>活动二：「第一次吃牛燕翅」UGC裂变（8月同步启动）</h3><p><strong>What：</strong>客人拍「第一次吃牛燕翅」反应视频发抖音/朋友圈，完成送一份牛燕翅（价值68元，成本约25元）。</p><p><strong>How：</strong></p><ol><li><strong>服务员在上牛燕翅前说：</strong>「我们有个小活动，您拍一段吃牛燕翅的反应视频发抖音或朋友圈带定位，就送一份，要试试吗？」</li><li><strong>客人嫌麻烦：</strong>「不用拍很长，15秒就行，就拍咬第一口的反应，很多客人都觉得好玩」</li><li><strong>验证：</strong>客人给服务员看已发布内容（带定位），在收银系统 🔧「备注」标记「UGC赠送」</li><li><strong>成本控制：</strong>每天限5份（125元/天），每条UGC触达200-500人次，获客成本约0.5-1.2元/人次</li><li><strong>预期：</strong>月产出100-150条UGC，为门店带来3万-5万次同城曝光</li></ol><h3>活动三：「贴秋膘·全牛宴」（8月7日立秋前后一周）</h3><p><strong>What：</strong>借「贴秋膘」话题推出限时全牛宴套餐。</p><p><strong>How：</strong></p><ol><li><strong>店长操作：</strong>8月5日前在 🔧「菜品管理 → 新建限时菜品」上架「贴秋膘·全牛四部位」198元/2人份（门市约260元，让利24%）</li><li><strong>限时7天（8月4-10日）</strong>制造稀缺感</li><li><strong>物料：</strong>门口立牌「立秋贴秋膘·一顿吃遍全牛4大稀缺部位」</li><li><strong>抖音配合：</strong>立秋当天发「贴秋膘该吃什么？」视频，带 #贴秋膘 #杭州烧烤</li></ol></div>
+<div id="modal-content-7" style="display:none"><h3>已签约：收银POS + 扫码点餐 + 会员高级版</h3><p>三个模块覆盖「点餐→收银→留客」全链路，问题不是功能够不够，而是<strong>有没有用透</strong>。以下是每个模块「用到80分」的最低配置，<strong>店长1天内可全部配完</strong>。</p><h3>扫码点餐·提效降本（第1天配置）</h3><table><tr><th>配置项</th><th>操作路径</th><th>为什么做</th></tr><tr><td>菜品分类优化</td><td>🔧 收银后台 → 菜品管理 → 分类管理</td><td>分3层：「必点招牌」「烤串系列」「酒饮/小食」——扫码第一眼看到牛燕翅</td></tr><tr><td>招牌菜置顶+图片</td><td>🔧 菜品管理 → 编辑 → 排序/上传图片</td><td>牛燕翅放第1位，配高清特写+描述「一头牛只有两片」</td></tr><tr><td>规格加料</td><td>🔧 菜品管理 → 规格设置</td><td>牛燕翅设「原味/秘制酱香」两种口味，加5元</td></tr><tr><td>酒水推荐弹窗</td><td>🔧 扫码点餐 → 弹窗设置 → 点餐完成后推荐</td><td>弹出「来瓶冰啤酒？精酿18元/瓶」——啤酒毛利65%，多卖1瓶多赚12元</td></tr></table><h3>收银POS·数据驱动（每天3分钟）</h3><ul><li><strong>店长早会必看：</strong>🔧 收银后台 → 经营概况 → 昨日营收/客单价/翻台率/菜品TOP10</li><li><strong>重点关注：</strong>牛燕翅点单率是否达40%以上——低于40%说明菜单引导不够，调整排序和推荐语</li><li><strong>异常处理：</strong>某天客单价下降10%以上 → 检查是否大量客人只点串不点牛燕翅 → 调整话术</li></ul><h3>会员高级版·客人变回头客（第2天配置）</h3><ul><li><strong>自动发券：</strong>🔧 会员管理 → 营销自动化 → 新建规则：客人消费后3天自动发「7天内到店享9折券」（限用1次）——<strong>锁3天后的第二次消费</strong></li><li><strong>沉睡唤醒：</strong>🔧 营销自动化 → 设置「15天未到店自动发10元无门槛券+短信提醒」——月沉睡唤醒率预估15-20%</li><li><strong>生日营销：</strong>🔧 会员管理 → 生日权益 → 设置「生日当天到店赠牛燕翅1份」——生日到店率约30%，1份牛燕翅成本25元换1桌消费200元以上</li><li><strong>数据看板（每周一看）：</strong>🔧 会员管理 → 数据概览，关注：新增会员数/复购率/会员消费占比——目标第3个月会员消费占比达40%</li></ul></div>
+<div id="modal-content-8" style="display:none"><h3>当前经营基线估算</h3><p>野叔60平米，营业1个月，基于烧烤品类和城西商圈特征估算（ 假设值，建议核实）：</p><table><tr><th>指标</th><th>估算值</th><th>测算依据</th></tr><tr><td>日均营收</td><td>3,500-4,500元</td><td>10-12桌 x 晚市2轮翻台 x 桌均200元（新店爬坡期偏保守）</td></tr><tr><td>月营收</td><td>10-13万元</td><td>日均4,000元 x 30天（含工作日低谷）</td></tr><tr><td>客单价</td><td>100-120元</td><td>烧烤+酒水，城西白领消费力，品类人均参考</td></tr><tr><td>日均客流</td><td>35-45人</td><td>月营收12万 / 客单110 / 30天</td></tr><tr><td>毛利率</td><td>55-60%</td><td>食材38% + 酒水毛利65%拉高整体</td></tr></table><h3>方案执行后增长预测（3个月维度）</h3><table><tr><th>增长来源</th><th>月增收</th><th>测算逻辑</th></tr><tr><td>夜宵延时（22:00-1:00）</td><td>+1.5-2万元</td><td>日均多接3-4桌 x 桌均200元 x 25天营业</td></tr><tr><td>抖音+点评引流新客</td><td>+1-1.5万元</td><td>月新增客流80-120人 x 客单110元 x 到店转化</td></tr><tr><td>会员复购提升</td><td>+0.8-1.2万元</td><td>500会员 x 30%月复购率 x 客单110元 vs 无会员体系</td></tr><tr><td>套餐结构优化（客单提升）</td><td>+0.5-0.8万元</td><td>客单从100元提升至110-120元，日均多收500元</td></tr></table><p><strong>预计3个月后月营收：15-18万元</strong>（较当前增长30-50%）</p><h3>投入成本明细</h3><table><tr><th>项目</th><th>月投入</th><th>说明</th></tr><tr><td>抖音DOU+投流</td><td>600-1200元</td><td>每周3条 x 50-100元/条</td></tr><tr><td>推广通（第3个月起）</td><td>1000-1500元</td><td>日预算30-50元</td></tr><tr><td>UGC赠品成本</td><td>2500-3750元</td><td>日均3-5份 x 成本25元 x 25天</td></tr><tr><td>免费试成本</td><td>1000-1600元</td><td>每周5-8份 x 成本50元/份</td></tr><tr><td>会员权益成本</td><td>800-1200元</td><td>凉菜/饮品赠送</td></tr><tr><td>夜宵延时人工水电</td><td>3750-5000元</td><td>150-200元/晚 x 25天</td></tr><tr><td><strong>合计</strong></td><td><strong>9,650-14,250元</strong></td><td></td></tr></table><p><strong>ROI：</strong>月增收3.8-5.5万元 / 月投入约1.2万元 = <strong>投入产出比约1:3.5</strong>，第1个月即可覆盖成本。</p><h3>OKR量化目标</h3><table><tr><th>维度</th><th>1个月目标（9月初）</th><th>3个月目标（11月初）</th><th>6个月目标（明年2月）</th></tr><tr><td>月营收</td><td>12万元</td><td>16万元</td><td>20万元</td></tr><tr><td>点评评分</td><td>4.3分以上</td><td>4.5分以上</td><td>4.5分稳定+冲热门榜</td></tr><tr><td>点评评价数</td><td>50条</td><td>150条</td><td>300条</td></tr><tr><td>会员数</td><td>500人</td><td>1500人</td><td>3000人</td></tr><tr><td>会员复购率</td><td>25%</td><td>35%</td><td>40%</td></tr><tr><td>牛燕翅点单率</td><td>40%</td><td>50%</td><td>55%</td></tr><tr><td>抖音月曝光</td><td>5万次</td><td>15万次</td><td>30万次</td></tr></table><p><strong>复盘节点：</strong>每月1日店长+BD共同复盘上月OKR完成率，🔧 收银后台导出月报 → 逐项对比 → 未达标的指标分析原因 → 调整下月策略。</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>李朝</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>杭州烧烤赛道：2,840亿大盘中的差异化窗口</h3><p>2024年全国烧烤市场规模约<strong>2,840亿元</strong>，门店数54.1万家（同比+8.5%），是餐饮赛道中增速最快的品类之一。杭州夜宵文化活跃，城西四季青商圈覆盖大量互联网/电商从业者，<strong>晚市+夜宵时段</strong>是核心消费场景。</p><h3>主力客群画像</h3><ul><li><strong>第一客群（占60%）：</strong>凤起时代大厦及周边写字楼白领，25-35岁，下班后聚餐/减压需求强烈，消费决策快，对「新奇食材」接受度高</li><li><strong>第二客群（占25%）：</strong>四季青周边社区居民，家庭/朋友小聚，周末为主，价格敏感度中等</li><li><strong>第三客群（占15%）：</strong>线上种草慕名客，通过抖音/大众点评「牛燕翅」关键词搜索到店，愿为稀缺体验付溢价</li></ul><h3>周边3公里核心竞品拆解</h3><table><tr><th>竞品</th><th>人均</th><th>核心弱点</th><th>野叔切入机会</th></tr><tr><td>丰茂烤串</td><td>95元</td><td>连锁品牌菜单老化、缺新鲜感，无差异化食材</td><td>用「牛燕翅」稀缺性打认知差异，抢想尝新的客群</td></tr><tr><td>很久以前羊肉串</td><td>100元</td><td>场景氛围强但性价比感知一般，复购率偏低</td><td>同价格带更高食材价值感，「一头牛只有两片」天然话题</td></tr><tr><td>酒拾烤肉</td><td>130元</td><td>日式烤肉偏约会客群窄，工作日空台率高</td><td>野叔兼顾聚餐+约会双场景，60平小店翻台快</td></tr><tr><td>社区夫妻烧烤店</td><td>50-70元</td><td>价格碾压但品质/环境无壁垒</td><td>不抢「吃饱」需求，聚焦「吃好/吃新奇」</td></tr></table><p><strong>竞争结论：</strong>城西烧烤密度高，但<strong>「牛燕翅」细分品类暂无直接对标者</strong>，野叔有3-6个月的品类心智窗口期。核心策略：<strong>不打价格战，打稀缺性认知战</strong>。</p>`,
+    2: `<h3>核心定位：稀缺部位专家，而非普通烧烤店</h3><p>「牛燕翅」是牛肩胛骨后方的蝴蝶形肌肉，一头600公斤的牛<strong>只能取出约2片（500-800g）</strong>，口感介于牛排与牛腱之间，炭烤后外焦内嫩、脂肪均匀。这个「稀缺性」就是野叔最大的品牌资产——<strong>不需要编故事，食材本身就是故事</strong>。</p><h3>一句话记忆钩子</h3><p>所有物料统一使用：<strong>「一头牛只有两片燕翅」</strong>。门头、菜单封面、外卖包装袋、短视频封面——让每个到店客人都能复述出去，复述=免费传播。</p><h3>爆品锚点策略</h3><ul><li><strong>主打爆品：</strong>招牌炭烤牛燕翅（建议定价<strong>68-78元/份</strong>），必须是全店出镜率最高、上菜仪式感最强的产品</li><li><strong>上菜仪式（服务员每桌必做）：</strong>明火炙烤后端上桌，服务员说「这是今天到的新鲜牛燕翅，一头牛只有两片，建议先吃原味再蘸料」——<strong>15秒话术，每桌不漏</strong></li><li><strong>拍照设计：</strong>牛燕翅上桌用木质砧板+炭火小炉呈现，旁放小卡片写「一头牛只有两片燕翅」——<strong>客人拍照时品牌信息自动入镜</strong></li></ul><h3>套餐三档定价（心理学定价法）</h3><table><tr><th>档位</th><th>内容</th><th>定价</th><th>作用</th></tr><tr><td>尝鲜双人餐</td><td>牛燕翅1份+精选烤串6串+小菜2份+饮品2杯</td><td>168元</td><td>引流款，让客人先试试</td></tr><tr><td>招牌四人餐</td><td>牛燕翅2份+烤牛五花+烤鸡翅+小菜4份+啤酒4瓶</td><td>328元</td><td>主推款，聚餐场景主力</td></tr><tr><td>燕翅全体验</td><td>牛燕翅2份+牛胸口捞+全牛拼盘+小菜6份+酒饮畅饮</td><td>528元</td><td>锚定款，让328显得划算</td></tr></table><p><strong>定价逻辑：</strong>最贵档不是为了卖，是让中间档成为「最聪明的选择」。预估点单分布：尝鲜30%、招牌55%、全体验15%，加权客单约<strong>110元/人</strong>（含酒水）。</p>`,
+    3: `<h3>当前阶段判断：新店期（已营业1个月）</h3><p>野叔已营业约1个月，预估当前评价数<strong>（ 假设10-30条，新店1个月典型水平）</strong>。此阶段核心不是冲榜，是<strong>让前50条评价的调性对</strong>——早期差评一旦定调，后面花10倍力气也翻不了。</p><h3>止血：立即停止的无效动作</h3><ul><li><strong>停止口头催好评：</strong>2025年10月后点评新规，高强度促评导致新评价不产生星级收益</li><li><strong>停止好评返现：</strong>平台能识别，被判定后整店评价权重下降</li></ul><h3>合规获评四步法</h3><p><strong>第1步·免费试（Day 1-7起，店长负责）</strong></p><ul><li>操作路径：🔧 大众点评商家后台 → 营销中心 → 免费试 → 设置每周5个名额</li><li>产品选「招牌炭烤牛燕翅」——免费试用户自带点评活跃度权重，1条精华评价约等于5条普通评价</li><li>每周一上午9点更新名额，持续8周不断</li></ul><p><strong>第2步·打造「值得拍」的体验触点（Day 1起，服务员执行）</strong></p><ul><li>牛燕翅上桌的明火仪式+砧板呈现——这就是客人自发拍照的时刻</li><li>桌上小立牌：「拍下你的第一次牛燕翅体验，发点评或朋友圈，送一份招牌凉菜」——话术是「拍体验」不是「写好评」</li><li>服务员主动说：「要不要我帮您拍一张？这个角度最好看」——自然引导，不尬</li><li>客人不愿意拍怎么办：不强求，微笑说「没关系，您慢用」——<strong>强推适得其反</strong></li></ul><p><strong>第3步·差评2小时响应（Day 1起，店长负责）</strong></p><ul><li>🔧 商家后台 → 评价管理 → 开启「新评价提醒」</li><li>回复模板：「很抱歉给您带来不好的体验，我是店长XX，已针对您提到的[具体问题]做了调整，欢迎再次光临体验」</li><li>差评关键词每周汇总（等太久/味道咸/上菜慢），针对性改进</li></ul><p><strong>第4步·目标里程碑</strong></p><table><tr><th>时间节点</th><th>目标</th><th>关键动作</th></tr><tr><td>第2个月末（9月初）</td><td>累计50条评价，评分4.3以上</td><td>免费试持续+体验触点优化</td></tr><tr><td>第3个月末（10月初）</td><td>累计100条，冲新店榜</td><td>加免费试到8个/周+团购引流</td></tr><tr><td>第6个月（明年1月）</td><td>评分稳定4.5以上，冲热门榜</td><td>菜品迭代+服务标准化</td></tr></table>`,
+    4: `<h3>公域核心：「牛燕翅是什么」这个问题本身就是流量</h3><p>90%的人没吃过甚至没听过牛燕翅——<strong>好奇心就是最好的引流内容</strong>。不需要编段子请网红，「一头牛只有两片燕翅」这句话本身就有传播力。</p><h3>抖音同城·短视频矩阵（老板/店长负责，每周3条）</h3><p><strong>15秒视频模板（拍了就能发）：</strong></p><ul><li><strong>黄金3秒：</strong>「你知道一头牛身上最稀缺的部位是什么吗？」（画面：鲜切牛燕翅纹理特写）</li><li><strong>中间7秒：</strong>「这叫牛燕翅，一头600公斤的牛只有这么两片」（画面：明火炙烤，油脂滋滋声）</li><li><strong>结尾5秒：</strong>「杭州凤起时代·野叔烤牛燕翅，来试试？」（画面：上桌仪式+客人表情）</li></ul><p><strong>执行细节：</strong></p><ol><li><strong>谁来拍：</strong>老板或店长，手机竖屏，不需要专业设备</li><li><strong>什么时候拍：</strong>每天备餐时拍食材特写（1分钟），晚高峰抓拍客人反应（征得同意）</li><li><strong>发布时间：</strong>下午5-6点或晚上9-10点（夜宵决策时段）</li><li><strong>必须操作：</strong>🔧 发布时选「定位→凤起时代大厦」绑定POI，带话题 #杭州烧烤 #牛燕翅 #杭州夜宵</li><li><strong>投流预算：</strong>前2周每条投同城DOU+ 50元（覆盖3公里），播放量好的追投到200元</li><li><strong>不想拍怎么办：</strong>最简单方式——直接拍30秒烤肉过程无解说，配热门BGM，同样有效果</li></ol><h3>大众点评·基建三件套（8月内必须完成）</h3><p><strong>第一件：团购套餐上架（店长操作）</strong></p><ul><li>🔧 商家后台 → 团购管理 → 新建团购</li><li>上架「尝鲜双人餐168元」（门市价198元，线上168元，让利15%）——点评获客核心入口</li><li>套餐名必须含「牛燕翅」关键词，方便搜索命中</li></ul><p><strong>第二件：门店标签优化</strong></p><ul><li>🔧 商家后台 → 门店信息 → 编辑标签</li><li>主营标签：烧烤 → 特色烤肉 → 牛肉烧烤</li><li>推荐菜前3位：炭烤牛燕翅 / 招牌烤串拼盘 / 精酿啤酒</li><li>门店头图：牛燕翅明火炙烤特写（高饱和度、有烟火气）</li></ul><p><strong>第三件：推广通定向投放（第3个月启动，日预算30-50元）</strong></p><ul><li>🔧 商家后台 → 推广通 → 新建计划</li><li>定向：四季青/翠苑/文三路3公里，25-40岁，搜索「烧烤/烤肉/夜宵」</li><li>预计日均带来8-15次点击，月投入约1000-1500元</li></ul>`,
+    5: `<h3>私域核心：60平小店不需要复杂体系，锁住回头客就够了</h3><p>野叔60平米、预估日接待能力约<strong>40-50人（10-12桌，晚市2轮翻台）（ 假设值，建议核实）</strong>。这个体量的私域核心不是建社群搞活动，是<strong>让来过的人下次还来、来了多花一点</strong>。已签会员高级版，具备积分、等级、优惠券核心功能。</p><h3>会员等级设计（会员高级版直接配置）</h3><table><tr><th>等级</th><th>门槛</th><th>权益</th><th>目的</th></tr><tr><td>烤友</td><td>注册即享</td><td>首单赠凉菜1份+生日月双倍积分</td><td>零门槛入会，拿到手机号</td></tr><tr><td>铁粉</td><td>消费满3次或累计500元</td><td>每次到店送指定饮品+专属9.5折</td><td>锁定3次复购习惯</td></tr><tr><td>燕翅VIP</td><td>消费满8次或累计1500元</td><td>每月1份牛燕翅半价券+优先订座+新品试吃</td><td>培养超级用户</td></tr></table><p><strong>配置路径：</strong>🔧 美团收银后台 → 会员管理 → 等级设置 → 新建等级 → 按上表填入</p><p><strong>服务员入会话术（买单时说）：</strong></p><ul><li>正常版：「扫这个码注册会员，<strong>今天直接送您一份凉菜</strong>，下次来还有积分抵扣」</li><li>客人犹豫时：「就扫一下，10秒钟，今天的凉菜马上给您上」（即时利益驱动）</li><li>客人拒绝时：「没关系，那我帮您把今天的消费记下，下次来报手机号也能积分」（不尬不强推）</li></ul><p><strong>入会目标：</strong>首月入会率60%以上（日均到店50人 x 60% = 30人/天入会），月末累计会员500人以上</p><h3>储值方案（第3个月视回头客占比决定，当前非必选）</h3><p><strong>判断逻辑：</strong>野叔刚营业1个月，老客基础薄，<strong>储值现在不是第一优先级</strong>。先把会员入会率做到60%、复购率做到30%再启动储值。</p><p>若第3个月回头客占比超25%，启动轻储值：</p><ul><li><strong>入门档：</strong>充200送30（2次消费回本，门槛低）</li><li><strong>主力档：</strong>充500送80（约5次回本，额外送1份牛燕翅券）</li><li>🔧 配置路径：收银后台 → 储值管理 → 新建方案 → 设置金额和赠送</li><li>推荐话术：「您今天消费210元，充200送30，下次直接抵扣，还额外送一份燕翅券」</li><li>客人拒绝：「没关系，先加会员也行，下次来有积分可以用」（退到会员兜底，不强推）</li></ul>`,
+    6: `<h3>8月黄金期：烧烤天然旺季，All-in夜宵场景</h3><p>7-8月是烧烤全年最旺的两个月，杭州气温28-38度，<strong>晚市+夜宵时段客流占全天70%以上</strong>。60平小店优势反而在这时体现——翻台快、氛围紧凑、撸串喝酒场景天然适配。</p><h3>活动一：「深夜燕翅局」延时夜宵（8月立即启动）</h3><p><strong>What：</strong>营业延长至凌晨1:00，22:00后推出夜宵专属菜单。</p><p><strong>How（执行五件事）：</strong></p><ol><li><strong>谁来做：</strong>店长排班，夜宵时段保留1名烤师+1名服务员（精简到2人）</li><li><strong>第1天做什么：</strong>在扫码点餐后台 🔧「菜品管理 → 定时菜单」设置22:00自动切换，保留15个高毛利SKU（牛燕翅、烤串6种、凉菜3种、啤酒套餐3档）</li><li><strong>啤酒套餐（利润核心，啤酒毛利65%）：</strong>2人畅饮59元（4瓶+毛豆花生）/ 4人畅饮99元（8瓶+3份小食）/ 夜宵王者159元（12瓶+牛燕翅1份+拼盘）</li><li><strong>引流：</strong>每天20:00在抖音发「今晚深夜燕翅局等你」15秒视频（烤炉火光+啤酒碰杯），带定位凤起时代</li><li><strong>成本测算：</strong>延时水电+人工约150-200元/晚，只要多接2桌（约400元营收）即覆盖</li></ol><h3>活动二：「第一次吃牛燕翅」UGC裂变（8月同步启动）</h3><p><strong>What：</strong>客人拍「第一次吃牛燕翅」反应视频发抖音/朋友圈，完成送一份牛燕翅（价值68元，成本约25元）。</p><p><strong>How：</strong></p><ol><li><strong>服务员在上牛燕翅前说：</strong>「我们有个小活动，您拍一段吃牛燕翅的反应视频发抖音或朋友圈带定位，就送一份，要试试吗？」</li><li><strong>客人嫌麻烦：</strong>「不用拍很长，15秒就行，就拍咬第一口的反应，很多客人都觉得好玩」</li><li><strong>验证：</strong>客人给服务员看已发布内容（带定位），在收银系统 🔧「备注」标记「UGC赠送」</li><li><strong>成本控制：</strong>每天限5份（125元/天），每条UGC触达200-500人次，获客成本约0.5-1.2元/人次</li><li><strong>预期：</strong>月产出100-150条UGC，为门店带来3万-5万次同城曝光</li></ol><h3>活动三：「贴秋膘·全牛宴」（8月7日立秋前后一周）</h3><p><strong>What：</strong>借「贴秋膘」话题推出限时全牛宴套餐。</p><p><strong>How：</strong></p><ol><li><strong>店长操作：</strong>8月5日前在 🔧「菜品管理 → 新建限时菜品」上架「贴秋膘·全牛四部位」198元/2人份（门市约260元，让利24%）</li><li><strong>限时7天（8月4-10日）</strong>制造稀缺感</li><li><strong>物料：</strong>门口立牌「立秋贴秋膘·一顿吃遍全牛4大稀缺部位」</li><li><strong>抖音配合：</strong>立秋当天发「贴秋膘该吃什么？」视频，带 #贴秋膘 #杭州烧烤</li></ol>`,
+    7: `<h3>已签约：收银POS + 扫码点餐 + 会员高级版</h3><p>三个模块覆盖「点餐→收银→留客」全链路，问题不是功能够不够，而是<strong>有没有用透</strong>。以下是每个模块「用到80分」的最低配置，<strong>店长1天内可全部配完</strong>。</p><h3>扫码点餐·提效降本（第1天配置）</h3><table><tr><th>配置项</th><th>操作路径</th><th>为什么做</th></tr><tr><td>菜品分类优化</td><td>🔧 收银后台 → 菜品管理 → 分类管理</td><td>分3层：「必点招牌」「烤串系列」「酒饮/小食」——扫码第一眼看到牛燕翅</td></tr><tr><td>招牌菜置顶+图片</td><td>🔧 菜品管理 → 编辑 → 排序/上传图片</td><td>牛燕翅放第1位，配高清特写+描述「一头牛只有两片」</td></tr><tr><td>规格加料</td><td>🔧 菜品管理 → 规格设置</td><td>牛燕翅设「原味/秘制酱香」两种口味，加5元</td></tr><tr><td>酒水推荐弹窗</td><td>🔧 扫码点餐 → 弹窗设置 → 点餐完成后推荐</td><td>弹出「来瓶冰啤酒？精酿18元/瓶」——啤酒毛利65%，多卖1瓶多赚12元</td></tr></table><h3>收银POS·数据驱动（每天3分钟）</h3><ul><li><strong>店长早会必看：</strong>🔧 收银后台 → 经营概况 → 昨日营收/客单价/翻台率/菜品TOP10</li><li><strong>重点关注：</strong>牛燕翅点单率是否达40%以上——低于40%说明菜单引导不够，调整排序和推荐语</li><li><strong>异常处理：</strong>某天客单价下降10%以上 → 检查是否大量客人只点串不点牛燕翅 → 调整话术</li></ul><h3>会员高级版·客人变回头客（第2天配置）</h3><ul><li><strong>自动发券：</strong>🔧 会员管理 → 营销自动化 → 新建规则：客人消费后3天自动发「7天内到店享9折券」（限用1次）——<strong>锁3天后的第二次消费</strong></li><li><strong>沉睡唤醒：</strong>🔧 营销自动化 → 设置「15天未到店自动发10元无门槛券+短信提醒」——月沉睡唤醒率预估15-20%</li><li><strong>生日营销：</strong>🔧 会员管理 → 生日权益 → 设置「生日当天到店赠牛燕翅1份」——生日到店率约30%，1份牛燕翅成本25元换1桌消费200元以上</li><li><strong>数据看板（每周一看）：</strong>🔧 会员管理 → 数据概览，关注：新增会员数/复购率/会员消费占比——目标第3个月会员消费占比达40%</li></ul>`,
+    8: `<h3>当前经营基线估算</h3><p>野叔60平米，营业1个月，基于烧烤品类和城西商圈特征估算（ 假设值，建议核实）：</p><table><tr><th>指标</th><th>估算值</th><th>测算依据</th></tr><tr><td>日均营收</td><td>3,500-4,500元</td><td>10-12桌 x 晚市2轮翻台 x 桌均200元（新店爬坡期偏保守）</td></tr><tr><td>月营收</td><td>10-13万元</td><td>日均4,000元 x 30天（含工作日低谷）</td></tr><tr><td>客单价</td><td>100-120元</td><td>烧烤+酒水，城西白领消费力，品类人均参考</td></tr><tr><td>日均客流</td><td>35-45人</td><td>月营收12万 / 客单110 / 30天</td></tr><tr><td>毛利率</td><td>55-60%</td><td>食材38% + 酒水毛利65%拉高整体</td></tr></table><h3>方案执行后增长预测（3个月维度）</h3><table><tr><th>增长来源</th><th>月增收</th><th>测算逻辑</th></tr><tr><td>夜宵延时（22:00-1:00）</td><td>+1.5-2万元</td><td>日均多接3-4桌 x 桌均200元 x 25天营业</td></tr><tr><td>抖音+点评引流新客</td><td>+1-1.5万元</td><td>月新增客流80-120人 x 客单110元 x 到店转化</td></tr><tr><td>会员复购提升</td><td>+0.8-1.2万元</td><td>500会员 x 30%月复购率 x 客单110元 vs 无会员体系</td></tr><tr><td>套餐结构优化（客单提升）</td><td>+0.5-0.8万元</td><td>客单从100元提升至110-120元，日均多收500元</td></tr></table><p><strong>预计3个月后月营收：15-18万元</strong>（较当前增长30-50%）</p><h3>投入成本明细</h3><table><tr><th>项目</th><th>月投入</th><th>说明</th></tr><tr><td>抖音DOU+投流</td><td>600-1200元</td><td>每周3条 x 50-100元/条</td></tr><tr><td>推广通（第3个月起）</td><td>1000-1500元</td><td>日预算30-50元</td></tr><tr><td>UGC赠品成本</td><td>2500-3750元</td><td>日均3-5份 x 成本25元 x 25天</td></tr><tr><td>免费试成本</td><td>1000-1600元</td><td>每周5-8份 x 成本50元/份</td></tr><tr><td>会员权益成本</td><td>800-1200元</td><td>凉菜/饮品赠送</td></tr><tr><td>夜宵延时人工水电</td><td>3750-5000元</td><td>150-200元/晚 x 25天</td></tr><tr><td><strong>合计</strong></td><td><strong>9,650-14,250元</strong></td><td></td></tr></table><p><strong>ROI：</strong>月增收3.8-5.5万元 / 月投入约1.2万元 = <strong>投入产出比约1:3.5</strong>，第1个月即可覆盖成本。</p><h3>OKR量化目标</h3><table><tr><th>维度</th><th>1个月目标（9月初）</th><th>3个月目标（11月初）</th><th>6个月目标（明年2月）</th></tr><tr><td>月营收</td><td>12万元</td><td>16万元</td><td>20万元</td></tr><tr><td>点评评分</td><td>4.3分以上</td><td>4.5分以上</td><td>4.5分稳定+冲热门榜</td></tr><tr><td>点评评价数</td><td>50条</td><td>150条</td><td>300条</td></tr><tr><td>会员数</td><td>500人</td><td>1500人</td><td>3000人</td></tr><tr><td>会员复购率</td><td>25%</td><td>35%</td><td>40%</td></tr><tr><td>牛燕翅点单率</td><td>40%</td><td>50%</td><td>55%</td></tr><tr><td>抖音月曝光</td><td>5万次</td><td>15万次</td><td>30万次</td></tr></table><p><strong>复盘节点：</strong>每月1日店长+BD共同复盘上月OKR完成率，🔧 收银后台导出月报 → 逐项对比 → 未达标的指标分析原因 → 调整下月策略。</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
