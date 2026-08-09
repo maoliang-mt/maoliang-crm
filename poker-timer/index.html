@@ -113,43 +113,43 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 40px 140px;
+  padding: 30px 30px 120px;
   min-width: 0;
 }
 
 /* 品牌条 */
-.brand-bar { display:flex; align-items:center; justify-content:center; gap:16px; margin-bottom:80px; }
-.brand-bar .logo { width:56px;height:56px;border:2px solid var(--gold);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:28px; }
-.brand-bar h1 { font-size:42px;color:var(--gold);font-weight:300;letter-spacing:6px; }
-.brand-bar .tagline { font-size:14px;color:var(--text-dim);letter-spacing:4px;margin-top:4px; }
+.brand-bar { display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:30px; }
+.brand-bar .logo { width:44px;height:44px;border:2px solid var(--gold);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px; }
+.brand-bar h1 { font-size:32px;color:var(--gold);font-weight:300;letter-spacing:4px; }
+.brand-bar .tagline { font-size:12px;color:var(--text-dim);letter-spacing:3px;margin-top:2px; }
 
 /* 中央区域 */
-.center-stage { display:flex; align-items:stretch; gap:60px; margin-bottom:40px; }
+.center-stage { display:flex; align-items:stretch; gap:40px; margin-bottom:30px; }
 
 /* 盲级卡 */
-.blind-card { background:linear-gradient(135deg, rgba(13,40,24,0.7) 0%, rgba(10,14,20,0.9) 100%);backdrop-filter:blur(12px);border:1px solid rgba(107,191,78,0.2);border-radius:20px;padding:50px 60px;text-align:center;min-width:320px;box-shadow:0 0 30px rgba(107,191,78,0.05); }
-.blind-card .card-label { font-size:14px;color:var(--text-dim);letter-spacing:3px;text-transform:uppercase;margin-bottom:20px; }
-.blind-card .level-number { font-size:96px;font-weight:200;color:var(--text);line-height:1;letter-spacing:-2px; }
-.blind-card .level-number .slash { color:var(--gold);margin:0 8px; }
-.blind-card .level-name { font-size:22px;color:var(--gold);margin-top:16px;font-weight:300; }
-.blind-card .ante-display { font-size:20px;color:var(--gold-bright);margin-top:10px;font-weight:300;opacity:0.85;letter-spacing:1px; }
-.blind-card .rest-icon { font-size:80px;line-height:1.1; }
-.blind-card .rest-label { font-size:36px;color:var(--gold);font-weight:300;letter-spacing:4px;margin-top:12px; }
+.blind-card { background:linear-gradient(135deg, rgba(13,40,24,0.7) 0%, rgba(10,14,20,0.9) 100%);backdrop-filter:blur(12px);border:1px solid rgba(107,191,78,0.2);border-radius:16px;padding:30px 40px;text-align:center;min-width:260px;box-shadow:0 0 30px rgba(107,191,78,0.05); }
+.blind-card .card-label { font-size:13px;color:var(--text-dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px; }
+.blind-card .level-number { font-size:56px;font-weight:200;color:var(--text);line-height:1;letter-spacing:-1px; }
+.blind-card .level-number .slash { color:var(--gold);margin:0 6px; }
+.blind-card .level-name { font-size:18px;color:var(--gold);margin-top:10px;font-weight:300;letter-spacing:1px; }
+.blind-card .ante-display { font-size:16px;color:var(--gold-bright);margin-top:8px;font-weight:300;opacity:0.85;letter-spacing:1px; }
+.blind-card .rest-icon { font-size:56px;line-height:1.1; }
+.blind-card .rest-label { font-size:28px;color:var(--gold);font-weight:300;letter-spacing:2px;margin-top:10px; }
 
 /* 计时器环 */
-.timer-ring-container { display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg, rgba(13,40,24,0.7) 0%, rgba(10,14,20,0.9) 100%);backdrop-filter:blur(12px);border:1px solid rgba(107,191,78,0.2);border-radius:20px;padding:50px 60px;min-width:320px;box-shadow:0 0 30px rgba(107,191,78,0.05); }
-.timer-ring-container .card-label { font-size:14px;color:var(--text-dim);letter-spacing:3px;text-transform:uppercase;margin-bottom:20px; }
-.ring-wrapper { position:relative;width:200px;height:200px; }
+.timer-ring-container { display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg, rgba(13,40,24,0.7) 0%, rgba(10,14,20,0.9) 100%);backdrop-filter:blur(12px);border:1px solid rgba(107,191,78,0.2);border-radius:16px;padding:30px 40px;min-width:260px;box-shadow:0 0 30px rgba(107,191,78,0.05); }
+.timer-ring-container .card-label { font-size:13px;color:var(--text-dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px; }
+.ring-wrapper { position:relative;width:170px;height:170px; }
 .ring-svg { transform:rotate(-90deg);width:100%;height:100%; }
 .ring-bg { fill:none;stroke:rgba(255,255,255,0.06);stroke-width:6; }
 .ring-progress { fill:none;stroke:var(--gold);stroke-width:6;stroke-linecap:round;transition:stroke-dashoffset 1s linear,stroke 0.3s; }
 .ring-progress.warning { stroke:var(--orange); }
 .ring-progress.danger { stroke:var(--red); }
 .ring-text { position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center; }
-.ring-time { font-size:48px;font-weight:200;color:var(--text);font-variant-numeric:tabular-nums; }
+.ring-time { font-size:40px;font-weight:200;color:var(--text);font-variant-numeric:tabular-nums; }
 .ring-time.warning { color:var(--orange); }
 .ring-time.danger { color:var(--red); }
-.ring-min-label { font-size:12px;color:var(--text-dim);letter-spacing:2px;margin-top:4px; }
+.ring-min-label { font-size:11px;color:var(--text-dim);letter-spacing:1px;margin-top:2px; }
 
 /* 时间进度条 */
 .progress-bar-wrapper { width:100%;max-width:800px;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;margin-bottom:20px;overflow:hidden; }
@@ -158,12 +158,12 @@ body {
 .progress-bar-fill.danger { background:linear-gradient(90deg,var(--orange),var(--red)); }
 
 /* 底部信息条 */
-.bottom-bar { display:flex;gap:40px;background:linear-gradient(135deg, rgba(13,40,24,0.5) 0%, rgba(10,14,20,0.7) 100%);backdrop-filter:blur(12px);border:1px solid rgba(107,191,78,0.15);border-radius:16px;padding:24px 40px;align-items:center; }
-.bottom-bar .info-item { display:flex;flex-direction:column;align-items:center;gap:6px; }
-.bottom-bar .info-label { font-size:11px;color:var(--text-dim);letter-spacing:2px;text-transform:uppercase; }
-.bottom-bar .info-value { font-size:24px;color:var(--text);font-weight:300; }
-.bottom-bar .info-value.highlight { color:var(--gold);font-size:26px;font-weight:400; }
-.bottom-bar .divider { width:1px;height:40px;background:rgba(255,255,255,0.1); }
+.bottom-bar { display:flex;gap:24px;background:linear-gradient(135deg, rgba(13,40,24,0.5) 0%, rgba(10,14,20,0.7) 100%);backdrop-filter:blur(12px);border:1px solid rgba(107,191,78,0.15);border-radius:12px;padding:16px 28px;align-items:center; }
+.bottom-bar .info-item { display:flex;flex-direction:column;align-items:center;gap:4px; }
+.bottom-bar .info-label { font-size:10px;color:var(--text-dim);letter-spacing:1px;text-transform:uppercase; }
+.bottom-bar .info-value { font-size:20px;color:var(--text);font-weight:300; }
+.bottom-bar .info-value.highlight { color:var(--gold);font-size:22px;font-weight:400; }
+.bottom-bar .divider { width:1px;height:32px;background:rgba(255,255,255,0.1); }
 
 /* 控制栏 */
 .controls { position:fixed;bottom:0;left:0;right:0;padding:20px 40px;background:rgba(15,15,15,0.9);backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.06);display:flex;justify-content:center;gap:12px;z-index:100; }
@@ -233,22 +233,47 @@ body {
 
 @media (max-width:900px) {
   .display-mode { flex-direction: column; }
-  .blinds-sidebar { width:100%;min-width:unset;max-height:120px;border-right:none;border-bottom:1px solid rgba(255,255,255,0.06);flex-direction:row;display:flex;overflow-x:auto;overflow-y:hidden;padding:8px 0; }
+  .blinds-sidebar { width:100%;min-width:unset;max-height:100px;border-right:none;border-bottom:1px solid rgba(255,255,255,0.06);flex-direction:row;display:flex;overflow-x:auto;overflow-y:hidden;padding:6px 0; }
   .blinds-sidebar .sidebar-title { display:none; }
-  .sidebar-level { padding:6px 12px;flex-shrink:0;border-left:none;border-bottom:3px solid transparent; }
+  .sidebar-level { padding:5px 10px;flex-shrink:0;border-left:none;border-bottom:3px solid transparent; }
   .sidebar-level.current { border-bottom-color:var(--gold);border-left-color:transparent; }
   .sidebar-level.rest-break.current { border-bottom-color:var(--green); }
-  .sl-idx { font-size:10px;min-width:16px; }
-  .sl-blinds { font-size:12px; }
-  .main-content { padding:20px 20px 140px; }
-  .center-stage { flex-direction:column;gap:30px; }
-  .blind-card,.timer-ring-container { min-width:260px;padding:30px; }
-  .brand-bar h1 { font-size:32px; }
-  .brand-bar { margin-bottom:30px; }
-  .controls { flex-wrap:wrap;padding:12px; }
-  .btn { padding:10px 16px;font-size:12px; }
+  .sl-idx { font-size:10px;min-width:14px; }
+  .sl-blinds { font-size:11px; }
+  .main-content { padding:15px 15px 110px; }
+  .center-stage { flex-direction:column;gap:16px; }
+  .blind-card,.timer-ring-container { min-width:unset;width:100%;padding:20px 24px; }
+  .blind-card .level-number { font-size:42px; }
+  .blind-card .level-name { font-size:15px; }
+  .blind-card .ante-display { font-size:14px; }
+  .blind-card .rest-icon { font-size:42px; }
+  .blind-card .rest-label { font-size:22px; }
+  .ring-wrapper { width:130px;height:130px; }
+  .ring-time { font-size:32px; }
+  .brand-bar { margin-bottom:16px;gap:8px; }
+  .brand-bar .logo { width:36px;height:36px;font-size:18px; }
+  .brand-bar h1 { font-size:24px;letter-spacing:2px; }
+  .brand-cn { font-size:20px; }
+  .live-badge { font-size:11px;padding:4px 10px; }
+  .bottom-bar { gap:16px;padding:12px 16px;flex-wrap:wrap;justify-content:center; }
+  .bottom-bar .info-value { font-size:16px; }
+  .bottom-bar .info-value.highlight { font-size:18px; }
+  .bottom-bar .info-label { font-size:9px; }
+  .bottom-bar .divider { height:24px; }
+  .controls { flex-wrap:wrap;padding:10px 12px;gap:8px; }
+  .btn { padding:8px 14px;font-size:12px; }
   .settings-panel { width:100%;right:-100%; }
   .settings-panel.open { right:0; }
+}
+@media (max-width:480px) {
+  .blind-card .level-number { font-size:36px; }
+  .ring-wrapper { width:110px;height:110px; }
+  .ring-time { font-size:28px; }
+  .brand-bar h1 { font-size:20px; }
+  .brand-cn { font-size:16px; }
+  .bottom-bar { gap:12px;padding:10px 12px; }
+  .bottom-bar .info-value { font-size:14px; }
+  .controls { padding:8px; }
 }
 .brand-cn { font-size: 28px; margin-left: 8px; color: var(--green); font-weight: 400; letter-spacing: 2px; }
 .live-badge { display:flex;align-items:center;gap:8px;font-size:13px;color:var(--green);letter-spacing:2px;margin-left:auto;padding:6px 16px;border:1px solid rgba(107,191,78,0.3);border-radius:20px;background:rgba(107,191,78,0.08); }
@@ -319,7 +344,7 @@ body::before {
         </svg>
         <div class="ring-text">
           <div class="ring-time" id="timeDisplay">05:00</div>
-          <div class="ring-min-label">MINUTES</div>
+          <div class="ring-min-label">分钟</div>
         </div>
       </div>
     </div>
