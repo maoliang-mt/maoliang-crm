@@ -669,11 +669,25 @@ function toggleTimer() {
       state.elapsed++;
       if (state.timeLeft === 60) {
         if (cfg.sound) beep(800, 0.15);
-        speak('一分钟后升盲');
+        var nx60 = blinds[state.levelIdx + 1];
+        if (nx60 && !nx60._rest) {
+          var warn60 = '一分钟后升盲，下一级小盲' + nx60.s + '，大盲' + nx60.b;
+          if (nx60.a > 0) warn60 += '，前注' + nx60.a;
+          speak(warn60);
+        } else {
+          speak('一分钟后升盲');
+        }
       }
       if (state.timeLeft === 30) {
         if (cfg.sound) beep(1000, 0.2);
-        speak('三十秒后升盲');
+        var nx30 = blinds[state.levelIdx + 1];
+        if (nx30 && !nx30._rest) {
+          var warn30 = '三十秒后升盲，小盲' + nx30.s + '，大盲' + nx30.b;
+          if (nx30.a > 0) warn30 += '，前注' + nx30.a;
+          speak(warn30);
+        } else {
+          speak('三十秒后升盲');
+        }
       }
       if (state.timeLeft === cfg.warn && state.timeLeft !== 60 && state.timeLeft !== 30 && cfg.sound) beep(800, 0.2);
       if (state.timeLeft === cfg.danger && state.timeLeft !== 60 && state.timeLeft !== 30 && cfg.sound) beep(1000, 0.3);
