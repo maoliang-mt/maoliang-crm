@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>谷楼窑烤·Space 运营诊断方案</title>
+<style>
+  :root { --c1:#1a3a5c; --c2:#4A9EBF; --c3:#8B4513; --c4:#f5f5f5; --c5:#fff; --c6:#e8e8e8; --r:8px; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: "PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif; background:var(--c4); color:#333; line-height:1.6; }
+  .container { max-width:800px; margin:0 auto; background:var(--c5); min-height:100vh; }
+  .cover { background: linear-gradient(135deg,#1a3a5c 0%,#2d5a7b 50%,#4A9EBF 100%); color:#fff; padding:50px 30px; text-align:center; position:relative; overflow:hidden; }
+  .cover::before { content:""; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px); background-size:30px 30px; opacity:0.3; }
+  .cover h1 { font-size:32px; font-weight:700; margin-bottom:12px; position:relative; z-index:1; }
+  .cover .tag { display:inline-block; background:rgba(255,255,255,0.2); padding:6px 18px; border-radius:20px; font-size:14px; margin:8px 4px; position:relative; z-index:1; }
+  .cover .info { margin-top:20px; font-size:14px; opacity:0.85; position:relative; z-index:1; }
+  .section { padding:28px 24px; border-bottom:1px solid var(--c6); }
+  .section:last-child { border-bottom:none; }
+  .section-title { font-size:20px; font-weight:700; color:var(--c1); margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+  .section-title::before { content:""; width:4px; height:20px; background:var(--c2); border-radius:2px; }
+  .card { background:var(--c4); border-radius:var(--r); padding:16px; margin:12px 0; }
+  .card-title { font-weight:600; color:var(--c1); margin-bottom:8px; font-size:15px; }
+  .highlight { background:linear-gradient(120deg, rgba(74,158,191,0.15) 0%, rgba(74,158,191,0.05) 100%); border-left:3px solid var(--c2); padding:12px 16px; border-radius:0 var(--r) var(--r) 0; margin:12px 0; }
+  .warning { background:linear-gradient(120deg, rgba(255,193,7,0.15) 0%, rgba(255,193,7,0.05) 100%); border-left:3px solid #ffc107; padding:12px 16px; border-radius:0 var(--r) var(--r) 0; margin:12px 0; }
+  .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media(max-width:600px){ .grid-2 { grid-template-columns:1fr; } }
+  .metric { text-align:center; padding:12px; background:var(--c5); border-radius:var(--r); box-shadow:0 1px 3px rgba(0,0,0,0.08); }
+  .metric-value { font-size:24px; font-weight:700; color:var(--c1); }
+  .metric-label { font-size:12px; color:#888; margin-top:4px; }
+  .list-item { padding:10px 0; border-bottom:1px dashed #ddd; display:flex; gap:10px; align-items:flex-start; }
+  .list-item:last-child { border-bottom:none; }
+  .list-num { min-width:24px; height:24px; background:var(--c1); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px; }
+  .footer { background:var(--c1); color:#fff; padding:24px; text-align:center; font-size:13px; }
+  .footer a { color:var(--c2); text-decoration:none; }
+  table { width:100%; border-collapse:collapse; font-size:14px; margin:12px 0; }
+  th, td { padding:10px 12px; text-align:left; border-bottom:1px solid #eee; }
+  th { background:var(--c4); font-weight:600; color:var(--c1); font-size:13px; }
+  .badge { display:inline-block; padding:2px 10px; border-radius:12px; font-size:12px; font-weight:500; }
+  .badge-green { background:#d4edda; color:#155724; }
+  .badge-red { background:#f8d7da; color:#721c24; }
+  .badge-yellow { background:#fff3cd; color:#856404; }
+  .badge-blue { background:#d1ecf1; color:#0c5460; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- 封面 -->
+<div class="cover">
+  <h1>谷楼窑烤·Space</h1>
+  <div>
+    <span class="tag">西餐 / Brunch</span>
+    <span class="tag">尚未开业</span>
+    <span class="tag">0-4天新店</span>
+  </div>
+  <div class="info">
+    <p>河庄街道江东村钱塘小雅综合体</p>
+    <p>保护期至 2026-08-14 21:00 | 有KP | 需盘点</p>
+  </div>
+</div>
+
+<!-- 诊断概览 -->
+<div class="section">
+  <div class="section-title">门店诊断概览</div>
+  <div class="grid-2">
+    <div class="metric">
+      <div class="metric-value">0-4天</div>
+      <div class="metric-label">新店龄</div>
+    </div>
+    <div class="metric">
+      <div class="metric-value">&lt;1000</div>
+      <div class="metric-label">预期日流水(元)</div>
+    </div>
+    <div class="metric">
+      <div class="metric-value">西餐</div>
+      <div class="metric-label">品类</div>
+    </div>
+    <div class="metric">
+      <div class="metric-value">钱塘小雅</div>
+      <div class="metric-label">商圈</div>
+    </div>
+  </div>
+  <div class="warning">
+    <strong>⚠️ 紧急提醒</strong>：该门店保护期仅剩约<strong>30小时</strong>（至8月14日21:00），需尽快完成首访建联。KP已确认，但"收银业务暂无拜访记录"，建议今日上门。
+  </div>
+</div>
+
+<!-- 经营现状 -->
+<div class="section">
+  <div class="section-title">经营现状</div>
+  <div class="card">
+    <div class="card-title">门店基本信息</div>
+    <table>
+      <tr><th>项目</th><th>现状</th></tr>
+      <tr><td>门店名称</td><td>谷楼窑烤·Space</td></tr>
+      <tr><td>品类定位</td><td>西餐 / Brunch</td></tr>
+      <tr><td>经营状态</td><td><span class="badge badge-red">尚未开业</span></td></tr>
+      <tr><td>门店ID</td><td>1030071533755465</td></tr>
+      <tr><td>地址</td><td>河庄街道江东村钱塘小雅综合体</td></tr>
+      <tr><td>系统标签</td><td>目标客户、0-30天新店、智能版、正餐、有KP</td></tr>
+    </table>
+  </div>
+  <div class="highlight">
+    <strong>💡 关键洞察</strong>："尚未开业"+"0-4天新店"说明门店处于<strong>开业筹备期</strong>，此时介入是最佳时机——可在开业前完成系统搭建、菜单录入、会员体系设计，开业即能用。
+  </div>
+</div>
+
+<!-- 品类洞察 -->
+<div class="section">
+  <div class="section-title">西餐/Brunch 赛道洞察</div>
+  <div class="card">
+    <div class="card-title">钱塘小雅商圈特征</div>
+    <p>钱塘小雅综合体位于河庄街道江东村，属于<strong>城乡结合部新兴商业体</strong>。此类商圈特点：</p>
+    <div class="list-item"><div class="list-num">1</div><div><strong>客流结构</strong>：周边居民+周末家庭客群为主，工作日午间白领流量有限</div></div>
+    <div class="list-item"><div class="list-num">2</div><div><strong>消费时段</strong>：Brunch（周末上午-下午）和晚餐（周末）是高峰，工作日相对平淡</div></div>
+    <div class="list-item"><div class="list-num">3</div><div><strong>竞争格局</strong>：综合体内部餐饮业态可能以中式快餐/地方菜为主，西餐/Brunch差异化明显</div></div>
+    <div class="list-item"><div class="list-num">4</div><div><strong>客单价预期</strong>：基于"日均流水1千以下"标签，预期客单约60-80元，日接待15-20桌</div></div>
+  </div>
+  <div class="highlight">
+    <strong>💡 品类机会</strong>：Brunch在城乡结合部是<strong>稀缺品类</strong>，但需解决"工作日谁来吃"的问题。建议工作日推出<strong>简餐/商务套餐</strong>，周末主打Brunch体验，平衡客流。
+  </div>
+</div>
+
+<!-- 开业建议 -->
+<div class="section">
+  <div class="section-title">开业前必做清单</div>
+  <div class="card">
+    <div class="card-title">系统层面（签约美团SaaS）</div>
+    <div class="list-item"><div class="list-num">1</div><div><strong>扫码点餐</strong>：开业前完成菜单录入、桌台绑定，开业即可用</div></div>
+    <div class="list-item"><div class="list-num">2</div><div><strong>会员系统</strong>：提前设计会员等级+储值方案，开业同步上线</div></div>
+    <div class="list-item"><div class="list-num">3</div><div><strong>外卖中心</strong>：若计划上外卖，开业前完成门店资质+菜单同步</div></div>
+    <div class="list-item"><div class="list-num">4</div><div><strong>收银对账</strong>：确保开业首日数据完整，便于后续经营分析</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title">运营层面</div>
+    <div class="list-item"><div class="list-num">1</div><div><strong>开业活动</strong>：前3天全场8折/满100减20，聚人气</div></div>
+    <div class="list-item"><div class="list-num">2</div><div><strong>大众点评</strong>：开业即申请入驻，鼓励首访顾客写评价，快速积累口碑</div></div>
+    <div class="list-item"><div class="list-num">3</div><div><strong>社群预热</strong>：开业前3天在周边社区/写字楼派发传单+建微信群，开业当天群内通知</div></div>
+    <div class="list-item"><div class="list-num">4</div><div><strong>异业合作</strong>：与综合体其他商户（如影院、健身房）互推优惠券</div></div>
+  </div>
+</div>
+
+<!-- 会员建议 -->
+<div class="section">
+  <div class="section-title">会员体系建议</div>
+  <div class="card">
+    <div class="card-title">简版三级会员（适合新开业）</div>
+    <table>
+      <tr><th>等级</th><th>条件</th><th>权益</th></tr>
+      <tr><td><span class="badge badge-green">普通会员</span></td><td>注册即送</td><td>首单9折、生日赠饮</td></tr>
+      <tr><td><span class="badge badge-blue">银卡会员</span></td><td>累计消费满500元</td><td>全场9折、积分1.2倍、新品尝鲜</td></tr>
+      <tr><td><span class="badge badge-yellow">金卡会员</span></td><td>累计消费满2000元</td><td>全场85折、积分1.5倍、专属座位预留</td></tr>
+    </table>
+  </div>
+  <div class="highlight">
+    <strong>💡 储值建议</strong>：开业期推出"充300送50、充500送120"，快速回笼资金。Brunch场景适合<strong>家庭储值</strong>——周末带孩子来吃，储值划算。
+  </div>
+</div>
+
+<!-- 菜单建议 -->
+<div class="section">
+  <div class="section-title">菜单/定价建议</div>
+  <div class="card">
+    <div class="card-title">基于预期客单60-80元的定价策略</div>
+    <div class="list-item"><div class="list-num">1</div><div><strong>Brunch套餐</strong>：58-78元（主菜+饮品+小食），锚定主力价格带</div></div>
+    <div class="list-item"><div class="list-num">2</div><div><strong>工作日午市简餐</strong>：38-48元（意面/沙拉+饮品），解决工作日客流问题</div></div>
+    <div class="list-item"><div class="list-num">3</div><div><strong>招牌窑烤</strong>：88-128元（窑烤披萨/烤肉），拉高客单的同时打造记忆点</div></div>
+    <div class="list-item"><div class="list-num">4</div><div><strong>儿童套餐</strong>：28-38元，周末家庭客群刚需</div></div>
+  </div>
+  <div class="highlight">
+    <strong>💡 命名建议</strong>：店名"谷楼窑烤·Space"有记忆点，菜单可强化<strong>"窑烤"</strong>概念——如"谷楼招牌窑烤披萨""慢火窑烤牛排"，与品类差异化结合。
+  </div>
+</div>
+
+<!-- 营销建议 -->
+<div class="section">
+  <div class="section-title">首月营销节奏</div>
+  <div class="card">
+    <div class="card-title">4周营销日历</div>
+    <table>
+      <tr><th>周次</th><th>主题</th><th>动作</th></tr>
+      <tr><td>第1周</td><td>开业引爆</td><td>全场8折、朋友圈集赞送咖啡、抖音探店</td></tr>
+      <tr><td>第2周</td><td>会员蓄客</td><td>注册送积分、首充翻倍、老客带新奖励</td></tr>
+      <tr><td>第3周</td><td>口碑沉淀</td><td>邀请好评送菜品、大众点评冲星级</td></tr>
+      <tr><td>第4周</td><td>复购激活</td><td>沉睡会员唤醒短信、储值客户专属活动</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- 下一步 -->
+<div class="section">
+  <div class="section-title">下一步行动</div>
+  <div class="warning">
+    <strong>⏰ 今日必做（保护期倒计时）</strong>：
+    <ol style="margin-top:8px; padding-left:20px;">
+      <li>联系KP确认开业时间，了解装修进度和菜单准备情况</li>
+      <li>现场演示扫码点餐+会员系统，确认签约意向</li>
+      <li>若签约，立即走智能版上单，确保系统开业前部署完成</li>
+      <li>添加拜访记录，更新标签状态</li>
+    </ol>
+  </div>
+  <div class="highlight">
+    <strong>💡 签约切入点</strong>："尚未开业"是最大痛点——老板需要开业前就把系统跑通。重点强调"<strong>开业即用、数据齐全</strong>"，避免开业后手忙脚乱。
+  </div>
+</div>
+
+<!-- 页脚 -->
+<div class="footer">
+  <p>谷楼窑烤·Space 运营诊断方案 | 生成时间：2026-08-13</p>
+  <p>BD：陈国庆 | 餐饮SaaS事业部</p>
+</div>
+
+</div>
+</body>
+</html>
