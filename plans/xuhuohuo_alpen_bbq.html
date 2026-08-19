@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>旭火火铝盆烤肉 · 运营提升方案</title>
+<style>
+:root{
+  --bg:#141110; --bg2:#1A1512; --surface:#211A16; --surface2:#28201A;
+  --text:#EFE6DC; --dim:#B3A493; --muted:#7d6f61;
+  --fire:#E8582A; --fire2:#FF7A3D; --amber:#F5A623; --amber-dim:#C98840;
+  --line:rgba(255,255,255,.08); --glow:rgba(232,88,42,.16);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.85;font-size:15px;}
+/* ===== 封面 ===== */
+.hero{position:relative;overflow:hidden;text-align:center;color:#fff;
+  padding:72px 24px 60px;
+  background:radial-gradient(ellipse 90% 70% at 50% 18%, var(--glow), transparent 65%),
+             linear-gradient(180deg, #241812 0%, #1A1310 60%, var(--bg) 100%);}
+.hero .badge{display:inline-flex;align-items:center;gap:8px;padding:5px 16px;border-radius:999px;
+  background:rgba(232,88,42,.14);border:1px solid rgba(232,88,42,.4);color:var(--fire2);
+  font-size:12.5px;letter-spacing:1.5px;margin-bottom:22px;}
+.hero h1{font-size:clamp(28px,7vw,44px);font-weight:800;letter-spacing:2px;line-height:1.25;
+  margin-bottom:14px;
+  background:linear-gradient(135deg,#FFF6EE 10%,var(--amber) 55%,var(--fire2) 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.hero .slogan{font-size:clamp(15px,3.8vw,19px);color:var(--amber-dim);letter-spacing:3px;margin-bottom:8px;}
+.hero .sub{font-size:13px;color:var(--muted);margin-bottom:6px;}
+.hero .addr{font-size:13px;color:var(--dim);margin-bottom:34px;}
+.hero .addr::before{content:"📍";margin-right:5px;}
+.hero .stats{display:flex;flex-wrap:wrap;gap:0;justify-content:center;}
+.hero .st{padding:0 clamp(16px,4vw,40px);text-align:center;}
+.hero .st+.st{border-left:1px solid rgba(255,255,255,.12);}
+.hero .st .v{font-size:clamp(18px,4.5vw,26px);font-weight:800;color:var(--amber);display:block;line-height:1.3;}
+.hero .st .l{font-size:12px;color:var(--muted);margin-top:2px;}
+/* ===== 导航 ===== */
+nav{position:sticky;top:0;z-index:99;background:rgba(20,17,16,.94);
+  border-bottom:1px solid var(--line);backdrop-filter:blur(10px);}
+nav .wrap{display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;
+  max-width:960px;margin:0 auto;}
+nav .wrap::-webkit-scrollbar{display:none;}
+nav a{flex-shrink:0;padding:13px 13px;font-size:13px;color:var(--dim);text-decoration:none;
+  border-bottom:2.5px solid transparent;white-space:nowrap;transition:.2s;}
+nav a.on,nav a:hover{color:var(--fire2);border-bottom-color:var(--fire);font-weight:600;}
+/* ===== 主体 ===== */
+main{max-width:860px;margin:0 auto;padding:28px 16px 60px;}
+section{margin-bottom:36px;scroll-margin-top:56px;}
+.card{background:linear-gradient(160deg,var(--surface),var(--bg2));border:1px solid var(--line);
+  border-radius:14px;padding:26px 22px;box-shadow:0 4px 24px rgba(0,0,0,.25);}
+.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:4px;}
+.sec-num{font-size:12px;font-weight:800;color:var(--fire2);letter-spacing:2px;
+  background:rgba(232,88,42,.13);border:1px solid rgba(232,88,42,.3);
+  padding:2px 10px;border-radius:6px;flex-shrink:0;}
+h2{font-size:clamp(19px,4.4vw,24px);color:var(--text);font-weight:700;}
+.sec-note{font-size:13px;color:var(--muted);margin:2px 0 18px;padding-left:2px;}
+h3{font-size:16px;color:var(--amber);margin:26px 0 10px;font-weight:700;
+  display:flex;align-items:center;gap:8px;}
+h3:first-of-type{margin-top:14px;}
+h3::before{content:"";width:4px;height:15px;background:linear-gradient(180deg,var(--fire2),var(--amber));
+  border-radius:2px;flex-shrink:0;}
+h4{font-size:14.5px;color:var(--fire2);margin:16px 0 8px;font-weight:600;}
+p{margin-bottom:12px;}
+p.ind{text-indent:2em;}
+b,strong{color:#FFD9A8;}
+.tip{font-size:13px;color:var(--dim);background:rgba(245,166,35,.07);
+  border-left:3px solid var(--amber-dim);padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;}
+.point{background:rgba(232,88,42,.08);border:1px solid rgba(232,88,42,.22);
+  border-radius:10px;padding:14px 16px;margin:12px 0;}
+ul.dot{padding-left:2px;list-style:none;margin-bottom:12px;}
+ul.dot li{padding-left:18px;position:relative;margin-bottom:9px;}
+ul.dot li::before{content:"";width:6px;height:6px;border-radius:50%;
+  background:var(--fire2);position:absolute;left:2px;top:11px;box-shadow:0 0 6px var(--fire2);}
+ol.num{padding-left:24px;margin-bottom:12px;}
+ol.num li{margin-bottom:9px;}
+.quote{border-left:3px solid var(--fire);background:rgba(232,88,42,.06);
+  padding:12px 16px;border-radius:0 8px 8px 0;margin:10px 0;font-size:14px;color:var(--dim);}
+/* ===== 表格 ===== */
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:12px 0;border-radius:10px;
+  border:1px solid var(--line);}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:520px;}
+th{background:rgba(232,88,42,.12);color:var(--amber);font-weight:700;text-align:left;
+  padding:10px 12px;border-bottom:2px solid var(--fire);white-space:nowrap;}
+td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--dim);}
+tr:nth-child(even) td{background:rgba(255,255,255,.02);}
+tr:last-child td{border-bottom:none;}
+td.star{white-space:nowrap;color:var(--amber-dim);font-weight:600;}
+/* ===== 阶段卡 ===== */
+.stage{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:14px 0;}
+.stage .s-card{background:rgba(255,255,255,.03);border:1px solid var(--line);
+  border-radius:12px;padding:18px 16px;}
+.stage .s-card .t{font-weight:700;color:var(--fire2);font-size:14.5px;margin-bottom:2px;}
+.stage .s-card .g{font-size:12.5px;color:var(--amber-dim);font-weight:600;margin-bottom:8px;}
+.stage .s-card p{font-size:13px;margin:0;color:var(--dim);}
+/* ===== 解锁区 ===== */
+.lock-card{position:relative;}
+.lock-head{display:flex;align-items:center;gap:10px;margin-bottom:4px;}
+.lock-badge{font-size:12px;font-weight:700;color:#FFB199;background:rgba(232,88,42,.15);
+  border:1px dashed rgba(232,88,42,.5);padding:2px 10px;border-radius:6px;}
+.lock-box{margin-top:16px;background:rgba(245,166,35,.06);border:1px dashed rgba(245,166,35,.35);
+  border-radius:12px;padding:22px 18px;text-align:center;}
+.lock-box h4{margin:0 0 6px;font-size:15.5px;}
+.lock-box p{font-size:13px;color:var(--muted);margin-bottom:16px;}
+.lock-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.lock-input{flex:1;min-width:150px;max-width:220px;padding:10px 16px;background:var(--bg);
+  border:1px solid var(--line);border-radius:8px;color:var(--text);font-size:14px;outline:none;
+  transition:border-color .2s;}
+.lock-input:focus{border-color:var(--fire);}
+.lock-btn{padding:10px 22px;background:linear-gradient(135deg,var(--fire),var(--fire2));
+  border:none;border-radius:8px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;
+  white-space:nowrap;transition:.2s;}
+.lock-btn:hover{opacity:.92;}
+.lock-btn:active{transform:scale(.97);}
+.lock-msg{margin-top:10px;font-size:13px;color:var(--muted);min-height:20px;}
+.lock-msg.ok{color:#6ECF8E;}
+.lock-msg.err{color:#F58A7A;}
+#actionContent{display:none;}
+#actionContent.show{display:block;animation:fadeUp .45s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+/* ===== 徽章 ===== */
+.badges{margin:6px 0 4px;}
+.badge2{display:inline-block;background:rgba(245,166,35,.1);color:var(--amber-dim);
+  border:1px solid rgba(245,166,35,.25);font-size:12px;padding:2px 11px;border-radius:999px;
+  margin:0 6px 6px 0;font-weight:600;}
+/* ===== 页脚 ===== */
+footer{background:#0E0B0A;color:rgba(255,255,255,.55);text-align:center;
+  padding:36px 20px;font-size:13px;line-height:2;border-top:1px solid var(--line);}
+footer b{color:var(--amber-dim);}
+@media (max-width:600px){
+  .card{padding:20px 16px;border-radius:12px;}
+  main{padding:20px 12px 48px;}
+  body{font-size:14.5px;}
+  .hero{padding:56px 18px 48px;}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">烤串烤肉 / 烧烤 · 门店运营提升方案</div>
+  <h1>旭火火铝盆烤肉</h1>
+  <div class="slogan">一盆炭火 · 烤出烟火气</div>
+  <div class="sub">社区烟火气 · 平价铝盆烤肉 · 专属运营方案</div>
+  <div class="addr">萧山区 · 蜀山街道同进韵动城</div>
+  <div class="stats">
+    <div class="st"><span class="v">60-80元</span><div class="l">人均消费</div></div>
+    <div class="st"><span class="v">4.5分</span><div class="l">目标评分</div></div>
+    <div class="st"><span class="v">3000+</span><div class="l">30天目标日均流水</div></div>
+  </div>
+</div>
+
+<nav><div class="wrap">
+  <a href="#s1">品牌定位</a><a href="#s2">新店冷启动</a><a href="#s3">会员与私域</a>
+  <a href="#s4">点评口碑</a><a href="#s5">外卖运营</a><a href="#s6">营销日历</a>
+  <a href="#s7">执行清单</a>
+</div></nav>
+
+<main>
+
+<!-- ============ 一 品牌定位 ============ -->
+<section id="s1"><div class="card">
+  <div class="sec-head"><span class="sec-num">壹</span><h2>品牌定位：铝盆烤肉的差异化打法</h2></div>
+  <div class="sec-note">铝盆本身就是记忆点，围绕它把定位、视觉、场景全部立起来</div>
+
+  <p>旭火火铝盆烤肉，烤串烤肉/烧烤品类，位于蜀山街道同进韵动城，31-60天新店。当前日均流水还在爬坡期，正处在定位定型、习惯养成的黄金窗口。</p>
+
+  <h3>核心定位建议</h3>
+  <div class="point"><b>「社区烟火气 · 平价铝盆烤肉」</b><br>
+  强调铝盆烤肉的仪式感（铝盆+炭火+现拌肉），避开商场高端烤肉竞争，主打社区聚餐场景。不跟高端店拼装修，跟社区店拼记忆点和性价比。</div>
+
+  <h3>三个差异化标签</h3>
+  <ul class="dot">
+    <li><b>器皿差异化：</b>铝盆本身就是记忆点。门店装修、外卖包装、抖音拍摄全部以铝盆为视觉符号，让客人看到铝盆就想到旭火火。</li>
+    <li><b>价格带差异化：</b>当前客单价偏低，主推60-80元套餐，做「社区性价比之王」，两口子随便吃顿烤肉不心疼。</li>
+    <li><b>场景差异化：</b>社区店加铝盆，天然适合2-4人小聚、家庭聚餐、夜宵场景，主打「下班就能来的那家烤肉店」。</li>
+  </ul>
+
+  <h3>Slogan 建议</h3>
+  <div class="quote">「一盆炭火 · 烤出烟火气」　或　「铝盆一上 · 肉香满堂」</div>
+  <p>两句话都把铝盆放在最前面——器皿是这家店最便宜也最有效的广告位。</p>
+</div></section>
+
+<!-- ============ 二 新店冷启动 ============ -->
+<section id="s2"><div class="card">
+  <div class="sec-head"><span class="sec-num">贰</span><h2>新店冷启动：30天从0到日均3000+</h2></div>
+  <div class="sec-note">破零、裂变、稳流量三步走，每一周都有明确的仗要打</div>
+
+  <div class="stage">
+    <div class="s-card"><div class="t">第一周 · 破零</div><div class="g">Day 1-7</div>
+      <p>私域种子用户：开业前3天，老板加员工朋友圈预热，建「旭火火福利群」目标100人，进群送「铝盆拌肉半价券」。抖音同城：拍「铝盆烤肉开箱」短视频（铝盆端上桌、炭火点燃、肉滋滋响），带#杭州烧烤 #萧山美食 #铝盆烤肉 标签。美团开业活动：新客立减20元、收藏送凉菜、5折套餐限量50份。</p></div>
+    <div class="s-card"><div class="t">第二周 · 口碑裂变</div><div class="g">Day 8-14</div>
+      <p>打卡返现：发抖音/小红书打卡返现10元或送一份招牌拌肉。老带新：老客带新客各送「铝盆拌肉1份」，成本约15元，获客成本极低。企业团餐：周边写字楼/工厂递传单，推「铝盆烤肉工作餐」3-4人套餐168元。</p></div>
+    <div class="s-card"><div class="t">第三四周 · 稳流量</div><div class="g">Day 15-30</div>
+      <p>会员锁客：充300送50、充500送120、生日免单1份招牌菜。固定福利日：每周二「铝盆拌肉日」买一送一，培养顾客习惯。复购追踪：扫码点餐记录消费频次，7天未消费自动发「想念你的铝盆」优惠券。</p></div>
+  </div>
+
+  <div class="tip">冷启动的核心不是把活动做满，而是让每一周的客人都有理由再回来一次。破零靠让利，裂变靠老客，稳流量靠习惯——四周之后，日均3000的盘子就端住了。</div>
+</div></section>
+
+<!-- ============ 三 会员与私域 ============ -->
+<section id="s3"><div class="card">
+  <div class="sec-head"><span class="sec-num">叁</span><h2>会员与私域：把过客变成常客</h2></div>
+  <div class="sec-note">三级会员锁身份，社群朋友圈锁关系，储值锁钱包</div>
+
+  <h3>会员体系设计</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th>等级</th><th>条件</th><th>权益</th></tr>
+    <tr><td><b>炭火粉</b></td><td>注册即得</td><td>新客立减10元 + 生日5折</td></tr>
+    <tr><td><b>铝盆粉</b></td><td>累计消费满500元</td><td>全场9.5折 + 每月1份免费凉菜</td></tr>
+    <tr><td><b>烤肉王</b></td><td>累计消费满2000元</td><td>全场9折 + 每月1份招牌拌肉 + 新品优先尝</td></tr>
+  </table></div>
+  <p>等级名称全部围绕烤肉场景起名，客人念出来就有画面感。注册门槛为零，先把人捞进系统，再靠权益往上引。</p>
+
+  <h3>私域运营 SOP</h3>
+  <ul class="dot">
+    <li><b>加微话术：</b>「扫码加群，每周二铝盆拌肉买一送一，群里先通知！」——一句话同时给出加群理由和记忆点。</li>
+    <li><b>社群内容：</b>每天1条（菜品图/顾客好评/限时福利），每周1次「群内秒杀」，限量5份半价套餐，手慢无的紧迫感比天天发券有效。</li>
+    <li><b>朋友圈剧本：</b>早10点发备菜视频（新鲜肉拌料）→ 晚5点发高峰期排队 → 晚9点发顾客干杯图。一天三幕，全是烟火气。</li>
+  </ul>
+
+  <h3>储值活动</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th>档位</th><th>实得</th><th>赠送比例</th></tr>
+    <tr><td>充300</td><td>350元</td><td class="star">送50（约8.3折）</td></tr>
+    <tr><td>充500</td><td>620元</td><td class="star">送120（约8.1折）</td></tr>
+    <tr><td>充1000</td><td>1300元</td><td class="star">送300（约7.7折）</td></tr>
+  </table></div>
+  <p>储值用户消费频次比普通用户高3倍，开业第一个月是储值黄金期，务必主推。收银台立海报，服务员结账时顺口提一句。</p>
+</div></section>
+
+<!-- ============ 四 点评口碑 ============ -->
+<section id="s4"><div class="card">
+  <div class="sec-head"><span class="sec-num">肆</span><h2>点评口碑：星级就是流量</h2></div>
+  <div class="sec-note">新店出星窗口期只有头三个月，评价量和评分直接决定自然流量</div>
+
+  <h3>出星策略</h3>
+  <ul class="dot">
+    <li><b>目标：</b>30天内做到4.0分以上，3个月冲4.5分。</li>
+    <li><b>评价量：</b>开业首月至少30条真实评价（日均1条），前10条非常关键——星级初始权重最大。</li>
+    <li><b>邀评时机：</b>顾客吃完离店时，服务员口述「帮我们写个评价，送您一瓶饮料」，酒足饭饱的瞬间是邀评成功率最高的时刻。</li>
+  </ul>
+
+  <h3>好评引导话术</h3>
+  <div class="quote">「铝盆拌肉」是必拍菜，服务员主动提示：「这盆是我们的招牌，拍个照发朋友圈很多人问在哪。」——让客人自己发现传播点，比硬要好评自然十倍。</div>
+  <p>评价关键词引导：肉质新鲜、铝盆有特色、性价比高、服务热情、上菜快。这些词既是大搜排序权重词，也是下一位客人决策的依据。</p>
+
+  <h3>差评防御</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th>常见差评</th><th>预防动作</th></tr>
+    <tr><td>上菜慢</td><td>高峰期提前备半成品，承诺20分钟内上齐</td></tr>
+    <tr><td>油烟大</td><td>检查排烟系统，加装空气净化器</td></tr>
+    <tr><td>等位久</td><td>设等位区+免费瓜子茶水，等位超30分钟送凉菜</td></tr>
+  </table></div>
+  <p>差评防御的本质不是公关，是提前把差评的源头修掉。新店期一条差评要十条好评才补得回来。</p>
+</div></section>
+
+<!-- ============ 五 外卖运营 ============ -->
+<section id="s5"><div class="card">
+  <div class="sec-head"><span class="sec-num">伍</span><h2>外卖运营：铝盆烤肉的外卖逻辑</h2></div>
+  <div class="sec-note">把堂食的仪式感搬到家里，把铝盆变成流动广告位</div>
+
+  <h3>产品策略</h3>
+  <ul class="dot">
+    <li><b>主推「铝盆拌肉套餐」：</b>生肉+铝盆（可重复使用）+炭火包，顾客在家也能体验仪式感——别人家外卖送盒子，你家外卖送体验。</li>
+    <li><b>副推「烤肉便当」：</b>已烤好的肉+米饭+小菜，适合单人工作餐，客单价25-35元，走量撑单量。</li>
+    <li><b>引流品：</b>烤肠/烤翅/冷面，9.9元引流，带动整单。</li>
+  </ul>
+
+  <h3>外卖活动</h3>
+  <ul class="dot">
+    <li>新客立减15元 + 满50减8 + 收藏送烤肠。</li>
+    <li><b>「铝盆押金」模式：</b>首次买铝盆套餐收20元押金，下次点单退盆返20元券——一个铝盆押金，锁一次复购，还锁一次门店回访。</li>
+  </ul>
+
+  <h3>外卖包装</h3>
+  <p>铝盆用锡纸包裹保温，外包装印大logo+「一盆炭火·烤出烟火气」。开箱仪式感要强——外卖的开箱瞬间就是这条街的抖音素材位。</p>
+</div></section>
+
+<!-- ============ 六 营销日历 ============ -->
+<section id="s6"><div class="card">
+  <div class="sec-head"><span class="sec-num">陆</span><h2>营销日历：8-9月关键节点</h2></div>
+  <div class="sec-note">节点活动提前两周备物料，当天只管执行</div>
+
+  <div class="tbl-wrap"><table>
+    <tr><th>时间</th><th>节点</th><th>活动</th></tr>
+    <tr><td>8月下旬</td><td>开学季</td><td>「开学第一烤」学生凭学生证享8折</td></tr>
+    <tr><td>8月22日</td><td>七夕</td><td>「铝盆双人餐」77元限量（原价128元）</td></tr>
+    <tr><td>9月上旬</td><td>中秋预热</td><td>「团圆铝盆宴」4-6人套餐268元</td></tr>
+    <tr><td>9月17日</td><td>中秋节</td><td>到店送月饼 / 储值双倍送</td></tr>
+    <tr><td>每周二</td><td>会员日</td><td>铝盆拌肉买一送一</td></tr>
+    <tr><td>每日</td><td>夜宵档</td><td>晚9点后啤酒买一送一</td></tr>
+  </table></div>
+  <p>节点大促负责拉新造势，周二会员日和夜宵档负责日常习惯养成。大活动一年几次，小习惯天天发生——烤肉店的生命线在后者。</p>
+</div></section>
+
+<!-- ============ 七 执行清单（签约解锁） ============ -->
+<section id="s7"><div class="card lock-card">
+  <div class="lock-head">
+    <span class="sec-num">柒</span>
+    <h2>执行清单：本周就做的事</h2>
+    <span class="lock-badge" id="lockState">🔒 签约解锁</span>
+  </div>
+  <div class="sec-note">按优先级排序的落地动作清单，开通系统即可执行</div>
+
+  <div class="lock-box" id="lockBox">
+    <h4>🔓 签约解锁完整执行清单</h4>
+    <p>前6章方案免费开放 · 执行清单与跟进节奏签约后解锁<br>解锁码请联系您的专属顾问 陈国庆</p>
+    <div class="lock-row">
+      <input type="password" class="lock-input" id="lockInput" placeholder="请输入解锁码" maxlength="12">
+      <button class="lock-btn" onclick="tryUnlock()">解锁查看</button>
+    </div>
+    <div class="lock-msg" id="lockMsg"></div>
+  </div>
+
+  <div id="actionContent">
+    <h3>本周必做（优先级排序）</h3>
+    <ol class="num">
+      <li><b>开通扫码点餐+会员系统</b> → 美团SaaS旗舰版会员模块，一键上线。没有系统，后面的复购追踪、储值、群发优惠券全都做不了。</li>
+      <li><b>建群拉人</b> → 目标本周内拉满100人，送「铝盆拌肉半价券」。种子用户越多，后面每周二会员日的爆发力越强。</li>
+      <li><b>拍3条抖音</b> → 铝盆开箱/拌肉过程/顾客反应，带同城标签。素材拍一次，抖音小红书两边发。</li>
+      <li><b>设置美团活动</b> → 新客立减20 + 5折套餐限量 + 收藏送凉菜，开业流量全靠这三件套接住。</li>
+      <li><b>培训服务员邀评话术</b> → 「帮我们写个评价，送您一瓶饮料」，每天执行，月底30条评价目标靠日常动作攒出来。</li>
+    </ol>
+
+    <h3>第2-4周跟进</h3>
+    <ul class="dot">
+      <li>会员储值活动上线（充300送50起步档先跑）</li>
+      <li>点评评价量达30条（目标4.0+分）</li>
+      <li>外卖套餐上线（铝盆套餐+烤肉便当双线）</li>
+      <li>每周二会员日固定执行，雷打不动</li>
+    </ul>
+
+    <h3>联系BD</h3>
+    <p>本方案由美团餐饮SaaS <b>陈国庆</b> 定制。会员系统、扫码点餐、外卖中心等功能开通与配置，随时联系。</p>
+  </div>
+</div></section>
+
+</main>
+
+<footer>
+  <b>旭火火铝盆烤肉 · 门店运营提升方案</b><br>
+  品牌定位 · 冷启动 · 会员私域 · 点评口碑 · 外卖 · 营销日历 · 执行清单<br>
+  方案出品：美团餐饮SaaS · 专属顾问 陈国庆　2026年8月<br>
+  一盆炭火，烤出烟火气。
+</footer>
+
+<script>
+// 解锁机制
+function tryUnlock(){
+  var val = document.getElementById('lockInput').value.trim();
+  var msg = document.getElementById('lockMsg');
+  if(val === '123456'){
+    document.getElementById('actionContent').classList.add('show');
+    document.getElementById('lockBox').style.display = 'none';
+    var st = document.getElementById('lockState');
+    st.textContent = '✓ 已解锁';
+    st.style.background = 'rgba(110,207,142,.15)';
+    st.style.borderColor = 'rgba(110,207,142,.5)';
+    st.style.color = '#6ECF8E';
+  } else {
+    msg.className = 'lock-msg err';
+    msg.textContent = '解锁码不正确，请联系顾问陈国庆获取';
+    document.getElementById('lockInput').style.borderColor = '#F58A7A';
+    setTimeout(function(){ document.getElementById('lockInput').style.borderColor = ''; }, 2000);
+  }
+}
+document.getElementById('lockInput').addEventListener('keydown', function(e){
+  if(e.key === 'Enter') tryUnlock();
+});
+
+// 导航高亮
+var links = document.querySelectorAll('nav a');
+var secs = Array.prototype.slice.call(document.querySelectorAll('section'));
+function onScroll(){
+  var cur = 0;
+  secs.forEach(function(s, i){ if(s.getBoundingClientRect().top < 120) cur = i; });
+  links.forEach(function(a, i){ a.classList.toggle('on', i === cur); });
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+</script>
+</body>
+</html>

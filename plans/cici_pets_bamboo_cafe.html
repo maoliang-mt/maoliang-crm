@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Cici pets竹林宠咖 · 全案运营方案</title>
+<style>
+:root{
+  --green:#5B8C5A; --green-deep:#3F6B3E; --green-light:#EDF4EC;
+  --wood:#8B5A3C; --wood-light:#FAF7F2; --cream:#E8B04B;
+  --dark:#2E2620; --gray:#7A736B; --line:#E3DCD2; --white:#fff;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:var(--wood-light);color:var(--dark);line-height:1.85;font-size:15px;}
+/* ===== 封面 ===== */
+.hero{background:linear-gradient(135deg,#3F6B3E 0%,#5B8C5A 55%,#7FA86F 100%);
+  color:#fff;padding:64px 24px 56px;text-align:center;}
+.hero .en{font-size:13px;letter-spacing:4px;opacity:.75;margin-bottom:14px;}
+.hero h1{font-size:clamp(26px,6vw,40px);font-weight:700;letter-spacing:1px;margin-bottom:16px;}
+.hero .sub{font-size:clamp(15px,3.6vw,19px);opacity:.95;margin-bottom:10px;}
+.hero .sub2{font-size:13px;opacity:.7;}
+.hero .tags{margin-top:24px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
+.hero .tag{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);
+  padding:4px 14px;border-radius:999px;font-size:12.5px;backdrop-filter:blur(4px);}
+/* ===== 导航 ===== */
+nav{position:sticky;top:0;z-index:99;background:rgba(255,255,255,.96);
+  border-bottom:1px solid var(--line);backdrop-filter:blur(8px);}
+nav .wrap{display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+nav .wrap::-webkit-scrollbar{display:none;}
+nav a{flex-shrink:0;padding:13px 14px;font-size:13px;color:var(--gray);text-decoration:none;
+  border-bottom:2.5px solid transparent;white-space:nowrap;transition:.2s;}
+nav a.on,nav a:hover{color:var(--green-deep);border-bottom-color:var(--green);font-weight:600;}
+/* ===== 主体 ===== */
+main{max-width:860px;margin:0 auto;padding:28px 16px 60px;}
+section{margin-bottom:36px;}
+.card{background:var(--white);border-radius:14px;padding:26px 22px;box-shadow:0 2px 12px rgba(46,38,32,.06);}
+.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:6px;}
+.sec-num{font-size:13px;font-weight:700;color:var(--green);letter-spacing:2px;
+  background:var(--green-light);padding:2px 10px;border-radius:6px;flex-shrink:0;}
+h2{font-size:clamp(19px,4.4vw,24px);color:var(--dark);font-weight:700;}
+.sec-note{font-size:13px;color:var(--gray);margin:2px 0 18px;padding-left:2px;}
+h3{font-size:16.5px;color:var(--green-deep);margin:26px 0 10px;font-weight:700;
+  display:flex;align-items:center;gap:8px;}
+h3::before{content:"";width:4px;height:16px;background:var(--green);border-radius:2px;flex-shrink:0;}
+h4{font-size:15px;color:var(--wood);margin:18px 0 8px;font-weight:600;}
+p{margin-bottom:12px;}
+p.ind{text-indent:2em;}
+.tip{font-size:13px;color:var(--gray);background:var(--wood-light);
+  padding:10px 14px;border-radius:8px;margin:10px 0;}
+.point{background:var(--green-light);border-radius:10px;padding:14px 16px;margin:12px 0;}
+.point b{color:var(--green-deep);}
+.quote{border-left:3px solid var(--cream);background:var(--wood-light);
+  padding:12px 16px;border-radius:0 8px 8px 0;margin:10px 0;font-size:14px;color:#5c5347;}
+ul.dot{padding-left:2px;list-style:none;margin-bottom:12px;}
+ul.dot li{padding-left:18px;position:relative;margin-bottom:8px;}
+ul.dot li::before{content:"";width:6px;height:6px;border-radius:50%;
+  background:var(--green);position:absolute;left:2px;top:11px;}
+/* ===== 表格 ===== */
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:12px 0;border-radius:10px;
+  border:1px solid var(--line);}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:560px;}
+th{background:var(--green-light);color:var(--green-deep);font-weight:700;text-align:left;
+  padding:10px 12px;border-bottom:2px solid var(--green);white-space:nowrap;}
+td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:#443c34;}
+tr:nth-child(even) td{background:#FBF9F5;}
+tr:last-child td{border-bottom:none;}
+td.star{white-space:nowrap;color:var(--wood);font-weight:600;}
+/* ===== 徽章胶囊 ===== */
+.badge{display:inline-block;background:var(--green-light);color:var(--green-deep);
+  font-size:12px;padding:2px 10px;border-radius:999px;margin:0 6px 6px 0;font-weight:600;}
+.badge.wood{background:#F5EAE2;color:var(--wood);}
+.badge.cream{background:#FBF1DC;color:#9A7418;}
+/* ===== 阶段卡 ===== */
+.stage{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:14px 0;}
+.stage .s-card{background:var(--wood-light);border-radius:12px;padding:18px 16px;}
+.stage .s-card .t{font-weight:700;color:var(--green-deep);font-size:14.5px;margin-bottom:4px;}
+.stage .s-card .g{font-size:12.5px;color:var(--wood);font-weight:600;margin-bottom:8px;}
+.stage .s-card p{font-size:13px;margin:0;color:#5c5347;}
+/* ===== 档案卡示例 ===== */
+.dogs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:14px 0;}
+.dog{background:linear-gradient(160deg,#FDFBF7,#F3EDDF);border:1px solid #EAE2D0;
+  border-radius:12px;padding:16px 14px;text-align:center;}
+.dog .name{font-weight:700;color:var(--wood);font-size:15px;margin-bottom:4px;}
+.dog .desc{font-size:12.5px;color:#6b6157;line-height:1.7;}
+/* ===== 页脚 ===== */
+footer{background:var(--dark);color:rgba(255,255,255,.75);text-align:center;
+  padding:36px 20px;font-size:13px;line-height:2;}
+footer b{color:#fff;}
+@media (max-width:600px){
+  .card{padding:20px 16px;border-radius:12px;}
+  main{padding:20px 12px 48px;}
+  body{font-size:14.5px;}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="en">CICI PETS BAMBOO PET CAFE</div>
+  <h1>Cici pets 竹林宠咖</h1>
+  <div class="sub">抖音 × 小红书 × 会员私域 全案运营方案</div>
+  <div class="sub2">个人IP与门店号双轨 · 一人拍剪可执行 · 主理人独立运营版</div>
+  <div class="tags">
+    <span class="tag">杭州·萧山·宁围</span><span class="tag">仅接待中小型犬</span>
+    <span class="tag">试营业期</span><span class="tag">出品：陈国庆 · 美团餐饮SaaS</span>
+  </div>
+</div>
+
+<nav><div class="wrap">
+  <a href="#s1">门店盘点</a><a href="#s2">账号定位</a><a href="#s3">选题总库</a>
+  <a href="#s4">排期执行</a><a href="#s5">爆款增长</a><a href="#s6">账号装修</a>
+  <a href="#s7">会员体系</a><a href="#s8">营销活动</a><a href="#s9">私域运营</a>
+  <a href="#s10">落地节奏</a><a href="#s11">30天排期</a>
+</div></nav>
+
+<main>
+
+<!-- ============ 一 ============ -->
+<section id="s1"><div class="card">
+  <div class="sec-head"><span class="sec-num">壹</span><h2>门店盘点与机会判断</h2></div>
+  <div class="sec-note">这家店手里有什么牌，以及为什么现在是做内容立会员的最好时机</div>
+
+  <p>先说结论：这家店做内容的天赋，比大多数餐饮店和宠物店都要好。原因在四张牌。</p>
+
+  <div class="point"><b>第一张牌，只接待中小型犬的定位。</b><br>
+  这不是服务缩水，而是精准筛选——愿意专程带小狗来的主人，本身就是最有消费力和分享欲的客群。放在内容上，这个定位自带话题：为什么不让大狗进，是歧视还是专业，评论区自己会吵起来，吵起来就有流量。</div>
+
+  <div class="point"><b>第二张牌，主理人本人。</b><br>
+  02年出生，高颜值，摩羯座，愿意出镜。真人出镜的真实创业者，和请演员拍的广告，观众一眼能分辨。年龄与身份的反差（这么年轻就开店）加上颜值与事业心的反差（漂亮但不靠脸吃饭），是小红书最容易起号的组合。</div>
+
+  <div class="point"><b>第三张牌，业态本身的场景丰富度。</b><br>
+  洗护是引流业务，社交空间才是壁垒。狗狗交朋友、主人喝咖啡、沙龙和派对，每一个场景都是内容。只拍洗狗的宠物店账号注定平庸，这家店能拍的东西比同行多一倍。</div>
+
+  <div class="point"><b>第四张牌，试营业这个时间点。</b><br>
+  试营业不是等待期，是真实感最强的内容窗口。现在的踩坑、手忙脚乱、第一批客人的感动，等正式开业后花钱都补拍不回来。把试营业过程做成连续剧，正式开业那天就是大结局，自带一波陪伴感流量。</div>
+
+  <h3>生意结构：三个钱袋</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th>业务</th><th>频次</th><th>角色</th><th>运营目标</th></tr>
+    <tr><td>洗护</td><td>每月一到两次</td><td>现金流与到店理由</td><td>次卡锁客，提高到店频次</td></tr>
+    <tr><td>咖啡饮品</td><td>每次到店顺带</td><td>停留场景制造器</td><td>提升客单，会员免费杯引流</td></tr>
+    <tr><td>派对沙龙</td><td>每月一到两次</td><td>溢价与差异化</td><td>门票制，老带新主战场</td></tr>
+  </table></div>
+  <p>洗护负责让客人每月必须来，咖啡负责让客人来了愿意待，活动负责让客人待得开心还愿意带朋友。会员体系要做的，就是把这条链条锁死——<b>次卡锁洗护，积分锁频次，社群锁关系，活动锁情感。</b></p>
+  <p>一个必须现在就开始做的动作：给每只到店的狗建档案。狗名、品种、生日、性格标签、洗护周期、主人联系方式。这份档案是后面所有会员运营、生日营销、到期提醒、私域触达的地基，越早积累越值钱。</p>
+</div></section>
+
+<!-- ============ 二 ============ -->
+<section id="s2"><div class="card">
+  <div class="sec-head"><span class="sec-num">贰</span><h2>账号定位与双平台分工</h2></div>
+  <div class="sec-note">个人IP与门店号各自承担什么角色，人设如何落地</div>
+
+  <h3>平台分工</h3>
+  <p>小红书负责个人IP起量（高颜值主理人加生活方式加创业记录，是小红书的天然爆款配方），抖音负责门店号本地传播（本地流量池大，洗护对比和萌宠视频容易破圈）。两个号互相导流：个人号讲理念和故事，门店号展示体验和细节，最终都导向到店。</p>
+
+  <h3>个人IP号：竹妹Cici（小红书主阵地，抖音同步分发）</h3>
+  <p>人设关键词：02年、摩羯座、开宠物店的美女老板娘、事业脑但爱狗如命。人设分三层去立：</p>
+  <ul class="dot">
+    <li><b>表层，让人三秒记住她：</b>02年高颜值老板娘，开的店只接待小狗。</li>
+    <li><b>中层，让人愿意关注：</b>摩羯座细节控，狗狗档案用Excel管理，对洗护专业度有洁癖。</li>
+    <li><b>深层，让人长期追随：</b>00后女生真实创业，好的坏的都摊开讲，陪你从试营业一路走到做大。</li>
+  </ul>
+  <p>三层依次递进，前两层靠形象和细节，第三层靠持续的日记式更新。</p>
+
+  <h3>门店号：Cici pets竹林宠咖（抖音主阵地，小红书同步分发）</h3>
+  <p>账号气质不是冷冰冰的商家号，而是这家店的日常频道。常客狗是节目常驻嘉宾，每只狗都有名字、外号和故事线。统一口号一句话：<b>狗狗交朋友，主人喝咖啡。</b>评论区、简介、活动物料全部用这一句。</p>
+
+  <h3>核心创意资产：狗狗群像（Cici pets艺人图鉴）</h3>
+  <p>这是整个内容体系里最值钱的设计。把常客狗做成签约艺人：每只狗立人设、起外号、建档案。</p>
+  <div class="dogs">
+    <div class="dog"><div class="name">吨吨 · 柴犬</div><div class="desc">宁围第一怂柴。进门先躲桌底，洗完澡最嚣张。</div></div>
+    <div class="dog"><div class="name">煤球 · 泰迪</div><div class="desc">店长候选。每天来得比员工早，蹲门口迎接所有客人。</div></div>
+    <div class="dog"><div class="name">拿铁 · 柯基</div><div class="desc">社交悍匪。见狗就躺平求贴贴。</div></div>
+  </div>
+  <p>为什么群像比单只萌宠值钱：单条萌宠视频只能吸赞，观众笑完就走；群像有世界观，观众会追这群狗后来怎么样了，像追综艺一样等更新。每周更新本周社牛榜与社恐榜，狗主人会盯着自家狗有没有上榜，主人的转发就是二次传播。</p>
+</div></section>
+
+<!-- ============ 三 ============ -->
+<section id="s3"><div class="card">
+  <div class="sec-head"><span class="sec-num">叁</span><h2>选题总库：六大分类</h2></div>
+  <div class="sec-note">六十余个选题按拍摄方法归类，难度由拍法决定，一人拍剪友好</div>
+
+  <p>选题按拍摄方法归类，因为一个人拍剪时，难度本质由拍法决定。全库六十余个选题分成六类，难度从低到高。星级越多成片越费劲：<b>一星随手做，两星可控成本，三星冲爆款限量做。</b>一星内容应当占总产量的一半以上，这是可持续的前提。</p>
+
+  <h3>第一类 · 随手实拍（一星 · 拍摄零门槛 · 剪辑约十分钟）</h3>
+  <p class="tip">手机拿起就拍，剪辑等于拼片段、加字幕、套热门音乐。日更主力，素材来自日常积累。</p>
+  <div class="tbl-wrap"><table>
+    <tr><th>选题</th><th>做法</th><th>主发</th></tr>
+    <tr><td>洗护变形记，脏狗进门、帅狗出门</td><td>前后各拍十秒对比</td><td>抖音</td></tr>
+    <tr><td>狗狗社交名场面，示好被无视、贴贴、抢玩具</td><td>店内抓拍，解说字幕后期加</td><td>抖音</td></tr>
+    <tr><td>咖啡出品与狗狗同框日常</td><td>固定机位拍出品过程</td><td>两平台</td></tr>
+    <tr><td>今日店长，狗狗戴工牌巡店</td><td>三十秒素材加人设字幕卡</td><td>抖音</td></tr>
+    <tr><td>店门口迎接客人的瞬间</td><td>门口固定机位</td><td>抖音</td></tr>
+  </table></div>
+
+  <h3>第二类 · 图文笔记（一星 · 不拍视频 · 拍照加排版）</h3>
+  <p class="tip">小红书专属形态，零剪辑。比视频轻松十倍，图文在小红书同样能爆。太累没空剪的那天，用图文顶上，不断更就有底气。</p>
+  <div class="tbl-wrap"><table>
+    <tr><th>选题</th><th>做法</th><th>主发</th></tr>
+    <tr><td>狗狗图鉴档案，外号、性格、社交风格、好朋友是谁</td><td>一组照片加文字卡</td><td>小红书</td></tr>
+    <tr><td>宁围遛狗地图</td><td>地图标注加实拍图，工具型内容涨粉</td><td>小红书</td></tr>
+    <tr><td>摩羯座老板娘的Excel，狗狗档案表、活动排期</td><td>截图加说明文字</td><td>小红书</td></tr>
+    <tr><td>00后真实账本，月流水与成本复盘</td><td>数据图表加文字，争议大但信任双赢，选择性做</td><td>小红书</td></tr>
+    <tr><td>装修筹备回顾，开店时间线</td><td>翻旧照片整理成图文</td><td>小红书</td></tr>
+  </table></div>
+
+  <h3>第三类 · 真人口播（二星 · 固定机位 · 一遍遍说到过）</h3>
+  <p class="tip">三脚架架好坐着讲，剪辑只是掐头去尾加大字幕。核心成本是敢说加说顺，建议每周集中一晚批量拍四条，一周口播全部齐活。</p>
+  <div class="tbl-wrap"><table>
+    <tr><th>选题</th><th>做法</th><th>主发</th></tr>
+    <tr><td>开店日记口播，今天接待了几只狗，最离谱的是哪件事</td><td>坐在店里对着镜头讲</td><td>两平台</td></tr>
+    <tr><td>我开宠物店，但不劝你办卡（立场宣言）</td><td>口播加字幕重点，打行业信任痛点</td><td>两平台</td></tr>
+    <tr><td>宠物店不会告诉你的三件事（反向揭秘）</td><td>口播加三条字幕卡</td><td>两平台</td></tr>
+    <tr><td>为什么我的店不接待大狗（定位解释）</td><td>口播，评论区自己会吵</td><td>小红书</td></tr>
+    <tr><td>小型犬洗护误区科普</td><td>口播中间插洗护画面</td><td>两平台</td></tr>
+    <tr><td>回应质疑，大狗主人来骂我了，我这样回</td><td>口播，把质疑做成内容</td><td>两平台</td></tr>
+  </table></div>
+
+  <h3>第四类 · Vlog流水账（二星 · 白天攒素材 · 晚上快剪）</h3>
+  <p class="tip">不需要运镜。白天开店顺手拍碎片，每段十到二十秒，晚上套模板快剪。</p>
+  <div class="tbl-wrap"><table>
+    <tr><th>选题</th><th>做法</th><th>主发</th></tr>
+    <tr><td>开店的一天，开门、洗护、客人、打烊</td><td>碎片素材加时间字幕</td><td>两平台</td></tr>
+    <tr><td>宠物派对筹备全记录</td><td>筹备期碎片积累</td><td>两平台</td></tr>
+    <tr><td>我妈以为我开的店对比实际开的店</td><td>对比剪辑，旧素材复用</td><td>抖音</td></tr>
+    <tr><td>宠物友好特调研发日记</td><td>过程实拍加试喝反应</td><td>小红书</td></tr>
+  </table></div>
+
+  <h3>第五类 · 轻创意（三星 · 每周最多一到两条 · 宁缺毋滥）</h3>
+  <p class="tip">有脚本、配音或简单包装的涨粉爆款候选。刻意控制产量，这是每两周甚至每月一条的大菜。</p>
+  <div class="tbl-wrap"><table>
+    <tr><th>选题</th><th>做法</th><th>主发</th></tr>
+    <tr><td>动物世界解说，纪录片式配音讲狗狗社交</td><td>抓拍素材加后期配音，反差幽默</td><td>抖音</td></tr>
+    <tr><td>狗狗相亲角，配对成功后续报道</td><td>组织环节加字幕包装</td><td>抖音</td></tr>
+    <tr><td>拉花复刻当周顶流狗</td><td>拍制作加狗主人反应，被复刻的狗主会疯传</td><td>小红书</td></tr>
+    <tr><td>内向狗狗社交改造营，社恐狗进步实录</td><td>长期跟拍固定狗，按集更新，治愈系</td><td>两平台</td></tr>
+    <tr><td>狗狗MBTI测试</td><td>图文加视频两吃</td><td>小红书</td></tr>
+  </table></div>
+
+  <h3>第六类 · 活动与节点（三星 · 按月一次 · 办活动等于免费产内容）</h3>
+  <p class="tip">活动办了素材自然有，剪辑只是收尾。</p>
+  <div class="tbl-wrap"><table>
+    <tr><th>选题</th><th>做法</th><th>主发</th></tr>
+    <tr><td>宠物派对预告与高燃混剪复盘</td><td>现场多角度随手拍，事后混剪</td><td>抖音</td></tr>
+    <tr><td>万圣节狗狗变装派对（十月）</td><td>提前通知客人变装，现场素材爆量</td><td>两平台</td></tr>
+    <tr><td>圣诞狗狗交换礼物</td><td>同上</td><td>两平台</td></tr>
+    <tr><td>摩羯月店庆（十二月底至一月，主理人生日月）</td><td>星座梗与店庆活动绑定</td><td>两平台</td></tr>
+    <tr><td>正式开业大事件，试营业一百天收官</td><td>全程记录加开业直播</td><td>两平台</td></tr>
+    <tr><td>本地宠物博主探店</td><td>别人拍，只需接待，借外部流量</td><td>两平台</td></tr>
+  </table></div>
+</div></section>
+
+<!-- ============ 四 ============ -->
+<section id="s4"><div class="card">
+  <div class="sec-head"><span class="sec-num">肆</span><h2>内容排期与执行方法</h2></div>
+  <div class="sec-note">一个人拍剪的可持续节奏，附拍摄脚本与提效经验</div>
+
+  <h3>标准周排期</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th>周一</th><th>周二</th><th>周三</th><th>周四</th><th>周五</th><th>周六</th><th>周日</th></tr>
+    <tr><td class="star">店长周记<br>口播两星</td><td class="star">随手实拍<br>一星</td><td class="star">狗狗图鉴图文<br>一星</td><td class="star">随手实拍<br>一星</td><td class="star">轻创意或派对预告<br>三星</td><td class="star">活动日素材积累<br>一星</td><td class="star">休息<br>存稿发布</td></tr>
+  </table></div>
+  <p>每周真实工作量：视频四条加图文两条，其中一星内容占一半以上。周日下午集中剪下周一、二的内容，手里永远有存稿，就不会断更。</p>
+
+  <h3>一人拍剪的四条提效经验</h3>
+  <ul class="dot">
+    <li><b>素材银行。</b>手机相册建一个今日素材文件夹，店里任何好玩的瞬间随手拍十秒，晚上有空再决定用不用。素材是顺手攒的，不是特意拍的。</li>
+    <li><b>剪辑模板化。</b>剪映建三套固定模板：图鉴卡、口播大字幕、Vlog快剪。封面统一风格，每次剪辑只做套模板改字这一件事。</li>
+    <li><b>批量口播日。</b>每周固定一晚（建议周三打烊后）一次拍四条口播，一周的口播内容全部齐活。</li>
+    <li><b>图文救场。</b>哪天太累没剪辑，就发图文笔记顶上。狗狗图鉴做满十只狗，等于十天的存稿弹药。</li>
+  </ul>
+
+  <h3>拍摄脚本模板</h3>
+  <div class="quote"><b>随手实拍：</b>开头三秒钩子（脏狗进门或名场面直接开场），中间十到二十秒过程（洗护或社交中随意抓拍），结尾五秒反转（洗完的帅狗或被无视的狗，配一句话字幕）。</div>
+  <div class="quote"><b>口播：</b>开头五秒抛问题或亮立场（我开宠物店的，但我不劝你办卡），中间四十秒讲两三个理由或故事，结尾五秒一句话立场收尾，全程加关键大字幕。</div>
+  <div class="quote"><b>图鉴卡：</b>第一页狗狗大头照加外号大字，第二页档案（品种、年龄、性格标签、社交风格），第三页癖好趣事，第四页它的好朋友是谁。</div>
+
+  <h3>发布时间</h3>
+  <p>小红书中午十二点到十四点、晚上二十点到二十二点；抖音中午十二点到十三点、晚上十八点到二十二点。发布后一小时内回复所有评论，前期互动权重极高。</p>
+</div></section>
+
+<!-- ============ 五 ============ -->
+<section id="s5"><div class="card">
+  <div class="sec-head"><span class="sec-num">伍</span><h2>爆款逻辑与增长路径</h2></div>
+  <div class="sec-note">试营业到正式开业的三阶段打法，投流与到店转化</div>
+
+  <h3>爆款三板斧</h3>
+  <div class="point"><b>反差制造记忆点。</b>02年对开店、高颜值对事业脑、怂狗对洗完澡嚣张，账号里所有反差都要刻意放大，反差就是记忆点，记忆点就是传播点。</div>
+  <div class="point"><b>立场引发讨论。</b>不劝你办卡、为什么只接待小狗、有人说我开的是狗狗幼儿园——有立场的内容才有评论区，评论区发酵，平台才会推流。</div>
+  <div class="point"><b>群像养成粘性。</b>狗狗图鉴让常客狗变成节目常驻嘉宾，观众追的是群像故事线。单只萌宠只能吸赞，群像才能养粉。</div>
+
+  <h3>三阶段增长路径</h3>
+  <div class="stage">
+    <div class="s-card"><div class="t">第一个月 · 真实感积累</div><div class="g">目标：双号各一千粉</div>
+      <p>开店日记日更或隔日更；狗狗图鉴先做起来，试营业客人少，每只狗都值得单独一篇，正式开业后就是老粉才知道的初代成员。</p></div>
+    <div class="s-card"><div class="t">第二个月 · 爆款测试</div><div class="g">目标：单条破万播放</div>
+      <p>锁定一到两个高互动系列加大投入；不劝你办卡和狗狗图鉴两个系列做小额投流测试，每条一百到两百元测三条。</p></div>
+    <div class="s-card"><div class="t">第三个月 · 开业大事件</div><div class="g">目标：本地破圈</div>
+      <p>开业筹备全记录，开业狗狗开幕派对加直播，试营业一百天混剪收官，一个事件吃三波流量。</p></div>
+  </div>
+
+  <h3>投流策略</h3>
+  <p>小额测试为主。把互动率最高的内容（不劝你办卡、狗狗图鉴、洗护变形记）做种子投放，每条一百到两百元，数据好再追投。试营业期不追求大投放，先把自然内容模型跑通。</p>
+
+  <h3>引流到店闭环</h3>
+  <p>抖音挂POI地址加团购（洗护体验券、宠物友好特调）；小红书简介留地址，引导私信预约；评论区固定话术引导（想带狗子来交朋友的看主页）。所有内容最终导向：<b>到店体验，次卡转化，派对活动复购。</b></p>
+</div></section>
+
+<!-- ============ 六 ============ -->
+<section id="s6"><div class="card">
+  <div class="sec-head"><span class="sec-num">陆</span><h2>账号装修与视觉规范</h2></div>
+  <div class="sec-note">开拍之前先把账号的门面做对</div>
+
+  <h3>账号基础信息</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th>项目</th><th>个人IP号</th><th>门店号</th></tr>
+    <tr><td>昵称</td><td>竹妹Cici｜竹林宠咖主理人</td><td>Cici pets竹林宠咖·杭州</td></tr>
+    <tr><td>头像</td><td>本人出镜，店里场景与狗狗同框最佳</td><td>门店招牌或招牌狗举牌照</td></tr>
+    <tr><td>简介</td><td>02年，摩羯座，开了家只接待小狗的宠咖，创业日记真实更新</td><td>狗狗交朋友，主人喝咖啡。萧山宁围，洗护派对咖啡，仅接待中小型犬</td></tr>
+    <tr><td>背景图</td><td>门店环境图，竹林或咖啡区</td><td>狗狗群体照或派对现场</td></tr>
+    <tr><td>绑定</td><td>POI地址加联系方式</td><td>POI地址加团购加联系方式</td></tr>
+  </table></div>
+
+  <h3>视觉规范</h3>
+  <ul class="dot">
+    <li><b>色调：</b>暖木色加抹茶绿为主，贴合竹林的意象，滤镜统一，主页九宫格看起来是一个整体。</li>
+    <li><b>封面：</b>统一模板，大字标题加狗狗或老板娘主体，三米外能看清。</li>
+    <li><b>字幕：</b>口播类用大号粗体字幕卡，随手拍用花字贴纸，图鉴用统一档案卡模板。</li>
+    <li><b>水印：</b>统一位置放账号名，被搬运也能带走名字。</li>
+  </ul>
+
+  <h3>置顶内容三件套</h3>
+  <p>第一条放门店定位视频（杭州这家店只接待小狗），第二条放最好的创业日记（人设代表作），第三条放洗护派对体验流程（转化向）。新粉进来三秒看懂你是谁、你有什么、怎么来。</p>
+
+  <h3>数据复盘</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th>指标</th><th>健康线</th><th>说明</th></tr>
+    <tr><td>完播率</td><td>抖音大于30%</td><td>低于说明开头钩子弱，优先改前三秒</td></tr>
+    <tr><td>互动率</td><td>赞评藏合计÷播放大于5%</td><td>互动率高平台才推流，低于5%换选题方向</td></tr>
+    <tr><td>涨粉转化</td><td>播放到粉丝大于1%</td><td>看了不关注说明人设不够抓人，加强追剧感</td></tr>
+    <tr><td>私信与到店</td><td>每周有人问地址</td><td>没人问说明引流钩子没埋，加POI和引导话术</td></tr>
+  </table></div>
+  <p>每月迭代四件事：复盘当月各系列数据，砍掉互动最差的一个系列，加大最好的一个系列；更新狗狗图鉴档案库，新常客狗立卡入册；检查存稿量，目标保持一周存稿，低于三天立刻用图文系列补弹药；对照附录排期总表，滚动制定下月排期。</p>
+
+  <h3>三个提醒</h3>
+  <p>断更是最大风险，宁可降级发一星随手拍或图文，也不要断更。真实账本类内容注意尺度，不公开具体租金等敏感信息，避免同行纠纷。狗狗出镜前征得主人同意，图鉴卡发布前给狗主人过目，顺便请主人转发，一次发布等于双份曝光。</p>
+</div></section>
+
+<!-- ============ 七 ============ -->
+<section id="s7"><div class="card">
+  <div class="sec-head"><span class="sec-num">柒</span><h2>会员体系设计</h2></div>
+  <div class="sec-note">三级会员加次卡体系，权益怎么给才不亏还能锁人</div>
+
+  <h3>三级会员：从免费进门到荣誉家长</h3>
+  <p>会员不设门槛，但要设台阶。门槛把客人挡在外面，台阶让客人愿意往上爬。</p>
+  <div class="tbl-wrap"><table>
+    <tr><th>等级</th><th>如何获得</th><th>核心权益</th><th>运营作用</th></tr>
+    <tr><td><b>毛孩子卡</b><br>（免费注册）</td><td>到店扫码注册，建档即得</td><td>注册礼一杯免费咖啡；单次洗护九五折；活动优先报名权</td><td>把到店客人全部沉淀进系统，拿到联系方式和狗档案</td></tr>
+    <tr><td><b>竹友卡</b><br>（次卡会员）</td><td>持有任意洗护次卡自动升级</td><td>次卡本身就是会员价；卡内护理加项九折；生日月双倍积分；剩余次数与到期自动提醒</td><td>次卡锁住洗护现金流，剩余次数的未完成感持续拉回到店</td></tr>
+    <tr><td><b>竹林元老</b><br>（年度荣誉）</td><td>持有十二次周年卡，或年度消费满三千</td><td>全年免费护毛素升级；派对门票一张；专属狗窝牌刻名；新品尝鲜优先；活动免排队入场</td><td>制造身份感，让高价值客户自愿成为门店的宣传员</td></tr>
+  </table></div>
+  <p>权益设计的原则：<b>折扣只走一层，身份感给得到位。</b>次卡本身就是会员价，元老不再叠加折扣，只给专属狗窝牌、派对门票、新品尝鲜这些身份权益——折扣叠罗汉会毁掉价格体系，身份感才是让客人惦记的东西。</p>
+
+  <h3>次卡体系：三档递进（以小型犬单次洗护88元为基准，按实际定价等比调整）</h3>
+  <p>储值改成次卡逻辑，对这家店更合算，原因有四。第一，客人算得明白：卡里剩多少钱要心算，还剩几次一目了然，决策门槛低。第二，次卡天然绑定频次：钱躺在卡里客人会忘记，剩余次数是看得见的未完成感，反而催到店。第三，折扣一次锁定：储值赠送的金额会被客人当自己的钱慢慢花，次卡的折扣在卖卡那一刻就封顶，财务干净。第四，核销节奏可预测：一张十二次卡就是未来十二个月的到店计划，排班备货都有谱。</p>
+  <div class="tbl-wrap"><table>
+    <tr><th>档位</th><th>售价</th><th>折算</th><th>附加权益</th></tr>
+    <tr><td><b>三次体验卡</b></td><td>248元</td><td>约九三折</td><td>低门槛锁客专用，把单次客转成回头客的第一步</td></tr>
+    <tr><td><b>六次卡</b>（半年）</td><td>448元</td><td>约八五折</td><td>赠宠物友好特调一杯；洗护到期提醒；到期前三十天专属续卡优惠</td></tr>
+    <tr><td><b>十二次年卡</b></td><td>888元</td><td>约七八折</td><td>赠生日月护毛素免费升级与派对门票一张，直接授予竹林元老身份</td></tr>
+  </table></div>
+  <p>梯度逻辑：锁得越久折扣越深，折扣的差价全部用长期到店换回来。三次卡是钩子，六次卡是主力，十二次年卡是目标——卖出去一张年卡，这只狗未来一年的洗护就归这家店了。</p>
+
+  <h4>三个执行细节</h4>
+  <ul class="dot">
+    <li><b>卖卡时机：</b>话术永远在服务完成后讲——狗狗刚洗完毛顺滑发亮、主人刚拍完照片发完朋友圈的那一刻，是消费意愿的顶点，话术就一句：一次一个月，一年洗护全包了。</li>
+    <li><b>家庭共享：</b>次卡允许同一家庭多狗共享次数。一家人三只狗共用一张年卡，消耗速度快三倍，续卡也快三倍，客单反而做大了。</li>
+    <li><b>续卡机制：</b>每次核销后自动给主人推送剩余次数，还剩三次时触发提醒，到期前三十天启动续卡优惠——次卡生意，续卡率就是命脉。</li>
+  </ul>
+  <p>咖啡区配一张十杯次卡作为轻补充（示例一百五十八元，合单杯十五元八角），主人在等狗的半小时里顺手核销一杯，到店理由又多一个。派对和生日会不做次卡，保持单次门票制，稀缺感比通票值钱。</p>
+
+  <h3>积分与狗生日：两个小心机</h3>
+  <p>积分体系做简单：消费一元一分，积分只干两件事——兑换洗护加项（护毛素、SPA升级）和兑换咖啡。不要搞复杂的积分商城，没人会为了兑换一个狗玩具攒半年积分。</p>
+  <p>狗生日是宠物行业最被低估的营销资产。档案里记下每只狗的生日，生日当月系统自动提醒，主人收到一张生日卡：当月洗护免费加护毛素一次，咖啡对折，再来一块狗狗可食用的宠物蛋糕（成本十几元）。愿意给狗过生日的主人，就是这家店最核心的客户画像，这个动作带来的复购和转介绍，远超任何促销。</p>
+</div></section>
+
+<!-- ============ 八 ============ -->
+<section id="s8"><div class="card">
+  <div class="sec-head"><span class="sec-num">捌</span><h2>营销活动策划</h2></div>
+  <div class="sec-note">试营业期造势、月度常态活动、节点大促三层活动体系</div>
+
+  <h3>第一层：试营业期造势（现在就开始）</h3>
+  <p><b>创始会员计划</b>是试营业期最值得做的活动。前一百名注册会员给创始身份：创始徽章（狗牌刻字）、终身单次洗护九五折，创始期内购十二次年卡额外赠两次——一百个名额制造稀缺感。这批人就是未来社群的种子用户和内容素材的常客来源。</p>
+  <p><b>体验价洗护：</b>试营业期间小型犬洗护体验价（例如平时八十八的洗护，试营业五十八），但规则设一条——体验价仅限首次，且需注册会员。目的是把价格敏感客转化成会员，而不是持续用低价伤价格体系。</p>
+  <p><b>老带新双向奖励：</b>老会员带新狗到店，双方各得一次免费洗护加项或一杯宠物特调。宠物社交空间的天然优势：狗主人之间本来就在互相遛狗搭子，老带新不是促销，是帮她们完成社交。</p>
+
+  <h3>第二层：月度常态活动（固定档期，养成习惯）</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th>活动</th><th>频次</th><th>形式与收费</th><th>运营目标</th></tr>
+    <tr><td>狗狗生日会</td><td>每月一次</td><td>当月生日狗家庭报名，每组收费九十九元，含蛋糕、场地、集体照</td><td>狗生日营销的落地场景，私域月度固定话题</td></tr>
+    <tr><td>新手家长课堂</td><td>每月一次</td><td>免费沙龙：洗护知识、家庭护理演示，主理人亲自讲</td><td>立专业人设，同时是口播内容的录制现场</td></tr>
+    <tr><td>小型犬专属派对</td><td>每月一到两次</td><td>门票制一百五十九元每组，限十五组，主题轮换（变装、相亲、运动会）</td><td>高客单产品，老带新主战场，短视频爆款素材</td></tr>
+    <tr><td>周五咖啡日</td><td>每周五</td><td>会员到店咖啡免费升级大杯</td><td>把低频客人往高频拉，制造到店理由</td></tr>
+  </table></div>
+  <p>固定档期的意义在于养成习惯：客人知道每月第二个周日是生日会，每周五是咖啡日，这个店就长在了她们的生活节奏里。</p>
+
+  <h3>第三层：节点大促（借势，一年四次）</h3>
+  <p>十月万圣节变装派对，十二月圣诞狗狗交换礼物，年底至一月摩羯月店庆（主理人生日月，人设与门店绑定营销），来年春季周年庆。每次节点活动提前两周在社群预热，抖音小红书发预告，活动后发混剪复盘——一个活动，公私域各吃一遍流量。</p>
+
+  <h3>活动的隐藏价值</h3>
+  <p>对这家店来说，活动不只是营收，活动是内容工厂和社群燃料。每场派对现场素材够剪三到五条短视频；每场活动后的返图发群里，群活跃度直接拉满。别把活动当成成本，办一场活动等于一次内容采购加一次社群激活加一次次卡转化，一鱼三吃。</p>
+</div></section>
+
+<!-- ============ 九 ============ -->
+<section id="s9"><div class="card">
+  <div class="sec-head"><span class="sec-num">玖</span><h2>私域运营体系</h2></div>
+  <div class="sec-note">加微路径、社群结构、朋友圈与人设标签的完整打法</div>
+
+  <p>私域的目标只有一个：让客人加主理人微信，进群，然后活在她的朋友圈里。宠物店的信任半径很窄，客人认的是老板娘这个人，不是门店招牌——所以私域号必须是主理人本人，不是门店客服号。</p>
+
+  <h3>加微路径设计</h3>
+  <p>到店是黄金路径：洗护交接时最自然的话术——加个微信吧，洗好了拍照片发您，之后预约也方便。这句话对每个到店客人都说，配合立减或免费升杯，加微率能到八成。线上路径：抖音小红书私信问价的，回复引导加微信发详细价格表和预约档期；活动报名一律走微信。</p>
+
+  <h3>社群结构：一大群加活动群</h3>
+  <p>前期一个大群就够（竹林宠咖狗友会），所有客户都在里面。等人数过三百、群消息开始吵，再拆垂直群：洗护预约群（只发预约和到店提醒）、活动报名群（派对沙龙通知）。社群不在多，在活跃。</p>
+
+  <h3>群运营节奏：每周三个固定栏目</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th>时间</th><th>栏目</th><th>内容</th></tr>
+    <tr><td>每周三</td><td>晒狗日</td><td>群员发自家狗照片，点赞前三名得一杯免费宠物特调或洗护九折券</td></tr>
+    <tr><td>每周五</td><td>活动预告</td><td>下周活动报名开启，群内优先，制造群成员优越感</td></tr>
+    <tr><td>每周日</td><td>周末返图</td><td>本周末到店狗的返图九宫格，艾特对应主人，被艾特的主人大概率转发</td></tr>
+  </table></div>
+  <p>切忌每天发早安图和鸡汤，宠物社群的活跃靠的是狗，不是话术。所有栏目设计都围绕一个原则：让群员晒狗，让别的群员夸，主理人只在中间搭台。</p>
+
+  <h3>朋友圈：主理人的第二内容阵地</h3>
+  <p>朋友圈每天两到三条，内容与抖音小红书错位：短视频里是策划过的内容，朋友圈里是更真实的碎片——今天哪只狗又耍赖了、新到的狗窝味道很好闻、下周派对的气球到了。比例三七开：七成生活与狗，三成生意（活动预告、预约档期）。朋友圈是私域里转化率最高的位置，因为客人加的是人，看的是生活，买单的是信任。</p>
+
+  <h3>标签与提醒：私域的自动化骨架</h3>
+  <p>每加一个客户微信，备注格式统一：狗名加主人称呼加品种（例如：吨吨妈·柴犬）。档案里记录洗护日期后，两个提醒节点必须执行：洗护后第三十天，私聊发一句该给吨吨约洗澡啦；狗生日前一周，发生日卡邀请。这两个提醒是全体系转化率最高的动作，一个宠物主人收到老板娘记得自家狗生日的信息，她不会再去别家。</p>
+
+  <h3>试营业期的私域节奏</h3>
+  <p>前一百个会员就是社群的创始成员，命名创始群友身份，给专属徽章。群规第一天就立好：禁广告、禁刷屏，但晒狗不限量。创始群友的仪式感，会让他们成为后续所有活动最积极的那批人。</p>
+</div></section>
+
+<!-- ============ 十 ============ -->
+<section id="s10"><div class="card">
+  <div class="sec-head"><span class="sec-num">拾</span><h2>系统承接与落地节奏</h2></div>
+  <div class="sec-note">用什么工具把这套体系跑起来，以及前九十天做什么</div>
+
+  <p>上面这套体系，靠Excel和人脑记能撑到五十个会员，再多必然漏。会员注册、次卡售卖与核销、剩余次数推送、积分、生日提醒、到期续卡提醒、活动报名收门票，这些环节用系统跑，主理人才能把精力留给内容和客人。</p>
+  <p>美团餐饮SaaS的会员体系可以直接承接：客人扫码注册，档案与收银打通；次卡在线售卖、到店扫码核销，剩余次数和有效期系统自动推送给主人；生日提醒和洗护周期提醒不用翻Excel；派对门票用团购或活动报名工具收，报名名单自动进私域；咖啡区扫码点餐，次卡核销与会员价自动生效。一套系统把会员、次卡、点餐、活动四个环节串起来——试营业期就把系统立起来，客人从第一天就在正确的体系里成长。</p>
+
+  <h3>落地节奏：第一个九十天</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th>时间</th><th>里程碑</th><th>关键动作</th></tr>
+    <tr><td>第一个月</td><td>体系上线</td><td>会员体系与次卡上线；创始会员计划启动；狗狗档案开始积累；私域大群建立</td></tr>
+    <tr><td>第二个月</td><td>活动跑通</td><td>首场狗狗生日会落地；新手家长课堂第一期；洗护三十天提醒SOP执行到位</td></tr>
+    <tr><td>第三个月</td><td>数据检验</td><td>会员数破两百；次卡售出五十张以上，核销与续卡数据可观测；首场收费派对门票售罄；社群周活跃度过半</td></tr>
+  </table></div>
+  <p>九十天后的指标：会员复购率、次卡渗透率（持卡会员占会员总数比例）、次卡续卡率、派对上座率。这四个数字健康，这家店的现金流就稳了；再配合抖音小红书的内容增长，公私域双轮就转起来了。</p>
+
+  <div class="point" style="margin-top:16px"><b>最后说一句。</b><br>这套方案的底层逻辑是把这家店卖的东西从洗护升级成关系：会员体系卖的是身份，活动卖的是快乐，私域卖的是被记住的感觉。洗护谁家都能做，但吨吨的生日只有这里记得——这才是客户离不开一家店的真正原因。</div>
+</div></section>
+
+<!-- ============ 附录 ============ -->
+<section id="s11"><div class="card">
+  <div class="sec-head"><span class="sec-num">附</span><h2>30天排期总表</h2></div>
+  <div class="sec-note">第一个月直接照着执行，难度对应六大分类星级</div>
+  <div class="tbl-wrap"><table>
+    <tr><th>天</th><th>平台</th><th>内容</th><th>类型</th><th>难度</th></tr>
+    <tr><td>第一周一</td><td>双</td><td>开店日记第一集：自我介绍，02年为什么开宠物店</td><td>口播</td><td class="star">两星</td></tr>
+    <tr><td>第一周二</td><td>抖音</td><td>洗护变形记第一期</td><td>随手拍</td><td class="star">一星</td></tr>
+    <tr><td>第一周三</td><td>小红书</td><td>狗狗图鉴第一期：第一位常客</td><td>图文</td><td class="star">一星</td></tr>
+    <tr><td>第一周四</td><td>抖音</td><td>店门口迎客瞬间或名场面抓拍</td><td>随手拍</td><td class="star">一星</td></tr>
+    <tr><td>第一周五</td><td>双</td><td>我开宠物店，但不劝你办卡</td><td>口播</td><td class="star">两星</td></tr>
+    <tr><td>第一周六</td><td>抖音</td><td>开店的一天Vlog（碎片快剪）</td><td>Vlog</td><td class="star">两星</td></tr>
+    <tr><td>第一周日</td><td>休息</td><td>集中剪辑下周存稿</td><td>—</td><td>—</td></tr>
+    <tr><td>第二周一</td><td>双</td><td>店长周记：第一周数据与趣事</td><td>口播</td><td class="star">两星</td></tr>
+    <tr><td>第二周二</td><td>抖音</td><td>狗狗社交名场面加解说字幕</td><td>随手拍</td><td class="star">一星</td></tr>
+    <tr><td>第二周三</td><td>小红书</td><td>狗狗图鉴第二期</td><td>图文</td><td class="star">一星</td></tr>
+    <tr><td>第二周四</td><td>抖音</td><td>今日店长，狗狗戴工牌巡店</td><td>随手拍</td><td class="star">一星</td></tr>
+    <tr><td>第二周五</td><td>双</td><td>为什么我的店不接待大狗</td><td>口播</td><td class="star">两星</td></tr>
+    <tr><td>第二周六</td><td>双</td><td>动物世界解说第一期（本周最佳素材）</td><td>轻创意</td><td class="star">三星</td></tr>
+    <tr><td>第二周日</td><td>休息</td><td>存稿</td><td>—</td><td>—</td></tr>
+    <tr><td>第三周一</td><td>双</td><td>店长周记加回应上周评论区</td><td>口播</td><td class="star">两星</td></tr>
+    <tr><td>第三周二</td><td>抖音</td><td>洗护变形记第二期</td><td>随手拍</td><td class="star">一星</td></tr>
+    <tr><td>第三周三</td><td>小红书</td><td>狗狗图鉴第三期，好朋友联动</td><td>图文</td><td class="star">一星</td></tr>
+    <tr><td>第三周四</td><td>小红书</td><td>宁围遛狗地图（工具型涨粉）</td><td>图文</td><td class="star">一星</td></tr>
+    <tr><td>第三周五</td><td>双</td><td>宠物店不会告诉你的三件事</td><td>口播</td><td class="star">两星</td></tr>
+    <tr><td>第三周六</td><td>抖音</td><td>宠物友好特调研发日记</td><td>Vlog</td><td class="star">两星</td></tr>
+    <tr><td>第三周日</td><td>休息</td><td>存稿</td><td>—</td><td>—</td></tr>
+    <tr><td>第四周一</td><td>双</td><td>店长周记加本月小结预告</td><td>口播</td><td class="star">两星</td></tr>
+    <tr><td>第四周二</td><td>抖音</td><td>狗狗相亲角或派对高燃混剪</td><td>轻创意</td><td class="star">三星</td></tr>
+    <tr><td>第四周三</td><td>小红书</td><td>00后真实账本（选择性做）</td><td>图文</td><td class="star">一星</td></tr>
+    <tr><td>第四周四</td><td>抖音</td><td>咖啡拉花与狗狗同框日常</td><td>随手拍</td><td class="star">一星</td></tr>
+    <tr><td>第四周五</td><td>双</td><td>摩羯座老板娘的Excel</td><td>口播</td><td class="star">两星</td></tr>
+    <tr><td>第四周六</td><td>抖音</td><td>本月最佳混剪加下月预告</td><td>轻创意</td><td class="star">三星</td></tr>
+    <tr><td>第四周日</td><td>休息</td><td>下月排期</td><td>—</td><td>—</td></tr>
+  </table></div>
+</div></section>
+
+</main>
+
+<footer>
+  <b>Cici pets 竹林宠咖 · 全案运营方案</b><br>
+  内容运营 · 会员次卡 · 营销活动 · 私域体系　一站式整合<br>
+  方案出品：陈国庆 · 美团餐饮SaaS　2026年8月<br>
+  狗狗交朋友，主人喝咖啡。
+</footer>
+
+<script>
+// 导航高亮：滚动时自动点亮当前章节
+const links = document.querySelectorAll('nav a');
+const secs = [...document.querySelectorAll('section')];
+const onScroll = () => {
+  let cur = 0;
+  secs.forEach((s, i) => { if (s.getBoundingClientRect().top < 120) cur = i; });
+  links.forEach((a, i) => a.classList.toggle('on', i === cur));
+};
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+</script>
+</body>
+</html>
