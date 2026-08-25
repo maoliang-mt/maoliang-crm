@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>门店 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">餐饮 · 运营提升方案</div>
+  <h1 class="hero-title">门店</h1>
+  <p class="hero-subtitle">专属运营提升方案，助力门店持续增长</p>
+  <div class="hero-address"></div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥85-120</span>
+      <div class="hero-stat-label">人均消费</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5+</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">钱塘区·河庄</span>
+      <div class="hero-stat-label">服务区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(ch1, '店铺画像与核心优势', ch1)">
+      
+      <div class="chapter-num">CHAPTER ch1</div>
+      <div class="chapter-title">店铺画像与核心优势</div>
+      <span class="chapter-type free">analysis</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(ch2, '开业冷启动策略（0-30天）', ch2)">
+      
+      <div class="chapter-num">CHAPTER ch2</div>
+      <div class="chapter-title">开业冷启动策略（0-30天）</div>
+      <span class="chapter-type free">strategy</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(ch3, '会员体系与储值方案', ch3)">
+      
+      <div class="chapter-num">CHAPTER ch3</div>
+      <div class="chapter-title">会员体系与储值方案</div>
+      <span class="chapter-type free">strategy</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(ch4, '外卖与多渠道运营', ch4)">
+      
+      <div class="chapter-num">CHAPTER ch4</div>
+      <div class="chapter-title">外卖与多渠道运营</div>
+      <span class="chapter-type free">strategy</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(ch5, '私域流量运营', ch5)">
+      
+      <div class="chapter-num">CHAPTER ch5</div>
+      <div class="chapter-title">私域流量运营</div>
+      <span class="chapter-type free">strategy</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(ch6, '点评口碑与星级提升', ch6)">
+      
+      <div class="chapter-num">CHAPTER ch6</div>
+      <div class="chapter-title">点评口碑与星级提升</div>
+      <span class="chapter-type free">strategy</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(ch7, '节假日营销活动日历', ch7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER ch7</div>
+      <div class="chapter-title">节假日营销活动日历</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(ch8, '执行落地检查表', ch8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER ch8</div>
+      <div class="chapter-title">执行落地检查表</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-ch1" style="display:none"><h2>🍞 谷楼窑烤·Space · 店铺画像分析</h2><div class='card'><h3>📍 基础信息</h3><ul><li><strong>店名：</strong>谷楼窑烤·Space</li><li><strong>业态：</strong>窑烤面包 + 精品咖啡 + 炭火烤肉（复合Brunch）</li><li><strong>地址：</strong>河庄街道江东村钱塘小雅综合体</li><li><strong>状态：</strong>尚未开业 · 筹建中</li><li><strong>区域特征：</strong>钱塘区河庄板块，临近文旅综合体，周末家庭客流+年轻人打卡需求并存</li></ul></div><div class='card'><h3>🔥 复合业态的「黄金三角」优势</h3><p>窑烤面包+咖啡+烤肉不是简单的「三合一」，而是形成了<strong>全时段、多场景、高复购</strong>的黄金三角：</p><table class='data-table'><tr><th>时段</th><th>主力产品</th><th>客群</th><th>客单</th></tr><tr><td>早 8-11点</td><td>窑烤面包+咖啡套餐</td><td>上班族、附近居民</td><td>¥25-40</td></tr><tr><td>午 11-14点</td><td>Brunch轻食+咖啡</td><td>闺蜜聚会、情侣约会</td><td>¥60-90</td></tr><tr><td>下午茶 14-17点</td><td>窑烤面包+特调咖啡</td><td>打卡人群、自由职业</td><td>¥35-55</td></tr><tr><td>晚 17-22点</td><td>炭火烤肉+精酿/饮品</td><td>朋友聚餐、家庭客</td><td>¥120-180</td></tr></table></div><div class='card'><h3>💡 核心记忆点：窑烤的「烟火气」</h3><p>在预制菜横行的时代，<strong>「明火窑烤」本身就是最强差异化</strong>：</p><ul><li><strong>视觉冲击：</strong>开放式窑炉，面包膨胀、焦香四溢的过程本身就是「活广告」</li><li><strong>嗅觉锚定：</strong>麦香+炭火香=路过必停，自然引流</li><li><strong>社交货币：</strong>「这家有窑烤」=小红书/抖音的天然选题，用户自发传播</li><li><strong>信任背书：</strong>现烤现卖 = 新鲜无添加，打消面包预制的顾虑</li></ul><p><strong>关键判断：</strong>这家店的核心竞争力不是「三个品类都做」，而是「窑烤」这个记忆点串联起全时段——早上卖新鲜出炉的面包，晚上用同一座窑的余温做烤肉保温，空间效率最大化。</p></div></div>
+<div id="modal-content-ch2" style="display:none"><h2>🚀 新店开业冷启动全案 · 0-30天作战地图</h2><div class='card'><h3>第1周：预热期 · 让整条街知道「要开了一家窑烤店」</h3><p><strong>目标：</strong>建立认知、积累种子用户、制造期待感</p><ul><li><strong>门头悬念：</strong>装修围挡印上「钱塘首家窑烤面包·Coming Soon」+ 二维码「扫码进群，开业首日免费领现烤可颂」</li><li><strong>小红书预埋：</strong>发布「创业日记」系列——「在河庄造一座窑」「试烤第37炉终于成功」，以店主IP带店，不硬广</li><li><strong>社群蓄水：</strong>建「谷楼窑烤尝鲜群」，前200人送「开业限定窑烤礼盒」（含2个面包+1杯咖啡券），成本控制在¥15/人</li><li><strong>周边异业联盟：</strong>与综合体里已开业的商家（奶茶店/书店/亲子乐园）互放优惠券，「凭XX店小票来谷楼立减10元」</li></ul></div><div class='card'><h3>第2-3周：开业爆破期 · 集中火力打爆人气</h3><p><strong>目标：</strong>开业首周日均客流150+，点评首评30条+，小红书曝光5000+</p><ul><li><strong>开业活动「三重礼」：</strong><br>① 前100名到店送「窑烤布里欧修」1个（成本¥8，引流价值高）<br>② 任意消费+发朋友圈/小红书定位打卡，送「咖啡买一送一券」<br>③ 充值199元得300元（其中100元限定烤肉区使用），锁定首批会员</li><li><strong>抖音直播开业：</strong>开业当天直播窑炉烤面包全过程，挂「面包福袋」9.9元抢（限到店核销），低成本撬动流量</li><li><strong>「窑烤体验官」招募：</strong>邀请综合体周边5个小区的业主群群主/楼长来免费体验，要求发业主群+朋友圈，精准触达家庭客</li></ul></div><div class='card'><h3>第4周：复盘优化期 · 从「火爆」过渡到「稳定」</h3><ul><li><strong>数据盘点：</strong>统计每个时段的客流、客单、复购率，找出「隐藏高峰」——比如下午茶时段实际比预期好，就加码推「窑烤+咖啡」套餐</li><li><strong>产品汰换：</strong>根据销量砍掉垫底的3款面包/烤肉单品，上新「季节限定」保持新鲜感</li><li><strong>员工话术标准化：</strong>每个服务员必须会讲三句话——「我们的面包都是窑里现烤的」「这款咖啡配布里欧修是招牌」「晚上烤肉有套餐更划算」</li></ul></div><div class='card'><h3>⚠️ 冷启动避坑指南</h3><ul><li><strong>不要全场五折：</strong>吸引来的都是价格敏感客，复购率低。用「限定产品免费送+会员充值」替代</li><li><strong>不要忽视早市：</strong>很多Brunch店中午才开门，错过早高峰咖啡需求。建议8:00开门，哪怕只卖咖啡+面包</li><li><strong>不要让窑炉空着：</strong>下午2-5点窑炉利用率低，可以推「窑烤披萨体验课」（收费¥68/人，教客人自己烤），既增收又制造内容</li></ul></div></div>
+<div id="modal-content-ch3" style="display:none"><h2>💳 会员体系设计 · 让客人「来了还想来」</h2><div class='card'><h3>会员等级体系（三级制）</h3><table class='data-table'><tr><th>等级</th><th>名称</th><th>条件</th><th>权益</th></tr><tr><td>🥉</td><td>谷友</td><td>注册即送</td><td>生日当月面包8折 · 新品优先试吃权</td></tr><tr><td>🥈</td><td>谷客</td><td>累计消费满¥500</td><td>全场9.5折 · 每月1张「窑烤免单券」· 烤肉区优先订位</td></tr><tr><td>🥇</td><td>谷主</td><td>累计消费满¥2000或储值¥1000</td><td>全场8.8折 · 每月2张免单券 · 窑烤体验课免费名额 · 新品命名权（如「XX的专属面包」）</td></tr></table></div><div class='card'><h3>储值方案（开业专属）</h3><p><strong>原则：</strong>小额多档，降低决策门槛；烤肉区单独设档，引导全时段消费</p><table class='data-table'><tr><th>储值档</th><th>实得</th><th>额外权益</th><th>适合人群</th></tr><tr><td>¥199</td><td>¥240</td><td>送窑烤可颂礼盒1份</td><td>咖啡面包常客</td></tr><tr><td>¥499</td><td>¥620</td><td>送咖啡月卡（每天1杯美式）+ 烤肉区¥50券×2</td><td>Brunch爱好者</td></tr><tr><td>¥999</td><td>¥1300</td><td>以上全部 + 「谷主」身份 + 全年窑烤体验课免费</td><td>家庭客/聚餐常客</td></tr></table><p><strong>关键设计：</strong>储值金分为「通用金」（面包/咖啡/烤肉全场可用）和「烤肉金」（仅限晚市烤肉），避免客人只花低价产品。比如充¥499，其中¥420通用+¥200烤肉金，既灵活又引导全时段。</p></div><div class='card'><h3>积分体系 · 让每一块钱都「有回响」</h3><ul><li><strong>积分规则：</strong>消费¥1=1积分，100积分=¥1抵扣</li><li><strong>加速积分：</strong>工作日早市（8-10点）消费双倍积分，引导错峰</li><li><strong>积分兑换：</strong>不设鸡肋小商品，只换「体验」——500积分=窑烤体验课1次 / 800积分=生日定制蛋糕1个 / 1500积分=「与主厨共进晚餐」名额（每月限5人，稀缺感）</li><li><strong>积分过期：</strong>次年3月31日清零（刺激年底冲刺消费）</li></ul></div><div class='card'><h3>🔧 落地要点</h3><ul><li><strong>扫码即会员：</strong>桌贴/收银台放「扫码0秒注册」码，注册送5元无门槛券，降低注册摩擦</li><li><strong>储值话术：</strong>服务员结账时说「您今天消费¥86，充199就能省20多，还送面包礼盒，要办一张吗？」——不说「储值」，说「省20多」</li><li><strong>储值不是目的，复购才是：</strong>定期给沉默会员发「专属召回券」（如「您最爱的布里欧修，本周回购买一送一」），用数据驱动召回</li></ul></div></div>
+<div id="modal-content-ch4" style="display:none"><h2>📦 外卖与多渠道 · 把「到店体验」延伸出去</h2><div class='card'><h3>外卖策略：「到店同款」vs 「外卖专供」</h3><p>窑烤面包和烤肉的外卖逻辑完全不同，必须分品设计：</p><table class='data-table'><tr><th>品类</th><th>外卖策略</th><th>定价</th><th>备注</th></tr><tr><td>窑烤面包</td><td>每日11:00/15:00两批出炉，上架即秒光，制造稀缺</td><td>比到店贵¥2（含包装）</td><td>用牛皮纸+麻绳包装，贴手写标签「今日第X炉」</td></tr><tr><td>咖啡</td><td>仅推美式/拿铁2款，专注出品稳定性</td><td>与到店同价</td><td>杯贴印「Space」logo，强化品牌</td></tr><tr><td>烤肉</td><td>不卖单份烤肉！只推「家庭烤肉套餐」（生肉+配菜+酱料+便携烤炉租赁）</td><td>¥198-298/套</td><td>瞄准周末家庭露营/聚餐场景</td></tr></table></div><div class='card'><h3>美团/饿了么运营要点</h3><ul><li><strong>店名优化：</strong>「谷楼窑烤·Space（钱塘小雅店）」——加地标词，提升搜索权重</li><li><strong>菜单头图：</strong>不是放产品图，放<strong>窑炉实拍+面包膨胀过程GIF</strong>，3秒抓住眼球</li><li><strong>评价管理：</strong>每单塞手写感谢卡「如果满意，拍照发点评送下次面包半价券」</li><li><strong>推广节奏：</strong>开业前2周不投推广（自然流量测试产品），第3周起每天¥50点金推广，定向「面包甜品+咖啡」人群</li></ul></div><div class='card'><h3>小红书 + 抖音内容矩阵</h3><p><strong>不是发广告，是发「生活方式」：</strong></p><ul><li><strong>小红书（种草为主）：</strong><br>· 「杭州终于有了！钱塘首家窑烤面包店」——首店话题，打稀缺<br>· 「¥38在Space度过完美下午」——场景代入，窑烤面包+咖啡+窗边座位<br>· 「带爸妈来吃的窑烤烤肉，他们说像在欧洲」——家庭场景，拉高客单<br>· 每周三固定发「本周窑烤日历」（预告本周7款面包的出炉时间），培养追更习惯</li><li><strong>抖音（过程可视化）：</strong><br>· 「窑烤第1分钟vs第15分钟」——面包膨胀延时摄影<br>· 「凌晨4点，我们开始烧窑了」——反向展示「早起现烤」的诚意<br>· 「客人说太好吃了，当场充了1000」——真实客人反应（需授权）</li></ul></div><div class='card'><h3>企业团餐 · 隐藏的B端增量</h3><p>河庄周边有工厂、物流园区、学校，团餐需求被忽视：</p><ul><li><strong>「窑烤下午茶」企业套餐：</strong>¥15/人（迷你面包+咖啡），10人起送，专供周边企业</li><li><strong>「烤肉团建包场」：</strong>20人起包，¥150/人含场地+食材+服务，周末下午场（14:00-17:00，填补空档）</li><li><strong>拓客路径：</strong>在综合体设「企业合作」展架 → 扫码留资 → BD电话跟进 → 首次免费试吃</li></ul></div></div>
+<div id="modal-content-ch5" style="display:none"><h2>💬 私域运营 · 把「流量」变成「留量」</h2><div class='card'><h3>私域阵地：1个主群 + N个细分群</h3><ul><li><strong>「谷楼窑烤·Space 主群」</strong>（所有人）：每日发「今日窑烤菜单+出炉时间+限时闪购」</li><li><strong>「谷楼烘焙爱好者群」</strong>（高粘性面包客）：每周五发「下周新品投票」，得票最高的下周上架</li><li><strong>「谷楼烤肉局群」</strong>（聚餐客）：每周二发「本周烤肉套餐+拼桌信息」，解决「想吃烤肉凑不够人」的痛点</li><li><strong>「谷楼早咖打卡群」</strong>（上班族）：早8:30前到店拍照打卡，连续7天送「周卡」（每天1杯美式¥9.9）</li></ul></div><div class='card'><h3>朋友圈运营：店主IP = 最佳信任背书</h3><p>不要发「今天卖了XX个面包」，要发<strong>「人」和「过程」</strong>：</p><ul><li><strong>早晨6:30：</strong>「窑已经烧到280度了，今天的全麦核桃包要烤22分钟」——展示匠心</li><li><strong>上午10:00：</strong>「第3炉出炉，李阿姨已经站在门口等了15分钟」——真实感+社会认同</li><li><strong>下午3:00：</strong>「今天的可颂还有最后6个，群里先通知」——制造稀缺</li><li><strong>晚上8:00：</strong>「烤肉区今晚满座，3桌客人都是上周来吃过面包的」——业态联动</li><li><strong>每周日晚：</strong>「本周TOP3：布里欧修127个、美式咖啡89杯、厚切五花肉套餐46份」——数据可视化，让客人感受到「这家店很火」</li></ul></div><div class='card'><h3>企微个人号运营 · 1v1精细化</h3><p>每个服务员/店长加客人的企业微信，不是推销，是<strong>「管家式服务」</strong>：</p><ul><li><strong>加微时机：</strong>结账时说「加个微信，下次来之前问我有没有出炉，省得白跑」——利他角度</li><li><strong>标签体系：</strong>「面包控」「咖啡党」「烤肉爱好者」「家庭客」「打卡族」——推送内容千人千面</li><li><strong>1v1触发场景：</strong><br>· 客人喜欢的面包出炉了 → 私发「您的布里欧修还有10分钟出炉，要留一个吗？」<br>· 客人储值余额低于¥50 → 私发「您的余额快用完了，这周充值多送20%」<br>· 客人30天没来 → 私发「好久不见，这周回来看看，送您一张窑烤免单券」</li></ul></div><div class='card'><h3>社群激活 · 不让群变「死群」</h3><ul><li><strong>每日固定栏目：</strong><br>· 早8:00「今日窑烤预告」<br>· 午12:00「午市套餐推荐」<br>· 晚6:00「烤肉余位提醒」</li><li><strong>每周互动活动：</strong><br>· 周三「猜新品」：发一张模糊的新品图，猜中名字送免费券<br>· 周五「晒单抽奖」：本周到店消费的晒单截图抽奖，3人送下周任意面包免费</li><li><strong>每月会员日：</strong>每月18号「谷楼日」，全场面包买二送一、烤肉套餐8折、咖啡¥9.9——制造节日感</li></ul></div></div>
+<div id="modal-content-ch6" style="display:none"><h2>⭐ 点评星级攻略 · 从0到4.5的爬坡路径</h2><div class='card'><h3>新店出星关键：前30条评价决定生死</h3><p>大众点评对新店有「流量扶持期」——开业前3个月是出星黄金窗口，必须集中火力：</p><ul><li><strong>第1-10条评价：</strong>邀请「体验官」（店主朋友、综合体商户、周边KOC）来真实体验后写评价，<strong>必须图文并茂+150字以上</strong>，打5星。这是「种子评价」，决定算法对店铺的第一印象。</li><li><strong>第11-30条评价：</strong>开业活动期间，每桌客人结账时服务员递上「评价卡」——「如果您满意，花1分钟写个评价，送下次面包半价券」。<strong>现场引导转化率可达60%</strong>。</li><li><strong>30条后：</strong>进入自然增长期，保持每周5-8条新增，评分稳定在4.5+。</li></ul></div><div class='card'><h3>评价内容引导 · 让客人「有话可写」</h3><p>客人不是不想写，是不知道写什么。提前给「写作框架」：</p><ul><li><strong>桌上立牌：</strong>「分享您的体验，参考方向：①窑烤面包的口感 ②咖啡的搭配 ③烤肉的氛围 ④服务态度」——降低写作难度</li><li><strong>服务员引导话术：</strong>「我们家的窑烤布里欧修是招牌，很多客人说外酥里嫩，您要是觉得好，点评里提一句就行」——锚定关键词</li><li><strong>拍照点设计：</strong>门口设「我在谷楼窑烤」打卡墙（带Space logo），窑炉前设最佳拍照位（灯光已调好），让客人「忍不住拍」</li></ul></div><div class='card'><h3>差评应对预案 · 把危机变转机</h3><table class='data-table'><tr><th>差评类型</th><th>应对策略</th><th>回复模板</th></tr><tr><td>「等太久」</td><td>道歉+解释窑烤现做需要等待+送「免排队券」（下次来电话预留）</td><td>「非常抱歉让您久等了！窑烤面包为了保证口感，每炉需要20分钟，下次您来之前可以在群里问一声，我们提前给您留好～」</td></tr><tr><td>「价格高」</td><td>不降价，强调价值+送优惠券引导复购</td><td>「感谢您的反馈！我们的面粉和黄油都是进口原料，窑烤工艺也比较费时，所以成本确实比普通面包高一些。我们送您一张满50减15的券，下次来尝尝我们的招牌布里欧修，相信您会觉得值得的～」</td></tr><tr><td>「烤肉一般」</td><td>邀请回店免费再体验一次，内部复盘产品</td><td>「非常抱歉没达到您的预期！我们想请您再给我们一次机会，主厨亲自帮您烤一桌，完全免费。方便的话加我微信（XXX）约个时间？」</td></tr><tr><td>恶意差评/竞对</td><td>保留证据，平台申诉+引导真实好评稀释</td><td>正常礼貌回复，不在评论区争吵，后台收集订单记录申诉</td></tr></table></div><div class='card'><h3>榜单冲刺 · 从「有评分」到「有排名」</h3><ul><li><strong>「钱塘区面包甜点热门榜」：</strong>开业2个月内冲刺目标。方法：集中引导面包类评价（占比>60%），因为烤肉评价会稀释面包品类权重。</li><li><strong>「杭州Brunch环境榜」：</strong>主打「窑烤+空间设计」，邀请探店博主拍环境+食物，标题带「杭州Brunch」「钱塘约会」等关键词。</li><li><strong>免费试（原霸王餐）：</strong>开业第2个月申请，设置20个名额，要求V3以上用户+必须写评价。平台会给流量加权。</li></ul></div></div>
+<div id="modal-content-ch7" style="display:none"><h2>📅 全年营销日历 · 不错过任何一个节点</h2><div class='card'><h3>Q3（9-11月）· 开业季+秋冬转换</h3><table class='data-table'><tr><th>时间</th><th>主题</th><th>活动</th><th>主推产品</th></tr><tr><td>9.1-9.7</td><td>开学季</td><td>学生凭学生证全场8.8折 · 教师送「感恩布里欧修」1个</td><td>早餐套餐</td></tr><tr><td>9.15-9.17</td><td>中秋</td><td>「窑烤月饼礼盒」预售（¥128/6个，提前7天订）</td><td>限定月饼</td></tr><tr><td>10.1-10.7</td><td>国庆黄金周</td><td>「7天窑烤马拉松」——每天一款限定面包，集齐7款送「谷主」身份</td><td>每日限定</td></tr><tr><td>10.31-11.1</td><td>万圣节</td><td>「南瓜窑烤面包」+ 晚上烤肉区变装派对（¥88/人含餐）</td><td>主题面包+派对</td></tr><tr><td>11.11</td><td>双11</td><td>储值翻倍日：充¥1111得¥2222（全年仅1次）</td><td>储值拉新</td></tr><tr><td>11.28</td><td>感恩节</td><td>「感谢有你」——带父母来消费，父母那份半价</td><td>家庭聚餐</td></tr></table></div><div class='card'><h3>Q4（12-2月）· 暖冬+双旦+春节</h3><table class='data-table'><tr><th>时间</th><th>主题</th><th>活动</th><th>主推产品</th></tr><tr><td>12.12-12.25</td><td>圣诞季</td><td>「姜饼人窑烤体验」亲子课（¥88/组）· 圣诞限定「树桩面包」</td><td>亲子体验</td></tr><tr><td>12.31</td><td>跨年夜</td><td>「窑火跨年」烤肉套餐+ countdown 派对，限30人，¥198/人</td><td>派对套餐</td></tr><tr><td>1.1</td><td>元旦</td><td>「新年第一炉」——前50名到店送「开运面包」（红豆馅）</td><td>限定面包</td></tr><tr><td>1.20-2.5</td><td>春节</td><td>「窑烤年货礼盒」——面包+腊肉+酱鸭组合，¥268/盒</td><td>年货礼盒</td></tr><tr><td>2.14</td><td>情人节</td><td>「双人窑烤晚餐」——情侣专属烤肉套餐+玫瑰花+拍照服务，¥299</td><td>情侣套餐</td></tr></table></div><div class='card'><h3>Q1-Q2 亮点活动预告</h3><ul><li><strong>3月：</strong>「妇女节」——闺蜜下午茶套餐（2人¥88含2份面包+2杯咖啡+1份甜点）</li><li><strong>4月：</strong>「面包节」——联合杭州3家独立面包店做「窑烤巡游」，互相导流</li><li><strong>5月：</strong>「母亲节」——「给妈妈烤一个面包」亲子体验课</li><li><strong>6月：</strong>「周年庆」——开业1周年，全年最大力度回馈，储值充多少送多少（上限¥2000）</li></ul></div><div class='card'><h3>每月固定节奏</h3><ul><li><strong>每月1号：</strong>发布「本月窑烤日历」（7款主打面包的轮换表）</li><li><strong>每月8号：</strong>会员日预告（18号活动提前10天预热）</li><li><strong>每月15号：</strong>「月中上新」——至少1款面包+1款咖啡新品</li><li><strong>每月最后一个周日：</strong>「主厨餐桌」——限定10人，主厨亲自服务+讲解，¥288/人</li></ul></div></div>
+<div id="modal-content-ch8" style="display:none"><h2>✅ 执行落地检查表 · 开业前必做30项</h2><div class='card'><h3>🏗️ 开业前（T-30天至T-1天）</h3><table class='data-table'><tr><th>序号</th><th>事项</th><th>负责人</th><th>截止</th><th>状态</th></tr><tr><td>1</td><td>窑炉调试完成，面包配方定版（至少8款）</td><td>主厨</td><td>T-30</td><td>□</td></tr><tr><td>2</td><td>咖啡机调试，菜单定版（美式/拿铁/特调≥5款）</td><td>咖啡师</td><td>T-30</td><td>□</td></tr><tr><td>3</td><td>烤肉供应链确定（肉类/蔬菜/酱料/炭）</td><td>店长</td><td>T-25</td><td>□</td></tr><tr><td>4</td><td>美团/大众点评商户入驻+菜单上传</td><td>店长</td><td>T-20</td><td>□</td></tr><tr><td>5</td><td>小红书账号注册，发布3条预热笔记</td><td>店长/国庆</td><td>T-20</td><td>□</td></tr><tr><td>6</td><td>微信社群创建，种子用户拉群≥100人</td><td>店长</td><td>T-15</td><td>□</td></tr><tr><td>7</td><td>会员系统配置（等级/储值/积分规则录入）</td><td>店长</td><td>T-15</td><td>□</td></tr><tr><td>8</td><td>收银系统对接（美团收银/扫码点餐/会员打通）</td><td>国庆/技术</td><td>T-10</td><td>□</td></tr><tr><td>9</td><td>员工培训：窑烤故事话术+会员推销话术+差评应对</td><td>店长</td><td>T-7</td><td>□</td></tr><tr><td>10</td><td>开业物料到位（海报/易拉宝/桌贴/评价卡/储值立牌）</td><td>店长</td><td>T-5</td><td>□</td></tr><tr><td>11</td><td>开业活动方案全员宣导（三重礼规则+话术）</td><td>店长</td><td>T-3</td><td>□</td></tr><tr><td>12</td><td>试营业3天（邀请朋友/综合体商户内部测试）</td><td>全员</td><td>T-3至T-1</td><td>□</td></tr></table></div><div class='card'><h3>🚀 开业第1周（Day 1-7）</h3><table class='data-table'><tr><th>序号</th><th>事项</th><th>负责人</th><th>检查标准</th></tr><tr><td>13</td><td>每日窑炉开炉直播（抖音/视频号）</td><td>店长</td><td>≥3条视频，播放量≥500</td></tr><tr><td>14</td><td>前100名到店客人登记+引导评价</td><td>服务员</td><td>评价转化率≥50%</td></tr><tr><td>15</td><td>每日社群发布「今日出炉表」</td><td>店长</td><td>早8:00准时发</td></tr><tr><td>16</td><td>储值目标：首周≥30人</td><td>全员</td><td>人均储值¥350+</td></tr><tr><td>17</td><td>差评实时监控（每天17:00查看）</td><td>店长</td><td>差评24小时内回复</td></tr><tr><td>18</td><td>每日数据复盘（客流/客单/时段分布）</td><td>店长</td><td>Excel记录，找出隐藏高峰</td></tr></table></div><div class='card'><h3>📈 开业第2-4周（Day 8-30）</h3><table class='data-table'><tr><th>序号</th><th>事项</th><th>负责人</th><th>检查标准</th></tr><tr><td>19</td><td>点评评价累计≥30条，评分≥4.5</td><td>店长</td><td>每周新增≥8条</td></tr><tr><td>20</td><td>小红书笔记≥10篇（自营+客人UGC）</td><td>店长</td><td>带定位+话题#钱塘美食</td></tr><tr><td>21</td><td>外卖上线（面包+咖啡）</td><td>店长</td><td>美团+饿了么双平台</td></tr><tr><td>22</td><td>企业团餐首单落地</td><td>国庆/店长</td><td>至少1家企业签约</td></tr><tr><td>23</td><td>会员数≥200人</td><td>全员</td><td>注册率≥30%</td></tr><tr><td>24</td><td>储值总额≥¥3万</td><td>全员</td><td>-</td></tr><tr><td>25</td><td>首次「主厨餐桌」活动落地</td><td>主厨</td><td>10人满座</td></tr><tr><td>26</td><td>产品汰换：下架销量末位3款</td><td>主厨+店长</td><td>上新≥2款替换</td></tr><tr><td>27</td><td>员工话术考核（随机抽查）</td><td>店长</td><td>全员通过</td></tr></table></div><div class='card'><h3>🔒 持续运营（每月）</h3><table class='data-table'><tr><th>序号</th><th>事项</th><th>频率</th></tr><tr><td>28</td><td>月度数据复盘会（客流/客单/复购/差评）</td><td>每月1次</td></tr><tr><td>29</td><td>会员活跃度分析（沉默用户召回）</td><td>每月1次</td></tr><tr><td>30</td><td>竞品巡查（周边3km新开店/活动/价格）</td><td>每月1次</td></tr></table></div><div class='card'><h3>💡 给老板的最后一句话</h3><p style='font-size:16px;line-height:1.8;color:#333;'><strong>谷楼窑烤·Space 不是「又一家面包店」或「又一家烤肉店」。</strong></p><p style='font-size:16px;line-height:1.8;color:#333;'>它是钱塘区第一个把「窑烤」做出记忆点的复合空间——早上卖的是新鲜和温暖，下午卖的是悠闲和格调，晚上卖的是烟火和欢聚。</p><p style='font-size:16px;line-height:1.8;color:#333;'>这套方案的核心不是「花多少钱做营销」，而是<strong>「让窑炉不空转、让客人不白来、让每一块钱都花在能回来的人身上」</strong>。</p><p style='font-size:16px;line-height:1.8;color:#333;'>开业前30天是关键窗口，建议老板亲自盯前7天的执行——<strong>前7天的口碑，决定前3个月的客流曲线。</strong></p></div></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>陈国庆</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        ch1: `<h2>🍞 谷楼窑烤·Space · 店铺画像分析</h2><div class='card'><h3>📍 基础信息</h3><ul><li><strong>店名：</strong>谷楼窑烤·Space</li><li><strong>业态：</strong>窑烤面包 + 精品咖啡 + 炭火烤肉（复合Brunch）</li><li><strong>地址：</strong>河庄街道江东村钱塘小雅综合体</li><li><strong>状态：</strong>尚未开业 · 筹建中</li><li><strong>区域特征：</strong>钱塘区河庄板块，临近文旅综合体，周末家庭客流+年轻人打卡需求并存</li></ul></div><div class='card'><h3>🔥 复合业态的「黄金三角」优势</h3><p>窑烤面包+咖啡+烤肉不是简单的「三合一」，而是形成了<strong>全时段、多场景、高复购</strong>的黄金三角：</p><table class='data-table'><tr><th>时段</th><th>主力产品</th><th>客群</th><th>客单</th></tr><tr><td>早 8-11点</td><td>窑烤面包+咖啡套餐</td><td>上班族、附近居民</td><td>¥25-40</td></tr><tr><td>午 11-14点</td><td>Brunch轻食+咖啡</td><td>闺蜜聚会、情侣约会</td><td>¥60-90</td></tr><tr><td>下午茶 14-17点</td><td>窑烤面包+特调咖啡</td><td>打卡人群、自由职业</td><td>¥35-55</td></tr><tr><td>晚 17-22点</td><td>炭火烤肉+精酿/饮品</td><td>朋友聚餐、家庭客</td><td>¥120-180</td></tr></table></div><div class='card'><h3>💡 核心记忆点：窑烤的「烟火气」</h3><p>在预制菜横行的时代，<strong>「明火窑烤」本身就是最强差异化</strong>：</p><ul><li><strong>视觉冲击：</strong>开放式窑炉，面包膨胀、焦香四溢的过程本身就是「活广告」</li><li><strong>嗅觉锚定：</strong>麦香+炭火香=路过必停，自然引流</li><li><strong>社交货币：</strong>「这家有窑烤」=小红书/抖音的天然选题，用户自发传播</li><li><strong>信任背书：</strong>现烤现卖 = 新鲜无添加，打消面包预制的顾虑</li></ul><p><strong>关键判断：</strong>这家店的核心竞争力不是「三个品类都做」，而是「窑烤」这个记忆点串联起全时段——早上卖新鲜出炉的面包，晚上用同一座窑的余温做烤肉保温，空间效率最大化。</p></div>`,
+    ch2: `<h2>🚀 新店开业冷启动全案 · 0-30天作战地图</h2><div class='card'><h3>第1周：预热期 · 让整条街知道「要开了一家窑烤店」</h3><p><strong>目标：</strong>建立认知、积累种子用户、制造期待感</p><ul><li><strong>门头悬念：</strong>装修围挡印上「钱塘首家窑烤面包·Coming Soon」+ 二维码「扫码进群，开业首日免费领现烤可颂」</li><li><strong>小红书预埋：</strong>发布「创业日记」系列——「在河庄造一座窑」「试烤第37炉终于成功」，以店主IP带店，不硬广</li><li><strong>社群蓄水：</strong>建「谷楼窑烤尝鲜群」，前200人送「开业限定窑烤礼盒」（含2个面包+1杯咖啡券），成本控制在¥15/人</li><li><strong>周边异业联盟：</strong>与综合体里已开业的商家（奶茶店/书店/亲子乐园）互放优惠券，「凭XX店小票来谷楼立减10元」</li></ul></div><div class='card'><h3>第2-3周：开业爆破期 · 集中火力打爆人气</h3><p><strong>目标：</strong>开业首周日均客流150+，点评首评30条+，小红书曝光5000+</p><ul><li><strong>开业活动「三重礼」：</strong><br>① 前100名到店送「窑烤布里欧修」1个（成本¥8，引流价值高）<br>② 任意消费+发朋友圈/小红书定位打卡，送「咖啡买一送一券」<br>③ 充值199元得300元（其中100元限定烤肉区使用），锁定首批会员</li><li><strong>抖音直播开业：</strong>开业当天直播窑炉烤面包全过程，挂「面包福袋」9.9元抢（限到店核销），低成本撬动流量</li><li><strong>「窑烤体验官」招募：</strong>邀请综合体周边5个小区的业主群群主/楼长来免费体验，要求发业主群+朋友圈，精准触达家庭客</li></ul></div><div class='card'><h3>第4周：复盘优化期 · 从「火爆」过渡到「稳定」</h3><ul><li><strong>数据盘点：</strong>统计每个时段的客流、客单、复购率，找出「隐藏高峰」——比如下午茶时段实际比预期好，就加码推「窑烤+咖啡」套餐</li><li><strong>产品汰换：</strong>根据销量砍掉垫底的3款面包/烤肉单品，上新「季节限定」保持新鲜感</li><li><strong>员工话术标准化：</strong>每个服务员必须会讲三句话——「我们的面包都是窑里现烤的」「这款咖啡配布里欧修是招牌」「晚上烤肉有套餐更划算」</li></ul></div><div class='card'><h3>⚠️ 冷启动避坑指南</h3><ul><li><strong>不要全场五折：</strong>吸引来的都是价格敏感客，复购率低。用「限定产品免费送+会员充值」替代</li><li><strong>不要忽视早市：</strong>很多Brunch店中午才开门，错过早高峰咖啡需求。建议8:00开门，哪怕只卖咖啡+面包</li><li><strong>不要让窑炉空着：</strong>下午2-5点窑炉利用率低，可以推「窑烤披萨体验课」（收费¥68/人，教客人自己烤），既增收又制造内容</li></ul></div>`,
+    ch3: `<h2>💳 会员体系设计 · 让客人「来了还想来」</h2><div class='card'><h3>会员等级体系（三级制）</h3><table class='data-table'><tr><th>等级</th><th>名称</th><th>条件</th><th>权益</th></tr><tr><td>🥉</td><td>谷友</td><td>注册即送</td><td>生日当月面包8折 · 新品优先试吃权</td></tr><tr><td>🥈</td><td>谷客</td><td>累计消费满¥500</td><td>全场9.5折 · 每月1张「窑烤免单券」· 烤肉区优先订位</td></tr><tr><td>🥇</td><td>谷主</td><td>累计消费满¥2000或储值¥1000</td><td>全场8.8折 · 每月2张免单券 · 窑烤体验课免费名额 · 新品命名权（如「XX的专属面包」）</td></tr></table></div><div class='card'><h3>储值方案（开业专属）</h3><p><strong>原则：</strong>小额多档，降低决策门槛；烤肉区单独设档，引导全时段消费</p><table class='data-table'><tr><th>储值档</th><th>实得</th><th>额外权益</th><th>适合人群</th></tr><tr><td>¥199</td><td>¥240</td><td>送窑烤可颂礼盒1份</td><td>咖啡面包常客</td></tr><tr><td>¥499</td><td>¥620</td><td>送咖啡月卡（每天1杯美式）+ 烤肉区¥50券×2</td><td>Brunch爱好者</td></tr><tr><td>¥999</td><td>¥1300</td><td>以上全部 + 「谷主」身份 + 全年窑烤体验课免费</td><td>家庭客/聚餐常客</td></tr></table><p><strong>关键设计：</strong>储值金分为「通用金」（面包/咖啡/烤肉全场可用）和「烤肉金」（仅限晚市烤肉），避免客人只花低价产品。比如充¥499，其中¥420通用+¥200烤肉金，既灵活又引导全时段。</p></div><div class='card'><h3>积分体系 · 让每一块钱都「有回响」</h3><ul><li><strong>积分规则：</strong>消费¥1=1积分，100积分=¥1抵扣</li><li><strong>加速积分：</strong>工作日早市（8-10点）消费双倍积分，引导错峰</li><li><strong>积分兑换：</strong>不设鸡肋小商品，只换「体验」——500积分=窑烤体验课1次 / 800积分=生日定制蛋糕1个 / 1500积分=「与主厨共进晚餐」名额（每月限5人，稀缺感）</li><li><strong>积分过期：</strong>次年3月31日清零（刺激年底冲刺消费）</li></ul></div><div class='card'><h3>🔧 落地要点</h3><ul><li><strong>扫码即会员：</strong>桌贴/收银台放「扫码0秒注册」码，注册送5元无门槛券，降低注册摩擦</li><li><strong>储值话术：</strong>服务员结账时说「您今天消费¥86，充199就能省20多，还送面包礼盒，要办一张吗？」——不说「储值」，说「省20多」</li><li><strong>储值不是目的，复购才是：</strong>定期给沉默会员发「专属召回券」（如「您最爱的布里欧修，本周回购买一送一」），用数据驱动召回</li></ul></div>`,
+    ch4: `<h2>📦 外卖与多渠道 · 把「到店体验」延伸出去</h2><div class='card'><h3>外卖策略：「到店同款」vs 「外卖专供」</h3><p>窑烤面包和烤肉的外卖逻辑完全不同，必须分品设计：</p><table class='data-table'><tr><th>品类</th><th>外卖策略</th><th>定价</th><th>备注</th></tr><tr><td>窑烤面包</td><td>每日11:00/15:00两批出炉，上架即秒光，制造稀缺</td><td>比到店贵¥2（含包装）</td><td>用牛皮纸+麻绳包装，贴手写标签「今日第X炉」</td></tr><tr><td>咖啡</td><td>仅推美式/拿铁2款，专注出品稳定性</td><td>与到店同价</td><td>杯贴印「Space」logo，强化品牌</td></tr><tr><td>烤肉</td><td>不卖单份烤肉！只推「家庭烤肉套餐」（生肉+配菜+酱料+便携烤炉租赁）</td><td>¥198-298/套</td><td>瞄准周末家庭露营/聚餐场景</td></tr></table></div><div class='card'><h3>美团/饿了么运营要点</h3><ul><li><strong>店名优化：</strong>「谷楼窑烤·Space（钱塘小雅店）」——加地标词，提升搜索权重</li><li><strong>菜单头图：</strong>不是放产品图，放<strong>窑炉实拍+面包膨胀过程GIF</strong>，3秒抓住眼球</li><li><strong>评价管理：</strong>每单塞手写感谢卡「如果满意，拍照发点评送下次面包半价券」</li><li><strong>推广节奏：</strong>开业前2周不投推广（自然流量测试产品），第3周起每天¥50点金推广，定向「面包甜品+咖啡」人群</li></ul></div><div class='card'><h3>小红书 + 抖音内容矩阵</h3><p><strong>不是发广告，是发「生活方式」：</strong></p><ul><li><strong>小红书（种草为主）：</strong><br>· 「杭州终于有了！钱塘首家窑烤面包店」——首店话题，打稀缺<br>· 「¥38在Space度过完美下午」——场景代入，窑烤面包+咖啡+窗边座位<br>· 「带爸妈来吃的窑烤烤肉，他们说像在欧洲」——家庭场景，拉高客单<br>· 每周三固定发「本周窑烤日历」（预告本周7款面包的出炉时间），培养追更习惯</li><li><strong>抖音（过程可视化）：</strong><br>· 「窑烤第1分钟vs第15分钟」——面包膨胀延时摄影<br>· 「凌晨4点，我们开始烧窑了」——反向展示「早起现烤」的诚意<br>· 「客人说太好吃了，当场充了1000」——真实客人反应（需授权）</li></ul></div><div class='card'><h3>企业团餐 · 隐藏的B端增量</h3><p>河庄周边有工厂、物流园区、学校，团餐需求被忽视：</p><ul><li><strong>「窑烤下午茶」企业套餐：</strong>¥15/人（迷你面包+咖啡），10人起送，专供周边企业</li><li><strong>「烤肉团建包场」：</strong>20人起包，¥150/人含场地+食材+服务，周末下午场（14:00-17:00，填补空档）</li><li><strong>拓客路径：</strong>在综合体设「企业合作」展架 → 扫码留资 → BD电话跟进 → 首次免费试吃</li></ul></div>`,
+    ch5: `<h2>💬 私域运营 · 把「流量」变成「留量」</h2><div class='card'><h3>私域阵地：1个主群 + N个细分群</h3><ul><li><strong>「谷楼窑烤·Space 主群」</strong>（所有人）：每日发「今日窑烤菜单+出炉时间+限时闪购」</li><li><strong>「谷楼烘焙爱好者群」</strong>（高粘性面包客）：每周五发「下周新品投票」，得票最高的下周上架</li><li><strong>「谷楼烤肉局群」</strong>（聚餐客）：每周二发「本周烤肉套餐+拼桌信息」，解决「想吃烤肉凑不够人」的痛点</li><li><strong>「谷楼早咖打卡群」</strong>（上班族）：早8:30前到店拍照打卡，连续7天送「周卡」（每天1杯美式¥9.9）</li></ul></div><div class='card'><h3>朋友圈运营：店主IP = 最佳信任背书</h3><p>不要发「今天卖了XX个面包」，要发<strong>「人」和「过程」</strong>：</p><ul><li><strong>早晨6:30：</strong>「窑已经烧到280度了，今天的全麦核桃包要烤22分钟」——展示匠心</li><li><strong>上午10:00：</strong>「第3炉出炉，李阿姨已经站在门口等了15分钟」——真实感+社会认同</li><li><strong>下午3:00：</strong>「今天的可颂还有最后6个，群里先通知」——制造稀缺</li><li><strong>晚上8:00：</strong>「烤肉区今晚满座，3桌客人都是上周来吃过面包的」——业态联动</li><li><strong>每周日晚：</strong>「本周TOP3：布里欧修127个、美式咖啡89杯、厚切五花肉套餐46份」——数据可视化，让客人感受到「这家店很火」</li></ul></div><div class='card'><h3>企微个人号运营 · 1v1精细化</h3><p>每个服务员/店长加客人的企业微信，不是推销，是<strong>「管家式服务」</strong>：</p><ul><li><strong>加微时机：</strong>结账时说「加个微信，下次来之前问我有没有出炉，省得白跑」——利他角度</li><li><strong>标签体系：</strong>「面包控」「咖啡党」「烤肉爱好者」「家庭客」「打卡族」——推送内容千人千面</li><li><strong>1v1触发场景：</strong><br>· 客人喜欢的面包出炉了 → 私发「您的布里欧修还有10分钟出炉，要留一个吗？」<br>· 客人储值余额低于¥50 → 私发「您的余额快用完了，这周充值多送20%」<br>· 客人30天没来 → 私发「好久不见，这周回来看看，送您一张窑烤免单券」</li></ul></div><div class='card'><h3>社群激活 · 不让群变「死群」</h3><ul><li><strong>每日固定栏目：</strong><br>· 早8:00「今日窑烤预告」<br>· 午12:00「午市套餐推荐」<br>· 晚6:00「烤肉余位提醒」</li><li><strong>每周互动活动：</strong><br>· 周三「猜新品」：发一张模糊的新品图，猜中名字送免费券<br>· 周五「晒单抽奖」：本周到店消费的晒单截图抽奖，3人送下周任意面包免费</li><li><strong>每月会员日：</strong>每月18号「谷楼日」，全场面包买二送一、烤肉套餐8折、咖啡¥9.9——制造节日感</li></ul></div>`,
+    ch6: `<h2>⭐ 点评星级攻略 · 从0到4.5的爬坡路径</h2><div class='card'><h3>新店出星关键：前30条评价决定生死</h3><p>大众点评对新店有「流量扶持期」——开业前3个月是出星黄金窗口，必须集中火力：</p><ul><li><strong>第1-10条评价：</strong>邀请「体验官」（店主朋友、综合体商户、周边KOC）来真实体验后写评价，<strong>必须图文并茂+150字以上</strong>，打5星。这是「种子评价」，决定算法对店铺的第一印象。</li><li><strong>第11-30条评价：</strong>开业活动期间，每桌客人结账时服务员递上「评价卡」——「如果您满意，花1分钟写个评价，送下次面包半价券」。<strong>现场引导转化率可达60%</strong>。</li><li><strong>30条后：</strong>进入自然增长期，保持每周5-8条新增，评分稳定在4.5+。</li></ul></div><div class='card'><h3>评价内容引导 · 让客人「有话可写」</h3><p>客人不是不想写，是不知道写什么。提前给「写作框架」：</p><ul><li><strong>桌上立牌：</strong>「分享您的体验，参考方向：①窑烤面包的口感 ②咖啡的搭配 ③烤肉的氛围 ④服务态度」——降低写作难度</li><li><strong>服务员引导话术：</strong>「我们家的窑烤布里欧修是招牌，很多客人说外酥里嫩，您要是觉得好，点评里提一句就行」——锚定关键词</li><li><strong>拍照点设计：</strong>门口设「我在谷楼窑烤」打卡墙（带Space logo），窑炉前设最佳拍照位（灯光已调好），让客人「忍不住拍」</li></ul></div><div class='card'><h3>差评应对预案 · 把危机变转机</h3><table class='data-table'><tr><th>差评类型</th><th>应对策略</th><th>回复模板</th></tr><tr><td>「等太久」</td><td>道歉+解释窑烤现做需要等待+送「免排队券」（下次来电话预留）</td><td>「非常抱歉让您久等了！窑烤面包为了保证口感，每炉需要20分钟，下次您来之前可以在群里问一声，我们提前给您留好～」</td></tr><tr><td>「价格高」</td><td>不降价，强调价值+送优惠券引导复购</td><td>「感谢您的反馈！我们的面粉和黄油都是进口原料，窑烤工艺也比较费时，所以成本确实比普通面包高一些。我们送您一张满50减15的券，下次来尝尝我们的招牌布里欧修，相信您会觉得值得的～」</td></tr><tr><td>「烤肉一般」</td><td>邀请回店免费再体验一次，内部复盘产品</td><td>「非常抱歉没达到您的预期！我们想请您再给我们一次机会，主厨亲自帮您烤一桌，完全免费。方便的话加我微信（XXX）约个时间？」</td></tr><tr><td>恶意差评/竞对</td><td>保留证据，平台申诉+引导真实好评稀释</td><td>正常礼貌回复，不在评论区争吵，后台收集订单记录申诉</td></tr></table></div><div class='card'><h3>榜单冲刺 · 从「有评分」到「有排名」</h3><ul><li><strong>「钱塘区面包甜点热门榜」：</strong>开业2个月内冲刺目标。方法：集中引导面包类评价（占比>60%），因为烤肉评价会稀释面包品类权重。</li><li><strong>「杭州Brunch环境榜」：</strong>主打「窑烤+空间设计」，邀请探店博主拍环境+食物，标题带「杭州Brunch」「钱塘约会」等关键词。</li><li><strong>免费试（原霸王餐）：</strong>开业第2个月申请，设置20个名额，要求V3以上用户+必须写评价。平台会给流量加权。</li></ul></div>`,
+    ch7: `<h2>📅 全年营销日历 · 不错过任何一个节点</h2><div class='card'><h3>Q3（9-11月）· 开业季+秋冬转换</h3><table class='data-table'><tr><th>时间</th><th>主题</th><th>活动</th><th>主推产品</th></tr><tr><td>9.1-9.7</td><td>开学季</td><td>学生凭学生证全场8.8折 · 教师送「感恩布里欧修」1个</td><td>早餐套餐</td></tr><tr><td>9.15-9.17</td><td>中秋</td><td>「窑烤月饼礼盒」预售（¥128/6个，提前7天订）</td><td>限定月饼</td></tr><tr><td>10.1-10.7</td><td>国庆黄金周</td><td>「7天窑烤马拉松」——每天一款限定面包，集齐7款送「谷主」身份</td><td>每日限定</td></tr><tr><td>10.31-11.1</td><td>万圣节</td><td>「南瓜窑烤面包」+ 晚上烤肉区变装派对（¥88/人含餐）</td><td>主题面包+派对</td></tr><tr><td>11.11</td><td>双11</td><td>储值翻倍日：充¥1111得¥2222（全年仅1次）</td><td>储值拉新</td></tr><tr><td>11.28</td><td>感恩节</td><td>「感谢有你」——带父母来消费，父母那份半价</td><td>家庭聚餐</td></tr></table></div><div class='card'><h3>Q4（12-2月）· 暖冬+双旦+春节</h3><table class='data-table'><tr><th>时间</th><th>主题</th><th>活动</th><th>主推产品</th></tr><tr><td>12.12-12.25</td><td>圣诞季</td><td>「姜饼人窑烤体验」亲子课（¥88/组）· 圣诞限定「树桩面包」</td><td>亲子体验</td></tr><tr><td>12.31</td><td>跨年夜</td><td>「窑火跨年」烤肉套餐+ countdown 派对，限30人，¥198/人</td><td>派对套餐</td></tr><tr><td>1.1</td><td>元旦</td><td>「新年第一炉」——前50名到店送「开运面包」（红豆馅）</td><td>限定面包</td></tr><tr><td>1.20-2.5</td><td>春节</td><td>「窑烤年货礼盒」——面包+腊肉+酱鸭组合，¥268/盒</td><td>年货礼盒</td></tr><tr><td>2.14</td><td>情人节</td><td>「双人窑烤晚餐」——情侣专属烤肉套餐+玫瑰花+拍照服务，¥299</td><td>情侣套餐</td></tr></table></div><div class='card'><h3>Q1-Q2 亮点活动预告</h3><ul><li><strong>3月：</strong>「妇女节」——闺蜜下午茶套餐（2人¥88含2份面包+2杯咖啡+1份甜点）</li><li><strong>4月：</strong>「面包节」——联合杭州3家独立面包店做「窑烤巡游」，互相导流</li><li><strong>5月：</strong>「母亲节」——「给妈妈烤一个面包」亲子体验课</li><li><strong>6月：</strong>「周年庆」——开业1周年，全年最大力度回馈，储值充多少送多少（上限¥2000）</li></ul></div><div class='card'><h3>每月固定节奏</h3><ul><li><strong>每月1号：</strong>发布「本月窑烤日历」（7款主打面包的轮换表）</li><li><strong>每月8号：</strong>会员日预告（18号活动提前10天预热）</li><li><strong>每月15号：</strong>「月中上新」——至少1款面包+1款咖啡新品</li><li><strong>每月最后一个周日：</strong>「主厨餐桌」——限定10人，主厨亲自服务+讲解，¥288/人</li></ul></div>`,
+    ch8: `<h2>✅ 执行落地检查表 · 开业前必做30项</h2><div class='card'><h3>🏗️ 开业前（T-30天至T-1天）</h3><table class='data-table'><tr><th>序号</th><th>事项</th><th>负责人</th><th>截止</th><th>状态</th></tr><tr><td>1</td><td>窑炉调试完成，面包配方定版（至少8款）</td><td>主厨</td><td>T-30</td><td>□</td></tr><tr><td>2</td><td>咖啡机调试，菜单定版（美式/拿铁/特调≥5款）</td><td>咖啡师</td><td>T-30</td><td>□</td></tr><tr><td>3</td><td>烤肉供应链确定（肉类/蔬菜/酱料/炭）</td><td>店长</td><td>T-25</td><td>□</td></tr><tr><td>4</td><td>美团/大众点评商户入驻+菜单上传</td><td>店长</td><td>T-20</td><td>□</td></tr><tr><td>5</td><td>小红书账号注册，发布3条预热笔记</td><td>店长/国庆</td><td>T-20</td><td>□</td></tr><tr><td>6</td><td>微信社群创建，种子用户拉群≥100人</td><td>店长</td><td>T-15</td><td>□</td></tr><tr><td>7</td><td>会员系统配置（等级/储值/积分规则录入）</td><td>店长</td><td>T-15</td><td>□</td></tr><tr><td>8</td><td>收银系统对接（美团收银/扫码点餐/会员打通）</td><td>国庆/技术</td><td>T-10</td><td>□</td></tr><tr><td>9</td><td>员工培训：窑烤故事话术+会员推销话术+差评应对</td><td>店长</td><td>T-7</td><td>□</td></tr><tr><td>10</td><td>开业物料到位（海报/易拉宝/桌贴/评价卡/储值立牌）</td><td>店长</td><td>T-5</td><td>□</td></tr><tr><td>11</td><td>开业活动方案全员宣导（三重礼规则+话术）</td><td>店长</td><td>T-3</td><td>□</td></tr><tr><td>12</td><td>试营业3天（邀请朋友/综合体商户内部测试）</td><td>全员</td><td>T-3至T-1</td><td>□</td></tr></table></div><div class='card'><h3>🚀 开业第1周（Day 1-7）</h3><table class='data-table'><tr><th>序号</th><th>事项</th><th>负责人</th><th>检查标准</th></tr><tr><td>13</td><td>每日窑炉开炉直播（抖音/视频号）</td><td>店长</td><td>≥3条视频，播放量≥500</td></tr><tr><td>14</td><td>前100名到店客人登记+引导评价</td><td>服务员</td><td>评价转化率≥50%</td></tr><tr><td>15</td><td>每日社群发布「今日出炉表」</td><td>店长</td><td>早8:00准时发</td></tr><tr><td>16</td><td>储值目标：首周≥30人</td><td>全员</td><td>人均储值¥350+</td></tr><tr><td>17</td><td>差评实时监控（每天17:00查看）</td><td>店长</td><td>差评24小时内回复</td></tr><tr><td>18</td><td>每日数据复盘（客流/客单/时段分布）</td><td>店长</td><td>Excel记录，找出隐藏高峰</td></tr></table></div><div class='card'><h3>📈 开业第2-4周（Day 8-30）</h3><table class='data-table'><tr><th>序号</th><th>事项</th><th>负责人</th><th>检查标准</th></tr><tr><td>19</td><td>点评评价累计≥30条，评分≥4.5</td><td>店长</td><td>每周新增≥8条</td></tr><tr><td>20</td><td>小红书笔记≥10篇（自营+客人UGC）</td><td>店长</td><td>带定位+话题#钱塘美食</td></tr><tr><td>21</td><td>外卖上线（面包+咖啡）</td><td>店长</td><td>美团+饿了么双平台</td></tr><tr><td>22</td><td>企业团餐首单落地</td><td>国庆/店长</td><td>至少1家企业签约</td></tr><tr><td>23</td><td>会员数≥200人</td><td>全员</td><td>注册率≥30%</td></tr><tr><td>24</td><td>储值总额≥¥3万</td><td>全员</td><td>-</td></tr><tr><td>25</td><td>首次「主厨餐桌」活动落地</td><td>主厨</td><td>10人满座</td></tr><tr><td>26</td><td>产品汰换：下架销量末位3款</td><td>主厨+店长</td><td>上新≥2款替换</td></tr><tr><td>27</td><td>员工话术考核（随机抽查）</td><td>店长</td><td>全员通过</td></tr></table></div><div class='card'><h3>🔒 持续运营（每月）</h3><table class='data-table'><tr><th>序号</th><th>事项</th><th>频率</th></tr><tr><td>28</td><td>月度数据复盘会（客流/客单/复购/差评）</td><td>每月1次</td></tr><tr><td>29</td><td>会员活跃度分析（沉默用户召回）</td><td>每月1次</td></tr><tr><td>30</td><td>竞品巡查（周边3km新开店/活动/价格）</td><td>每月1次</td></tr></table></div><div class='card'><h3>💡 给老板的最后一句话</h3><p style='font-size:16px;line-height:1.8;color:#333;'><strong>谷楼窑烤·Space 不是「又一家面包店」或「又一家烤肉店」。</strong></p><p style='font-size:16px;line-height:1.8;color:#333;'>它是钱塘区第一个把「窑烤」做出记忆点的复合空间——早上卖的是新鲜和温暖，下午卖的是悠闲和格调，晚上卖的是烟火和欢聚。</p><p style='font-size:16px;line-height:1.8;color:#333;'>这套方案的核心不是「花多少钱做营销」，而是<strong>「让窑炉不空转、让客人不白来、让每一块钱都花在能回来的人身上」</strong>。</p><p style='font-size:16px;line-height:1.8;color:#333;'>开业前30天是关键窗口，建议老板亲自盯前7天的执行——<strong>前7天的口碑，决定前3个月的客流曲线。</strong></p></div>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
