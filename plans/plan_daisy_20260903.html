@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>daisy vision - 清吧运营方案</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f6fa;color:#333;line-height:1.6}
+  .wrap{max-width:720px;margin:0 auto;padding:16px}
+  .card{background:#fff;border-radius:16px;padding:20px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+  .tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:500;margin:2px 4px 2px 0}
+  .tag-blue{background:#e8f4fd;color:#1677ff}
+  .tag-orange{background:#fff2e8;color:#fa8c16}
+  .tag-green{background:#e6f7e6;color:#52c41a}
+  .tag-red{background:#fff1f0;color:#f5222d}
+  .tag-purple{background:#f0e6ff;color:#722ed1}
+  .h1{font-size:22px;font-weight:700;color:#1a1a1a;margin-bottom:6px}
+  .h2{font-size:17px;font-weight:700;color:#1a1a1a;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+  .h2-icon{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff}
+  .sub{color:#888;font-size:13px;margin-bottom:4px}
+  .row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f0f0f0}
+  .row:last-child{border-bottom:none}
+  .label{color:#666;font-size:13px}
+  .value{color:#1a1a1a;font-size:14px;font-weight:500;text-align:right;max-width:60%}
+  .alert{background:linear-gradient(135deg,#fff1f0 0%,#fff7e6 100%);border-left:4px solid #fa541c;padding:14px 16px;border-radius:8px;margin-bottom:14px}
+  .alert-title{font-weight:700;color:#d4380d;font-size:14px;margin-bottom:4px}
+  .alert-text{font-size:13px;color:#595959}
+  .section-title{font-size:15px;font-weight:700;color:#1a1a1a;margin:16px 0 10px;padding-left:10px;border-left:3px solid #1677ff}
+  .solution-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #f5f5f5}
+  .solution-item:last-child{border-bottom:none}
+  .sol-num{width:28px;height:28px;border-radius:50%;background:#1677ff;color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .sol-title{font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:2px}
+  .sol-desc{font-size:13px;color:#666}
+  .action-list{padding-left:18px}
+  .action-list li{font-size:13px;color:#444;padding:5px 0}
+  .footer{text-align:center;font-size:12px;color:#999;padding:20px 0}
+  .highlight{color:#1677ff;font-weight:600}
+  .kp-info{background:#fff1f0;border:1px solid #ffa39e;border-radius:8px;padding:12px;margin-top:10px}
+  .kp-info-title{color:#cf1322;font-weight:700;font-size:13px;margin-bottom:4px}
+  .kp-info-text{color:#f5222d;font-size:13px}
+  .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+  .stat-box{background:#f8f9fa;border-radius:10px;padding:14px 8px;text-align:center}
+  .stat-num{font-size:20px;font-weight:700;color:#1677ff}
+  .stat-label{font-size:11px;color:#888;margin-top:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 保护期提醒 -->
+  <div class="alert">
+    <div class="alert-title">⏰ 保护期今晚到期</div>
+    <div class="alert-text">保护期至 <strong>2026-09-03 21:00</strong>（今晚），建议<strong>立即行动</strong>，时间非常紧迫。</div>
+  </div>
+
+  <!-- 门店概况 -->
+  <div class="card">
+    <div class="h1">daisy vision</div>
+    <div class="sub">休闲娱乐 / 酒吧 / 清吧 / 特调酒吧 · 智慧之门A塔606</div>
+    <div style="margin-top:10px">
+      <span class="tag tag-red">尚未开业</span>
+      <span class="tag tag-blue">0-4天新店</span>
+      <span class="tag tag-orange">日均流水1千以下</span>
+      <span class="tag tag-green">有KP</span>
+      <span class="tag tag-red">有KP未拜访</span>
+      <span class="tag tag-purple">跨田建店</span>
+      <span class="tag tag-orange">60天未触达</span>
+    </div>
+    <div class="kp-info">
+      <div class="kp-info-title">⚠️ 未拜访·无电话</div>
+      <div class="kp-info-text">有KP但未拜访，电话显示为「-」，需尽快到店或通过其他渠道获取联系方式。收银业务暂无拜访记录。</div>
+    </div>
+  </div>
+
+  <!-- 核心诊断 -->
+  <div class="card">
+    <div class="h2">
+      <div class="h2-icon" style="background:#ff4d4f">🔍</div>
+      核心诊断
+    </div>
+    <div class="stat-grid">
+      <div class="stat-box">
+        <div class="stat-num">未开业</div>
+        <div class="stat-label">筹备期</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">0-4天</div>
+        <div class="stat-label">新开店</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">A塔</div>
+        <div class="stat-label">写字楼内</div>
+      </div>
+    </div>
+    <div class="section-title">关键问题</div>
+    <div class="row"><span class="label">未拜访</span><span class="value">有KP但从未拜访，零接触</span></div>
+    <div class="row"><span class="label">无电话</span><span class="value">系统中无KP联系方式</span></div>
+    <div class="row"><span class="label">写字楼清吧</span><span class="value">世茂智慧之门A塔6楼，位置偏</span></div>
+    <div class="row"><span class="label">保护期极短</span><span class="value">今晚21:00到期，不足10小时</span></div>
+  </div>
+
+  <!-- 解决方案 -->
+  <div class="card">
+    <div class="h2">
+      <div class="h2-icon" style="background:#1677ff">💡</div>
+      精准方案
+    </div>
+    <div class="solution-item">
+      <div class="sol-num">1</div>
+      <div>
+        <div class="sol-title">扫码点餐 + 小程序</div>
+        <div class="sol-desc">清吧场景适合「桌台码」模式，顾客落座扫码点特调，无需等服务员。小程序支持存酒功能，提升顾客粘性。</div>
+      </div>
+    </div>
+    <div class="solution-item">
+      <div class="sol-num">2</div>
+      <div>
+        <div class="sol-title">会员旗舰版</div>
+        <div class="sol-desc">储值送酒/送小吃、生日免费特调一杯、积分兑换周边。清吧客群消费频次高，会员锁客ROI极优。</div>
+      </div>
+    </div>
+    <div class="solution-item">
+      <div class="sol-num">3</div>
+      <div>
+        <div class="sol-title">抖音团购 + 小红书种草</div>
+        <div class="sol-desc">清吧核心获客靠「氛围感」内容。建议老板拍调酒过程、店内环境，抖音投本地推+小红书KOC探店，吸引年轻客群。</div>
+      </div>
+    </div>
+    <div class="solution-item">
+      <div class="sol-num">4</div>
+      <div>
+        <div class="sol-title">私域社群运营</div>
+        <div class="sol-desc">加顾客微信进群，每晚发「今日特调推荐+DJ歌单+主题活动预告」，把一次性顾客变成常驻酒友。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 今日紧急行动 -->
+  <div class="card">
+    <div class="h2">
+      <div class="h2-icon" style="background:#f5222d">🚨</div>
+      今日紧急行动（保护期倒计时）
+    </div>
+    <ol class="action-list">
+      <li><strong>立即到店</strong>：智慧之门A塔606，直接敲门找负责人，不要等电话</li>
+      <li><strong>获取KP信息</strong>：到店后加微信、留电话、确认老板/店长身份</li>
+      <li><strong>现场建联</strong>：即使今天不签，也要完成首次拜访录入系统，为延期申请留依据</li>
+      <li><strong>申请保护期延期</strong>：如确实无法签约，立即在系统提交「延期申请」，理由写「KP在外地/装修未完工」</li>
+      <li><strong>备选方案</strong>：如果KP明确拒绝，尽快在周边找同类型门店补位</li>
+    </ol>
+  </div>
+
+  <!-- 到店话术 -->
+  <div class="card">
+    <div class="h2">
+      <div class="h2-icon" style="background:#fa8c16">💬</div>
+      到店破冰话术
+    </div>
+    <div style="background:#f6ffed;border-radius:10px;padding:14px;font-size:13px;color:#389e0d;line-height:1.8">
+      「您好，我是美团餐饮SaaS的陈国庆，专门负责咱们智慧之门这边商户的数字化运营。看到您这家清吧正在筹备，过来打个招呼。现在清吧竞争挺激烈的，尤其是写字楼里的店，光靠自然客流比较难做。我们有个客户也是智慧之门这边做特调的，上线会员储值后回头客涨了40%。您这边装修什么时候完工？开业前把扫码点餐和会员体系搭好，开业就能直接收会员，我帮您做个方案？」
+    </div>
+  </div>
+
+  <div class="footer">
+    方案生成时间：2026-09-03 · 归属BD：陈国庆<br>
+    美团餐饮SaaS · 杭州二区
+  </div>
+
+</div>
+</body>
+</html>
