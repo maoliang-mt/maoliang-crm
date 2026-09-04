@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>有金港式碟头饭 - 运营方案</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #f5f6fa;
+    color: #333;
+    line-height: 1.7;
+    padding: 16px;
+  }
+  .container { max-width: 720px; margin: 0 auto; }
+
+  /* 封面 */
+  .hero {
+    background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+    border-radius: 16px;
+    padding: 32px 24px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 160px; height: 160px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 50%;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    margin-bottom: 12px;
+  }
+  .hero h1 { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
+  .hero-meta { font-size: 14px; opacity: 0.92; line-height: 1.8; }
+  .hero-tags { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .hero-tags span {
+    background: rgba(255,255,255,0.2);
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+  }
+
+  /* 卡片 */
+  .card {
+    background: white;
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+  .card-title {
+    font-size: 16px; font-weight: 700;
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 14px;
+    color: #1a1a1a;
+  }
+  .card-title .icon { font-size: 20px; }
+
+  /* 门店画像 */
+  .profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .profile-item {
+    background: #f8f9fc;
+    border-radius: 10px;
+    padding: 12px;
+  }
+  .profile-item .label { font-size: 12px; color: #888; margin-bottom: 4px; }
+  .profile-item .value { font-size: 14px; font-weight: 600; color: #333; }
+
+  /* 痛点 */
+  .pain-list { list-style: none; }
+  .pain-list li {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .pain-list li:last-child { border-bottom: none; }
+  .pain-num {
+    width: 24px; height: 24px;
+    background: #FF6B35; color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .pain-text { font-size: 14px; color: #444; }
+
+  /* 方案 */
+  .solution-item {
+    border-left: 3px solid #FF6B35;
+    padding-left: 14px;
+    margin-bottom: 14px;
+  }
+  .solution-item h4 { font-size: 15px; color: #1a1a1a; margin-bottom: 6px; }
+  .solution-item p { font-size: 13px; color: #666; }
+  .solution-item .highlight {
+    display: inline-block;
+    background: #fff3e6;
+    color: #e65100;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-top: 6px;
+  }
+
+  /* 效果预测 */
+  .effect-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .effect-box {
+    background: linear-gradient(135deg, #FFF3E6 0%, #FFE8D6 100%);
+    border-radius: 12px;
+    padding: 16px 8px;
+    text-align: center;
+  }
+  .effect-box .num { font-size: 22px; font-weight: 700; color: #FF6B35; }
+  .effect-box .label { font-size: 12px; color: #666; margin-top: 4px; }
+
+  /* 行动建议 */
+  .action-list { list-style: none; counter-reset: act; }
+  .action-list li {
+    position: relative;
+    padding-left: 32px;
+    padding-top: 8px; padding-bottom: 8px;
+    font-size: 14px; color: #444;
+    border-bottom: 1px solid #f5f5f5;
+  }
+  .action-list li::before {
+    counter-increment: act;
+    content: counter(act);
+    position: absolute;
+    left: 0; top: 8px;
+    width: 22px; height: 22px;
+    background: #FF6B35;
+    color: white;
+    border-radius: 50%;
+    font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .action-list li:last-child { border-bottom: none; }
+
+  /* CTA */
+  .cta {
+    background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+    color: white;
+    border-radius: 14px;
+    padding: 24px;
+    text-align: center;
+    margin-top: 10px;
+  }
+  .cta h3 { font-size: 18px; margin-bottom: 8px; }
+  .cta p { font-size: 13px; opacity: 0.9; }
+  .cta .deadline {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 4px 14px;
+    border-radius: 16px;
+    font-size: 13px;
+    margin-top: 10px;
+  }
+
+  .footer {
+    text-align: center;
+    font-size: 12px;
+    color: #999;
+    padding: 20px 0 8px;
+  }
+
+  @media (max-width: 480px) {
+    .profile-grid, .effect-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- 封面 -->
+  <div class="hero">
+    <div class="hero-badge">📋 美团餐饮SaaS · 运营方案</div>
+    <h1>有金港式碟头饭滋补炖汤</h1>
+    <div class="hero-meta">
+      📍 盈丰街道ITC归谷国际中心钱江印3楼<br>
+      🏷️ 港式小吃 · 快餐 · 日均流水1-3千
+    </div>
+    <div class="hero-tags">
+      <span>0-30天新店</span>
+      <span>有KP</span>
+      <span>合作外卖</span>
+      <span>智能版</span>
+    </div>
+  </div>
+
+  <!-- 门店画像 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🏪</span> 门店画像</div>
+    <div class="profile-grid">
+      <div class="profile-item">
+        <div class="label">门店ID</div>
+        <div class="value">1030931186176772</div>
+      </div>
+      <div class="profile-item">
+        <div class="label">品类</div>
+        <div class="value">港式小吃/快餐</div>
+      </div>
+      <div class="profile-item">
+        <div class="label">商圈</div>
+        <div class="value">ITC归谷·钱江印</div>
+      </div>
+      <div class="profile-item">
+        <div class="label">营业阶段</div>
+        <div class="value">🟢 营业中 · 0-30天新店</div>
+      </div>
+      <div class="profile-item">
+        <div class="label">日均流水</div>
+        <div class="value">1,000 - 3,000元</div>
+      </div>
+      <div class="profile-item">
+        <div class="label">KP状态</div>
+        <div class="value">✅ 已识别</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 核心痛点 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">⚠️</span> 核心痛点诊断</div>
+    <ul class="pain-list">
+      <li>
+        <span class="pain-num">1</span>
+        <span class="pain-text"><b>新店冷启动难</b> — 刚开业0-30天，线上曝光不足，堂食流量未稳，急需快速积累第一批会员。</span>
+      </li>
+      <li>
+        <span class="pain-num">2</span>
+        <span class="pain-text"><b>外卖与堂食数据割裂</b> — 已有外卖合作，但堂食与外卖订单未打通，难以做统一会员运营和精准营销。</span>
+      </li>
+      <li>
+        <span class="pain-num">3</span>
+        <span class="pain-text"><b>缺乏数字化工具</b> — 日均流水1-3千，处于爬坡期，需要低成本数字化手段提升翻台率和客单价。</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 解决方案 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🎯</span> 解决方案</div>
+
+    <div class="solution-item">
+      <h4>1. 扫码点餐 + 小程序</h4>
+      <p>顾客扫码自助点餐，减少人工下单环节，提升翻台率30%+。小程序沉淀用户，突破「吃完即走」的困局。</p>
+      <span class="highlight">💡 适合快餐场景：港式碟头饭出餐快，扫码点餐能进一步缩短等餐时间</span>
+    </div>
+
+    <div class="solution-item">
+      <h4>2. 会员旗舰版</h4>
+      <p>储值锁客 + 积分营销 + 精准发券。新店开业期用「充100送15」快速回笼现金流，锁定周边上班族复购。</p>
+      <span class="highlight">💡 钱江印是写字楼商圈，白领群体储值意愿高，适合储值模型</span>
+    </div>
+
+    <div class="solution-item">
+      <h4>3. 外卖中心（打通美团外卖）</h4>
+      <p>已有外卖合作的基础上，用外卖中心统一管理多平台订单，打通会员数据，实现「堂食+外卖」一体化运营。</p>
+      <span class="highlight">💡 避免外卖和堂食「两套系统」导致的数据孤岛</span>
+    </div>
+  </div>
+
+  <!-- 效果预测 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">📈</span> 预期效果（3个月）</div>
+    <div class="effect-grid">
+      <div class="effect-box">
+        <div class="num">+35%</div>
+        <div class="label">翻台率提升</div>
+      </div>
+      <div class="effect-box">
+        <div class="num">+25%</div>
+        <div class="label">会员复购率</div>
+      </div>
+      <div class="effect-box">
+        <div class="num">+20%</div>
+        <div class="label">客单价提升</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 行动建议 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🚀</span> 行动建议</div>
+    <ol class="action-list">
+      <li><b>本周内</b>：联系KP（135****7753），约线下拜访，现场演示扫码点餐流程</li>
+      <li><b>开业首月</b>：上线扫码点餐，搭配「新客立减3元」引流，快速积累首批会员</li>
+      <li><b>第2个月</b>：启动储值活动「充100送15+送炖汤一份」，锁定周边白领客群</li>
+      <li><b>持续运营</b>：每周通过会员系统发「工作日午市专享券」，培养消费习惯</li>
+    </ol>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <h3>🎯 保护期倒计时</h3>
+    <p>该门店保护期至 <b>2026年9月9日 21:00</b></p>
+    <div class="deadline">⏰ 还剩 5 天 · 建议本周内完成首次拜访</div>
+  </div>
+
+  <div class="footer">
+    美团餐饮SaaS · 杭州二区 · 陈国庆<br>
+    方案生成于 2026年9月4日
+  </div>
+
+</div>
+</body>
+</html>
