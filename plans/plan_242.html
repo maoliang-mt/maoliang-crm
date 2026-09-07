@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3Q德州酒馆 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">酒吧/休闲娱乐 · 运营提升方案</div>
+  <h1 class="hero-title">3Q德州酒馆</h1>
+  <p class="hero-subtitle">华中农大旁的大学生社交酒馆——用德州扑克造话题，用会员体系锁复购</p>
+  <div class="hero-address">湖北省武汉市洪山区洪山街街道南湖大道与狮子山北路交汇处东北</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥68</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">洪山区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察与商圈诊断', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察与商圈诊断</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解与切入机会', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解与切入机会</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '品牌定位与核心打法', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">品牌定位与核心打法</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, 'SaaS系统方案', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">SaaS系统方案</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '点评口碑与公域获客', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">点评口碑与公域获客</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '私域会员与社群锁客', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">私域会员与社群锁客</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '开业冲刺与Q3活动日历', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">开业冲刺与Q3活动日历</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, '投资回报与OKR目标', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">投资回报与OKR目标</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>武汉高校商圈”餐+酒”市场现状</h3><p>你目前门店位于洪山区南湖大道与狮子山北路交汇处，毗邻<strong>华中农业大学</strong>，属于典型”高校+社区”混合商圈。根据品类大盘数据，武汉高校商圈”餐+酒”模式2025-2026呈<strong>K型分化</strong>：50-80元性价比小酒馆稳健增长，120元以上精品鸡尾酒吧收缩明显。你当前<strong>人均68元</strong>的卡位非常精准，正处于学生群体可接受的”轻奢但不吃土”价格带。</p><p>⚠️ 假设：基于你日均流水显示”1千以下”及0-30天新店标签，预估开业首月日均客流约15-25人，需通过开业活动快速爬坡。</p><h3>目标客群画像</h3><ul><li><strong>核心客群（60%）：</strong>华中农大及周边高校学生（18-25岁），价格敏感但社交需求旺盛，人均预算50-80元</li><li><strong>次要客群（25%）：</strong>周边年轻上班族（22-30岁），下班后小聚需求，偏好有特色的社交场景</li><li><strong>潜力客群（15%）：</strong>周边教职工及社区居民，家庭/朋友聚餐，注重环境与性价比</li></ul><h3>区位机会与风险</h3><table><tr><th>维度</th><th>机会</th><th>风险</th></tr><tr><td>客流</td><td>华农在校生约3万人，稳定客源池</td><td>寒暑假客流断崖式下跌（需提前布局）</td></tr><tr><td>竞争</td><td>68元卡位精准，介于低价连锁与精品酒吧之间</td><td>海伦司等连锁低价压制，价格敏感度高</td></tr><tr><td>场景</td><td>高校缺乏”餐+酒+社交”复合空间</td><td>纯酒吧模式在学生群体复购受限</td></tr></table><p><strong>核心诊断结论：</strong>你目前最大的经营痛点是<strong>”有区位无认知”</strong>——位置在高校旁但品牌零认知，线上零评价、零流量、零会员积累。开业前30天的核心任务不是卖货，是<strong>让周边3公里知道”3Q德州酒馆开了”</strong>，并建立”华农旁边能吃饭能打德州扑克的好玩酒馆”这一心智。</p></div>
+<div id="modal-content-2" style="display:none"><h3>周边3公里真实竞品扫描</h3><p>你目前人均68元、120㎡、餐酒复合模式，周边直接竞品有三类。以下数据基于市场调研简报，是你方案中最核心的作战地图。</p><table><tr><th>竞品名称</th><th>人均</th><th>核心特点</th><th>致命弱点</th><th>3Q的切入机会</th></tr><tr><td>海伦司小酒馆</td><td>¥55-75</td><td>标准化低价、全国连锁、学生认知度高</td><td>餐食极弱（只有小食拼盘）、无差异化体验、社交属性差</td><td><strong>用”好吃+好玩”打海伦司的”好喝但不好吃”</strong>——推出饱腹感的晚餐套餐，解决学生”先吃饭再喝酒”的需求</td></tr><tr><td>南湖片区本地烧烤大排档</td><td>¥50-70</td><td>烟火气足、熟人社交、价格亲民</td><td>环境差（露天/油烟重）、无品牌感、无会员体系、体验不可控</td><td><strong>用”室内舒适环境+主题玩法”打大排档的”环境差”</strong>——室内空调+德州扑克主题+扫码点餐，提升整体体验</td></tr><tr><td>区域独立精酿吧</td><td>¥70-90</td><td>酒水品质高、有小众圈层</td><td>无餐食或餐食极贵、门槛高（精酿文化排他）、学生群体难融入</td><td><strong>用”低门槛社交游戏+亲民价格”打精酿吧的”高冷”</strong>——德州扑克零门槛，68元包饭包酒，学生敢进门</td></tr><tr><td>X star poker&bar</td><td>未知</td><td>同为扑克主题酒吧</td><td>（需BD实地调研其人均/客流/口碑）</td><td>差异化：若对方偏高端，3Q走学生亲民路线；若对方也是低价，比拼餐食品质和社群运营</td></tr></table><h3>竞争策略：三刀切</h3><p><strong>第一刀·晚餐截流（17:00-20:00）：</strong>高校商圈晚餐时段是空白地带——学生下课要吃饭，但周边要么太贵要么太low。推出”下班酒饭套餐”（一饭一酒一小食68元），用饱腹套餐把”纯酒吧”变成”能吃饱的小酒馆”。<strong>How：</strong>①老板/厨师设计3款套餐（如照烧鸡腿饭+精酿啤酒+薯条、川味小面+果酒+凉菜）；②开业前3天在扫码点餐后台🔧「菜单管理→套餐」录入；③服务员话术：”同学，我们家的饭做得比酒还出名，先吃后玩更划算”；④不配合怎么办→推出”单点菜品满50送Shot一杯”引导尝试。</p><p><strong>第二刀·社团绑定（持续）：</strong>华农有100+学生社团，团建刚需旺盛但预算有限。推出”社团套餐”6人268元（含主食+扎啤+小食拼盘），凭学生证22:00后酒水第二份半价。<strong>How：</strong>①老板联系华农社团联/学生会外联部（开学季9月最佳）；②在会员系统🔧「营销中心→团体套餐」创建6人套餐券；③给社团负责人免费试吃1次（成本约150元），满意后签订”团建基地”挂牌；④社团嫌贵→对比海伦司6人消费通常350+，突出268元性价比+包场可玩德州扑克。</p><p><strong>第三刀·主题夜造话题（每周三）：</strong>每周三”德州扑克娱乐夜”（无现金，积分换酒/小食），制造社交话题发抖音/小红书。<strong>How：</strong>①老板准备扑克筹码和简单规则说明卡（成本约50元）；②每周三18:00在门店社群发暗号”今晚积分王送6瓶啤酒”；③服务员在21:00主动邀请每桌客人”要不要来一局？不赌钱，赢了送酒”；④客人嫌麻烦→改为”扫码加群，群里每天发暗号，到店报暗号送Shot”。</p></div>
+<div id="modal-content-3" style="display:none"><h3>3Q品牌定位：华农学子的”第二客厅”</h3><p>你的门店目前处于纯冷启动状态，没有历史口碑、没有线上流量、没有顾客资产。在这种状态下，最危险的做法是”什么都做、什么都不突出”。3Q必须有一个<strong>一句话就能记住的定位</strong>：</p><div class="highlight-box"><p><strong>”华农旁边，能吃饭、能喝酒、能打德州扑克的大学生社交酒馆”</strong></p></div><p>这一定位同时锚定了三个差异化标签：<strong>餐（解决饱腹）</strong>、<strong>酒（社交媒介）</strong>、<strong>德州扑克（独特玩法）</strong>——三个标签缺一不可，缺了”餐”就和海伦司同质化，缺了”德州扑克”就没有记忆点。</p><h3>核心打法一：晚餐截流（17:00-20:00）</h3><p><strong>What：</strong>针对高校商圈晚餐空档，推”酒饭套餐”填补”下课→夜宵”之间的断层。</p><p><strong>How（落地五要素）：</strong></p><ul><li><strong>谁来做：</strong>老板/厨师定菜单，店长每日检查备料</li><li><strong>第几天做：</strong>开业前3天菜单定稿，开业第1天上线</li><li><strong>在哪操作：</strong>美团收银后台🔧「菜品管理→套餐管理」创建3档套餐；扫码点餐前台自动展示</li><li><strong>话怎么说：</strong>服务员”同学，今天有酒饭套餐，一饭一酒一小食68元，比单点省15块，吃完还能打两把德州扑克”</li><li><strong>不配合怎么办：</strong>客人只想喝酒不吃饭→”那给您推荐纯酒套餐，两杯精酿+小食拼盘48元，也很划算”</li></ul><p>⚠️ 假设：晚餐时段若能截流20人/晚，按68元人均计算，月增营收约4万元，是开业首月最核心的现金流来源。</p><h3>核心打法二：社团绑定（开学季9月集中攻坚）</h3><p><strong>What：</strong>与华农学生会、社团联建立”团建基地”合作，用套餐价格锁定团体消费。</p><p><strong>How（落地五要素）：</strong></p><ul><li><strong>谁来做：</strong>老板亲自跑社团联（1周），后期店长维护</li><li><strong>第几天做：</strong>开业前7天联系社团联，开业第1周接待首批社团试吃</li><li><strong>在哪操作：</strong>会员系统🔧「潜客营销→团体客户」录入社团信息；万能码生成”社团专属预约入口”</li><li><strong>话怎么说：</strong>”我们是华农旁边新开的德州主题酒馆，专门给学生社团做团建，6人套餐268元管饱，还能免费玩德州扑克”</li><li><strong>不配合怎么办：</strong>社团负责人担心环境→邀请免费试吃1次（成本150元），实地体验后决策</li></ul><h3>核心打法三：主题夜获客（每周三·持续）</h3><p><strong>What：</strong>每周三”德州扑克娱乐夜”，零门槛社交游戏制造话题。</p><p><strong>How（落地五要素）：</strong></p><ul><li><strong>谁来做：</strong>老板兼主持人（前2个月亲自带），培养1名服务员做副主持</li><li><strong>第几天做：</strong>开业第1周的周三启动，每周固定</li><li><strong>在哪操作：</strong>门店微信群提前1天发预告；抖音/小红书每周三发短视频”今晚积分王送6瓶啤酒”</li><li><strong>话怎么说：</strong>服务员”今晚德州扑克娱乐夜，不赌钱，赢了积分换酒，来一局？”</li><li><strong>不配合怎么办：</strong>客人不会玩→”我教你，2分钟学会，今晚新手保护期赢了双倍积分”</li></ul></div>
+<div id="modal-content-4" style="display:none"><h3>已签约系统落地清单</h3><p>你目前已签约<strong>收银POS、扫码点餐、会员旗舰版、小程序</strong>四大模块。以下方案基于你现有系统能力设计，不做额外采购建议，确保”签了什么用什么”。</p><h3>收银POS：统一高效的财务中枢</h3><p><strong>解决什么问题：</strong>新店开业初期最容易出现的漏洞是”手工记账+漏单+对账难”。</p><p><strong>How：</strong>①开业前1天完成所有菜品/套餐/酒水的POS录入，测试扫码枪和打印机；②设置”酒饭套餐””社团套餐””纯酒套餐”三个快捷按键（🔧「系统设置→快捷键配置」）；③每日打烊后导出营业报表（🔧「报表中心→日营业汇总」），重点看”套餐销售占比”和”酒水单点占比”，调整推广策略；④周末设置”学生优惠时段”（19:00-21:00酒水9折），在POS端自动识别会员身份打折。</p><h3>扫码点餐：降本提效+数据沉淀</h3><p><strong>解决什么问题：</strong>120㎡的酒吧，如果高峰期需要2个服务员来回点单，人力成本高且容易出错。扫码点餐可以减少1名服务员，同时沉淀顾客点餐数据。</p><p><strong>How：</strong>①开业前3天在后台🔧「扫码点餐→菜单管理」上传完整菜单，确保每个菜品有图片（建议实拍，不要网图）；②设置”推荐套餐”置顶展示（酒饭套餐放在第一位）；③桌台贴二维码时附带提示”扫码点单，首次注册送Shot一杯”；④每日后台查看🔧「数据报表→菜品销量排行」，把销量后20%的菜品替换或优化；⑤高峰期（周五周六20:00-23:00）开启”预点单”功能，减少顾客等待时间。</p><h3>会员旗舰版：储值+积分+营销三位一体</h3><p><strong>解决什么问题：</strong>学生客群复购的关键是”占便宜了”。会员系统让学生感受到”来3Q比去别家划算”。</p><p><strong>How：</strong>①开业第1周推出”3Q校园卡”（🔧「会员系统→卡等级管理」）：免费注册即送100积分，消费1元积1分，100分兑换Shot一杯/500分兑换啤酒一瓶；②设置三级会员：普通会员（注册即享）→银卡（累计消费500元，酒水95折）→金卡（累计消费1500元，酒水9折+生日赠6瓶啤酒）；③会员储值不作为主推（第一性原理：新店未建立信任前强推储值适得其反），仅作为”金卡会员专属福利”低调开放：充300送30、充500送60；④每周三通过会员系统🔧「消息推送→定向群发」给所有会员发”周三扑克夜预告+暗号福利”。</p><h3>小程序：线上门面+预约入口</h3><p><strong>解决什么问题：</strong>学生习惯在小程序上看菜单、查地址、提前了解活动。</p><p><strong>How：</strong>①小程序首页设置3个核心入口：「本周套餐」「周三扑克夜」「社团预约」；②上传门店实拍图（门头+室内环境+德州扑克桌），不要过度美化，真实感更重要；③开启”在线订座”功能（🔧「小程序管理→预约订座」），尤其周五周六晚和周三扑克夜，提前锁客；④小程序菜单与扫码点餐菜单实时同步，避免线上线下不一致。</p><h3>数据看板：每周必看的3个指标</h3><table><tr><th>指标</th><th>查看路径</th><th>健康标准</th></tr><tr><td>会员注册率</td><td>会员系统→新增会员数/到店消费人数</td><td>≥30%（每10个客人有3个注册会员）</td></tr><tr><td>套餐销售占比</td><td>POS报表→套餐销售额/总销售额</td><td>≥40%（说明晚餐截流策略有效）</td></tr><tr><td>复购率</td><td>会员系统→7天内二次到店人数/总到店人数</td><td>≥15%（开业首月）</td></tr></table></div>
+<div id="modal-content-5" style="display:none"><h3>大众点评冷启动策略（从0到50条评价）</h3><p>你目前点评评分”暂无”、评价数”暂无”、曝光访问均为0。新店前30条评价决定所有后续顾客的第一印象，这是开业期最高优先级的任务。</p><p><strong>阶段判断：</strong>你属于<strong>纯新店期</strong>（0评价、未开通商户通），当前核心目标是”出星”（达到4.0以上并显示星级）+积累首批真实口碑。</p><h3>Step 1：开业前7天·平台基建</h3><p><strong>What：</strong>完善门店信息，开通基础推广工具。</p><p><strong>How：</strong>①老板在大众点评商家版APP完善门店信息：上传10张以上实拍图（门头+室内+菜品+德州扑克桌特写+菜单）、填写完整营业时间、电话、人均；②开通商户通（基础版即可，月费约200-300元），获得”官方标签”和基础曝光；③设置2个引流团购套餐：「新客尝鲜双人餐¥88」（原价¥136，含2份主食+2杯酒+1份小食）和「社团聚会6人餐¥268」（与门店套餐同价）；④团购套餐在🔧「点评管家→团购管理」创建，确保与POS系统价格一致。</p><h3>Step 2：开业第1-7天·种子评价攻坚</h3><p><strong>What：</strong>开业首周积累20-30条真实好评。</p><p><strong>How：</strong>①每天主动邀请消费体验的客人写评价——注意<strong>严禁任何物质奖励诱导好评</strong>（2025年10月后新规，违规评价不计入星级），只能提供”服务体验”层面的邀请；②服务员话术：”如果喜欢我们店，可以在大众点评上留个真实评价，好坏我们都接受，您的反馈对我们很重要”；③对愿意写评价的客人，送一份”意外惊喜”（如多给一份小食），但<strong>不提前承诺、不交换条件</strong>；④老板每天亲自回复每条评价（好评感谢+邀请再来，差评道歉+说明改进措施）；⑤前7天每天监控评价后台，出现差评2小时内响应。</p><h3>Step 3：抖音/小红书·内容种草</h3><p><strong>What：</strong>利用”德州扑克主题”制造差异化内容，吸引华农及周边学生关注。</p><p><strong>How：</strong>①开业前3天注册门店抖音号和小红书号，名称统一为”3Q德州酒馆-华农店”；②内容矩阵：每周发3条短视频——周一”本周套餐介绍”、周三”德州扑克夜现场”、周五”顾客真实反应”；③拍摄建议：用手机实拍即可，不要过度剪辑。重点拍”学生第一次打德州扑克的兴奋表情””酒饭套餐的出品过程””社团包场的热闹场景”；④抖音带话题：#华中农业大学 #武汉小酒馆 #德州扑克 #大学生团建 #洪山区美食；⑤邀请5-10名华农学生（粉丝量不要求高，真实在校生即可）免费体验并在小红书发笔记，笔记标题参考：”华农旁边居然有能打德州扑克的酒馆！6个人才268”；⑥每条内容下方置顶评论：”凭学生证到店送Shot一杯，暗号'3Q666'”（暗号用于追踪小红书/抖音引流效果）。</p><h3>Step 4：持续维护·评价质量>数量</h3><p><strong>What：</strong>开业第2个月起，从”冲量”转向”提质”。</p><p><strong>How：</strong>①每月至少新增15-20条真实评价，维持活跃度；②重点引导”带图评价”（图片评价权重更高），服务员可以在客人拍照时说”您的照片拍得真好，方便的话点评上也传一张？”；③每月分析评价关键词（🔧「点评管家→评价分析」），如果出现”上菜慢””音乐太吵”等高频问题，立即整改；④目标：开业30天内达到4.3分（30+评价），60天内达到4.5分（50+评价）。</p></div>
+<div id="modal-content-6" style="display:none"><h3>私域体系：从”过客”到”常客”</h3><p>你目前顾客总数为0，复购率为0。高校酒吧的特殊性是<strong>学生群体流动性高（每年毕业一届）</strong>，如果私域运营跟不上，每年要重新获客。私域的核心目标不是一次性储值，而是<strong>建立一个”3Q校友”式的持续连接</strong>。</p><h3>社群运营：门店微信群的日常打法</h3><p><strong>What：</strong>建立3个门店微信群（每群200人上限，分群管理），日常运营制造归属感。</p><p><strong>How：</strong>①开业第1天在门口立牌”扫码进群，每天发暗号，到店报暗号送Shot”，目标1个月加满3个群（600人）；②每日社群内容SOP：上午11:00发”今日套餐推荐+实拍图”、下午17:00发”今晚暗号（如'皇家同花顺'）”、晚上21:00发”今晚现场氛围小视频”;③每周三扑克夜前1小时在群里发”今晚积分王送6瓶啤酒，现在报名”，制造紧迫感;④每月1日发”本月生日名单”，金卡会员生日当天凭身份证到店赠6瓶啤酒+生日歌；⑤群规明确：禁止广告、禁止吵架，违者警告后移除。</p><h3>会员升级路径设计</h3><table><tr><th>等级</th><th>条件</th><th>权益</th><th>目标人数</th></tr><tr><td>普通会员</td><td>扫码注册即享</td><td>消费1元积1分、100分兑换Shot、生日当天赠1杯酒</td><td>不限</td></tr><tr><td>银卡会员</td><td>累计消费满500元</td><td>酒水95折、周三扑克夜优先报名、每月1张免单券（满100可用）</td><td>首月目标50人</td></tr><tr><td>金卡会员</td><td>累计消费满1500元</td><td>酒水9折、生日赠6瓶啤酒、专属订座权、新品尝鲜优先</td><td>首季目标30人</td></tr></table><p><strong>How：</strong>①会员等级在🔧「会员系统→卡等级管理」配置，自动升级无需人工干预；②银卡/金卡会员的消费数据每周导出，老板亲自给即将升级的普通会员发微信：”您在3Q消费已满400元，再消费100元就升银卡啦，银卡酒水95折哦”；③金卡会员拉新奖励：每介绍1位新客到店消费，双方各得50积分。</p><h3>储值策略：低调开放，不作为主推</h3><p><strong>What：</strong>储值仅面向已建立信任的高频客户（金卡会员），不做开业强推。</p><p><strong>How：</strong>①储值档位：充300送30（相当于9折）、充500送60（相当于8.8折）；②只在金卡会员专属场景中提及：”您是咱金卡会员，如果需要可以考虑充500送60，更划算”；③储值金额在🔧「会员系统→储值管理」实时查看，设置余额不足提醒（余额<20元时自动推送）；④<strong>绝不向新客/普通会员推储值</strong>——新店未建立信任前强推储值会吓跑顾客。</p><h3>复购激活：寒暑假的特殊应对</h3><p><strong>What：</strong>高校酒吧的致命伤是寒暑假（约3个月/年）。必须在学期中把”学期中的快乐记忆”植入学生心智。</p><p><strong>How：</strong>①每学期末（1月和6月）推出”学期告别套餐”（凭学生证8折），同时发放”下学期回归券”（9月/3月可用，满100减20）；②假期期间社群不停更，每周发1次”想念3Q的XXX（某款招牌菜品）” nostalgic内容；③假期推出”校友专属”活动：毕业学生凭校友卡（电子）寒暑假回武汉到店享金卡待遇；④开学季（9月/3月）提前1周在社群预热”开学第一顿酒，3Q请你喝Shot”。</p></div>
+<div id="modal-content-7" style="display:none"><h3>开业前7天·倒计时冲刺清单</h3><table><tr><th>天数</th><th>动作</th><th>负责人</th><th>验收标准</th></tr><tr><td>D-7</td><td>菜单定稿（含3款酒饭套餐、社团套餐、纯酒套餐）</td><td>老板+厨师</td><td>POS系统录入完成，扫码点餐测试通过</td></tr><tr><td>D-6</td><td>会员系统配置（三级会员、积分规则、消息模板）</td><td>老板</td><td>注册测试会员1个，积分累计/兑换测试通过</td></tr><tr><td>D-5</td><td>点评平台基建（门店信息完善、团购套餐创建、实拍图上传）</td><td>老板</td><td>点评搜索”3Q德州酒馆”能正常显示</td></tr><tr><td>D-4</td><td>社群搭建（创建3个微信群、设计进群诱饵、打印群二维码立牌）</td><td>老板+店长</td><td>立牌摆放到位，扫码测试进群正常</td></tr><tr><td>D-3</td><td>社团联首轮触达（电话联系华农社团联/学生会外联部，预约拜访）</td><td>老板</td><td>至少联系到2个社团负责人</td></tr><tr><td>D-2</td><td>抖音/小红书账号注册+发布第一条预热视频</td><td>老板</td><td>账号注册完成，发布”3Q要开业了”短视频1条</td></tr><tr><td>D-1</td><td>全员演练（服务员话术、扫码点餐流程、德州扑克规则讲解）</td><td>老板</td><td>每位服务员能独立完成点餐+会员引导+扑克规则讲解</td></tr></table><h3>开业第1周·爆破策略</h3><p><strong>What：</strong>开业前7天是”黄金窗口”，周边3公里的注意力集中在你身上，必须制造”开业即火爆”的氛围。</p><p><strong>How：</strong>①开业前3天在社群发”开业暗号”——连续3天不同暗号，到店报暗号送不同礼品（Day1送Shot、Day2送小食、Day3送啤酒）；②开业当天门口摆放”华农学子专属福利”展架，凭学生证全场酒水第二份半价（限开业前3天）；③邀请已联系的社团负责人免费试吃（控制在5人以内，避免过度消耗）；④每晚21:00在抖音/小红书发”今晚现场”短视频，用真实客流制造”这家店很火”的从众效应；⑤每日营业结束后在社群发”今日战报”：”今天来了XX位同学，最受欢迎的是XX套餐，明天暗号是XXX”。</p><h3>Q3活动日历（9月重点）</h3><p>结合营销日历Q3分片，9月有三个关键节点适配你的高校酒吧定位：</p><p><strong>节点1：开学季（9月1-7日）</strong></p><p><strong>What：</strong>「开学加油站」校园引流。</p><p><strong>How：</strong>①9月1-7日凭新学期课程表/录取通知书到店享：指定套餐减5元、饮品买一送一；②办理”学期卡”（售价59元，9-12月每次消费9折+赠饮），在会员系统🔧「卡等级管理」创建”学期卡”专属权益包；③门口摆放”开学加油”主题装饰，与周边打印店/文具店联动放传单；④社群话术：”新学期第一顿酒，3Q请你喝Shot——凭学生证到店即送”。</p><p><strong>节点2：教师节（9月10日）</strong></p><p><strong>What：</strong>「谢谢老师」专属福利。</p><p><strong>How：</strong>①教师凭教师证到店享指定菜品免费（成本可控的招牌小菜）+消费满200赠感恩贺卡；②学生请老师到店，老师消费全单8折；③服务员话术：”教师节快乐！凭教师证享专属福利，今天请老师吃饭的同学也有优惠哦”；④社交媒体发”致敬老师”内容，增加正能量传播。</p><p><strong>节点3：中秋节（9月中下旬）</strong></p><p><strong>What：</strong>「月圆人团圆」中秋聚会。</p><p><strong>How：</strong>①推出”团圆宴”套餐（6人桌¥398、8人桌¥528），含赠送月饼礼盒一份（4枚装，印3Q logo）+桂花酒一壶；②提前1周开放预订（🔧「小程序→预约订座」），中秋当天不接受散客预订（制造稀缺感）；③社群话术：”中秋不回家？3Q团圆宴陪你过——6人398，送月饼+桂花酒，名额有限先订先得”。</p><p><strong>每周固定：周三德州扑克娱乐夜</strong></p><p><strong>How：</strong>①每周三18:00社群发预告+暗号；②20:00正式开始，老板/主持人在现场组织；③设置”积分王”奖励（当晚积分最高者送6瓶啤酒或下次到店免单1次）；④23:00活动结束，在社群公布”本周积分王”并预告下周暗号；⑤每月最后一周周三设为”月度锦标赛”，积分前3名获得专属奖品（如3Q定制扑克牌+学期卡）。</p></div>
+<div id="modal-content-8" style="display:none"><h3>投资与成本估算</h3><table><tr><th>项目</th><th>金额（元）</th><th>说明</th></tr><tr><td>装修+设备（已投入）</td><td>约15-25万</td><td>120㎡酒吧基础装修+桌椅+厨房设备+音响灯光（⚠️ 行业参考值，请以实际投入为准）</td></tr><tr><td>SaaS年费</td><td>4,888</td><td>会员旗舰版（已签约）</td></tr><tr><td>首批物料+酒水</td><td>约2-3万</td><td>开业首批酒水+食材+耗材</td></tr><tr><td>首月营销费用</td><td>约3,000</td><td>社团试吃+小红书种草+开业物料+暗号赠品</td></tr><tr><td>首月人工（2-3人）</td><td>约9,000</td><td>老板+1-2名服务员（⚠️ 行业参考值）</td></tr><tr><td>房租（月）</td><td>约8,000-12,000</td><td>洪山区高校周边120㎡商铺（⚠️ 行业参考值）</td></tr></table><h3>营收预测与回本周期</h3><p>⚠️ 以下预测基于”日均客流”假设，实际数据请以开业后POS系统为准。</p><table><tr><th>月份</th><th>预估日均客流</th><th>预估人均</th><th>预估月营收</th><th>关键假设</th></tr><tr><td>第1月（开业期）</td><td>20人</td><td>¥58</td><td>约¥35,000</td><td>开业活动拉动，人均略低（套餐占比高）</td></tr><tr><td>第2月（爬坡期）</td><td>32人</td><td>¥62</td><td>约¥55,000</td><td>社团绑定生效+点评口碑积累+复购提升</td></tr><tr><td>第3月（稳定期）</td><td>38人</td><td>¥65</td><td>约¥70,000</td><td>周三扑克夜成熟+会员体系运转+私域裂变</td></tr></table><p><strong>成本估算（月度）：</strong>食材酒水成本约35%（¥24,500@月营收7万）+人工¥9,000+房租¥10,000+水电杂费¥2,000+营销¥1,000=<strong>约¥46,500</strong>。</p><p><strong>预估月净利润：</strong>¥70,000-¥46,500=<strong>约¥23,500</strong>（净利润率约33.6%，酒吧业态酒水利润较高）。</p><p><strong>回本周期：</strong>若前期总投入约25万（装修+设备+首批物料），按月净利¥23,500计算，<strong>约10-11个月回本</strong>。⚠️ 此为理想情况估算，实际受寒暑假、竞争、运营执行力影响较大。</p><h3>季度OKR目标体系</h3><table><tr><th>目标维度</th><th>Month 1</th><th>Month 2</th><th>Month 3</th></tr><tr><td><strong>月营收</strong></td><td>¥35,000</td><td>¥55,000</td><td>¥70,000</td></tr><tr><td><strong>大众点评评分</strong></td><td>4.3分（30+评价）</td><td>4.4分（45+评价）</td><td>4.5分（60+评价）</td></tr><tr><td><strong>会员注册数</strong></td><td>150人</td><td>250人</td><td>350人</td></tr><tr><td><strong>社群人数</strong></td><td>300人（1.5个群）</td><td>500人（2.5个群）</td><td>600人（3个群满）</td></tr><tr><td><strong>社团合作数</strong></td><td>2个社团</td><td>5个社团</td><td>8个社团</td></tr><tr><td><strong>套餐销售占比</strong></td><td>≥40%</td><td>≥45%</td><td>≥50%</td></tr></table><h3>关键成功指标（KPI）追踪</h3><p><strong>每日必看（店长/老板）：</strong>①到店人数（POS日报）②套餐销售份数③会员新增数④社群新增人数。</p><p><strong>每周复盘（每周日晚）：</strong>①本周营收 vs 上周②本周新客来源（点评/抖音/社群/自然客流占比）③本周复购人数④德州扑克夜参与人数。</p><p><strong>每月调整（每月1日）：</strong>①点评评分变化趋势②会员等级分布③菜品销量排行（末位淘汰）④社团合作反馈。</p><div class="highlight-box"><p><strong>核心忠告：</strong>高校酒吧的成功不取决于”装修多豪华”或”酒水多便宜”，而取决于<strong>”学生愿不愿意把这里当成自己的据点”</strong>。3Q的德州扑克主题+餐酒复合+会员社群，本质上是在卖”归属感”。记住：学生毕业了会走，但他们在3Q的记忆会留下——做好每一届学生的”大学回忆”，口碑自然会跨届传播。</p></div></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>洪锦初</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>武汉高校商圈”餐+酒”市场现状</h3><p>你目前门店位于洪山区南湖大道与狮子山北路交汇处，毗邻<strong>华中农业大学</strong>，属于典型”高校+社区”混合商圈。根据品类大盘数据，武汉高校商圈”餐+酒”模式2025-2026呈<strong>K型分化</strong>：50-80元性价比小酒馆稳健增长，120元以上精品鸡尾酒吧收缩明显。你当前<strong>人均68元</strong>的卡位非常精准，正处于学生群体可接受的”轻奢但不吃土”价格带。</p><p>⚠️ 假设：基于你日均流水显示”1千以下”及0-30天新店标签，预估开业首月日均客流约15-25人，需通过开业活动快速爬坡。</p><h3>目标客群画像</h3><ul><li><strong>核心客群（60%）：</strong>华中农大及周边高校学生（18-25岁），价格敏感但社交需求旺盛，人均预算50-80元</li><li><strong>次要客群（25%）：</strong>周边年轻上班族（22-30岁），下班后小聚需求，偏好有特色的社交场景</li><li><strong>潜力客群（15%）：</strong>周边教职工及社区居民，家庭/朋友聚餐，注重环境与性价比</li></ul><h3>区位机会与风险</h3><table><tr><th>维度</th><th>机会</th><th>风险</th></tr><tr><td>客流</td><td>华农在校生约3万人，稳定客源池</td><td>寒暑假客流断崖式下跌（需提前布局）</td></tr><tr><td>竞争</td><td>68元卡位精准，介于低价连锁与精品酒吧之间</td><td>海伦司等连锁低价压制，价格敏感度高</td></tr><tr><td>场景</td><td>高校缺乏”餐+酒+社交”复合空间</td><td>纯酒吧模式在学生群体复购受限</td></tr></table><p><strong>核心诊断结论：</strong>你目前最大的经营痛点是<strong>”有区位无认知”</strong>——位置在高校旁但品牌零认知，线上零评价、零流量、零会员积累。开业前30天的核心任务不是卖货，是<strong>让周边3公里知道”3Q德州酒馆开了”</strong>，并建立”华农旁边能吃饭能打德州扑克的好玩酒馆”这一心智。</p>`,
+    2: `<h3>周边3公里真实竞品扫描</h3><p>你目前人均68元、120㎡、餐酒复合模式，周边直接竞品有三类。以下数据基于市场调研简报，是你方案中最核心的作战地图。</p><table><tr><th>竞品名称</th><th>人均</th><th>核心特点</th><th>致命弱点</th><th>3Q的切入机会</th></tr><tr><td>海伦司小酒馆</td><td>¥55-75</td><td>标准化低价、全国连锁、学生认知度高</td><td>餐食极弱（只有小食拼盘）、无差异化体验、社交属性差</td><td><strong>用”好吃+好玩”打海伦司的”好喝但不好吃”</strong>——推出饱腹感的晚餐套餐，解决学生”先吃饭再喝酒”的需求</td></tr><tr><td>南湖片区本地烧烤大排档</td><td>¥50-70</td><td>烟火气足、熟人社交、价格亲民</td><td>环境差（露天/油烟重）、无品牌感、无会员体系、体验不可控</td><td><strong>用”室内舒适环境+主题玩法”打大排档的”环境差”</strong>——室内空调+德州扑克主题+扫码点餐，提升整体体验</td></tr><tr><td>区域独立精酿吧</td><td>¥70-90</td><td>酒水品质高、有小众圈层</td><td>无餐食或餐食极贵、门槛高（精酿文化排他）、学生群体难融入</td><td><strong>用”低门槛社交游戏+亲民价格”打精酿吧的”高冷”</strong>——德州扑克零门槛，68元包饭包酒，学生敢进门</td></tr><tr><td>X star poker&bar</td><td>未知</td><td>同为扑克主题酒吧</td><td>（需BD实地调研其人均/客流/口碑）</td><td>差异化：若对方偏高端，3Q走学生亲民路线；若对方也是低价，比拼餐食品质和社群运营</td></tr></table><h3>竞争策略：三刀切</h3><p><strong>第一刀·晚餐截流（17:00-20:00）：</strong>高校商圈晚餐时段是空白地带——学生下课要吃饭，但周边要么太贵要么太low。推出”下班酒饭套餐”（一饭一酒一小食68元），用饱腹套餐把”纯酒吧”变成”能吃饱的小酒馆”。<strong>How：</strong>①老板/厨师设计3款套餐（如照烧鸡腿饭+精酿啤酒+薯条、川味小面+果酒+凉菜）；②开业前3天在扫码点餐后台🔧「菜单管理→套餐」录入；③服务员话术：”同学，我们家的饭做得比酒还出名，先吃后玩更划算”；④不配合怎么办→推出”单点菜品满50送Shot一杯”引导尝试。</p><p><strong>第二刀·社团绑定（持续）：</strong>华农有100+学生社团，团建刚需旺盛但预算有限。推出”社团套餐”6人268元（含主食+扎啤+小食拼盘），凭学生证22:00后酒水第二份半价。<strong>How：</strong>①老板联系华农社团联/学生会外联部（开学季9月最佳）；②在会员系统🔧「营销中心→团体套餐」创建6人套餐券；③给社团负责人免费试吃1次（成本约150元），满意后签订”团建基地”挂牌；④社团嫌贵→对比海伦司6人消费通常350+，突出268元性价比+包场可玩德州扑克。</p><p><strong>第三刀·主题夜造话题（每周三）：</strong>每周三”德州扑克娱乐夜”（无现金，积分换酒/小食），制造社交话题发抖音/小红书。<strong>How：</strong>①老板准备扑克筹码和简单规则说明卡（成本约50元）；②每周三18:00在门店社群发暗号”今晚积分王送6瓶啤酒”；③服务员在21:00主动邀请每桌客人”要不要来一局？不赌钱，赢了送酒”；④客人嫌麻烦→改为”扫码加群，群里每天发暗号，到店报暗号送Shot”。</p>`,
+    3: `<h3>3Q品牌定位：华农学子的”第二客厅”</h3><p>你的门店目前处于纯冷启动状态，没有历史口碑、没有线上流量、没有顾客资产。在这种状态下，最危险的做法是”什么都做、什么都不突出”。3Q必须有一个<strong>一句话就能记住的定位</strong>：</p><div class="highlight-box"><p><strong>”华农旁边，能吃饭、能喝酒、能打德州扑克的大学生社交酒馆”</strong></p></div><p>这一定位同时锚定了三个差异化标签：<strong>餐（解决饱腹）</strong>、<strong>酒（社交媒介）</strong>、<strong>德州扑克（独特玩法）</strong>——三个标签缺一不可，缺了”餐”就和海伦司同质化，缺了”德州扑克”就没有记忆点。</p><h3>核心打法一：晚餐截流（17:00-20:00）</h3><p><strong>What：</strong>针对高校商圈晚餐空档，推”酒饭套餐”填补”下课→夜宵”之间的断层。</p><p><strong>How（落地五要素）：</strong></p><ul><li><strong>谁来做：</strong>老板/厨师定菜单，店长每日检查备料</li><li><strong>第几天做：</strong>开业前3天菜单定稿，开业第1天上线</li><li><strong>在哪操作：</strong>美团收银后台🔧「菜品管理→套餐管理」创建3档套餐；扫码点餐前台自动展示</li><li><strong>话怎么说：</strong>服务员”同学，今天有酒饭套餐，一饭一酒一小食68元，比单点省15块，吃完还能打两把德州扑克”</li><li><strong>不配合怎么办：</strong>客人只想喝酒不吃饭→”那给您推荐纯酒套餐，两杯精酿+小食拼盘48元，也很划算”</li></ul><p>⚠️ 假设：晚餐时段若能截流20人/晚，按68元人均计算，月增营收约4万元，是开业首月最核心的现金流来源。</p><h3>核心打法二：社团绑定（开学季9月集中攻坚）</h3><p><strong>What：</strong>与华农学生会、社团联建立”团建基地”合作，用套餐价格锁定团体消费。</p><p><strong>How（落地五要素）：</strong></p><ul><li><strong>谁来做：</strong>老板亲自跑社团联（1周），后期店长维护</li><li><strong>第几天做：</strong>开业前7天联系社团联，开业第1周接待首批社团试吃</li><li><strong>在哪操作：</strong>会员系统🔧「潜客营销→团体客户」录入社团信息；万能码生成”社团专属预约入口”</li><li><strong>话怎么说：</strong>”我们是华农旁边新开的德州主题酒馆，专门给学生社团做团建，6人套餐268元管饱，还能免费玩德州扑克”</li><li><strong>不配合怎么办：</strong>社团负责人担心环境→邀请免费试吃1次（成本150元），实地体验后决策</li></ul><h3>核心打法三：主题夜获客（每周三·持续）</h3><p><strong>What：</strong>每周三”德州扑克娱乐夜”，零门槛社交游戏制造话题。</p><p><strong>How（落地五要素）：</strong></p><ul><li><strong>谁来做：</strong>老板兼主持人（前2个月亲自带），培养1名服务员做副主持</li><li><strong>第几天做：</strong>开业第1周的周三启动，每周固定</li><li><strong>在哪操作：</strong>门店微信群提前1天发预告；抖音/小红书每周三发短视频”今晚积分王送6瓶啤酒”</li><li><strong>话怎么说：</strong>服务员”今晚德州扑克娱乐夜，不赌钱，赢了积分换酒，来一局？”</li><li><strong>不配合怎么办：</strong>客人不会玩→”我教你，2分钟学会，今晚新手保护期赢了双倍积分”</li></ul>`,
+    4: `<h3>已签约系统落地清单</h3><p>你目前已签约<strong>收银POS、扫码点餐、会员旗舰版、小程序</strong>四大模块。以下方案基于你现有系统能力设计，不做额外采购建议，确保”签了什么用什么”。</p><h3>收银POS：统一高效的财务中枢</h3><p><strong>解决什么问题：</strong>新店开业初期最容易出现的漏洞是”手工记账+漏单+对账难”。</p><p><strong>How：</strong>①开业前1天完成所有菜品/套餐/酒水的POS录入，测试扫码枪和打印机；②设置”酒饭套餐””社团套餐””纯酒套餐”三个快捷按键（🔧「系统设置→快捷键配置」）；③每日打烊后导出营业报表（🔧「报表中心→日营业汇总」），重点看”套餐销售占比”和”酒水单点占比”，调整推广策略；④周末设置”学生优惠时段”（19:00-21:00酒水9折），在POS端自动识别会员身份打折。</p><h3>扫码点餐：降本提效+数据沉淀</h3><p><strong>解决什么问题：</strong>120㎡的酒吧，如果高峰期需要2个服务员来回点单，人力成本高且容易出错。扫码点餐可以减少1名服务员，同时沉淀顾客点餐数据。</p><p><strong>How：</strong>①开业前3天在后台🔧「扫码点餐→菜单管理」上传完整菜单，确保每个菜品有图片（建议实拍，不要网图）；②设置”推荐套餐”置顶展示（酒饭套餐放在第一位）；③桌台贴二维码时附带提示”扫码点单，首次注册送Shot一杯”；④每日后台查看🔧「数据报表→菜品销量排行」，把销量后20%的菜品替换或优化；⑤高峰期（周五周六20:00-23:00）开启”预点单”功能，减少顾客等待时间。</p><h3>会员旗舰版：储值+积分+营销三位一体</h3><p><strong>解决什么问题：</strong>学生客群复购的关键是”占便宜了”。会员系统让学生感受到”来3Q比去别家划算”。</p><p><strong>How：</strong>①开业第1周推出”3Q校园卡”（🔧「会员系统→卡等级管理」）：免费注册即送100积分，消费1元积1分，100分兑换Shot一杯/500分兑换啤酒一瓶；②设置三级会员：普通会员（注册即享）→银卡（累计消费500元，酒水95折）→金卡（累计消费1500元，酒水9折+生日赠6瓶啤酒）；③会员储值不作为主推（第一性原理：新店未建立信任前强推储值适得其反），仅作为”金卡会员专属福利”低调开放：充300送30、充500送60；④每周三通过会员系统🔧「消息推送→定向群发」给所有会员发”周三扑克夜预告+暗号福利”。</p><h3>小程序：线上门面+预约入口</h3><p><strong>解决什么问题：</strong>学生习惯在小程序上看菜单、查地址、提前了解活动。</p><p><strong>How：</strong>①小程序首页设置3个核心入口：「本周套餐」「周三扑克夜」「社团预约」；②上传门店实拍图（门头+室内环境+德州扑克桌），不要过度美化，真实感更重要；③开启”在线订座”功能（🔧「小程序管理→预约订座」），尤其周五周六晚和周三扑克夜，提前锁客；④小程序菜单与扫码点餐菜单实时同步，避免线上线下不一致。</p><h3>数据看板：每周必看的3个指标</h3><table><tr><th>指标</th><th>查看路径</th><th>健康标准</th></tr><tr><td>会员注册率</td><td>会员系统→新增会员数/到店消费人数</td><td>≥30%（每10个客人有3个注册会员）</td></tr><tr><td>套餐销售占比</td><td>POS报表→套餐销售额/总销售额</td><td>≥40%（说明晚餐截流策略有效）</td></tr><tr><td>复购率</td><td>会员系统→7天内二次到店人数/总到店人数</td><td>≥15%（开业首月）</td></tr></table>`,
+    5: `<h3>大众点评冷启动策略（从0到50条评价）</h3><p>你目前点评评分”暂无”、评价数”暂无”、曝光访问均为0。新店前30条评价决定所有后续顾客的第一印象，这是开业期最高优先级的任务。</p><p><strong>阶段判断：</strong>你属于<strong>纯新店期</strong>（0评价、未开通商户通），当前核心目标是”出星”（达到4.0以上并显示星级）+积累首批真实口碑。</p><h3>Step 1：开业前7天·平台基建</h3><p><strong>What：</strong>完善门店信息，开通基础推广工具。</p><p><strong>How：</strong>①老板在大众点评商家版APP完善门店信息：上传10张以上实拍图（门头+室内+菜品+德州扑克桌特写+菜单）、填写完整营业时间、电话、人均；②开通商户通（基础版即可，月费约200-300元），获得”官方标签”和基础曝光；③设置2个引流团购套餐：「新客尝鲜双人餐¥88」（原价¥136，含2份主食+2杯酒+1份小食）和「社团聚会6人餐¥268」（与门店套餐同价）；④团购套餐在🔧「点评管家→团购管理」创建，确保与POS系统价格一致。</p><h3>Step 2：开业第1-7天·种子评价攻坚</h3><p><strong>What：</strong>开业首周积累20-30条真实好评。</p><p><strong>How：</strong>①每天主动邀请消费体验的客人写评价——注意<strong>严禁任何物质奖励诱导好评</strong>（2025年10月后新规，违规评价不计入星级），只能提供”服务体验”层面的邀请；②服务员话术：”如果喜欢我们店，可以在大众点评上留个真实评价，好坏我们都接受，您的反馈对我们很重要”；③对愿意写评价的客人，送一份”意外惊喜”（如多给一份小食），但<strong>不提前承诺、不交换条件</strong>；④老板每天亲自回复每条评价（好评感谢+邀请再来，差评道歉+说明改进措施）；⑤前7天每天监控评价后台，出现差评2小时内响应。</p><h3>Step 3：抖音/小红书·内容种草</h3><p><strong>What：</strong>利用”德州扑克主题”制造差异化内容，吸引华农及周边学生关注。</p><p><strong>How：</strong>①开业前3天注册门店抖音号和小红书号，名称统一为”3Q德州酒馆-华农店”；②内容矩阵：每周发3条短视频——周一”本周套餐介绍”、周三”德州扑克夜现场”、周五”顾客真实反应”；③拍摄建议：用手机实拍即可，不要过度剪辑。重点拍”学生第一次打德州扑克的兴奋表情””酒饭套餐的出品过程””社团包场的热闹场景”；④抖音带话题：#华中农业大学 #武汉小酒馆 #德州扑克 #大学生团建 #洪山区美食；⑤邀请5-10名华农学生（粉丝量不要求高，真实在校生即可）免费体验并在小红书发笔记，笔记标题参考：”华农旁边居然有能打德州扑克的酒馆！6个人才268”；⑥每条内容下方置顶评论：”凭学生证到店送Shot一杯，暗号'3Q666'”（暗号用于追踪小红书/抖音引流效果）。</p><h3>Step 4：持续维护·评价质量>数量</h3><p><strong>What：</strong>开业第2个月起，从”冲量”转向”提质”。</p><p><strong>How：</strong>①每月至少新增15-20条真实评价，维持活跃度；②重点引导”带图评价”（图片评价权重更高），服务员可以在客人拍照时说”您的照片拍得真好，方便的话点评上也传一张？”；③每月分析评价关键词（🔧「点评管家→评价分析」），如果出现”上菜慢””音乐太吵”等高频问题，立即整改；④目标：开业30天内达到4.3分（30+评价），60天内达到4.5分（50+评价）。</p>`,
+    6: `<h3>私域体系：从”过客”到”常客”</h3><p>你目前顾客总数为0，复购率为0。高校酒吧的特殊性是<strong>学生群体流动性高（每年毕业一届）</strong>，如果私域运营跟不上，每年要重新获客。私域的核心目标不是一次性储值，而是<strong>建立一个”3Q校友”式的持续连接</strong>。</p><h3>社群运营：门店微信群的日常打法</h3><p><strong>What：</strong>建立3个门店微信群（每群200人上限，分群管理），日常运营制造归属感。</p><p><strong>How：</strong>①开业第1天在门口立牌”扫码进群，每天发暗号，到店报暗号送Shot”，目标1个月加满3个群（600人）；②每日社群内容SOP：上午11:00发”今日套餐推荐+实拍图”、下午17:00发”今晚暗号（如'皇家同花顺'）”、晚上21:00发”今晚现场氛围小视频”;③每周三扑克夜前1小时在群里发”今晚积分王送6瓶啤酒，现在报名”，制造紧迫感;④每月1日发”本月生日名单”，金卡会员生日当天凭身份证到店赠6瓶啤酒+生日歌；⑤群规明确：禁止广告、禁止吵架，违者警告后移除。</p><h3>会员升级路径设计</h3><table><tr><th>等级</th><th>条件</th><th>权益</th><th>目标人数</th></tr><tr><td>普通会员</td><td>扫码注册即享</td><td>消费1元积1分、100分兑换Shot、生日当天赠1杯酒</td><td>不限</td></tr><tr><td>银卡会员</td><td>累计消费满500元</td><td>酒水95折、周三扑克夜优先报名、每月1张免单券（满100可用）</td><td>首月目标50人</td></tr><tr><td>金卡会员</td><td>累计消费满1500元</td><td>酒水9折、生日赠6瓶啤酒、专属订座权、新品尝鲜优先</td><td>首季目标30人</td></tr></table><p><strong>How：</strong>①会员等级在🔧「会员系统→卡等级管理」配置，自动升级无需人工干预；②银卡/金卡会员的消费数据每周导出，老板亲自给即将升级的普通会员发微信：”您在3Q消费已满400元，再消费100元就升银卡啦，银卡酒水95折哦”；③金卡会员拉新奖励：每介绍1位新客到店消费，双方各得50积分。</p><h3>储值策略：低调开放，不作为主推</h3><p><strong>What：</strong>储值仅面向已建立信任的高频客户（金卡会员），不做开业强推。</p><p><strong>How：</strong>①储值档位：充300送30（相当于9折）、充500送60（相当于8.8折）；②只在金卡会员专属场景中提及：”您是咱金卡会员，如果需要可以考虑充500送60，更划算”；③储值金额在🔧「会员系统→储值管理」实时查看，设置余额不足提醒（余额<20元时自动推送）；④<strong>绝不向新客/普通会员推储值</strong>——新店未建立信任前强推储值会吓跑顾客。</p><h3>复购激活：寒暑假的特殊应对</h3><p><strong>What：</strong>高校酒吧的致命伤是寒暑假（约3个月/年）。必须在学期中把”学期中的快乐记忆”植入学生心智。</p><p><strong>How：</strong>①每学期末（1月和6月）推出”学期告别套餐”（凭学生证8折），同时发放”下学期回归券”（9月/3月可用，满100减20）；②假期期间社群不停更，每周发1次”想念3Q的XXX（某款招牌菜品）” nostalgic内容；③假期推出”校友专属”活动：毕业学生凭校友卡（电子）寒暑假回武汉到店享金卡待遇；④开学季（9月/3月）提前1周在社群预热”开学第一顿酒，3Q请你喝Shot”。</p>`,
+    7: `<h3>开业前7天·倒计时冲刺清单</h3><table><tr><th>天数</th><th>动作</th><th>负责人</th><th>验收标准</th></tr><tr><td>D-7</td><td>菜单定稿（含3款酒饭套餐、社团套餐、纯酒套餐）</td><td>老板+厨师</td><td>POS系统录入完成，扫码点餐测试通过</td></tr><tr><td>D-6</td><td>会员系统配置（三级会员、积分规则、消息模板）</td><td>老板</td><td>注册测试会员1个，积分累计/兑换测试通过</td></tr><tr><td>D-5</td><td>点评平台基建（门店信息完善、团购套餐创建、实拍图上传）</td><td>老板</td><td>点评搜索”3Q德州酒馆”能正常显示</td></tr><tr><td>D-4</td><td>社群搭建（创建3个微信群、设计进群诱饵、打印群二维码立牌）</td><td>老板+店长</td><td>立牌摆放到位，扫码测试进群正常</td></tr><tr><td>D-3</td><td>社团联首轮触达（电话联系华农社团联/学生会外联部，预约拜访）</td><td>老板</td><td>至少联系到2个社团负责人</td></tr><tr><td>D-2</td><td>抖音/小红书账号注册+发布第一条预热视频</td><td>老板</td><td>账号注册完成，发布”3Q要开业了”短视频1条</td></tr><tr><td>D-1</td><td>全员演练（服务员话术、扫码点餐流程、德州扑克规则讲解）</td><td>老板</td><td>每位服务员能独立完成点餐+会员引导+扑克规则讲解</td></tr></table><h3>开业第1周·爆破策略</h3><p><strong>What：</strong>开业前7天是”黄金窗口”，周边3公里的注意力集中在你身上，必须制造”开业即火爆”的氛围。</p><p><strong>How：</strong>①开业前3天在社群发”开业暗号”——连续3天不同暗号，到店报暗号送不同礼品（Day1送Shot、Day2送小食、Day3送啤酒）；②开业当天门口摆放”华农学子专属福利”展架，凭学生证全场酒水第二份半价（限开业前3天）；③邀请已联系的社团负责人免费试吃（控制在5人以内，避免过度消耗）；④每晚21:00在抖音/小红书发”今晚现场”短视频，用真实客流制造”这家店很火”的从众效应；⑤每日营业结束后在社群发”今日战报”：”今天来了XX位同学，最受欢迎的是XX套餐，明天暗号是XXX”。</p><h3>Q3活动日历（9月重点）</h3><p>结合营销日历Q3分片，9月有三个关键节点适配你的高校酒吧定位：</p><p><strong>节点1：开学季（9月1-7日）</strong></p><p><strong>What：</strong>「开学加油站」校园引流。</p><p><strong>How：</strong>①9月1-7日凭新学期课程表/录取通知书到店享：指定套餐减5元、饮品买一送一；②办理”学期卡”（售价59元，9-12月每次消费9折+赠饮），在会员系统🔧「卡等级管理」创建”学期卡”专属权益包；③门口摆放”开学加油”主题装饰，与周边打印店/文具店联动放传单；④社群话术：”新学期第一顿酒，3Q请你喝Shot——凭学生证到店即送”。</p><p><strong>节点2：教师节（9月10日）</strong></p><p><strong>What：</strong>「谢谢老师」专属福利。</p><p><strong>How：</strong>①教师凭教师证到店享指定菜品免费（成本可控的招牌小菜）+消费满200赠感恩贺卡；②学生请老师到店，老师消费全单8折；③服务员话术：”教师节快乐！凭教师证享专属福利，今天请老师吃饭的同学也有优惠哦”；④社交媒体发”致敬老师”内容，增加正能量传播。</p><p><strong>节点3：中秋节（9月中下旬）</strong></p><p><strong>What：</strong>「月圆人团圆」中秋聚会。</p><p><strong>How：</strong>①推出”团圆宴”套餐（6人桌¥398、8人桌¥528），含赠送月饼礼盒一份（4枚装，印3Q logo）+桂花酒一壶；②提前1周开放预订（🔧「小程序→预约订座」），中秋当天不接受散客预订（制造稀缺感）；③社群话术：”中秋不回家？3Q团圆宴陪你过——6人398，送月饼+桂花酒，名额有限先订先得”。</p><p><strong>每周固定：周三德州扑克娱乐夜</strong></p><p><strong>How：</strong>①每周三18:00社群发预告+暗号；②20:00正式开始，老板/主持人在现场组织；③设置”积分王”奖励（当晚积分最高者送6瓶啤酒或下次到店免单1次）；④23:00活动结束，在社群公布”本周积分王”并预告下周暗号；⑤每月最后一周周三设为”月度锦标赛”，积分前3名获得专属奖品（如3Q定制扑克牌+学期卡）。</p>`,
+    8: `<h3>投资与成本估算</h3><table><tr><th>项目</th><th>金额（元）</th><th>说明</th></tr><tr><td>装修+设备（已投入）</td><td>约15-25万</td><td>120㎡酒吧基础装修+桌椅+厨房设备+音响灯光（⚠️ 行业参考值，请以实际投入为准）</td></tr><tr><td>SaaS年费</td><td>4,888</td><td>会员旗舰版（已签约）</td></tr><tr><td>首批物料+酒水</td><td>约2-3万</td><td>开业首批酒水+食材+耗材</td></tr><tr><td>首月营销费用</td><td>约3,000</td><td>社团试吃+小红书种草+开业物料+暗号赠品</td></tr><tr><td>首月人工（2-3人）</td><td>约9,000</td><td>老板+1-2名服务员（⚠️ 行业参考值）</td></tr><tr><td>房租（月）</td><td>约8,000-12,000</td><td>洪山区高校周边120㎡商铺（⚠️ 行业参考值）</td></tr></table><h3>营收预测与回本周期</h3><p>⚠️ 以下预测基于”日均客流”假设，实际数据请以开业后POS系统为准。</p><table><tr><th>月份</th><th>预估日均客流</th><th>预估人均</th><th>预估月营收</th><th>关键假设</th></tr><tr><td>第1月（开业期）</td><td>20人</td><td>¥58</td><td>约¥35,000</td><td>开业活动拉动，人均略低（套餐占比高）</td></tr><tr><td>第2月（爬坡期）</td><td>32人</td><td>¥62</td><td>约¥55,000</td><td>社团绑定生效+点评口碑积累+复购提升</td></tr><tr><td>第3月（稳定期）</td><td>38人</td><td>¥65</td><td>约¥70,000</td><td>周三扑克夜成熟+会员体系运转+私域裂变</td></tr></table><p><strong>成本估算（月度）：</strong>食材酒水成本约35%（¥24,500@月营收7万）+人工¥9,000+房租¥10,000+水电杂费¥2,000+营销¥1,000=<strong>约¥46,500</strong>。</p><p><strong>预估月净利润：</strong>¥70,000-¥46,500=<strong>约¥23,500</strong>（净利润率约33.6%，酒吧业态酒水利润较高）。</p><p><strong>回本周期：</strong>若前期总投入约25万（装修+设备+首批物料），按月净利¥23,500计算，<strong>约10-11个月回本</strong>。⚠️ 此为理想情况估算，实际受寒暑假、竞争、运营执行力影响较大。</p><h3>季度OKR目标体系</h3><table><tr><th>目标维度</th><th>Month 1</th><th>Month 2</th><th>Month 3</th></tr><tr><td><strong>月营收</strong></td><td>¥35,000</td><td>¥55,000</td><td>¥70,000</td></tr><tr><td><strong>大众点评评分</strong></td><td>4.3分（30+评价）</td><td>4.4分（45+评价）</td><td>4.5分（60+评价）</td></tr><tr><td><strong>会员注册数</strong></td><td>150人</td><td>250人</td><td>350人</td></tr><tr><td><strong>社群人数</strong></td><td>300人（1.5个群）</td><td>500人（2.5个群）</td><td>600人（3个群满）</td></tr><tr><td><strong>社团合作数</strong></td><td>2个社团</td><td>5个社团</td><td>8个社团</td></tr><tr><td><strong>套餐销售占比</strong></td><td>≥40%</td><td>≥45%</td><td>≥50%</td></tr></table><h3>关键成功指标（KPI）追踪</h3><p><strong>每日必看（店长/老板）：</strong>①到店人数（POS日报）②套餐销售份数③会员新增数④社群新增人数。</p><p><strong>每周复盘（每周日晚）：</strong>①本周营收 vs 上周②本周新客来源（点评/抖音/社群/自然客流占比）③本周复购人数④德州扑克夜参与人数。</p><p><strong>每月调整（每月1日）：</strong>①点评评分变化趋势②会员等级分布③菜品销量排行（末位淘汰）④社团合作反馈。</p><div class="highlight-box"><p><strong>核心忠告：</strong>高校酒吧的成功不取决于”装修多豪华”或”酒水多便宜”，而取决于<strong>”学生愿不愿意把这里当成自己的据点”</strong>。3Q的德州扑克主题+餐酒复合+会员社群，本质上是在卖”归属感”。记住：学生毕业了会走，但他们在3Q的记忆会留下——做好每一届学生的”大学回忆”，口碑自然会跨届传播。</p></div>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
