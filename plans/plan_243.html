@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>莲叙甜铺·糖水店 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #C47A3A;
+      --primary-light: #D4894A;
+      --accent: #E8A87C;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #C47A3A40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">传统甜品/广式糖水 · 运营提升方案</div>
+  <h1 class="hero-title">莲叙甜铺·糖水店</h1>
+  <p class="hero-subtitle">社区糖水食堂：10-15元真料糖水，次卡锁客赚回头钱</p>
+  <div class="hero-address">浙江省杭州市上城区笕桥街道全冯弄79号（笕尚水墩嘉苑）</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥15</span>
+      <div class="hero-stat-label">预估人均（⚠️假设）</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.5分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">上城区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察·门店诊断', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察·门店诊断</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞争拆解·差异化定位', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞争拆解·差异化定位</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '菜单设计（对标麦记牛奶）', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">菜单设计（对标麦记牛奶）</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '人员配置·排班·薪资（保姆级）', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">人员配置·排班·薪资（保姆级）</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '次卡模型设计（替代储值）', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">次卡模型设计（替代储值）</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '开业全案·30天节奏表', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">开业全案·30天节奏表</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '公私域联动营销', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">公私域联动营销</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(8, 'OKR目标·投资回报', 8)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 08</div>
+      <div class="chapter-title">OKR目标·投资回报</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>品类趋势：平价糖水正迎窗口期</h3><p>杭州广式糖水/传统甜品属<strong>稳定微增</strong>品类。40-60元的新中式甜品（满记、鲜芋仙malls店）在消费降级下持续收缩，而<strong>25元以下平价糖水反而受益</strong>——」花奶茶的价格吃真料」成为年轻人和家庭的情绪慰藉型消费。杨枝甘露、桃胶、烧仙草类百搭单品+外卖是明确增长点。</p><h3>风险提示（必须直面）</h3><ul><li><strong>同质化极高</strong>：糖水技术门槛低，拼的是复购和成本控制</li><li><strong>秋冬淡季明显</strong>：糖水淡旺季差可达20-30%，10月起必须提前布局热的养生品类（桂花酒酿圆子、栗子芋泥羹、银耳羹）</li><li><strong>社区店命脉是复购不是流量</strong>：水墩嘉苑是回迁小区，客流稳定但增量有限，生意=小区户数×到店频次</li></ul><h3>门店现状诊断</h3><p>45㎡小店，已签约扫码点餐+会员旗舰版+小程序+外卖中心（工具齐全，关键是<b>用起来</b>）。⚠️ 假设：老板娘首次创业、无餐饮经验、不熟悉招聘薪资，属于<strong>经营薄弱型新店</strong>——最需要的不是更多工具，而是<b>保姆级的执行手册</b>：菜单怎么定、人怎么招怎么排、次卡怎么设计、开业节奏怎么走、第二个月外卖怎么上。本方案即按这条主线展开。</p><div class='highlight-box'><p>💡 一句话诊断：这是一个」产品可以做出来，但经营体系需要从零搭起来」的首店。前90天把菜单结构、次卡模型、人员排班三件事做对，就能活下来并盈利。</p></div></div>
+<div id="modal-content-2" style="display:none"><h3>笕桥商圈真实竞争格局</h3><p>笕桥属城东老居住区+回迁房聚集地，商圈内竞品呈」低价围剿」态势，<b>真正的对手不是甜品连锁，而是奶茶店和个体摊</b>：</p><table><tr><th>竞品</th><th>人均</th><th>威胁点</th><th>核心弱点</th></tr><tr><td>古茗/茶百道（笕桥路沿线）</td><td>15-20元</td><td>直接分流甜品预算</td><td>无」真料」感，喝不出饱腹/滋补价值</td></tr><tr><td>悸动烧仙草/书亦</td><td>12-18元</td><td>饮品+料打法与糖水重叠</td><td>料是标准料包，无现熬锅气</td></tr><tr><td>个体糖水/凉粉摊（夏季）</td><td>8-15元</td><td>夏季低价最强对手</td><td>无门店、无卫生背书、秋冬季直接消失</td></tr><tr><td>麦记牛奶等糖水品牌（同品类）</td><td>20-28元</td><td>成熟糖水模型，菜单可对标</td><td>价格偏高、社区渗透弱（⚠️具体门店需实地核实）</td></tr><tr><td>鲜芋仙类malls店</td><td>40元+</td><td>低（价格错位）</td><td>价格带不同，不构成直接竞争</td></tr></table><h3>莲叙的差异化定位：「社区糖水食堂」</h3><p><b>卡死10-15元价格带</b>，单碗杨枝甘露/桃胶奶只比奶茶贵3-5元，打」加几块钱吃真料」的心智。</p><ul><li><strong>双锚点定价</strong>：8元冰粉（引流锚）+ 12元桃胶奶（利润锚），顾客会自动落在12-16元区间</li><li><strong>现熬可视化</strong>：拍老板现熬栗子/芋泥的短视频，打」奶茶是冲的、糖水是熬的」差异认知</li><li><strong>回迁小区卡位</strong>：水墩嘉苑业主群是天然私域池，家庭装+老人预订品类零成本触达</li></ul><div class='highlight-box'><p>🎯 谈心话术（老板娘可直接用）：」跟古茗比，我这碗杨枝甘露15块，料是现熬的芒果西米，比一杯奶茶贵3块钱，但吃的是真东西。」</p></div></div>
+<div id="modal-content-3" style="display:none"><h3>菜单结构：4大系列×22个SKU（新店黄金数量）</h3><p>新店最忌SKU贪多——备料损耗直接吃掉利润（⚠️行业参考值：甜品店报废率&gt;15%即难盈利）。首月22款，跑出数据后再迭代。</p><table><tr><th>系列</th><th>SKU数</th><th>代表单品与定价</th><th>角色</th></tr><tr><td>引流双锚</td><td>2</td><td>冰粉8元 / 手工双皮奶10元</td><td>拉客、拍图、安全感</td></tr><tr><td>招牌糖水</td><td>6</td><td>杨枝甘露15 / 桃胶奶12 / 芋圆烧仙草13 / 麻薯芋泥杯14 / 栗子羹15 / 杏仁露12</td><td>利润主力（对标麦记牛奶爆款）</td></tr><tr><td>滋补炖品</td><td>5</td><td>银耳红枣羹10 / 酒酿圆子12 / 桃胶皂角米16 / 血糯米8 / 秋冬限桂花栗子羹15</td><td>秋冬反季保命、覆盖老人客群</td></tr><tr><td>小食饮品</td><td>9</td><td>鸡蛋仔12 / 炸鲜奶10 / 柠檬茶9 / 鲜奶7…</td><td>拉高客单、外卖凑单</td></tr></table><h3>价格与毛利逻辑</h3><p>⚠️ 假设原材料成本率30-35%（糖水品类基准区间28-38%）。招牌糖水毛利率约70%，定价已确保<strong>每碗赚7-10元</strong>。<b>绝不打价格战</b>：个体摊卖8元冰粉，我们也卖8元冰粉但用料更足，然后靠12-16元主力款赚钱。</p><h3>怎么做（How）</h3><ul><li><b>谁做</b>：老板娘主笔，开业前10天定稿</li><li><b>第几步</b>：①开业前15天去麦记牛奶及笕桥路各家门店买一遍竞品（预算约300元），记录爆品和价格 → ②按上表结构定22款 → ③开业前7天试做全菜单一遍，记录每款出品时间和成本 → ④进系统：🔧收银后台「商品管理→批量导入」，同步配置小程序和外卖端的SKU</li><li><b>话术物料</b>：菜单第一屏放大杨枝甘露实拍图+一行字」现熬真料，奶茶的价格」</li><li><b>不配合怎么办</b>：客人觉得贵→服务员话术」我们家料是当天现熬的，您先尝一碗，不满意这碗我请」</li></ul></div>
+<div id="modal-content-4" style="display:none"><h3>45㎡糖水铺人员模型：2+1配置</h3><p>⚠️ 假设：老板娘全职在店+夫妻一方可兼职支援，日均营业额目标3000元以内。<b>2.5人是最优配置</b>：1名全职帮工（后厨备料+出品，糖水可提前批量熬制，非高峰不占人力）+老板娘（前场收银+服务+线上运营）+旺季/周末兼职1名。</p><table><tr><th>岗位</th><th>人数</th><th>薪资参考（杭州2026）</th><th>职责</th></tr><tr><td>帮工/学徒</td><td>1</td><td>4500-5500元/月+全勤200</td><td>熬制糖水、备料、出品、洗碗</td></tr><tr><td>周末兼职</td><td>1</td><td>25-28元/小时</td><td>高峰时段前场点单打包</td></tr><tr><td>老板娘</td><td>1</td><td>—</td><td>收银、社群、进货、对账</td></tr></table><p>月人力成本约5500-6500元，占目标月营收（⚠️假设8万）约7-8%，远低于行业18-25%的人力红线——这是小店模型的核心优势。</p><h3>招聘怎么做（保姆级）</h3><ul><li><b>第几步</b>：开业前10天启动招聘，开业前3天必须到岗试工</li><li><b>在哪招</b>：①水墩嘉苑业主群发」招街坊帮工」（回迁小区阿姨资源丰富、稳定性高）；②58同城/BOSS直聘发」甜品店帮工4500-5500」；③笕桥街道劳务市场贴条</li><li><b>怎么面试</b>：只看三点——手脚麻利（现场让其削一碗芒果计时）、家住2公里内（通勤短=稳定）、接受早上9点前到岗备料</li><li><b>怎么培训</b>：入职前2天跟老板娘试做全菜单，写一页《出品SOP卡》贴在后厨：每款糖水配方克数、熬制时间、出品步骤，照卡片做即可，无需经验</li></ul><h3>排班表（照抄可用）</h3><table><tr><th>时间</th><th>周一至周四</th><th>周五至周日</th></tr><tr><td>9:00-11:00</td><td>老板娘+帮工（备料熬制）</td><td>同左</td></tr><tr><td>11:00-21:00</td><td>老板娘（前场）+帮工（后厨）</td><td>老板娘+帮工+兼职（16:00-21:00）</td></tr><tr><td>21:00-21:30</td><td>收档、盘库存、记当日流水</td><td>同左</td></tr></table><p><b>避坑提醒</b>：首月不请第二个全职！日均3000流水以下，多一个人就是白亏5000块。先用数据验证再说。</p></div>
+<div id="modal-content-5" style="display:none"><h3>为什么糖水铺适合次卡、不适合传统储值</h3><p>糖水客频次高（周均1-2次）、单次金额小（12-16元），传统储值300/500元门槛对低收入社区客群压力大；<b>次卡=预付10次的储值变形，门槛低、核销快、锁客效果一样</b>，且完全用已签约的会员旗舰版即可配置，零额外成本。</p><h3>三档次卡模型</h3><table><tr><th>档位</th><th>定价</th><th>内含</th><th>相当于</th><th>目标人群</th></tr><tr><td>体验卡</td><td>88元</td><td>10次基础款（冰粉/双皮奶/银耳羹任选）</td><td>8.8元/次</td><td>首办、新客试水</td></tr><tr><td>主推·招牌卡 ⭐</td><td>158元</td><td>10次招牌款任选（杨枝甘露/芋圆烧仙草等都可）</td><td>15.8元/次 打9.5折</td><td>年轻主力客</td></tr><tr><td>家庭季卡</td><td>288元</td><td>20次全场通用+每月赠鸡蛋仔1份</td><td>14.4元/次</td><td>家庭、老客</td></tr></table><p><b>账算得过来</b>：以158元招牌卡为例，10碗成本约45-50元，毛利约108元，且次卡预付直接回笼现金流、客人10次到店每次都可能加购小食（拉高实收客单到18元+）。</p><h3>怎么做（How）</h3><ul><li><b>谁做</b>：老板娘在🔧收银后台「会员→次卡/计次商品」创建三档次卡（旗舰版会员系统直接支持），开业前3天配置并测试核销流程</li><li><b>第几天推</b>：开业第8天（前7天先攒体验和评价，第2周起主推）</li><li><b>话怎么说</b>：结账时收银台立卡牌」158元喝10次招牌糖水」，服务员一句话：」您今天这碗15块，办张卡的话10次158，今天这碗直接从卡里扣」</li><li><b>不配合怎么办</b>：客人犹豫→」不用一次买，您先吃着，这周内办都送1次」（制造缓冲期，实际deadline可自定）</li><li><b>关键提醒</b>：次卡绑定手机号存入会员系统，客人扫码点餐时系统 🔧自动识别剩余次数，杜绝纸质卡纠纷</li></ul><h3>目标</h3><p>开业首月办卡100张（体验卡60+招牌卡30+家庭卡10），预收现金流约1.3万元，锁定约900人次未来到店。</p></div>
+<div id="modal-content-6" style="display:none"><h3>四阶段打法总览：试营业攒口碑 → 正式开业冲量 → 第2周推次卡 → 第2月上外卖</h3><p>结合Q3日历（9月开业可借」开学季+杭州桂花季」双节点；若10月后开业则以秋冬热糖水为主打）。</p><h3>阶段一：开业前7天（不打无准备之仗）</h3><ul><li>D-7~D-5：进水墩嘉苑等3-5个业主群，发」新店免费试吃」接龙，前50名免费尝招牌糖水一碗（成本约400元，换取50个微信+第一波传播）</li><li>D-7起：每天拍1条现熬短视频（栗子绕锅、芒果切丁特写）发抖音+小红书，定位选笕桥，标题带」糖水/杨枝甘露/桃胶」品类词（避开奶茶词竞争，本地推流量更便宜）</li><li>D-5~D-3：🔧小程序上线、次卡配置完成、菜单拍照上传</li><li>D-3~D-1：试营业3天，仅对业主群开放，主打」提意见送次卡体验卡」，收集菜品反馈并调整</li></ul><h3>阶段二：开业第1周（正式开业·冲人气攒评价）</h3><ul><li>大众点评：🔧商家后台「营销中心」上线开业团购」15元代金券卖12元」限200张；发起」免费试」活动（旗舰会员权益）送30份招牌款换真实评价——目标<strong>30天内攒40条+真实评价、星级4.5+</strong>（合规提示：只引导真实分享，不做邀请好评式促评）</li><li>现场动作：服务员对每桌说」扫码进群立减3元」，把堂食客全部导进企微群</li><li>每晚打烊复盘：🔧收银后台「经营报表」看SKU销量，砍掉销量&lt;5份/周的款，集中备料</li></ul><h3>阶段三：第2-4周（推次卡+固化复购）</h3><ul><li>第8天起主推三档次卡（见上一章），办卡目标100张</li><li>每周三定」业主日」：凭水墩嘉苑门禁卡/房卡送酒酿圆子小碗（成本1.5元/份），回迁小区人情牌打得越早越好</li><li>每周五社群发」周末家庭装4件套38元」预订接龙，覆盖家庭宵夜场景</li></ul><h3>阶段四：开业第2个月·上外卖（分阶段）</h3><ul><li><b>第1步（月上旬）</b>：🔧外卖中心先上12个SKU精简版（招牌糖水6款+小食3款+团购套餐3款），只做2.5公里配送圈，保配送时效</li><li><b>第2步（月中旬）</b>：上线」外卖次卡同享」——次卡用户点外卖直接扣次（外卖中心+会员系统互通），这是奶茶店做不到的杀手锏</li><li><b>第3步（月下旬）</b>：看数据加码，外卖目标占月营收25-30%</li><li><b>关键动作</b>：外卖打包用隔层碗（糖水+小食分开），附赠」收藏店铺送小料」卡片，外卖评分目标4.8分起</li></ul></div>
+<div id="modal-content-7" style="display:none"><h3>公域引流（大众点评+抖音+小红书）</h3><h4>大众点评：新店冲分主阵地</h4><ul><li>目标：30天40条评价、4.5分；60天冲」上城区甜品好评榜」（🔧商家后台报名榜单相关活动）</li><li>团购结构：15元券卖12元（引流）+ 单人糖水套餐19.9元（主推）+ 双人套餐35.9元（拉客单）</li><li>差评预案：2小时内回复，话术」实在抱歉，这碗我们重新做再见您一次」——首月差评处理速度=星级生命线</li></ul><h4>抖音：现熬可视化+本地推</h4><ul><li><b>谁做</b>：老板娘每天10:30熬制时固定拍1条（拍完就发，不追求精致，真实感即流量）</li><li><b>投放</b>：每周投100元本地推，定向笕桥街道5公里，主品类词」糖水/杨枝甘露/桃胶」</li><li><b>内容三板斧</b>：现熬过程特写 / 」奶茶是冲的糖水是熬的」对比 / 办卡顾客的真实反馈</li></ul><h4>小红书：低频发优质笔记</h4><ul><li>每周2篇，主打」杭州宝藏糖水店」」笕桥平价甜品」，图用门店实拍高饱和特写</li></ul><h3>私域留客（社群+次卡+会员旗舰版）</h3><ul><li><b>1个群起步</b>：水墩嘉苑业主群（老板娘个人号进群，不打扰、只发周三业主日+周末预订接龙+次卡提醒）</li><li><b>会员体系</b>：进群立减3元已把散客变会员；🔧会员系统按」次卡用户/普通会员/未消费潜客」分层，每月给30天未来店的会员自动发」回归券」（访客召回，旗舰版潜客营销功能）</li><li><b>节点营销节奏</b>（Q3-Q4日历）：9月开学季推」学生次卡特惠88元」、9月中下旬杭州桂花季上桂花酒酿圆子限定+送桂花香囊、10月起秋冬热糖水主打+栗子芋泥上新、双11推家庭季卡288元钜惠</li></ul><h3>公私域闭环逻辑</h3><p>抖音/点评把笕桥3-5公里新客拉进店 → 门店扫码点餐+进群沉淀为会员 → 次卡锁定10次复购 → 会员数据反哺社群运营 → 熟客带新客（推荐办卡送1次）。<b>公域是水龙头，私域是蓄水池，次卡是防漏阀。</b></p></div>
+<div id="modal-content-8" style="display:none"><h3>月度OKR（新店前90天，⚠️基于行业参考值假设，建议开业后每月校准）</h3><table><tr><th>指标</th><th>第1个月</th><th>第2个月（+外卖）</th><th>第3个月</th></tr><tr><td>月营收目标</td><td>5.5万</td><td>7.5万</td><td>9万</td></tr><tr><td>日均客流</td><td>120人次×~15元</td><td>150人次</td><td>180人次</td></tr><tr><td>大众点评评分</td><td>4.5分/40条评价</td><td>4.5分/80条</td><td>冲好评榜</td></tr><tr><td>次卡办理</td><td>100张</td><td>累计220张</td><td>累计350张</td></tr><tr><td>会员数（企微/会员系统）</td><td>500人</td><td>1000人</td><td>1800人</td></tr><tr><td>外卖占比</td><td>—</td><td>25%</td><td>30%</td></tr><tr><td>外卖评分</td><td>—</td><td>4.8分</td><td>4.8分</td></tr></table><h3>成本结构与盈利测算</h3><p>⚠️假设值（杭州45㎡社区店参考）：月房租约8000元、人力6000元、原材料成本率32%、水电杂费2000元。</p><table><tr><th>项目</th><th>第1月</th><th>第3月</th></tr><tr><td>月营收</td><td>5.5万</td><td>9万</td></tr><tr><td>原材料（32%）</td><td>-1.76万</td><td>-2.88万</td></tr><tr><td>房租+人力+水电</td><td>-1.6万</td><td>-1.6万</td></tr><tr><td>营销费</td><td>-0.15万</td><td>-0.1万</td></tr><tr><td><b>预计净利</b></td><td><b>约+2.0万</b></td><td><b>约+4.4万</b></td></tr><tr><td>净利率</td><td>约36%（糖水品类毛利结构优势）</td><td>约49%</td></tr></table><p>注：首月含开业让利与免费试吃成本约0.2万已计入营销费；第三个月净利率偏高是因为人员仍为2.5人配置，若届时日流水稳定可增聘1人，净利率会回落至行业正常区间（甜品品类10-18%为长期均衡，⚠️建议以季度为周期校准）。</p><h3>30天复盘节点（老板娘必做）</h3><ul><li><b>每天打烊</b>：🔧收银后台「日结报表」记流水、看TOP5单品，10分钟</li><li><b>每周日晚</b>：看次卡办理数、复购率（会员系统「会员分析」）、社群新增人数，决定下周主推款</li><li><b>第30天</b>：对照OKR表复盘，差距&gt;30%的项目找顾问（陈国庆）一起过数据调整策略</li></ul><div class='highlight-box'><p>💰 这门生意的本质：45㎡小店、2.5个人、32%原料成本——只要复购率立起来（次卡是抓手），第3个月做到月净利4万+、一年净利率稳定在15%以上，是完全够得着的目标。</p></div></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>陈国庆</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>品类趋势：平价糖水正迎窗口期</h3><p>杭州广式糖水/传统甜品属<strong>稳定微增</strong>品类。40-60元的新中式甜品（满记、鲜芋仙malls店）在消费降级下持续收缩，而<strong>25元以下平价糖水反而受益</strong>——」花奶茶的价格吃真料」成为年轻人和家庭的情绪慰藉型消费。杨枝甘露、桃胶、烧仙草类百搭单品+外卖是明确增长点。</p><h3>风险提示（必须直面）</h3><ul><li><strong>同质化极高</strong>：糖水技术门槛低，拼的是复购和成本控制</li><li><strong>秋冬淡季明显</strong>：糖水淡旺季差可达20-30%，10月起必须提前布局热的养生品类（桂花酒酿圆子、栗子芋泥羹、银耳羹）</li><li><strong>社区店命脉是复购不是流量</strong>：水墩嘉苑是回迁小区，客流稳定但增量有限，生意=小区户数×到店频次</li></ul><h3>门店现状诊断</h3><p>45㎡小店，已签约扫码点餐+会员旗舰版+小程序+外卖中心（工具齐全，关键是<b>用起来</b>）。⚠️ 假设：老板娘首次创业、无餐饮经验、不熟悉招聘薪资，属于<strong>经营薄弱型新店</strong>——最需要的不是更多工具，而是<b>保姆级的执行手册</b>：菜单怎么定、人怎么招怎么排、次卡怎么设计、开业节奏怎么走、第二个月外卖怎么上。本方案即按这条主线展开。</p><div class='highlight-box'><p>💡 一句话诊断：这是一个」产品可以做出来，但经营体系需要从零搭起来」的首店。前90天把菜单结构、次卡模型、人员排班三件事做对，就能活下来并盈利。</p></div>`,
+    2: `<h3>笕桥商圈真实竞争格局</h3><p>笕桥属城东老居住区+回迁房聚集地，商圈内竞品呈」低价围剿」态势，<b>真正的对手不是甜品连锁，而是奶茶店和个体摊</b>：</p><table><tr><th>竞品</th><th>人均</th><th>威胁点</th><th>核心弱点</th></tr><tr><td>古茗/茶百道（笕桥路沿线）</td><td>15-20元</td><td>直接分流甜品预算</td><td>无」真料」感，喝不出饱腹/滋补价值</td></tr><tr><td>悸动烧仙草/书亦</td><td>12-18元</td><td>饮品+料打法与糖水重叠</td><td>料是标准料包，无现熬锅气</td></tr><tr><td>个体糖水/凉粉摊（夏季）</td><td>8-15元</td><td>夏季低价最强对手</td><td>无门店、无卫生背书、秋冬季直接消失</td></tr><tr><td>麦记牛奶等糖水品牌（同品类）</td><td>20-28元</td><td>成熟糖水模型，菜单可对标</td><td>价格偏高、社区渗透弱（⚠️具体门店需实地核实）</td></tr><tr><td>鲜芋仙类malls店</td><td>40元+</td><td>低（价格错位）</td><td>价格带不同，不构成直接竞争</td></tr></table><h3>莲叙的差异化定位：「社区糖水食堂」</h3><p><b>卡死10-15元价格带</b>，单碗杨枝甘露/桃胶奶只比奶茶贵3-5元，打」加几块钱吃真料」的心智。</p><ul><li><strong>双锚点定价</strong>：8元冰粉（引流锚）+ 12元桃胶奶（利润锚），顾客会自动落在12-16元区间</li><li><strong>现熬可视化</strong>：拍老板现熬栗子/芋泥的短视频，打」奶茶是冲的、糖水是熬的」差异认知</li><li><strong>回迁小区卡位</strong>：水墩嘉苑业主群是天然私域池，家庭装+老人预订品类零成本触达</li></ul><div class='highlight-box'><p>🎯 谈心话术（老板娘可直接用）：」跟古茗比，我这碗杨枝甘露15块，料是现熬的芒果西米，比一杯奶茶贵3块钱，但吃的是真东西。」</p></div>`,
+    3: `<h3>菜单结构：4大系列×22个SKU（新店黄金数量）</h3><p>新店最忌SKU贪多——备料损耗直接吃掉利润（⚠️行业参考值：甜品店报废率&gt;15%即难盈利）。首月22款，跑出数据后再迭代。</p><table><tr><th>系列</th><th>SKU数</th><th>代表单品与定价</th><th>角色</th></tr><tr><td>引流双锚</td><td>2</td><td>冰粉8元 / 手工双皮奶10元</td><td>拉客、拍图、安全感</td></tr><tr><td>招牌糖水</td><td>6</td><td>杨枝甘露15 / 桃胶奶12 / 芋圆烧仙草13 / 麻薯芋泥杯14 / 栗子羹15 / 杏仁露12</td><td>利润主力（对标麦记牛奶爆款）</td></tr><tr><td>滋补炖品</td><td>5</td><td>银耳红枣羹10 / 酒酿圆子12 / 桃胶皂角米16 / 血糯米8 / 秋冬限桂花栗子羹15</td><td>秋冬反季保命、覆盖老人客群</td></tr><tr><td>小食饮品</td><td>9</td><td>鸡蛋仔12 / 炸鲜奶10 / 柠檬茶9 / 鲜奶7…</td><td>拉高客单、外卖凑单</td></tr></table><h3>价格与毛利逻辑</h3><p>⚠️ 假设原材料成本率30-35%（糖水品类基准区间28-38%）。招牌糖水毛利率约70%，定价已确保<strong>每碗赚7-10元</strong>。<b>绝不打价格战</b>：个体摊卖8元冰粉，我们也卖8元冰粉但用料更足，然后靠12-16元主力款赚钱。</p><h3>怎么做（How）</h3><ul><li><b>谁做</b>：老板娘主笔，开业前10天定稿</li><li><b>第几步</b>：①开业前15天去麦记牛奶及笕桥路各家门店买一遍竞品（预算约300元），记录爆品和价格 → ②按上表结构定22款 → ③开业前7天试做全菜单一遍，记录每款出品时间和成本 → ④进系统：🔧收银后台「商品管理→批量导入」，同步配置小程序和外卖端的SKU</li><li><b>话术物料</b>：菜单第一屏放大杨枝甘露实拍图+一行字」现熬真料，奶茶的价格」</li><li><b>不配合怎么办</b>：客人觉得贵→服务员话术」我们家料是当天现熬的，您先尝一碗，不满意这碗我请」</li></ul>`,
+    4: `<h3>45㎡糖水铺人员模型：2+1配置</h3><p>⚠️ 假设：老板娘全职在店+夫妻一方可兼职支援，日均营业额目标3000元以内。<b>2.5人是最优配置</b>：1名全职帮工（后厨备料+出品，糖水可提前批量熬制，非高峰不占人力）+老板娘（前场收银+服务+线上运营）+旺季/周末兼职1名。</p><table><tr><th>岗位</th><th>人数</th><th>薪资参考（杭州2026）</th><th>职责</th></tr><tr><td>帮工/学徒</td><td>1</td><td>4500-5500元/月+全勤200</td><td>熬制糖水、备料、出品、洗碗</td></tr><tr><td>周末兼职</td><td>1</td><td>25-28元/小时</td><td>高峰时段前场点单打包</td></tr><tr><td>老板娘</td><td>1</td><td>—</td><td>收银、社群、进货、对账</td></tr></table><p>月人力成本约5500-6500元，占目标月营收（⚠️假设8万）约7-8%，远低于行业18-25%的人力红线——这是小店模型的核心优势。</p><h3>招聘怎么做（保姆级）</h3><ul><li><b>第几步</b>：开业前10天启动招聘，开业前3天必须到岗试工</li><li><b>在哪招</b>：①水墩嘉苑业主群发」招街坊帮工」（回迁小区阿姨资源丰富、稳定性高）；②58同城/BOSS直聘发」甜品店帮工4500-5500」；③笕桥街道劳务市场贴条</li><li><b>怎么面试</b>：只看三点——手脚麻利（现场让其削一碗芒果计时）、家住2公里内（通勤短=稳定）、接受早上9点前到岗备料</li><li><b>怎么培训</b>：入职前2天跟老板娘试做全菜单，写一页《出品SOP卡》贴在后厨：每款糖水配方克数、熬制时间、出品步骤，照卡片做即可，无需经验</li></ul><h3>排班表（照抄可用）</h3><table><tr><th>时间</th><th>周一至周四</th><th>周五至周日</th></tr><tr><td>9:00-11:00</td><td>老板娘+帮工（备料熬制）</td><td>同左</td></tr><tr><td>11:00-21:00</td><td>老板娘（前场）+帮工（后厨）</td><td>老板娘+帮工+兼职（16:00-21:00）</td></tr><tr><td>21:00-21:30</td><td>收档、盘库存、记当日流水</td><td>同左</td></tr></table><p><b>避坑提醒</b>：首月不请第二个全职！日均3000流水以下，多一个人就是白亏5000块。先用数据验证再说。</p>`,
+    5: `<h3>为什么糖水铺适合次卡、不适合传统储值</h3><p>糖水客频次高（周均1-2次）、单次金额小（12-16元），传统储值300/500元门槛对低收入社区客群压力大；<b>次卡=预付10次的储值变形，门槛低、核销快、锁客效果一样</b>，且完全用已签约的会员旗舰版即可配置，零额外成本。</p><h3>三档次卡模型</h3><table><tr><th>档位</th><th>定价</th><th>内含</th><th>相当于</th><th>目标人群</th></tr><tr><td>体验卡</td><td>88元</td><td>10次基础款（冰粉/双皮奶/银耳羹任选）</td><td>8.8元/次</td><td>首办、新客试水</td></tr><tr><td>主推·招牌卡 ⭐</td><td>158元</td><td>10次招牌款任选（杨枝甘露/芋圆烧仙草等都可）</td><td>15.8元/次 打9.5折</td><td>年轻主力客</td></tr><tr><td>家庭季卡</td><td>288元</td><td>20次全场通用+每月赠鸡蛋仔1份</td><td>14.4元/次</td><td>家庭、老客</td></tr></table><p><b>账算得过来</b>：以158元招牌卡为例，10碗成本约45-50元，毛利约108元，且次卡预付直接回笼现金流、客人10次到店每次都可能加购小食（拉高实收客单到18元+）。</p><h3>怎么做（How）</h3><ul><li><b>谁做</b>：老板娘在🔧收银后台「会员→次卡/计次商品」创建三档次卡（旗舰版会员系统直接支持），开业前3天配置并测试核销流程</li><li><b>第几天推</b>：开业第8天（前7天先攒体验和评价，第2周起主推）</li><li><b>话怎么说</b>：结账时收银台立卡牌」158元喝10次招牌糖水」，服务员一句话：」您今天这碗15块，办张卡的话10次158，今天这碗直接从卡里扣」</li><li><b>不配合怎么办</b>：客人犹豫→」不用一次买，您先吃着，这周内办都送1次」（制造缓冲期，实际deadline可自定）</li><li><b>关键提醒</b>：次卡绑定手机号存入会员系统，客人扫码点餐时系统 🔧自动识别剩余次数，杜绝纸质卡纠纷</li></ul><h3>目标</h3><p>开业首月办卡100张（体验卡60+招牌卡30+家庭卡10），预收现金流约1.3万元，锁定约900人次未来到店。</p>`,
+    6: `<h3>四阶段打法总览：试营业攒口碑 → 正式开业冲量 → 第2周推次卡 → 第2月上外卖</h3><p>结合Q3日历（9月开业可借」开学季+杭州桂花季」双节点；若10月后开业则以秋冬热糖水为主打）。</p><h3>阶段一：开业前7天（不打无准备之仗）</h3><ul><li>D-7~D-5：进水墩嘉苑等3-5个业主群，发」新店免费试吃」接龙，前50名免费尝招牌糖水一碗（成本约400元，换取50个微信+第一波传播）</li><li>D-7起：每天拍1条现熬短视频（栗子绕锅、芒果切丁特写）发抖音+小红书，定位选笕桥，标题带」糖水/杨枝甘露/桃胶」品类词（避开奶茶词竞争，本地推流量更便宜）</li><li>D-5~D-3：🔧小程序上线、次卡配置完成、菜单拍照上传</li><li>D-3~D-1：试营业3天，仅对业主群开放，主打」提意见送次卡体验卡」，收集菜品反馈并调整</li></ul><h3>阶段二：开业第1周（正式开业·冲人气攒评价）</h3><ul><li>大众点评：🔧商家后台「营销中心」上线开业团购」15元代金券卖12元」限200张；发起」免费试」活动（旗舰会员权益）送30份招牌款换真实评价——目标<strong>30天内攒40条+真实评价、星级4.5+</strong>（合规提示：只引导真实分享，不做邀请好评式促评）</li><li>现场动作：服务员对每桌说」扫码进群立减3元」，把堂食客全部导进企微群</li><li>每晚打烊复盘：🔧收银后台「经营报表」看SKU销量，砍掉销量&lt;5份/周的款，集中备料</li></ul><h3>阶段三：第2-4周（推次卡+固化复购）</h3><ul><li>第8天起主推三档次卡（见上一章），办卡目标100张</li><li>每周三定」业主日」：凭水墩嘉苑门禁卡/房卡送酒酿圆子小碗（成本1.5元/份），回迁小区人情牌打得越早越好</li><li>每周五社群发」周末家庭装4件套38元」预订接龙，覆盖家庭宵夜场景</li></ul><h3>阶段四：开业第2个月·上外卖（分阶段）</h3><ul><li><b>第1步（月上旬）</b>：🔧外卖中心先上12个SKU精简版（招牌糖水6款+小食3款+团购套餐3款），只做2.5公里配送圈，保配送时效</li><li><b>第2步（月中旬）</b>：上线」外卖次卡同享」——次卡用户点外卖直接扣次（外卖中心+会员系统互通），这是奶茶店做不到的杀手锏</li><li><b>第3步（月下旬）</b>：看数据加码，外卖目标占月营收25-30%</li><li><b>关键动作</b>：外卖打包用隔层碗（糖水+小食分开），附赠」收藏店铺送小料」卡片，外卖评分目标4.8分起</li></ul>`,
+    7: `<h3>公域引流（大众点评+抖音+小红书）</h3><h4>大众点评：新店冲分主阵地</h4><ul><li>目标：30天40条评价、4.5分；60天冲」上城区甜品好评榜」（🔧商家后台报名榜单相关活动）</li><li>团购结构：15元券卖12元（引流）+ 单人糖水套餐19.9元（主推）+ 双人套餐35.9元（拉客单）</li><li>差评预案：2小时内回复，话术」实在抱歉，这碗我们重新做再见您一次」——首月差评处理速度=星级生命线</li></ul><h4>抖音：现熬可视化+本地推</h4><ul><li><b>谁做</b>：老板娘每天10:30熬制时固定拍1条（拍完就发，不追求精致，真实感即流量）</li><li><b>投放</b>：每周投100元本地推，定向笕桥街道5公里，主品类词」糖水/杨枝甘露/桃胶」</li><li><b>内容三板斧</b>：现熬过程特写 / 」奶茶是冲的糖水是熬的」对比 / 办卡顾客的真实反馈</li></ul><h4>小红书：低频发优质笔记</h4><ul><li>每周2篇，主打」杭州宝藏糖水店」」笕桥平价甜品」，图用门店实拍高饱和特写</li></ul><h3>私域留客（社群+次卡+会员旗舰版）</h3><ul><li><b>1个群起步</b>：水墩嘉苑业主群（老板娘个人号进群，不打扰、只发周三业主日+周末预订接龙+次卡提醒）</li><li><b>会员体系</b>：进群立减3元已把散客变会员；🔧会员系统按」次卡用户/普通会员/未消费潜客」分层，每月给30天未来店的会员自动发」回归券」（访客召回，旗舰版潜客营销功能）</li><li><b>节点营销节奏</b>（Q3-Q4日历）：9月开学季推」学生次卡特惠88元」、9月中下旬杭州桂花季上桂花酒酿圆子限定+送桂花香囊、10月起秋冬热糖水主打+栗子芋泥上新、双11推家庭季卡288元钜惠</li></ul><h3>公私域闭环逻辑</h3><p>抖音/点评把笕桥3-5公里新客拉进店 → 门店扫码点餐+进群沉淀为会员 → 次卡锁定10次复购 → 会员数据反哺社群运营 → 熟客带新客（推荐办卡送1次）。<b>公域是水龙头，私域是蓄水池，次卡是防漏阀。</b></p>`,
+    8: `<h3>月度OKR（新店前90天，⚠️基于行业参考值假设，建议开业后每月校准）</h3><table><tr><th>指标</th><th>第1个月</th><th>第2个月（+外卖）</th><th>第3个月</th></tr><tr><td>月营收目标</td><td>5.5万</td><td>7.5万</td><td>9万</td></tr><tr><td>日均客流</td><td>120人次×~15元</td><td>150人次</td><td>180人次</td></tr><tr><td>大众点评评分</td><td>4.5分/40条评价</td><td>4.5分/80条</td><td>冲好评榜</td></tr><tr><td>次卡办理</td><td>100张</td><td>累计220张</td><td>累计350张</td></tr><tr><td>会员数（企微/会员系统）</td><td>500人</td><td>1000人</td><td>1800人</td></tr><tr><td>外卖占比</td><td>—</td><td>25%</td><td>30%</td></tr><tr><td>外卖评分</td><td>—</td><td>4.8分</td><td>4.8分</td></tr></table><h3>成本结构与盈利测算</h3><p>⚠️假设值（杭州45㎡社区店参考）：月房租约8000元、人力6000元、原材料成本率32%、水电杂费2000元。</p><table><tr><th>项目</th><th>第1月</th><th>第3月</th></tr><tr><td>月营收</td><td>5.5万</td><td>9万</td></tr><tr><td>原材料（32%）</td><td>-1.76万</td><td>-2.88万</td></tr><tr><td>房租+人力+水电</td><td>-1.6万</td><td>-1.6万</td></tr><tr><td>营销费</td><td>-0.15万</td><td>-0.1万</td></tr><tr><td><b>预计净利</b></td><td><b>约+2.0万</b></td><td><b>约+4.4万</b></td></tr><tr><td>净利率</td><td>约36%（糖水品类毛利结构优势）</td><td>约49%</td></tr></table><p>注：首月含开业让利与免费试吃成本约0.2万已计入营销费；第三个月净利率偏高是因为人员仍为2.5人配置，若届时日流水稳定可增聘1人，净利率会回落至行业正常区间（甜品品类10-18%为长期均衡，⚠️建议以季度为周期校准）。</p><h3>30天复盘节点（老板娘必做）</h3><ul><li><b>每天打烊</b>：🔧收银后台「日结报表」记流水、看TOP5单品，10分钟</li><li><b>每周日晚</b>：看次卡办理数、复购率（会员系统「会员分析」）、社群新增人数，决定下周主推款</li><li><b>第30天</b>：对照OKR表复盘，差距&gt;30%的项目找顾问（陈国庆）一起过数据调整策略</li></ul><div class='highlight-box'><p>💰 这门生意的本质：45㎡小店、2.5个人、32%原料成本——只要复购率立起来（次卡是抓手），第3个月做到月净利4万+、一年净利率稳定在15%以上，是完全够得着的目标。</p></div>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
