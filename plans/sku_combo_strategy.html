@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>SaaS×代运营 组合包售卖策略</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { background:#f2f3f5; font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif; color:#2C3038; }
+  .page { max-width:750px; margin:0 auto; background:#fff; }
+
+  /* ===== 封面头部 ===== */
+  .hero { background:linear-gradient(135deg,#1f2329 0%,#2C3038 55%,#3a3f47 100%); padding:46px 24px 34px; position:relative; overflow:hidden; }
+  .hero::after { content:""; position:absolute; right:-60px; top:-60px; width:220px; height:220px; border-radius:50%; background:radial-gradient(circle,rgba(255,195,0,.18),transparent 70%); }
+  .hero .tag { display:inline-block; background:#FFC300; color:#2C3038; font-size:12px; font-weight:700; padding:5px 12px; border-radius:20px; letter-spacing:1px; }
+  .hero h1 { font-size:30px; line-height:1.35; color:#fff; font-weight:800; margin-top:14px; }
+  .hero h1 em { color:#FFC300; font-style:normal; }
+  .hero p { color:#c9ccd2; font-size:14px; line-height:1.8; margin-top:10px; }
+  .hero .form { display:flex; gap:8px; margin-top:16px; flex-wrap:wrap; }
+  .hero .form span { font-size:12px; color:#FFE28A; background:rgba(255,195,0,.12); border:1px solid rgba(255,195,0,.35); padding:4px 10px; border-radius:6px; }
+
+  /* ===== 通用板块标题 ===== */
+  .sec { padding:28px 20px 8px; }
+  .sec-title { display:flex; align-items:baseline; gap:10px; margin-bottom:6px; }
+  .sec-title .num { font-size:26px; font-weight:800; color:#FFC300; font-style:italic; }
+  .sec-title h3 { font-size:20px; font-weight:800; }
+  .sec-sub { font-size:12.5px; color:#8a8f99; margin-bottom:14px; }
+
+  /* ===== 逻辑链条 ===== */
+  .logic { display:flex; gap:6px; align-items:stretch; margin:0 20px; }
+  .logic .node { flex:1; background:#FFFDF5; border:1px solid #FFE9A8; border-radius:12px; padding:12px 10px; text-align:center; }
+  .logic .node b { display:block; font-size:14px; }
+  .logic .node i { display:block; font-style:normal; font-size:11px; color:#8a8f99; margin-top:4px; }
+  .logic .arr { align-self:center; color:#FFC300; font-size:16px; font-weight:800; }
+  .logic .node.hl { background:linear-gradient(135deg,#FFF6D9,#FFE9F0); border-color:#E4393C; }
+  .logic .node.hl b { color:#C02B2E; }
+  .logic-note { font-size:12px; color:#7a6000; background:#FFF8E1; border-left:3px solid #F5A800; border-radius:6px; padding:8px 12px; margin:10px 20px 0; line-height:1.7; }
+
+  /* ===== 组合包卡片 ===== */
+  .pkg { margin:14px 20px; border-radius:16px; overflow:hidden; box-shadow:0 4px 16px rgba(0,0,0,.06); }
+  .pkg .head { padding:16px 18px; display:flex; justify-content:space-between; align-items:center; color:#fff; }
+  .pkg .head .tl b { font-size:20px; font-weight:800; display:block; }
+  .pkg .head .tl i { font-style:normal; font-size:12px; opacity:.85; margin-top:3px; display:block; }
+  .pkg .head .fit { font-size:11px; background:rgba(255,255,255,.2); padding:4px 10px; border-radius:14px; white-space:nowrap; }
+  .pkg.f1 .head { background:linear-gradient(135deg,#F5A800,#FFC300); }
+  .pkg.f2 .head { background:linear-gradient(135deg,#E4393C,#ff7043); }
+  .pkg.f3 .head { background:linear-gradient(135deg,#8e24aa,#6a1b9a); }
+  .pkg.f4 .head { background:linear-gradient(135deg,#1565c0,#42a5f5); }
+  .pkg .body { border:1px solid #eee; border-top:none; border-radius:0 0 16px 16px; padding:14px 16px; background:#fff; }
+  .pkg .row { display:flex; gap:8px; padding:7px 0; border-bottom:1px dashed #f0f0f0; align-items:center; }
+  .pkg .row:last-of-type { border-bottom:none; }
+  .pkg .row .ic { width:26px; height:26px; border-radius:8px; font-size:14px; display:flex; align-items:center; justify-content:center; background:#FAFAFA; flex-shrink:0; }
+  .pkg .row .nm { font-size:13.5px; font-weight:600; flex:1; }
+  .pkg .row .rt { font-size:10.5px; color:#8a8f99; }
+  .pkg .row.main .nm { color:#C02B2E; font-weight:800; }
+  .pkg .row.main .ic { background:#FDEBEB; }
+  .pkg .pr { display:flex; justify-content:space-between; align-items:center; background:#FAFAFA; border-radius:10px; padding:10px 14px; margin-top:10px; }
+  .pkg .pr .lab { font-size:11.5px; color:#8a8f99; }
+  .pkg .pr .val { font-size:17px; font-weight:800; color:#C02B2E; }
+  .pkg .tips { margin-top:10px; font-size:12px; line-height:1.75; color:#5a5f66; background:#FFFDF5; border-radius:10px; padding:10px 12px; }
+  .pkg .tips b { color:#B27800; }
+
+  /* ===== 试点政策 ===== */
+  .pilot { margin:20px; background:linear-gradient(135deg,#2C3038,#444a54); border-radius:16px; padding:18px; color:#fff; }
+  .pilot h4 { font-size:16px; font-weight:800; color:#FFC300; margin-bottom:10px; }
+  .pilot .item { display:flex; gap:10px; align-items:flex-start; padding:8px 0; border-bottom:1px solid rgba(255,255,255,.08); font-size:13px; line-height:1.7; }
+  .pilot .item:last-child { border-bottom:none; }
+  .pilot .item .amt { color:#FFE28A; font-weight:800; white-space:nowrap; }
+
+  /* ===== 铁律 ===== */
+  .rules { margin:0 20px 24px; }
+  .rules .r { display:flex; gap:12px; background:#FDEBEB; border:1px solid #f3c1c2; border-radius:12px; padding:12px 14px; margin-top:10px; align-items:flex-start; }
+  .rules .r .n { font-size:20px; font-weight:800; color:#E4393C; font-style:italic; flex-shrink:0; line-height:1.2; }
+  .rules .r p { font-size:13px; line-height:1.7; }
+  .rules .r p b { color:#C02B2E; }
+
+  .foot { background:#FAFAFA; padding:16px 20px 26px; text-align:center; font-size:11px; color:#8a8f99; line-height:1.8; border-top:1px solid #eee; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- 头部 -->
+  <div class="hero">
+    <span class="tag">内部策略 · BD作战地图</span>
+    <h1>SaaS × 代运营<br><em>组合包售卖策略</em></h1>
+    <p>系统是买车，代运营是配司机<br>工具 + 用好工具，一站式闭环</p>
+    <div class="form">
+      <span>SaaS = 数据地基</span>
+      <span>代运营 = 利润与粘性</span>
+      <span>组合 = 深度绑定</span>
+    </div>
+  </div>
+
+  <!-- 01 打法逻辑 -->
+  <div class="sec">
+    <div class="sec-title"><span class="num">01</span><h3>为什么组合卖</h3></div>
+    <div class="sec-sub">单独卖的短板，组合后互补</div>
+  </div>
+  <div class="logic">
+    <div class="node"><b>只卖 SaaS</b><i>买了不用<br>续费率低</i></div>
+    <div class="arr">+</div>
+    <div class="node"><b>只卖代运营</b><i>觉得贵<br>效果难承诺</i></div>
+    <div class="arr">=</div>
+    <div class="node hl"><b>组合售卖</b><i>年费保底 + 高客单<br>运营跑在自己系统上</i></div>
+  </div>
+  <div class="logic-note">核心：运营用的是客户自己的会员/储值系统，<b>数据资产留在店里</b>——第三方代运营数据在人手里，换服务商从零开始。</div>
+
+  <!-- 02 组合包矩阵 -->
+  <div class="sec">
+    <div class="sec-title"><span class="num">02</span><h3>四大组合包</h3></div>
+    <div class="sec-sub">按门店阶段对号入座</div>
+  </div>
+
+  <!-- 包1 -->
+  <div class="pkg f1">
+    <div class="head">
+      <div class="tl"><b>🚀 开业冲刺包</b><i>新店首选 · 0-30天新店 / 线上零基础</i></div>
+      <span class="fit">目标客单 1.2w-2w</span>
+    </div>
+    <div class="body">
+      <div class="row"><div class="ic">💳</div><div class="nm">会员旗舰版</div><div class="rt">数据地基 · 年费基本盘</div></div>
+      <div class="row"><div class="ic">📱</div><div class="nm">扫码点餐 + 小程序</div><div class="rt">堂食线上化入口</div></div>
+      <div class="row main"><div class="ic">🎯</div><div class="nm">代运营 · 启程版</div><div class="rt">钩子 · 开业90天陪跑</div></div>
+      <div class="pr"><span class="lab">代运营标价</span><span class="val">￥7,999 / 3个月</span></div>
+      <div class="tips"><b>话术锚点：</b>「新店前3个月没做起来，后面花3倍钱都救不回来」<br><b>打法：</b>试点名额让利换 SaaS 全家桶 + 首月数据 → 转成长包</div>
+    </div>
+  </div>
+
+  <!-- 包2 -->
+  <div class="pkg f2">
+    <div class="head">
+      <div class="tl"><b>📈 成长包</b><i>主推成交档 · 经营6个月+ 有基础的单店</i></div>
+      <span class="fit">目标客单 3.5w+</span>
+    </div>
+    <div class="body">
+      <div class="row"><div class="ic">🔄</div><div class="nm">会员旗舰版（续费/新签）</div><div class="rt">留存基本盘</div></div>
+      <div class="row"><div class="ic">🛵</div><div class="nm">外卖中心</div><div class="rt">外卖管理提效</div></div>
+      <div class="row main"><div class="ic">🏆</div><div class="nm">代运营 · 领航版（季度）</div><div class="rt">主推成交档</div></div>
+      <div class="pr"><span class="lab">代运营标价</span><span class="val">￥29,999 / 季度</span></div>
+      <div class="tips"><b>开口方式：</b>用 SaaS 后台数据做诊断（流水÷客单=人次，缺多少新客一目了然），议价从「你觉得」变「数据说」<br><b>报价技巧：</b>先亮年度 88,888 做锚 → 落点在季度 29,999</div>
+    </div>
+  </div>
+
+  <!-- 包3 -->
+  <div class="pkg f3">
+    <div class="head">
+      <div class="tl"><b>🏆 年度经营包</b><i>高客单 · 成熟店 / 2店以上小连锁</i></div>
+      <span class="fit">目标客单 10w+</span>
+    </div>
+    <div class="body">
+      <div class="row"><div class="ic">🏪</div><div class="nm">连锁版/智能版 SaaS</div><div class="rt">总部管控地基 · 按门店数配置</div></div>
+      <div class="row"><div class="ic">📦</div><div class="nm">供应链/多门店管理</div><div class="rt">连锁刚需 · 按需</div></div>
+      <div class="row main"><div class="ic">📅</div><div class="nm">代运营 · 领航版（年度）</div><div class="rt">全年营销日历托管</div></div>
+      <div class="pr"><span class="lab">代运营标价</span><span class="val">￥88,888 / 年</span></div>
+      <div class="tips"><b>售卖逻辑：</b>不讲单次活动，讲「全年营销日历完整落位 + 星级/榜单长期经营」<br><b>降档承接：</b>预算犹豫降到半年 49,999，别直接掉回季度</div>
+    </div>
+  </div>
+
+  <!-- 包4 -->
+  <div class="pkg f4">
+    <div class="head">
+      <div class="tl"><b>🪝 轻试探包</b><i>登门锤 · 「先试试别整贵的」犹豫型客户</i></div>
+      <span class="fit">目标客单 0.2w-0.5w</span>
+    </div>
+    <div class="body">
+      <div class="row"><div class="ic">🔍</div><div class="nm">单店诊断（不推包，推诊断）</div><div class="rt">痛点自然放大</div></div>
+      <div class="row main"><div class="ic">🎯</div><div class="nm">代运营 · 启程版</div><div class="rt">试运营体验 · 底价空间最大</div></div>
+      <div class="tips"><b>打法：</b>诊断报告出来痛点自然放大 → 「方案给您了，落地要人，我们团队能接」<br><b>定位：</b>成交不赚钱没关系，赚的是数据和信任</div>
+    </div>
+  </div>
+
+  <!-- 03 试点政策 -->
+  <div class="sec">
+    <div class="sec-title"><span class="num">03</span><h3>试点期杠杆</h3></div>
+    <div class="sec-sub">当前最锋利的武器 · 数量有限</div>
+  </div>
+  <div class="pilot">
+    <h4>⚡ 试点期名额政策</h4>
+    <div class="item"><span class="amt">启程版 底价￥1,999</span><span>限量 5 个 · 只投「开业冲刺包」目标客户</span></div>
+    <div class="item"><span class="amt">领航版季度</span><span>提成计算价 0 · 限量 5 个 · 只投「成长包」目标客户</span></div>
+    <div class="item"><span class="amt">稀缺话术</span><span>「公司试点期名额，我在我们区给您争取了一个」——名额用完按正常价，别把 1,999 当常规价亮出去</span></div>
+  </div>
+
+  <!-- 04 铁律 -->
+  <div class="sec">
+    <div class="sec-title"><span class="num">04</span><h3>执行铁律</h3></div>
+    <div class="sec-sub">两条做好，成交周期减半</div>
+  </div>
+  <div class="rules">
+    <div class="r"><span class="n">1</span><p><b>试点名额只投对的人</b>——「开业冲刺包」和「成长包」，用在能带出 SaaS 单或明确续约意愿的客户身上，别撒胡椒面</p></div>
+    <div class="r"><span class="n">2</span><p><b>第一单都做成案例</b>——前后数据对比，第二单开始用案例打，成交周期减半</p></div>
+  </div>
+
+  <div class="foot">SaaS × 代运营 组合包售卖策略 · 内部使用<br>价格信息以学城SKU库及签约方案为准，请勿直接外发客户</div>
+</div>
+</body>
+</html>
