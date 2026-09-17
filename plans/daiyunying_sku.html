@@ -155,6 +155,19 @@
   .steps-arrow { text-align:center; color:#FFC300; font-size:18px; font-weight:700; margin-bottom:6px; grid-column:span 3; }
 
   /* ===== FAQ不需要，改CTA ===== */
+  .pkg { border:1px solid #eee; border-radius:14px; margin-bottom:14px; overflow:hidden; background:#fff; box-shadow:0 2px 10px rgba(44,48,56,.06); }
+  .pkg-head { background:linear-gradient(135deg,#2C3038,#3d4350); color:#fff; padding:14px 16px; display:flex; justify-content:space-between; align-items:center; }
+  .pkg-head .tl b { font-size:17px; }
+  .pkg-head .tl i { font-style:normal; font-size:12px; color:#c9ccd2; display:block; font-weight:400; }
+  .pkg-head .price { text-align:right; }
+  .pkg-head .price em { font-style:normal; font-size:11px; color:#c9ccd2; display:block; }
+  .pkg-head .price b { color:#FFD100; font-size:22px; }
+  .pkg-head .price i { font-style:normal; font-size:11px; color:#c9ccd2; }
+  .pkg ul { list-style:none; padding:12px 16px 14px; }
+  .pkg ul li { font-size:12.5px; color:#5a5f66; padding:3px 0; }
+  .pkg ul li::before { content:'✓ '; color:#2E9E6B; font-weight:700; }
+  .pkg-note { font-size:11.5px; color:#b0b4bb; text-align:center; margin-top:2px; }
+
   .cta { background:linear-gradient(160deg,#FFD100,#FFC300); border-radius:18px; padding:30px 22px; text-align:center; }
   .cta h4 { font-size:20px; font-weight:800; margin-bottom:8px; }
   .cta p { font-size:13.5px; color:#5a4a00; margin-bottom:16px; }
@@ -449,13 +462,65 @@
     </div>
   </section>
 
+  <!-- 套餐 -->
+  <section>
+    <div class="sec-title"><span class="num">13</span><h3>服务时长与版本</h3></div>
+    <div class="sec-sub">按门店阶段与经营节奏选择</div>
+
+    <div class="pkg">
+      <div class="pkg-head">
+        <div class="tl"><b>启程版</b><i>3个月 · 新店起步首选</i></div>
+        <div class="price"><em>官方指导价 ￥7,999</em><b>￥3,999</b><i>/3个月</i></div>
+      </div>
+      <ul>
+        <li>店铺诊断 + 运营方案规划</li>
+        <li>平台运营管理全套服务（星级/榜单/活动/曝光）</li>
+        <li>评论管理 + 广告设计 + 周月报复盘</li>
+      </ul>
+    </div>
+
+    <div class="pkg">
+      <div class="pkg-head">
+        <div class="tl"><b>领航版</b><i>季度 · 稳步提升</i></div>
+        <div class="price"><em>官方指导价 ￥29,999</em><b>￥11,999</b><i>/季度</i></div>
+      </div>
+      <ul>
+        <li>启程版全部服务</li>
+        <li>运营节奏更密，活动档期覆盖更全</li>
+      </ul>
+    </div>
+
+    <div class="pkg">
+      <div class="pkg-head">
+        <div class="tl"><b>领航版</b><i>半年 · 旺季+平季组合经营</i></div>
+        <div class="price"><em>官方指导价 ￥49,999</em><b>￥22,999</b><i>/半年</i></div>
+      </div>
+      <ul>
+        <li>季度版全部服务</li>
+        <li>跨多个活动档期持续积累线上资产</li>
+      </ul>
+    </div>
+
+    <div class="pkg">
+      <div class="pkg-head">
+        <div class="tl"><b>领航版</b><i>年度 · 长期陪伴经营</i></div>
+        <div class="price"><em>官方指导价 ￥88,888</em><b>￥42,999</b><i>/年</i></div>
+      </div>
+      <ul>
+        <li>半年版全部服务</li>
+        <li>全年营销日历完整落位，星级/榜单长期经营</li>
+      </ul>
+    </div>
+
+    <div class="pkg-note">* 价格为服务费，不含平台广告投放费用；具体以签约方案为准</div>
+  </section>
+
   <!-- CTA -->
   <section>
     <div class="cta">
       <h4>让专业的人，做专业的事</h4>
-      <p>新店体验价 · 多档期灵活选择 · 详询顾问<br>您的门店，值得官方团队的标准服务</p>
+      <p>新店有限期限时优惠 · 多档期灵活选择<br>您的门店，值得官方团队的标准服务</p>
       <a class="btn" href="weixin://">立即咨询 · 预约诊断</a>
-      <div class="wechat">添加微信号 / 大象：<b>chenguoqing14</b><br>美团官方代运营顾问</div>
     </div>
   </section>
 
