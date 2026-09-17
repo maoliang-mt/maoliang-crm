@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>新店起航冲刺包</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { background:#f2f3f5; font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif; color:#2C3038; }
+  .page { max-width:750px; margin:0 auto; background:#fff; }
+
+  .hero { background:linear-gradient(150deg,#1f2329 0%,#2C3038 45%,#4a3410 100%); padding:50px 24px 36px; position:relative; overflow:hidden; }
+  .hero::before { content:""; position:absolute; left:-70px; bottom:-90px; width:260px; height:260px; border-radius:50%; background:radial-gradient(circle,rgba(255,195,0,.22),transparent 70%); }
+  .hero .tag { display:inline-block; background:#FFC300; color:#2C3038; font-size:12px; font-weight:800; padding:6px 14px; border-radius:20px; letter-spacing:2px; }
+  .hero h1 { font-size:38px; line-height:1.3; color:#fff; font-weight:900; margin-top:16px; letter-spacing:2px; }
+  .hero h1 em { color:#FFC300; font-style:normal; }
+  .hero .sub { color:#c9ccd2; font-size:15px; margin-top:12px; line-height:1.8; }
+  .hero .sub b { color:#FFE28A; }
+  .hero .lim { display:flex; gap:8px; margin-top:18px; flex-wrap:wrap; }
+  .hero .lim span { font-size:12px; color:#FFE28A; background:rgba(255,195,0,.12); border:1px solid rgba(255,195,0,.4); padding:5px 12px; border-radius:16px; }
+
+  .price-card { margin:-24px 20px 0; position:relative; border-radius:18px; background:#fff; box-shadow:0 8px 30px rgba(0,0,0,.10); padding:22px 20px; text-align:center; }
+  .price-card .was { font-size:13px; color:#8a8f99; }
+  .price-card .was s { color:#b0b4ba; }
+  .price-card .now { margin-top:6px; }
+  .price-card .now b { font-size:44px; font-weight:900; color:#E4393C; letter-spacing:1px; }
+  .price-card .now i { font-style:normal; font-size:15px; color:#E4393C; font-weight:700; }
+  .price-card .save { margin-top:10px; display:inline-block; background:linear-gradient(135deg,#E4393C,#ff7043); color:#fff; font-size:13px; font-weight:700; padding:5px 16px; border-radius:16px; }
+  .price-card .cap { margin-top:12px; font-size:12px; color:#8a8f99; }
+
+  .sec { padding:30px 20px 6px; }
+  .sec-title { display:flex; align-items:center; gap:10px; }
+  .sec-title .bar { width:5px; height:20px; background:#FFC300; border-radius:3px; }
+  .sec-title h3 { font-size:21px; font-weight:900; }
+  .sec-sub { font-size:12.5px; color:#8a8f99; margin:6px 0 14px; padding-left:15px; }
+
+  .five { display:flex; flex-direction:column; gap:10px; }
+  .five .it { display:flex; gap:12px; align-items:flex-start; background:#FFFDF5; border:1px solid #FFE9A8; border-radius:14px; padding:13px 15px; }
+  .five .it .ic { width:40px; height:40px; border-radius:12px; background:#fff; border:1px solid #FFE9A8; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; }
+  .five .it .tx b { font-size:15.5px; font-weight:800; display:block; }
+  .five .it .tx b i { font-style:normal; font-size:11px; color:#B27800; background:#FFF6D9; border-radius:10px; padding:2px 8px; margin-left:6px; vertical-align:2px; }
+  .five .it .tx p { font-size:12.5px; color:#5a5f66; margin-top:4px; line-height:1.65; }
+
+  .loop { margin:16px 20px 0; background:linear-gradient(135deg,#2C3038,#444a54); border-radius:16px; padding:18px; color:#fff; }
+  .loop h4 { font-size:15px; font-weight:800; color:#FFC300; margin-bottom:10px; }
+  .loop p { font-size:13px; line-height:1.9; color:#e8eaed; }
+  .loop p b { color:#FFE28A; }
+
+  .cmp { margin:14px 20px 0; }
+  .cmp .row { display:flex; border-radius:12px; overflow:hidden; margin-bottom:10px; }
+  .cmp .row .l { flex:1; background:#FAFAFA; border:1px solid #eee; border-right:none; border-radius:12px 0 0 12px; padding:12px 14px; }
+  .cmp .row .l b { font-size:13px; display:block; }
+  .cmp .row .l p { font-size:11px; color:#8a8f99; margin-top:3px; line-height:1.6; }
+  .cmp .row .r { width:130px; background:#FAFAFA; border:1px solid #eee; border-radius:0 12px 12px 0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:8px; }
+  .cmp .row.hot .l { background:#FFFDF5; border-color:#FFD666; }
+  .cmp .row.hot .r { background:#FFF6D9; border-color:#FFD666; }
+  .cmp .row .r .p { font-size:16px; font-weight:900; }
+  .cmp .row.hot .r .p { color:#E4393C; }
+  .cmp .row .r .q { font-size:10px; color:#8a8f99; }
+  .cmp .row.hot .r .q { color:#B27800; font-weight:700; }
+  .cmp .vs { text-align:center; font-size:11px; color:#b0b4ba; margin:2px 0 8px; }
+
+  .ops { margin:16px 20px 0; display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .ops .o { background:#FDEBEB; border:1px solid #f3c1c2; border-radius:14px; padding:14px 12px; text-align:center; }
+  .ops .o .e { font-size:24px; }
+  .ops .o b { display:block; font-size:13.5px; font-weight:800; color:#C02B2E; margin-top:5px; }
+  .ops .o p { font-size:11px; color:#8a5a5b; margin-top:3px; line-height:1.6; }
+
+  .quota { margin:20px; background:linear-gradient(135deg,#E4393C,#ff7043); border-radius:16px; padding:20px; color:#fff; text-align:center; }
+  .quota .t { font-size:18px; font-weight:900; letter-spacing:1px; }
+  .quota .n { font-size:52px; font-weight:900; margin:6px 0 2px; line-height:1; }
+  .quota .n i { font-style:normal; font-size:16px; font-weight:700; }
+  .quota p { font-size:12.5px; opacity:.92; margin-top:8px; line-height:1.7; }
+
+  .cta { margin:0 20px 28px; background:#FFFDF5; border:2px dashed #FFC300; border-radius:16px; padding:20px; text-align:center; }
+  .cta h4 { font-size:19px; font-weight:900; }
+  .cta h4 em { font-style:normal; color:#E4393C; }
+  .cta p { font-size:12.5px; color:#8a7a3a; margin-top:8px; line-height:1.8; }
+  .cta .btn { display:block; margin:14px auto 0; max-width:280px; background:linear-gradient(135deg,#FFC300,#F5A800); color:#2C3038; font-size:16px; font-weight:900; text-decoration:none; padding:13px 0; border-radius:30px; letter-spacing:2px; }
+
+  .foot { background:#FAFAFA; padding:14px 20px 26px; text-align:center; font-size:11px; color:#8a8f99; line-height:1.8; border-top:1px solid #eee; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="hero">
+    <span class="tag">新店开业 · 一站式配齐</span>
+    <h1>新店起航<br><em>冲刺包</em></h1>
+    <div class="sub">买代运营，<b>送SaaS全家桶</b><br>系统 + 运营，开业即起飞</div>
+    <div class="lim">
+      <span>📍 试点城市限定</span>
+      <span>🔢 仅限 5 个名额</span>
+      <span>⏳ 开业黄金90天</span>
+    </div>
+  </div>
+
+  <div class="price-card">
+    <div class="was">分开买 <s>￥6,888 + ￥7,999 = ￥14,887</s></div>
+    <div class="now"><i>￥</i><b>7,999</b><i> / 90天一口价</i></div>
+    <div class="save">立省 ￥6,888 · 系统全套直接配上</div>
+    <div class="cap">金额为服务费，不含平台广告投放费用，具体以签约方案为准</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title"><span class="bar"></span><h3>包内五大件</h3></div>
+    <div class="sec-sub">从收银到运营，开业要的全有了</div>
+  </div>
+  <div style="padding:0 20px;">
+    <div class="five">
+      <div class="it"><div class="ic">💳</div><div class="tx"><b>收银基础系统<i>经营地基</i></b><p>收银、对账、库存一台搞定，流水数据从第一单就沉淀在系统里</p></div></div>
+      <div class="it"><div class="ic">🔗</div><div class="tx"><b>万能码<i>一码多能</i></b><p>点餐、支付、会员识别一个码全打通，顾客到店零门槛</p></div></div>
+      <div class="it"><div class="ic">👑</div><div class="tx"><b>旗舰版会员<i>留客资产</i></b><p>会员等级、权益、储值、营销全配置，每一单顾客都变成可反复触达的私域资产</p></div></div>
+      <div class="it"><div class="ic">📱</div><div class="tx"><b>专属小程序<i>复购入口</i></b><p>门店专属线上窗口，顾客离店不失联，随时下单随时回头</p></div></div>
+      <div class="it"><div class="ic">🚀</div><div class="tx"><b>官方代运营 · 3个月<i>核心引擎</i></b><p>美团官方运营团队托管线上经营：诊断 → 方案 → 落地，90天全程陪跑</p></div></div>
+    </div>
+  </div>
+
+  <div class="loop">
+    <h4>⚙️ 五大件拧成一条经营闭环</h4>
+    <p>收银+万能码产生<b>交易数据</b> → 旗舰版会员沉淀<b>会员资产</b> → 小程序承接<b>复购触达</b> → 官方代运营用这些数据做<b>诊断和活动落地</b>，让整个循环在前90天转起来。<br>工具自己不会赚钱，让专业团队用工具帮你把黄金期跑通，才是新店最缺的。</p>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title"><span class="bar"></span><h3>这笔账怎么算</h3></div>
+    <div class="sec-sub">打包 vs 分开买，一目了然</div>
+  </div>
+  <div class="cmp">
+    <div class="row">
+      <div class="l"><b>分开买</b><p>小程序包（基础+万能码+旗舰版会员+小程序）<br>+ 代运营三个月服务，两个合同两拨人</p></div>
+      <div class="r"><span class="p">￥14,887</span><span class="q">原价合计</span></div>
+    </div>
+    <div class="vs">▼ 打包买 ▼</div>
+    <div class="row hot">
+      <div class="l"><b>新店起航冲刺包 🚀</b><p>五大件一次配齐，一个合同一个服务群，开业即开跑</p></div>
+      <div class="r"><span class="p">￥7,999</span><span class="q">省￥6,888</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title"><span class="bar"></span><h3>90天官方运营做什么</h3></div>
+    <div class="sec-sub">不是给建议，是替你干</div>
+  </div>
+  <div style="padding:0 20px;" >
+    <div class="ops">
+      <div class="o"><div class="e">🩺</div><b>开业诊断</b><p>商圈/竞品/客群分析<br>找准门店起跑姿势</p></div>
+      <div class="o"><div class="e">🔥</div><b>开业预热</b><p>开业活动方案设计<br>第一天就有热度</p></div>
+      <div class="o"><div class="e">🏆</div><b>榜单冲击</b><p>针对业态制定榜单冲刺<br>抢占新店曝光位</p></div>
+      <div class="o"><div class="e">⭐</div><b>星级提升</b><p>评价维护与星级方案<br>口碑从第一月起</p></div>
+      <div class="o"><div class="e">🎯</div><b>营销落地</b><p>团购/代金券/平台活动<br>开店宝管家端代上架</p></div>
+      <div class="o"><div class="e">📊</div><b>全程陪跑</b><p>90天运营节奏托管<br>数据周月报复盘</p></div>
+    </div>
+  </div>
+
+  <div class="quota">
+    <div class="t">试点城市 · 限定名额</div>
+    <div class="n">5<i> 个</i></div>
+    <p>新店开业黄金90天，窗口期错过不再来<br>名额用完即恢复原价</p>
+  </div>
+
+  <div class="cta">
+    <h4>开业即起飞，别让黄金期<em>裸奔</em></h4>
+    <p>系统配齐 + 官方运营托管，一个包全搞定<br>名额有限，先到先得</p>
+    <a class="btn" href="weixin://">立即咨询 · 锁定名额</a>
+  </div>
+
+  <div class="foot">新店起航冲刺包 · 试点期产品<br>服务内容以签约合同为准 · 最终解释权归服务商所有</div>
+</div>
+</body>
+</html>
