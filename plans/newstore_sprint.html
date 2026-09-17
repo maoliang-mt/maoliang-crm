@@ -25,7 +25,12 @@
   .price-card .now { margin-top:6px; }
   .price-card .now b { font-size:44px; font-weight:900; color:#E4393C; letter-spacing:1px; }
   .price-card .now i { font-style:normal; font-size:15px; color:#E4393C; font-weight:700; }
-  .price-card .save { margin-top:10px; display:inline-block; background:linear-gradient(135deg,#E4393C,#ff7043); color:#fff; font-size:13px; font-weight:700; padding:5px 16px; border-radius:16px; }
+  .price-card .split { display:flex; align-items:center; justify-content:center; gap:12px; margin-top:12px; }
+  .price-card .split .sp { background:#FFFDF5; border:1px solid #FFE9A8; border-radius:12px; padding:8px 20px; }
+  .price-card .split .sp b { font-size:20px; font-weight:900; color:#B27800; display:block; }
+  .price-card .split .sp span { font-size:11px; color:#8a8f99; }
+  .price-card .split .plus { font-size:20px; font-weight:900; color:#FFC300; }
+  .price-card .save { margin-top:12px; display:inline-block; background:linear-gradient(135deg,#E4393C,#ff7043); color:#fff; font-size:13px; font-weight:700; padding:5px 16px; border-radius:16px; }
   .price-card .cap { margin-top:12px; font-size:12px; color:#8a8f99; }
 
   .sec { padding:30px 20px 6px; }
@@ -97,8 +102,13 @@
 
   <div class="price-card">
     <div class="was">分开买 <s>￥6,888 + ￥7,999 = ￥14,887</s></div>
-    <div class="now"><i>￥</i><b>7,999</b><i> / 90天一口价</i></div>
-    <div class="save">立省 ￥6,888 · 系统全套直接配上</div>
+    <div class="now"><i>￥</i><b>7,999</b><i> 一口价</i></div>
+      <div class="split">
+        <div class="sp"><b>90天</b><span>官方代运营服务</span></div>
+        <div class="plus">+</div>
+        <div class="sp"><b>365天</b><span>SaaS工具全套</span></div>
+      </div>
+      <div class="save">立省 ￥6,888 · 系统全套直接配上</div>
     <div class="cap">金额为服务费，不含平台广告投放费用，具体以签约方案为准</div>
   </div>
 
