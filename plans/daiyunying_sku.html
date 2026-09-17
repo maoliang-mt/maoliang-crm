@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>美团官方代运营 · 服务介绍</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { -webkit-text-size-adjust:100%; }
+  body {
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    background:#f5f5f7; color:#2C3038; line-height:1.75; font-size:15px;
+  }
+  .page { max-width:750px; margin:0 auto; background:#fff; }
+
+  /* ===== 封面 ===== */
+  .cover {
+    background:linear-gradient(160deg,#FFD100 0%,#FFC300 55%,#F5B800 100%);
+    padding:56px 24px 44px; text-align:center; position:relative; overflow:hidden;
+  }
+  .cover::before{
+    content:''; position:absolute; width:340px; height:340px; border-radius:50%;
+    background:rgba(255,255,255,.18); top:-160px; right:-120px;
+  }
+  .cover::after{
+    content:''; position:absolute; width:220px; height:220px; border-radius:50%;
+    background:rgba(44,48,56,.08); bottom:-90px; left:-70px;
+  }
+  .cover .brand { position:relative; z-index:2; display:inline-block; background:#2C3038; color:#FFD100; font-weight:700; padding:4px 14px; border-radius:999px; font-size:13px; letter-spacing:2px; }
+  .cover h1 { position:relative; z-index:2; font-size:34px; margin:18px 0 6px; font-weight:800; letter-spacing:1px; }
+  .cover h2 { position:relative; z-index:2; font-size:16px; font-weight:600; color:#5a4a00; }
+  .cover .tags { position:relative; z-index:2; margin-top:20px; display:flex; justify-content:center; gap:10px; flex-wrap:wrap; }
+  .cover .tags span { background:#2C3038; color:#fff; font-size:13px; padding:5px 14px; border-radius:999px; font-weight:500; }
+
+  section { padding:38px 20px; }
+  .sec-title { text-align:center; margin-bottom:6px; }
+  .sec-title .num { display:inline-block; background:#2C3038; color:#FFD100; font-weight:800; font-size:13px; padding:2px 10px; border-radius:6px; margin-right:8px; vertical-align:middle; }
+  .sec-title h3 { display:inline-block; font-size:21px; font-weight:800; vertical-align:middle; }
+  .sec-sub { text-align:center; font-size:13px; color:#8a8f99; margin-bottom:22px; }
+
+  /* ===== 01 三个困境 ===== */
+  .pain { display:flex; gap:12px; margin-bottom:14px; background:#fff; border:1px solid #f0e6c8; border-radius:14px; padding:16px 14px; box-shadow:0 2px 10px rgba(44,48,56,.05); }
+  .pain .emoji { font-size:26px; line-height:1.2; }
+  .pain b { display:block; font-size:15.5px; margin-bottom:4px; }
+  .pain p { font-size:13.5px; color:#5a5f66; }
+  .pain-swap { margin-top:20px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+  .pain-swap .ans { background:#FFFDF5; border:1.5px solid #FFC300; border-radius:12px; padding:12px 8px; text-align:center; }
+  .ans .t { font-weight:800; color:#B27800; font-size:16px; margin-bottom:4px; }
+  .ans p { font-size:12px; color:#5a5f66; line-height:1.6; }
+
+  /* ===== 02 平台背书 ===== */
+  .scale { background:#2C3038; border-radius:16px; padding:24px 16px; display:grid; grid-template-columns:repeat(3,1fr); gap:8px; text-align:center; }
+  .scale .s b { display:block; color:#FFD100; font-size:24px; font-weight:800; }
+  .scale .s span { color:#c9ccd2; font-size:12px; }
+  .scale-note { margin-top:16px; background:#EBF3FB; border-left:4px solid #2B6CB0; border-radius:0 10px 10px 0; padding:12px 14px; font-size:13.5px; color:#333; }
+  .scale-badge { margin-top:12px; text-align:center; font-size:13px; color:#8a8f99; }
+  .scale-badge b { color:#B27800; }
+
+  /* ===== 03 对比 ===== */
+  .vs-table { width:100%; border-collapse:collapse; font-size:13px; border-radius:14px; overflow:hidden; box-shadow:0 2px 12px rgba(44,48,56,.07); }
+  .vs-table th { padding:12px 8px; font-size:13.5px; }
+  .vs-table th.l { background:#5a5f66; color:#fff; width:38%; }
+  .vs-table th.r { background:#E4393C; color:#fff; width:62%; }
+  .vs-table td { padding:11px 10px; border-bottom:1px solid #f2f2f4; vertical-align:top; }
+  .vs-table td.l { background:#fafafa; color:#5a5f66; font-size:12.5px; }
+  .vs-table td.r { background:#FFFDF5; }
+  .vs-table td.r .k { font-weight:700; color:#B27800; font-size:13px; display:block; margin-bottom:2px; }
+  .vs-table td.r p { font-size:12.5px; color:#5a5f66; }
+  .vs-note { text-align:center; font-size:12px; color:#b0b4bb; margin-top:10px; }
+
+  /* ===== 04 更懂平台 ===== */
+  .grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .g3 { background:#fff; border:1px solid #f0e6c8; border-radius:14px; padding:16px 10px; text-align:center; }
+  .g3 .e { font-size:26px; }
+  .g3 b { display:block; font-size:14.5px; margin:6px 0 4px; color:#B27800; }
+  .g3 p { font-size:12px; color:#5a5f66; line-height:1.65; }
+
+  /* ===== 05 四阶段闭环 ===== */
+  .loop { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:12px; }
+  .loop .st { background:linear-gradient(180deg,#FFFDF5,#FFF6D9); border:1.5px solid #FFC300; border-radius:12px; padding:14px 6px; text-align:center; position:relative; }
+  .loop .st .n { display:inline-block; width:24px; height:24px; line-height:24px; border-radius:50%; background:#2C3038; color:#FFD100; font-weight:800; font-size:13px; }
+  .loop .st b { display:block; font-size:14.5px; margin-top:6px; }
+  .loop .st span { font-size:11px; color:#8a8f99; display:block; }
+  .loop-desc { background:#FAFAFA; border-radius:12px; padding:14px 16px; font-size:13.5px; color:#5a5f66; }
+  .loop-desc b { color:#2C3038; }
+  .loop-data { margin-top:12px; background:#E9F7F0; border-radius:10px; padding:10px 14px; font-size:13px; }
+
+  /* ===== 06 1+N+M ===== */
+  .team { border:1.5px solid #FFC300; border-radius:16px; padding:20px 16px; background:#FFFDF5; }
+  .team-row { display:flex; gap:8px; margin-bottom:14px; }
+  .team-role { background:#2C3038; color:#FFD100; border-radius:12px; padding:14px 10px; text-align:center; flex:1; }
+  .team-role.big { flex:1.6; }
+  .team-role .z { font-size:26px; font-weight:800; }
+  .team-role b { display:block; font-size:13.5px; margin-top:2px; color:#fff; }
+  .team-role span { font-size:11px; color:#c9ccd2; display:block; }
+  .team-side { flex:1; background:#fff; border:1px solid #eee; border-radius:12px; padding:12px 10px; }
+  .team-side b { font-size:13px; color:#B27800; display:block; margin-bottom:4px; }
+  .team-side span { display:block; font-size:11.5px; color:#8a8f99; line-height:1.7; }
+  .platform-res { background:#fff; border:1px solid #eee; border-radius:12px; padding:14px 14px; }
+  .platform-res b { color:#B27800; font-size:13.5px; }
+  .platform-res p { font-size:12.5px; color:#5a5f66; margin-top:4px; }
+
+  /* ===== 07 培训体系 ===== */
+  .train { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+  .train .t { background:#fff; border:1px solid #f0e6c8; border-radius:14px; padding:16px 12px; text-align:center; }
+  .train .t .e { font-size:24px; }
+  .train .t b { display:block; font-size:13.5px; margin:6px 0 4px; }
+  .train .t p { font-size:11.5px; color:#8a8f99; line-height:1.6; }
+
+  /* ===== 08 数字化系统 ===== */
+  .sys { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .sys .y { background:#fff; border:1px solid #f0e6c8; border-radius:14px; padding:16px 14px; }
+  .sys .y b { display:block; font-size:14.5px; color:#B27800; margin-bottom:4px; }
+  .sys .y p { font-size:12.5px; color:#5a5f66; }
+  .sys .y.full { grid-column:span 2; background:#FFFDF5; }
+  .sys .y .tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+  .sys .y .tags span { background:#FFF6D9; border:1px solid #FFC300; color:#7a6000; font-size:12px; padding:3px 10px; border-radius:999px; }
+
+  /* ===== 09 SaaS托管 + 平台资源 ===== */
+  .saas { background:linear-gradient(135deg,#2C3038,#3d4350); border-radius:16px; padding:22px 18px; color:#fff; margin-bottom:14px; }
+  .saas h4 { color:#FFD100; font-size:16.5px; margin-bottom:10px; }
+  .saas li { font-size:13px; color:#e8e9ec; margin-left:18px; margin-bottom:6px; }
+  .res3 { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .res3 .r { background:#FFFDF5; border:1.5px solid #FFC300; border-radius:12px; padding:14px 8px; text-align:center; }
+  .res3 .r .e { font-size:22px; }
+  .res3 .r b { display:block; font-size:13.5px; color:#B27800; margin:4px 0; }
+  .res3 .r p { font-size:11px; color:#8a8f99; line-height:1.6; }
+
+  /* ===== 11 价值总结 ===== */
+  .value { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .value .v { background:#FFFDF5; border:1px solid #f0e6c8; border-radius:14px; padding:14px 14px; display:flex; gap:10px; align-items:flex-start; }
+  .value .v .e { font-size:20px; }
+  .value .v b { display:block; font-size:14px; color:#B27800; }
+  .value .v p { font-size:12px; color:#5a5f66; margin-top:2px; }
+
+  /* ===== 服务明细 ===== */
+  .detail-title { background:#2C3038; color:#FFD100; padding:8px 14px; border-radius:8px 8px 0 0; font-weight:700; font-size:14.5px; display:flex; justify-content:space-between; align-items:center; }
+  .detail-title small { color:#c9ccd2; font-weight:400; font-size:11px; }
+  .detail { border:1px solid #eee; border-top:none; border-radius:0 0 12px 12px; margin-bottom:22px; overflow:hidden; }
+  .detail table { width:100%; border-collapse:collapse; font-size:12.5px; }
+  .detail th { background:#FAFAFA; padding:9px 10px; text-align:left; font-size:12.5px; border-bottom:1px solid #eee; }
+  .detail td { padding:9px 10px; border-bottom:1px solid #f5f5f6; color:#5a5f66; }
+  .detail td:first-child { white-space:nowrap; font-weight:600; color:#2C3038; }
+  .freq { display:inline-block; background:#E9F7F0; color:#2E9E6B; font-weight:700; font-size:11.5px; padding:1px 8px; border-radius:999px; white-space:nowrap; }
+  .freq.rg { background:#FFF3E3; color:#C05E00; }
+  .detail .foot { padding:10px 14px; background:#FAFAFA; font-size:12px; color:#8a8f99; }
+  .cat-head { background:#FFF6D9; border-left:3px solid #FFC300; font-weight:700; padding:8px 10px; font-size:13px; color:#B27800; }
+
+  /* ===== 三步合作 ===== */
+  .steps3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:6px; }
+  .steps3 .s { background:#fff; border:1.5px solid #FFC300; border-top:4px solid #FFC300; border-radius:14px; padding:16px 10px; text-align:center; }
+  .steps3 .s .n { display:inline-block; width:28px; height:28px; line-height:28px; background:#2C3038; color:#FFD100; border-radius:50%; font-weight:800; }
+  .steps3 .s b { display:block; font-size:14px; margin:8px 0 4px; }
+  .steps3 .s p { font-size:11.5px; color:#8a8f99; line-height:1.6; }
+  .steps-arrow { text-align:center; color:#FFC300; font-size:18px; font-weight:700; margin-bottom:6px; grid-column:span 3; }
+
+  /* ===== FAQ不需要，改CTA ===== */
+  .cta { background:linear-gradient(160deg,#FFD100,#FFC300); border-radius:18px; padding:30px 22px; text-align:center; }
+  .cta h4 { font-size:20px; font-weight:800; margin-bottom:8px; }
+  .cta p { font-size:13.5px; color:#5a4a00; margin-bottom:16px; }
+  .cta .btn { display:inline-block; background:#2C3038; color:#FFD100; font-weight:700; font-size:16px; padding:13px 40px; border-radius:999px; text-decoration:none; letter-spacing:1px; }
+  .cta .wechat { margin-top:16px; font-size:14px; color:#2C3038; }
+  .cta .wechat b { font-size:16px; letter-spacing:.5px; }
+
+  .footer { background:#2C3038; color:#8a8f99; text-align:center; padding:26px 20px 40px; font-size:12px; line-height:2; }
+  .footer b { color:#e8e9ec; font-size:13px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- 封面 -->
+  <div class="cover">
+    <span class="brand">MEITUAN OPERATION SERVICE</span>
+    <h1>美团官方代运营</h1>
+    <h2>官方团队 · 数据驱动 · 合规运营</h2>
+    <div class="tags">
+      <span>餐饮门店线上经营全托管</span>
+      <span>诊断 → 规划 → 落地 → 复盘</span>
+    </div>
+  </div>
+
+  <!-- 01 三个困境 -->
+  <section>
+    <div class="sec-title"><span class="num">01</span><h3>门店线上经营，为什么越来越难自己做好？</h3></div>
+    <div class="sec-sub">签约之前，先看清老板们的三个真实困境</div>
+    <div class="pain">
+      <div class="emoji">🌀</div>
+      <div><b>规则越来越复杂</b><p>ROS评分、星级机制、榜单规则、活动入口持续更新，靠二手解读做运营，一步慢步步慢。</p></div>
+    </div>
+    <div class="pain">
+      <div class="emoji">⏰</div>
+      <div><b>精力顾不过来</b><p>前厅后厨已经满负荷，线上店铺装修、评价回复、活动配置没有专人，只能被动应付。</p></div>
+    </div>
+    <div class="pain">
+      <div class="emoji">💸</div>
+      <div><b>投了钱没方向</b><p>推广费花了，曝光来了，转化却不见涨——缺的不是预算，是基于数据的打法。</p></div>
+    </div>
+    <div class="pain-swap">
+      <div class="ans"><div class="t">懂规则</div><p>实时跟进平台政策变化，第一时间解读落地，不再慢半拍</p></div>
+      <div class="ans"><div class="t">有人手</div><p>专属运营师+细分团队补齐线上人手，老板专注前厅后厨</p></div>
+      <div class="ans"><div class="t">给方向</div><p>基于店铺数据定制打法，每一分预算花在转化的地方</p></div>
+    </div>
+  </section>
+
+  <!-- 02 平台背书 -->
+  <section style="background:#FAFAFA;">
+    <div class="sec-title"><span class="num">02</span><h3>您身后的平台，就是我们的底气</h3></div>
+    <div class="sec-sub">美团本地生活的双边规模</div>
+    <div class="scale">
+      <div class="s"><b>亿级</b><span>年度交易用户<br>消费者侧规模行业领先</span></div>
+      <div class="s"><b>千万级</b><span>年度服务商户<br>覆盖全国2,800+县市区</span></div>
+      <div class="s"><b>官方</b><span>代运营身份<br>规则更新第一时间同步</span></div>
+    </div>
+    <div class="scale-note">您的门店本来就在美团经营，服务标准全国一致，无需重建信任链路。规模不是宣传数字。</div>
+    <div class="scale-badge">——“我们与门店，本来就在同一个平台生态里”</div>
+  </section>
+
+  <!-- 03 官方 vs 第三方 -->
+  <section>
+    <div class="sec-title"><span class="num">03</span><h3>同样是代运营，「官方」有什么不同</h3></div>
+    <div class="sec-sub">不做贬低，只讲事实上的结构差异</div>
+    <table class="vs-table">
+      <tr><th class="l">一般第三方代运营</th><th class="r">美团官方代运营</th></tr>
+      <tr>
+        <td class="l">规则信息依赖公开信息与二手解读，存在滞后</td>
+        <td class="r"><span class="k">官方渠道直连</span><p>更新第一时间同步到动作</p></td>
+      </tr>
+      <tr>
+        <td class="l">部分手段游走灰色地带，有降权风险</td>
+        <td class="r"><span class="k">动作严格在平台红线以内</span><p>线上资产安全积累</p></td>
+      </tr>
+      <tr>
+        <td class="l">以外部身份争取资源，通道与优先级有限</td>
+        <td class="r"><span class="k">平台资源顺畅使用</span><p>活动报名、展位规则、推广产品官方通道</p></td>
+      </tr>
+      <tr>
+        <td class="l">多为人工截图汇报，颗粒度与时效参差</td>
+        <td class="r"><span class="k">经营数据平台+SaaS系统全托管</span><p>进度透明可查</p></td>
+      </tr>
+      <tr>
+        <td class="l">依赖个别运营员个人能力，人员流动即断档</td>
+        <td class="r"><span class="k">全国统一培训考核体系</span><p>人员可替换、标准不打折</p></td>
+      </tr>
+    </table>
+    <div class="vs-note">以上为两种服务模式的结构性差异，供参考对比</div>
+  </section>
+
+  <!-- 04 更懂平台 -->
+  <section style="background:#FAFAFA;">
+    <div class="sec-title"><span class="num">04</span><h3>更懂平台：官方视角的专业积累</h3></div>
+    <div class="sec-sub">规则理解 · 合规运营 · 案例沉淀</div>
+    <div class="grid3">
+      <div class="g3"><div class="e">📖</div><b>规则理解更透</b><p>对平台规则、ROS评分体系、星级机制的理解直接来自官方渠道，规则更新第一时间同步到运营动作</p></div>
+      <div class="g3"><div class="e">🛡️</div><b>更新更快</b><p>严格合规执行，帮商户安全、稳健地积累线上资产，不走灰色捷径</p></div>
+      <div class="g3"><div class="e">📚</div><b>案例沉淀</b><p>来自平台海量真实经营场景的方法论，而非外部代运营的猜测试错</p></div>
+    </div>
+  </section>
+
+  <!-- 05 四阶段闭环 -->
+  <section>
+    <div class="sec-title"><span class="num">05</span><h3>成熟方法论：四阶段运营闭环</h3></div>
+    <div class="sec-sub">诊断 → 规划 → 落地 → 复盘，每一步都有数据依据</div>
+    <div class="loop">
+      <div class="st"><span class="n">1</span><b>店铺诊断</b><span>商圈·竞对·评价<br>星级·交易全链路</span></div>
+      <div class="st"><span class="n">2</span><b>方案规划</b><span>目标拆解<br>落地计划</span></div>
+      <div class="st"><span class="n">3</span><b>运营落地</b><span>视觉·货盘<br>评价·活动</span></div>
+      <div class="st"><span class="n">4</span><b>复盘优化</b><span>周报·月报<br>策略迭代</span></div>
+    </div>
+    <div class="loop-desc"><b>诊断建立在门店真实经营数据上</b>：曝光、访问、转化、复购、客群画像全链路分析，每一个调整建议都有数据依据；品类大盘、价格带、消费时段等行业洞察支撑决策——帮助门店在正确的时间做正确的动作，而不是凭感觉调店铺。</div>
+    <div class="loop-data">✅ 全链路数据：曝光 / 访问 / 转化 / 复购 / 客群画像 &nbsp;·&nbsp; 行业洞察：品类大盘 / 价格带 / 消费时段</div>
+  </section>
+
+  <!-- 06 1+N+M -->
+  <section style="background:#FAFAFA;">
+    <div class="sec-title"><span class="num">06</span><h3>1+N+M 协作体系</h3></div>
+    <div class="sec-sub">一个人对接，一个团队服务</div>
+    <div class="team">
+      <div class="team-row">
+        <div class="team-role big">
+          <div class="z">1</div>
+          <b>专属运营师</b>
+          <span>服务主理人 · 全程对接<br>您只需要认识这一个人</span>
+        </div>
+      </div>
+      <div class="team-row">
+        <div class="team-role">
+          <div class="z">N</div>
+          <b>专业细分团队</b>
+          <span>运营师统一牵引</span>
+        </div>
+        <div class="team-side">
+          <b>✍️ 文案写作</b>
+          <b>🎯 活动策划</b>
+          <b>🎨 视觉设计</b>
+          <b>🎓 培训质检</b>
+        </div>
+      </div>
+      <div class="team-row" style="margin-bottom:0;">
+        <div class="team-role">
+          <div class="z">M</div>
+          <b>平台资源协同</b>
+          <span>官方通道</span>
+        </div>
+        <div class="platform-res" style="flex:1.8;">
+          <b>活动报名指导 · 榜单冲刺规划 · 推广产品配置建议</b>
+          <p>所有专业团队与平台资源，均由运营师统一调度、统一排期，避免多头对接、口径不一。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 培训体系 -->
+  <section>
+    <div class="sec-title"><span class="num">07</span><h3>专业人才培养体系</h3></div>
+    <div class="sec-sub">上岗有门槛，服务有考核</div>
+    <div class="train">
+      <div class="t"><div class="e">🎓</div><b>岗前体系化培训</b><p>课程学习 → 考试检验 → 实操通关，考核合格方可上岗服务</p></div>
+      <div class="t"><div class="e">📊</div><b>持续考核机制</b><p>每月经营指标 + 服务质量双考核，保持团队专业水准</p></div>
+      <div class="t"><div class="e">🧩</div><b>能力全覆盖</b><p>平台产品 · 流量运营 · 星级运营 · 交易运营 · 视觉设计</p></div>
+    </div>
+  </section>
+
+  <!-- 08 数字化系统 -->
+  <section style="background:#FAFAFA;">
+    <div class="sec-title"><span class="num">08</span><h3>数字化系统与提效</h3></div>
+    <div class="sec-sub">服务过程透明可查，产出又快又稳</div>
+    <div class="sys">
+      <div class="y"><b>📈 经营数据平台</b><p>实时跟踪服务进度与运营效果，门店变化随时可见</p></div>
+      <div class="y"><b>⚙️ 运营管理系统</b><p>交付内容标准化、流程化，服务质量稳定可预期</p></div>
+      <div class="y"><b>🧾 三级数据报告</b><p>日报/周报/月报，用数据汇报，不靠感觉</p></div>
+      <div class="y"><b>🤖 AI 智能提效</b><p>智能工具辅助创意与分析，服务响应更快</p></div>
+      <div class="y full"><b>AI 能力嵌入运营全流程</b>
+        <div class="tags">
+          <span>做图</span><span>写作</span><span>创意灵感支持</span><span>智能分析解读</span><span>快速定位问题</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 SaaS全托管 -->
+  <section>
+    <div class="sec-title"><span class="num">09</span><h3>SaaS全托管与平台资源合规运用</h3></div>
+    <div class="sec-sub">方案不止于纸面，落地有系统支撑</div>
+    <div class="saas">
+      <h4>🖥️ SaaS 系统全托管</h4>
+      <li>营销策划方案与SaaS系统工具配套输出</li>
+      <li>活动线上配置由SaaS团队全托管执行，商户无需操作后台</li>
+      <li>策划、配置、上线、监控一站式，运营师全程牵引</li>
+    </div>
+    <div class="res3">
+      <div class="r"><div class="e">🎪</div><b>平台活动</b><p>第一时间获取活动信息与报名指导</p></div>
+      <div class="r"><div class="e">📍</div><b>展示资源</b><p>理解曝光展位规则，争取符合条件的位置</p></div>
+      <div class="r"><div class="e">🚀</div><b>推广配置</b><p>点金推广等官方产品的科学配置建议</p></div>
+    </div>
+  </section>
+
+  <!-- 10 价值总结 -->
+  <section style="background:#FAFAFA;">
+    <div class="sec-title"><span class="num">10</span><h3>选择官方代运营，您得到的是</h3></div>
+    <div class="sec-sub">一屏看懂全部服务价值</div>
+    <div class="value">
+      <div class="v"><div class="e">🏛️</div><div><b>更懂平台</b><p>官方团队对规则理解透彻及时，运营动作全程合规</p></div></div>
+      <div class="v"><div class="e">📊</div><div><b>数据说话</b><p>门店真实数据+行业洞察支撑每一个决策</p></div></div>
+      <div class="v"><div class="e">🧑‍🤝‍🧑</div><div><b>专业团队</b><p>认证运营师+文案/设计/活动/质检细分支撑</p></div></div>
+      <div class="v"><div class="e">🖥️</div><div><b>服务全覆盖</b><p>SaaS全托管系统营销策划配套，活动配置一站式落地</p></div></div>
+      <div class="v"><div class="e">🔍</div><div><b>透明服务</b><p>三级数据报告，进度效果随时可查</p></div></div>
+      <div class="v"><div class="e">🤖</div><div><b>AI提效</b><p>智能工具加速创意与分析，服务更快更稳</p></div></div>
+    </div>
+  </section>
+
+  <!-- 11 服务明细 -->
+  <section>
+    <div class="sec-title"><span class="num">11</span><h3>服务明细</h3></div>
+    <div class="sec-sub">签约前说清楚：内容、频率、时间节点</div>
+
+    <!-- 明细① -->
+    <div class="detail-title">① 店铺诊断服务<small>启动节奏</small></div>
+    <div class="detail">
+      <table>
+        <tr><th style="width:26%;">服务内容</th><th>服务说明</th><th style="width:16%;">频率</th></tr>
+        <tr><td>目标对齐</td><td>初次门店线上沟通，收集门店信息并对齐运营目标</td><td><span class="freq">1次</span></td></tr>
+        <tr><td>运营策略及规划</td><td>制定运营目标、方案与落地计划</td><td><span class="freq">1次</span></td></tr>
+      </table>
+      <div class="foot">⏱️ 签约后5个工作日内排期；外部沟通后5个工作日内完成方案交付；第2个工作日开启初次外部沟通。让门店从签约第一天就知道谁在做、做什么、什么时候交付。</div>
+    </div>
+
+    <!-- 明细② -->
+    <div class="detail-title">② 平台运营管理（一）<small>方案确认后开启</small></div>
+    <div class="detail">
+      <table>
+        <tr><th>服务项目</th><th>服务说明</th><th style="width:20%;">频率</th></tr>
+        <tr><td>ROS提升策略</td><td>基于店铺ROS制定提升策略，确定后平台操作管理</td><td><span class="freq rg">定期诊断复盘</span></td></tr>
+        <tr><td>关键词优化</td><td>基于客群分析与亮点提炼关键词并操作</td><td><span class="freq rg">定期诊断复盘</span></td></tr>
+        <tr><td>榜单提升策略</td><td>基于平台数据诊断确定榜单提升策略</td><td><span class="freq rg">定期诊断复盘</span></td></tr>
+        <tr><td>收藏打卡策略</td><td>基于平台数据诊断确定收藏打卡策略</td><td><span class="freq rg">定期诊断复盘</span></td></tr>
+        <tr><td>平台活动策略</td><td>活动开放后同步信息、确认意向并报名操作</td><td><span class="freq rg">定期诊断复盘</span></td></tr>
+        <tr><td>秒杀活动策略</td><td>结合上新、交易活动节点确定秒杀策略</td><td><span class="freq rg">定期诊断复盘</span></td></tr>
+        <tr><td>曝光展位活动</td><td>结合展位规则确定特价团购等策略并操作</td><td><span class="freq rg">定期诊断复盘</span></td></tr>
+        <tr><td>入口标签</td><td>诊断入口图，确定并执行调整建议</td><td><span class="freq rg">定期诊断复盘</span></td></tr>
+        <tr><td>竞品分析</td><td>商圈、业态、客群分析</td><td><span class="freq rg">定期诊断复盘</span></td></tr>
+      </table>
+      <div class="foot">频率口径：本部分服务均为定期诊断复盘、按需调整</div>
+    </div>
+
+    <!-- 明细③ -->
+    <div class="detail-title">③ 平台运营管理（二）<small>方案确认后开启</small></div>
+    <div class="detail">
+      <table>
+        <tr><th colspan="2" class="cat-head">星级与口碑管理</th></tr>
+        <tr><td>星级问题管理</td><td>基于近期评论分析星级核心问题</td></tr>
+        <tr><td>星级目标拆解</td><td>确定目标并拆解达成动作</td></tr>
+        <tr><td>客诉分级处理</td><td>基于过往差评提出分级处理建议</td></tr>
+        <tr><td>评论引导红线</td><td>形成评论引导红线建议</td></tr>
+        <tr><th colspan="2" class="cat-head">门店经营优化</th></tr>
+        <tr><td>前厅服务建议</td><td>围绕运营策略提出前厅服务过程建议</td></tr>
+        <tr><td>门店绩效建议</td><td>围绕运营策略提出绩效规划建议</td></tr>
+        <tr><th colspan="2" class="cat-head">线上资产与活动运营</th></tr>
+        <tr><td>组件问题分析</td><td>诊断商户通/菜品展示/新鲜事并策划闪光点</td></tr>
+        <tr><td>团代买管理</td><td>综合分析并操作</td></tr>
+        <tr><td>活动方案建议</td><td>依据节点沟通计划，确认后线上执行</td></tr>
+      </table>
+    </div>
+
+    <!-- 明细④ -->
+    <div class="detail-title">④ 评论管理 · 广告设计 · 客户服务<small>持续交付</small></div>
+    <div class="detail">
+      <table>
+        <tr><th style="width:24%;">类别</th><th>服务说明</th><th style="width:26%;">频率</th></tr>
+        <tr><td>差评监控</td><td>差评及时反馈对接群、沟通处理意见</td><td><span class="freq rg">持续执行</span></td></tr>
+        <tr><td>口碑管理</td><td>评论展示后48小时差评回复；5个工作日好评回复</td><td><span class="freq rg">持续执行</span></td></tr>
+        <tr><td>评论诊断报告</td><td>从菜品、服务等角度形成月度报告建议</td><td><span class="freq">按月输出</span></td></tr>
+        <tr><td>平台视觉图片</td><td>商户通五图、推荐菜图、团购图、新鲜事配图</td><td><span class="freq">4次/半年</span></td></tr>
+        <tr><td>线下物料（基础）</td><td>台卡、桌贴、常规店内海报</td><td><span class="freq">1次</span></td></tr>
+        <tr><td>策略复盘</td><td>周报每周前2个工作日交付；月报每月前5个工作日（月报周不交付周报）</td><td><span class="freq">周/月</span></td></tr>
+      </table>
+      <div class="foot">设计排期：常规排期提前3个工作日；紧急事项由运营申请加急审批</div>
+    </div>
+  </section>
+
+  <!-- 12 三步合作 -->
+  <section style="background:#FAFAFA;">
+    <div class="sec-title"><span class="num">12</span><h3>下一步，只需要三步</h3></div>
+    <div class="sec-sub">从确认意向到运营开启</div>
+    <div class="steps3">
+      <div class="s"><span class="n">1</span><b>确认合作意向</b><p>与销售确认服务方案与报价</p></div>
+      <div class="s"><span class="n">2</span><b>启动信息收集</b><p>填写《服务开启前信息回填表》（3个工作日内）</p></div>
+      <div class="s"><span class="n">3</span><b>运营正式开启</b><p>目标对齐沟通 → 5个工作日内交付运营方案</p></div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section>
+    <div class="cta">
+      <h4>让专业的人，做专业的事</h4>
+      <p>新店体验价 · 多档期灵活选择 · 详询顾问<br>您的门店，值得官方团队的标准服务</p>
+      <a class="btn" href="weixin://">立即咨询 · 预约诊断</a>
+      <div class="wechat">添加微信号 / 大象：<b>chenguoqing14</b><br>美团官方代运营顾问</div>
+    </div>
+  </section>
+
+  <div class="footer">
+    <b>美团官方代运营服务</b><br>
+    官方团队 · 数据驱动 · 合规运营<br>
+    诊断 → 规划 → 落地 → 复盘 四阶段运营闭环<br>
+    深耕餐饮 · 专业服务 · 长期陪伴
+  </div>
+
+</div>
+</body>
+</html>
