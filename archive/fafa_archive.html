@@ -26,8 +26,8 @@ h1 span { color:var(--acc); }
 .file { border-top:1px solid var(--line); }
 .fname { width:100%; text-align:left; background:none; border:none; color:#9ecbff; font-size:14px; padding:12px 8px; cursor:pointer; font-family:inherit; }
 .fname:hover { text-decoration:underline; }
-.fbody { display:none; }
-.fbody pre { background:#12141c; border:1px solid var(--line); border-radius:10px; padding:16px; font-size:12px; line-height:1.7; white-space:pre-wrap; word-break:break-word; max-height:70vh; overflow:auto; color:#cdd3e0; }
+.fbody { display:none; position:fixed; inset:0; background:rgba(0,0,0,.85); z-index:100; padding:20px; overflow:auto; }
+.fbody pre { background:#12141c; border:1px solid #3a3f52; border-radius:12px; padding:20px; font-size:13px; line-height:1.75; white-space:pre-wrap; word-break:break-word; max-width:1050px; max-height:none; margin:0 auto; display:block; color:#cdd3e0; }
 .note { color:var(--dim); font-size:12px; padding:16px 8px 4px; }
 footer { text-align:center; color:var(--dim); font-size:12px; padding:28px 0; border-top:1px solid var(--line); margin-top:30px; }
 </style>
@@ -33807,4 +33807,20 @@ BD在新签/续签过程中，将&quot;AI运营方案&quot;作为专属增值服
 
 <p class="note">💡 点击文件名展开/收起内容。单文件HTML，无外部依赖，可离线保存。</p>
 <footer>发发 — 2026-04 至 2026-09 · 好好干活，好好告别 🐾</footer>
-</body></html>
+<script>
+function toggle(id){
+  var el = document.getElementById(id);
+  var open = el.style.display === 'block';
+  var all = document.querySelectorAll('.fbody');
+  for (var i=0;i<all.length;i++){ all[i].style.display='none'; }
+  if(!open){ el.style.display='block'; document.body.style.overflow='hidden'; }
+  else { document.body.style.overflow=''; }
+}
+document.addEventListener('keydown', function(e){
+  if(e.key==='Escape'){
+    var all=document.querySelectorAll('.fbody');
+    for(var i=0;i<all.length;i++){ all[i].style.display='none'; }
+    document.body.style.overflow='';
+  }
+});
+</script></body></html>
