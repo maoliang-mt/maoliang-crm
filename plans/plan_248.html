@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delico德利可餐厅 · 运营提升方案</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #1e4d7b;
+      --accent: #4A9EBF;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #141420;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --text: #e8e8f0;
+      --text-dim: #9090a8;
+      --text-muted: #5a5a72;
+      --border: rgba(255,255,255,0.08);
+      --glow: #1a3a5c40;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 粒子动画 ── */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px 120px;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, var(--glow), transparent 70%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: linear-gradient(135deg, var(--primary)30, var(--primary-light)20);
+      border: 1px solid var(--primary)60;
+      border-radius: 30px;
+      font-size: 12px;
+      color: var(--accent);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease 0.1s both;
+      text-shadow: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, var(--primary)20, transparent 70%);
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+
+    .hero-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+
+    .hero-address::before {
+      content: '📍';
+      font-size: 14px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: clamp(20px, 4vw, 60px);
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── 波浪装饰 ── */
+    .wave-wrap {
+      position: relative;
+      margin-top: -2px;
+      line-height: 0;
+      z-index: 2;
+    }
+    .wave-svg { width: 100%; animation: wave-move 8s linear infinite; }
+    .wave-svg-2 { width: 100%; opacity: 0.4; animation: wave-move 12s linear infinite reverse; margin-top: -40px; }
+    @keyframes wave-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── 主内容区 ── */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      background: var(--primary)20;
+      border: 1px solid var(--primary)40;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--primary-light);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── 章节网格 ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary)60;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--primary)20;
+    }
+
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card.locked {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .chapter-card.unlocked-card {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+
+    .chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .chapter-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chapter-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chapter-type.free {
+      background: var(--primary)20;
+      color: var(--primary-light);
+      border: 1px solid var(--primary)30;
+    }
+
+    .chapter-type.locked-badge {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .lock-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+
+    /* ── 签约解锁栏 ── */
+    .unlock-bar {
+      margin: 40px auto;
+      max-width: 480px;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--primary)30;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .unlock-bar h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .unlock-bar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .unlock-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .unlock-input {
+      flex: 1;
+      max-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+    }
+
+    .unlock-input:focus {
+      border-color: var(--primary)60;
+    }
+
+    .unlock-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .unlock-btn:hover { opacity: 0.9; }
+    .unlock-btn:active { transform: scale(0.97); }
+
+    .unlock-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 20px;
+    }
+
+    .unlock-msg.success { color: #4ade80; }
+    .unlock-msg.error { color: #f87171; }
+
+    /* ── 弹窗 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--primary)30;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--primary)10;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: var(--bg2);
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-chapter-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .modal-close {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: var(--primary)20;
+      border-color: var(--primary)40;
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 28px;
+    }
+
+    /* ── 弹窗内容样式 ── */
+    .modal-body p {
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .modal-body h3 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 10px;
+    }
+
+    .modal-body h4 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+
+    .modal-body ul, .modal-body ol {
+      padding-left: 22px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body li {
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .modal-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .modal-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-body th {
+      background: var(--primary)20;
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid var(--primary)30;
+    }
+
+    .modal-body td {
+      padding: 10px 14px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-body tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .modal-body .highlight-box {
+      background: linear-gradient(135deg, var(--primary)15, var(--accent)08);
+      border: 1px solid var(--primary)25;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .modal-body .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      background: var(--primary)20;
+      color: var(--primary-light);
+      margin: 2px;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer strong { color: var(--text-dim); }
+
+    /* ── 动画辅助 ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 100px; }
+      .hero-stats { gap: 16px; }
+      .hero-stat-divider { display: none; }
+      .chapters-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+      .modal-box { border-radius: 16px; }
+      .modal-header { padding: 18px 18px 16px; }
+      .modal-body { padding: 18px; }
+      .modal-body p, .modal-body li { font-size: 14px; }
+    }
+
+    /* ── 滚动条美化 ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary)40; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary)70; }
+  </style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<!-- HERO 区域 -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">东南亚菜/轻正餐 · 运营提升方案</div>
+  <h1 class="hero-title">Delico德利可餐厅</h1>
+  <p class="hero-subtitle">地铁口200米的东南亚风味小馆，用高校客群+闲时增量打开50元带生存空间</p>
+  <div class="hero-address">湖北省武汉市洪山区珞南街道珞狮路233号（马房山地铁站D出口前200米）</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-value">¥50</span>
+      <div class="hero-stat-label">预估人均</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">4.3分</span>
+      <div class="hero-stat-label">目标评分</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-value">洪山区</span>
+      <div class="hero-stat-label">所在区域</div>
+    </div>
+  </div>
+</section>
+
+<!-- 波浪过渡 -->
+<div class="wave-wrap">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a"/>
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0f0f1a" transform="translate(720,0)"/>
+  </svg>
+  <svg class="wave-svg-2" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5"/>
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z" fill="#141420" opacity="0.5" transform="translate(720,0)"/>
+  </svg>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+  <div class="section-header">
+    <div class="section-tag">运营方案</div>
+    <h2 class="section-title">完整运营提升路径</h2>
+  </div>
+
+  <!-- 章节网格 -->
+  <div class="chapters-grid" id="chaptersGrid">
+        <div class="chapter-card" onclick="openChapter(1, '市场洞察', 1)">
+      
+      <div class="chapter-num">CHAPTER 01</div>
+      <div class="chapter-title">市场洞察</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2, '竞品拆解', 2)">
+      
+      <div class="chapter-num">CHAPTER 02</div>
+      <div class="chapter-title">竞品拆解</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3, '品牌定位', 3)">
+      
+      <div class="chapter-num">CHAPTER 03</div>
+      <div class="chapter-title">品牌定位</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4, '点评口碑破局', 4)">
+      
+      <div class="chapter-num">CHAPTER 04</div>
+      <div class="chapter-title">点评口碑破局</div>
+      <span class="chapter-type free">免费</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(5, '公私域联动运营', 5)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 05</div>
+      <div class="chapter-title">公私域联动运营</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(6, '高校客群专项', 6)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 06</div>
+      <div class="chapter-title">高校客群专项</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+    <div class="chapter-card locked" onclick="openChapter(7, '投资回报与OKR', 7)">
+      <div class="lock-icon">🔒</div>
+      <div class="chapter-num">CHAPTER 07</div>
+      <div class="chapter-title">投资回报与OKR</div>
+      <span class="chapter-type locked-badge">🔒 签约解锁</span>
+    </div>
+  </div>
+
+  <!-- 签约解锁栏（lock=open时隐藏） -->
+  <div class="unlock-bar" id="unlockBar" >
+    <h3>🔓 签约解锁全部方案</h3>
+    <p>前4章已免费展示，完整方案签约后解锁</p>
+    <div class="unlock-row">
+      <input type="password" class="unlock-input" id="unlockInput" placeholder="请输入解锁码">
+      <button class="unlock-btn" onclick="tryUnlock()">🔓 签约解锁全部</button>
+    </div>
+    <div class="unlock-msg" id="unlockMsg"></div>
+  </div>
+</div>
+
+<!-- 弹窗内容 -->
+<div id="modal-content-1" style="display:none"><h3>武汉高校周边餐饮市场格局</h3><p>马房山地铁站D口处于<strong>武汉理工大学+华中师范大学</strong>双高校截流点，周边在校生合计超6万人，是典型的「高校食堂外溢型」商圈。该商圈消费特征鲜明：午市以「吃饱+快」为主，晚市以「小聚+氛围」为主，夜宵以「社交+性价比」为主。2025-2026年武汉餐饮趋势显示，快餐继续下探至15-25元，社交场景向60-80元升级，<strong>50元带</strong>的增长核心来自「宿舍小聚+情侣约会」的错峰套餐需求。</p><h3>50元带的生存逻辑</h3><p>Delico人均¥50，恰好卡在学生「月聚餐」预算中枢。这个价位面临<strong>两头挤压</strong>：下端是麦当劳/肯德基（人均30元，出餐效率碾压），上端是街道口商圈的曼玉、绿茶、外婆家（人均65-80元，环境更优，仅1站地铁）。50元带要活下来，必须靠<strong>差异化风味+精准时段运营+高校客群深耕</strong>，做快餐做不过效率，做体验做不过商场，唯一的出路是「比食堂精致、比街道口便宜」的精准卡位。</p><h3>⚠️ 关键风险</h3><ul><li><strong>寒暑假客流腰斩</strong>：高校商圈最大痛点，1-2月、7-8月需提前布局外卖/团餐对冲</li><li><strong>品牌虹吸效应</strong>：群光广场/银泰创意城仅1站地铁，学生「重要聚餐」首选商圈</li><li><strong>零线上基础</strong>：已营业5个月但点评零评价、零流量、零会员，等同于「线上不存在」</li></ul></div>
+<div id="modal-content-2" style="display:none"><h3>周边3公里真实竞品画像</h3><table><tr><th>竞品名称</th><th>人均</th><th>核心优势</th><th>核心弱点</th><th>Delico切入机会</th></tr><tr><td>半秋山</td><td>¥55-65</td><td>武汉老牌西餐，本地认知度高，门店多</td><td>装修老化、菜单多年无惊喜、无高校专属运营</td><td>用「东南亚风味新鲜感」切半秋山的「审美疲劳客群」</td></tr><tr><td>麦当劳/肯德基</td><td>¥30</td><td>出餐效率碾压、品牌信任度高</td><td>无聚餐氛围、无差异化风味</td><td>抢「不只是吃饱」的轻聚餐需求，用套餐组合做性价比锚定</td></tr><tr><td>曼玉/绿茶/外婆家（街道口）</td><td>¥65-80</td><td>商场环境优、品牌势能强</td><td>距离远（需坐地铁）、等位久、客单高</td><td>打「地铁口200米·不用跑街道口」的便利性，人均省15-30元</td></tr><tr><td>周边小吃/快餐店</td><td>¥15-25</td><td>极致低价、出餐快</td><td>无聚餐场景、无品牌感</td><td>不正面竞争，专注50元带的「精致简餐」空白</td></tr></table><h3>竞争格局结论</h3><p>周边竞争烈度极高，但<strong>50元带的东南亚风味轻正餐存在明显空白</strong>。半秋山是直接对标（人均接近），但产品老化；快餐和商场餐饮各占一端，中间地带缺少「有风味记忆点+适合小聚+不贵」的选项。Delico的核心竞争策略不是「比谁都好」，而是<strong>「在50元带做唯一有东南亚风味的选择」</strong>。</p><h3>⚠️ 假设</h3><p>以上竞品数据来自市场调研简报系统采集，实际经营数据（评分/评价数/最新菜单）建议国庆实地走访核实。</p></div>
+<div id="modal-content-3" style="display:none"><h3>Delico品牌定位锚点</h3><p><strong>定位语：地铁口200米·东南亚风味小聚馆</strong></p><p>核心差异化来自三个锚点：①<strong>风味锚点</strong>——东南亚菜（冬阴功、叻沙、咖喱、芒果糯米饭）在武汉高校周边稀缺，自带「尝鲜」吸引力；②<strong>场景锚点</strong>——60㎡小店做不了宴请，但恰好适合2-4人「宿舍小聚/情侣约会」，翻台快、氛围轻松；③<strong>价格锚点</strong>——人均50元，比食堂精致、比街道口便宜，精准命中学生「月聚餐」预算。</p><h3>目标客群画像</h3><ul><li><strong>主力客群（60%）</strong>：理工大/华师学生，18-24岁，月均餐饮预算800-1200元，追求「性价比+新鲜感」，消费场景为宿舍小聚（3-4人）、情侣约会（2人）</li><li><strong>次要客群（25%）</strong>：周边写字楼白领，25-35岁，午市快餐+晚市轻聚餐，时间敏感，偏好「预点单+到店即取」</li><li><strong>潜力客群（15%）</strong>：地铁过路客+周边居民，被「地铁口200米」的便利性截流</li></ul><h3>爆品锚点建议</h3><p>一道菜串联全部营销。建议将<strong>「冬阴功海鲜锅（小份）」</strong>或<strong>「叻沙面」</strong>作为招牌爆品——东南亚风味认知度高、出品稳定、拍照好看（汤色鲜艳），定价38-48元可作为引流款。所有线上内容（小红书/抖音/点评）围绕这道爆品打造视觉记忆。</p></div>
+<div id="modal-content-4" style="display:none"><h3>当前诊断：线上「不存在」</h3><p>Delico已营业5个月，但大众点评呈现<strong>零评分、零评价、零收藏、零流量</strong>的状态。这意味着门店在线上渠道完全不可见——学生搜「马房山美食」「东南亚菜」时，Delico不会出现。对于高校商圈而言，线上口碑是获客的第一入口，5个月零评价是最大经营漏洞。</p><h3>合规口碑启动路径（严禁促评/邀评）</h3><p>根据2025年10月后大众点评新规，高强度促评会导致新评价不产生星级收益。必须走<strong>合规路径</strong>：</p><ol><li><strong>第一步：止血</strong>——停止任何「写好评送菜/返现」行为（如有），违规促评会触发平台降权</li><li><strong>第二步：免费试/免费菜</strong>——在点评商家后台🔧「营销中心→免费试」申请「V0-V1免费试」活动，设置5-10个名额，让真实用户体验后自发评价。⚠️ 免费试用户必须真实消费，不可引导好评方向</li><li><strong>第三步：分享动机打造</strong>——出品环节设计「拍照点」：冬阴功锅上桌时服务员主动说「这锅汤色拍照很出片，很多客人会拍」，不强制要求发点评，但降低分享门槛；桌面放立牌「晒图到点评，下次赠虾片一份」——注意这是「复购激励」而非「好评激励」，合规</li></ol><h3>阶段目标与时间节点</h3><table><tr><th>阶段</th><th>时间</th><th>目标</th><th>关键动作</th></tr><tr><td>新店启动期</td><td>第1-30天</td><td>15条真实评价</td><td>免费试5-10人+自然到店用户自发评价</td></tr><tr><td>成长积累期</td><td>第31-60天</td><td>40条评价，评分4.0+</td><td>持续出品+分享动机，日均1条自然评价</td></tr><tr><td>稳定维护期</td><td>第61-90天</td><td>60条评价，评分4.3+</td><td>差评2小时内回复，好评感谢+置顶</td></tr></table><h3>How落地（谁来做/在哪操作）</h3><ul><li><strong>谁来做</strong>：老板/店长负责申请免费试+回复评价；服务员负责上桌话术+桌面立牌维护</li><li><strong>在哪操作</strong>：点评商家后台🔧「营销中心→免费试」申请；🔧「评价管理」回复评价</li><li><strong>话术原句</strong>：「这锅冬阴功是我们招牌，酸辣开胃，很多客人第一次来就点这个」→自然带出拍照</li><li><strong>不配合怎么办</strong>：客人不愿拍照→绝不勉强，转而说「喜欢的话下次带朋友来，报暗号『冬阴功』赠虾片」</li></ul></div>
+<div id="modal-content-5" style="display:none"><h3>公域引流：三渠道并行</h3><h4>① 大众点评（核心阵地）</h4><p>已营业5个月零评价，当务之急是<strong>让门店「被搜到」</strong>。除了口碑章节提到的免费试，还需：</p><ul><li><strong>团购套餐上线</strong>：在点评商家后台🔧「团购→新建团购」设置2-3档套餐——「尝鲜双人餐¥98」（冬阴功锅+芒果糯米饭+两杯泰奶）、「宿舍小聚四人餐¥188」（四菜一汤+饮品），套餐价比单点省10-15%，用于吸引首客</li><li><strong>门店标签优化</strong>：确保标签包含「东南亚菜」「情侣约会」「学生优惠」「地铁沿线」，标签决定搜索匹配度</li><li><strong>推广通（可选）</strong>：预算300-500元/月，投放「马房山」「理工大」「华师」3公里关键词，抢搜索前列位置</li></ul><h4>② 小红书（高校客群必做）</h4><p>学生决策高度依赖小红书。打法不是请达人，而是<strong>「学生证素人种草」</strong>：</p><ul><li>找周边高校普通学生（非达人，无粉丝要求），到店体验后发实拍笔记</li><li>内容方向：「人均50宿舍聚餐·比食堂精致比街道口便宜」「马房山D口隐藏的东南亚小馆」</li><li>激励：凭学生证到店，发小红书笔记（不限粉丝）赠招牌菜一份</li><li>标签必打：#武汉美食 #马房山 #理工大美食 #学生聚餐 #东南亚菜</li></ul><h4>③ 抖音（辅助渠道）</h4><p>拍摄15秒「冬阴功出锅」短视频，挂门店POI地址，投「马房山周边」本地流量，预算200元/条测试。</p><h3>私域留客：会员+社群</h3><p>当前仅签约扫码点餐+收银POS，<strong>无会员系统</strong>，导致客流无法沉淀。建议路径：</p><ul><li><strong>短期（已签约工具最大化）</strong>：扫码点餐🔧「设置→点餐页 banner」添加「加店主微信，下次提前预留座位」；收银小票底部印微信二维码+「加微信领5元券」</li><li><strong>中期（建议升级会员旗舰版）</strong>：开通会员系统后，设置「学生认证会员」——凭学生证享永久9折+生日赠菜；储值方案「充200送20/充300送40/充500送80」，主推300元档（约6次消费）</li></ul><h3>公私域联动逻辑</h3><p>公域负责「让人来第一次」——小红书/点评种草→到店消费→扫码点餐弹窗引导加微信→私域发券拉复购→复购用户写点评→点评排名上升→更多新客。闭环形成后，获客成本从「每次买流量」变成「一次留存、多次触达」。</p><h3>How落地</h3><ul><li><strong>谁来做</strong>：老板管小红书内容+微信回复；店长管点评后台+团购上下架；服务员管上桌话术+引导加微信</li><li><strong>第几天做</strong>：第1-3天完善点评门店信息+上团购；第4-7天启动小红书学生招募；第8-14天加微信流程跑通；第15天起会员系统评估</li><li><strong>不配合怎么办</strong>：学生不愿发小红书→改为「到店出示学生证直接9折，不发也行」，不损失客流</li></ul></div>
+<div id="modal-content-6" style="display:none"><h3>策略核心：把「高校截流点」变成「高校聚集地」</h3><p>Delico距离理工大、华师均在步行10分钟范围内，但当前完全没有针对学生客群的专属运营。高校客群的特点是：①预算敏感但频次高；②社交传播力强（小红书/朋友圈）；③消费时段集中（午市11:30-13:00、晚市17:30-19:00、夜宵20:00后）。针对这些特点，设计三套专项打法。</p><h3>打法一：晚自习闲时套餐（20:00后增量）</h3><p>高校学生晚自习结束时间约20:30-21:30，这是周边餐饮的<strong>绝对闲时</strong>。推出「晚自习能量补给站」：</p><ul><li>套餐内容：「78元双人夜猫套餐」——叻沙面/冬阴功泡饭（二选一）+ 小食拼盘（虾片+咖喱角）+ 两杯泰式奶茶</li><li>定价逻辑：78元双人=人均39元，比正价低20%，但闲时增量不抢正价客流</li><li>在哪操作：扫码点餐🔧「时段菜单」设置20:00-22:00自动切换夜宵菜单</li><li>推广：小红书发「理工大晚自习后吃什么」笔记，抖音投「马房山」3公里关键词</li><li>谁来做：店长负责时段菜单配置；老板/学生兼职负责小红书内容</li></ul><h3>打法二：地铁口截流（午市效率战）</h3><p>D口至门店200米动线，是学生和白领出站的必经之路。午市核心痛点是「时间不够」：</p><ul><li>「小程序预点单+到店即取」：扫码点餐🔧「提前下单」功能开通，门口贴二维码「扫码预点，到店即取，不用等」</li><li>午市套餐：「¥28工作餐」——主食（叻沙面/泰式炒饭）+ 饮品，60秒出餐</li><li>地铁口导视：门店至D口动线贴「出站30秒·东南亚风味」地贴或立牌（需物业许可）</li><li>谁来做：店长负责预点单配置+午市出餐流程优化；老板负责物业沟通</li></ul><h3>打法三：学期卡锁客（9月开学季启动）</h3><p>9月开学是高校餐饮的「黄金窗口」，错过等半年：</p><ul><li>「学期卡」售价59元，9-12月每次消费9折+赠泰式奶茶一杯</li><li>办理流程：扫码→上传学生证照片→自动审核→电子卡到账</li><li>目标：开学2周内办出100张学期卡，锁定本学期高频消费</li><li>在哪操作：会员系统🔧「权益卡包」创建学期卡（需升级会员模块）</li></ul><h3>⚠️ 假设</h3><p>以上学生消费时段、晚自习结束时间基于高校普遍规律推断，实际执行前建议国庆走访理工大/华师确认具体作息。</p></div>
+<div id="modal-content-7" style="display:none"><h3>投入估算</h3><table><tr><th>项目</th><th>金额</th><th>说明</th></tr><tr><td>点评免费试</td><td>¥0（平台抽成）</td><td>5-10个免费名额，食材成本约30元/人</td></tr><tr><td>小红书学生激励</td><td>¥500/月</td><td>10-15个学生，每份招牌菜成本约35元</td></tr><tr><td>推广通（点评）</td><td>¥500/月</td><td>「马房山」「理工大」关键词投放</td></tr><tr><td>抖音本地投流</td><td>¥400/月</td><td>2条短视频，200元/条测试</td></tr><tr><td>物料（立牌/地贴/学期卡）</td><td>¥300</td><td>一次性，桌面立牌+门口海报</td></tr><tr><td><strong>月度运营投入合计</strong></td><td><strong>¥1,400</strong></td><td>不含会员系统升级费用</td></tr></table><h3>增收测算</h3><p>基于门店60㎡、人均¥50、高校商圈特征，做以下合理假设：</p><ul><li>当前日均客流：⚠️ 假设约20人/天（已营业5个月但零线上流量，主要靠自然路过客）</li><li>当前月流水：约¥30,000（20人×50元×30天）</li><li>方案执行后预期：点评+小红书带来日均新增15人，学期卡锁客提升复购频次20%</li><li>月增收来源：①新客增量15人/天×50元×30天=¥22,500；②复购提升（原20人×20%提升×50元×30天）=¥6,000；③团购套餐拉高客单（部分双人餐98元）≈¥3,000</li><li><strong>预期月增收：约¥31,500</strong></li></ul><h3>回本周期</h3><p>月度运营投入¥1,400，预期月增收¥31,500，投入产出比约<strong>1:22</strong>。主要成本是时间（老板/店长执行）而非现金，属于<strong>轻投入高回报</strong>型方案。</p><h3>90天OKR量化目标</h3><table><tr><th>目标</th><th>O（目标）</th><th>KR（关键结果）</th></tr><tr><td>营收</td><td>月流水从3万提升至5万+</td><td>日均客流从20人提升至40人；团购核销率≥30%</td></tr><tr><td>口碑</td><td>建立线上可搜到的真实口碑</td><td>点评评价数从0→60条；评分≥4.3分；小红书笔记≥20篇</td></tr><tr><td>会员</td><td>沉淀可复用的私域客群</td><td>微信好友+会员数≥200人；学期卡/储值卡办理≥80张</td></tr><tr><td>效率</td><td>提升高峰时段运营效率</td><td>午市预点单使用率≥20%；扫码点餐占比≥80%</td></tr></table><h3>⚠️ 重要假设声明</h3><p>以上「当前日均20人/月流水3万」为基于「零线上流量+60㎡高校小店」的行业推断，实际数据可能偏差±30%。建议国庆首访时向老板确认真实流水，若实际流水高于4万则目标上调，若低于2万则需排查出品或选址问题。</p></div>
+
+<!-- 弹窗遮罩 -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-chapter-num" id="modalChapterNum"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+  <p>美团餐饮SaaS运营策划团队 · 专属顾问：<strong>洪锦初</strong></p>
+  <p style="margin-top:6px;font-size:11px;opacity:0.5;">© 方案内容仅供参考，实际效果因门店运营情况而异</p>
+</footer>
+
+<script>
+  // ── 粒子生成 ──
+  (function() {
+    const wrap = document.getElementById('particles');
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const left = Math.random() * 100;
+      const delay = Math.random() * 15;
+      const duration = 15 + Math.random() * 20;
+      const drift = (Math.random() - 0.5) * 200;
+      p.style.cssText = `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;--drift:${drift}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      wrap.appendChild(p);
+    }
+  })();
+
+  // ── 章节数据 ──
+  const CHAPTER_CONTENTS = {
+        1: `<h3>武汉高校周边餐饮市场格局</h3><p>马房山地铁站D口处于<strong>武汉理工大学+华中师范大学</strong>双高校截流点，周边在校生合计超6万人，是典型的「高校食堂外溢型」商圈。该商圈消费特征鲜明：午市以「吃饱+快」为主，晚市以「小聚+氛围」为主，夜宵以「社交+性价比」为主。2025-2026年武汉餐饮趋势显示，快餐继续下探至15-25元，社交场景向60-80元升级，<strong>50元带</strong>的增长核心来自「宿舍小聚+情侣约会」的错峰套餐需求。</p><h3>50元带的生存逻辑</h3><p>Delico人均¥50，恰好卡在学生「月聚餐」预算中枢。这个价位面临<strong>两头挤压</strong>：下端是麦当劳/肯德基（人均30元，出餐效率碾压），上端是街道口商圈的曼玉、绿茶、外婆家（人均65-80元，环境更优，仅1站地铁）。50元带要活下来，必须靠<strong>差异化风味+精准时段运营+高校客群深耕</strong>，做快餐做不过效率，做体验做不过商场，唯一的出路是「比食堂精致、比街道口便宜」的精准卡位。</p><h3>⚠️ 关键风险</h3><ul><li><strong>寒暑假客流腰斩</strong>：高校商圈最大痛点，1-2月、7-8月需提前布局外卖/团餐对冲</li><li><strong>品牌虹吸效应</strong>：群光广场/银泰创意城仅1站地铁，学生「重要聚餐」首选商圈</li><li><strong>零线上基础</strong>：已营业5个月但点评零评价、零流量、零会员，等同于「线上不存在」</li></ul>`,
+    2: `<h3>周边3公里真实竞品画像</h3><table><tr><th>竞品名称</th><th>人均</th><th>核心优势</th><th>核心弱点</th><th>Delico切入机会</th></tr><tr><td>半秋山</td><td>¥55-65</td><td>武汉老牌西餐，本地认知度高，门店多</td><td>装修老化、菜单多年无惊喜、无高校专属运营</td><td>用「东南亚风味新鲜感」切半秋山的「审美疲劳客群」</td></tr><tr><td>麦当劳/肯德基</td><td>¥30</td><td>出餐效率碾压、品牌信任度高</td><td>无聚餐氛围、无差异化风味</td><td>抢「不只是吃饱」的轻聚餐需求，用套餐组合做性价比锚定</td></tr><tr><td>曼玉/绿茶/外婆家（街道口）</td><td>¥65-80</td><td>商场环境优、品牌势能强</td><td>距离远（需坐地铁）、等位久、客单高</td><td>打「地铁口200米·不用跑街道口」的便利性，人均省15-30元</td></tr><tr><td>周边小吃/快餐店</td><td>¥15-25</td><td>极致低价、出餐快</td><td>无聚餐场景、无品牌感</td><td>不正面竞争，专注50元带的「精致简餐」空白</td></tr></table><h3>竞争格局结论</h3><p>周边竞争烈度极高，但<strong>50元带的东南亚风味轻正餐存在明显空白</strong>。半秋山是直接对标（人均接近），但产品老化；快餐和商场餐饮各占一端，中间地带缺少「有风味记忆点+适合小聚+不贵」的选项。Delico的核心竞争策略不是「比谁都好」，而是<strong>「在50元带做唯一有东南亚风味的选择」</strong>。</p><h3>⚠️ 假设</h3><p>以上竞品数据来自市场调研简报系统采集，实际经营数据（评分/评价数/最新菜单）建议国庆实地走访核实。</p>`,
+    3: `<h3>Delico品牌定位锚点</h3><p><strong>定位语：地铁口200米·东南亚风味小聚馆</strong></p><p>核心差异化来自三个锚点：①<strong>风味锚点</strong>——东南亚菜（冬阴功、叻沙、咖喱、芒果糯米饭）在武汉高校周边稀缺，自带「尝鲜」吸引力；②<strong>场景锚点</strong>——60㎡小店做不了宴请，但恰好适合2-4人「宿舍小聚/情侣约会」，翻台快、氛围轻松；③<strong>价格锚点</strong>——人均50元，比食堂精致、比街道口便宜，精准命中学生「月聚餐」预算。</p><h3>目标客群画像</h3><ul><li><strong>主力客群（60%）</strong>：理工大/华师学生，18-24岁，月均餐饮预算800-1200元，追求「性价比+新鲜感」，消费场景为宿舍小聚（3-4人）、情侣约会（2人）</li><li><strong>次要客群（25%）</strong>：周边写字楼白领，25-35岁，午市快餐+晚市轻聚餐，时间敏感，偏好「预点单+到店即取」</li><li><strong>潜力客群（15%）</strong>：地铁过路客+周边居民，被「地铁口200米」的便利性截流</li></ul><h3>爆品锚点建议</h3><p>一道菜串联全部营销。建议将<strong>「冬阴功海鲜锅（小份）」</strong>或<strong>「叻沙面」</strong>作为招牌爆品——东南亚风味认知度高、出品稳定、拍照好看（汤色鲜艳），定价38-48元可作为引流款。所有线上内容（小红书/抖音/点评）围绕这道爆品打造视觉记忆。</p>`,
+    4: `<h3>当前诊断：线上「不存在」</h3><p>Delico已营业5个月，但大众点评呈现<strong>零评分、零评价、零收藏、零流量</strong>的状态。这意味着门店在线上渠道完全不可见——学生搜「马房山美食」「东南亚菜」时，Delico不会出现。对于高校商圈而言，线上口碑是获客的第一入口，5个月零评价是最大经营漏洞。</p><h3>合规口碑启动路径（严禁促评/邀评）</h3><p>根据2025年10月后大众点评新规，高强度促评会导致新评价不产生星级收益。必须走<strong>合规路径</strong>：</p><ol><li><strong>第一步：止血</strong>——停止任何「写好评送菜/返现」行为（如有），违规促评会触发平台降权</li><li><strong>第二步：免费试/免费菜</strong>——在点评商家后台🔧「营销中心→免费试」申请「V0-V1免费试」活动，设置5-10个名额，让真实用户体验后自发评价。⚠️ 免费试用户必须真实消费，不可引导好评方向</li><li><strong>第三步：分享动机打造</strong>——出品环节设计「拍照点」：冬阴功锅上桌时服务员主动说「这锅汤色拍照很出片，很多客人会拍」，不强制要求发点评，但降低分享门槛；桌面放立牌「晒图到点评，下次赠虾片一份」——注意这是「复购激励」而非「好评激励」，合规</li></ol><h3>阶段目标与时间节点</h3><table><tr><th>阶段</th><th>时间</th><th>目标</th><th>关键动作</th></tr><tr><td>新店启动期</td><td>第1-30天</td><td>15条真实评价</td><td>免费试5-10人+自然到店用户自发评价</td></tr><tr><td>成长积累期</td><td>第31-60天</td><td>40条评价，评分4.0+</td><td>持续出品+分享动机，日均1条自然评价</td></tr><tr><td>稳定维护期</td><td>第61-90天</td><td>60条评价，评分4.3+</td><td>差评2小时内回复，好评感谢+置顶</td></tr></table><h3>How落地（谁来做/在哪操作）</h3><ul><li><strong>谁来做</strong>：老板/店长负责申请免费试+回复评价；服务员负责上桌话术+桌面立牌维护</li><li><strong>在哪操作</strong>：点评商家后台🔧「营销中心→免费试」申请；🔧「评价管理」回复评价</li><li><strong>话术原句</strong>：「这锅冬阴功是我们招牌，酸辣开胃，很多客人第一次来就点这个」→自然带出拍照</li><li><strong>不配合怎么办</strong>：客人不愿拍照→绝不勉强，转而说「喜欢的话下次带朋友来，报暗号『冬阴功』赠虾片」</li></ul>`,
+    5: `<h3>公域引流：三渠道并行</h3><h4>① 大众点评（核心阵地）</h4><p>已营业5个月零评价，当务之急是<strong>让门店「被搜到」</strong>。除了口碑章节提到的免费试，还需：</p><ul><li><strong>团购套餐上线</strong>：在点评商家后台🔧「团购→新建团购」设置2-3档套餐——「尝鲜双人餐¥98」（冬阴功锅+芒果糯米饭+两杯泰奶）、「宿舍小聚四人餐¥188」（四菜一汤+饮品），套餐价比单点省10-15%，用于吸引首客</li><li><strong>门店标签优化</strong>：确保标签包含「东南亚菜」「情侣约会」「学生优惠」「地铁沿线」，标签决定搜索匹配度</li><li><strong>推广通（可选）</strong>：预算300-500元/月，投放「马房山」「理工大」「华师」3公里关键词，抢搜索前列位置</li></ul><h4>② 小红书（高校客群必做）</h4><p>学生决策高度依赖小红书。打法不是请达人，而是<strong>「学生证素人种草」</strong>：</p><ul><li>找周边高校普通学生（非达人，无粉丝要求），到店体验后发实拍笔记</li><li>内容方向：「人均50宿舍聚餐·比食堂精致比街道口便宜」「马房山D口隐藏的东南亚小馆」</li><li>激励：凭学生证到店，发小红书笔记（不限粉丝）赠招牌菜一份</li><li>标签必打：#武汉美食 #马房山 #理工大美食 #学生聚餐 #东南亚菜</li></ul><h4>③ 抖音（辅助渠道）</h4><p>拍摄15秒「冬阴功出锅」短视频，挂门店POI地址，投「马房山周边」本地流量，预算200元/条测试。</p><h3>私域留客：会员+社群</h3><p>当前仅签约扫码点餐+收银POS，<strong>无会员系统</strong>，导致客流无法沉淀。建议路径：</p><ul><li><strong>短期（已签约工具最大化）</strong>：扫码点餐🔧「设置→点餐页 banner」添加「加店主微信，下次提前预留座位」；收银小票底部印微信二维码+「加微信领5元券」</li><li><strong>中期（建议升级会员旗舰版）</strong>：开通会员系统后，设置「学生认证会员」——凭学生证享永久9折+生日赠菜；储值方案「充200送20/充300送40/充500送80」，主推300元档（约6次消费）</li></ul><h3>公私域联动逻辑</h3><p>公域负责「让人来第一次」——小红书/点评种草→到店消费→扫码点餐弹窗引导加微信→私域发券拉复购→复购用户写点评→点评排名上升→更多新客。闭环形成后，获客成本从「每次买流量」变成「一次留存、多次触达」。</p><h3>How落地</h3><ul><li><strong>谁来做</strong>：老板管小红书内容+微信回复；店长管点评后台+团购上下架；服务员管上桌话术+引导加微信</li><li><strong>第几天做</strong>：第1-3天完善点评门店信息+上团购；第4-7天启动小红书学生招募；第8-14天加微信流程跑通；第15天起会员系统评估</li><li><strong>不配合怎么办</strong>：学生不愿发小红书→改为「到店出示学生证直接9折，不发也行」，不损失客流</li></ul>`,
+    6: `<h3>策略核心：把「高校截流点」变成「高校聚集地」</h3><p>Delico距离理工大、华师均在步行10分钟范围内，但当前完全没有针对学生客群的专属运营。高校客群的特点是：①预算敏感但频次高；②社交传播力强（小红书/朋友圈）；③消费时段集中（午市11:30-13:00、晚市17:30-19:00、夜宵20:00后）。针对这些特点，设计三套专项打法。</p><h3>打法一：晚自习闲时套餐（20:00后增量）</h3><p>高校学生晚自习结束时间约20:30-21:30，这是周边餐饮的<strong>绝对闲时</strong>。推出「晚自习能量补给站」：</p><ul><li>套餐内容：「78元双人夜猫套餐」——叻沙面/冬阴功泡饭（二选一）+ 小食拼盘（虾片+咖喱角）+ 两杯泰式奶茶</li><li>定价逻辑：78元双人=人均39元，比正价低20%，但闲时增量不抢正价客流</li><li>在哪操作：扫码点餐🔧「时段菜单」设置20:00-22:00自动切换夜宵菜单</li><li>推广：小红书发「理工大晚自习后吃什么」笔记，抖音投「马房山」3公里关键词</li><li>谁来做：店长负责时段菜单配置；老板/学生兼职负责小红书内容</li></ul><h3>打法二：地铁口截流（午市效率战）</h3><p>D口至门店200米动线，是学生和白领出站的必经之路。午市核心痛点是「时间不够」：</p><ul><li>「小程序预点单+到店即取」：扫码点餐🔧「提前下单」功能开通，门口贴二维码「扫码预点，到店即取，不用等」</li><li>午市套餐：「¥28工作餐」——主食（叻沙面/泰式炒饭）+ 饮品，60秒出餐</li><li>地铁口导视：门店至D口动线贴「出站30秒·东南亚风味」地贴或立牌（需物业许可）</li><li>谁来做：店长负责预点单配置+午市出餐流程优化；老板负责物业沟通</li></ul><h3>打法三：学期卡锁客（9月开学季启动）</h3><p>9月开学是高校餐饮的「黄金窗口」，错过等半年：</p><ul><li>「学期卡」售价59元，9-12月每次消费9折+赠泰式奶茶一杯</li><li>办理流程：扫码→上传学生证照片→自动审核→电子卡到账</li><li>目标：开学2周内办出100张学期卡，锁定本学期高频消费</li><li>在哪操作：会员系统🔧「权益卡包」创建学期卡（需升级会员模块）</li></ul><h3>⚠️ 假设</h3><p>以上学生消费时段、晚自习结束时间基于高校普遍规律推断，实际执行前建议国庆走访理工大/华师确认具体作息。</p>`,
+    7: `<h3>投入估算</h3><table><tr><th>项目</th><th>金额</th><th>说明</th></tr><tr><td>点评免费试</td><td>¥0（平台抽成）</td><td>5-10个免费名额，食材成本约30元/人</td></tr><tr><td>小红书学生激励</td><td>¥500/月</td><td>10-15个学生，每份招牌菜成本约35元</td></tr><tr><td>推广通（点评）</td><td>¥500/月</td><td>「马房山」「理工大」关键词投放</td></tr><tr><td>抖音本地投流</td><td>¥400/月</td><td>2条短视频，200元/条测试</td></tr><tr><td>物料（立牌/地贴/学期卡）</td><td>¥300</td><td>一次性，桌面立牌+门口海报</td></tr><tr><td><strong>月度运营投入合计</strong></td><td><strong>¥1,400</strong></td><td>不含会员系统升级费用</td></tr></table><h3>增收测算</h3><p>基于门店60㎡、人均¥50、高校商圈特征，做以下合理假设：</p><ul><li>当前日均客流：⚠️ 假设约20人/天（已营业5个月但零线上流量，主要靠自然路过客）</li><li>当前月流水：约¥30,000（20人×50元×30天）</li><li>方案执行后预期：点评+小红书带来日均新增15人，学期卡锁客提升复购频次20%</li><li>月增收来源：①新客增量15人/天×50元×30天=¥22,500；②复购提升（原20人×20%提升×50元×30天）=¥6,000；③团购套餐拉高客单（部分双人餐98元）≈¥3,000</li><li><strong>预期月增收：约¥31,500</strong></li></ul><h3>回本周期</h3><p>月度运营投入¥1,400，预期月增收¥31,500，投入产出比约<strong>1:22</strong>。主要成本是时间（老板/店长执行）而非现金，属于<strong>轻投入高回报</strong>型方案。</p><h3>90天OKR量化目标</h3><table><tr><th>目标</th><th>O（目标）</th><th>KR（关键结果）</th></tr><tr><td>营收</td><td>月流水从3万提升至5万+</td><td>日均客流从20人提升至40人；团购核销率≥30%</td></tr><tr><td>口碑</td><td>建立线上可搜到的真实口碑</td><td>点评评价数从0→60条；评分≥4.3分；小红书笔记≥20篇</td></tr><tr><td>会员</td><td>沉淀可复用的私域客群</td><td>微信好友+会员数≥200人；学期卡/储值卡办理≥80张</td></tr><tr><td>效率</td><td>提升高峰时段运营效率</td><td>午市预点单使用率≥20%；扫码点餐占比≥80%</td></tr></table><h3>⚠️ 重要假设声明</h3><p>以上「当前日均20人/月流水3万」为基于「零线上流量+60㎡高校小店」的行业推断，实际数据可能偏差±30%。建议国庆首访时向老板确认真实流水，若实际流水高于4万则目标上调，若低于2万则需排查出品或选址问题。</p>`
+  };
+
+  // ── 弹窗控制 ──
+  function openChapter(id, title, num) {
+    const content = CHAPTER_CONTENTS[id];
+    if (!content) return;
+    document.getElementById('modalChapterNum').textContent = 'CHAPTER ' + String(num).padStart(2,'0');
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── 解锁机制 ──
+  function tryUnlock() {
+    const val = document.getElementById('unlockInput').value.trim();
+    const msg = document.getElementById('unlockMsg');
+    if (val === '123456') {
+      document.querySelectorAll('.chapter-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        card.classList.add('unlocked-card');
+        card.style.cursor = 'pointer';  // 解锁后恢复可点击
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) lockIcon.remove();
+        const badge = card.querySelector('.chapter-type');
+        if (badge) {
+          badge.classList.remove('locked-badge');
+          badge.classList.add('free');
+          badge.textContent = '✓ 已解锁';
+        }
+      });
+      document.getElementById('unlockBar').style.display = 'none';
+      msg.className = 'unlock-msg success';
+      msg.textContent = '✅ 已解锁全部章节';
+    } else {
+      msg.className = 'unlock-msg error';
+      msg.textContent = '解锁码不正确';
+      document.getElementById('unlockInput').style.borderColor = '#f87171';
+      setTimeout(() => {
+        document.getElementById('unlockInput').style.borderColor = '';
+      }, 2000);
+    }
+  }
+
+  document.getElementById('unlockInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+</script>
+</body>
+</html>
