@@ -2268,10 +2268,26 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-<!--
-  CRM入口：在index.html的tabs区域新增一个tab:
-  <div class="tab" onclick="location.href='plan_factory.html'">🏭 方案工厂</div>
--->
+<!-- ===== 停用声明弹窗 ===== -->
+<div id="suspend-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,sans-serif;">
+  <div style="background:#fff;border-radius:16px;max-width:400px;width:100%;padding:28px 24px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.25);">
+    <div style="font-size:44px;line-height:1;">🦁</div>
+    <h2 style="font-size:19px;font-weight:700;margin:12px 0 4px;color:#1a1a2e;">雄狮方案工厂 · 停用声明</h2>
+    <p style="font-size:13px;color:#5a5a7a;margin:4px 0 16px;">2026年10月</p>
+    <div style="background:#fff7f7;border:1px solid #ffd6d6;border-radius:10px;padding:14px;text-align:left;font-size:13.5px;color:#1a1a2e;line-height:1.8;">
+      各位小伙伴：<br>
+      雄狮方案工厂已于 <b>2026年10月17日 正式停用</b>，即日起<b>不再接收新的方案申请</b>。<br><br>
+      已生成的历史方案仍可正常查看和下载，如有需要请联系国庆（陈国庆）。<br><br>
+      感谢大家一直以来的支持与使用！🧡
+    </div>
+    <button id="suspend-close" style="margin-top:18px;width:100%;padding:12px;border:none;border-radius:10px;background:#e8001c;color:#fff;font-size:15px;font-weight:600;cursor:pointer;">我知道了</button>
+  </div>
+</div>
+<script>
+document.getElementById('suspend-close').addEventListener('click', function(){
+  document.getElementById('suspend-overlay').style.display = 'none';
+});
+</script>
 
 </body>
 </html>
