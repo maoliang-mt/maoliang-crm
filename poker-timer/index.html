@@ -283,9 +283,24 @@ body {
   .bottom-bar { gap:12px;padding:10px 12px; }
   .bottom-bar .info-value { font-size:14px; }
   .controls { padding:8px; }
-  .levels-header { grid-template-columns:1fr 1fr 1fr 44px 56px 60px 30px 26px;gap:4px; }
-  .level-row { grid-template-columns:1fr 1fr 1fr 44px 56px 60px 30px 26px;gap:4px; }
-  .level-row input { padding:6px 4px;font-size:12px; }
+}
+/* 手机盲级表格卡片化：数字框拉宽，完整显示大数字 */
+@media (max-width:600px) {
+  .levels-header { display:none; }
+  .level-row {
+    display:flex; flex-wrap:wrap; gap:6px; align-items:center;
+    padding:10px; margin-bottom:10px;
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:10px;
+  }
+  .level-row.rest-row-hl { border-color:rgba(92,138,92,0.35); }
+  .level-row input { padding:10px 10px;font-size:15px; }
+  .level-row input[type="number"] { flex:1 1 30%; min-width:0; }
+  .level-row input[type="text"] { flex:1 1 55%; min-width:0; }
+  .level-row .rest-chk { flex:0 0 32px; }
+  .level-row .rest-chk input[type="checkbox"] { width:22px;height:22px; }
+  .level-row .del-btn { flex:0 0 32px;height:32px; }
 }
 @media (max-width:900px) {
   body::before { display:none !important; }
