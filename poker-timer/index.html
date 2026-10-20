@@ -283,24 +283,9 @@ body {
   .bottom-bar { gap:12px;padding:10px 12px; }
   .bottom-bar .info-value { font-size:14px; }
   .controls { padding:8px; }
-}
-/* 手机盲级表格卡片化：数字框拉宽，完整显示大数字 */
-@media (max-width:600px) {
-  .levels-header { display:none; }
-  .level-row {
-    display:flex; flex-wrap:wrap; gap:6px; align-items:center;
-    padding:10px; margin-bottom:10px;
-    background:rgba(255,255,255,0.03);
-    border:1px solid rgba(255,255,255,0.08);
-    border-radius:10px;
-  }
-  .level-row.rest-row-hl { border-color:rgba(92,138,92,0.35); }
-  .level-row input { padding:10px 10px;font-size:15px; }
-  .level-row input[type="number"] { flex:1 1 30%; min-width:0; }
-  .level-row input[type="text"] { flex:1 1 55%; min-width:0; }
-  .level-row .rest-chk { flex:0 0 32px; }
-  .level-row .rest-chk input[type="checkbox"] { width:22px;height:22px; }
-  .level-row .del-btn { flex:0 0 32px;height:32px; }
+  .levels-header { grid-template-columns:1fr 1fr 1fr 44px 56px 60px 30px 26px;gap:4px; }
+  .level-row { grid-template-columns:1fr 1fr 1fr 44px 56px 60px 30px 26px;gap:4px; }
+  .level-row input { padding:6px 4px;font-size:12px; }
 }
 @media (max-width:900px) {
   body::before { display:none !important; }
@@ -491,17 +476,6 @@ body::before {
     </div>
   </div>
 
-  <!-- 盲级结构（核心编辑区，置于顶部便于手机操作） -->
-  <h2 style="margin-top:24px">盲级结构</h2>
-  <div class="levels-header">
-    <span>小盲</span><span>大盲</span><span>Ante</span><span title="每级时长(分)，留空用默认">时长</span><span title="Rebuy码量，留空自动=100×大盲">Rebuy</span><span>名称</span><span title="休息">☕</span><span></span>
-  </div>
-  <div class="levels-list" id="levelsList"></div>
-  <div class="add-level-row">
-    <button class="add-level" onclick="addLevel()">+ 添加盲级</button>
-    <button class="add-rest" onclick="addRestLevel()">+ 添加休息</button>
-  </div>
-
   <div class="setting-item">
     <label>警示变色（秒）</label>
     <input type="number" id="setWarn" value="60" min="10" max="300">
@@ -538,6 +512,16 @@ body::before {
     <div style="font-size:11px;color:var(--text-dim);margin-top:8px;">
       设为 0 表示不自动插入休息。也可在盲级列表中手动勾选 ☕ 标记休息行。
     </div>
+  </div>
+
+  <h2 style="margin-top:30px">盲级结构</h2>
+  <div class="levels-header">
+    <span>小盲</span><span>大盲</span><span>Ante</span><span title="每级时长(分)，留空用默认">时长</span><span title="Rebuy码量，留空自动=100×大盲">Rebuy</span><span>名称</span><span title="休息">☕</span><span></span>
+  </div>
+  <div class="levels-list" id="levelsList"></div>
+  <div class="add-level-row">
+    <button class="add-level" onclick="addLevel()">+ 添加盲级</button>
+    <button class="add-rest" onclick="addRestLevel()">+ 添加休息</button>
   </div>
 
   <div class="settings-actions">
@@ -592,6 +576,13 @@ function buildRuntime() {
     runtimeBlinds.push({ ...lv, _rest: false });
     playedCount++;
   }
+}
+
+/* ── 数字输入过滤：只保留数字，实时写入 blinds（0 表示用默认） ── */
+function numOnly(el, key, idx) {
+  var v = el.value.replace(/[^0-9]/g, '');
+  el.value = v;
+  blinds[idx][key] = +v || 0;
 }
 
 /* ── 方案管理 ── */
@@ -708,11 +699,11 @@ function renderLevels() {
     var l = blinds[i];
     var cls = l.r ? ' rest-row-hl' : '';
     html += '<div class="level-row' + cls + '" data-idx="' + i + '">' +
-      '<input type="number" inputmode="numeric" value="' + l.s + '" onclick="this.select()" oninput="blinds[' + i + '].s=+this.value" placeholder="小盲">' +
-      '<input type="number" inputmode="numeric" value="' + l.b + '" onclick="this.select()" oninput="blinds[' + i + '].b=+this.value" placeholder="大盲">' +
-      '<input type="number" inputmode="numeric" value="' + l.a + '" onclick="this.select()" oninput="blinds[' + i + '].a=+this.value" placeholder="Ante">' +
-      '<input type="number" inputmode="numeric" class="dur-inp" value="' + (l.dur || '') + '" onclick="this.select()" oninput="blinds[' + i + '].dur=+this.value||0" placeholder="' + cfg.dur + '" title="每级时长(分)，留空用默认' + cfg.dur + '">' +
-      '<input type="number" inputmode="numeric" class="rebuy-inp" value="' + (l.re || '') + '" onclick="this.select()" oninput="blinds[' + i + '].re=+this.value||0" placeholder="自动" title="Rebuy码量，留空自动=100×大盲">' +
+      '<input type="text" inputmode="numeric" value="' + l.s + '" onclick="this.select()" oninput="numOnly(this,\'s\',' + i + ')" placeholder="小盲">' +
+      '<input type="text" inputmode="numeric" value="' + l.b + '" onclick="this.select()" oninput="numOnly(this,\'b\',' + i + ')" placeholder="大盲">' +
+      '<input type="text" inputmode="numeric" value="' + l.a + '" onclick="this.select()" oninput="numOnly(this,\'a\',' + i + ')" placeholder="Ante">' +
+      '<input type="text" inputmode="numeric" class="dur-inp" value="' + (l.dur || '') + '" onclick="this.select()" oninput="numOnly(this,\'dur\',' + i + ')" placeholder="' + cfg.dur + '" title="每级时长(分)，留空用默认' + cfg.dur + '">' +
+      '<input type="text" inputmode="numeric" class="rebuy-inp" value="' + (l.re || '') + '" onclick="this.select()" oninput="numOnly(this,\'re\',' + i + ')" placeholder="自动" title="Rebuy码量，留空自动=100×大盲">' +
       '<input type="text" value="' + l.n + '" onclick="this.select()" oninput="blinds[' + i + '].n=this.value" placeholder="名称">' +
       '<div class="rest-chk"><input type="checkbox" title="标记为休息" ' + (l.r ? 'checked' : '') + ' onchange="blinds[' + i + '].r=this.checked;renderLevels()"></div>' +
       '<button class="del-btn" onclick="blinds.splice(' + i + ',1);renderLevels();buildRuntime();update()" ' + (blinds.length <= 1 ? 'disabled' : '') + '>×</button>' +
