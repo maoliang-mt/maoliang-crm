@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>RAISE · Blind Timer</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -206,16 +206,25 @@ body {
 .rest-settings .rest-row input:focus { outline:none;border-color:var(--gold); }
 
 /* 盲级列表 */
-.levels-header { display:grid;grid-template-columns:1fr 1fr 1fr 70px 36px 30px;gap:6px;margin-bottom:6px;padding:0 2px; }
+.levels-header { display:grid;grid-template-columns:1fr 1fr 1fr 52px 66px 70px 36px 30px;gap:6px;margin-bottom:6px;padding:0 2px; }
 .levels-header span { font-size:11px;color:var(--text-dim);letter-spacing:1px;text-transform:uppercase; }
 .levels-list { margin-top:8px; }
-.level-row { display:grid;grid-template-columns:1fr 1fr 1fr 70px 36px 30px;gap:6px;margin-bottom:8px;align-items:center; }
+.level-row { display:grid;grid-template-columns:1fr 1fr 1fr 52px 66px 70px 36px 30px;gap:6px;margin-bottom:8px;align-items:center; }
 .level-row input { padding:8px 8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:var(--text);font-size:14px;min-width:0; }
 .level-row input:focus { outline:none;border-color:var(--gold); }
 .level-row.rest-row-hl input { border-color:rgba(92,138,92,0.4);background:rgba(92,138,92,0.08); }
 .level-row .rest-chk { display:flex;align-items:center;justify-content:center; }
 .level-row .rest-chk input[type="checkbox"] { width:18px;height:18px;accent-color:var(--green);cursor:pointer; }
 .level-row .del-btn { width:30px;height:30px;border-radius:6px;border:none;background:rgba(138,60,60,0.2);color:#c85c5c;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center; }
+
+/* ── Rebuy 显示 ── */
+.rebuy-display { font-size:15px;color:var(--gold-bright);margin-top:6px;font-weight:400;letter-spacing:1px;opacity:0.95; }
+.rebuy-display .rebuy-tag { font-size:10px;color:var(--text-dim);letter-spacing:2px;text-transform:uppercase;margin-right:6px; }
+.level-row input.dur-inp, .level-row input.rebuy-inp { width:100%;min-width:0;font-size:12px; }
+
+/* ── 旋转提示条 ── */
+.rotate-hint { display:none;position:fixed;top:0;left:0;right:0;z-index:999;background:rgba(245,208,35,0.95);color:#000;text-align:center;font-size:13px;font-weight:600;padding:8px 12px;letter-spacing:1px;box-shadow:0 2px 10px rgba(0,0,0,0.3); }
+.rotate-hint.show { display:block; }
 
 .add-level-row { display:flex;gap:8px;margin-top:8px; }
 .add-level,.add-rest { flex:1;padding:10px;border-radius:8px;font-size:13px;cursor:pointer;font-family:inherit;border-style:dashed;border-width:1px; }
@@ -274,9 +283,71 @@ body {
   .bottom-bar { gap:12px;padding:10px 12px; }
   .bottom-bar .info-value { font-size:14px; }
   .controls { padding:8px; }
+  .levels-header { grid-template-columns:1fr 1fr 1fr 44px 56px 60px 30px 26px;gap:4px; }
+  .level-row { grid-template-columns:1fr 1fr 1fr 44px 56px 60px 30px 26px;gap:4px; }
+  .level-row input { padding:6px 4px;font-size:12px; }
 }
 @media (max-width:900px) {
   body::before { display:none !important; }
+}
+
+/* ══ 移动端专项适配 · 竖屏：提示横屏 + 紧凑可滚动 ══ */
+@media (orientation: portrait) and (max-width:900px) {
+  .rotate-hint.show { display:block; }
+  body { overflow:auto; }
+  .display-mode { min-height:auto; }
+  .main-content { padding:12px 12px 100px;justify-content:flex-start; }
+  .center-stage { gap:12px; }
+  .ring-wrapper { height:auto;aspect-ratio:1; }
+  .controls { padding-bottom:calc(10px + env(safe-area-inset-bottom)); }
+}
+
+/* ══ 移动端专项适配 · 横屏：全屏大屏工具模式 ══ */
+@media (orientation: landscape) and (max-width:900px) {
+  html, body { height:100%;overflow:hidden; }
+  .display-mode { flex-direction:row;height:100vh; }
+  .blinds-sidebar { width:140px;min-width:120px;max-height:100%;height:100%;border-right:1px solid rgba(255,255,255,0.06);border-bottom:none; }
+  .main-content { padding:8px 16px 64px; }
+  .brand-bar { display:none; }
+  .center-stage { flex-direction:row;gap:16px;margin-bottom:8px; }
+  .blind-card, .timer-ring-container { min-width:0;padding:14px 20px; }
+  .blind-card .level-number { font-size:clamp(34px, 6.5vw, 52px); }
+  .blind-card .level-name { font-size:15px; }
+  .blind-card .ante-display { font-size:14px; }
+  .rebuy-display { font-size:14px; }
+  .ring-wrapper { width:clamp(110px, 20vh, 170px);height:clamp(110px, 20vh, 170px); }
+  .ring-time { font-size:clamp(28px, 5vh, 40px); }
+  .ring-min-label { font-size:10px; }
+  .bottom-bar { padding:8px 16px;gap:14px; }
+  .bottom-bar .info-value { font-size:16px; }
+  .bottom-bar .info-value.highlight { font-size:17px; }
+  .controls { padding:8px 16px;padding-bottom:calc(8px + env(safe-area-inset-bottom));gap:10px; }
+  .btn { padding:9px 20px;font-size:14px; }
+  .fs-btn { top:8px;right:8px;width:34px;height:34px;font-size:14px; }
+  .progress-bar-wrapper { margin-bottom:6px; }
+}
+
+/* 超矮横屏（如手机横屏 844×390）：进一步压缩 */
+@media (orientation: landscape) and (max-height:450px) {
+  .blinds-sidebar { width:120px;min-width:100px; }
+  .sl-blinds { font-size:10px; }
+  .sl-idx { font-size:9px; }
+  .blind-card { padding:10px 16px; }
+  .blind-card .card-label { font-size:10px;margin-bottom:6px; }
+  .blind-card .level-number { font-size:clamp(28px, 5.5vh, 40px); }
+  .blind-card .level-name { font-size:12px;margin-top:4px; }
+  .blind-card .ante-display { font-size:11px;margin-top:4px; }
+  .rebuy-display { font-size:11px;margin-top:4px; }
+  .timer-ring-container { padding:10px 16px; }
+  .timer-ring-container .card-label { font-size:10px;margin-bottom:6px; }
+  .ring-wrapper { width:clamp(90px, 16vh, 120px);height:clamp(90px, 16vh, 120px); }
+  .ring-time { font-size:clamp(22px, 4vh, 30px); }
+  .bottom-bar { padding:6px 12px;gap:10px; }
+  .bottom-bar .info-label { font-size:8px; }
+  .bottom-bar .info-value { font-size:13px; }
+  .bottom-bar .info-value.highlight { font-size:14px; }
+  .controls { padding:6px 12px;padding-bottom:calc(6px + env(safe-area-inset-bottom)); }
+  .btn { padding:7px 14px;font-size:12px; }
 }
 .brand-cn { font-size: 28px; margin-left: 8px; color: var(--green); font-weight: 400; letter-spacing: 2px; }
 .live-badge { display:flex;align-items:center;gap:8px;font-size:13px;color:var(--green);letter-spacing:2px;margin-left:auto;padding:6px 16px;border:1px solid rgba(107,191,78,0.3);border-radius:20px;background:rgba(107,191,78,0.08); }
@@ -313,6 +384,8 @@ body::before {
 
 <button class="fs-btn" onclick="toggleFullscreen()" title="全屏">⛶</button>
 
+<div class="rotate-hint" id="rotateHint">↻ 建议横屏使用 · 全屏效果最佳</div>
+
 <div class="display-mode">
   <!-- 盲注结构竖列总览 -->
   <div class="blinds-sidebar" id="blindsSidebar">
@@ -335,6 +408,7 @@ body::before {
       <div class="card-label" id="blindCardLabel">当前盲级</div>
       <div class="level-number" id="blindDisplay">50 <span class="slash">/</span> 100</div>
       <div class="ante-display" id="anteDisplay"></div>
+      <div class="rebuy-display" id="rebuyDisplay"></div>
       <div class="level-name" id="levelName">第 3 级</div>
     </div>
     <div class="timer-ring-container">
@@ -446,7 +520,7 @@ body::before {
 
   <h2 style="margin-top:30px">盲级结构</h2>
   <div class="levels-header">
-    <span>小盲</span><span>大盲</span><span>Ante</span><span>名称</span><span title="休息">☕</span><span></span>
+    <span>小盲</span><span>大盲</span><span>Ante</span><span title="每级时长(分)，留空用默认">时长</span><span title="Rebuy码量，留空自动=100×大盲">Rebuy</span><span>名称</span><span title="休息">☕</span><span></span>
   </div>
   <div class="levels-list" id="levelsList"></div>
   <div class="add-level-row">
@@ -470,14 +544,14 @@ let interval = null;
 
 /* 默认盲注结构 (s=小盲, b=大盲, a=ante, n=名称, r=休息标记) */
 let blinds = [
-  { s:10,   b:20,   a:0,    n:'热身',  r:false },
-  { s:25,   b:50,   a:0,    n:'1',     r:false },
-  { s:50,   b:100,  a:50,   n:'2',     r:false },
-  { s:100,  b:200,  a:100,  n:'3',     r:false },
-  { s:200,  b:400,  a:200,  n:'4',     r:false },
-  { s:300,  b:600,  a:300,  n:'5',     r:false },
-  { s:500,  b:1000, a:500,  n:'6',     r:false },
-  { s:1000, b:2000, a:1000, n:'Final', r:false }
+  { s:10,   b:20,   a:0,    n:'热身',  r:false, dur:5,  re:0 },
+  { s:25,   b:50,   a:0,    n:'1',     r:false, dur:5,  re:0 },
+  { s:50,   b:100,  a:50,   n:'2',     r:false, dur:5,  re:0 },
+  { s:100,  b:200,  a:100,  n:'3',     r:false, dur:5,  re:0 },
+  { s:200,  b:400,  a:200,  n:'4',     r:false, dur:5,  re:0 },
+  { s:300,  b:600,  a:300,  n:'5',     r:false, dur:5,  re:0 },
+  { s:500,  b:1000, a:500,  n:'6',     r:false, dur:5,  re:0 },
+  { s:1000, b:2000, a:1000, n:'Final', r:false, dur:5,  re:0 }
 ];
 
 let cfg = { dur:5, warn:60, danger:30, sound:true, tts:true, restInterval:0, restDuration:5 };
@@ -558,7 +632,7 @@ function loadScheme() {
   if (!scheme) return;
   blinds = JSON.parse(JSON.stringify(scheme.blinds));
   // 兼容旧方案没有 a/r 字段
-  blinds.forEach(function(l){ if (l.a === undefined) l.a = 0; if (l.r === undefined) l.r = false; });
+  blinds.forEach(function(l){ if (l.a === undefined) l.a = 0; if (l.r === undefined) l.r = false; if (l.dur === undefined) l.dur = 0; if (l.re === undefined) l.re = 0; });
   cfg.dur = scheme.dur || 5;
   cfg.warn = scheme.warn || 60;
   cfg.danger = scheme.danger || 30;
@@ -603,14 +677,15 @@ function load() {
   var b = localStorage.getItem('raiseBlinds');
   if (b) {
     blinds = JSON.parse(b);
-    blinds.forEach(function(l){ if (l.a === undefined) l.a = 0; if (l.r === undefined) l.r = false; });
+    blinds.forEach(function(l){ if (l.a === undefined) l.a = 0; if (l.r === undefined) l.r = false; if (l.dur === undefined) l.dur = 0; if (l.re === undefined) l.re = 0; });
   }
   fillFormFromCfg();
-  state.totalTime = cfg.dur * 60;
-  state.timeLeft = state.totalTime;
   renderLevels();
   renderSchemeSelect();
   buildRuntime();
+  var first = runtimeBlinds[0];
+  state.totalTime = (first && first.dur ? first.dur : cfg.dur) * 60;
+  state.timeLeft = state.totalTime;
   update();
 }
 
@@ -624,6 +699,8 @@ function renderLevels() {
       '<input type="number" value="' + l.s + '" onchange="blinds[' + i + '].s=+this.value" placeholder="小盲">' +
       '<input type="number" value="' + l.b + '" onchange="blinds[' + i + '].b=+this.value" placeholder="大盲">' +
       '<input type="number" value="' + l.a + '" onchange="blinds[' + i + '].a=+this.value" placeholder="Ante">' +
+      '<input type="number" class="dur-inp" value="' + (l.dur || '') + '" onchange="blinds[' + i + '].dur=+this.value||0" placeholder="' + cfg.dur + '" title="每级时长(分)，留空用默认' + cfg.dur + '">' +
+      '<input type="number" class="rebuy-inp" value="' + (l.re || '') + '" onchange="blinds[' + i + '].re=+this.value||0" placeholder="自动" title="Rebuy码量，留空自动=100×大盲">' +
       '<input type="text" value="' + l.n + '" onchange="blinds[' + i + '].n=this.value" placeholder="名称">' +
       '<div class="rest-chk"><input type="checkbox" title="标记为休息" ' + (l.r ? 'checked' : '') + ' onchange="blinds[' + i + '].r=this.checked;renderLevels()"></div>' +
       '<button class="del-btn" onclick="blinds.splice(' + i + ',1);renderLevels();buildRuntime();update()" ' + (blinds.length <= 1 ? 'disabled' : '') + '>×</button>' +
@@ -634,7 +711,7 @@ function renderLevels() {
 
 function addLevel() {
   var last = blinds[blinds.length - 1];
-  blinds.push({ s: last.s * 2, b: last.b * 2, a: last.a * 2, n: String(blinds.length + 1), r: false });
+  blinds.push({ s: last.s * 2, b: last.b * 2, a: last.a * 2, n: String(blinds.length + 1), r: false, dur: 0, re: 0 });
   renderLevels();
 }
 
@@ -648,14 +725,15 @@ function saveSettings() {
   readFormValues();
   localStorage.setItem('raiseTimer', JSON.stringify(cfg));
   localStorage.setItem('raiseBlinds', JSON.stringify(blinds));
-  state.totalTime = cfg.dur * 60;
-  state.timeLeft = state.totalTime;
   state.levelIdx = 0;
   state.elapsed = 0;
   state.running = false;
   clearInterval(interval);
   document.getElementById('startBtn').textContent = '▶ 开始';
   buildRuntime();
+  var first = runtimeBlinds[0];
+  state.totalTime = (first && first._rest) ? ((first._restMin || cfg.restDuration) * 60) : ((first && first.dur ? first.dur : cfg.dur) * 60);
+  state.timeLeft = state.totalTime;
   update();
   toggleSettings();
 }
@@ -710,11 +788,11 @@ function nextLevel() {
     state.levelIdx++;
   }
   var lv = runtimeBlinds[state.levelIdx];
-  // 休息轮可能有独立时长
+  // 休息轮用休息时长；盲级用自身时长（未设则用全局默认）
   if (lv && lv._rest) {
     state.totalTime = (lv._restMin || cfg.restDuration) * 60;
   } else {
-    state.totalTime = cfg.dur * 60;
+    state.totalTime = (lv && lv.dur ? lv.dur : cfg.dur) * 60;
   }
   state.timeLeft = state.totalTime;
   // 如果正在运行就不需要重置 running 状态
@@ -749,7 +827,7 @@ function resetTimer() {
   if (lv && lv._rest) {
     state.totalTime = (lv._restMin || cfg.restDuration) * 60;
   } else {
-    state.totalTime = cfg.dur * 60;
+    state.totalTime = (lv && lv.dur ? lv.dur : cfg.dur) * 60;
   }
   state.timeLeft = state.totalTime;
   document.getElementById('startBtn').textContent = '▶ 开始';
@@ -764,12 +842,14 @@ function update() {
   var blindDisp = document.getElementById('blindDisplay');
   var anteDisp = document.getElementById('anteDisplay');
   var lvName = document.getElementById('levelName');
+  var rebuyEl = document.getElementById('rebuyDisplay');
 
   if (lv._rest) {
     // 休息轮显示
     cardLabel.textContent = '休息时间';
     blindDisp.innerHTML = '<span class="rest-icon">☕</span>';
     anteDisp.textContent = '';
+    rebuyEl.textContent = '';
     lvName.innerHTML = '<span class="rest-label">REST BREAK</span>';
   } else {
     cardLabel.textContent = '当前盲级';
@@ -778,6 +858,13 @@ function update() {
       anteDisp.textContent = 'Ante ' + lv.a;
     } else {
       anteDisp.textContent = '';
+    }
+    // Rebuy 码量：手动设置优先，未设置自动 = 100 × 大盲
+    var re = lv.re > 0 ? lv.re : (lv.b * 100);
+    if (re > 0) {
+      rebuyEl.innerHTML = '<span class="rebuy-tag">REBUY</span>' + Number(re).toLocaleString();
+    } else {
+      rebuyEl.textContent = '';
     }
     lvName.textContent = '第 ' + lv.n + ' 级';
   }
@@ -907,8 +994,14 @@ function toggleSettings() {
 }
 
 function toggleFullscreen() {
-  if (!document.fullscreenElement) document.documentElement.requestFullscreen();
-  else document.exitFullscreen();
+  var el = document.documentElement;
+  if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+    if (el.requestFullscreen) el.requestFullscreen();
+    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+  } else {
+    if (document.exitFullscreen) document.exitFullscreen();
+    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+  }
 }
 
 /* ── 键盘快捷键（去掉了左右方向键） ── */
@@ -917,6 +1010,19 @@ document.addEventListener('keydown', function(e) {
   if (e.code === 'KeyR')   { e.preventDefault(); resetTimer(); }
   if (e.code === 'KeyF')   { e.preventDefault(); toggleFullscreen(); }
 });
+
+/* ── 横竖屏检测：竖屏小屏时提示横屏 ── */
+function updateRotateHint() {
+  var hint = document.getElementById('rotateHint');
+  if (!hint) return;
+  var isPortrait = window.innerHeight > window.innerWidth;
+  var isSmall = window.innerWidth <= 900;
+  if (isPortrait && isSmall) hint.classList.add('show');
+  else hint.classList.remove('show');
+}
+window.addEventListener('resize', updateRotateHint);
+window.addEventListener('orientationchange', function() { setTimeout(updateRotateHint, 300); });
+updateRotateHint();
 
 /* ── 侧边栏渲染 ── */
 function renderSidebar() {
